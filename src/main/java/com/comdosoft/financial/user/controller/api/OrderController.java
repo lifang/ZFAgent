@@ -84,18 +84,7 @@ public class OrderController {
    //  gch  end
   
     
-    @RequestMapping(value = "cart", method = RequestMethod.POST)
-    public Response createOrderFromCart(@RequestBody OrderReq orderreq){
-        Response resp=new Response();
-        resp.setCode(Response.ERROR_CODE);
-        if(null!=orderreq.getCartid()&&orderreq.getCartid().length>0){
-            int result= orderService.createOrderFromCart(orderreq);
-            if(result==1){
-                resp.setCode(Response.ERROR_CODE);
-            }
-        }
-        return resp;
-    }
+  
     
     @RequestMapping(value = "shop", method = RequestMethod.POST)
     public Response createOrderFromShop(@RequestBody OrderReq orderreq){

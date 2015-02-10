@@ -35,19 +35,7 @@
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
 	
-	<select id="getTerminalListByPhone" parameterType="map" resultType="map">
-		SELECT  t.id,t.serial_num
-		FROM terminals t
-    	LEFT JOIN merchants m on t.merchant_id=m.id 
-		WHERE
-		t.customer_id=#{id} and m.phone=#{phone}
-	</select>
 	
-	<select id="getTerminalOpenStatus"  resultType="map">
-		SELECT dtt.trade_value,ttti.status from  terminal_trade_type_infos ttti LEFT JOIN
-    	dictionary_trade_types dtt on ttti.trade_type_id=dtt.id
-     	where ttti.terminal_id=#{id}
-	</select>
 
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.serial_num,g.model_number,b.name as

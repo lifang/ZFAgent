@@ -178,18 +178,5 @@ public class TerminalsController {
 		}
 	}
 
-	/**
-	 * author jwb 查询终端开通情况
-	 * 
-	 * @param paramMap
-	 * @return
-	 */
-	@RequestMapping(value = "openStatus", method = RequestMethod.POST)
-	public Response openStatus(@RequestBody Map<String, Object> paramMap) {
-		try {
-			return Response.getSuccess(terminalsService.openStatus(paramMap));
-		} catch (Exception e) {
-			return Response.getError("请求失败！");
-		}
-	}
+	
 }

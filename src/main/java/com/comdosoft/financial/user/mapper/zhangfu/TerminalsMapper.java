@@ -106,19 +106,4 @@ public interface TerminalsMapper {
      */
     String findPassword(Integer id);
 
-    /**
-     * author jwb
-     * 根据手机获取终端
-     * @param paramMap
-     * @return
-     */
-    List<Map<String, Object>> getTerminalListByPhone(Map<String, Object> paramMap);
-
-    /**
-     * author jwb
-     * 根据终端获取终端业务开通信息
-     * @param id
-     * @return
-     */
-    List<Map<String, Object>> getTerminalOpenStatus(int id);
 }

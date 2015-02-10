@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
-import com.comdosoft.financial.user.utils.SysUtils;
 
 @Service
 public class TerminalsService {
@@ -124,23 +123,5 @@ public class TerminalsService {
 		return terminalsMapper.findPassword(id);
 	}
 
-	/**
-     * author jwb
-     * 查询终端开通情况
-     * @param paramMap
-     * @return
-     */
-    public List<Map<String,Object>> openStatus(Map<String, Object> paramMap) {
-        List<Map<String,Object>> listmap=terminalsMapper.getTerminalListByPhone(paramMap);
-        if(null!=listmap&&listmap.size()>0){
-            List<Map<String,Object>> listmap2=null;
-            int id=0;
-            for (Map<String, Object> map : listmap) {
-                id=SysUtils.String2int(""+map.get("id"));
-                listmap2=terminalsMapper.getTerminalOpenStatus(id);
-                map.put("openStatus", listmap2);
-            }
-        }
-        return listmap;
-    }
+
 }

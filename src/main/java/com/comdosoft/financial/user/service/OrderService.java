@@ -17,7 +17,6 @@ import com.comdosoft.financial.user.domain.zhangfu.Order;
 import com.comdosoft.financial.user.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.user.domain.zhangfu.OrderStatus;
 import com.comdosoft.financial.user.mapper.zhangfu.OrderMapper;
-import com.comdosoft.financial.user.mapper.zhangfu.ShopCartMapper;
 import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -27,46 +26,9 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
     
-    @Autowired
-    private ShopCartMapper shopCartMapper;
+   
 
-    public int createOrderFromCart(OrderReq orderreq) {
-        try {
-            orderreq.setCartids(SysUtils.Arry2Str(orderreq.getCartid()));
-            int totalprice = 0;
-            int count=0;
-            List<Map<String, Object>> goodMapList = orderMapper.getGoodInfos(orderreq);
-            for (Map<String, Object> map : goodMapList) {
-                int retail_price = SysUtils.String2int("" + map.get("retail_price"));
-                int quantity = SysUtils.String2int("" + map.get("quantity"));
-                int opening_cost = SysUtils.String2int("" + map.get("opening_cost"));
-                totalprice += (retail_price + opening_cost) * quantity;
-                count+=quantity;
-            }
-            orderreq.setTotalcount(count);
-            orderreq.setTotalprice(totalprice);
-            orderreq.setOrdernumber(SysUtils.getOrderNum(0));
-            orderMapper.addOrder(orderreq);
-            for (Map<String, Object> map : goodMapList) {
-                orderreq.setGoodId(SysUtils.String2int(""+map.get("goodid")));
-                orderreq.setPaychannelId(SysUtils.String2int(""+map.get("paychanelid")));
-                orderreq.setQuantity(SysUtils.String2int(""+map.get("quantity")));
-                int price=SysUtils.String2int("" + map.get("price"));
-                int retail_price = SysUtils.String2int("" + map.get("retail_price"));
-                int quantity = SysUtils.String2int("" + map.get("quantity"));
-                int opening_cost = SysUtils.String2int("" + map.get("opening_cost"));
-                orderreq.setPrice(price+opening_cost);
-                orderreq.setRetail_price(retail_price+opening_cost);
-                orderreq.setQuantity(quantity);
-                orderMapper.addOrderGood(orderreq);
-                shopCartMapper.delete(SysUtils.String2int(""+map.get("id")));
-            }
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
+ 
     
     public int createOrderFromShop(OrderReq orderreq) {
         try {

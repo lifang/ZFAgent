@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.MessageReceiverMapper">
+
+	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.SysMessage" id="sysMessage">
+		<id property="id" column="sid" />
+		<result property="title" column="title" />
+		<result property="createdAt" column="created_at" />
+		<result property="content" column="content" />
+	</resultMap>
+
+	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.MessageReceiver" id="messageReciver">
+		<id property="id" column="id" />
+		<result property="customerId" column="customer_id" />
+		<result property="status" column="status" />
+		<association property="sysMessageId" javaType="com.comdosoft.financial.user.domain.zhangfu.SysMessage" resultMap="sysMessage" />
+	</resultMap>
+
+	<select id="count" resultType="int">
+		SELECT count(s.id) as count
+		FROM message_receivers m left join sys_messages s on m.sys_message_id = s.id
+		where m.customer_id = #{param1}
+	</select>
+
+	<select id="findAll" resultMap="messageReciver">
+		SELECT m.id,m.customer_id,m.status,s.id as sid,s.title,s.content,s.created_at
+		FROM sys_messages s left join message_receivers m on m.sys_message_id = s.id
+		where m.customer_id = #{param2}
+		order by s.created_at desc
+	</select>
+
+	<select id="findById" resultMap="sysMessage">
+		SELECT s.id,s.title,s.content,s.created_at
+		FROM sys_messages s
+		where s.id = #{param1}
+	</select>
+
+	<delete id="delete">
+		DELETE FROM message_receivers where id=#{param1}
+	</delete>
+
+	<delete id="batchDelete" parameterType="java.lang.String">
+		DELETE FROM message_receivers where id in
+		<foreach item="ids" collection="array" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			update message_receivers
+			<set>
+				status=1
+			</set>
+			where id = ${item.id}
+		</foreach>
+	</update>
+
+	<update id="isRead" >
+			update message_receivers
+			 set status=1
+			where id = #{param1}
+	</update>
+
+</mapper>

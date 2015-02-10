@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.GoodMapper">
+  
+  
+     <select id="getGoodById" resultType="map" >
+       SELECT g.id,g.Title,g.second_title,gb.name as good_brand,g.Model_number,pc.name as category,
+       g.volume_number,g.retail_price,g.price,
+       g.has_purchase,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,
+       g.shell_material,g.battery_info,dsow.sign_order_way,decw.encrypt_card_way,
+       g.factory_id,g.description
+	   from goods g 
+	   LEFT JOIN good_brands gb on g.good_brands_id=gb.id
+	   left JOIN pos_categories pc on g.pos_category_id=pc.id
+	   LEFT JOIN dictionary_sign_order_ways dsow on dsow.id=g.sign_order_way_id
+	   LEFT JOIN dictionary_encrypt_card_ways decw on decw.id=g.encrypt_card_way_id
+	   where  g.status=5 and g.is_published=1 and g.id=#{goodId}
+     </select>
+     
+  
+    <select id="getGoodsList" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
+         SELECT DISTINCT g.id,g.Title,g.has_purchase,b.name as good_brand,g.Model_number,g.volume_number,
+	     g.retail_price,g.total_score
+		 from goods g 
+    	 LEFT JOIN good_brands b on g.good_brands_id=b.id
+         LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
+         LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
+    	 where g.status=5 and is_published=1 and pc.id in 
+         (SELECT sa.id from support_areas sa where sa.city_id=#{city_id} and sa.support_type=1)
+    	 <if test="has_purchase==1">
+    	     and g.has_purchase=1
+    	 </if>
+    	 <if test="keys!=null">
+		   and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
+		 </if>
+    	 <if test="minPricei!=0">
+    	    <![CDATA[ and g.retail_price >= #{minPricei}]]>
+    	 </if>
+    	 <if test="maxPricei!=0">
+    	     <![CDATA[ and g.retail_price <= #{maxPricei}]]>
+    	 </if>
+    	 <if test="brands_ids!=null">
+		   and g.good_brands_id in ${brands_ids}
+		 </if>
+		 <if test="categorys!=null">
+		   and g.pos_category_id in ${categorys}
+		 </if>
+		 <if test="pay_channel_ids!=null">
+		   and pc.id in ${categorys}
+		 </if>
+		 <if test="pay_card_ids!=null">
+		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${pay_card_ids})
+		 </if>
+		 <if test="trade_type_ids!=null">
+		    and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${trade_type_ids})
+		 </if>
+		 <if test="sale_slip_ids!=null">
+		   and g.sign_order_way_id in ${sale_slip_ids}
+		 </if>
+		 <if test="tDates!=null">
+		   and pc.id in (SELECT pcbc.pay_channel_id from  pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
+		 </if>
+		<if test="orderType==0">
+		   order by g.published_at desc
+		</if>
+		<if test="orderType==1">
+		   order by g.volume_number desc
+		</if>
+		<if test="orderType==2">
+		   order by g.retail_price desc
+		</if>
+		<if test="orderType==3">
+		   order by g.retail_price 
+		</if>
+		<if test="orderType==4">
+		   order by g.total_score desc
+		</if>
+		LIMIT #{paging.offset}, #{paging.rows}
+    </select>
+    
+    
+     <select id="getPayChannelListByGoodId" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
+        SELECT pc.id,pc.name,pc.opening_cost,pc.support_cancel_flag,
+               pc.opening_requirement,pc.opening_datum,pc.opening_protocol
+ 		from pay_channels pc 
+ 		LEFT JOIN goods_pay_channels gpc on gpc.pay_channel_id=pc.id
+ 		where gpc.good_id=#{goodId} and pc.status=5 and pc.id in 
+         (SELECT sa.id from support_areas sa where sa.city_id=#{city_id} and sa.support_type=1)
+     </select>
+     
+     <select id="getgoodPics" resultType="String">
+        SELECT url_path from goods_pictures where good_id=#{id}
+     </select>
+     
+     
+     <select id="getBrands_ids" resultType="map">
+        SELECT id,name as value from good_brands
+     </select>
+     <select id="getFartherCategorys" resultType="map">
+        SELECT id,name as value from pos_categories where parent_id is null or parent_id=0
+     </select>
+     <select id="getSonCategorys" resultType="map">
+        SELECT id,name as value from pos_categories where parent_id =#{id}
+     </select>
+     <select id="getPay_channel_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
+		SELECT DISTINCT pc.id,pc.name as value from support_areas sa 
+		LEFT JOIN pay_channels pc on pc.id=sa.pay_channel_id and sa.support_type=1
+		and sa.city_id=#{city_id} where pc.id is not null
+     </select>
+     <select id="getPay_card_ids" resultType="map">
+        SELECT id,card_type as value from dictionary_card_types
+     </select>
+     <select id="getTrade_type_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
+        SELECT DISTINCT dtt.id,dtt.trade_value as value from support_areas sa 
+	    LEFT JOIN support_trade_types stt on stt.pay_channel_id=sa.pay_channel_id 
+	    LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id  
+	    where sa.city_id=#{city_id} and sa.support_type=1 AND dtt.id is not null
+     </select>
+     <select id="getSale_slip_ids" resultType="map">
+        SELECT id,sign_order_way as value from dictionary_sign_order_ways
+     </select>
+     <select id="getTDatesByCityId" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
+        SELECT DISTINCT dbc.id,dbc.name as value from support_areas sa 
+	    LEFT JOIN pay_channel_billing_cycles pcbc on pcbc.pay_channel_id=sa.pay_channel_id 
+	    LEFT JOIN dictionary_billing_cycles dbc on pcbc.billing_cycles_id=dbc.id 
+	    where sa.city_id=#{city_id} and sa.support_type=1 and dbc.id is not null
+     </select>
+     
+       <select id="getFactoryById" resultType="map" >
+       SELECT * from factories where id=#{factoryId}
+     </select>
+	
+</mapper>

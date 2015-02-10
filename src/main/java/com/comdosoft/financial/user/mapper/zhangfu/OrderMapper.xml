@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.OrderMapper">
+  <!-- gch start -->
+	<resultMap id="picsResultMap" type="com.comdosoft.financial.user.domain.zhangfu.GoodsPicture">
+		 <id property="id" column="pic_id" />  
+         <result property="urlPath" column="url_path" /> 
+	</resultMap>
+	
+	<resultMap id="goodBrandResultMap" type="com.comdosoft.financial.user.domain.zhangfu.GoodBrand">
+		 <id property="id" column="good_brands_id" />  
+         <result property="name" column="name" /> 
+	</resultMap>
+	
+	<resultMap id="payChannelMap" type="com.comdosoft.financial.user.domain.zhangfu.PayChannel">
+		 <id property="id" column="pay_channel_id" />  
+            <result property="name" column="channel_name" /> 
+            <result property="status" column="status" /> 
+            <result property="supportCancelFlag" column="supportCancelFlag" /> 
+            <result property="openingCost" column="openingCost" /> 
+            <result property="needPreliminaryVerify" column="needPreliminaryVerify" /> 
+            <result property="factoryId" column="factoryId" /> 
+            <result property="createdUserId" column="createdUserId" /> 
+            <result property="createdUserType" column="createdUserType" /> 
+            <result property="createdAt" column="createdAt" /> 
+            <result property="updatedAt" column="updatedAt" /> 
+            <result property="openingRequirement" column="openingRequirement" /> 
+            <result property="openingDatum" column="openingDatum" /> 
+            <result property="openingProtocol" column="openingProtocol" /> 
+	</resultMap>
+	
+	<resultMap id="goodsMap" type="com.comdosoft.financial.user.domain.zhangfu.Good">
+		 <id property="id" column="good_id" />  
+            <result property="title" column="title" /> 
+            <association property="goodsBrand" javaType="com.comdosoft.financial.user.domain.zhangfu.GoodBrand" resultMap="goodBrandResultMap" />  
+            <collection property="picsList" ofType="com.comdosoft.financial.user.domain.zhangfu.GoodsPicture" resultMap="picsResultMap" />  
+	</resultMap>
+	
+	<resultMap id="addressMap" type="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		 <id property="id" column="address_id" />  
+            <result property="receiver" column="receiver" /> 
+            <result property="address" column="address" /> 
+            <result property="moblephone" column="moblephone" /> 
+            <result property="zipCode" column="zip_code" /> 
+	</resultMap>
+	<resultMap id="orderPaymentMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderPayment">
+		 <id property="id" column="order_payment_id" />  
+            <result property="payType" column="pay_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/> 
+	</resultMap>
+	
+	<resultMap id="orderGoodsMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderGood">
+		 <id property="id" column="order_good_id" />
+			<result property="quantity" column="quantity" />
+			<result property="price" column="price" />
+			<result property="actualPrice" column="actual_price" />
+			<result property="createdAt" column="created_at" />
+			<result property="updatedAt" column="updated_at" />
+			<association property="payChannel" javaType="com.comdosoft.financial.user.domain.zhangfu.PayChannel" resultMap="payChannelMap" />  
+			<association property="good" javaType="com.comdosoft.financial.user.domain.zhangfu.Good" resultMap="goodsMap" />  
+	</resultMap>
+	
+	<resultMap id="orderMarksMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderMark">
+		 <id property="id" column="om_order_id" />
+			<result property="createdAt" column="om_created_at" />
+			<result property="content" column="om_content" />
+			<association property="customer" javaType="com.comdosoft.financial.user.domain.zhangfu.Customer">  
+				 <id property="id" column="om_custmoer_id" />
+				 <result property="name" column="om_name" />
+			</association>
+	</resultMap>
+	
+	<resultMap id="orderMap" type="com.comdosoft.financial.user.domain.zhangfu.Order">
+		<id property="id" column="id" />
+		<result property="orderNumber" column="order_number" />
+		<result property="customerId" column="customer_id" />
+		<result property="totalPrice" column="total_price" />
+		<result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="payedAt" column="payed_at" />
+		<result property="types" column="types" />
+		<result property="needInvoice" column="need_invoice" />
+		<result property="actualPrice" column="actual_price" />
+		<result property="frontMoney" column="front_money" />
+		<result property="frontPayStatus" column="front_pay_status" />
+		<result property="createdUserId" column="created_userId" />
+		<result property="createdUserType" column="created_user_type" />
+		<result property="processUserId" column="process_user_id" />
+		<result property="processUserName" column="process_user_name" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="agentOrderMarksId" column="agent_order_marks_id" />
+		<result property="belongsTo" column="belongs_to" />
+		<result property="invoiceType" column="invoice_type" />
+		<result property="comment" column="comment" />
+		<result property="invoiceInfo" column="invoice_info" />
+		<result property="totalQuantity" column="total_quantity" />
+		<result property="payStatus" column="pay_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<association property="customerAddress" javaType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress" resultMap="addressMap" />  
+		<association property="orderPayment" javaType="com.comdosoft.financial.user.domain.zhangfu.OrderPayment" resultMap="orderPaymentMap" />  
+	    <collection property="orderGoodsList" ofType="com.comdosoft.financial.user.domain.zhangfu.OrderGood" resultMap="orderGoodsMap" />  
+	    <collection property="orderMarkList" ofType="com.comdosoft.financial.user.domain.zhangfu.OrderMark" resultMap="orderMarksMap" />  
+	</resultMap>
+
+	<select id="countMyOrder" resultType="int">
+		SELECT count(o.id) as count
+		FROM orders o
+		where o.customer_id = #{param1}
+	</select>
+
+	<!-- 我的订单列表 -->
+	<select id="findMyOrderAll" resultMap="orderMap" >
+		SELECT
+		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,
+		o.order_number,	o.created_at,	o.status,gp.id as pic_id,
+		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,
+		pc.name as channel_name,og.price ,	og.quantity ,
+		o.actual_price ,total_price,o.total_quantity as total_num
+		FROM	
+		orders o
+		LEFT JOIN order_goods og ON o.id = og.order_id
+		LEFT JOIN goods g ON og.good_id = g.id
+		LEFT JOIN goods_pictures gp ON g.id = gp.good_id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
+		WHERE
+		o.customer_id = #{param2}
+		order by o.created_at desc
+		LIMIT #{param1.page},#{param1.pageSize}
+	</select>
+	
+	<select id="findMyOrderById" resultMap="orderMap">
+		SELECT
+		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,
+		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
+		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment,
+		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,
+		o.actual_price ,total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
+		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name 
+		FROM	
+		orders o
+		LEFT JOIN order_goods og ON o.id = og.order_id
+		LEFT JOIN goods g ON og.good_id = g.id
+		LEFT JOIN goods_pictures gp ON g.id = gp.good_id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
+		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
+		LEFT JOIN order_marks om on o.id = om.order_id 
+		LEFT JOIN customers c on om.customer_id = c.id
+		WHERE
+		o.id = #{param1}
+	</select>
+	<update id="cancelMyOrder" parameterType="com.comdosoft.financial.user.domain.zhangfu.Order">
+        UPDATE orders
+			SET STATUS = #{orderStatus.code}
+		WHERE
+			id = #{id}
+    </update>
+    
+    <insert id="comment" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.GoodComment">
+		INSERT into good_comments 
+		(score,content,customer_id,order_id,good_id,created_at)
+		VALUES(#{score},#{centent},#{customer_id},#{id},#{good_id},NOW())
+  </insert>
+    
+	<!-- gch end -->
+	
+	 <!-- jwb -->
+	 <insert id="addOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
+		INSERT into orders 
+		(order_number,customer_id,total_price,status,types,
+		customer_address_id,need_invoice,invoice_type,
+		invoice_info,actual_price,created_at,updated_at,
+		comment,total_quantity)
+		VALUES(#{ordernumber},#{customerId},#{totalprice},0,#{type},
+		#{addressId},#{is_need_invoice},#{invoice_type},#{invoice_info},
+		#{totalprice},NOW(),NOW(),#{comment},#{totalcount})
+  </insert>
+  
+  <insert id="addOrderGood"  parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
+		INSERT into order_goods 
+		(good_id,pay_channel_id,quantity,price,actual_price,
+		order_id,created_at,updated_at)
+		VALUES(#{goodId},#{paychannelId},#{quantity},
+		#{price},#{retail_price},#{id},NOW(),NOW())
+  </insert>
+  
+  <select id="getGoodInfos" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
+        SELECT sc.id,g.id as goodid,pc.id as paychanelid ,
+        sc.quantity,g.price,g.retail_price,pc.opening_cost
+		from shopping_carts sc
+		LEFT JOIN goods g on g.id=sc.good_id
+		LEFT JOIN pay_channels pc on pc.id=sc.pay_channel_id
+		where sc.id in ${cartids}
+  </select>
+  
+  <select id="getGoodInfo" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
+        SELECT  g.id as goodid,pc.id as paychanelid ,g.lease_deposit,
+        g.price,g.retail_price,pc.opening_cost
+		from goods_pay_channels gpc
+		LEFT JOIN goods g on g.id=gpc.good_id
+		LEFT JOIN pay_channels pc on pc.id=gpc.pay_channel_id
+		where gpc.good_id=#{goodId} and gpc.pay_channel_id=#{paychannelId}
+  </select>
+</mapper>

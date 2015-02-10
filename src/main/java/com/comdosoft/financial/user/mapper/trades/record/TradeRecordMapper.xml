@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.trades.record.TradeRecordMapper">
+
+	<select id="getTerminals" resultType="map">
+	<![CDATA[
+		SELECT serial_num serialNum,
+			   pay_channel_id payChannelId
+		  FROM terminals
+		 WHERE customerId = #{customerId}
+		   AND status = 2
+	]]>
+	</select>
+
+	<select id="getTradeRecords12" resultType="map">
+	<![CDATA[
+		SELECT DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
+			   r.amount,
+			   r.terminal_number terminalNumber,
+			   r.traded_status tradedStatus,
+			   t.pay_from_account payFromAccount,
+			   t.pay_into_account payIntoAccount
+		  FROM trade_records r JOIN trade_transfer_repayment_records t ON r.id = t.id
+		 WHERE r.trade_type_id = #{tradeTypeId}
+		   AND r.terminal_number = #{terminalNumber}
+		   AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') BETWEEN #{startTime} AND #{endTime}
+	  ORDER BY r.traded_at ASC
+		 LIMIT #{offset}, #{rows}
+	]]>
+	</select>
+
+	<select id="getTradeRecords3" resultType="map">
+	<![CDATA[
+		SELECT DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
+			   r.amount,
+			   r.terminal_number terminalNumber,
+			   r.traded_status tradedStatus,
+			   t.phone
+		  FROM trade_records r JOIN trade_consume_records t ON r.id = t.id
+		 WHERE r.trade_type_id = #{tradeTypeId}
+		   AND r.terminal_number = #{terminalNumber}
+		   AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') BETWEEN #{startTime} AND #{endTime}
+	  ORDER BY r.traded_at ASC
+		 LIMIT #{offset}, #{rows}
+	]]>
+	</select>
+
+	<select id="getTradeRecords45" resultType="map">
+	<![CDATA[
+		SELECT DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
+			   r.amount,
+			   r.terminal_number terminalNumber,
+			   r.traded_status tradedStatus,
+			   t.phone
+		  FROM trade_records r JOIN trade_recharge_records t ON r.id = t.id
+		 WHERE r.trade_type_id = #{tradeTypeId}
+		   AND r.terminal_number = #{terminalNumber}
+		   AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') BETWEEN #{startTime} AND #{endTime}
+	  ORDER BY r.traded_at ASC
+		 LIMIT #{offset}, #{rows}
+	]]>
+	</select>
+
+	<select id="getTradeRecordTotal" resultType="map">
+	<![CDATA[
+		SELECT COUNT(r.id) tradeTotal,
+			   SUM(r.amount) amountTotal,
+			   r.terminal_number terminalNumber,
+			   r.pay_channel_id payChannelId,
+			   r.trade_type_id tradeTypeId
+		  FROM trade_records r
+		 WHERE r.trade_type_id = #{tradeTypeId}
+		   AND r.terminal_number = #{terminalNumber}
+		   AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') BETWEEN #{startTime} AND #{endTime}
+	]]>
+	</select>
+
+</mapper>

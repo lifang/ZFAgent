@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.WebMessageMapper">
+
+	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.WebMessage" id="webMessage">
+		<id property="id" column="id"/>
+		<result property="title" column="title" />
+		<result property="isPlacedTop" column="is_placed_top" />
+		<result property="createAt" column="create_at" javaType="java.sql.Date" jdbcType="DATE"/>
+		<result property="updatedAt" column="updated_at" javaType="java.sql.Date" jdbcType="DATE"/>
+		<result property="content" column="content" />
+	</resultMap>
+
+	<select id="count" resultType="int">
+		SELECT count(m.id) as count 
+		   FROM web_messages m 
+	</select>
+	
+	<select id="findAll" resultMap="webMessage" >
+		SELECT title,id,create_at,
+		updated_at,content
+		   FROM web_messages m 
+		    order by m.updated_at desc
+		<!-- LIMIT #{param1.page},#{param1.pageSize} -->
+		 
+	</select>
+	
+	<select id="findById" resultMap="webMessage" >
+		SELECT title,content,create_at,updated_at,content
+		   FROM web_messages m 
+		   where m.id = #{param1}
+	</select>
+
+</mapper>

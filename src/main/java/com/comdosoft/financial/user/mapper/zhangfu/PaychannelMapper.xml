@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.PaychannelMapper">
+  
+    <select id="getSupportArea" resultType="String" >
+        SELECT c.name from support_areas sa LEFT JOIN cities c on c.id= sa.city_id 
+		where sa.pay_channel_id=#{pcid} and sa.support_type=1
+     </select>
+     
+     <select id="getOther_rate" resultType="map" >
+        SELECT dtt.trade_value,terminal_rate,description FROM 
+		support_trade_types stt LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id
+ 		where pay_channel_id=#{pcid}
+     </select>
+     
+     <select id="getStandard_rates" resultType="map" >
+        SELECT name,standard_rate,description from pay_channel_standard_rates 
+        WHERE pay_channel_id=#{pcid}
+     </select>
+ 
+       <select id="getTDatesByPayChannel" resultType="map" >
+        SELECT dbc.id,dbc.name,dbc.service_rate,dbc.description 
+		from dictionary_billing_cycles dbc 
+		LEFT JOIN pay_channel_billing_cycles pcbc on pcbc.billing_cycles_id=dbc.id 
+		and pcbc.pay_channel_id=#{pcid}
+     </select>
+  
+     <select id="getRequireMaterial_pub" resultType="map" >
+        select id,name,introduction from dictionary_open_private_infos where id in(
+		select l.requirement_setting_id
+		from pay_channels p
+		LEFT JOIN opening_requirements o on p.id = o.pay_channel_id 
+		LEFT JOIN opening_requirement_lists l on o.id=l.opening_requirements_id AND l.requirement_type=0
+	 	where p.id=#{pcid})
+     </select>
+     
+     <select id="getRequireMaterial_pra" resultType="map" >
+        select id,name,introduction from dictionary_open_private_infos where id in(
+		select l.requirement_setting_id
+		from pay_channels p
+		LEFT JOIN opening_requirements o on p.id = o.pay_channel_id 
+		LEFT JOIN opening_requirement_lists l on o.id=l.opening_requirements_id AND l.requirement_type=1
+	    where p.id=#{pcid})
+     </select>
+     
+     
+     
+    
+	
+</mapper>

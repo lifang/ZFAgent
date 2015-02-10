@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.CsChangeMapper">
+<!-- 换货 -->
+	<select id="findRepairsAll" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsChange">
+		SELECT
+			o.id,
+			o.created_at,
+			o. STATUS,
+			t.serial_num,
+			o.apply_num
+		FROM
+			cs_changes o
+		LEFT JOIN terminals t ON o.terminal_id = t.id
+		WHERE
+			o.customer_id = #{customer_id}
+		ORDER BY
+			o.created_at DESC
+		LIMIT #{page},#{pageSize}
+	</select>
+	
+	<select id="findById" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsChange">
+		SELECT
+			o.id,
+			o.`status` AS apply_status,
+			o.created_at AS apply_time,
+			t.serial_num,
+			gb.`name` AS brand_name,
+			g.model_number AS brand_number,
+			pc.`name`, m.title AS merchant_name,
+			m.phone AS mer_phone,
+			cra.address,
+			crm.content AS marks_content,
+			crm.created_at AS marks_time,
+			c.`name` AS marks_person
+		FROM
+			cs_changes o
+		LEFT JOIN terminals t ON o.terminal_id = t.id
+		LEFT JOIN goods g ON t.good_id = g.id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON t.pay_channel_id = pc.id
+		LEFT JOIN merchants m ON t.merchant_id = m.id
+		LEFT JOIN cs_receiver_addresses cra ON o.receive_address_id = cra.id
+		LEFT JOIN cs_change_marks crm ON  o.cs_cencel_id = crm.id
+		LEFT JOIN customers c ON crm.custom_id = c.id
+		WHERE
+			o.id = #{id}
+	</select>
+	
+	<update id="cancelApply">
+	update  cs_changes 
+	SET STATUS = #{repairStatus.code}
+	where id = #{id}
+	</update>
+	
+	<!-- 提交物流信息 -->
+	<insert id="addMark" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsRepairMark">
+       INSERT INTO cs_change_mark (cs_change_id,customer_id,content,created_at)
+       VALUES(#{id},#{customer_id},#{centent},NOW())
+    </insert>
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper">
+
+
+	<insert id="addMerchants" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
+		INSERT into
+		merchants(title,customer_id,created_at)
+		VALUES(#{title},#{customerId},now())
+	</insert>
+
+	<insert id="addTerminal" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT into
+		terminals(good_id,terminal_marks_id,serial_num,merchant_id,customer_id,pay_channel_id,status,is_return_cs_depots,created_at,type)
+		VALUES(0,0,#{serialNum},#{merchantId},#{customerId},#{payChannelId},#{status},#{isReturnCsDepots},now(),#{type})
+	</insert>
+
+	<!-- 查询交易流水用 -->
+	<select id="getTerminals" resultType="map">
+	<![CDATA[
+		SELECT serial_num serialNum,
+			   pay_channel_id payChannelId
+		  FROM terminals
+		 WHERE customer_id = #{customerId}
+		   AND status = 2
+	]]>
+	</select>
+
+	<select id="getTerminalList" parameterType="map" resultType="map">
+		SELECT id,serial_num,status
+		FROM terminals
+		WHERE
+		customer_id=#{id}
+		ORDER BY created_at DESC
+		LIMIT #{offSetPage},#{pageSize}
+	</select>
+	
+	<select id="getTerminalListByPhone" parameterType="map" resultType="map">
+		SELECT  t.id,t.serial_num
+		FROM terminals t
+    	LEFT JOIN merchants m on t.merchant_id=m.id 
+		WHERE
+		t.customer_id=#{id} and m.phone=#{phone}
+	</select>
+	
+	<select id="getTerminalOpenStatus"  resultType="map">
+		SELECT dtt.trade_value,ttti.status from  terminal_trade_type_infos ttti LEFT JOIN
+    	dictionary_trade_types dtt on ttti.trade_type_id=dtt.id
+     	where ttti.terminal_id=#{id}
+	</select>
+
+	<select id="getApplyDetails" parameterType="int" resultType="map">
+		SELECT t.serial_num,g.model_number,b.name as
+		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt
+		FROM
+		terminals t LEFT JOIN goods g on t.good_id=g.id
+		LEFT JOIN good_brands b on g.good_brands_id=b.id
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
+		LEFT JOIN factories a ON
+		c.factory_id=a.id
+		LEFT JOIN merchants m ON
+		t.merchant_id=m.id
+		LEFT JOIN order_goods o ON t.good_id=o.good_id
+		LEFT JOIN orders e ON
+		o.order_id=e.id
+		WHERE t.id=#{id}
+		AND
+		e.customer_id=t.customer_id
+	</select>
+
+	<select id="getRate" parameterType="int" resultType="map">
+		SELECT
+		s.id,s.trade_type_id,s.terminal_rate,s.base_rate,s.service_rate,i.`status`
+		FROM terminals t LEFT JOIN
+		terminal_trade_type_infos
+		i ON t.id=i.terminal_id
+		LEFT JOIN support_trade_types s ON i.trade_type_id=s.id
+		WHERE t.id=#{id}
+	</select>
+
+	<select id="getTrackRecord" parameterType="int" resultType="map">
+		SELECT s.created_at,s.content,c.`name`
+		FROM terminals t LEFT
+		JOIN opening_applies i ON t.id=i.terminal_id
+		LEFT JOIN
+		opening_apply_marks s ON i.id=s.opening_apply_id
+		LEFT JOIN customers c ON
+		s.custom_id=c.id
+		where t.id=#{id}
+	</select>
+
+	<select id="getOpeningDetails" parameterType="int" resultType="map">
+		SELECT s.`key`,s.`value`
+		FROM terminals t LEFT JOIN
+		opening_applies i ON t.id=i.terminal_id
+		LEFT JOIN terminal_opening_infos s ON
+		i.id=s.opening_applies_id
+		where t.id=#{id}
+	</select>
+
+	<select id="channels" resultType="map">
+		SELECT s.id,s.`name`
+		FROM pay_channels s
+	</select>
+
+	<select id="isExistence" resultType="int" parameterType="String">
+		SELECT count(*) FROM terminals
+		WHERE serial_num=#{serialNum}
+	</select>
+
+	<select id="isMerchantName" parameterType="string" resultType="int">
+		SELECT COUNT(*) from merchants
+		WHERE title=#{title}
+	</select>
+
+	<select id="findPassword" parameterType="int" resultType="string">
+		SELECT password
+		FROM terminals
+		WHERE id=#{id}
+	</select>
+</mapper>

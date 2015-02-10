@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper">
+
+ 	
+ 	<insert id="addApply" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO `terminal_opening_infos` (`key`, `value`,`opening_applies_id`) 
+		VALUES (#{key},#{value},#{openingAppliesId});
+ 	</insert>
+ 	
+ 	<insert id="addOpeningApply" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
+		INSERT INTO `opening_applies` (`apply_customer_id`,`terminal_id`) 
+		VALUES (#{applyCustomerId},#{terminalId});
+ 	</insert>
+ 
+ 	<select id="getApplyList" parameterType="map" resultType="map">
+ 		SELECT id,serial_num,status
+ 		FROM terminals
+ 		WHERE customer_id=#{id}
+ 		AND status in (#{twoStatus},#{threeStatus})
+ 		LIMIT #{offSetPage},#{pageSize}
+ 	</select>
+ 	
+ 	<select id="getApplyDetails" parameterType="int" resultType="map">
+ 		SELECT t.serial_num,g.model_number,b.name as brandName,c.name as channelName
+		FROM terminals t LEFT JOIN goods g on t.good_id=g.id
+		LEFT JOIN good_brands b on g.good_brands_id=b.id 
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
+		WHERE t.id=#{terminalsId}
+ 	</select>
+ 	
+ 	<select id="getMerchants" resultType="map">
+ 		SELECT id,title FROM merchants
+ 	</select>
+ 	
+ 	<select id="getChannels" resultType="map">
+ 		SELECT id,name FROM pay_channels
+ 	</select>
+ 	
+ 	<select id="getMerchant" resultType="com.comdosoft.financial.user.domain.zhangfu.Merchant" parameterType="int">
+ 		SELECT * FROM merchants
+ 		WHERE id=#{id}
+ 	</select>
+ 	
+ 	<select id="getMaterialName" resultType="map" parameterType="map">
+ 		select * from dictionary_open_private_infos where id in(
+		select l.requirement_setting_id
+		from terminals t LEFT JOIN pay_channels p on t.pay_channel_id=p.id
+		LEFT JOIN opening_requirements o on p.id = o.pay_channel_id 
+		LEFT JOIN opening_requirement_lists l on o.id=l.opening_requirements_id
+		where t.id=#{terminalsId} AND l.requirement_type=#{status}
+		)
+ 	</select>
+ 	
+ 	<select id="ReApplyFor" parameterType="int" resultType="map">
+ 		SELECT * FROM terminal_opening_infos t LEFT JOIN opening_applies e on t.opening_applies_id=e.id
+		WHERE e.terminal_id = #{terminalsId}
+ 	</select>
+ 	
+ 	<select id="getApplyesId" parameterType="int" resultType="int">
+ 		SELECT id FROM opening_applies 
+ 		WHERE terminal_id=#{id}
+ 	</select>
+ 	
+ 	<delete id="deleteOpeningInfos" parameterType="int">
+ 		DELETE FROM terminal_opening_infos 
+ 		WHERE opening_applies_id = #{id}
+ 	</delete>
+</mapper>

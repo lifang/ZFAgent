@@ -6,7 +6,7 @@
 	<artifactId>ZFAgent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>ZFMerchant</name>
+	<name>ZFAgent</name>
 	<description>zhang fu agent system</description>
 
 	<properties>

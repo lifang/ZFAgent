@@ -1,12 +1,15 @@
 package com.comdosoft.financial.user.domain.query;
 
-import com.comdosoft.financial.user.domain.Paging;
 
 public class PosReq {
 
     private int goodId;
 
-    private int city_id;
+    private int agent_id;
+    
+    private int customer_id;
+    
+    private int type; //1 批购
     /**
      * 0.按照上架时间倒序排列商品 1.按照销售优先倒序排列商品 2.按照价格倒序排列商品 3.按照价格正序排列商品 4.按照评分最高倒序排列商品
      */
@@ -43,13 +46,12 @@ public class PosReq {
     private int[] tDate;// 对账日期
     private String tDates;
 
-    private int has_purchase;// 只包含租贷 1是
+    private int has_lease;// 只包含租贷 1是
     private double minPrice;
     private double maxPrice;
 
     private String keys;
     
-    private Paging paging;
 
     public int getGoodId() {
         return goodId;
@@ -74,8 +76,6 @@ public class PosReq {
     public void setBrands_id(int[] brands_id) {
         this.brands_id = brands_id;
     }
-
-    
 
     public String getBrands_ids() {
         return brands_ids;
@@ -180,12 +180,14 @@ public class PosReq {
         this.tDates = tDates;
     }
 
-    public int getHas_purchase() {
-        return has_purchase;
+   
+
+    public int getHas_lease() {
+        return has_lease;
     }
 
-    public void setHas_purchase(int has_purchase) {
-        this.has_purchase = has_purchase;
+    public void setHas_lease(int has_lease) {
+        this.has_lease = has_lease;
     }
 
     public double getMinPrice() {
@@ -204,12 +206,13 @@ public class PosReq {
         this.maxPrice = maxPrice;
     }
 
-    public Paging getPaging() {
-        return paging;
+
+    public int getType() {
+        return type;
     }
 
-    public void setPaging(Paging paging) {
-        this.paging = paging;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getKeys() {
@@ -220,12 +223,20 @@ public class PosReq {
         this.keys = keys;
     }
 
-    public int getCity_id() {
-        return city_id;
+    public int getCustomer_id() {
+        return customer_id;
     }
 
-    public void setCity_id(int city_id) {
-        this.city_id = city_id;
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
+    }
+
+    public int getAgent_id() {
+        return agent_id;
+    }
+
+    public void setAgent_id(int agent_id) {
+        this.agent_id = agent_id;
     }
 
     public int getMinPricei() {
@@ -235,5 +246,42 @@ public class PosReq {
     public int getMaxPricei() {
         return (int)maxPrice*100;
     }
+    
+    private int page;
+    private int rows;
+    private int offset;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getRows() {
+        if (rows <= 0) {
+            rows = 10;
+        }
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getOffset() {
+        if (page > 0 && rows > 0) {
+            offset = (page - 1) * rows;
+        } else {
+            offset = 0;
+        }
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
 
 }

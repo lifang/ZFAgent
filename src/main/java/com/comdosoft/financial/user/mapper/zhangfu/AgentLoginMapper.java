@@ -2,6 +2,7 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 
 
 
+import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 
 
@@ -11,7 +12,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
  * @author xianfeihu
  *
  */
-public interface UserLoginMapper {
+public interface AgentLoginMapper {
 	
 	/**
 	 * 用户登陆
@@ -44,4 +45,23 @@ public interface UserLoginMapper {
 	 * @param customer
 	 */
 	void updateLastLoginedAt(Customer customer);
+	
+	/**
+	 * 判断该城市是否有代理商
+	 * @param customer
+	 * @return
+	 */
+	int judgeCityId(Customer customer);
+	
+	/**
+	 * 获取代理商编号
+	 * @return
+	 */
+	Object getAgentCode();
+	
+	/**
+	 * 添加代理商
+	 * @param agent
+	 */
+	void addAgent(Agent agent);
 }

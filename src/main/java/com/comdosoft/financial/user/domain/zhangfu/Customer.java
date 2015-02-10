@@ -84,6 +84,15 @@ public class Customer {
 	 * @return  the value of customers.id
 	 * @mbggenerated
 	 */
+	private String code;
+	
+	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public Integer getId() {
 		return id;
 	}

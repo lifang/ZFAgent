@@ -4,7 +4,7 @@
 
 	<select id="getList" resultType="map">
 	<![CDATA[
-		SELECT title, legal_person_name
+		SELECT id, title, legal_person_name
 		  FROM merchants
 		 WHERE customer_id = #{customerId}
 	  ORDER BY created_at DESC
@@ -14,7 +14,8 @@
 
 	<select id="getOne" resultType="map">
 	<![CDATA[
-		SELECT title,
+		SELECT id,
+			   title,
 			   legal_person_name,
 			   legal_person_card_id,
 			   business_license_no,
@@ -37,14 +38,41 @@
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 	<![CDATA[
-		INSERT INTO merchants (title, legal_person_name, legal_person_card_id, business_license_no, tax_registered_no,
-							   organization_code_no, city_id, account_bank_name, bank_open_account,
-							   card_id_front_photo_path, card_id_back_photo_path, body_photo_path, license_no_pic_path,
-							   tax_no_pic_path, org_code_no_pic_path, account_pic_path, customer_id)
-		VALUES (#{title}, #{legalPersonName}, #{legalPersonCardId}, #{businessLicenseNo}, #{taxRegisteredNo},
-				#{organizationCodeNo}, #{cityId}, #{accountBankName}, #{bankOpenAccount},
-				#{cardIdFrontPhotoPath}, #{cardIdBackPhotoPath}, #{bodyPhotoPath}, #{licenseNoPicPath},
-				#{taxNoPicPath}, #{orgCodeNoPicPath}, #{accountPicPath}, #{customerId})
+		INSERT INTO merchants (title,
+							   legal_person_name,
+							   legal_person_card_id,
+							   business_license_no,
+							   tax_registered_no,
+							   organization_code_no,
+							   city_id, account_bank_name,
+							   bank_open_account,
+							   card_id_front_photo_path,
+							   card_id_back_photo_path,
+							   body_photo_path,
+							   license_no_pic_path,
+							   tax_no_pic_path,
+							   org_code_no_pic_path,
+							   account_pic_path,
+							   created_at,
+							   customer_id)
+		VALUES (#{title},
+				#{legalPersonName},
+				#{legalPersonCardId},
+				#{businessLicenseNo},
+				#{taxRegisteredNo},
+				#{organizationCodeNo},
+				#{cityId},
+				#{accountBankName},
+				#{bankOpenAccount},
+				#{cardIdFrontPhotoPath},
+				#{cardIdBackPhotoPath},
+				#{bodyPhotoPath},
+				#{licenseNoPicPath},
+				#{taxNoPicPath},
+				#{orgCodeNoPicPath},
+				#{accountPicPath},
+				#{createdAt},
+				#{customerId})
 	]]>
 	</insert>
 
@@ -57,7 +85,7 @@
 			<if test="businessLicenseNo != null and businessLicenseNo !=''">business_license_no = #{businessLicenseNo},</if>
 			<if test="taxRegisteredNo != null and taxRegisteredNo !=''">tax_registered_no = #{taxRegisteredNo},</if>
 			<if test="organizationCodeNo != null and organizationCodeNo !=''">organization_code_no = #{organizationCodeNo},</if>
-			<if test="cityId != null and cityId !=0">cityId = #{cityId}</if>
+			<if test="cityId != null and cityId !=0">city_id = #{cityId},</if>
 			<if test="accountBankName != null and accountBankName !=''">account_bank_name = #{accountBankName},</if>
 			<if test="bankOpenAccount != null and bankOpenAccount !=''">bank_open_account = #{bankOpenAccount},</if>
 			<if test="cardIdFrontPhotoPath != null and cardIdFrontPhotoPath !=''">card_id_front_photo_path = #{cardIdFrontPhotoPath},</if>
@@ -67,7 +95,7 @@
 			<if test="taxNoPicPath != null and taxNoPicPath !=''">tax_no_pic_path = #{taxNoPicPath},</if>
 			<if test="orgCodeNoPicPath != null and orgCodeNoPicPath !=''">org_code_no_pic_path = #{orgCodeNoPicPath},</if>
 			<if test="accountPicPath != null and accountPicPath !=''">account_pic_path = #{accountPicPath},</if>
-			<if test="customerId != null and customerId !=0">customer_id = #{customerId},</if>
+			<if test="updatedAt != null">updated_at = #{updatedAt}</if>
 		</trim>
 		WHERE id = #{id}
 	</update>

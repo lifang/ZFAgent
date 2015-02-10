@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,10 +39,14 @@ public class MerchantService {
     }
 
     public void insert(Merchant param) {
+        Date now = new Date();
+        param.setCreatedAt(now);
         merchantMapper.insert(param);
     }
 
     public void update(Merchant param) {
+        Date now = new Date();
+        param.setUpdatedAt(now);
         merchantMapper.update(param);
     }
 

@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.service.CustomerService;
-import com.comdosoft.financial.user.utils.SysUtils;
 
 /**
- * 
  * 我的信息<br>
  * <功能描述>
  *
@@ -30,9 +27,6 @@ public class CustomerAPI {
 
     @Resource
     private CustomerService customerService;
-
-    @Value("${passPath}")
-    private String passPath;
 
     /**
      * 日志记录器
@@ -88,9 +82,8 @@ public class CustomerAPI {
             int id = (int) param.get("id");
             Map<Object, Object> customer = customerService.getOne(id);
             if (customer != null) {
-                String passwordEN = (String) customer.get("password");// 获取数据库中的密码
-                if (SysUtils.Encryption((String) param.get("passwordOld"), passPath).equals(passwordEN)) {// 判断原密码
-                    param.put("password", SysUtils.Encryption((String) customer.get("password"), passPath)); // 加密新密码
+                String passwordInDB = (String) customer.get("password");// 获取数据库中的密码
+                if (((String) param.get("passwordOld")).equals(passwordInDB)) {// 判断原密码
                     customerService.updatePassword(param);
                     sysResponse = Response.getSuccess();
                 } else {

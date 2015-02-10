@@ -33,6 +33,8 @@ public interface CustomerMapper {
 
     void insertAddress(Map<Object, Object> param);
 
+    void updateAddress(Map<Object, Object> param);
+
     void deleteAddress(int id);
 
 }

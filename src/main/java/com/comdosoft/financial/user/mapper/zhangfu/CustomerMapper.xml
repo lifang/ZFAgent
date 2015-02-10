@@ -71,7 +71,7 @@
 
 	<select id="getAddressList" resultType="map">
 	<![CDATA[
-		SELECT receiver, moblephone, address
+		SELECT id, receiver, moblephone, address
 		  FROM customer_addresses
 		 WHERE customer_id = #{customerId}
 	]]>
@@ -79,7 +79,7 @@
 
 	<select id="getOneAddress" resultType="map">
 	<![CDATA[
-		SELECT city_id, receiver, moblephone, zip_code, is_default, address
+		SELECT id, city_id, receiver, moblephone, zip_code, is_default, address
 		  FROM customer_addresses
 		 WHERE id = #{id}
 	]]>
@@ -91,6 +91,13 @@
 		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{zipCode},  #{address},  #{isDefault},  #{customerId})
 	]]>
 	</insert>
+
+	<update id="updateAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default = #{is_default}
+		 WHERE customer_id = #{customerId}
+	]]>
+	</update>
 
 	<delete id="deleteAddress">
 	<![CDATA[

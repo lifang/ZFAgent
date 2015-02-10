@@ -9,8 +9,11 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.comdosoft.financial.user.domain.Paging;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.SysConfig;
 import com.comdosoft.financial.user.mapper.zhangfu.CustomerMapper;
 
@@ -55,7 +58,13 @@ public class CustomerService {
         Map<Object, Object> sysconfig = customerMapper.getSysConfig(SysConfig.PARAMNAME_INTEGRALCONVERT);
         BigDecimal paramValue = new BigDecimal((String) sysconfig.get("param_value"));
         Map<Object, Object> totalMap = customerMapper.getIntegralTotal(customerId);
-        BigDecimal quantityTotal = (BigDecimal) totalMap.get("quantityTotal");
+        BigDecimal quantityTotal = new BigDecimal(0);
+        if (!CollectionUtils.isEmpty(totalMap)) {
+            Object obj = totalMap.get("quantityTotal");
+            if (obj != null) {
+                quantityTotal = (BigDecimal) totalMap.get("quantityTotal");
+            }
+        }
         Map<Object, Object> result = new HashMap<>();
         result.put("quantityTotal", quantityTotal);
         result.put("moneyTotal", quantityTotal.multiply(paramValue));
@@ -86,7 +95,13 @@ public class CustomerService {
         return customerMapper.getOneAddress(id);
     }
 
+    @Transactional(value = "transactionManager-zhangfu")
     public void insertAddress(Map<Object, Object> param) {
+        int isDefault = (int) param.get("isDefault");
+        if (isDefault == CustomerAddress.ISDEFAULT_1) {
+            param.put("is_default", CustomerAddress.ISDEFAULT_2);
+            customerMapper.updateAddress(param);
+        }
         customerMapper.insertAddress(param);
     }
 

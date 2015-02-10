@@ -2,6 +2,9 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 
 
 
+import java.util.List;
+import java.util.Map;
+
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 
@@ -64,4 +67,11 @@ public interface AgentLoginMapper {
 	 * @param agent
 	 */
 	void addAgent(Agent agent);
+	
+	/**
+	 * 代理商登陆后获得权限
+	 * @param customer
+	 * @return
+	 */
+	List<Map<String, String>> Toestemming(Customer customer);
 }

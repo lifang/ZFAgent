@@ -37,10 +37,18 @@
 	</select>
 	
 	<select id="judgeCityId" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
-		select count(*) from customers where  city_id=#{cityId} and status = #{status}
+		SELECT count(*) FROM customers WHERE  city_id=#{cityId} and status = #{status}
 	</select>
 	
 	<select id="getAgentCode" resultType="object">
-		select max(agent_code) from agents
+		SELECT max(agent_code) FROM agents
+	</select>
+	
+	<select id="Toestemming" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		SELECT s.menu_name FROM  customers c 
+		LEFT JOIN customer_role_relations r ON r.customer_id=c.id
+		LEFT JOIN role_menus m ON m.role_id = r.role_id
+		LEFT JOIN menus s ON s.id = m.menu_id
+		WHERE C.username=#{username}
 	</select>
 </mapper>

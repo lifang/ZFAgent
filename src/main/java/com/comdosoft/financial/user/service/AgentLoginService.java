@@ -1,5 +1,8 @@
 package com.comdosoft.financial.user.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -78,5 +81,14 @@ public class AgentLoginService {
 	 */
 	public void addAgent(Agent agent){
 		agentLoginMapper.addAgent(agent);
+	}
+	
+	/**
+	 * 代理商登陆后活的权限
+	 * @param customer
+	 * @return
+	 */
+	public List<Map<String, String>> Toestemming(Customer customer){
+		return agentLoginMapper.Toestemming(customer);
 	}
 }

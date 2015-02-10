@@ -56,7 +56,8 @@ public class AgentLoginController {
 			int count = agentLoginService.doLogin(customer);
 			if(count>0){
 				agentLoginService.updateLastLoginedAt(customer);
-				return Response.getSuccess("登陆成功！");
+				//登陆成功并且获得权限
+				return Response.getSuccess(agentLoginService.Toestemming(customer));
 			}else if(count==0){
 				return Response.getError("用户名或密码错误！");
 			}else{

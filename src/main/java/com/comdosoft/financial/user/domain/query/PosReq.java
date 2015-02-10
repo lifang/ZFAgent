@@ -5,7 +5,6 @@ public class PosReq {
 
     private int goodId;
 
-    private int agent_id;
     
     private int customer_id;
     
@@ -231,13 +230,7 @@ public class PosReq {
         this.customer_id = customer_id;
     }
 
-    public int getAgent_id() {
-        return agent_id;
-    }
-
-    public void setAgent_id(int agent_id) {
-        this.agent_id = agent_id;
-    }
+  
 
     public int getMinPricei() {
         return (int)minPrice*100;

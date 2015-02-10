@@ -33,7 +33,7 @@ public class GoodService {
         for (Map<String, Object> map : list) {
             if(1==posreq.getType()){
                 map.put("purchase_price", setPurchasePrice(
-                        posreq.getAgent_id(),SysUtils.String2int(""+map.get("purchase_price")),
+                        posreq.getCustomer_id(),SysUtils.String2int(""+map.get("purchase_price")),
                         SysUtils.String2int(""+map.get("floor_price"))));
             }
             int id = Integer.valueOf("" + map.get("id"));
@@ -59,7 +59,7 @@ public class GoodService {
         int id = SysUtils.String2int("" + goodinfo.get("id"));
         if(1==posreq.getType()){
             goodinfo.put("purchase_price", setPurchasePrice(
-                    posreq.getAgent_id(),SysUtils.String2int(""+goodinfo.get("purchase_price")),
+                    posreq.getCustomer_id(),SysUtils.String2int(""+goodinfo.get("purchase_price")),
                     SysUtils.String2int(""+goodinfo.get("floor_price"))));
         }
         if (id > 0) {
@@ -118,8 +118,8 @@ public class GoodService {
         return map;
     }
     
-    private int setPurchasePrice(int agentid,int purchasePrice,int leasePrice){
-        int hasBuyCount=goodMapper.getHasBuyCount(agentid);
+    public int setPurchasePrice(int customerid,int purchasePrice,int leasePrice){
+        int hasBuyCount=goodMapper.getHasBuyCount(customerid);
         int totalMoney=10000;//总交易流水金额
         Map<String,Object> map1=sysconfigMapper.getValue("shopcount");
         Map<String,Object> map2=sysconfigMapper.getValue("totalmoney");

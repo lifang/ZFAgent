@@ -86,10 +86,10 @@ public class OrderController {
     
   
     
-    @RequestMapping(value = "shop", method = RequestMethod.POST)
-    public Response createOrderFromShop(@RequestBody OrderReq orderreq){
+    @RequestMapping(value = "agent", method = RequestMethod.POST)
+    public Response createOrderFromAgent(@RequestBody OrderReq orderreq){
         Response resp=new Response();
-        int result= orderService.createOrderFromShop(orderreq);
+        int result= orderService.createOrderFromAgent(orderreq);
         if(result==1){
             resp.setCode(Response.SUCCESS_CODE);
         }else{
@@ -97,15 +97,5 @@ public class OrderController {
         }
         return resp;
     }
-    @RequestMapping(value = "lease", method = RequestMethod.POST)
-    public Response createOrderFromLease(@RequestBody OrderReq orderreq){
-        Response resp=new Response();
-        int result= orderService.createOrderFromLease(orderreq);
-        if(result==1){
-            resp.setCode(Response.SUCCESS_CODE);
-        }else{
-            resp.setCode(Response.ERROR_CODE);
-        }
-        return resp;
-    }
+    
 }

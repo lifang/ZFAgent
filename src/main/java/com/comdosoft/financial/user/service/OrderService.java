@@ -26,25 +26,43 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
     
-   
+    @Autowired
+    private  GoodService goodService;
 
  
     
-    public int createOrderFromShop(OrderReq orderreq) {
+    public int createOrderFromAgent(OrderReq orderreq) {
         try {
             Map<String, Object> goodMap = orderMapper.getGoodInfo(orderreq);
-            int retail_price = SysUtils.String2int("" + goodMap.get("retail_price"));
             int quantity = orderreq.getQuantity();
             int opening_cost = SysUtils.String2int("" + goodMap.get("opening_cost"));
-            int totalprice = (retail_price + opening_cost) * quantity;
+            int payprice=0;
+            //3 代理商代购 4 代理商代租赁 5 代理商批购
+            if(3==orderreq.getOrderType()){
+                int retail_price = SysUtils.String2int("" + goodMap.get("retail_price"));
+                payprice=retail_price+opening_cost;
+            }else if(4==orderreq.getOrderType()){
+                int lease_deposit = SysUtils.String2int("" + goodMap.get("lease_deposit"));
+                payprice=lease_deposit+opening_cost;
+            }else if(5==orderreq.getOrderType()){
+                int purchase_price = SysUtils.String2int("" + goodMap.get("purchase_price"));
+                int floor_price = SysUtils.String2int("" + goodMap.get("floor_price"));
+                int floor_purchase_quantity = SysUtils.String2int("" + goodMap.get("floor_purchase_quantity"));
+                if(quantity<floor_purchase_quantity){
+                    return 0; 
+                }
+                int factprice=goodService.setPurchasePrice(orderreq.getCustomerId(), purchase_price, floor_price);
+                payprice=factprice+opening_cost;
+            }else{
+                return 0;
+            }
+            orderreq.setTotalprice(payprice*quantity);
             orderreq.setTotalcount(quantity);
-            orderreq.setTotalprice(totalprice);
-            orderreq.setOrdernumber(SysUtils.getOrderNum(1));
-            orderreq.setType(1);
+            orderreq.setOrdernumber(SysUtils.getOrderNum(orderreq.getOrderType()));
             orderMapper.addOrder(orderreq);
             int price=SysUtils.String2int("" + goodMap.get("price"));
             orderreq.setPrice(price+opening_cost);
-            orderreq.setRetail_price(retail_price+opening_cost);
+            orderreq.setRetail_price(payprice);
             orderMapper.addOrderGood(orderreq);
             return 1;
         } catch (Exception e) {
@@ -53,27 +71,6 @@ public class OrderService {
         }
     }
     
-    public int createOrderFromLease(OrderReq orderreq) {
-        try {
-            Map<String, Object> goodMap = orderMapper.getGoodInfo(orderreq);
-            int lease_deposit = SysUtils.String2int("" + goodMap.get("lease_deposit"));
-            int quantity = orderreq.getQuantity();
-            int opening_cost = SysUtils.String2int("" + goodMap.get("opening_cost"));
-            int totalprice = (lease_deposit + opening_cost) * quantity;
-            orderreq.setTotalcount(quantity);
-            orderreq.setTotalprice(totalprice);
-            orderreq.setOrdernumber(SysUtils.getOrderNum(2));
-            orderreq.setType(2);
-            orderMapper.addOrder(orderreq);
-            orderreq.setPrice(lease_deposit+opening_cost);
-            orderreq.setRetail_price(lease_deposit+opening_cost);
-            orderMapper.addOrderGood(orderreq);
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
     
     
     /**

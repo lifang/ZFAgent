@@ -135,10 +135,10 @@
      
      
       <select id="getHasBuyCount" resultType="int" >
-        select IFNULL( (
+         select IFNULL( (
     	SELECT SUM(o.total_quantity)  from orders o 
-		LEFT JOIN agents a on a.customer_id =o.customer_id
-		where o.types=5 and o.status=1 and a.id=#{id}),0)as quantity
+		where o.types=5 and o.status=1 and o.customer_id=#{customerid}
+   		 ),0)as quantity
      </select>
 	
 </mapper>

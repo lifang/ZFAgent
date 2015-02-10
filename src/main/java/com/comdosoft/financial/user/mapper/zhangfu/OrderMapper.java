@@ -12,7 +12,6 @@ public interface OrderMapper {
 
     void addOrder(OrderReq orderreq);
 
-    List<Map<String, Object>> getGoodInfos(OrderReq orderreq);
 
     void addOrderGood(OrderReq orderreq);
 

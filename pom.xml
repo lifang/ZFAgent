@@ -3,10 +3,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.comdosoft.financial</groupId>
-	<artifactId>ZFMerchant</artifactId>
+	<artifactId>ZFAgent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<description>zhang fu merchant system</description>
+	<name>ZFMerchant</name>
+	<description>zhang fu agent system</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -125,7 +126,7 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>ZFMerchant</finalName>
+		<finalName>ZFAgent</finalName>
 		<defaultGoal>package</defaultGoal>
 		<plugins>
 			<plugin>
@@ -165,5 +166,4 @@
 		</plugins>
 	</build>
 
-	<name>ZFAgent</name>
 </project>

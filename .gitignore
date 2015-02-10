@@ -5,6 +5,3 @@
 /.springBeans
 /.idea/
 /ZFManager.iml
-
-src/main/resources/config/local.properties
-*.properties

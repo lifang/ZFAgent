@@ -15,8 +15,8 @@
 						#{parentId},#{status},#{isHaveProfit},now(),now(),#{code},#{cardIdPhotoPath},#{taxRegisteredNo},#{licenseNoPicPath},#{taxNoPicPath})
 	</insert>
 
-	<select id="doLogin" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
- 		SELECT COUNT(*) 
+	<select id="doLogin" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="object">
+ 		SELECT id 
  		FROM customers 
  		WHERE username=#{username} and password=#{password} and types=#{types}
  	</select>

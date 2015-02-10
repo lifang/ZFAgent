@@ -52,14 +52,21 @@ public class TerminalsController {
 			@PathVariable("indexPage") Integer page,
 			@PathVariable("pageNum") Integer pageNum) {
 		try {
+			Integer status = 0; 
 			PageRequest PageRequest = new PageRequest(page, pageNum);
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(terminalsService.getTerminalList(
-					customersId, offSetPage, pageNum));
+					customersId, offSetPage, pageNum,status));
 		} catch (Exception e) {
 			return Response.getError("请求失败！");
 		}
 	}
+	
+	/*@RequestMapping(value="getTerminalList/{status}",method=RequestMethod.GET)
+	public void getTerminalList(@PathVariable("status") Integer status){
+		return Response.getSuccess(terminalsService.getTerminalList(
+				customersId, offSetPage, pageNum,status));
+	}*/
 
 	/**
 	 * 进入终端详情

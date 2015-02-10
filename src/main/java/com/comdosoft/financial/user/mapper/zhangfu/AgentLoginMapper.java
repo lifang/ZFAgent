@@ -22,7 +22,7 @@ public interface AgentLoginMapper {
 	 * @param customer
 	 * @return
 	 */
-	int doLogin(Customer customer);
+	Object doLogin(Customer customer);
 	
 	/**
 	 * 找回密码

@@ -31,6 +31,9 @@
 		FROM terminals
 		WHERE
 		customer_id=#{id}
+		<if test="status!=0">
+		AND status = #{status}
+		</if>
 		ORDER BY created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 	</select>

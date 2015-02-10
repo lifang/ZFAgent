@@ -28,11 +28,12 @@ public class TerminalsService {
 	 * @return
 	 */
 	public List<Map<Object, Object>> getTerminalList(Integer id,
-			Integer offSetPage, Integer pageSize) {
+			Integer offSetPage, Integer pageSize,Integer Status) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("offSetPage", offSetPage);
 		map.put("pageSize", pageSize);
+		map.put("status", 0);
 		return terminalsMapper.getTerminalList(map);
 	}
 

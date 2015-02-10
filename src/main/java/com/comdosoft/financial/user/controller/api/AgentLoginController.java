@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,15 +54,16 @@ public class AgentLoginController {
 	public Response agentLogin(@RequestBody Customer customer) {
 		try {
 			customer.setTypes(Customer.TYPE_AGENT);
-			int count = agentLoginService.doLogin(customer);
-			if(count>0){
+			Object count = agentLoginService.doLogin(customer);
+			if(count!=null){
 				agentLoginService.updateLastLoginedAt(customer);
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("customerId", count);
 				//登陆成功并且获得权限
-				return Response.getSuccess(agentLoginService.Toestemming(customer));
-			}else if(count==0){
+				map.put("Machtigingen", agentLoginService.Toestemming(customer));
+				return Response.getSuccess(map);
+			} else {
 				return Response.getError("用户名或密码错误！");
-			}else{
-				return Response.getError("异常登录！");
 			}
 		} catch (Exception e) {
 			return Response.getError("系统异常！");

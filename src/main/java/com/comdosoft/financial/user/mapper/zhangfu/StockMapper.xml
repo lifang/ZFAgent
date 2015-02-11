@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.StockMapper">
+  
+     
+     <select id="getStockTotal" resultType="int" >
+        SELECT  count(DISTINCT g.id) from terminals t 
+		LEFT JOIN goods g on t.good_id=g.id 
+		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
+		where g.id is not null 
+		AND  t.agent_id in (SELECT id FROM agents where id=#{agents_id} or parent_id=#{agents_id})
+     </select>
+     
+     <select id="getStockList" resultType="map" >
+        SELECT DISTINCT g.id as good_id,pc.id as paychannel_id,IFNULL(agn.name,g.title) as goodname ,gb.name as good_brand,g.Model_number,pc.name as paychannel from terminals t 
+		LEFT JOIN goods g on t.good_id=g.id 
+		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
+		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agents_id}
+		where g.id is not null AND  t.agent_id in 
+		(SELECT id FROM agents where id=#{agents_id} or parent_id=#{agents_id})
+     </select>
+     
+     <update id="rename">
+         uptate agent_good_names set name=#{goodname} where good_id=#{good_id}
+         and agent_id=#{agents_id}
+     </update>
+     
+     <select id="getHoitoryCount" resultType="int" >
+       SELECT  count(DISTINCT t.id) from terminals t 
+	   where  t.agent_id in 
+	   (SELECT id FROM agents where id=#{agents_id} or parent_id=#{agents_id})
+       and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+     </select>
+     
+     <select id="getOpenCount" resultType="int" >
+       SELECT  count(DISTINCT t.id) from terminals t 
+	   where  t.agent_id in 
+	   (SELECT id FROM agents where id=#{agents_id} or parent_id=#{agents_id})
+       and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+       and t.status=1
+     </select>
+     
+     <select id="getAgentCount" resultType="int" >
+       SELECT  count(DISTINCT t.id) from terminals t 
+	   where  t.agent_id in 
+	   (SELECT id FROM agents where id=#{agents_id} or parent_id=#{agents_id})
+       and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+       and t.customer_id is null
+     </select>
+     
+     <select id="getTotalCount" resultType="int" >
+       SELECT  count(DISTINCT t.id) from terminals t 
+	   where  t.agent_id =#{agents_id} 
+       and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+       and t.customer_id is null
+     </select>
+	
+</mapper>

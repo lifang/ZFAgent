@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.PrepareGoodMapper">
+  
+      <insert id="add"  parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
+		insert into prepare_goods_records(agent_id,good_id,quantity,created_at,updated_at,
+		process_user_id,terminal_list,pay_channel_id)
+		VALUES (#{son_agents_id},#{good_id},#quantity},NOW(),NOW(),
+		#{customer_id},#{terminal_list},#{paychannel_id})
+ 	 </insert>
+  
+    <update id="upTerminal_AgentId" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
+         UPDATE terminals set agent_id=#{son_agents_id} where serial_num=#{serial_num}
+     </update>
+     
+     <select id="getPrepareGoodList" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
+            SELECT pgr.id,a.company_name,pgr.quantity,  
+            DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') as created_at
+            from prepare_goods_records pgr
+            LEFT JOIN agents a on a.id=pgr.agent_id
+			where (process_user_id in 
+			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agents_id}) OR
+			process_user_id=(SELECT customer_id from agents WHERE id=#{agents_id}))
+			<if test="startTime!=null">
+			   <![CDATA[ and pgr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			</if>
+			<if test="endTime!=null">
+			   <![CDATA[ and pgr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			</if>
+			<if test="son_agents_id!=0">
+			   <![CDATA[ and pgr.agent_id=#{son_agents_id} ]]>
+			</if>
+     </select>
+      <select id="getPrepareGoodTotal" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">
+            SELECT count(*) from prepare_goods_records 
+			where (process_user_id in 
+			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agents_id}) OR
+			process_user_id=(SELECT customer_id from agents WHERE id=#{agents_id}))
+			<if test="startTime!=null">
+			   <![CDATA[ and created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			</if>
+			<if test="endTime!=null">
+			   <![CDATA[ and created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			</if>
+			<if test="son_agents_id!=0">
+			   <![CDATA[ and agent_id=#{son_agents_id} ]]>
+			</if>
+     </select>
+     
+      <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">
+			SELECT pgr.id,a.company_name ,pgr.created_at,pgr.quantity,pgr.terminal_list ,c.name
+			from prepare_goods_records pgr
+			LEFT JOIN agents a on a.id=pgr.agent_id
+			LEFT JOIN customers c on c.id=pgr.process_user_id
+			where pgr.id=#{id}
+     </select>
+     
+</mapper>

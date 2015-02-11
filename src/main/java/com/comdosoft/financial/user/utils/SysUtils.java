@@ -280,9 +280,9 @@ public class SysUtils {
      * @param s
      * @return
      */
-    public static int String2int(String s) {
+    public static int Object2int(Object o) {
         try {
-            return Integer.valueOf(s.trim());
+            return Integer.valueOf(o.toString().trim());
         } catch (Exception e) {
             return 0;
         }

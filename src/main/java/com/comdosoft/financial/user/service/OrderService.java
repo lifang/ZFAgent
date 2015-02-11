@@ -33,24 +33,28 @@ public class OrderService {
         try {
             Map<String, Object> goodMap = orderMapper.getGoodInfo(orderreq);
             int quantity = orderreq.getQuantity();
-            int opening_cost = SysUtils.String2int("" + goodMap.get("opening_cost"));
+            int opening_cost = SysUtils.Object2int(goodMap.get("opening_cost"));
             int payprice=0;
+            int price=0;
             //3 代理商代购 4 代理商代租赁 5 代理商批购
             if(3==orderreq.getOrderType()){
-                int retail_price = SysUtils.String2int("" + goodMap.get("retail_price"));
+                int retail_price = SysUtils.Object2int(goodMap.get("retail_price"));
                 payprice=retail_price+opening_cost;
+                price=SysUtils.Object2int(goodMap.get("price"))+opening_cost;
             }else if(4==orderreq.getOrderType()){
-                int lease_deposit = SysUtils.String2int("" + goodMap.get("lease_deposit"));
+                int lease_deposit = SysUtils.Object2int(goodMap.get("lease_deposit"));
                 payprice=lease_deposit+opening_cost;
+                price=payprice;
             }else if(5==orderreq.getOrderType()){
-                int purchase_price = SysUtils.String2int("" + goodMap.get("purchase_price"));
-                int floor_price = SysUtils.String2int("" + goodMap.get("floor_price"));
-                int floor_purchase_quantity = SysUtils.String2int("" + goodMap.get("floor_purchase_quantity"));
+                int purchase_price = SysUtils.Object2int(goodMap.get("purchase_price"));
+                int floor_price = SysUtils.Object2int(goodMap.get("floor_price"));
+                int floor_purchase_quantity = SysUtils.Object2int(goodMap.get("floor_purchase_quantity"));
                 if(quantity<floor_purchase_quantity){
                     return 0; 
                 }
                 int factprice=goodService.setPurchasePrice(orderreq.getCustomerId(), purchase_price, floor_price);
                 payprice=factprice+opening_cost;
+                price=SysUtils.Object2int(goodMap.get("price"))+opening_cost;
             }else{
                 return 0;
             }
@@ -58,8 +62,8 @@ public class OrderService {
             orderreq.setTotalcount(quantity);
             orderreq.setOrdernumber(SysUtils.getOrderNum(orderreq.getOrderType()));
             orderMapper.addOrder(orderreq);
-            int price=SysUtils.String2int("" + goodMap.get("price"));
-            orderreq.setPrice(price+opening_cost);
+            
+            orderreq.setPrice(price);
             orderreq.setRetail_price(payprice);
             orderMapper.addOrderGood(orderreq);
             return 1;

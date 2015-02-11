@@ -17,4 +17,12 @@ public interface StockMapper {
 
     List<Map<String, Object>> getInfo(StockReq req);
 
+    int getHoitoryCount(StockReq req);
+
+    int getOpenCount(StockReq req);
+
+    int getAgentCount(StockReq req);
+
+    int getTotalCount(StockReq req);
+
 }

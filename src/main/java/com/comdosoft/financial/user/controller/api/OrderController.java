@@ -69,7 +69,7 @@ public class OrderController {
         }
     }    
     
-    @RequestMapping(value="comment" ,method=RequestMethod.POST)
+    @RequestMapping(value="saveComment" ,method=RequestMethod.POST)
     public Response comment(@RequestBody MyOrderReq myOrderReq ) {
         try{
             orderService.comment(myOrderReq);
@@ -83,9 +83,6 @@ public class OrderController {
     
    //  gch  end
   
-    
-  
-    
     @RequestMapping(value = "agent", method = RequestMethod.POST)
     public Response createOrderFromAgent(@RequestBody OrderReq orderreq){
         Response resp=new Response();

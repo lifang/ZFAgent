@@ -8,7 +8,7 @@ public class CsRepair {
 	private Integer processUserId;
 	private String processUserName;
 	private Integer terminalId;
-	private OrderStatus status;
+	private RepairStatus status;
 	private Integer repairPrice;
 	private Byte payTypes;
 	private Integer receiveAddressId;
@@ -93,19 +93,19 @@ public class CsRepair {
 	}
 
 
-	/**  
-     * 获取 ThisfieldwasgeneratedbyMyBatisGenerator.Thisfieldcorrespondstothedatabasecolumncs_repairs.status@mbggenerated  
-     * @return ThisfieldwasgeneratedbyMyBatisGenerator.Thisfieldcorrespondstothedatabasecolumncs_repairs.status@mbggenerated
+    /**  
+     * 获取 status  
+     * @return status
      */
-    public OrderStatus getStatus() {
+    public RepairStatus getStatus() {
         return status;
     }
 
     /**  
-     * 设置 ThisfieldwasgeneratedbyMyBatisGenerator.Thisfieldcorrespondstothedatabasecolumncs_repairs.status@mbggenerated  
-     * @param ThisfieldwasgeneratedbyMyBatisGenerator.Thisfieldcorrespondstothedatabasecolumncs_repairs.status@mbggenerated
+     * 设置 status  
+     * @param status
      */
-    public void setStatus(OrderStatus status) {
+    public void setStatus(RepairStatus status) {
         this.status = status;
     }
 

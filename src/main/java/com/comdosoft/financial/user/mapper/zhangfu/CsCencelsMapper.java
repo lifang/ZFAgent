@@ -9,8 +9,10 @@ public interface CsCencelsMapper {
 
     List<Map<String, Object>> findAll(MyOrderReq myOrderReq);
 
-    void cancelApply(MyOrderReq myOrderReq);
+    void changeStatus(MyOrderReq myOrderReq);
 
-    Object findById(MyOrderReq myOrderReq);
+    Map<String, Object> findById(MyOrderReq myOrderReq);
+
+    List<Map<String, Object>> findTraceById(MyOrderReq myOrderReq);
 
 }

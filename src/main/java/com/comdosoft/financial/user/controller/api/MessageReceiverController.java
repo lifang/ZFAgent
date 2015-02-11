@@ -1,5 +1,9 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -47,6 +51,12 @@ public class MessageReceiverController {
         try{
             logger.debug("获取我的消息详情 start");
             SysMessage sysMessage = messageReceiverService.findById(myOrderReq.getId());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+            Map<String,String> map = new HashMap<String,String>();
+            map.put("id", sysMessage.getId().toString());
+            map.put("title", sysMessage.getTitle());
+            map.put("create_at",sdf.format(sysMessage.getCreatedAt()));
+            map.put("content", sysMessage.getContent());
             logger.debug("获取我的消息详情 end"+sysMessage);
             return Response.getSuccess(sysMessage);
         }catch(Exception e){

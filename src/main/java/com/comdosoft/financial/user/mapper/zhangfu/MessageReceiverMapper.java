@@ -7,7 +7,7 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
 
 public interface MessageReceiverMapper {
 
-    List<Object> findAll(PageRequest request,int person_id);
+    List<SysMessage> findAll(PageRequest request,int person_id);
 
     int count(int person_id);
 

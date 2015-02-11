@@ -28,7 +28,15 @@ public enum RepairStatus {
     /**
      * 已取消
      */
-    CANCEL(4,"已取消");
+    CANCEL(4,"已取消"),
+    /**
+     * 待处理
+     */
+    PENDING(5,"待处理"),
+    /**
+     * 处理中
+     */
+    PROCESS(6,"处理中");
     private Integer code;
     private String name;
     /**  
@@ -63,6 +71,14 @@ public enum RepairStatus {
         this.code = code;
         this.name = name;
     }
-   
     
+    public static String getName(int code){
+        String status_name = null;
+        for (RepairStatus s : RepairStatus.values()){  
+            if(s.getCode() == code){
+                status_name = s.getName();
+            }
+        }
+        return status_name;
+    }
 }

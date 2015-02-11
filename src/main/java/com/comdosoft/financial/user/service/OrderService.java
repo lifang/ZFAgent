@@ -25,11 +25,9 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
 public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
-    
     @Autowired
     private  GoodService goodService;
 
- 
     
     public int createOrderFromAgent(OrderReq orderreq) {
         try {
@@ -102,7 +100,8 @@ public class OrderService {
             if (olist.size() > 0) {
                 for (OrderGood od : olist) {
                     omap = new HashMap<String, Object>();
-                    omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId().toString());
+                    omap.put("order_good_id", od.getId().toString());
+                    omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId().toString());
                     omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                     omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
@@ -111,8 +110,10 @@ public class OrderService {
                     String good_logo = "";
                     if(null !=od.getGood()){
                         Good g = od.getGood();
-                        if(g.getPicsList().size()>0){
-                            GoodsPicture gp  = g.getPicsList().get(0);
+                        Integer gid = g.getId();
+                        List<GoodsPicture> list = orderMapper.findPicByGoodId(gid);
+                        if(list.size()>0){
+                            GoodsPicture gp  = list.get(0);
                             good_logo = gp.getUrlPath();
                         }
                     }
@@ -165,6 +166,7 @@ public class OrderService {
         if (olist.size() > 0) {
             for (OrderGood od : olist) {
                 omap = new HashMap<String, Object>();
+//                omap.put("order_good_id", od.getId().toString());
                 omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId().toString());
                 omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());

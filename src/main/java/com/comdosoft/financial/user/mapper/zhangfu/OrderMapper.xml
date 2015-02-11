@@ -110,21 +110,30 @@
 	<select id="findMyOrderAll" resultMap="orderMap" >
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,
-		o.order_number,	o.created_at,	o.status,gp.id as pic_id,
-		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,
+		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,
 		pc.name as channel_name,og.price ,	og.quantity ,
 		o.actual_price ,total_price,o.total_quantity as total_num
 		FROM	
 		orders o
 		LEFT JOIN order_goods og ON o.id = og.order_id
 		LEFT JOIN goods g ON og.good_id = g.id
-		LEFT JOIN goods_pictures gp ON g.id = gp.good_id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		WHERE
 		o.customer_id = #{param2}
 		order by o.created_at desc
-		LIMIT #{param1.page},#{param1.pageSize}
+		LIMIT #{param1.offset},#{param1.pageSize}
+	</select>
+	
+	<select id="findPicByGoodId" resultMap="picsResultMap" >
+		SELECT
+		gp.id as pic_id,
+		gp.url_path 
+		FROM	
+		goods_pictures gp 
+		WHERE
+		 gp.good_id = #{param1}
+		order by gp.id desc
 	</select>
 	
 	<select id="findMyOrderById" resultMap="orderMap">
@@ -157,13 +166,13 @@
     
     <insert id="comment" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.GoodComment">
 		INSERT into good_comments 
-		(score,content,customer_id,order_id,good_id,created_at)
-		VALUES(#{score},#{centent},#{customer_id},#{id},#{good_id},NOW())
+		(score,content,customer_id,order_good_id,created_at)
+		VALUES(#{score},#{centent},#{customer_id},#{order_good_id},NOW())
   </insert>
     
 	<!-- gch end -->
 	
-	 <!-- jwb -->
+	<!-- jwb -->
 	 <insert id="addOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
 		INSERT into orders 
 		(order_number,customer_id,total_price,status,types,

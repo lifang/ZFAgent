@@ -6,6 +6,8 @@ public class MyOrderReq {
     private Integer id;//业务id
     private String[] ids;
     private Integer page ;//当前页数
+    @SuppressWarnings("unused")
+    private Integer offset;
     private Integer pageSize ;//每页大小
     private Integer customer_id;//用户id
     private String centent;//内容
@@ -14,10 +16,25 @@ public class MyOrderReq {
     private RepairStatus repairStatus;
     private Integer score;//分数
     private Integer good_id;
+    private Integer order_good_id;
     private String computer_name;
     private String track_number;
     
     
+    /**  
+     * 获取 order_good_id  
+     * @return order_good_id
+     */
+    public Integer getOrder_good_id() {
+        return order_good_id;
+    }
+    /**  
+     * 设置 order_good_id  
+     * @param order_good_id
+     */
+    public void setOrder_good_id(Integer order_good_id) {
+        this.order_good_id = order_good_id;
+    }
     /**  
      * 获取 computer_name  
      * @return computer_name
@@ -192,7 +209,7 @@ public class MyOrderReq {
      * @return pageSize
      */
     public Integer getPageSize() {
-        if(null == pageSize) pageSize = 20;
+        if(null == pageSize) pageSize = 10;
         return pageSize;
     }
     /**  
@@ -228,5 +245,10 @@ public class MyOrderReq {
     public String toString() {
         return "MyOrderReq [id=" + id + ", ids=" + Arrays.toString(ids) + ", page=" + page + ", pageSize=" + pageSize + ", customer_id=" + customer_id + ", centent=" + centent + ", payType=" + payType + ", orderStatus=" + orderStatus + ", repairStatus=" + repairStatus + "]";
     }
-    
+    public int getOffset() {
+        if(page>0){
+            return (page - 1) * pageSize;
+        }
+        return 0;
+    }
 }

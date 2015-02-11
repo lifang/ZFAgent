@@ -73,7 +73,7 @@ public class AgentLoginController {
 	
 	
 	/**
-	 * 发送手机验证码
+	 * 发送手机验证码(找回密码)
 	 * @param number
 	 */
 	@RequestMapping(value = "sendPhoneVerificationCode/{codeNumber}", method = RequestMethod.GET)
@@ -82,8 +82,6 @@ public class AgentLoginController {
 			Customer customer = new Customer();
 			customer.setUsername(codeNumber);
 			if(agentLoginService.findUname(customer)>0){
-				return Response.getError("该手机已注册！");
-			}else{
 				char[] randchar=SysUtils.getRandNum(6);
 				String str ="";
 				for(int i=0;i<randchar.length;i++){
@@ -92,6 +90,8 @@ public class AgentLoginController {
 				customer.setDentcode(str);
 				agentLoginService.updateDentcode(customer);
 				return Response.getSuccess(str);
+			}else{
+				return Response.getError("该用户不存在！");
 			}
 		}catch(Exception e){
 			return Response.getError("获取验证码失败！");
@@ -116,12 +116,11 @@ public class AgentLoginController {
 	public Response updatePassword(@RequestBody Customer customer,HttpSession session){
 		try {
 			if(customer.getCode().equals(agentLoginService.findCode(customer))){
-				customer.setPassword(SysUtils.Encryption(customer.getPassword(),passPath));
 				if(agentLoginService.findUname(customer)>0){
 					agentLoginService.updatePassword(customer);
 					return Response.getSuccess("找回密码成功！");
 				}else{
-					return Response.getError("用户名错误！");
+					return Response.getError("该用户不存在！");
 				}
 			}else{
 				return Response.getError("验证码错误！");
@@ -144,7 +143,7 @@ public class AgentLoginController {
 			Agent agent =new Agent();
 			customer.setUsername((String) map.get("username"));
 			if(agentLoginService.findUname(customer)>0){
-				return Response.getError("用户已存在！");
+				return Response.getError("用户已注册！");
 			}else{
 				//查找该城市中是否有状态为正常的代理商
 				customer.setStatus(Customer.STATUS_NORMAL);
@@ -154,12 +153,7 @@ public class AgentLoginController {
 				}else{
 					//向用户表添加数据
 					customer.setPassword((String)map.get("password"));
-					if((Integer)map.get("accountType")==0){
-						customer.setAccountType(false);
-					}
-					if((Integer)map.get("accountType")==1){
-						customer.setAccountType(true);
-					}
+					customer.setAccountType((Integer)map.get("accountType"));
 					customer.setTypes(Customer.TYPE_AGENT);
 					customer.setStatus(Customer.STATUS_NON_ACTIVE);
 					customer.setPhone((String)map.get("phone"));

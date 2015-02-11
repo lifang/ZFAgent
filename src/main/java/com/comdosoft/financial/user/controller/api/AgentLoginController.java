@@ -185,7 +185,7 @@ public class AgentLoginController {
 						agent.setCustomerId(customer.getId());
 						agent.setAddress((String)map.get("address"));
 						agent.setFormTypes(Agent.FROM_TYPE_1);
-						agent.setStatus(Agent.STATUS_NON_ACTIVE);
+						agent.setStatus(Agent.STATUS_1);
 						agent.setParentId(0);
 						agent.setIsHaveProfit(Agent.IS_HAVE_PROFIT_N);
 						agent.setCardIdPhotoPath((String)map.get("cardIdPhotoPath"));

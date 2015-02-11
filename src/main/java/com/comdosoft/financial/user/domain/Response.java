@@ -1,19 +1,22 @@
 package com.comdosoft.financial.user.domain;
 
 /**
- * <br>
+ * 系统接口返回消息体<br>
  * <功能描述>
- *
+ * 
  * @author Java-007 2015年2月7日
- *
+ * 
  */
 public class Response {
 
     public static final Integer SUCCESS_CODE = 1;
+
     public static final Integer ERROR_CODE = -1;
 
     private Integer code;
-    private String message;
+
+    private String message = "处理成功";
+
     private Object result;
 
     public Integer getCode() {
@@ -41,31 +44,31 @@ public class Response {
     }
 
     public static Response getSuccess() {
-        Response r = new Response();
-        r.code = SUCCESS_CODE;
-        return r;
+        Response response = new Response();
+        response.code = SUCCESS_CODE;
+        return response;
     }
 
     public static Response getSuccess(Object result) {
-        Response r = new Response();
-        r.code = SUCCESS_CODE;
-        r.result = result;
-        return r;
+        Response response = new Response();
+        response.code = SUCCESS_CODE;
+        response.result = result;
+        return response;
     }
 
     public static Response getError(String message) {
-        Response r = new Response();
-        r.code = ERROR_CODE;
-        r.message = message;
-        return r;
+        Response response = new Response();
+        response.code = ERROR_CODE;
+        response.message = message;
+        return response;
     }
 
     public static Response buildSuccess(Object result, String message) {
-        Response r = new Response();
-        r.code = SUCCESS_CODE;
-        r.result = result;
-        r.message = message;
-        return r;
+        Response response = new Response();
+        response.code = SUCCESS_CODE;
+        response.result = result;
+        response.message = message;
+        return response;
     }
 
 }

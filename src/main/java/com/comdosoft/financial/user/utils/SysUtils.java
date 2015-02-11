@@ -122,7 +122,7 @@ public class SysUtils {
      */
     public static char[] getRandNum(int n) {
         char[] rand = new char[n];
-        String str = "123456789qwertyuipkjhgfdsaxcvbnmQWERTYUIPLKJHGFDSAXCVBNM";
+        String str = "23456789qwertyuipkjhgfdsacvbnmQWERTYUPLKJHGFDSACVBNM";
         for (int i = 0; i < n; i++) {
             Random rd = new Random();
             int index = rd.nextInt(str.length());
@@ -131,6 +131,21 @@ public class SysUtils {
             rand[i] = str.charAt(index);
         }
         return rand;
+    }
+
+    /**
+     * 随机产生N位验证码
+     * 
+     * @return 字符串
+     */
+    public static String getRandNumberString(int n) {
+        char[] rand = new char[n];
+        String str = "23456789qwertyuipkjhgfdsacvbnmQWERTYUPLKJHGFDSACVBNM";
+        for (int i = 0; i < n; i++) {
+            int index = new Random().nextInt(str.length());
+            rand[i] = str.charAt(index); // 通过下标获取字符
+        }
+        return String.valueOf(rand);
     }
 
     /**

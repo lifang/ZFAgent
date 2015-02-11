@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.AgentMapper">
+
+	<select id="getOne" resultType="map">
+	<![CDATA[
+		SELECT a.id, a.types, a.company_name, a.business_license, a.tax_registered_no, a.name, a.card_id, a.phone, a.email,
+			   a.address, a.card_id_photo_path, a.license_no_pic_path, a.tax_no_pic_path,
+			   c.username, c.city_id
+		  FROM agents a JOIN customers c ON a.customer_id = c.id
+		 WHERE customer_id = #{customerId}
+	]]>
+	</select>
+
+	<select id="getOneCustomer" resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+	<![CDATA[
+		SELECT phone, email, dentcode, password
+		  FROM customers
+		 WHERE id = #{customerId}
+	]]>
+	</select>
+
+	<update id="updateCustomer">
+		UPDATE customers
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="phone != null and phone !=''">phone = #{phone},</if>
+			<if test="email != null and email !=''">email = #{email},</if>
+			<if test="dentcode != null and dentcode !=''">dentcode = #{dentcode},</if>
+			<if test="password != null and password !=''">password = #{password}</if>
+		</trim>
+		WHERE id = #{customerId}
+	</update>
+
+	<update id="update">
+		UPDATE agents
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="phone != null and phone !=''">phone = #{phone},</if>
+			<if test="email != null and email !=''">email = #{email}</if>
+		</trim>
+		WHERE customer_id = #{customerId}
+	</update>
+
+	<select id="getAddressList" resultType="map">
+	<![CDATA[
+		SELECT id, receiver, moblephone, address
+		  FROM customer_addresses
+		 WHERE customer_id = #{customerId}
+	]]>
+	</select>
+
+	<select id="getOneAddress" resultType="map">
+	<![CDATA[
+		SELECT id, city_id, receiver, moblephone, zip_code, address, is_default
+		  FROM customer_addresses
+		 WHERE id = #{id}
+	]]>
+	</select>
+
+	<insert id="insertAddress" useGeneratedKeys="true" keyProperty="id">
+	<![CDATA[
+		INSERT INTO customer_addresses (city_id, receiver, moblephone, zip_code, address, is_default, customer_id)
+		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{zipCode},  #{address},  #{isDefault},  #{customerId})
+	]]>
+	</insert>
+
+	<update id="updateAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default = #{is_default}
+		 WHERE customer_id = #{customerId}
+	]]>
+	</update>
+
+	<delete id="deleteAddress">
+	<![CDATA[
+		DELETE FROM customer_addresses WHERE id = #{id}
+	]]>
+	</delete>
+
+</mapper>

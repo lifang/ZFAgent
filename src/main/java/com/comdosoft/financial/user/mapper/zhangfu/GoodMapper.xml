@@ -5,8 +5,8 @@
   
      <select id="getGoodById" resultType="map" >
        SELECT g.id,g.Title,g.second_title,gb.name as good_brand,g.Model_number,pc.name as category,
-       g.volume_number,g.retail_price,g.price,
-       g.has_purchase,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,
+       g.volume_number,g.retail_price,g.price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,
+       g.has_lease,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,
        g.shell_material,g.battery_info,dsow.sign_order_way,decw.encrypt_card_way,
        g.factory_id,g.description
 	   from goods g 
@@ -19,16 +19,19 @@
      
   
     <select id="getGoodsList" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
-         SELECT DISTINCT g.id,g.Title,g.has_purchase,b.name as good_brand,g.Model_number,g.volume_number,
-	     g.retail_price,g.total_score
+         SELECT DISTINCT g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,
+	     g.retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score
 		 from goods g 
     	 LEFT JOIN good_brands b on g.good_brands_id=b.id
          LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
          LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
     	 where g.status=5 and is_published=1 and pc.id in 
-         (SELECT sa.id from support_areas sa where sa.city_id=#{city_id} and sa.support_type=1)
-    	 <if test="has_purchase==1">
+         (SELECT sa.id from support_areas sa where sa.city_id=(SELECT city_id from customers where id=#{customer_id}) and sa.support_type=1)
+    	 <if test="type==1">
     	     and g.has_purchase=1
+    	 </if>
+    	 <if test="has_lease==1">
+    	     and g.has_lease=1
     	 </if>
     	 <if test="keys!=null">
 		   and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
@@ -75,7 +78,7 @@
 		<if test="orderType==4">
 		   order by g.total_score desc
 		</if>
-		LIMIT #{paging.offset}, #{paging.rows}
+		LIMIT #{offset}, #{rows}
     </select>
     
     
@@ -85,7 +88,7 @@
  		from pay_channels pc 
  		LEFT JOIN goods_pay_channels gpc on gpc.pay_channel_id=pc.id
  		where gpc.good_id=#{goodId} and pc.status=5 and pc.id in 
-         (SELECT sa.id from support_areas sa where sa.city_id=#{city_id} and sa.support_type=1)
+         (SELECT sa.id from support_areas sa where sa.city_id=(SELECT city_id from customers where id=#{customer_id}) and sa.support_type=1)
      </select>
      
      <select id="getgoodPics" resultType="String">
@@ -105,7 +108,7 @@
      <select id="getPay_channel_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
 		SELECT DISTINCT pc.id,pc.name as value from support_areas sa 
 		LEFT JOIN pay_channels pc on pc.id=sa.pay_channel_id and sa.support_type=1
-		and sa.city_id=#{city_id} where pc.id is not null
+		and sa.city_id=(SELECT city_id from customers where id=#{customer_id}) where pc.id is not null
      </select>
      <select id="getPay_card_ids" resultType="map">
         SELECT id,card_type as value from dictionary_card_types
@@ -114,7 +117,7 @@
         SELECT DISTINCT dtt.id,dtt.trade_value as value from support_areas sa 
 	    LEFT JOIN support_trade_types stt on stt.pay_channel_id=sa.pay_channel_id 
 	    LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id  
-	    where sa.city_id=#{city_id} and sa.support_type=1 AND dtt.id is not null
+	    where sa.city_id=(SELECT city_id from customers where id=#{customer_id}) and sa.support_type=1 AND dtt.id is not null
      </select>
      <select id="getSale_slip_ids" resultType="map">
         SELECT id,sign_order_way as value from dictionary_sign_order_ways
@@ -123,11 +126,19 @@
         SELECT DISTINCT dbc.id,dbc.name as value from support_areas sa 
 	    LEFT JOIN pay_channel_billing_cycles pcbc on pcbc.pay_channel_id=sa.pay_channel_id 
 	    LEFT JOIN dictionary_billing_cycles dbc on pcbc.billing_cycles_id=dbc.id 
-	    where sa.city_id=#{city_id} and sa.support_type=1 and dbc.id is not null
+	    where sa.city_id=(SELECT city_id from customers where id=#{customer_id}) and sa.support_type=1 and dbc.id is not null
      </select>
      
        <select id="getFactoryById" resultType="map" >
        SELECT * from factories where id=#{factoryId}
+     </select>
+     
+     
+      <select id="getHasBuyCount" resultType="int" >
+         select IFNULL( (
+    	SELECT SUM(o.total_quantity)  from orders o 
+		where o.types=5 and o.status=1 and o.customer_id=#{customerid}
+   		 ),0)as quantity
      </select>
 	
 </mapper>

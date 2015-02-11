@@ -26,7 +26,7 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
  * 终端管理<br>
  * <功能描述>
  *
- * @author xfh 2015年2月7日
+ * @author xfh 2015年2月10日
  *
  */
 @RestController
@@ -52,10 +52,34 @@ public class TerminalsController {
 			@PathVariable("indexPage") Integer page,
 			@PathVariable("pageNum") Integer pageNum) {
 		try {
+			Integer status = 0; 
 			PageRequest PageRequest = new PageRequest(page, pageNum);
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(terminalsService.getTerminalList(
-					customersId, offSetPage, pageNum));
+					customersId, offSetPage, pageNum,status));
+		} catch (Exception e) {
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 根据状态选择查询
+	 * @param status
+	 * @param customersId
+	 * @param page
+	 * @param pageNum
+	 * @return
+	 */
+	@RequestMapping(value="getTerminalList/{customersId}/{indexPage}/{pageNum}/{status}",method=RequestMethod.GET)
+	public Response getTerminalList(@PathVariable("status") Integer status,
+			@PathVariable("customersId") Integer customersId,
+			@PathVariable("indexPage") Integer page,
+			@PathVariable("pageNum") Integer pageNum){
+		try {
+			PageRequest PageRequest = new PageRequest(page, pageNum);
+			int offSetPage = PageRequest.getOffset();
+			return Response.getSuccess(terminalsService.getTerminalList(
+					customersId, offSetPage, pageNum,status));
 		} catch (Exception e) {
 			return Response.getError("请求失败！");
 		}
@@ -87,6 +111,25 @@ public class TerminalsController {
 		}
 	}
 
+	/**
+	 * 获得代理商下面的商户
+	 * @param customerId
+	 * @return
+	 */
+	@RequestMapping(value="getMerchants/{customerId}")
+	public Response getMerchants(@PathVariable("customerId") Integer customerId){
+		try {
+			return Response.getSuccess(terminalsService.getMerchants(customerId));
+		} catch (Exception e) {
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	
+	
+	
+	
+	
 	/**
 	 * 收单通道
 	 */
@@ -136,6 +179,8 @@ public class TerminalsController {
 		}
 
 	}
+	
+	
 
 	/**
 	 * 找回POS机密码

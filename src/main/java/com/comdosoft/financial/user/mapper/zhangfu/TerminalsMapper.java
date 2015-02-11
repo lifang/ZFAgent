@@ -105,5 +105,14 @@ public interface TerminalsMapper {
      * @return
      */
     String findPassword(Integer id);
+    
+    /**
+     * 获得代理商下面的用户
+     * @param customerId
+     * @return
+     */
+    List<Map<String, Object>> getMerchants(int customerId);
+    
+    int getTerminalsNum();
 
 }

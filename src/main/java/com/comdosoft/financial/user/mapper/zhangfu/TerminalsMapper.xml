@@ -31,6 +31,9 @@
 		FROM terminals
 		WHERE
 		customer_id=#{id}
+		<if test="status!=0">
+		AND status = #{status}
+		</if>
 		ORDER BY created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
@@ -67,7 +70,7 @@
 	</select>
 
 	<select id="getTrackRecord" parameterType="int" resultType="map">
-		SELECT s.created_at,s.content,c.`name`
+		SELECT date_format(s.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,s.content,c.`name`
 		FROM terminals t LEFT
 		JOIN opening_applies i ON t.id=i.terminal_id
 		LEFT JOIN
@@ -105,5 +108,15 @@
 		SELECT password
 		FROM terminals
 		WHERE id=#{id}
+	</select>
+	
+	<select id="getMerchants" parameterType="int" resultType="map">
+		SELECT  id,title  FROM merchants 
+		WHERE merchants.customer_id =#{customerId}
+	</select>
+	
+	<select id="getTerminalsNum" parameterType="int" resultSets="int">
+		SELECT  count(*)  FROM terminals 
+		WHERE serial_num =#{TerminalsNum}
 	</select>
 </mapper>

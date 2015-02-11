@@ -21,7 +21,7 @@ public class AgentLoginService {
 	 * @param customer
 	 * @return
 	 */
-	public int doLogin(Customer customer){
+	public Object doLogin(Customer customer){
 		return agentLoginMapper.doLogin(customer);
 	}
 	

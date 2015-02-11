@@ -20,6 +20,16 @@ public class Terminal {
     public static final int TerminalTYPEID_3 = 3;
     
     /**
+     * 已注销
+     */
+    public static final int TerminalTYPEID_4 = 4;
+    
+    /**
+     * 以停用
+     */
+    public static final int TerminalTYPEID_5 = 5;
+    
+    /**
      * 是否回到售后库（否）
      */
     public static final int IS_RETURN_CS_DEPOTS_NO = 0;

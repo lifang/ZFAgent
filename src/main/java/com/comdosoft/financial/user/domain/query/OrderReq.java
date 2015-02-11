@@ -8,17 +8,14 @@ public class OrderReq {
     private String ordernumber;
     private int totalprice;
     private int totalcount;
-    private String cartids;
     private int price;
     private int retail_price;
     
-    private int[] cartid;
     
     private int goodId;
     private int paychannelId;
     private int quantity;
-    
-    private int type;
+    private int orderType;
     private int customerId;
     private int addressId;
     private String comment;
@@ -43,24 +40,14 @@ public class OrderReq {
         this.customerId = customerId;
     }
     
-    public int getType() {
-        return type;
-    }
-    public void setType(int type) {
-        this.type = type;
-    }
+
     public int getAddressId() {
         return addressId;
     }
     public void setAddressId(int addressId) {
         this.addressId = addressId;
     }
-    public int[] getCartid() {
-        return cartid;
-    }
-    public void setCartid(int[] cartid) {
-        this.cartid = cartid;
-    }
+
     public int getGoodId() {
         return goodId;
     }
@@ -85,12 +72,7 @@ public class OrderReq {
     public void setTotalprice(int totalprice) {
         this.totalprice = totalprice;
     }
-    public String getCartids() {
-        return cartids;
-    }
-    public void setCartids(String cartids) {
-        this.cartids = cartids;
-    }
+
    
     public String getComment() {
         return comment;
@@ -139,6 +121,12 @@ public class OrderReq {
     }
     public void setRetail_price(int retail_price) {
         this.retail_price = retail_price;
+    }
+    public int getOrderType() {
+        return orderType;
+    }
+    public void setOrderType(int orderType) {
+        this.orderType = orderType;
     }
     
     

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.comdosoft.financial.user.domain.query.PosReq;
 import com.comdosoft.financial.user.mapper.zhangfu.CommentMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.GoodMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.SysconfigMapper;
 import com.comdosoft.financial.user.utils.SysUtils;
 
 @Service
@@ -23,10 +24,18 @@ public class GoodService {
     
     @Autowired
     private PayChannelService pcService;
+    
+    @Autowired
+    private SysconfigMapper sysconfigMapper;
 
     public List<?> getGoodsList(PosReq posreq) {
         List<Map<String, Object>> list = goodMapper.getGoodsList(posreq);
         for (Map<String, Object> map : list) {
+            if(1==posreq.getType()){
+                map.put("purchase_price", setPurchasePrice(
+                        posreq.getCustomer_id(),SysUtils.String2int(""+map.get("purchase_price")),
+                        SysUtils.String2int(""+map.get("floor_price"))));
+            }
             int id = Integer.valueOf("" + map.get("id"));
             // 支付通道
             posreq.setGoodId(id);
@@ -43,11 +52,16 @@ public class GoodService {
         return list;
     }
 
-    public Map<String, Object> getGoods(PosReq posreq) {
+    public Map<String, Object> getGoodInfo(PosReq posreq) {
         Map<String, Object> goodInfoMap = null;
         // 商品信息
         Map<String, Object> goodinfo = goodMapper.getGoodById(posreq.getGoodId());
         int id = SysUtils.String2int("" + goodinfo.get("id"));
+        if(1==posreq.getType()){
+            goodinfo.put("purchase_price", setPurchasePrice(
+                    posreq.getCustomer_id(),SysUtils.String2int(""+goodinfo.get("purchase_price")),
+                    SysUtils.String2int(""+goodinfo.get("floor_price"))));
+        }
         if (id > 0) {
             goodInfoMap = new HashMap<String, Object>();
             goodInfoMap.put("goodinfo", goodinfo);
@@ -70,10 +84,11 @@ public class GoodService {
                 Map<String, Object> factoryMap = goodMapper.getFactoryById(factoryId);
                 goodInfoMap.put("factory", factoryMap);
             }
-
         }
         return goodInfoMap;
     }
+    
+    
 
     public Map<String, Object> getSearchCondition(PosReq posreq) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -102,5 +117,18 @@ public class GoodService {
         map.put("tDate", list7);
         return map;
     }
-
+    
+    public int setPurchasePrice(int customerid,int purchasePrice,int leasePrice){
+        int hasBuyCount=goodMapper.getHasBuyCount(customerid);
+        int totalMoney=10000;//总交易流水金额
+        Map<String,Object> map1=sysconfigMapper.getValue("shopcount");
+        Map<String,Object> map2=sysconfigMapper.getValue("totalmoney");
+        if(hasBuyCount>=SysUtils.String2int(""+map1.get("value"))){
+            purchasePrice=purchasePrice*(10000-SysUtils.String2int(""+map1.get("remark")))/10000;
+        }
+        if(totalMoney>=SysUtils.String2int(""+map2.get("value"))){
+            purchasePrice=purchasePrice*(10000-SysUtils.String2int(""+map2.get("remark")))/10000;
+        }
+        return purchasePrice>leasePrice?purchasePrice:leasePrice;
+    }
 }

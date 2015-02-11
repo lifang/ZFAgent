@@ -175,14 +175,14 @@ public class AgentLoginController {
 						}
 						agent.setName((String)map.get("name"));
 						agent.setCardId((String)map.get("cardId"));
-						agent.setTypes((Boolean)map.get("types"));
+						agent.setTypes((Integer)map.get("types"));
 						agent.setCompanyName((String)map.get("companyName"));
 						agent.setBusinessLicense((String)map.get("businessLicense"));
 						agent.setPhone((String)map.get("phone"));
 						agent.setEmail((String)map.get("email"));
 						agent.setCustomerId(customer.getId());
 						agent.setAddress((String)map.get("address"));
-						agent.setFormTypes(Agent.FROM_TYPE_RE);
+						agent.setFormTypes(Agent.FROM_TYPE_1);
 						agent.setStatus(Agent.STATUS_NON_ACTIVE);
 						agent.setParentId(0);
 						agent.setIsHaveProfit(Agent.IS_HAVE_PROFIT_N);

@@ -28,12 +28,12 @@ public class TerminalsService {
 	 * @return
 	 */
 	public List<Map<Object, Object>> getTerminalList(Integer id,
-			Integer offSetPage, Integer pageSize,Integer Status) {
+			Integer offSetPage, Integer pageSize,Integer status) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("offSetPage", offSetPage);
 		map.put("pageSize", pageSize);
-		map.put("status", 0);
+		map.put("status", status);
 		return terminalsMapper.getTerminalList(map);
 	}
 
@@ -124,5 +124,13 @@ public class TerminalsService {
 		return terminalsMapper.findPassword(id);
 	}
 
+	/**
+	 * 获得代理商下面的商户
+	 * @param customerId
+	 * @return
+	 */
+	public  List<Map<String, Object>> getMerchants(int customerId){
+		return terminalsMapper.getMerchants(customerId);
+	}
 
 }

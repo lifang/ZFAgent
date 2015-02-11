@@ -12,8 +12,29 @@ import com.comdosoft.financial.user.domain.zhangfu.Merchant;
  * @author xianfeihu
  *
  */
-public interface TerminalsMapper {
+public interface UserManagementMapper {
 
+	/**
+	 * 获得该代理商所有相关用户
+	 * @param customerId
+	 * @return
+	 */
+	List<Map<String, Object>> getUser(int customerId);
+	
+	/**
+	 * 删除用户与代理商之间的关联
+	 * @param id
+	 */
+	void delectAgentUser(int id);
+	
+	
+	
+	
+	
+	
+	
+	
+	
     /**
      * <!-- 查询交易流水用 -->
      * 

@@ -12,14 +12,44 @@ import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.UserManagementMapper;
 
 @Service
-public class TerminalsService {
+public class UserManagementService {
+	@Resource
+	private UserManagementMapper userManagementMapper;
+	
 	@Resource
 	private OpeningApplyMapper openingApplyMapper;
-
+	
 	@Resource
 	private TerminalsMapper terminalsMapper;
+	
+	/**
+	 * 获得该代理商所有相关用户
+	 * @param customerId
+	 * @return
+	 */
+	public List<Map<String, Object>> getUser(int customerId){
+		return userManagementMapper.getUser(customerId);
+	}
+
+	/**
+	 * 删除用户与代理商之间的关联
+	 * @param id
+	 */
+	public void delectAgentUser(int id){
+		userManagementMapper.delectAgentUser(id);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 获得终端列表
 	 * 

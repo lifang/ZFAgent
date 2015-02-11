@@ -19,6 +19,7 @@ import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.service.TerminalsService;
+import com.comdosoft.financial.user.service.UserManagementService;
 import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -32,15 +33,62 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
  */
 @RestController
 @RequestMapping(value = "/api/terminal")
-public class TerminalsController {
+public class UserManagementController {
 	 private static final Logger logger = LoggerFactory.getLogger(WebMessageController.class);
 	
 	@Resource
+	private UserManagementService userManagementService;
+	
+	@Resource
 	private TerminalsService terminalsService;
-
+	
 	@Value("${passPath}")
 	private String passPath;
 
+	
+	/**
+	 * 获得该代理商有关联的所有用户
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "getUser/{customerId}", method = RequestMethod.GET)
+	public Response getUser(
+			@PathVariable("customersId") Integer customersId
+			) {
+		try {
+			return Response.getSuccess(userManagementService.getUser(customersId));
+		} catch (Exception e) {
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 根据ID删除与该代理商的关联
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="delectAgentUser/{id}")
+	public Response delectAgentUser(@PathVariable("id") Integer id){
+		try{
+			userManagementService.delectAgentUser(id);
+			return Response.getSuccess("删除成功！");
+		}catch(Exception e){
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 根据用户ID获得终端列表
 	 * 

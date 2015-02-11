@@ -30,7 +30,7 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
  * 开通申请<br>
  * <功能描述>
  *
- * @author xfh 2015年2月5日
+ * @author xfh 2015年2月11日
  *
  */
 @RestController

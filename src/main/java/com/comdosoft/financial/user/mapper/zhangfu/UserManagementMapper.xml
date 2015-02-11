@@ -3,6 +3,32 @@
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper">
 
 
+	<select id="getUser" resultType="map" parameterType="int">
+		SELECT m.id,m.`name` from agents a 
+		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id
+		LEFT JOIN customers m ON c.customer_id=m.id
+		WHERE a.customer_id = #{customerId}
+	</select>
+
+	<delete id="delectAgentUser" parameterType="int">
+		DELETE customer_agent_relations
+		WHERE id = #{id}
+	</delete>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<insert id="addMerchants" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
 		INSERT into
 		merchants(title,customer_id,created_at)

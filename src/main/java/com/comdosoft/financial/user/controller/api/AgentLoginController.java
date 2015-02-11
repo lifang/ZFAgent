@@ -79,11 +79,17 @@ public class AgentLoginController {
 	@RequestMapping(value = "sendPhoneVerificationCode/{codeNumber}", method = RequestMethod.GET)
 	public Response sendPhoneVerificationCode(@PathVariable("codeNumber") String codeNumber,HttpSession session){
 		try{
+			Customer customer = new Customer();
+			customer.setUsername(codeNumber);
 			char[] randchar=SysUtils.getRandNum(6);
 			String str ="";
 			for(int i=0;i<randchar.length;i++){
 				str+=randchar[i];
 			}
+			customer.setPassword("0");
+			customer.setCityId(0);
+			customer.setDentcode(str);
+			//customer.setStatus(Customer);
 			session.setAttribute("code", str);
 			return Response.getSuccess(str);
 		}catch(Exception e){

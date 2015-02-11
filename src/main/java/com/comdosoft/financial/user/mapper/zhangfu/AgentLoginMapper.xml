@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.AgentLoginMapper">
-
+	
 	<insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		INSERT  into customers(username,password,city_id,account_type,types,phone,email,created_at,status)
 		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{status})
@@ -31,6 +31,11 @@
 		WHERE username=#{username}
 	</update>
 	
+	<update id="updateDentcode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		UPDATE customers set dentcode=#{dentcode}
+		WHERE username=#{username}
+	</update>
+	
 	<select id="findUname" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
 		SELECT COUNT(*) from customers 
 		WHERE username=#{username}
@@ -50,5 +55,10 @@
 		LEFT JOIN role_menus m ON m.role_id = r.role_id
 		LEFT JOIN menus s ON s.id = m.menu_id
 		WHERE C.username=#{username}
+	</select>
+	
+	<select id="findCode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="string">
+		SELECT dentcode from customers
+		WHERE username=#{username}
 	</select>
 </mapper>

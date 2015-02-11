@@ -44,6 +44,12 @@ public interface AgentLoginMapper {
 	int findUname(Customer customer);
 	
 	/**
+	 * 修改验证码
+	 * @param customer
+	 */
+	void updateDentcode(Customer customer);
+	
+	/**
 	 * 修改登录时间
 	 * @param customer
 	 */
@@ -74,4 +80,11 @@ public interface AgentLoginMapper {
 	 * @return
 	 */
 	List<Map<String, String>> Toestemming(Customer customer);
+	
+	/**
+	 * 获取验证码
+	 * @param customer
+	 * @return
+	 */
+	String findCode(Customer customer);
 }

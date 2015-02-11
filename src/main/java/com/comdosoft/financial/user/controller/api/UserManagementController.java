@@ -34,7 +34,7 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
 @RestController
 @RequestMapping(value = "/api/terminal")
 public class UserManagementController {
-	 private static final Logger logger = LoggerFactory.getLogger(WebMessageController.class);
+	 private static final Logger logger = LoggerFactory.getLogger(UserManagementController.class);
 	
 	@Resource
 	private UserManagementService userManagementService;

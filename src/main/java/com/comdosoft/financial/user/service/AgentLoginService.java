@@ -51,6 +51,14 @@ public class AgentLoginService {
 	}
 	
 	/**
+	 * 修改验证码
+	 * @param customer
+	 */
+	public void updateDentcode(Customer customer){
+		agentLoginMapper.updateDentcode(customer);
+	}
+	
+	/**
 	 * 修改登陆时间
 	 * @param customer
 	 */
@@ -90,5 +98,14 @@ public class AgentLoginService {
 	 */
 	public List<Map<String, String>> Toestemming(Customer customer){
 		return agentLoginMapper.Toestemming(customer);
+	}
+	
+	/**
+	 * 获得验证码
+	 * @param customer
+	 * @return
+	 */
+	public String findCode(Customer customer){
+		return agentLoginMapper.findCode(customer);
 	}
 }

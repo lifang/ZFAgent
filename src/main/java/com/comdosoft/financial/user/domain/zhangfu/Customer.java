@@ -7,47 +7,47 @@ public class Customer {
     /**
      * 未激活
      */
-    public static final Byte STATUS_NON_ACTIVE = 0;
+    public static final Byte STATUS_NON_ACTIVE = 1;
 
     /**
      * 正常
      */
-    public static final Byte STATUS_NORMAL = 1;
+    public static final Byte STATUS_NORMAL = 2;
 
     /**
      * 停用
      */
-    public static final Byte STATUS_STOP = 5;
+    public static final Byte STATUS_STOP = 3;
 
     /**
-     * 0 普通用户/商户
+     * 1 普通用户/商户
      */
-    public static final Byte TYPE_CUSTOMER = 0;
+    public static final Byte TYPE_CUSTOMER = 1;
 
     /**
-     * 1 代理商
+     * 2 代理商
      */ 
-    public static final Byte TYPE_AGENT = 1;
+    public static final Byte TYPE_AGENT = 2;
 
     /**
-     * 2 运营
+     * 3 运营
      */
-    public static final Byte TYPE_OPERATE = 2;
+    public static final Byte TYPE_OPERATE = 3;
 
     /**
-     * 3 超级管理员
+     * 4 超级管理员
      */
-    public static final Byte TYPE_SUPER = 3;
+    public static final Byte TYPE_SUPER = 4;
 
     /**
-     * 4 第三方机构
+     * 5 第三方机构
      */
-    public static final Byte TYPE_THIRD_PARTY = 4;
+    public static final Byte TYPE_THIRD_PARTY = 5;
 
     /**
-     * 5 代理商员工
+     * 6 代理商员工
      */
-    public static final Byte TYPE_AGENT_STAFF = 5;
+    public static final Byte TYPE_AGENT_STAFF = 6;
 
     /**
      * 0手机号
@@ -176,17 +176,6 @@ public class Customer {
      */
     private String code;
     
-    private String dentcode;
-    
-    
-
-    public String getDentcode() {
-		return dentcode;
-	}
-
-	public void setDentcode(String dentcode) {
-		this.dentcode = dentcode;
-	}
 
 	public String getCode() {
         return code;

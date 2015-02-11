@@ -77,21 +77,22 @@ public class AgentLoginController {
 	 * @param number
 	 */
 	@RequestMapping(value = "sendPhoneVerificationCode/{codeNumber}", method = RequestMethod.GET)
-	public Response sendPhoneVerificationCode(@PathVariable("codeNumber") String codeNumber,HttpSession session){
+	public Response sendPhoneVerificationCode(@PathVariable("codeNumber") String codeNumber){
 		try{
 			Customer customer = new Customer();
 			customer.setUsername(codeNumber);
-			char[] randchar=SysUtils.getRandNum(6);
-			String str ="";
-			for(int i=0;i<randchar.length;i++){
-				str+=randchar[i];
+			if(agentLoginService.findUname(customer)>0){
+				return Response.getError("该手机已注册！");
+			}else{
+				char[] randchar=SysUtils.getRandNum(6);
+				String str ="";
+				for(int i=0;i<randchar.length;i++){
+					str+=randchar[i];
+				}
+				customer.setDentcode(str);
+				agentLoginService.updateDentcode(customer);
+				return Response.getSuccess(str);
 			}
-			customer.setPassword("0");
-			customer.setCityId(0);
-			customer.setDentcode(str);
-			//customer.setStatus(Customer);
-			session.setAttribute("code", str);
-			return Response.getSuccess(str);
 		}catch(Exception e){
 			return Response.getError("获取验证码失败！");
 		}
@@ -114,7 +115,7 @@ public class AgentLoginController {
 	@RequestMapping(value = "updatePassword", method = RequestMethod.POST)
 	public Response updatePassword(@RequestBody Customer customer,HttpSession session){
 		try {
-			if(customer.getCode().equals(session.getAttribute("code"))){
+			if(customer.getCode().equals(agentLoginService.findCode(customer))){
 				customer.setPassword(SysUtils.Encryption(customer.getPassword(),passPath));
 				if(agentLoginService.findUname(customer)>0){
 					agentLoginService.updatePassword(customer);

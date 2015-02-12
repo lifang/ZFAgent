@@ -26,6 +26,11 @@ public class StockService {
     private GoodMapper goodMapper;
 
     public Map<String, Object> getList(StockReq req) {
+        String code=stockMapper.getAgentCode(req.getAgents_id());
+        if(null==code||code.length()<3){
+            return null;
+        }
+        req.setCode(code);
         Map<String, Object> map=new HashMap<String, Object>();
         int total=stockMapper.getStockTotal(req);
         map.put("total", total);
@@ -48,8 +53,26 @@ public class StockService {
         return map;
     }
 
-    public List<Map<String, Object>> getInfo(StockReq req) {
-        return stockMapper.getInfo(req);
+    public Map<String, Object> getInfo(StockReq req) {
+        Map<String, Object> resultmap=new HashMap<String, Object>();
+        if(null==req.getAgentname()){
+            req.setAgentname("");
+        }
+        int total =stockMapper.getSonAgentCount(req);
+        resultmap.put("total", total);
+        List<Map<String, Object>> list=stockMapper.getSonAgent(req);
+        if(null!=list&&list.size()>0){
+            for (Map<String, Object> map : list) {
+                req.setAgents_id(SysUtils.Object2int( map.get("id")));
+                req.setCode(stockMapper.getAgentCode(req.getAgents_id()));
+             //   map.put("hoitoryCount", stockMapper.getHoitoryCount(req));
+                map.put("openCount", stockMapper.getOpenCount(req));
+                map.put("lastPrepareTime", stockMapper.getLastPrepareTime(req));
+                map.put("lastOpenTime", stockMapper.getLastOpenTime(req));
+            }
+        }
+        resultmap.put("list", list);
+        return resultmap;
     }
 
     public int rename(StockReq req) {
@@ -61,6 +84,15 @@ public class StockService {
             return 0;
         }
         
+    }
+
+    public Map<String, Object> getTerminalList(StockReq req) {
+        Map<String, Object> map=new HashMap<String, Object>();
+        int total=stockMapper.getTerminalTotal(req);
+        map.put("total", total);
+        List<Map<String, Object>> list=stockMapper.getTerminalList(req);
+        map.put("list", list);
+        return map;
     }
     
 

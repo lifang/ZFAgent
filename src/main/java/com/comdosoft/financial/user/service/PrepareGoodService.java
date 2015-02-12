@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.comdosoft.financial.user.domain.query.PrepareGoodReq;
 import com.comdosoft.financial.user.mapper.zhangfu.PrepareGoodMapper;
 import com.comdosoft.financial.user.utils.Param;
+import com.comdosoft.financial.user.utils.SysUtils;
 
 
 @Service
@@ -59,6 +60,32 @@ public class PrepareGoodService {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public List<Map<String, Object>> getSonAgent(PrepareGoodReq req) {
+        return prepareGoodMapper.getSonAgent(req);
+    }
+
+    public List<Map<String, Object>> getGoodList(PrepareGoodReq req) {
+        return prepareGoodMapper.getGoodList(req);
+    }
+
+    public List<Map<String, Object>> getPayChannelList(PrepareGoodReq req) {
+        return prepareGoodMapper.getPayChannelList(req);
+    }
+
+    public Map<String, Object> getTerminalsList(PrepareGoodReq req) {
+        if(null!=req.getSerial_nums()&&req.getSerial_nums().length>0){
+            req.setTerminal_list(SysUtils.Arry2Str(req.getSerial_nums()));
+        }else{
+            req.setTerminal_list(null);
+        }
+        Map<String, Object> map=new HashMap<String, Object>();
+        int total=prepareGoodMapper.getTerminalTotal(req);
+        map.put("total", total);
+        List<Map<String, Object>> list=prepareGoodMapper.getTerminalList(req);
+        map.put("list", list);
+        return map;
     }
 
     

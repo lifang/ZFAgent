@@ -32,6 +32,7 @@
 			<if test="son_agents_id!=0">
 			   <![CDATA[ and (egr.from_agent_id=#{son_agents_id} or egr.to_agent_id=#{son_agents_id} )  ]]>
 			</if>
+			LIMIT #{offset}, #{rows}
      </select>
      
    <select id="getExchangeGoodTotal" parameterType="com.comdosoft.financial.user.domain.query.ExchangeGoodReq" resultType="int">
@@ -53,11 +54,28 @@
      
       <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.ExchangeGoodReq" resultType="map">
             SELECT egr.id,a.company_name fromname,a2.company_name toname,egr.quantity,egr.terminals_list,
-            DATE_FORMAT(egr.created_at,'%Y-%m-%d %H:%i:%s') as created_at,egr.quantity  
+            DATE_FORMAT(egr.created_at,'%Y-%m-%d %H:%i:%s') as created_at,egr.quantity ,c.name as creator
 			from exchange_goods_records egr
             LEFT JOIN agents a on a.id=egr.from_agent_id
             LEFT JOIN agents a2 on a2.id=egr.to_agent_id
+            LEFT JOIN customers c on c.id=egr.customer_id
 			where egr.id=#{id}
+     </select>
+     
+     
+     <select id="getTerminalTotal"  resultType="int">
+		SELECT count(t.id)
+	    from terminals t 
+		where t.agent_id=#{from_agent_id} and t.customer_id is null 
+     </select>
+     
+     <select id="getTerminalList"  resultType="map">
+		SELECT t.serial_num,(pc.opening_cost+g.retail_price) as money
+	    from terminals t 
+	    LEFT JOIN goods g on t.good_id=g.id 
+	    LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
+		where t.agent_id=#{from_agent_id} and t.customer_id is null 
+		LIMIT #{offset}, #{rows}
      </select>
 	
 </mapper>

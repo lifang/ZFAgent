@@ -15,7 +15,6 @@ public interface StockMapper {
 
     void rename(StockReq req);
 
-    List<Map<String, Object>> getInfo(StockReq req);
 
     int getHoitoryCount(StockReq req);
 
@@ -24,5 +23,19 @@ public interface StockMapper {
     int getAgentCount(StockReq req);
 
     int getTotalCount(StockReq req);
+
+    String getAgentCode(int agents_id);
+
+    List<Map<String, Object>> getSonAgent(StockReq req);
+
+    String getLastPrepareTime(StockReq req);
+
+    String getLastOpenTime(StockReq req);
+
+    int getTerminalTotal(StockReq req);
+
+    List<Map<String, Object>> getTerminalList(StockReq req);
+
+    int getSonAgentCount(StockReq req);
 
 }

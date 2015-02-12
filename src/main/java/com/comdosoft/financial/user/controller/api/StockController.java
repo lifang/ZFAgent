@@ -1,7 +1,6 @@
 package com.comdosoft.financial.user.controller.api;
 
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class StockController {
     @RequestMapping(value = "info", method = RequestMethod.POST)
     public Response getStockInfo(@RequestBody  StockReq req){
         Response response = new Response();
-        List<Map<String,Object>> stock= stockService.getInfo(req);
+        Map<String,Object> stock= stockService.getInfo(req);
         response.setCode(Response.SUCCESS_CODE);
         response.setResult(stock);
         return response;
@@ -54,4 +53,12 @@ public class StockController {
         return response;
     }
    
+    @RequestMapping(value = "terminallist", method = RequestMethod.POST)
+    public Response getTerminalList(@RequestBody  StockReq req){
+        Response response = new Response();
+        Map<String,Object> terminal= stockService.getTerminalList(req);
+        response.setCode(Response.SUCCESS_CODE);
+        response.setResult(terminal);
+        return response;
+    }
 }

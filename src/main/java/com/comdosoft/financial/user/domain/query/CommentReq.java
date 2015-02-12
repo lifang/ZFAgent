@@ -1,12 +1,11 @@
 package com.comdosoft.financial.user.domain.query;
 
-import com.comdosoft.financial.user.domain.Paging;
 
 public class CommentReq {
 
     private int goodId;
 
-    private Paging paging;
+  
 
     public int getGoodId() {
         return goodId;
@@ -16,12 +15,40 @@ public class CommentReq {
         this.goodId = goodId;
     }
 
-    public Paging getPaging() {
-        return paging;
+    private int page;
+    private int rows;
+    private int offset;
+
+    public int getPage() {
+        return page;
     }
 
-    public void setPaging(Paging paging) {
-        this.paging = paging;
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getRows() {
+        if (rows <= 0) {
+            rows = 10;
+        }
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getOffset() {
+        if (page > 0 && rows > 0) {
+            offset = (page - 1) * rows;
+        } else {
+            offset = 0;
+        }
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
     

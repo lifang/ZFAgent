@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 
+
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.ExchangeGoodReq;
 import com.comdosoft.financial.user.service.ExchangeGoodService;
@@ -55,4 +56,12 @@ public class ExchangeGoodController {
         return response;
     }
    
+    @RequestMapping(value = "getterminalslist", method = RequestMethod.POST)
+    public Response getTerminalsList(@RequestBody  ExchangeGoodReq req){
+        Response response = new Response();
+        response.setCode(Response.SUCCESS_CODE);
+        Map<String,Object> list=exchangeGoodService.getTerminalsList(req);
+        response.setResult(list);
+        return response;
+    }
 }

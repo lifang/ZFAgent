@@ -5,7 +5,7 @@
       <insert id="add"  parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
 		insert into prepare_goods_records(agent_id,good_id,quantity,created_at,updated_at,
 		process_user_id,terminal_list,pay_channel_id)
-		VALUES (#{son_agents_id},#{good_id},#quantity},NOW(),NOW(),
+		VALUES (#{son_agents_id},#{good_id},#{quantity},NOW(),NOW(),
 		#{customer_id},#{terminal_list},#{paychannel_id})
  	 </insert>
   
@@ -30,6 +30,7 @@
 			<if test="son_agents_id!=0">
 			   <![CDATA[ and pgr.agent_id=#{son_agents_id} ]]>
 			</if>
+			LIMIT #{offset}, #{rows}
      </select>
       <select id="getPrepareGoodTotal" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">
             SELECT count(*) from prepare_goods_records 
@@ -47,12 +48,53 @@
 			</if>
      </select>
      
-      <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">
-			SELECT pgr.id,a.company_name ,pgr.created_at,pgr.quantity,pgr.terminal_list ,c.name
+      <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
+			SELECT pgr.id,a.company_name ,DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') created_at,
+			pgr.quantity,pgr.terminal_list ,c.name as creator
 			from prepare_goods_records pgr
 			LEFT JOIN agents a on a.id=pgr.agent_id
 			LEFT JOIN customers c on c.id=pgr.process_user_id
 			where pgr.id=#{id}
+     </select>
+     
+     <select id="getSonAgent"  resultType="map">
+		SELECT id,company_name from agents where parent_id=#{agents_id} and status=2
+     </select>
+     
+     <select id="getGoodList"  resultType="map">
+		SELECT DISTINCT g.id,IFNULL(agn.name,g.title) as goodname from terminals t 
+		LEFT JOIN goods g on t.good_id=g.id 
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id 
+		where t.agent_id=#{agents_id} and t.customer_id is null
+     </select>
+     
+     <select id="getPayChannelList"  resultType="map">
+		SELECT DISTINCT pc.id,pc.name as paychannel 
+    	from terminals t 
+		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
+		where t.agent_id=#{agents_id} and t.customer_id is null
+     </select>
+     
+     
+     <select id="getTerminalTotal"  resultType="int">
+		SELECT count(t.id)
+	    from terminals t 
+		where t.agent_id=#{agents_id} and t.customer_id is null and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+     	<if test="terminal_list!=null">
+		  and t.serial_num in ${terminal_list}
+		</if>
+     </select>
+     
+     <select id="getTerminalList"  resultType="map">
+		SELECT t.serial_num,(pc.opening_cost+g.retail_price) as money
+	    from terminals t 
+	    LEFT JOIN goods g on t.good_id=g.id 
+	    LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
+		where t.agent_id=#{agents_id} and t.customer_id is null and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+		<if test="terminal_list!=null">
+		  and t.serial_num in ${terminal_list}
+		</if>
+		LIMIT #{offset}, #{rows}
      </select>
      
 </mapper>

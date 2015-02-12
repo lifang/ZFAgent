@@ -4,10 +4,18 @@
 
 	<select id="getList" resultType="map">
 	<![CDATA[
-		SELECT id, title, legal_person_name
-		  FROM merchants
-		 WHERE customer_id = #{customerId}
-	  ORDER BY created_at DESC
+		SELECT a.id,
+			   a.types,
+			   a.company_name,
+			   a.name,
+			   DATE_FORMAT(a.created_at, '%Y-%m-%d %T') created_at,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND t.customer_id IS NOT NULL) soldCount,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND t.customer_id IS NULL) inventoryCount,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND t.status = 1 OR t.status = 2) inventoryCount
+		  FROM agents a
+		 WHERE a.parent_id <> 0
+		   AND a.parent_id = #{agentId}
+	  ORDER BY a.created_at DESC
 		 LIMIT #{offset}, #{rows}
 	]]>
 	</select>

@@ -15,8 +15,9 @@
 						#{parentId},#{status},#{isHaveProfit},now(),now(),#{code},#{cardIdPhotoPath},#{taxRegisteredNo},#{licenseNoPicPath},#{taxNoPicPath})
 	</insert>
 
-	<select id="doLogin" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="object">
- 		SELECT id 
+	<select id="doLogin" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+ 		SELECT id,username,account_type as accountType,name,city_id as cityId,types,last_logined_at as lastLoginedAt,
+ 		integral as integral,status,device_code as deviceCode,created_at as createdAt,updated_at as updatedAt,phone,email  
  		FROM customers 
  		WHERE username=#{username} and password=#{password} and types=#{types}
  	</select>

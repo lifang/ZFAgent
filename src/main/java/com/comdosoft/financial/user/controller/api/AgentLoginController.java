@@ -54,11 +54,12 @@ public class AgentLoginController {
 	public Response agentLogin(@RequestBody Customer customer) {
 		try {
 			customer.setTypes(Customer.TYPE_AGENT);
-			Object count = agentLoginService.doLogin(customer);
-			if(count!=null){
+			customer.setStatus(Customer.STATUS_NORMAL);
+			Customer tomer = agentLoginService.doLogin(customer);
+			if(tomer!=null){
 				agentLoginService.updateLastLoginedAt(customer);
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("customerId", count);
+				map.put("customer", tomer);
 				//登陆成功并且获得权限
 				map.put("Machtigingen", agentLoginService.Toestemming(customer));
 				return Response.getSuccess(map);

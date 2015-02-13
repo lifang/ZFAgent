@@ -20,6 +20,12 @@ public interface ExchangeGoodMapper {
     Map<String, Object> getInfo(ExchangeGoodReq req);
 
     void upTerminal_AgentId(ExchangeGoodReq req);
+
+    int getTerminalTotal(ExchangeGoodReq req);
+
+    List<Map<String, Object>> getTerminalList(ExchangeGoodReq req);
+
+
     
 
 }

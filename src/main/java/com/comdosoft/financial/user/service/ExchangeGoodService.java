@@ -61,6 +61,15 @@ public class ExchangeGoodService {
         }
     }
 
+    public Map<String, Object> getTerminalsList(ExchangeGoodReq req) {
+        Map<String, Object> map=new HashMap<String, Object>();
+        int total=exchangeGoodMapper.getTerminalTotal(req);
+        map.put("total", total);
+        List<Map<String, Object>> list=exchangeGoodMapper.getTerminalList(req);
+        map.put("list", list);
+        return map;
+    }
+
     
     
 

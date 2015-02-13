@@ -265,8 +265,8 @@ public class SysUtils {
         StringBuilder sb = new StringBuilder();
         if (arry != null && arry.length > 0) {
             sb.append("(");
-            for (Object object : arry) {
-                sb.append(object + ",");
+            for (String a : arry) {
+                sb.append("'"+a + "',");
             }
             sb.deleteCharAt(sb.length() - 1);
             sb.append(")");

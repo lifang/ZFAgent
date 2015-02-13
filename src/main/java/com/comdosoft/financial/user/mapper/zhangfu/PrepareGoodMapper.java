@@ -22,6 +22,16 @@ public interface PrepareGoodMapper {
 
     void upTerminal_AgentId(PrepareGoodReq req);
 
+    List<Map<String, Object>> getSonAgent(PrepareGoodReq req);
+
+    List<Map<String, Object>> getGoodList(PrepareGoodReq req);
+
+    List<Map<String, Object>> getPayChannelList(PrepareGoodReq req);
+
+    int getTerminalTotal(PrepareGoodReq req);
+
+    List<Map<String, Object>> getTerminalList(PrepareGoodReq req);
+
    
 
     

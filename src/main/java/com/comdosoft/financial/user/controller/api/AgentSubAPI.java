@@ -14,7 +14,6 @@ import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.service.AgentSubService;
 
 /**
- * 
  * 下级代理商管理<br>
  * <功能描述>
  *
@@ -22,7 +21,7 @@ import com.comdosoft.financial.user.service.AgentSubService;
  *
  */
 @RestController
-@RequestMapping(value = "api/merchant")
+@RequestMapping(value = "api/agentSub")
 public class AgentSubAPI {
 
     @Resource

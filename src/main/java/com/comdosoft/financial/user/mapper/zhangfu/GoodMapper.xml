@@ -49,7 +49,7 @@
 		   and g.pos_category_id in ${categorys}
 		 </if>
 		 <if test="pay_channel_ids!=null">
-		   and pc.id in ${categorys}
+		   and pc.id in ${pay_channel_ids}
 		 </if>
 		 <if test="pay_card_ids!=null">
 		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${pay_card_ids})

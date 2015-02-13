@@ -22,7 +22,7 @@
         SELECT dbc.id,dbc.name,dbc.service_rate,dbc.description 
 		from dictionary_billing_cycles dbc 
 		LEFT JOIN pay_channel_billing_cycles pcbc on pcbc.billing_cycles_id=dbc.id 
-		and pcbc.pay_channel_id=#{pcid}
+		where pcbc.pay_channel_id=#{pcid}
      </select>
   
      <select id="getRequireMaterial_pub" resultType="map" >

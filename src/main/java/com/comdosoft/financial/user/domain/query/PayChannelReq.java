@@ -3,15 +3,17 @@ package com.comdosoft.financial.user.domain.query;
 public class PayChannelReq {
     
     
-     private int id;
+     private int pcid;
 
-    public int getId() {
-        return id;
+    public int getPcid() {
+        return pcid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPcid(int pcid) {
+        this.pcid = pcid;
     }
+
+    
     
      
 

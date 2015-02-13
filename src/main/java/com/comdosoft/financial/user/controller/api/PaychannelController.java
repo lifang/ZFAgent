@@ -22,7 +22,7 @@ public class PaychannelController {
     @RequestMapping(value = "info", method = RequestMethod.POST)
     public Response getGoodsList(@RequestBody  PayChannelReq req){
         Response response = new Response();
-        Map<String,Object> pcInfo= pcService.payChannelInfo(req.getId());
+        Map<String,Object> pcInfo= pcService.payChannelInfo(req.getPcid());
         response.setCode(Response.SUCCESS_CODE);
         response.setResult(pcInfo);
         return response;

@@ -102,7 +102,7 @@
 	
 	<select id="numIsBinding" parameterType="string" resultType="int">
 		SELECT  count(*)  FROM terminals t 
-		LEFT JOIN merchants s 
+		JOIN merchants s 
 		ON t.customer_id = s.customer_id
 		WHERE t.serial_num=#{terminalsNum}
 	</select>

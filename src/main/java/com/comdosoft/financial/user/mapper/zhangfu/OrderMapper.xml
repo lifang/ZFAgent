@@ -90,6 +90,7 @@
 		<id property="id" column="id" />
 		<result property="orderNumber" column="order_number" />
 		<result property="customerId" column="customer_id" />
+		<result property="belongsUserId" column="belongs_user_id" />
 		<result property="totalPrice" column="total_price" />
 		<result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
 		<result property="payedAt" column="payed_at" />
@@ -109,7 +110,6 @@
 		<result property="invoiceType" column="invoice_type" />
 		<result property="comment" column="comment" />
 		<result property="invoiceInfo" column="invoice_info" />
-		<result property="belongsUserId" column="belongs_user_id" />
 		<result property="totalQuantity" column="total_quantity" />
 		<result property="payStatus" column="pay_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
 		<association property="customerAddress" javaType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress" resultMap="addressMap" />  
@@ -236,7 +236,7 @@
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,
 		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
 		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment,
-		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,cc.name,
+		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,
 		o.actual_price ,total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name 
 		FROM	
@@ -249,7 +249,6 @@
 		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
 		LEFT JOIN order_marks om on o.id = om.order_id 
 		LEFT JOIN customers c on om.customer_id = c.id
-		LEFT JOIN customers cc on o.belongs_user_id = c.id
 		WHERE
 		o.id = #{param1}
 	</select>

@@ -299,7 +299,7 @@ public class OrderService {
         return obj_list;
     }
     
-    public Object getProxyById(Integer id) {
+    public Object getProxyById(Integer id) throws ParseException {
         Order o = orderMapper.getProxyById(id);
         List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = new HashMap<String, Object>();
@@ -351,6 +351,10 @@ public class OrderService {
             }
         }
         map.put("order_goodsList", newObjList);
+        MyOrderReq myOrderReq = new MyOrderReq();
+        myOrderReq.setId(id);
+        List<Map<String,Object>> list = orderMapper.findTraceById(myOrderReq);
+        map.put("comments", OrderUtils.getTraceByVoId(myOrderReq, list));
         obj_list.add(map);
         return obj_list;
     }

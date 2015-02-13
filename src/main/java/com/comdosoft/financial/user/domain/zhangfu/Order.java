@@ -37,7 +37,6 @@ public class Order {
 	private List<OrderMark> orderMarkList = new ArrayList<OrderMark>();
 	private OrderPayment orderPayment;
 	
-	
     /**  
      * 获取 belongsUserId  
      * @return belongsUserId

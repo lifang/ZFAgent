@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.OrderMapper">
   <!-- gch start -->
+ <!-- gch start -->
 	<resultMap id="picsResultMap" type="com.comdosoft.financial.user.domain.zhangfu.GoodsPicture">
 		 <id property="id" column="pic_id" />  
          <result property="urlPath" column="url_path" /> 
@@ -100,14 +101,19 @@
 	    <collection property="orderMarkList" ofType="com.comdosoft.financial.user.domain.zhangfu.OrderMark" resultMap="orderMarksMap" />  
 	</resultMap>
 
-	<select id="countMyOrder" resultType="int">
+	<select id="countWholesaleOrder" resultType="int">
+		SELECT count(o.id) as count
+		FROM orders o
+		where o.customer_id = #{param1}
+	</select>
+	<select id="countProxyOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
 		where o.customer_id = #{param1}
 	</select>
 
 	<!-- 我的订单列表 -->
-	<select id="findMyOrderAll" resultMap="orderMap" >
+	<select id="getWholesaleOrder" resultMap="orderMap" >
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,
 		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,
@@ -120,9 +126,29 @@
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		WHERE
-		o.customer_id = #{param2}
+		o.customer_id = #{customer_id}
+		and o.types = 1
 		order by o.created_at desc
-		LIMIT #{param1.offset},#{param1.pageSize}
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="getProxyOrder" resultMap="orderMap" >
+		SELECT
+		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,
+		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,
+		pc.name as channel_name,og.price ,	og.quantity ,
+		o.actual_price ,total_price,o.total_quantity as total_num
+		FROM	
+		orders o
+		LEFT JOIN order_goods og ON o.id = og.order_id
+		LEFT JOIN goods g ON og.good_id = g.id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
+		WHERE
+		o.customer_id = #{customer_id}
+		and o.types = 0
+		order by o.created_at desc
+		LIMIT #{offset},#{pageSize}
 	</select>
 	
 	<select id="findPicByGoodId" resultMap="picsResultMap" >
@@ -166,8 +192,8 @@
     
     <insert id="comment" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.GoodComment">
 		INSERT into good_comments 
-		(score,content,customer_id,order_good_id,created_at)
-		VALUES(#{score},#{centent},#{customer_id},#{order_good_id},NOW())
+		(score,content,customer_id,good_id,order_id,created_at)
+		VALUES(#{score},#{content},#{customer_id},#{good_id},#{order_id},NOW())
   </insert>
     
 	<!-- gch end -->

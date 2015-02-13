@@ -80,11 +80,11 @@ public class OrderService {
      * -------------------------------------------------------------
      * 下gch
      */
-
-    public Page<Object> findMyOrderAll(Integer page,Integer pageSize,Integer pid) {
-        PageRequest request = new PageRequest(page, pageSize);
-        int count = orderMapper.countMyOrder(pid);
-        List<Order> centers = orderMapper.findMyOrderAll(request,pid);
+//获取批购订单
+    public Page<Object> getWholesaleOrder(MyOrderReq myOrderReq) {
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getPageSize());
+        int count = orderMapper.countWholesaleOrder(myOrderReq.getCustomer_id());
+        List<Order> centers = orderMapper.getWholesaleOrder(myOrderReq);
         List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
@@ -94,7 +94,7 @@ public class OrderService {
             map.put("order_number", o.getOrderNumber());
             String d = sdf.format(o.getCreatedAt());
             map.put("order_createTime", d);
-            map.put("order_status", o.getStatus().getName());
+            map.put("order_status", o.getStatus().getCode());
             map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
             map.put("order_totalPrice", o.getActualPrice());
             map.put("order_psf", "0");//配送费
@@ -104,7 +104,6 @@ public class OrderService {
             if (olist.size() > 0) {
                 for (OrderGood od : olist) {
                     omap = new HashMap<String, Object>();
-                    omap.put("order_good_id", od.getId().toString());
                     omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId().toString());
                     omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
@@ -119,13 +118,62 @@ public class OrderService {
                         if(list.size()>0){
                             GoodsPicture gp  = list.get(0);
                             good_logo = gp.getUrlPath();
+                            omap.put("good_logo", good_logo);
                         }
                     }
-                    omap.put("good_logo", good_logo);
                     newObjList.add(omap);
                 }
+                map.put("order_goodsList", newObjList);
             }
-            map.put("order_goodsList", newObjList);
+            obj_list.add(map);
+        }
+        return new Page<Object>(request, obj_list, count);
+    }
+//    获取代购订单
+    public Page<Object> getProxyOrder(MyOrderReq myOrderReq) {
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getPageSize());
+        int count = orderMapper.countProxyOrder(myOrderReq.getCustomer_id());
+        List<Order> centers = orderMapper.getProxyOrder(myOrderReq);
+        List<Object> obj_list = new ArrayList<Object>();
+        Map<String,Object> map = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        for(Order o : centers){
+            map = new HashMap<String, Object>();
+            map.put("order_id", o.getId().toString());
+            map.put("order_number", o.getOrderNumber());
+            String d = sdf.format(o.getCreatedAt());
+            map.put("order_createTime", d);
+            map.put("order_status", o.getStatus().getCode());
+            map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
+            map.put("order_totalPrice", o.getActualPrice());
+            map.put("order_psf", "0");//配送费
+            List<OrderGood> olist = o.getOrderGoodsList();
+            List<Object> newObjList = new ArrayList<Object>();
+            Map<String, Object> omap = null;
+            if (olist.size() > 0) {
+                for (OrderGood od : olist) {
+                    omap = new HashMap<String, Object>();
+                    omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId().toString());
+                    omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
+                    omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
+                    omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
+                    omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
+                    omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName());
+                    String good_logo = "";
+                    if(null !=od.getGood()){
+                        Good g = od.getGood();
+                        Integer gid = g.getId();
+                        List<GoodsPicture> list = orderMapper.findPicByGoodId(gid);
+                        if(list.size()>0){
+                            GoodsPicture gp  = list.get(0);
+                            good_logo = gp.getUrlPath();
+                            omap.put("good_logo", good_logo);
+                        }
+                    }
+                    newObjList.add(omap);
+                }
+                map.put("order_goodsList", newObjList);
+            }
             obj_list.add(map);
         }
         return new Page<Object>(request, obj_list, count);
@@ -140,14 +188,13 @@ public class OrderService {
         Order o = orderMapper.findMyOrderById(id);
         List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = new HashMap<String, Object>();
-        map.put("order_id", o.getId().toString());
+        map.put("order_id", o.getId()==null ?"":o.getId().toString());
         map.put("order_number", o.getOrderNumber());//订单编号
         map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         String d = sdf.format(o.getCreatedAt());
         map.put("order_createTime", d);//订单日期
-//        map.put("order_pay_status", o.getPayStatus().getName());
-        map.put("order_status", o.getStatus().getName());
+        map.put("order_status", o.getStatus().getCode());
         map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
         map.put("order_totalPrice", o.getActualPrice());
         map.put("order_psf", "");//配送费
@@ -170,7 +217,6 @@ public class OrderService {
         if (olist.size() > 0) {
             for (OrderGood od : olist) {
                 omap = new HashMap<String, Object>();
-//                omap.put("order_good_id", od.getId().toString());
                 omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId().toString());
                 omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());

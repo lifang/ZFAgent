@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.CsUpdateInfoMapper">
-<!-- 更新资料 -->
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.CsAgentsMapper">
+<!--注销 -->
 	<select id="count" resultType="int" >
-		SELECT count(o.id) as count 
+		SELECT count(o.id) as count
 		FROM
-			cs_update_infos o
+			cs_agents o
 		WHERE
 			o.customer_id = #{customer_id}
 		ORDER BY
 			o.created_at DESC
 	</select>
 	
-	<select id="findAll" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo">
+	<select id="findAll" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgent">
 		SELECT
 			o.id,
 			o.created_at,
 			o.status,
-			t.serial_num,
+			o.terminals_list,
+			o.terminals_quantity,
 			o.apply_num
 		FROM
-			cs_update_infos o
-			LEFT JOIN terminals t ON o.terminal_id = t.id
+			cs_agents o
 		WHERE
 			o.customer_id = #{customer_id}
 		ORDER BY
@@ -29,19 +29,15 @@
 		LIMIT #{offset},#{pageSize}
 	</select>
 	
-		<select id="findById" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo">
-			SELECT
+	<select id="findById" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgent">
+		SELECT
 			o.id,
 			o.`status` AS apply_status,
 			o.created_at AS apply_time,
-			t.serial_num,
-			gb.`name` AS brand_name,
-			g.model_number AS brand_number,
-			pc.`name` as zhifu_pt, m.title AS merchant_name,
-			m.phone AS mer_phone
+			o.terminals_quantity,o.terminals_list,
+			o.address,o.reason
 		FROM
-			cs_update_infos o
-		LEFT JOIN terminals t ON o.terminal_id = t.id
+			cs_agents o
 		LEFT JOIN goods g ON t.good_id = g.id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON t.pay_channel_id = pc.id
@@ -50,20 +46,20 @@
 			o.id = #{id}
 	</select>
 	
-		<select id="findTraceById" resultType="map" >
+	<select id="findTraceById" resultType="map" >
 		SELECT
 			crm.content AS marks_content,
 			crm.created_at,
 			c.`name` AS marks_person
 		FROM
-			 cs_update_info_marks crm 
+			  cs_agent_marks crm 
 		LEFT JOIN customers c ON crm.customer_id = c.id
 		WHERE
-	         crm.cs_update_info_id = #{id}
+		crm.cs_agent_id = #{id}
 	</select>
 	
-	<update id="cancelApply">
-	update  cs_update_infos 
+	<update id="changeStatus">
+	update  cs_agents 
 	SET STATUS = #{repairStatus.code}
 	where id = #{id}
 	</update>

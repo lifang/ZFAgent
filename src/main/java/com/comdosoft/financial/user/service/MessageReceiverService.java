@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.SysMessage;
 import com.comdosoft.financial.user.mapper.zhangfu.MessageReceiverMapper;
 import com.comdosoft.financial.user.utils.page.Page;
@@ -20,10 +21,10 @@ public class MessageReceiverService {
     @Resource
     private MessageReceiverMapper messageReceiverMapper;
 
-    public Page<Object> findAll(Integer page,Integer pageSize,Integer pid) {
-        PageRequest request = new PageRequest(page, pageSize);
-        int count = messageReceiverMapper.count(pid);
-        List<SysMessage> centers = messageReceiverMapper.findAll(request,pid);
+    public Page<Object> findAll(MyOrderReq myOrderReq) {
+        PageRequest request = new PageRequest(myOrderReq.getPage(),myOrderReq.getPageSize());
+        int count = messageReceiverMapper.count(myOrderReq.getCustomer_id());
+        List<SysMessage> centers = messageReceiverMapper.findAll(myOrderReq);
         List<Object> list = new ArrayList<Object>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Map<String,String> map = null;

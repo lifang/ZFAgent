@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 
-public interface CsCencelsMapper {
+public interface CsAgentsMapper {
 
     List<Map<String, Object>> findAll(MyOrderReq myOrderReq);
 

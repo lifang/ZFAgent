@@ -29,16 +29,31 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     @Resource
     private OrderService orderService;
-    
-    //  gch  begin
-    //订单列表
-    @RequestMapping(value="getMyOrderAll" ,method=RequestMethod.POST)
-    public Response getMyOrderAll(@RequestBody MyOrderReq myOrderReq) {
+    //批购订单
+    @RequestMapping(value="getWholesaleOrder" ,method=RequestMethod.POST)
+    public Response getWholesaleOrder(@RequestBody MyOrderReq myOrderReq) {
         try{
             logger.debug("获取我的订单列表 start");
-            Page<Object> centers = orderService.findMyOrderAll(myOrderReq.getPage(), myOrderReq.getPageSize(),myOrderReq.getCustomer_id());
+            Page<Object> centers = orderService.getWholesaleOrder(myOrderReq);
             logger.debug("获取我的订单列表 end"+centers);
             return Response.getSuccess(centers);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
+        }catch(Exception e){
+            logger.debug("获取我的订单列表出错"+e);
+            return Response.getError("请求失败");
+        }
+    }
+//    代购订单
+    @RequestMapping(value="getProxyOrder" ,method=RequestMethod.POST)
+    public Response getProxyOrder(@RequestBody MyOrderReq myOrderReq) {
+        try{
+            logger.debug("获取我的订单列表 start");
+            Page<Object> centers = orderService.getProxyOrder(myOrderReq);
+            logger.debug("获取我的订单列表 end"+centers);
+            return Response.getSuccess(centers);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
         }catch(Exception e){
             logger.debug("获取我的订单列表出错"+e);
             return Response.getError("请求失败");
@@ -52,6 +67,8 @@ public class OrderController {
             Object centers = orderService.findMyOrderById(myOrderReq.getId());
             logger.debug("获取我的订单详情 end"+centers);
             return Response.getSuccess(centers);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
         }catch(Exception e){
             logger.debug("获取我的订单详情出错"+e);
             return Response.getError("请求失败");
@@ -79,8 +96,6 @@ public class OrderController {
             return Response.getError("评论失败");
         }
     }    
-    
-    
    //  gch  end
   
     @RequestMapping(value = "agent", method = RequestMethod.POST)

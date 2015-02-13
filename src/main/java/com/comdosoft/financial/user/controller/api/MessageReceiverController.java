@@ -37,9 +37,11 @@ public class MessageReceiverController {
     public Response getAll(@RequestBody MyOrderReq myOrderReq){
         try{
             logger.debug("获取我的消息列表 start");
-            Page<Object> mrs= messageReceiverService.findAll(myOrderReq.getPage(),myOrderReq.getPageSize(),myOrderReq.getCustomer_id());
+            Page<Object> mrs= messageReceiverService.findAll(myOrderReq);
             logger.debug("获取我的消息列表 end"+mrs);
             return Response.getSuccess(mrs);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
         }catch(Exception e){
             logger.debug("获取我的消息列表出错"+e);
             return Response.getError("请求失败");
@@ -59,6 +61,8 @@ public class MessageReceiverController {
             map.put("content", sysMessage.getContent());
             logger.debug("获取我的消息详情 end"+sysMessage);
             return Response.getSuccess(sysMessage);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
         }catch(Exception e){
             logger.debug("获取我的消息详情出错"+e);
             return Response.getError("请求失败");

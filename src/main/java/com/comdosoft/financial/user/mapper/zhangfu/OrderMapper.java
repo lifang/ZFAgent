@@ -7,7 +7,6 @@ import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.Order;
-import com.comdosoft.financial.user.utils.page.PageRequest;
 
 public interface OrderMapper {
 
@@ -19,16 +18,18 @@ public interface OrderMapper {
     Map<String, Object> getGoodInfo(OrderReq orderreq);
 
 // ----gch start --------------
-    int countMyOrder(Integer pid);
+    int countWholesaleOrder(Integer pid);
+    int countProxyOrder(Integer pid);
 
-    List<Order> findMyOrderAll(PageRequest request, Integer pid);
+    List<Order> getWholesaleOrder(MyOrderReq myOrderReq);
+    List<Order> getProxyOrder(MyOrderReq myOrderReq);
 
     Order findMyOrderById(Integer id);
 
     void cancelMyOrder(MyOrderReq myOrderReq);
-// ------gch end ---------------------
 
     void comment(MyOrderReq myOrderReq);
 
     List<GoodsPicture> findPicByGoodId(Integer gid);
+// ------gch end ---------------------
 }

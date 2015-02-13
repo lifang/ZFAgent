@@ -16,8 +16,8 @@ public class Page<T> {
 	
 	private PageRequest pageRequest;
 	private List<T> content = new ArrayList<>();
-//	private List<Map<String,Object>> contents = new ArrayList<>();
-	private long total;
+	
+    private long total;
 
 	public Page(PageRequest pageRequest, List<T> content, long total) {
 		this.pageRequest = pageRequest;
@@ -25,11 +25,11 @@ public class Page<T> {
 		this.total = total;
 	}
 	
-	@SuppressWarnings("unchecked")
-    public Page(PageRequest pageRequest, List<Map<String,Object>> contents) {
+    @SuppressWarnings("unchecked")
+    public Page(PageRequest pageRequest, List<Map<String,Object>> contents,int total) {
         this.pageRequest = pageRequest;
-        this.content = (List<T>) contents;
-        this.total = contents.size();
+        this.content =  (List<T>) contents;
+        this.total = total;
     } 
 
     public long getTotal(){

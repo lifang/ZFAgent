@@ -2,12 +2,12 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 
 import java.util.List;
 
+import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.SysMessage;
-import com.comdosoft.financial.user.utils.page.PageRequest;
 
 public interface MessageReceiverMapper {
 
-    List<SysMessage> findAll(PageRequest request,int person_id);
+    List<SysMessage> findAll(MyOrderReq myOrderReq);
 
     int count(int person_id);
 

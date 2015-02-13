@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.CsCencelsMapper">
 <!--注销 -->
+	<select id="count" resultType="int" >
+		SELECT count(o.id) as count
+		FROM
+			cs_cancels o
+		LEFT JOIN terminals t ON o.terminal_id = t.id
+		WHERE
+			o.customer_id = #{customer_id}
+		ORDER BY
+			o.created_at DESC
+	</select>
+	
 	<select id="findAll" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsCancel">
 		SELECT
 			o.id,
@@ -43,7 +54,7 @@
 	<select id="findTraceById" resultType="map" >
 		SELECT
 			crm.content AS marks_content,
-			crm.created_at AS marks_time,
+			crm.created_at,
 			c.`name` AS marks_person
 		FROM
 			  cs_cancel_marks crm 

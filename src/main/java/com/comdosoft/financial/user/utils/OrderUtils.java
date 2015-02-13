@@ -38,7 +38,7 @@ public class OrderUtils {
             childrenMap.put("marks_person", person);
             childrenList.add(childrenMap);
         }
-        return new Page<List<Object>>(request, childrenList);
+        return new Page<List<Object>>(request, childrenList,childrenList.size());
     }
     
     /**

@@ -165,6 +165,8 @@ public class AgentLoginController {
 					customer.setStatus(Customer.STATUS_NON_ACTIVE);
 					customer.setPhone((String)map.get("phone"));
 					customer.setEmail((String)map.get("email"));
+					customer.setName((String)map.get("name"));
+					customer.setIntegral(0);
 					agentLoginService.addUser(customer);
 					if(customer.getId()==null){
 						return Response.getError("注册失败！");

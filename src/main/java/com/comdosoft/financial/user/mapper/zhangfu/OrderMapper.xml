@@ -80,6 +80,12 @@
 			</association>
 	</resultMap>
 	
+	<resultMap id="customerMap" type="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		 <id property="id" column="id" />
+			<result property="name" column="name" />
+		
+	</resultMap>
+	
 	<resultMap id="orderMap" type="com.comdosoft.financial.user.domain.zhangfu.Order">
 		<id property="id" column="id" />
 		<result property="orderNumber" column="order_number" />
@@ -162,7 +168,7 @@
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,
 		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,
-		pc.name as channel_name,og.price ,	og.quantity ,cc.name,
+		pc.name as channel_name,og.price ,	og.quantity , c.name,o.belongs_user_id,
 		o.actual_price ,total_price,o.total_quantity as total_num
 		FROM	
 		orders o
@@ -170,13 +176,21 @@
 		LEFT JOIN goods g ON og.good_id = g.id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
-		LEFT JOIN customers cc on o.belongs_user_id = c.id
-		
+		LEFT JOIN customers c ON o.customer_id = c.id
 		WHERE
 		o.customer_id = #{customer_id}
 		and o.types = 0
 		order by o.created_at desc
 		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="findCustomerById" resultMap="customerMap" >
+		SELECT
+		 *
+		FROM	
+		 customers  
+		WHERE
+		id = #{id}
 	</select>
 	
 	<select id="findPicByGoodId" resultMap="picsResultMap" >

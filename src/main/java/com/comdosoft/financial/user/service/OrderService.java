@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.CsOutStorage;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.Good;
 import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
@@ -169,6 +170,11 @@ public class OrderService {
             map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
             map.put("order_totalPrice", o.getActualPrice());
             map.put("order_psf", "0");//配送费
+            Integer guishu_user = o.getBelongsUserId();
+            Customer customer = new Customer();
+            customer.setId(guishu_user);
+            customer = orderMapper.findCustomerById(customer);
+            map.put("guishu_user", customer.getName());//配送费
             List<OrderGood> olist = o.getOrderGoodsList();
             List<Object> newObjList = new ArrayList<Object>();
             Map<String, Object> omap = null;

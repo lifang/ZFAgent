@@ -3,6 +3,8 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.comdosoft.financial.user.domain.query.StockReq;
 
 
@@ -37,5 +39,7 @@ public interface StockMapper {
     List<Map<String, Object>> getTerminalList(StockReq req);
 
     int getSonAgentCount(StockReq req);
+
+    List<Integer> getAgents(@Param("code") String code);
 
 }

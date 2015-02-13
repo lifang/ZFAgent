@@ -75,4 +75,13 @@
 	]]>
 	</select>
 
+	<select id="getTradeRecordTotalByAgentId" resultType="int">
+	<![CDATA[
+		SELECT IFNULL((
+    	SELECT SUM(amount) amountTotal
+		 FROM trade_records 
+		 WHERE traded_status = 2 and agent_id=#{id}),0)
+	]]>
+	</select>
+
 </mapper>

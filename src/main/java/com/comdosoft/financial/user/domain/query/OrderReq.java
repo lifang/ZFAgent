@@ -11,7 +11,7 @@ public class OrderReq {
     private int price;
     private int retail_price;
     
-    
+    private int agent_id;
     private int goodId;
     private int paychannelId;
     private int quantity;
@@ -127,6 +127,12 @@ public class OrderReq {
     }
     public void setOrderType(int orderType) {
         this.orderType = orderType;
+    }
+    public int getAgent_id() {
+        return agent_id;
+    }
+    public void setAgent_id(int agent_id) {
+        this.agent_id = agent_id;
     }
     
     

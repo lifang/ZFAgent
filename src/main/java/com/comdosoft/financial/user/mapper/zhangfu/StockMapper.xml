@@ -112,5 +112,9 @@
    	    WHERE t.good_id=#{good_id} AND t.pay_channel_id=#{paychannel_id} and t.agent_id=#{agents_id}
         LIMIT #{offset}, #{rows}
      </select>
+     
+       <select id="getAgents" resultType="int" >
+         SELECT id from agents where code LIKE '${code}%'
+     </select>
 	
 </mapper>

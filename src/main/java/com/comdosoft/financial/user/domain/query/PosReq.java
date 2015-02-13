@@ -6,7 +6,9 @@ public class PosReq {
     private int goodId;
 
     
-    private int customer_id;
+    private int city_id;
+    
+    private int agent_id;
     
     private int type; //1 批购
     /**
@@ -181,6 +183,14 @@ public class PosReq {
 
    
 
+    public int getCity_id() {
+        return city_id;
+    }
+
+    public void setCity_id(int city_id) {
+        this.city_id = city_id;
+    }
+
     public int getHas_lease() {
         return has_lease;
     }
@@ -222,15 +232,16 @@ public class PosReq {
         this.keys = keys;
     }
 
-    public int getCustomer_id() {
-        return customer_id;
-    }
-
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
-    }
-
+ 
   
+
+    public int getAgent_id() {
+        return agent_id;
+    }
+
+    public void setAgent_id(int agent_id) {
+        this.agent_id = agent_id;
+    }
 
     public int getMinPricei() {
         return (int)minPrice*100;

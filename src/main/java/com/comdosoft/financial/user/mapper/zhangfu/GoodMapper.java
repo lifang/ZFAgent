@@ -48,7 +48,7 @@ public interface GoodMapper {
 
     List<Map<String, Object>> getStandard_rates(int pcid);
 
-    int getHasBuyCount(int customerid);
+    int getHasBuyCount(int agent_id);
 
 
 }

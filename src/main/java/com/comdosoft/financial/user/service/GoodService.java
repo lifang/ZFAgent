@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.query.PosReq;
+import com.comdosoft.financial.user.mapper.trades.record.TradeRecordMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.CommentMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.GoodMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.StockMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.SysconfigMapper;
 import com.comdosoft.financial.user.utils.SysUtils;
 
@@ -27,13 +29,19 @@ public class GoodService {
     
     @Autowired
     private SysconfigMapper sysconfigMapper;
+    
+    @Autowired
+    private StockMapper stockMapper;
+    
+    @Autowired
+    private TradeRecordMapper tradeRecordMapper;
 
     public List<?> getGoodsList(PosReq posreq) {
         List<Map<String, Object>> list = goodMapper.getGoodsList(posreq);
         for (Map<String, Object> map : list) {
             if(1==posreq.getType()){
                 map.put("purchase_price", setPurchasePrice(
-                        posreq.getCustomer_id(),SysUtils.Object2int(map.get("purchase_price")),
+                        posreq.getAgent_id(),SysUtils.Object2int(map.get("purchase_price")),
                         SysUtils.Object2int(map.get("floor_price"))));
             }
             int id = Integer.valueOf("" + map.get("id"));
@@ -59,7 +67,7 @@ public class GoodService {
         int id = SysUtils.Object2int("" + goodinfo.get("id"));
         if(1==posreq.getType()){
             goodinfo.put("purchase_price", setPurchasePrice(
-                    posreq.getCustomer_id(),SysUtils.Object2int(goodinfo.get("purchase_price")),
+                    posreq.getAgent_id(),SysUtils.Object2int(goodinfo.get("purchase_price")),
                     SysUtils.Object2int(goodinfo.get("floor_price"))));
         }
         if (id > 0) {
@@ -118,9 +126,18 @@ public class GoodService {
         return map;
     }
     
-    public int setPurchasePrice(int customerid,int purchasePrice,int leasePrice){
-        int hasBuyCount=goodMapper.getHasBuyCount(customerid);
-        int totalMoney=10000;//总交易流水金额
+    public int setPurchasePrice(int agentid,int purchasePrice,int leasePrice){
+        int hasBuyCount=goodMapper.getHasBuyCount(agentid);
+        int totalMoney=0;//总交易流水金额
+        String code=stockMapper.getAgentCode(agentid);
+        if(code!=null&&code.length()>2){
+            List<Integer> agentids=stockMapper.getAgents(code);
+            if(agentids!=null&&agentids.size()>0){
+                for (int id : agentids) {
+                    totalMoney+=tradeRecordMapper.getTradeRecordTotalByAgentId(id);
+                }
+            }
+        }
         Map<String,Object> map1=sysconfigMapper.getValue("shopcount");
         Map<String,Object> map2=sysconfigMapper.getValue("totalmoney");
         if(hasBuyCount>=SysUtils.Object2int(map1.get("value"))){

@@ -21,4 +21,8 @@ public interface TradeRecordMapper {
 
     Map<Object, Object> getTradeRecordTotal(Map<Object, Object> query);
 
+    int getTradeRecordTotalByAgentId(int id);
+    
+    
+
 }

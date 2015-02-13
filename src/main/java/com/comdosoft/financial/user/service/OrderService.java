@@ -52,7 +52,7 @@ public class OrderService {
                 if(quantity<floor_purchase_quantity){
                     return 0; 
                 }
-                int factprice=goodService.setPurchasePrice(orderreq.getCustomerId(), purchase_price, floor_price);
+                int factprice=goodService.setPurchasePrice(orderreq.getAgent_id(), purchase_price, floor_price);
                 payprice=factprice+opening_cost;
                 price=SysUtils.Object2int(goodMap.get("price"))+opening_cost;
             }else{

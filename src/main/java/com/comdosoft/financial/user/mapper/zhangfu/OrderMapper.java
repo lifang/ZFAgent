@@ -33,4 +33,7 @@ public interface OrderMapper {
 
     List<GoodsPicture> findPicByGoodId(Integer gid);
 // ------gch end ---------------------
+
+
+    List<Map<String, Object>> findTraceById(MyOrderReq myOrderReq);
 }

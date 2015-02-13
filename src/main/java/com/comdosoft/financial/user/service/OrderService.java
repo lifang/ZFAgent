@@ -1,8 +1,10 @@
 package com.comdosoft.financial.user.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Order;
 import com.comdosoft.financial.user.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.user.domain.zhangfu.OrderStatus;
 import com.comdosoft.financial.user.mapper.zhangfu.OrderMapper;
+import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -109,12 +112,10 @@ public class OrderService {
             Integer quantity = 0;
             for(CsOutStorage cs_out:csOutList){
                 if(null !=cs_out.getStatus() && cs_out.getStatus()==1){
-                    System.err.println("是已发货"+quantity);
                     Integer q = cs_out.getQuantity();
                     quantity = quantity+q;
                 }
             }
-            System.err.println("end===>>已发货数量是："+quantity);
             map.put("zhifu_dingjin", zhifu_dingjin);//已付定金
             map.put("shengyu_price", shengyu_price);//已付定金
             map.put("quantity", quantity);//已发货数量
@@ -201,27 +202,46 @@ public class OrderService {
     }
 
     /**
-     * 订单详情
+     * 批购订单详情
      * @param id
      * @return
+     * @throws ParseException 
      */
-    public Object getWholesaleById(Integer id) {
+    public Object getWholesaleById(Integer id) throws ParseException {
         Order o = orderMapper.getWholesaleById(id);
         List<Object> obj_list = new ArrayList<Object>();
-        Map<String,Object> map = new HashMap<String, Object>();
-        map.put("order_id", o.getId()==null ?"":o.getId().toString());
-        map.put("order_number", o.getOrderNumber());//订单编号
-        map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-        String d = sdf.format(o.getCreatedAt());
-        map.put("order_createTime", d);//订单日期
-        map.put("order_status", o.getStatus().getCode());
-        map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
-        map.put("order_totalPrice", o.getActualPrice());
-        map.put("order_psf", "");//配送费
+        Map<String,Object> map = new LinkedHashMap<String, Object>();
+        map.put("order_id", id);
+        
+        
+//        Integer actual_price = o.getActualPrice();//这个单子的总额
+        int pay_status = o.getFrontPayStatus(); //1 已支付  0 未支付
+        Integer zhifu_dingjin = 0;
+        Integer dj_price = o.getFrontMoney();
+        if(pay_status==1){
+            zhifu_dingjin = dj_price;
+        }
+//        Integer shengyu_price = actual_price-zhifu_dingjin;
+        List<CsOutStorage> csOutList = o.getCsOutStorageList();
+        Integer quantity = 0;
+        for(CsOutStorage cs_out:csOutList){
+            if(null !=cs_out.getStatus() && cs_out.getStatus()==1){
+                Integer q = cs_out.getQuantity();
+                quantity = quantity+q;
+            }
+        }
+        map.put("pay_status", pay_status);
+        map.put("order_totalPrice", o.getActualPrice());//总共金额
+        map.put("total_dingjin", o.getFrontMoney());//定金总额
+        map.put("zhifu_dingjin", zhifu_dingjin);//已付定金
+//        map.put("shengyu_price", shengyu_price);//剩余金额
+        map.put("shipped_quantity", quantity);//已发货数量
+        map.put("total_quantity", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数  
+        
         map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver());
-        map.put("order_address", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getAddress());
         map.put("order_receiver_phone", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getMoblephone());
+        map.put("order_address", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getAddress());
+        
         map.put("order_comment", o.getComment());//留言
         Integer invoce_type = o.getInvoiceType();
         String invoce_name ="";
@@ -232,6 +252,14 @@ public class OrderService {
         }
         map.put("order_invoce_type", invoce_name);//发票类型
         map.put("order_invoce_info", o.getInvoiceInfo());//发票抬头
+        
+        map.put("order_number", o.getOrderNumber());//订单编号
+        map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        String d = sdf.format(o.getCreatedAt());
+        map.put("order_createTime", d);//订单日期
+        map.put("order_status", o.getStatus().getCode());
+        
         List<OrderGood> olist = o.getOrderGoodsList();
         List<Object> newObjList = new ArrayList<Object>();
         Map<String, Object> omap = null;
@@ -257,6 +285,10 @@ public class OrderService {
             }
         }
         map.put("order_goodsList", newObjList);
+        MyOrderReq myOrderReq = new MyOrderReq();
+        myOrderReq.setId(id);
+        List<Map<String,Object>> list = orderMapper.findTraceById(myOrderReq);
+        map.put("comments", OrderUtils.getTraceByVoId(myOrderReq, list));
         obj_list.add(map);
         return obj_list;
     }

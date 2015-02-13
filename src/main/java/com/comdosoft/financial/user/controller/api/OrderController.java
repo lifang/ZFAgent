@@ -33,24 +33,7 @@ public class OrderController {
     @RequestMapping(value="getWholesaleOrder" ,method=RequestMethod.POST)
     public Response getWholesaleOrder(@RequestBody MyOrderReq myOrderReq) {
         try{
-            logger.debug("获取我的订单列表 start");
             Page<Object> centers = orderService.getWholesaleOrder(myOrderReq);
-            logger.debug("获取我的订单列表 end"+centers);
-            return Response.getSuccess(centers);
-        }catch(NullPointerException e){
-            return Response.buildErrorWithMissing();
-        }catch(Exception e){
-            logger.debug("获取我的订单列表出错"+e);
-            return Response.getError("请求失败");
-        }
-    }
-//    代购订单
-    @RequestMapping(value="getProxyOrder" ,method=RequestMethod.POST)
-    public Response getProxyOrder(@RequestBody MyOrderReq myOrderReq) {
-        try{
-            logger.debug("获取我的订单列表 start");
-            Page<Object> centers = orderService.getProxyOrder(myOrderReq);
-            logger.debug("获取我的订单列表 end"+centers);
             return Response.getSuccess(centers);
         }catch(NullPointerException e){
             return Response.buildErrorWithMissing();
@@ -63,9 +46,7 @@ public class OrderController {
     @RequestMapping(value="getWholesaleById" ,method=RequestMethod.POST)
     public Response getWholesaleById(@RequestBody MyOrderReq myOrderReq ) {
         try{
-            logger.debug("获取我的订单详情 start");
             Object centers = orderService.getWholesaleById(myOrderReq.getId());
-            logger.debug("获取我的订单详情 end"+centers);
             return Response.getSuccess(centers);
         }catch(NullPointerException e){
             return Response.buildErrorWithMissing();
@@ -75,23 +56,8 @@ public class OrderController {
         }
     }    
     
-    @RequestMapping(value="getProxyById" ,method=RequestMethod.POST)
-    public Response getProxyById(@RequestBody MyOrderReq myOrderReq ) {
-        try{
-            logger.debug("获取我的订单详情 start");
-            Object centers = orderService.getProxyById(myOrderReq.getId());
-            logger.debug("获取我的订单详情 end"+centers);
-            return Response.getSuccess(centers);
-        }catch(NullPointerException e){
-            return Response.buildErrorWithMissing();
-        }catch(Exception e){
-            logger.debug("获取我的订单详情出错"+e);
-            return Response.getError("请求失败");
-        }
-    }    
-    
-    @RequestMapping(value="cancelMyOrder" ,method=RequestMethod.POST)
-    public Response cancelMyOrder(@RequestBody MyOrderReq myOrderReq ) {
+    @RequestMapping(value="cancelWholesale" ,method=RequestMethod.POST)
+    public Response cancelWholesale(@RequestBody MyOrderReq myOrderReq ) {
         try{
             orderService.cancelMyOrder(myOrderReq);
             return Response.buildSuccess(null, "取消成功");
@@ -101,16 +67,45 @@ public class OrderController {
         }
     }    
     
-    @RequestMapping(value="saveComment" ,method=RequestMethod.POST)
-    public Response comment(@RequestBody MyOrderReq myOrderReq ) {
+   
+    
+//    代购订单
+    @RequestMapping(value="getProxyOrder" ,method=RequestMethod.POST)
+    public Response getProxyOrder(@RequestBody MyOrderReq myOrderReq) {
         try{
-            orderService.comment(myOrderReq);
-            return Response.buildSuccess(null, "评论成功");
+            Page<Object> centers = orderService.getProxyOrder(myOrderReq);
+            return Response.getSuccess(centers);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
         }catch(Exception e){
-            logger.debug("取消我的订单详情出错"+e);
-            return Response.getError("评论失败");
+            logger.debug("获取我的订单列表出错"+e);
+            return Response.getError("请求失败");
+        }
+    }
+    
+    @RequestMapping(value="getProxyById" ,method=RequestMethod.POST)
+    public Response getProxyById(@RequestBody MyOrderReq myOrderReq ) {
+        try{
+            Object centers = orderService.getProxyById(myOrderReq.getId());
+            return Response.getSuccess(centers);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
+        }catch(Exception e){
+            logger.debug("获取我的订单详情出错"+e);
+            return Response.getError("请求失败");
         }
     }    
+    
+    @RequestMapping(value="cancelProxy" ,method=RequestMethod.POST)
+    public Response cancelProxy(@RequestBody MyOrderReq myOrderReq ) {
+        try{
+            orderService.cancelMyOrder(myOrderReq);
+            return Response.buildSuccess(null, "取消成功");
+        }catch(Exception e){
+            logger.debug("取消我的订单详情出错"+e);
+            return Response.getError("取消失败");
+        }
+    }   
    //  gch  end
   
     @RequestMapping(value = "agent", method = RequestMethod.POST)

@@ -63,6 +63,7 @@
 	<resultMap id="csOutStorageMap" type="com.comdosoft.financial.user.domain.zhangfu.CsOutStorage">
 		 <id property="id" column="cs_out_id" />
 			<result property="quantity" column="quantity" />
+			<result property="status" column="os_status" />
 			<!-- <result property="price" column="price" />
 			<result property="actualPrice" column="actual_price" /> -->
 			<result property="createdAt" column="created_at" />
@@ -132,15 +133,14 @@
 			o.total_quantity,
 			o.order_number,
 			o.created_at,
-			o. STATUS,
+			o.status,
 			g.title,
 			gb. NAME,
 			gb.id AS good_brands_id,
 			pc. NAME AS channel_name,
 			og.price,
-			total_price,
 			o.total_quantity AS total_num,
-			os.quantity,
+			os.quantity,os.status as os_status,
 			o.actual_price,
 			o.front_pay_status,
 			o.front_money
@@ -197,7 +197,10 @@
 		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment,
 		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,
 		o.actual_price ,total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
-		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name 
+		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name ,
+			 os.status as os_status,
+			o.front_pay_status,
+			o.front_money,op.pay_type
 		FROM	
 		orders o
 		LEFT JOIN order_goods og ON o.id = og.order_id
@@ -208,6 +211,8 @@
 		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
 		LEFT JOIN order_marks om on o.id = om.order_id 
 		LEFT JOIN customers c on om.customer_id = c.id
+		LEFT JOIN cs_out_storages os ON o.id = os.order_id
+		LEFT JOIN order_payments op on o.id = op.order_id
 		WHERE
 		o.id = #{param1}
 	</select>
@@ -246,6 +251,19 @@
 		(score,content,customer_id,good_id,order_id,created_at)
 		VALUES(#{score},#{content},#{customer_id},#{good_id},#{order_id},NOW())
   </insert>
+    
+     <select id="findTraceById" resultType="map" >
+		SELECT
+			crm.content AS marks_content,
+			crm.created_at,
+			c.`name` AS marks_person
+		FROM
+			  order_marks crm 
+		LEFT JOIN customers c ON crm.customer_id = c.id
+		WHERE
+		crm.order_id = #{id}
+	</select>
+	
     
 	<!-- gch end -->
 	

@@ -36,11 +36,17 @@ public class CsAgentsService {
             Date date = sdf.parse(d);
             String c_date = sdf.format(date);
             String status = (m.get("status")+"");
-            String status_name = RepairStatus.getName(Integer.parseInt(status));
+            String t = m.get("terminals_list")+"";
+            String[] arrt = t.split(",");
+//            String status_name = RepairStatus.getName(Integer.parseInt(status));
             map.put("id",m.get("id"));
-            map.put("status", status_name);
+            map.put("status", status);
             map.put("create_time", c_date);
-            map.put("terminal_num", m.get("serial_num"));//终端号
+            if(arrt.length>0){
+                map.put("terminal_num", arrt[0]);//终端号
+            }else{
+                map.put("terminal_num", "");
+            }
             map.put("apply_num", m.get("apply_num"));//维修编号
             list.add(map);
         }
@@ -61,8 +67,8 @@ public class CsAgentsService {
         Map<String,Object> map = new HashMap<String,Object>();
         String id = o.get("id").toString();
         map.put("id", id);
-        String status_name = RepairStatus.getName(Integer.parseInt(o.get("apply_status")+""));
-        map.put("status", status_name);
+//        String status_name = RepairStatus.getName(Integer.parseInt(o.get("apply_status")+""));
+        map.put("status", o.get("apply_status"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String apply_time =   o.get("apply_time")+"";
         map.put("apply_time", sdf.format(sdf.parse(apply_time)));

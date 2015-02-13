@@ -38,10 +38,6 @@
 			o.address,o.reason
 		FROM
 			cs_agents o
-		LEFT JOIN goods g ON t.good_id = g.id
-		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
-		LEFT JOIN pay_channels pc ON t.pay_channel_id = pc.id
-		LEFT JOIN merchants m ON t.merchant_id = m.id
 		WHERE
 			o.id = #{id}
 	</select>

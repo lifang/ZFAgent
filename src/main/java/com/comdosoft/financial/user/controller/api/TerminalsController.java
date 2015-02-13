@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
-import com.comdosoft.financial.user.domain.zhangfu.Merchant;
-import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.service.TerminalsService;
-import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
 /**
@@ -59,6 +56,7 @@ public class TerminalsController {
 			return Response.getSuccess(terminalsService.getTerminalList(
 					customersId, offSetPage, pageNum,status));
 		} catch (Exception e) {
+			logger.error("根据用户ID获得终端列表异常！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -82,6 +80,7 @@ public class TerminalsController {
 			return Response.getSuccess(terminalsService.getTerminalList(
 					customersId, offSetPage, pageNum,status));
 		} catch (Exception e) {
+			logger.error("根据状态选择查询异常！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -108,6 +107,7 @@ public class TerminalsController {
 					terminalsService.getOpeningDetails(terminalsId));
 			return Response.getSuccess(map);
 		} catch (Exception e) {
+			logger.error("进入终端详情失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -122,6 +122,7 @@ public class TerminalsController {
 		try {
 			return Response.getSuccess(terminalsService.getMerchants(customerId));
 		} catch (Exception e) {
+			logger.error("获得代理商下面的用户失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -151,7 +152,7 @@ public class TerminalsController {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("为用户绑定失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -180,6 +181,7 @@ public class TerminalsController {
 		try{
 			return Response.getSuccess(terminalsService.screeningTerminalNum(map));
 		}catch(Exception e){
+			logger.error("筛选终端失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -194,6 +196,7 @@ public class TerminalsController {
 		try{
 			return Response.getSuccess(terminalsService.getAddressee(customerId));
 		}catch(Exception e){
+			logger.error("收件人信息异常！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -211,6 +214,7 @@ public class TerminalsController {
 			terminalsService.submitAgent(csAgent);
 			return Response.getSuccess("提交申请成功！");
 		}catch(Exception e){
+			logger.error("提交申请售后失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -225,6 +229,7 @@ public class TerminalsController {
 		try{
 			return Response.getSuccess(terminalsService.screeningPosName(customerId));
 		}catch(Exception e){
+			logger.error("POS机选择失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -238,6 +243,7 @@ public class TerminalsController {
 		try{
 			return Response.getSuccess(terminalsService.getChannels());
 		}catch(Exception e){
+			logger.error("获取通道列表异常！", e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -250,120 +256,9 @@ public class TerminalsController {
 		try {
 			return Response.getSuccess("同步成功！");
 		} catch (Exception e) {
+			logger.error("同步异常！", e);
 			return Response.getError("同步失败！");
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * 收单通道
-	 */
-	@RequestMapping(value = "getFactories", method = RequestMethod.GET)
-	public Response getFactories() {
-		try {
-			return Response.getSuccess(terminalsService.getChannels());
-		} catch (Exception e) {
-			return Response.getError("请求失败！");
-		}
-	}
-
-	/**
-	 * 添加终端
-	 * 
-	 * @param map
-	 * @return
-	 */
-	@RequestMapping(value = "addTerminal", method = RequestMethod.POST)
-	public Response addTerminal(@RequestBody Map<String, String> map) {
-		try {
-			Response response = new Response();
-			Merchant merchants = new Merchant();
-			// 判断该终端号是否存在
-			if (terminalsService.isExistence(map.get("serialNum")) > 0) {
-				response.setMessage("终端号已存在！");
-				return response;
-			} else if (terminalsService.isMerchantName(map.get("title")) > 0) {
-				response.setMessage("商户名已存在！");
-				return response;
-			} else {
-				merchants.setTitle(map.get("title"));
-				merchants.setCustomerId(Integer.parseInt(map.get("customerId")));
-				// 添加商户
-				terminalsService.addMerchants(merchants);
-				// 添加终端
-				map.put("merchantId", merchants.getId().toString());
-				map.put("status", String.valueOf(Terminal.TerminalTYPEID_3));
-				map.put("isReturnCsDepots", String.valueOf(Terminal.IS_RETURN_CS_DEPOTS_NO));
-				map.put("type", String.valueOf(Terminal.SYSTYPE));
-				terminalsService.addTerminal(map);
-				return Response.getSuccess("添加成功！");
-			}
-		} catch (Exception e) {
-			  logger.debug("添加终端 end"+e);
-			return Response.getError("请求失败");
-		}
-
-	}
-	
-	
-
-	/**
-	 * 找回POS机密码
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "Encryption/{terminalid}", method = RequestMethod.GET)
-	public Response Encryption(@PathVariable("terminalid") Integer terminalid) {
-		try {
-			String pass = SysUtils.Decrypt(
-					terminalsService.findPassword(terminalid), passPath);
-			return Response.getSuccess(pass);
-		} catch (Exception e) {
-			return Response.getError("请求失败!");
-		}
-	}
-
-	/**
-	 * 视频认证
-	 */
-	@RequestMapping(value = "videoAuthentication", method = RequestMethod.GET)
-	public Response videoAuthentication() {
-		try {
-			return Response.getSuccess("认证成功！");
-		} catch (Exception e) {
-			return Response.getError("认证失败！");
-		}
-	}
-
-	
-	
 }

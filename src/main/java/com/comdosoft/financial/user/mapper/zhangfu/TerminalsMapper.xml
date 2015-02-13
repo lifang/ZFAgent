@@ -3,18 +3,6 @@
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper">
 
 
-	<insert id="addMerchants" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
-		INSERT into
-		merchants(title,customer_id,created_at)
-		VALUES(#{title},#{customerId},now())
-	</insert>
-
-	<insert id="addTerminal" useGeneratedKeys="true" keyProperty="id" parameterType="map">
-		INSERT into
-		terminals(good_id,terminal_marks_id,serial_num,merchant_id,customer_id,pay_channel_id,status,is_return_cs_depots,created_at,type)
-		VALUES(0,0,#{serialNum},#{merchantId},#{customerId},#{payChannelId},#{status},#{isReturnCsDepots},now(),#{type})
-	</insert>
-
 	<insert id="submitAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgent">
 		INSERT into cs_agents(customer_id,terminals_quantity,status,
 			address,reason,created_at,updated_at,apply_num,terminals_list,reciver,phone)
@@ -101,22 +89,6 @@
 		FROM pay_channels s
 	</select>
 
-	<select id="isExistence" resultType="int" parameterType="String">
-		SELECT count(*) FROM terminals
-		WHERE serial_num=#{serialNum}
-	</select>
-
-	<select id="isMerchantName" parameterType="string" resultType="int">
-		SELECT COUNT(*) from merchants
-		WHERE title=#{title}
-	</select>
-
-	<select id="findPassword" parameterType="int" resultType="string">
-		SELECT password
-		FROM terminals
-		WHERE id=#{id}
-	</select>
-	
 	<select id="getMerchants" parameterType="int" resultType="map">
 		SELECT  a.id,a.name  FROM  agents a LEFT JOIN customer_agent_relations c ON a.id = c.agent_id
 		LEFT JOIN merchants m ON m.customer_id = c.customer_id

@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,8 @@ import com.comdosoft.financial.user.utils.SysUtils;
 @RestController
 @RequestMapping(value = "/api/agent")
 public class AgentLoginController {
+	
+	private static final Logger logger = Logger.getLogger(UserManagementController.class);
 	
 	@Resource
 	private AgentLoginService agentLoginService;
@@ -67,6 +70,7 @@ public class AgentLoginController {
 				return Response.getError("用户名或密码错误！");
 			}
 		} catch (Exception e) {
+			logger.error("代理商登陆异常！",e);
 			return Response.getError("系统异常！");
 		}
 	}
@@ -95,6 +99,7 @@ public class AgentLoginController {
 				return Response.getError("该用户不存在！");
 			}
 		}catch(Exception e){
+			logger.error("发送手机验证码(找回密码)异常！",e);
 			return Response.getError("获取验证码失败！");
 		}
 	}
@@ -127,6 +132,7 @@ public class AgentLoginController {
 				return Response.getError("验证码错误！");
 			}
 		} catch (Exception e) {
+			logger.error("找回密码异常！",e);
 			return Response.getError("修改失败！系统异常");
 		}
 	}
@@ -200,7 +206,7 @@ public class AgentLoginController {
 				}
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error("注册代理商异常！",e);
 			return Response.getError("请求失败！");
 		}
 		}
@@ -261,6 +267,7 @@ public class AgentLoginController {
 				}
 			}
 		} catch (Exception e) {
+			logger.error("资料图片上传异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}

@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
-import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 
@@ -82,48 +81,6 @@ public class TerminalsService {
 		return terminalsMapper.channels();
 	}
 	
-	/**
-	 * 判断该终端号是否存在
-	 * @param id
-	 * @return
-	 */
-	public int isExistence(String serialNum){
-		return terminalsMapper.isExistence(serialNum);
-	}
-	
-	/**
-	 * 判断商户名是否存在
-	 * @param id
-	 * @return
-	 */
-	public int isMerchantName(String title){
-		return terminalsMapper.isMerchantName(title);
-	}
-	
-	/**
-	 * 添加商户
-	 * @param merchant
-	 */
-	public void addMerchants(Merchant merchant){
-		 terminalsMapper.addMerchants(merchant);
-	}
-	
-	/**
-	 * 添加终端
-	 * @param map
-	 */
-	public void addTerminal(Map<String, String> map){
-		terminalsMapper.addTerminal(map);
-	}
-	
-	/**
-	 * POS找回密码
-	 * @param id
-	 * @return
-	 */
-	public String findPassword(Integer id){
-		return terminalsMapper.findPassword(id);
-	}
 
 	/**
 	 * 获得代理商下面的商户

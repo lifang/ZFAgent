@@ -12,6 +12,8 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +39,9 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
 @RestController
 @RequestMapping(value = "/api/apply")
 public class OpeningApplyController {
-
+ 
+	private static final Logger logger = LoggerFactory.getLogger(TerminalsController.class);
+	
 	@Resource
 	private OpeningApplyService openingApplyService;
 
@@ -52,14 +56,13 @@ public class OpeningApplyController {
 			@PathVariable("indexPage") Integer page,
 			@PathVariable("pageNum") Integer pageNum) {
 		try {
-			// PageRequest PageRequest = new PageRequest(page,
-			// Constants.PAGE_SIZE);
 			PageRequest PageRequest = new PageRequest(page, pageNum);
 
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(openingApplyService.getApplyList(id,
 					offSetPage, pageNum));
 		} catch (Exception e) {
+			logger.error("根据用户ID获得开通申请列表异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -88,6 +91,7 @@ public class OpeningApplyController {
 					openingApplyService.getMaterialName(terminalsId, status));
 			return Response.getSuccess(map);
 		} catch (Exception e) {
+			logger.error("进入申请开通异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -105,6 +109,7 @@ public class OpeningApplyController {
 			merchant = openingApplyService.getMerchant(merchantId);
 			return Response.getSuccess(merchant);
 		} catch (Exception e) {
+			logger.error("根据商户id获得商户详细信息异常！",e);
 			return Response.getError("请求失败！");
 		}
 
@@ -118,6 +123,7 @@ public class OpeningApplyController {
 		try {
 			return Response.getSuccess(openingApplyService.getChannels());
 		} catch (Exception e) {
+			logger.error("获得所有通道异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -133,6 +139,7 @@ public class OpeningApplyController {
 			map.put("code2", "中国工商银行");
 			return Response.getSuccess(map);
 		} catch (Exception e) {
+			logger.error("从第三方接口获得银行异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -152,6 +159,7 @@ public class OpeningApplyController {
 			return Response.getSuccess(openingApplyService.getMaterialName(
 					terminalId, status));
 		} catch (Exception e) {
+			logger.error("对公对私材料名称获取异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -219,7 +227,7 @@ public class OpeningApplyController {
 			}
 			return Response.getSuccess("添加成功！");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("添加申请信息异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -280,6 +288,7 @@ public class OpeningApplyController {
 				}
 			}
 		} catch (Exception e) {
+			logger.error("材料图片上传异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -292,6 +301,7 @@ public class OpeningApplyController {
 		try {
 			return Response.getSuccess("视频认证");
 		} catch (Exception e) {
+			logger.error("视频认证异常！",e);
 			return Response.getError("视频认证异常");
 		}
 	}

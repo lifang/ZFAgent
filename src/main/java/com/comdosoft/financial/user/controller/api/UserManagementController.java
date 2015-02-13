@@ -2,6 +2,7 @@ package com.comdosoft.financial.user.controller.api;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +23,7 @@ import com.comdosoft.financial.user.service.UserManagementService;
 @RestController
 @RequestMapping(value = "api/terminal")
 public class UserManagementController {
-	//private static final Logger logger = LoggerFactory.getLogger(UserManagementController.class);
+	private static final Logger logger = Logger.getLogger(UserManagementController.class);
 
 	@Resource
 	private UserManagementService userManagementService;
@@ -39,6 +40,7 @@ public class UserManagementController {
 			return Response.getSuccess(userManagementService
 					.getUser(customerId));
 		} catch (Exception e) {
+			logger.error("获得该代理商有关联的所有用户异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -55,7 +57,7 @@ public class UserManagementController {
 			userManagementService.delectAgentUser(agentId,customerId,CustomerAgentRelation.STATUS_2);
 			return Response.getSuccess("删除成功！");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("根据ID删除与该代理商的关联异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -70,7 +72,7 @@ public class UserManagementController {
 		try {
 			return Response.getSuccess(userManagementService.getTerminals(customerId));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("获得该代理商下面某个用户的相关终端列表异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}

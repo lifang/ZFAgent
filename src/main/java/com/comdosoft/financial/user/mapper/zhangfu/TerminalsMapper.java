@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
-import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 
 /**
  * 用户终端管理
@@ -68,44 +67,6 @@ public interface TerminalsMapper {
      * @return
      */
     List<Map<String, String>> channels();
-
-    /**
-     * 判断该终端号是否存在
-     * 
-     * @param id
-     * @return
-     */
-    int isExistence(String serialNum);
-
-    /**
-     * 判断商户名是否存在
-     * 
-     * @param id
-     * @return
-     */
-    int isMerchantName(String title);
-
-    /**
-     * 添加商户
-     * 
-     * @param merchant
-     */
-    void addMerchants(Merchant merchant);
-
-    /**
-     * 添加终端
-     * 
-     * @param map
-     */
-    void addTerminal(Map<String, String> map);
-
-    /**
-     * POS找回密码
-     * 
-     * @param id
-     * @return
-     */
-    String findPassword(Integer id);
     
     /**
      * 获得代理商下面的用户

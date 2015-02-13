@@ -139,7 +139,7 @@ public class TerminalsService {
 	 * @param terminalsNum
 	 * @return
 	 */
-	public Object getTerminalsNum(int terminalsNum){
+	public Object getTerminalsNum(String terminalsNum){
 		return terminalsMapper.getTerminalsNum(terminalsNum);
 	}
 	
@@ -148,7 +148,7 @@ public class TerminalsService {
 	 * @param terminalsNum
 	 * @return
 	 */
-	public int numIsBinding(int terminalsNum){
+	public int numIsBinding(String terminalsNum){
 		return terminalsMapper.numIsBinding(terminalsNum);
 	}
 	

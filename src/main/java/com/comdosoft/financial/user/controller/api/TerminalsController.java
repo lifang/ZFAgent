@@ -113,7 +113,7 @@ public class TerminalsController {
 	}
 
 	/**
-	 * 获得代理商下面的商户
+	 * 获得代理商下面的用户
 	 * @param customerId
 	 * @return
 	 */
@@ -134,16 +134,16 @@ public class TerminalsController {
 	@RequestMapping(value="BindingTerminals",method=RequestMethod.POST)
 	public Response BindingTerminals(@RequestBody Map<String, String> map){
 		try {
-			if(terminalsService.getTerminalsNum(Integer.parseInt(map.get("terminalsNum")))==null){
+			if(terminalsService.getTerminalsNum(map.get("terminalsNum"))==null){
 				return Response.getError("终端号不存在！");
 			}else{
-				if(terminalsService.numIsBinding(Integer.parseInt(map.get("terminalsNum")))>0){
+				if(terminalsService.numIsBinding(map.get("terminalsNum"))>0){
 					return Response.getError("该终端已绑定！");
 				}else{
 					if(terminalsService.merchantsIsBinding(Integer.parseInt(map.get("erchantsId")))!=null){
-						return Response.getError("该用户已绑定终端！");
+						return Response.getError("该商户已绑定终端！");
 					}else{
-						String terId =(String)terminalsService.getTerminalsNum(Integer.parseInt(map.get("terminalsNum")));
+						String terId =(String)terminalsService.getTerminalsNum(map.get("terminalsNum"));
 						map.put("terchantsId", terId);
 						terminalsService.Binding(map);
 						return Response.getSuccess("绑定成功！");
@@ -151,6 +151,7 @@ public class TerminalsController {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Response.getError("请求失败！");
 		}
 	}
@@ -160,10 +161,24 @@ public class TerminalsController {
 	 * @param customerId
 	 * @return
 	 */
-	@RequestMapping(value="getTerminal/{customerId}",method=RequestMethod.GET)
-	public Response getTerminal(@PathVariable("customerId") Integer customerId){
+	//@RequestMapping(value="getTerminal/{customerId}",method=RequestMethod.GET)
+	/*public Response getTerminal(@PathVariable("customerId") Integer customerId){
 		try{
 			return Response.getSuccess(terminalsService.getTerminal(customerId));
+		}catch(Exception e){
+			return Response.getError("请求失败！");
+		}
+	}*/
+	
+	/**
+	 * 筛选终端
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="screeningTerminalNum",method=RequestMethod.POST)
+	public Response screeningTerminalNum(@RequestBody Map<Object, Object> map){
+		try{
+			return Response.getSuccess(terminalsService.screeningTerminalNum(map));
 		}catch(Exception e){
 			return Response.getError("请求失败！");
 		}
@@ -174,8 +189,8 @@ public class TerminalsController {
 	 * @param customerId
 	 * @return
 	 */
-	@RequestMapping(value="getAddressee{customerId}",method=RequestMethod.GET)
-	public Response getAddressee(@PathVariable("{customerId}")Integer customerId){
+	@RequestMapping(value="getAddressee/{customerId}",method=RequestMethod.GET)
+	public Response getAddressee(@PathVariable("customerId")Integer customerId){
 		try{
 			return Response.getSuccess(terminalsService.getAddressee(customerId));
 		}catch(Exception e){
@@ -222,20 +237,6 @@ public class TerminalsController {
 	public Response getChannels(){
 		try{
 			return Response.getSuccess(terminalsService.getChannels());
-		}catch(Exception e){
-			return Response.getError("请求失败！");
-		}
-	}
-	
-	/**
-	 * 筛选终端
-	 * @param map
-	 * @return
-	 */
-	@RequestMapping(value="screeningTerminalNum",method=RequestMethod.POST)
-	public Response screeningTerminalNum(@RequestBody Map<Object, Object> map){
-		try{
-			return Response.getSuccess(terminalsService.screeningTerminalNum(map));
 		}catch(Exception e){
 			return Response.getError("请求失败！");
 		}

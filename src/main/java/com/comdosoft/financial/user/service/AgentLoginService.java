@@ -79,8 +79,8 @@ public class AgentLoginService {
 	 * 获取代理商编号
 	 * @return
 	 */
-	public Object getAgentCode(){
-		return agentLoginMapper.getAgentCode();
+	public Object getAgentCode(int parentId){
+		return agentLoginMapper.getAgentCode(parentId);
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class AgentLoginService {
 	}
 	
 	/**
-	 * 代理商登陆后活的权限
+	 * 代理商登陆后获的权限
 	 * @param customer
 	 * @return
 	 */

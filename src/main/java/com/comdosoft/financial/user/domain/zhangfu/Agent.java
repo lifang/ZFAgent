@@ -4,6 +4,11 @@ import java.util.Date;
 
 public class Agent {
 
+	/**
+	 * 第一级代理商父代理商为0 
+	 */
+	public static final int PARENT_ID=0;
+	
     /**
      * 代理商类型（1公司，2个人）
      */

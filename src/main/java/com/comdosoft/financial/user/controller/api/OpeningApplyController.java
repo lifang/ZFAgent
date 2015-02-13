@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
+import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -59,7 +60,7 @@ public class OpeningApplyController {
 			return Response.getSuccess(openingApplyService.getApplyList(id,
 					offSetPage, pageNum));
 		} catch (Exception e) {
-			return Response.getError("获取列表失败！");
+			return Response.getError("请求失败！");
 		}
 	}
 
@@ -68,8 +69,9 @@ public class OpeningApplyController {
 	 * 
 	 * @param id
 	 */
-	@RequestMapping(value = "getApplyDetails/{terminalsId}/{status}", method = RequestMethod.GET)
+	@RequestMapping(value = "getApplyDetails/{customerId}/{terminalsId}/{status}", method = RequestMethod.GET)
 	public Response getApplyDetails(
+			@PathVariable("customerId") Integer customerId,
 			@PathVariable("terminalsId") Integer terminalsId,
 			@PathVariable("status") Integer status) {
 		try {
@@ -78,7 +80,7 @@ public class OpeningApplyController {
 			map.put("applyDetails",
 					openingApplyService.getApplyDetails(terminalsId));
 			// 获得所有商户
-			map.put("merchants", openingApplyService.getMerchants());
+			map.put("merchants", openingApplyService.getMerchants(customerId));
 			// 数据回显(针对重新开通申请)
 			map.put("applyFor", openingApplyService.ReApplyFor(terminalsId));
 			// 材料名称
@@ -165,29 +167,37 @@ public class OpeningApplyController {
 			@RequestBody List<Map<String, Object>> paramMap) {
 		try {
 			OpeningApplie openingApplie = new OpeningApplie();
-			Integer status = null;
+			//开通申请状态（申请、重新申请）
+			Integer openStatus = null;
+			//对公对私状态
+			Integer publicPrivateStatus = null;
 			String openingAppliesId = null;
 			Integer terminalId = null;
 			String key = null;
 			String value = null;
+			Integer types = null;
 			int i = 0;
 			int y = 0;
 			for (Map<String, Object> map : paramMap) {
 				Set<String> keys = map.keySet();
 				if (y == 0) {
-					status = (Integer) map.get("status");
+					openStatus = (Integer) map.get("openStatus");
 					terminalId = (Integer) map.get("terminalId");
-					if (status == 2) {
+					publicPrivateStatus =(Integer)map.get("publicPrivateStatus");
+					if (openStatus == Terminal.TerminalTYPEID_2) {
 						openingAppliesId = String.valueOf(openingApplyService
 								.getApplyesId(terminalId));
 						// 删除旧数据
 						openingApplyService.deleteOpeningInfos(Integer
 								.valueOf(openingAppliesId));
+						openingApplyService.updateOpeningApplyStatus(Integer.parseInt(openingAppliesId));
 					} else {
 						openingApplie.setTerminalId((Integer) map
 								.get("terminalId"));
 						openingApplie.setApplyCustomerId((Integer) map
 								.get("applyCustomerId"));
+						openingApplie.setTypes(publicPrivateStatus);
+						openingApplie.setStatus(OpeningApplie.STATUS_1);
 						openingApplyService.addOpeningApply(openingApplie);
 						openingAppliesId = String
 								.valueOf(openingApplie.getId());
@@ -198,15 +208,18 @@ public class OpeningApplyController {
 							key = (String) map.get(str);
 						if (i == 1)
 							value = (String) map.get(str);
+						if (i == 2)
+							types = (Integer) map.get(str);
 						i++;
 					}
-					openingApplyService.addApply(key, value, openingAppliesId);
+					openingApplyService.addApply(key, value,types, openingAppliesId);
 					i = 0;
 				}
 				y++;
 			}
 			return Response.getSuccess("添加成功！");
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Response.getError("请求失败！");
 		}
 	}

@@ -2,15 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper">
 
+	<resultMap  id="merchantMap" type="com.comdosoft.financial.user.domain.zhangfu.Merchant">
+		<id column="id" property="id" />
+		<result column="credit_type_id" property="creditTypeId" />
+		<result column="legal_person_name" property="legalPersonName" />
+		<result column="legal_person_card_id" property="legalPersonCardId" />
+		<result column="card_id_front_photo_path" property="cardIdFrontPhotoPath" />
+		<result column="card_id_back_photo_path" property="cardIdBackPhotoPath" />
+		<result column="title" property="title" />
+		<result column="business_license_no" property="businessLicenseNo" />
+		<result column="tax_registered_no" property="taxRegisteredNo" />
+		<result column="organization_code_no" property="organizationCodeNo" />
+		<result column="bank_open_account" property="bankOpenAccount" />
+		<result column="license_no_pic_path" property="bankOpenAccount" />
+		<result column="tax_no_pic_path" property="taxNoPicPath" />
+		<result column="org_code_no_pic_path" property="orgCodeNoPicPath" />
+		<result column="account_pic_path" property="accountPicPath" />
+		<result column="account_bank_name" property="accountBankName" />
+		<result column="account_bank_address" property="accountBankAddress" />
+		<result column="created_at" property="createdAt" />
+		<result column="updated_at" property="updatedAt" />
+		<result column="phone" property="phone" />
+		<result column="account_bank_num" property="accountBankNum" />
+		<result column="customer_id" property="customerId" />
+		<result column="city_id" property="cityId" />
+		<result column="body_photo_path" property="bodyPhotoPath" />
+	</resultMap>
  	
  	<insert id="addApply" useGeneratedKeys="true" keyProperty="id" parameterType="map">
-		INSERT INTO `terminal_opening_infos` (`key`, `value`,`opening_applies_id`) 
-		VALUES (#{key},#{value},#{openingAppliesId});
+		INSERT INTO `terminal_opening_infos` (`key`, `value`,`types`,`opening_applies_id`,`created_at`,`updated_at`) 
+		VALUES (#{key},#{value},#{types},#{openingAppliesId},now(),now());
  	</insert>
  	
  	<insert id="addOpeningApply" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
-		INSERT INTO `opening_applies` (`apply_customer_id`,`terminal_id`) 
-		VALUES (#{applyCustomerId},#{terminalId});
+		INSERT INTO `opening_applies` (`apply_customer_id`,`preliminary_verify_user_id`,`terminal_id`,`created_at`,`updated_at`,`status`,`types`) 
+		VALUES (#{applyCustomerId},#{terminalId},#{terminalId},now(),now(),#{status},#{types});
  	</insert>
  
  	<select id="getApplyList" parameterType="map" resultType="map">
@@ -21,6 +47,11 @@
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
  	
+ 	<update id="updateOpeningApplyStatus" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
+		UPDATE `opening_applies` SET `status` = #{status}  
+		WHERE id = #{id}
+ 	</update>
+ 	
  	<select id="getApplyDetails" parameterType="int" resultType="map">
  		SELECT t.serial_num,g.model_number,b.name as brandName,c.name as channelName
 		FROM terminals t LEFT JOIN goods g on t.good_id=g.id
@@ -29,15 +60,15 @@
 		WHERE t.id=#{terminalsId}
  	</select>
  	
- 	<select id="getMerchants" resultType="map">
- 		SELECT id,title FROM merchants
+ 	<select id="getMerchants" resultType="map" parameterType="int">
+ 		SELECT id,title FROM merchants WHERE customer_id = #{customerId}
  	</select>
  	
  	<select id="getChannels" resultType="map">
  		SELECT id,name FROM pay_channels
  	</select>
  	
- 	<select id="getMerchant" resultType="com.comdosoft.financial.user.domain.zhangfu.Merchant" parameterType="int">
+ 	<select id="getMerchant" resultMap="merchantMap" parameterType="int">
  		SELECT * FROM merchants
  		WHERE id=#{id}
  	</select>

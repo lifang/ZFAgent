@@ -118,23 +118,24 @@
 	</select>
 	
 	<select id="getMerchants" parameterType="int" resultType="map">
-		SELECT  id,title  FROM merchants 
-		WHERE merchants.customer_id =#{customerId}
+		SELECT  a.id,a.name  FROM  agents a LEFT JOIN customer_agent_relations c ON a.id = c.agent_id
+		LEFT JOIN merchants m ON m.customer_id = c.customer_id
+		WHERE a.customer_id = #{customerId}
 	</select>
 	
-	<select id="getTerminalsNum" parameterType="int" resultSets="object">
+	<select id="getTerminalsNum" parameterType="string" resultType="object">
 		SELECT  id  FROM terminals 
 		WHERE serial_num =#{terminalsNum}
 	</select>
 	
-	<select id="numIsBinding" parameterType="int" resultSets="int">
+	<select id="numIsBinding" parameterType="string" resultType="int">
 		SELECT  count(*)  FROM terminals t 
 		LEFT JOIN merchants s 
 		ON t.customer_id = s.customer_id
 		WHERE t.serial_num=#{terminalsNum}
 	</select>
 	
-	<select id="merchantsIsBinding" parameterType="int" resultSets="object">
+	<select id="merchantsIsBinding" parameterType="int" resultType="object">
 		SELECT  customer_id  
 		FROM merchants where id=#{terchantsId}
 	</select>
@@ -163,21 +164,24 @@
 		LEFT JOIN goods g ON t.good_id = g.id
 		LEFT JOIN pay_channels p ON t.pay_channel_id = p.id
 		WHERE t.serial_num in 
-		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		<foreach item="item" index="index" collection="serialNum" open="(" separator="," close=")">
         #{item}
   		</foreach>
-  		<if test="title!=null">
-  		and g.title = #{title}
+  		<if test="title != null">
+  		AND g.title = #{title}
+  		</if>
+  		<if test="channelsId != null">
+  		AND p.id = #{channelsId}
   		</if>
 		<choose>
 			<when test="minPrice != null and maxPrice != null">
-				and g.retail_price BETWEEN #{minPrice} and #{maxPrice}
+				AND g.retail_price BETWEEN #{minPrice} and #{maxPrice}
 			</when>
 			<when test="minPrice == null and maxPrice != null">
-				and g.retail_price &lt; #{maxPrice}
+				AND g.retail_price &lt; #{maxPrice}
 			</when>
 			<when test="minPrice != null and maxPrice == null">
-				and g.retail_price &gt; #{minPrice}
+				AND g.retail_price &gt; #{minPrice}
 			</when>
 		</choose>
 	</select>

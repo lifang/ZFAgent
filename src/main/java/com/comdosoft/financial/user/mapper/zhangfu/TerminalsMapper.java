@@ -119,14 +119,14 @@ public interface TerminalsMapper {
      * @param terminalsNum
      * @return
      */
-    Object getTerminalsNum(int terminalsNum);
+    Object getTerminalsNum(String terminalsNum);
     
     /**
      * 查看该终端号是否已经绑定
      * @param terminalsNum
      * @return
      */
-    int numIsBinding(int terminalsNum);
+    int numIsBinding(String terminalsNum);
     
     /**
      * 查看该用户是否已有绑定终端

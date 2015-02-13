@@ -66,7 +66,7 @@ public interface AgentLoginMapper {
 	 * 获取代理商编号
 	 * @return
 	 */
-	Object getAgentCode();
+	Object getAgentCode(int parentId);
 	
 	/**
 	 * 添加代理商

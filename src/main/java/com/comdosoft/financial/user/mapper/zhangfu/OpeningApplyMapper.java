@@ -35,7 +35,7 @@ public interface OpeningApplyMapper {
 	 * 获得所有商户
 	 * @return
 	 */
-	List<Merchant> getMerchants();
+	List<Merchant> getMerchants(Integer customerId);
 	
 	/**
 	 * 获得所有通道
@@ -61,7 +61,7 @@ public interface OpeningApplyMapper {
 	 * 添加开通信息
 	 * @param map
 	 */
-	void addApply(Map<String, String> map);
+	void addApply(Map<Object, Object> map);
 	
 	/**
 	 * 添加开通关联信息
@@ -88,4 +88,10 @@ public interface OpeningApplyMapper {
 	 * @param id
 	 */
 	void deleteOpeningInfos(Integer id);
+	
+	/**
+	 * 更该重新申请状态
+	 * @param openingApplie
+	 */
+	void updateOpeningApplyStatus(OpeningApplie openingApplie);
 }

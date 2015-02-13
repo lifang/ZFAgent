@@ -100,7 +100,7 @@ public class AgentLoginController {
 	}
 	
 	/**
-	 * 发送邮箱验证
+	 * 发送邮箱验证(找回密码)
 	 * @param number
 	 */
 	@RequestMapping(value = "sendEmailVerificationCode/{codeNumber}", method = RequestMethod.GET)
@@ -164,11 +164,11 @@ public class AgentLoginController {
 						return Response.getError("注册失败！");
 					}else{
 						//向代理商表添加数据
-						Object ob = agentLoginService.getAgentCode();
+						Object ob = agentLoginService.getAgentCode(Agent.PARENT_ID);
 						if(ob==null){
 							agent.setCode("001");
 						}else{
-							String str=String.valueOf((int)ob+1);
+							String str=String.valueOf(Integer.parseInt((String)ob)+1);
 							if(str.length()==1){
 								str="00"+str;
 							}
@@ -188,7 +188,7 @@ public class AgentLoginController {
 						agent.setAddress((String)map.get("address"));
 						agent.setFormTypes(Agent.FROM_TYPE_1);
 						agent.setStatus(Agent.STATUS_1);
-						agent.setParentId(0);
+						agent.setParentId(Agent.PARENT_ID);
 						agent.setIsHaveProfit(Agent.IS_HAVE_PROFIT_N);
 						agent.setCardIdPhotoPath((String)map.get("cardIdPhotoPath"));
 						agent.setTaxRegisteredNo((String)map.get("taxRegisteredNo"));
@@ -200,6 +200,7 @@ public class AgentLoginController {
 				}
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			return Response.getError("请求失败！");
 		}
 		}

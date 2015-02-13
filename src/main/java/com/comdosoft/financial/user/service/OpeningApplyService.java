@@ -52,8 +52,8 @@ public class OpeningApplyService {
 	 * 
 	 * @return
 	 */
-	public List<Merchant> getMerchants() {
-		return openingApplyMapper.getMerchants();
+	public List<Merchant> getMerchants(Integer customerId) {
+		return openingApplyMapper.getMerchants(customerId);
 	}
 	
 	/**
@@ -89,10 +89,11 @@ public class OpeningApplyService {
 	 * 
 	 * @param map
 	 */
-	public void addApply(String key, String value, String openingAppliesId) {
-		Map<String, String> map = new HashMap<String, String>();
+	public void addApply(String key, String value,Integer types, String openingAppliesId) {
+		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("key", key);
 		map.put("value", value);
+		map.put("types", types);
 		map.put("openingAppliesId", openingAppliesId);
 		openingApplyMapper.addApply(map);
 	}
@@ -135,5 +136,17 @@ public class OpeningApplyService {
 	 */
 	public void deleteOpeningInfos(Integer id) {
 		openingApplyMapper.deleteOpeningInfos(id);
+	}
+	
+	/**
+	 * 更该重新申请状态
+	 * @param openingApplie
+	 */
+	public void updateOpeningApplyStatus(int openingAppliesId){
+		
+		OpeningApplie openingApplie = new OpeningApplie();
+		openingApplie.setId(openingAppliesId);
+		openingApplie.setStatus(OpeningApplie.STATUS_1);
+		openingApplyMapper.updateOpeningApplyStatus(openingApplie);
 	}
 }

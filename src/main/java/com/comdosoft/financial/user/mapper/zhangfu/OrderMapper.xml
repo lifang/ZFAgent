@@ -59,6 +59,15 @@
 			<association property="payChannel" javaType="com.comdosoft.financial.user.domain.zhangfu.PayChannel" resultMap="payChannelMap" />  
 			<association property="good" javaType="com.comdosoft.financial.user.domain.zhangfu.Good" resultMap="goodsMap" />  
 	</resultMap>
+	<!--  -->
+	<resultMap id="csOutStorageMap" type="com.comdosoft.financial.user.domain.zhangfu.CsOutStorage">
+		 <id property="id" column="cs_out_id" />
+			<result property="quantity" column="quantity" />
+			<!-- <result property="price" column="price" />
+			<result property="actualPrice" column="actual_price" /> -->
+			<result property="createdAt" column="created_at" />
+			<result property="updatedAt" column="updated_at" />
+	</resultMap>
 	
 	<resultMap id="orderMarksMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderMark">
 		 <id property="id" column="om_order_id" />
@@ -93,11 +102,13 @@
 		<result property="invoiceType" column="invoice_type" />
 		<result property="comment" column="comment" />
 		<result property="invoiceInfo" column="invoice_info" />
+		<result property="belongsUserId" column="belongs_user_id" />
 		<result property="totalQuantity" column="total_quantity" />
 		<result property="payStatus" column="pay_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
 		<association property="customerAddress" javaType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress" resultMap="addressMap" />  
 		<association property="orderPayment" javaType="com.comdosoft.financial.user.domain.zhangfu.OrderPayment" resultMap="orderPaymentMap" />  
 	    <collection property="orderGoodsList" ofType="com.comdosoft.financial.user.domain.zhangfu.OrderGood" resultMap="orderGoodsMap" />  
+	    <collection property="csOutStorageList" ofType="com.comdosoft.financial.user.domain.zhangfu.CsOutStorage" resultMap="csOutStorageMap" />  
 	    <collection property="orderMarkList" ofType="com.comdosoft.financial.user.domain.zhangfu.OrderMark" resultMap="orderMarksMap" />  
 	</resultMap>
 
@@ -115,16 +126,31 @@
 	<!-- 我的订单列表 -->
 	<select id="getWholesaleOrder" resultMap="orderMap" >
 		SELECT
-		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,
-		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,
-		pc.name as channel_name,og.price ,	og.quantity ,
-		o.actual_price ,total_price,o.total_quantity as total_num
-		FROM	
-		orders o
+			o.id AS id,os.id as cs_out_id,
+			og.id AS order_good_id,
+			g.id AS good_id,
+			o.total_quantity,
+			o.order_number,
+			o.created_at,
+			o. STATUS,
+			g.title,
+			gb. NAME,
+			gb.id AS good_brands_id,
+			pc. NAME AS channel_name,
+			og.price,
+			total_price,
+			o.total_quantity AS total_num,
+			os.quantity,
+			o.actual_price,
+			o.front_pay_status,
+			o.front_money
+		FROM
+			orders o
 		LEFT JOIN order_goods og ON o.id = og.order_id
 		LEFT JOIN goods g ON og.good_id = g.id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
+		LEFT JOIN cs_out_storages os ON o.id = os.order_id
 		WHERE
 		o.customer_id = #{customer_id}
 		and o.types = 1
@@ -136,7 +162,7 @@
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,
 		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,
-		pc.name as channel_name,og.price ,	og.quantity ,
+		pc.name as channel_name,og.price ,	og.quantity ,cc.name,
 		o.actual_price ,total_price,o.total_quantity as total_num
 		FROM	
 		orders o
@@ -144,6 +170,8 @@
 		LEFT JOIN goods g ON og.good_id = g.id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
+		LEFT JOIN customers cc on o.belongs_user_id = c.id
+		
 		WHERE
 		o.customer_id = #{customer_id}
 		and o.types = 0
@@ -162,7 +190,7 @@
 		order by gp.id desc
 	</select>
 	
-	<select id="findMyOrderById" resultMap="orderMap">
+	<select id="getWholesaleById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,
 		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
@@ -180,6 +208,29 @@
 		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
 		LEFT JOIN order_marks om on o.id = om.order_id 
 		LEFT JOIN customers c on om.customer_id = c.id
+		WHERE
+		o.id = #{param1}
+	</select>
+	
+	<select id="getProxyById" resultMap="orderMap">
+		SELECT
+		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,
+		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
+		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment,
+		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,cc.name,
+		o.actual_price ,total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
+		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name 
+		FROM	
+		orders o
+		LEFT JOIN order_goods og ON o.id = og.order_id
+		LEFT JOIN goods g ON og.good_id = g.id
+		LEFT JOIN goods_pictures gp ON g.id = gp.good_id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
+		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
+		LEFT JOIN order_marks om on o.id = om.order_id 
+		LEFT JOIN customers c on om.customer_id = c.id
+		LEFT JOIN customers cc on o.belongs_user_id = c.id
 		WHERE
 		o.id = #{param1}
 	</select>

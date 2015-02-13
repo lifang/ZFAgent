@@ -24,7 +24,8 @@ public interface OrderMapper {
     List<Order> getWholesaleOrder(MyOrderReq myOrderReq);
     List<Order> getProxyOrder(MyOrderReq myOrderReq);
 
-    Order findMyOrderById(Integer id);
+    Order getWholesaleById(Integer id);
+    Order getProxyById(Integer id);
 
     void cancelMyOrder(MyOrderReq myOrderReq);
 

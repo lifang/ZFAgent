@@ -60,11 +60,26 @@ public class OrderController {
         }
     }
     
-    @RequestMapping(value="getMyOrderById" ,method=RequestMethod.POST)
-    public Response getMyOrderById(@RequestBody MyOrderReq myOrderReq ) {
+    @RequestMapping(value="getWholesaleById" ,method=RequestMethod.POST)
+    public Response getWholesaleById(@RequestBody MyOrderReq myOrderReq ) {
         try{
             logger.debug("获取我的订单详情 start");
-            Object centers = orderService.findMyOrderById(myOrderReq.getId());
+            Object centers = orderService.getWholesaleById(myOrderReq.getId());
+            logger.debug("获取我的订单详情 end"+centers);
+            return Response.getSuccess(centers);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
+        }catch(Exception e){
+            logger.debug("获取我的订单详情出错"+e);
+            return Response.getError("请求失败");
+        }
+    }    
+    
+    @RequestMapping(value="getProxyById" ,method=RequestMethod.POST)
+    public Response getProxyById(@RequestBody MyOrderReq myOrderReq ) {
+        try{
+            logger.debug("获取我的订单详情 start");
+            Object centers = orderService.getProxyById(myOrderReq.getId());
             logger.debug("获取我的订单详情 end"+centers);
             return Response.getSuccess(centers);
         }catch(NullPointerException e){

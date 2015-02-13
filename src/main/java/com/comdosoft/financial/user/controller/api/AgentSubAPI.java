@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
-import com.comdosoft.financial.user.service.MerchantService;
+import com.comdosoft.financial.user.service.AgentSubService;
 
 /**
  * 
- * 我的商户<br>
+ * 下级代理商管理<br>
  * <功能描述>
  *
  * @author zengguang 2015年2月7日
@@ -23,15 +23,15 @@ import com.comdosoft.financial.user.service.MerchantService;
  */
 @RestController
 @RequestMapping(value = "api/merchant")
-public class MerchantAPI {
+public class AgentSubAPI {
 
     @Resource
-    private MerchantService merchantService;
+    private AgentSubService agentSubService;
 
     /**
      * 日志记录器
      */
-    private static final Logger logger = Logger.getLogger(MerchantAPI.class);
+    private static final Logger logger = Logger.getLogger(AgentSubAPI.class);
 
     /**
      * 获取商户信息列表
@@ -42,7 +42,7 @@ public class MerchantAPI {
     public Response getList(@PathVariable int customerId, @PathVariable int page, @PathVariable int rows) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(merchantService.getList(customerId, page, rows));
+            sysResponse = Response.getSuccess(agentSubService.getList(customerId, page, rows));
         } catch (Exception e) {
             logger.error("获取商户信息列表失败", e);
             sysResponse = Response.getError("获取商户信息列表失败:系统异常");
@@ -59,7 +59,7 @@ public class MerchantAPI {
     public Response getOne(@PathVariable int id) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(merchantService.getOne(id));
+            sysResponse = Response.getSuccess(agentSubService.getOne(id));
         } catch (Exception e) {
             logger.error("获取商户信息失败", e);
             sysResponse = Response.getError("获取商户信息失败:系统异常");
@@ -77,7 +77,7 @@ public class MerchantAPI {
     public Response insert(@RequestBody Merchant param) {
         Response sysResponse = null;
         try {
-            merchantService.insert(param);
+            // agentSubService.insert(param);
             sysResponse = Response.getSuccess();
         } catch (Exception e) {
             logger.error("新增商户信息失败", e);
@@ -96,7 +96,7 @@ public class MerchantAPI {
     public Response update(@RequestBody Merchant param) {
         Response sysResponse = null;
         try {
-            merchantService.update(param);
+            // agentSubService.update(param);
             sysResponse = Response.getSuccess();
         } catch (Exception e) {
             logger.error("修改修改商户信息失败", e);
@@ -115,7 +115,7 @@ public class MerchantAPI {
     public Response deleteAddress(@PathVariable int id) {
         Response sysResponse = null;
         try {
-            merchantService.delete(id);
+            // agentSubService.delete(id);
             sysResponse = Response.getSuccess();
         } catch (Exception e) {
             logger.error("删除商户信息失败", e);

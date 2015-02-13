@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.AgentSubMapper">
+
+	<select id="getList" resultType="map">
+	<![CDATA[
+		SELECT a.id,
+			   a.types,
+			   a.company_name,
+			   a.name,
+			   DATE_FORMAT(a.created_at, '%Y-%m-%d %T') created_at,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND t.customer_id IS NOT NULL) soldCount,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND t.customer_id IS NULL) inventoryCount,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND (t.status = 1 OR t.status = 2)) openCount
+		  FROM agents a
+		 WHERE a.parent_id <> 0
+		   AND a.parent_id = #{parentAgentId}
+	  ORDER BY a.created_at DESC
+		 LIMIT #{offset}, #{rows}
+	]]>
+	</select>
+
+	<select id="getOne" resultType="map">
+	<![CDATA[
+		SELECT a.id,
+			   a.types,
+			   a.company_name,
+			   a.business_license,
+			   a.tax_registered_no,
+			   a.name,
+			   a.card_id,
+			   a.phone,
+			   a.email,
+			   a.address,
+			   a.card_id_photo_path,
+			   a.license_no_pic_path,
+			   a.tax_no_pic_path,
+			   DATE_FORMAT(a.created_at, '%Y-%m-%d %T') created_at,
+			   c.username, c.city_id,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND t.customer_id IS NOT NULL) soldCount,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND t.customer_id IS NULL) inventoryCount,
+			   (SELECT COUNT(t.id) FROM terminals t WHERE t.agent_id = a.id AND (t.status = 1 OR t.status = 2)) openCount
+		  FROM agents a JOIN customers c ON a.customer_id = c.id
+		 WHERE a.id = #{agentId}
+	]]>
+	</select>
+
+	<insert id="insertCustomer" useGeneratedKeys="true" keyProperty="id">
+	<![CDATA[
+		INSERT INTO customers(username, password, city_id, account_type, types, phone, email, created_at, status)
+		VALUES(#{username}, #{password}, #{cityId}, #{accountType}, #{types}, #{phone}, #{email}, NOW(), #{status})
+	]]>
+	</insert>
+
+	<insert id="insertAgent" useGeneratedKeys="true" keyProperty="id">
+	<![CDATA[
+		INSERT INTO agents (code, parent_id, status, types, phone, email, customer_id, is_have_profit, default_profit, form_types,
+					name, card_id, company_name, business_license, address, tax_registered_no,
+					card_id_photo_path, license_no_pic_path, tax_no_pic_path, created_at, updated_at)
+		VALUES (#{code}, #{parentId}, #{status}, #{types}, #{phone}, #{email}, #{customerId}, #{isHaveProfit}, #{defaultProfit}, #{formTypes},
+				#{name}, #{cardId}, #{companyName}, #{businessLicense}, #{address}, #{taxRegisteredNo},
+				#{cardIdPhotoPath}, #{licenseNoPicPath}, #{taxNoPicPath}, NOW(), NOW())
+	]]>
+	</insert>
+
+	<update id="setDefaultProfit">
+	<![CDATA[
+		UPDATE agents
+		   SET default_profit = #{defaultProfit}
+		 WHERE id = #{agentId}
+	]]>
+	</update>
+
+	<update id="openDefaultProfit">
+	<![CDATA[
+		UPDATE agents is_have_profit = #{isHaveProfit}
+		 WHERE id = #{agentId}
+	]]>
+	</update>
+
+	<select id="getProfits" resultType="map">
+	<![CDATA[
+		SELECT id,
+			   pay_channel_id,
+			   trade_type,
+			   percent
+		  FROM agent_profit_settings
+		 WHERE agent_id = #{agentId}
+	]]>
+	</select>
+
+	<!-- 新增（批量） -->
+	<insert id="insertProfitsBatch">
+	<![CDATA[
+		INSERT INTO agent_profit_settings (agent_id, pay_channel_id, trade_type, percent, created_at)
+		VALUES
+	]]>
+		<foreach collection="list" item="e" separator=",">
+			(#{e.agentId}, #{e.payChannelId}, #{e.tradeType}, #{e.percent}, NOW())
+		</foreach>
+	</insert>
+
+	<update id="updateProfit">
+		UPDATE agent_profit_settings
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="cityId != null and cityId !=0">percent = #{percent},</if>
+			<if test="updatedAt != null">updated_at = NOW()</if>
+		</trim>
+		WHERE id = #{profitSettingsID}
+	</update>
+
+	<delete id="deleteProfits">
+	<![CDATA[
+		DELETE FROM agent_profit_settings
+		 WHERE pay_channel_id = #{payChannelId}
+		   AND agent_id = #{agentId}
+	]]>
+	</delete>
+
+	<select id="getPayChannels" resultType="map">
+	<![CDATA[
+		SELECT p.id,
+			   p.name
+		  FROM pay_channels p JOIN support_trade_types t ON p.id = t.pay_channel_id
+		 WHERE NOT EXISTS (SELECT s.id FROM agent_profit_settings s WHERE s.pay_channel_id = p.id)
+	  GROUP BY p.id
+	]]>
+	</select>
+
+	<select id="getPayChannelSupportTradeTypes" resultType="map">
+	<![CDATA[
+		SELECT id,
+			   trade_type,
+			   pay_channel_id,
+			   factory_id,
+			   trade_type_id
+		  FROM support_trade_types
+		 WHERE pay_channel_id = #{payChannelId}
+	]]>
+	</select>
+
+</mapper>

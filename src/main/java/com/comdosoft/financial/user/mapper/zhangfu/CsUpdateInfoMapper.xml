@@ -31,7 +31,7 @@
 	
 		<select id="findById" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo">
 			SELECT
-			o.id,
+			o.id,o.templete_info_xml,
 			o.`status` AS apply_status,
 			o.created_at AS apply_time,
 			t.serial_num,

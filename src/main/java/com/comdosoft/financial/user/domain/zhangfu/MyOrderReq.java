@@ -14,6 +14,7 @@ public class MyOrderReq {
     private PayType payType;
     private OrderStatus orderStatus;
     private RepairStatus repairStatus;
+    private UpdateStatus updateStatus;
     private Integer score;//分数
     private Integer good_id;
     private Integer order_good_id;
@@ -21,6 +22,20 @@ public class MyOrderReq {
     private String track_number;
     
     
+    /**  
+     * 获取 updateStatus  
+     * @return updateStatus
+     */
+    public UpdateStatus getUpdateStatus() {
+        return updateStatus;
+    }
+    /**  
+     * 设置 updateStatus  
+     * @param updateStatus
+     */
+    public void setUpdateStatus(UpdateStatus updateStatus) {
+        this.updateStatus = updateStatus;
+    }
     /**  
      * 获取 order_good_id  
      * @return order_good_id

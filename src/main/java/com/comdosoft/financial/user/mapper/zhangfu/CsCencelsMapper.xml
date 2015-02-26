@@ -33,7 +33,7 @@
 	<select id="findById" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsCancel">
 		SELECT
 			o.id,
-			o.`status` AS apply_status,
+			o.`status` AS apply_status,o.templete_info_xml,
 			o.created_at AS apply_time,
 			t.serial_num,
 			gb.`name` AS brand_name,

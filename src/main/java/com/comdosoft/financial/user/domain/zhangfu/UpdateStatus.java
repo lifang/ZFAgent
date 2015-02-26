@@ -2,25 +2,21 @@ package com.comdosoft.financial.user.domain.zhangfu;
 
 /**
  * 
- * 维修状态<br>
+ * 更新状态<br>
  * <功能描述>
  *
  * @author gch 2015年2月9日
  *
  */
-public enum RepairStatus {
+public enum UpdateStatus {
     /**
-     * 未付款
+     * 待处理
      */
-    UNPAID(1,"未付款"),
+    PENDING(1,"待处理"),
     /**
-     * 待发回
+     * 处理中
      */
-    PAID(2,"待发回"),
-    /**
-     * 维修中
-     */
-    SHIPPED(3,"维修中"),
+    PROCESS(2,"处理中"),
     /**
      * 处理完成
      */
@@ -29,6 +25,7 @@ public enum RepairStatus {
      * 已取消
      */
     CANCEL(5,"已取消");
+ 
 
     private Integer code;
     private String name;
@@ -60,14 +57,14 @@ public enum RepairStatus {
     public void setCode(Integer code) {
         this.code = code;
     }
-    private RepairStatus(Integer code, String name) {
+    private UpdateStatus(Integer code, String name) {
         this.code = code;
         this.name = name;
     }
     
     public static String getName(int code){
         String status_name = null;
-        for (RepairStatus s : RepairStatus.values()){  
+        for (UpdateStatus s : UpdateStatus.values()){  
             if(s.getCode() == code){
                 status_name = s.getName();
             }

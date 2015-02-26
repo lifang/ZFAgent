@@ -8,6 +8,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.Order;
+import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 
 public interface OrderMapper {
 
@@ -38,4 +39,7 @@ public interface OrderMapper {
     
     Customer findCustomerById(Customer person);
 // ------gch end ---------------------
+
+//根据订单id获取终端号
+    List<Terminal>  getTerminsla(Integer id);
 }

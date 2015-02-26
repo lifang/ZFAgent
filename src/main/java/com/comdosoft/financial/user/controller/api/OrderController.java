@@ -47,6 +47,9 @@ public class OrderController {
     public Response getWholesaleById(@RequestBody MyOrderReq myOrderReq ) {
         try{
             Object centers = orderService.getWholesaleById(myOrderReq.getId());
+            if(centers.equals("-1")){
+                return Response.getError("此订单不存在");
+            }
             return Response.getSuccess(centers);
         }catch(NullPointerException e){
             return Response.buildErrorWithMissing();
@@ -87,6 +90,9 @@ public class OrderController {
     public Response getProxyById(@RequestBody MyOrderReq myOrderReq ) {
         try{
             Object centers = orderService.getProxyById(myOrderReq.getId());
+            if(centers.equals("-1")){
+                return Response.getError("此订单不存在");
+            }
             return Response.getSuccess(centers);
         }catch(NullPointerException e){
             return Response.buildErrorWithMissing();

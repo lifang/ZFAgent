@@ -20,6 +20,7 @@ import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.Order;
 import com.comdosoft.financial.user.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.user.domain.zhangfu.OrderStatus;
+import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.mapper.zhangfu.OrderMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
@@ -94,7 +95,7 @@ public class OrderService {
         Map<String,Object> map = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         for(Order o : centers){
-            map = new HashMap<String, Object>();
+            map = new LinkedHashMap<String, Object>();
             map.put("order_id", o.getId().toString());
             map.put("order_number", o.getOrderNumber());
             String d = sdf.format(o.getCreatedAt());
@@ -128,7 +129,8 @@ public class OrderService {
                 for (OrderGood od : olist) {
                     omap = new HashMap<String, Object>();
                     omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId().toString());
-                    omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
+                    omap.put("good_price", od.getGood() == null ? "" : od.getGood().getPrice()+"");//原价
+                    omap.put("good_batch_price",od.getGood() == null ? "" : od.getGood().getPurchasePrice()+"");
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                     omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
                     omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
@@ -161,7 +163,7 @@ public class OrderService {
         Map<String,Object> map = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         for(Order o : centers){
-            map = new HashMap<String, Object>();
+            map = new LinkedHashMap<String, Object>();
             map.put("order_id", o.getId().toString());
             map.put("order_number", o.getOrderNumber());
             String d = sdf.format(o.getCreatedAt());
@@ -182,7 +184,7 @@ public class OrderService {
                 for (OrderGood od : olist) {
                     omap = new HashMap<String, Object>();
                     omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId().toString());
-                    omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
+                    omap.put("good_price", od.getGood() == null ? "" : od.getGood().getRetailPrice().toString());
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                     omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
                     omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
@@ -215,11 +217,12 @@ public class OrderService {
      */
     public Object getWholesaleById(Integer id) throws ParseException {
         Order o = orderMapper.getWholesaleById(id);
+        if(null == o){
+            return "-1";
+        }
         List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = new LinkedHashMap<String, Object>();
         map.put("order_id", id);
-        
-        
 //        Integer actual_price = o.getActualPrice();//这个单子的总额
         int pay_status = o.getFrontPayStatus(); //1 已支付  0 未支付
         Integer zhifu_dingjin = 0;
@@ -274,6 +277,7 @@ public class OrderService {
                 omap = new HashMap<String, Object>();
                 omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId().toString());
                 omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
+                omap.put("good_batch_price",od.getGood() == null ? "" : od.getGood().getPurchasePrice()+"");
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                 omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
                 omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
@@ -290,6 +294,12 @@ public class OrderService {
                 newObjList.add(omap);
             }
         }
+        List<Terminal> terminals = orderMapper.getTerminsla(id);
+        StringBuffer sb = new StringBuffer();
+        for(Terminal t:terminals){
+            sb.append(t.getSerialNum()+" ");
+        }
+        map.put("terminals", sb.toString());
         map.put("order_goodsList", newObjList);
         MyOrderReq myOrderReq = new MyOrderReq();
         myOrderReq.setId(id);
@@ -299,10 +309,19 @@ public class OrderService {
         return obj_list;
     }
     
+    /**
+     * 代购详情
+     * @param id
+     * @return
+     * @throws ParseException
+     */
     public Object getProxyById(Integer id) throws ParseException {
         Order o = orderMapper.getProxyById(id);
+        if(null == o){
+            return "-1";
+        }
         List<Object> obj_list = new ArrayList<Object>();
-        Map<String,Object> map = new HashMap<String, Object>();
+        Map<String,Object> map = new LinkedHashMap<String, Object>();
         map.put("order_id", o.getId()==null ?"":o.getId().toString());
         map.put("order_number", o.getOrderNumber());//订单编号
         map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
@@ -312,7 +331,7 @@ public class OrderService {
         map.put("order_status", o.getStatus().getCode());
         map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
         map.put("order_totalPrice", o.getActualPrice());
-        map.put("order_psf", "");//配送费
+        map.put("order_psf", "0");//配送费
         map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver());
         map.put("order_address", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getAddress());
         map.put("order_receiver_phone", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getMoblephone());
@@ -333,7 +352,7 @@ public class OrderService {
             for (OrderGood od : olist) {
                 omap = new HashMap<String, Object>();
                 omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId().toString());
-                omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
+                omap.put("good_price", od.getGood() == null ? "" : od.getGood().getRetailPrice()+"");
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                 omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
                 omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
@@ -351,6 +370,12 @@ public class OrderService {
             }
         }
         map.put("order_goodsList", newObjList);
+        List<Terminal> terminals = orderMapper.getTerminsla(id);
+        StringBuffer sb = new StringBuffer();
+        for(Terminal t:terminals){
+            sb.append(t.getSerialNum()+" ");
+        }
+        map.put("terminals", sb.toString());
         MyOrderReq myOrderReq = new MyOrderReq();
         myOrderReq.setId(id);
         List<Map<String,Object>> list = orderMapper.findTraceById(myOrderReq);

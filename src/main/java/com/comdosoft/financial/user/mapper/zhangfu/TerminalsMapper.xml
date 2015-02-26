@@ -2,14 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper">
 
-
-	<insert id="submitAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgent">
-		INSERT into cs_agents(customer_id,terminals_quantity,status,
-			address,reason,created_at,updated_at,apply_num,terminals_list,reciver,phone)
-		VALUES(#{customerId},#{terminalsQuantity},#{status},#{address},#{reason},
-			now(),now(),#{applyNum},#{terminalsList},#{reciver},#{phone})
-	</insert>
-
 	<!-- 查询交易流水用 -->
 	<select id="getTerminals" resultType="map">
 	<![CDATA[
@@ -21,19 +13,25 @@
 	]]>
 	</select>
 
+	<insert id="submitAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgent">
+		INSERT into
+		cs_agents(customer_id,terminals_quantity,status,
+		address,reason,created_at,updated_at,apply_num,terminals_list,reciver,phone)
+		VALUES(#{customerId},#{terminalsQuantity},#{status},#{address},#{reason},
+		now(),now(),#{applyNum},#{terminalsList},#{reciver},#{phone})
+	</insert>
+
 	<select id="getTerminalList" parameterType="map" resultType="map">
 		SELECT id,serial_num,status
 		FROM terminals
 		WHERE
 		customer_id=#{id}
 		<if test="status!=0">
-		AND status = #{status}
+			AND status = #{status}
 		</if>
 		ORDER BY created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
-	
-	
 
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.serial_num,g.model_number,b.name as
@@ -41,12 +39,14 @@
 		FROM
 		terminals t LEFT JOIN goods g on t.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
-		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
+		LEFT JOIN pay_channels c on
+		c.id=t.pay_channel_id
 		LEFT JOIN factories a ON
 		c.factory_id=a.id
 		LEFT JOIN merchants m ON
 		t.merchant_id=m.id
-		LEFT JOIN order_goods o ON t.good_id=o.good_id
+		LEFT JOIN order_goods
+		o ON t.good_id=o.good_id
 		LEFT JOIN orders e ON
 		o.order_id=e.id
 		WHERE t.id=#{id}
@@ -65,11 +65,13 @@
 	</select>
 
 	<select id="getTrackRecord" parameterType="int" resultType="map">
-		SELECT date_format(s.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,s.content,c.`name`
+		SELECT date_format(s.created_at,'%Y-%c-%d %h:%i:%s') as
+		createdAt,s.content,c.`name`
 		FROM terminals t LEFT
 		JOIN opening_applies i ON t.id=i.terminal_id
 		LEFT JOIN
-		opening_apply_marks s ON i.id=s.opening_apply_id
+		opening_apply_marks s ON
+		i.id=s.opening_apply_id
 		LEFT JOIN customers c ON
 		s.custom_id=c.id
 		where t.id=#{id}
@@ -90,61 +92,65 @@
 	</select>
 
 	<select id="getMerchants" parameterType="int" resultType="map">
-		SELECT  a.id,a.name  FROM  agents a LEFT JOIN customer_agent_relations c ON a.id = c.agent_id
+		SELECT a.id,a.name FROM agents a LEFT JOIN
+		customer_agent_relations c ON a.id = c.agent_id
 		LEFT JOIN merchants m ON m.customer_id = c.customer_id
-		WHERE a.customer_id = #{customerId}
+		WHERE a.customer_id =
+		#{customerId}
 	</select>
-	
+
 	<select id="getTerminalsNum" parameterType="string" resultType="object">
-		SELECT  id  FROM terminals 
+		SELECT id FROM terminals
 		WHERE serial_num =#{terminalsNum}
 	</select>
-	
+
 	<select id="numIsBinding" parameterType="string" resultType="int">
-		SELECT  count(*)  FROM terminals t 
-		JOIN merchants s 
-		ON t.customer_id = s.customer_id
+		SELECT count(*) FROM terminals t
+		JOIN merchants s
+		ON
+		t.customer_id = s.customer_id
 		WHERE t.serial_num=#{terminalsNum}
 	</select>
-	
+
 	<select id="merchantsIsBinding" parameterType="int" resultType="object">
-		SELECT  customer_id  
+		SELECT customer_id
 		FROM merchants where id=#{terchantsId}
 	</select>
-	
+
 	<update id="Binding" parameterType="map">
 		UPDATE merchants SET customer_id = #{terchantsId}
 		WHERE id = #{merchantsId}
 	</update>
-	
+
 	<select id="getTerminal" parameterType="int" resultType="map">
 		SELECT id,serial_num
 		FROM terminals
 		WHERE
 		customer_id=#{customerId}
 	</select>
-	
+
 	<select id="getAddressee" parameterType="int" resultType="map">
 		SELECT id,receiver,moblephone,address
 		FROM customer_addresses
 		WHERE
 		customer_id=#{customerId}
 	</select>
-	
+
 	<select id="screeningTerminalNum" resultType="map" parameterType="map">
-		SELECT t.id,t.serial_num,g.retail_price from terminals t 
+		SELECT t.id,t.serial_num,g.retail_price from terminals t
 		LEFT JOIN goods g ON t.good_id = g.id
-		LEFT JOIN pay_channels p ON t.pay_channel_id = p.id
-		WHERE t.serial_num in 
+		LEFT JOIN pay_channels p ON
+		t.pay_channel_id = p.id
+		WHERE t.serial_num in
 		<foreach item="item" index="index" collection="serialNum" open="(" separator="," close=")">
-        #{item}
-  		</foreach>
-  		<if test="title != null">
-  		AND g.title = #{title}
-  		</if>
-  		<if test="channelsId != null">
-  		AND p.id = #{channelsId}
-  		</if>
+			#{item}
+		</foreach>
+		<if test="title != null">
+			AND g.title = #{title}
+		</if>
+		<if test="channelsId != null">
+			AND p.id = #{channelsId}
+		</if>
 		<choose>
 			<when test="minPrice != null and maxPrice != null">
 				AND g.retail_price BETWEEN #{minPrice} and #{maxPrice}
@@ -157,10 +163,12 @@
 			</when>
 		</choose>
 	</select>
-	
+
 	<select id="screeningPosName" parameterType="int" resultType="map">
-		SELECT g.id,g.title FROM terminals t 
-		LEFT JOIN goods g ON t.good_id = g.id
+		SELECT g.id,g.title FROM terminals t
+		LEFT JOIN goods g ON
+		t.good_id = g.id
 		WHERE t.customer_id = #{customerId}
 	</select>
+
 </mapper>

@@ -19,6 +19,8 @@ public interface AgentSubMapper {
 
     Map<Object, Object> getOne(int agentId);
 
+    String getCurrentAgentMaxCode(Integer parentId);
+
     void insertCustomer(Customer param);
 
     void insertAgent(Agent param);

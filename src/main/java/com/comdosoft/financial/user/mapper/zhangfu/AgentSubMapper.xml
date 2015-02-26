@@ -45,19 +45,27 @@
 	]]>
 	</select>
 
+	<select id="getCurrentAgentMaxCode" resultType="string">
+	<![CDATA[
+		SELECT MAX(code),
+		  FROM agents
+		 WHERE parent_id = #{parentId}
+	]]>
+	</select>
+
 	<insert id="insertCustomer" useGeneratedKeys="true" keyProperty="id">
 	<![CDATA[
-		INSERT INTO customers(username, password, city_id, account_type, types, phone, email, created_at, status)
-		VALUES(#{username}, #{password}, #{cityId}, #{accountType}, #{types}, #{phone}, #{email}, NOW(), #{status})
+		INSERT INTO customers(username, password, city_id, types, status, phone, email, created_at)
+		VALUES(#{username}, #{password}, #{cityId}, #{types}, #{status}, #{phone}, #{email}, NOW())
 	]]>
 	</insert>
 
 	<insert id="insertAgent" useGeneratedKeys="true" keyProperty="id">
 	<![CDATA[
-		INSERT INTO agents (code, parent_id, status, types, phone, email, customer_id, is_have_profit, default_profit, form_types,
+		INSERT INTO agents (code, parent_id, status, types, phone, email, customer_id, is_have_profit, form_types,
 					name, card_id, company_name, business_license, address, tax_registered_no,
 					card_id_photo_path, license_no_pic_path, tax_no_pic_path, created_at, updated_at)
-		VALUES (#{code}, #{parentId}, #{status}, #{types}, #{phone}, #{email}, #{customerId}, #{isHaveProfit}, #{defaultProfit}, #{formTypes},
+		VALUES (#{code}, #{parentId}, #{status}, #{types}, #{phone}, #{email}, #{customerId}, #{isHaveProfit}, #{formTypes},
 				#{name}, #{cardId}, #{companyName}, #{businessLicense}, #{address}, #{taxRegisteredNo},
 				#{cardIdPhotoPath}, #{licenseNoPicPath}, #{taxNoPicPath}, NOW(), NOW())
 	]]>

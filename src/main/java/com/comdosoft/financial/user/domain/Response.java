@@ -77,7 +77,7 @@ public class Response {
         Response r = new Response();
         r.code = MISSING_CODE;
         r.result = null;
-        r.message = "缺少必填参数或测试数据出错";
+        r.message = "参数错误或数据不存在";
         return r;
     }
 

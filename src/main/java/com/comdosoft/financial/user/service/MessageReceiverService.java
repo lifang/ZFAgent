@@ -39,22 +39,27 @@ public class MessageReceiverService {
         return new Page<Object>(request, list, count);
     }
     
-    public SysMessage findById(Integer id) {
-        SysMessage sysMessage = messageReceiverMapper.findById(id);
-        messageReceiverMapper.isRead(id);
+    public SysMessage findById(MyOrderReq myOrderReq) {
+        SysMessage sysMessage = messageReceiverMapper.findById(myOrderReq);
+        messageReceiverMapper.isRead(myOrderReq);
         return sysMessage;
     }
     
-    public void delete(Integer id){
-        messageReceiverMapper.delete(id);
+    public String delete(MyOrderReq myOrderReq){
+        SysMessage sysMessage = messageReceiverMapper.findById(myOrderReq);
+        if(null == sysMessage){
+            return "-1";
+        }
+        messageReceiverMapper.delete(myOrderReq);
+        return "1";
     }
     
-    public void batchDelete(String[] ids){
-        messageReceiverMapper.batchDelete(ids);
+    public void batchDelete(MyOrderReq myOrderReq){
+        messageReceiverMapper.batchDelete(myOrderReq);
     }
     
-    public void batchRead(String[] ids){
-        messageReceiverMapper.batchUpdate(ids);
+    public void batchRead(MyOrderReq myOrderReq){
+        messageReceiverMapper.batchUpdate(myOrderReq);
     }
 
 //    public void isRead(String id) {

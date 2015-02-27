@@ -36,9 +36,7 @@ public class MessageReceiverController {
     @RequestMapping(value="getAll",method=RequestMethod.POST)
     public Response getAll(@RequestBody MyOrderReq myOrderReq){
         try{
-            logger.debug("获取我的消息列表 start");
             Page<Object> mrs= messageReceiverService.findAll(myOrderReq);
-            logger.debug("获取我的消息列表 end"+mrs);
             return Response.getSuccess(mrs);
         }catch(NullPointerException e){
             return Response.buildErrorWithMissing();
@@ -51,16 +49,14 @@ public class MessageReceiverController {
     @RequestMapping(value="getById",method=RequestMethod.POST)
     public Response getById(@RequestBody MyOrderReq myOrderReq){
         try{
-            logger.debug("获取我的消息详情 start");
-            SysMessage sysMessage = messageReceiverService.findById(myOrderReq.getId());
+            SysMessage sysMessage = messageReceiverService.findById(myOrderReq);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
             Map<String,String> map = new HashMap<String,String>();
             map.put("id", sysMessage.getId().toString());
             map.put("title", sysMessage.getTitle());
             map.put("create_at",sdf.format(sysMessage.getCreatedAt()));
             map.put("content", sysMessage.getContent());
-            logger.debug("获取我的消息详情 end"+sysMessage);
-            return Response.getSuccess(sysMessage);
+            return Response.getSuccess(map);
         }catch(NullPointerException e){
             return Response.buildErrorWithMissing();
         }catch(Exception e){
@@ -72,9 +68,10 @@ public class MessageReceiverController {
     @RequestMapping(value="deleteById",method=RequestMethod.POST)
     public Response deleteById(@RequestBody MyOrderReq myOrderReq){
         try{
-            logger.debug("根据id删除我的消息 start");
-            messageReceiverService.delete(myOrderReq.getId());
-            logger.debug("根据id删除我的消息 end");
+            String res = messageReceiverService.delete(myOrderReq);
+            if(res.equals("-1")){
+                return Response.buildErrorWithMissing();
+            }
             return Response.buildSuccess(null, "删除成功");
         }catch(Exception e){
             logger.debug("根据id删除我的消息出错"+e);
@@ -84,23 +81,19 @@ public class MessageReceiverController {
     
     @RequestMapping(value="batchDelete",method=RequestMethod.POST)
     public Response batchDelete(@RequestBody MyOrderReq myOrderReq){
-        try{
-            logger.debug("根据ids[]批量删除我的消息 start");
-            messageReceiverService.batchDelete(myOrderReq.getIds());
-            logger.debug("根据ids[]批量删除我的消息end");
+//        try{
+            messageReceiverService.batchDelete(myOrderReq);
             return Response.buildSuccess(null, "删除成功");
-        }catch(Exception e){
-            logger.debug("根据ids[]批量删除我的消息出错"+e);
-            return Response.getError("请求失败");
-        }
+//        }catch(Exception e){
+//            logger.debug("根据ids[]批量删除我的消息出错"+e);
+//            return Response.getError("请求失败");
+//        }
     }
     
     @RequestMapping(value="batchRead",method=RequestMethod.POST)
     public Response batchRead(@RequestBody MyOrderReq myOrderReq){
         try{
-            logger.debug("根据ids[]批量设置我的消息已读 start");
-            messageReceiverService.batchRead(myOrderReq.getIds());
-            logger.debug("根据ids[]批量设置我的消息已读 end");
+            messageReceiverService.batchRead(myOrderReq);
             return Response.buildSuccess(null, "已读设置成功");
         }catch(Exception e){
             logger.debug("根据ids[]批量设置我的消息已读 出错"+e);

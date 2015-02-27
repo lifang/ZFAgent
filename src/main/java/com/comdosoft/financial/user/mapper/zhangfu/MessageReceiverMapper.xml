@@ -33,27 +33,29 @@
 	<select id="findById" resultMap="sysMessage">
 		SELECT s.id,s.title,s.content,s.created_at
 		FROM sys_messages s
-		where s.id = #{param1}
+		left join message_receivers m on s.id = m.sys_message_id
+		where m.sys_message_id = #{id} and m.customer_id = #{customer_id}
 	</select>
 
 	<delete id="delete">
-		DELETE FROM message_receivers where id=#{param1}
+		DELETE FROM message_receivers  where sys_message_id = #{id} and customer_id = #{customer_id}
 	</delete>
 
-	<delete id="batchDelete" parameterType="java.lang.String">
-		DELETE FROM message_receivers where id in
-		<foreach item="ids" collection="array" open="(" separator="," close=")">
+	<delete id="batchDelete" parameterType="com.comdosoft.financial.user.domain.zhangfu.MyOrderReq">
+		DELETE FROM message_receivers where customer_id = #{customer_id} and sys_message_id in
+		<foreach item="ids" collection="ids" open="(" separator="," close=")">
 			#{ids}
 		</foreach>
+		
 	</delete>
 
-	<update id="batchUpdate" parameterType="java.lang.String">
+	<update id="batchUpdate" >
 		update message_receivers
 		<set>
 			status=1
 		</set>
-		where id in
-		<foreach item="ids" collection="array" open="(" separator="," close=")">
+		where customer_id = #{customer_id} and sys_message_id in
+		<foreach item="ids" collection="ids" open="(" separator="," close=")">
 			#{ids}
 		</foreach>
 	</update>
@@ -61,7 +63,7 @@
 	<update id="isRead">
 		update message_receivers
 		set status=1
-		where id = #{param1}
+		where sys_message_id = #{id} and customer_id = #{customer_id}
 	</update>
 
 </mapper>

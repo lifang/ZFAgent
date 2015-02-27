@@ -11,17 +11,17 @@ public interface MessageReceiverMapper {
 
     int count(int person_id);
 
-    SysMessage findById(int parseInt);
+    SysMessage findById(MyOrderReq myOrderReq);
     
-    void delete(int parseInt);
+    void delete(MyOrderReq myOrderReq);
     
-    void batchDelete(String[] ids);
+    void batchDelete(MyOrderReq myOrderReq);
     /**
      * 批量设置为已读
      * @param ids
      */
-    void batchUpdate(String[] ids);
+    void batchUpdate(MyOrderReq myOrderReq );
 
-    void isRead(int id);
+    void isRead(MyOrderReq myOrderReq);
 
 }

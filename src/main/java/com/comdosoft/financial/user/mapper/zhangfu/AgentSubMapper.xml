@@ -138,10 +138,9 @@
 	<select id="getPayChannelSupportTradeTypes" resultType="map">
 	<![CDATA[
 		SELECT id,
-			   trade_type,
-			   pay_channel_id,
-			   factory_id,
 			   trade_type_id
+			   trade_type,
+			   pay_channel_id
 		  FROM support_trade_types
 		 WHERE pay_channel_id = #{payChannelId}
 	]]>

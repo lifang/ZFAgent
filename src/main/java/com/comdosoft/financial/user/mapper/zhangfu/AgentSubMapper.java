@@ -31,8 +31,6 @@ public interface AgentSubMapper {
 
     List<Map<Object, Object>> getProfits(int agentId);
 
-    void insertProfitsBatch(AgentProfitSetting param);
-
     void updateProfit(Map<Object, Object> param);
 
     void deleteProfits(AgentProfitSetting param);
@@ -40,5 +38,7 @@ public interface AgentSubMapper {
     List<Map<Object, Object>> getPayChannels();
 
     List<Map<Object, Object>> getPayChannelSupportTradeTypes(int payChannelId);
+
+    void insertProfitsBatch(List<AgentProfitSetting> param);
 
 }

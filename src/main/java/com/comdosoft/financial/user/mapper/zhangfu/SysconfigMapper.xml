@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.SysconfigMapper">
-  
-     
-     <select id="getValue" resultType="map" >
-        SELECT param_value as value,remark  FROM sys_config WHERE param_name=#{key}
-     </select>
-	
+
+	<select id="getValue" resultType="map">
+	<![CDATA[
+		SELECT param_value as value, remark
+		  FROM sys_config
+		 WHERE param_name = #{key}
+	]]>
+	</select>
+
+	<select id="getSysConfig" resultType="map">
+	<![CDATA[
+		SELECT param_name, param_value, remark
+		  FROM sys_config
+		 WHERE param_name = #{param_name}
+	]]>
+	</select>
+
 </mapper>

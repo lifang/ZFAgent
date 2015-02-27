@@ -165,7 +165,7 @@ public class Agent {
      * 
      * @mbggenerated
      */
-    private Integer isHaveProfit;
+    private Integer isHaveProfit = 1;
 
     /**
      * 默认分润比例default_profit

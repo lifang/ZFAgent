@@ -1,5 +1,7 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -12,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
+import com.comdosoft.financial.user.domain.zhangfu.AgentProfitSetting;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
-import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.service.AgentLoginService;
 import com.comdosoft.financial.user.service.AgentSubService;
 
@@ -118,7 +120,6 @@ public class AgentSubAPI {
                     }
                     agent.setFormTypes(Agent.FROM_TYPE_2);
                     agent.setStatus(Agent.STATUS_2);
-                    agent.setIsHaveProfit(Agent.IS_HAVE_PROFIT_N);
                 }
             }
             agentSubService.insert(customer, agent);
@@ -131,39 +132,132 @@ public class AgentSubAPI {
     }
 
     /**
-     * 修改下级代理商信息
+     * 设置默认分润比例
      * 
-     * @param customer
+     * @param param
      * @return
      */
-    @RequestMapping(value = "update", method = RequestMethod.POST)
-    public Response update(@RequestBody Merchant param) {
+    @RequestMapping(value = "setDefaultProfit", method = RequestMethod.POST)
+    public Response setDefaultProfit(@RequestBody Map<Object, Object> param) {
         Response sysResponse = null;
         try {
-            // agentSubService.update(param);
+            agentSubService.setDefaultProfit(param);
             sysResponse = Response.getSuccess();
         } catch (Exception e) {
-            logger.error("修改修改下级代理商信息失败", e);
-            sysResponse = Response.getError("修改修改下级代理商信息失败:系统异常");
+            logger.error("设置默认分润比例失败", e);
+            sysResponse = Response.getError("设置默认分润比例失败:系统异常");
         }
         return sysResponse;
     }
 
     /**
-     * 删除下级代理商信息
+     * 开通分润
      * 
-     * @param id
+     * @param param
      * @return
      */
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
-    public Response deleteAddress(@PathVariable int id) {
+    @RequestMapping(value = "openDefaultProfit", method = RequestMethod.POST)
+    public Response openDefaultProfit(@RequestBody Map<Object, Object> param) {
         Response sysResponse = null;
         try {
-            // agentSubService.delete(id);
+            agentSubService.openDefaultProfit(param);
             sysResponse = Response.getSuccess();
         } catch (Exception e) {
-            logger.error("删除下级代理商信息失败", e);
-            sysResponse = Response.getError("删除下级代理商信息失败:系统异常");
+            logger.error("开通分润失败", e);
+            sysResponse = Response.getError("开通分润失败:系统异常");
+        }
+        return sysResponse;
+    }
+
+    /**
+     * 获取分润列表
+     * 
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "getProfits", method = RequestMethod.POST)
+    public Response getProfits(@RequestBody Map<Object, Object> param) {
+        Response sysResponse = null;
+        try {
+            int agentId = (int) param.get("agentId");
+            sysResponse = Response.getSuccess(agentSubService.getProfits(agentId));
+        } catch (Exception e) {
+            logger.error("获取分润列表失败", e);
+            sysResponse = Response.getError("获取分润列表失败:系统异常");
+        }
+        return sysResponse;
+    }
+
+    /**
+     * 设置分润
+     * 
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "updateProfit", method = RequestMethod.POST)
+    public Response updateProfit(@RequestBody Map<Object, Object> param) {
+        Response sysResponse = null;
+        try {
+            agentSubService.updateProfit(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("设置分润信息失败", e);
+            sysResponse = Response.getError("设置分润信息失败:系统异常");
+        }
+        return sysResponse;
+    }
+
+    /**
+     * 删除分润
+     * 
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    public Response deleteAddress(@RequestBody AgentProfitSetting param) {
+        Response sysResponse = null;
+        try {
+            agentSubService.deleteProfits(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("删除分润信息失败", e);
+            sysResponse = Response.getError("删除分润信息失败:系统异常");
+        }
+        return sysResponse;
+    }
+
+    /**
+     * 获取分润的支付通道列表
+     * 
+     * @return
+     */
+    @RequestMapping(value = "getPayChannels", method = RequestMethod.POST)
+    public Response getPayChannels() {
+        Response sysResponse = null;
+        try {
+            sysResponse = Response.getSuccess(agentSubService.getPayChannels());
+        } catch (Exception e) {
+            logger.error("获取分润的支付通道列表失败", e);
+            sysResponse = Response.getError("获取分润的支付通道列表失败:系统异常");
+        }
+        return sysResponse;
+    }
+
+    /**
+     * 新增分润
+     * 
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "insertProfits", method = RequestMethod.POST)
+    public Response insertProfits(@RequestBody Map<Object, Object> param) {
+        Response sysResponse = null;
+        try {
+            agentSubService.insertProfits(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("新增分润信息失败", e);
+            sysResponse = Response.getError("新增分润信息失败:系统异常");
         }
         return sysResponse;
     }

@@ -78,4 +78,9 @@ public class TradeRecordService {
         return tradeRecordMapper.getTradeRecordTotal(query);
     }
 
+    public Object getTradeRecord(int tradeRecordId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

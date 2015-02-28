@@ -44,17 +44,19 @@ public class TerminalsController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "getApplyList/{customersId}/{indexPage}/{pageNum}", method = RequestMethod.GET)
-	public Response getApplyList(
-			@PathVariable("customersId") Integer customersId,
-			@PathVariable("indexPage") Integer page,
-			@PathVariable("pageNum") Integer pageNum) {
+	@RequestMapping(value = "getApplyList", method = RequestMethod.POST)
+	public Response getApplyList(@RequestBody Map<String, Object> map) {
 		try {
 			Integer status = 0; 
-			PageRequest PageRequest = new PageRequest(page, pageNum);
+			PageRequest PageRequest = new PageRequest(
+					Integer.parseInt((String)map.get("page")),
+					Integer.parseInt((String)map.get("pageNum")));
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(terminalsService.getTerminalList(
-					customersId, offSetPage, pageNum,status));
+					Integer.parseInt((String)map.get("customersId")),
+					offSetPage,
+					Integer.parseInt((String)map.get("pageNum")),
+					status));
 		} catch (Exception e) {
 			logger.error("根据用户ID获得终端列表异常！", e);
 			return Response.getError("请求失败！");
@@ -69,16 +71,18 @@ public class TerminalsController {
 	 * @param pageNum
 	 * @return
 	 */
-	@RequestMapping(value="getTerminalList/{customersId}/{indexPage}/{pageNum}/{status}",method=RequestMethod.GET)
-	public Response getTerminalList(@PathVariable("status") Integer status,
-			@PathVariable("customersId") Integer customersId,
-			@PathVariable("indexPage") Integer page,
-			@PathVariable("pageNum") Integer pageNum){
+	@RequestMapping(value="getTerminalList",method=RequestMethod.POST)
+	public Response getTerminalList(@RequestBody Map<String, Object> map){
 		try {
-			PageRequest PageRequest = new PageRequest(page, pageNum);
+			PageRequest PageRequest = new PageRequest(
+					Integer.parseInt((String)map.get("page")),
+					Integer.parseInt((String)map.get("pageNum")));
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(terminalsService.getTerminalList(
-					customersId, offSetPage, pageNum,status));
+					Integer.parseInt((String)map.get("customersId")),
+					offSetPage,
+					Integer.parseInt((String)map.get("pageNum")),
+					Integer.parseInt((String)map.get("status"))));
 		} catch (Exception e) {
 			logger.error("根据状态选择查询异常！", e);
 			return Response.getError("请求失败！");
@@ -90,21 +94,21 @@ public class TerminalsController {
 	 * 
 	 * @param id
 	 */
-	@RequestMapping(value = "getApplyDetails/{terminalsId}", method = RequestMethod.GET)
-	public Response getApplyDetails(
+	@RequestMapping(value = "getApplyDetails", method = RequestMethod.POST)
+	public Response getApplyDetails(@RequestBody Map<String, Object> maps,
 			@PathVariable("terminalsId") Integer terminalsId) {
 		try {
 			Map<Object, Object> map = new HashMap<Object, Object>();
 			// 获得终端详情
 			map.put("applyDetails",
-					terminalsService.getApplyDetails(terminalsId));
+					terminalsService.getApplyDetails(Integer.parseInt((String)maps.get("terminalsId"))));
 			// 终端交易类型
-			map.put("rates", terminalsService.getRate(terminalsId));
+			map.put("rates", terminalsService.getRate(Integer.parseInt((String)maps.get("terminalsId"))));
 			// 追踪记录
-			map.put("trackRecord", terminalsService.getTrackRecord(terminalsId));
+			map.put("trackRecord", terminalsService.getTrackRecord(Integer.parseInt((String)maps.get("terminalsId"))));
 			// 开通详情
 			map.put("openingDetails",
-					terminalsService.getOpeningDetails(terminalsId));
+					terminalsService.getOpeningDetails(Integer.parseInt((String)maps.get("terminalsId"))));
 			return Response.getSuccess(map);
 		} catch (Exception e) {
 			logger.error("进入终端详情失败！", e);
@@ -117,10 +121,10 @@ public class TerminalsController {
 	 * @param customerId
 	 * @return
 	 */
-	@RequestMapping(value="getMerchants/{customerId}",method=RequestMethod.GET)
-	public Response getMerchants(@PathVariable("customerId") Integer customerId){
+	@RequestMapping(value="getMerchants",method=RequestMethod.POST)
+	public Response getMerchants(@RequestBody Map<String, Object> map){
 		try {
-			return Response.getSuccess(terminalsService.getMerchants(customerId));
+			return Response.getSuccess(terminalsService.getMerchants(Integer.parseInt((String)map.get("customerId"))));
 		} catch (Exception e) {
 			logger.error("获得代理商下面的用户失败！", e);
 			return Response.getError("请求失败！");
@@ -191,10 +195,10 @@ public class TerminalsController {
 	 * @param customerId
 	 * @return
 	 */
-	@RequestMapping(value="getAddressee/{customerId}",method=RequestMethod.GET)
-	public Response getAddressee(@PathVariable("customerId")Integer customerId){
+	@RequestMapping(value="getAddressee",method=RequestMethod.POST)
+	public Response getAddressee(@RequestBody Map<String, Object> map){
 		try{
-			return Response.getSuccess(terminalsService.getAddressee(customerId));
+			return Response.getSuccess(terminalsService.getAddressee(Integer.parseInt((String)map.get("customerId"))));
 		}catch(Exception e){
 			logger.error("收件人信息异常！", e);
 			return Response.getError("请求失败！");
@@ -224,10 +228,10 @@ public class TerminalsController {
 	 * @param customerId
 	 * @return
 	 */
-	@RequestMapping(value="screeningPosName/{customerId}",method=RequestMethod.GET)
-	public Response screeningPosName(@PathVariable("customerId") Integer customerId){
+	@RequestMapping(value="screeningPosName",method=RequestMethod.POST)
+	public Response screeningPosName(@RequestBody Map<String, Object> map){
 		try{
-			return Response.getSuccess(terminalsService.screeningPosName(customerId));
+			return Response.getSuccess(terminalsService.screeningPosName(Integer.parseInt((String)map.get("customerId"))));
 		}catch(Exception e){
 			logger.error("POS机选择失败！", e);
 			return Response.getError("请求失败！");
@@ -238,7 +242,7 @@ public class TerminalsController {
 	 * 所有通道列表
 	 * @return
 	 */
-	@RequestMapping(value="getChannels",method=RequestMethod.GET)
+	@RequestMapping(value="getChannels",method=RequestMethod.POST)
 	public Response getChannels(){
 		try{
 			return Response.getSuccess(terminalsService.getChannels());
@@ -251,7 +255,7 @@ public class TerminalsController {
 	/**
 	 * 同步
 	 */
-	@RequestMapping(value = "synchronous", method = RequestMethod.GET)
+	@RequestMapping(value = "synchronous", method = RequestMethod.POST)
 	public Response Synchronous() {
 		try {
 			return Response.getSuccess("同步成功！");

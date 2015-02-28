@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,11 +80,11 @@ public class AgentLoginController {
 	 * 发送手机验证码(找回密码)
 	 * @param number
 	 */
-	@RequestMapping(value = "sendPhoneVerificationCode/{codeNumber}", method = RequestMethod.GET)
-	public Response sendPhoneVerificationCode(@PathVariable("codeNumber") String codeNumber){
+	@RequestMapping(value = "sendPhoneVerificationCode", method = RequestMethod.POST)
+	public Response sendPhoneVerificationCode(@RequestBody Map<String, Object> map){
 		try{
 			Customer customer = new Customer();
-			customer.setUsername(codeNumber);
+			customer.setUsername((String)map.get("codeNumber"));
 			if(agentLoginService.findUname(customer)>0){
 				char[] randchar=SysUtils.getRandNum(6);
 				String str ="";
@@ -108,9 +107,9 @@ public class AgentLoginController {
 	 * 发送邮箱验证(找回密码)
 	 * @param number
 	 */
-	@RequestMapping(value = "sendEmailVerificationCode/{codeNumber}", method = RequestMethod.GET)
-	public void sendEmailVerificationCode(@PathVariable("codeNumber") String codeNumber){
-		
+	@RequestMapping(value = "sendEmailVerificationCode", method = RequestMethod.POST)
+	public void sendEmailVerificationCode(@RequestBody Map<String, Object> map){
+		//codeNumber
 	}
 	
 	/**

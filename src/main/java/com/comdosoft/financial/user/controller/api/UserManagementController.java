@@ -1,9 +1,11 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +23,7 @@ import com.comdosoft.financial.user.service.UserManagementService;
  *
  */
 @RestController
-@RequestMapping(value = "api/terminal")
+@RequestMapping(value = "api/user")
 public class UserManagementController {
 	private static final Logger logger = Logger.getLogger(UserManagementController.class);
 
@@ -34,11 +36,11 @@ public class UserManagementController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "getUser/{customerId}", method = RequestMethod.GET)
-	public Response getUser(@PathVariable int customerId) {
+	@RequestMapping(value = "getUser", method = RequestMethod.POST)
+	public Response getUser(@RequestBody Map<String, Object> map) {
 		try {
 			return Response.getSuccess(userManagementService
-					.getUser(customerId));
+					.getUser(Integer.parseInt((String)map.get("customerId"))));
 		} catch (Exception e) {
 			logger.error("获得该代理商有关联的所有用户异常！",e);
 			return Response.getError("请求失败！");
@@ -51,10 +53,13 @@ public class UserManagementController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "delectAgentUser/{agentId}/{customerId}")
-	public Response delectAgentUser(@PathVariable("agentId") Integer agentId,@PathVariable("customerId") Integer customerId) {
+	@RequestMapping(value = "delectAgentUser")
+	public Response delectAgentUser(@RequestBody Map<String, Object> map) {
 		try {
-			userManagementService.delectAgentUser(agentId,customerId,CustomerAgentRelation.STATUS_2);
+			userManagementService.delectAgentUser(
+					Integer.parseInt((String)map.get("agentId")),
+					Integer.parseInt((String)map.get("customerId")),
+					CustomerAgentRelation.STATUS_2);
 			return Response.getSuccess("删除成功！");
 		} catch (Exception e) {
 			logger.error("根据ID删除与该代理商的关联异常！",e);
@@ -67,10 +72,10 @@ public class UserManagementController {
 	 * @param customerId
 	 * @return
 	 */
-	@RequestMapping(value="getTerminals/{customerId}")
-	public Response getTerminals(@PathVariable Integer customerId){
+	@RequestMapping(value="getTerminals")
+	public Response getTerminals(@RequestBody Map<String, Object> map){
 		try {
-			return Response.getSuccess(userManagementService.getTerminals(customerId));
+			return Response.getSuccess(userManagementService.getTerminals(Integer.parseInt((String)map.get("customerId"))));
 		} catch (Exception e) {
 			logger.error("获得该代理商下面某个用户的相关终端列表异常！",e);
 			return Response.getError("请求失败！");

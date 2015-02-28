@@ -19,6 +19,10 @@ public interface PaychannelMapper {
 
     List<Map<String, Object>> getOther_rate(int pcid);
 
+    Map<String, Object> getFactoryById(int factoryId);
+
+    Map<String, Object> getPcinfo(int pcid);
+
 
     
 

@@ -1,6 +1,5 @@
 package com.comdosoft.financial.user.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.mapper.zhangfu.PaychannelMapper;
+import com.comdosoft.financial.user.utils.SysUtils;
 
 @Service
 public class PayChannelService {
@@ -16,7 +16,7 @@ public class PayChannelService {
     private PaychannelMapper pcMapper;
 
     public Map<String, Object> payChannelInfo(int pcid) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map =pcMapper.getPcinfo(pcid);// new HashMap<String, Object>();
         // 支付通道交易费率
         List<Map<String, Object>> tDates = pcMapper.getTDatesByPayChannel(pcid);
         map.put("tDates", tDates);
@@ -35,6 +35,12 @@ public class PayChannelService {
         // 其他交易费率
         List<Map<String, Object>> other_rate = pcMapper.getOther_rate(pcid);
         map.put("other_rate", other_rate);
+      //收单机构
+        int factoryId = SysUtils.Object2int(map.get("factory_id"));
+        if (factoryId > 0) {
+            Map<String, Object> factoryMap = pcMapper.getFactoryById(pcid);
+            map.put("pcfactory", factoryMap);
+        }
         return map;
     }
 }

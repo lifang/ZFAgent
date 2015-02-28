@@ -1,6 +1,5 @@
 package com.comdosoft.financial.user.controller.api;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class GoodsController {
     @RequestMapping(value = "list", method = RequestMethod.POST)
     public Response getGoodsList(@RequestBody  PosReq posreq){
         Response response = new Response();
-        List<?> goods=  goodService.getGoodsList(setPosReq(posreq));
+        Map<String,Object>  goods=  goodService.getGoodsList(setPosReq(posreq));
         response.setCode(Response.SUCCESS_CODE);
         response.setResult(goods);
         return response;

@@ -50,5 +50,7 @@ public interface GoodMapper {
 
     int getHasBuyCount(int agent_id);
 
+    int getGoodsTotal(PosReq posreq);
+
 
 }

@@ -81,10 +81,55 @@
 		LIMIT #{offset}, #{rows}
     </select>
     
+    <select id="getGoodsTotal" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="int">
+         SELECT  count(DISTINCT g.id)
+		 from goods g 
+    	 LEFT JOIN good_brands b on g.good_brands_id=b.id
+         LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
+         LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
+    	 where g.status=5 and is_published=1 and pc.id in 
+         (SELECT sa.id from support_areas sa where sa.city_id=#{city_id} and sa.support_type=1)
+    	 <if test="type==1">
+    	     and g.has_purchase=1
+    	 </if>
+    	 <if test="has_lease==1">
+    	     and g.has_lease=1
+    	 </if>
+    	 <if test="keys!=null">
+		   and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
+		 </if>
+    	 <if test="minPricei!=0">
+    	    <![CDATA[ and g.retail_price >= #{minPricei}]]>
+    	 </if>
+    	 <if test="maxPricei!=0">
+    	     <![CDATA[ and g.retail_price <= #{maxPricei}]]>
+    	 </if>
+    	 <if test="brands_ids!=null">
+		   and g.good_brands_id in ${brands_ids}
+		 </if>
+		 <if test="categorys!=null">
+		   and g.pos_category_id in ${categorys}
+		 </if>
+		 <if test="pay_channel_ids!=null">
+		   and pc.id in ${pay_channel_ids}
+		 </if>
+		 <if test="pay_card_ids!=null">
+		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${pay_card_ids})
+		 </if>
+		 <if test="trade_type_ids!=null">
+		    and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${trade_type_ids})
+		 </if>
+		 <if test="sale_slip_ids!=null">
+		   and g.sign_order_way_id in ${sale_slip_ids}
+		 </if>
+		 <if test="tDates!=null">
+		   and pc.id in (SELECT pcbc.pay_channel_id from  pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
+		 </if>
+    </select>
+    
     
      <select id="getPayChannelListByGoodId" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
-        SELECT pc.id,pc.name,pc.opening_cost,pc.support_cancel_flag,
-               pc.opening_requirement,pc.opening_datum,pc.opening_protocol
+        SELECT pc.id,pc.name
  		from pay_channels pc 
  		LEFT JOIN goods_pay_channels gpc on gpc.pay_channel_id=pc.id
  		where gpc.good_id=#{goodId} and pc.status=5 and pc.id in 

@@ -36,8 +36,10 @@ public class GoodService {
     @Autowired
     private TradeRecordMapper tradeRecordMapper;
 
-    public List<?> getGoodsList(PosReq posreq) {
+    public Map<String,Object> getGoodsList(PosReq posreq) {
+        Map<String,Object> result=new HashMap<String, Object>();
         List<Map<String, Object>> list = goodMapper.getGoodsList(posreq);
+        int total=goodMapper.getGoodsTotal(posreq);
         for (Map<String, Object> map : list) {
             if(1==posreq.getType()){
                 map.put("purchase_price", setPurchasePrice(
@@ -57,7 +59,9 @@ public class GoodService {
                 map.put("url_path", goodPics.get(0));
             }
         }
-        return list;
+        result.put("list", list);
+        result.put("total",total);
+        return result;
     }
 
     public Map<String, Object> getGoodInfo(PosReq posreq) {

@@ -12,27 +12,27 @@ public enum OrderStatus {
     /**
      * 未付款
      */
-    UNPAID(0,"未付款"),
+    UNPAID(1,"未付款"),
     /**
      * 已付款
      */
-    PAID(1,"已付款"),
+    PAID(2,"已付款"),
     /**
      * 已发货
      */
-    SHIPPED(2,"已发货"),
+    SHIPPED(3,"已发货"),
     /**
      * 已评价
      */
-    EVALUATED(3,"已评价"),
+    EVALUATED(4,"已评价"),
     /**
      * 已取消
      */
-    CANCEL(4,"已取消"),
+    CANCEL(5,"已取消"),
     /**
      * 已关闭
      */
-    CLOSED(5,"交易关闭");
+    CLOSED(6,"交易关闭");
   
     private Integer code;
     private String name;

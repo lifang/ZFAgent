@@ -6,9 +6,9 @@
      <select id="getGoodById" resultType="map" >
        SELECT g.id,g.Title,g.second_title,gb.name as good_brand,g.Model_number,pc.name as category,
        g.volume_number,g.retail_price,g.price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,
-       g.has_lease,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,
+       g.has_lease,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,g.lease_deposit,
        g.shell_material,g.battery_info,dsow.sign_order_way,decw.encrypt_card_way,
-       g.factory_id,g.description
+       g.factory_id,g.description,g.quantity
 	   from goods g 
 	   LEFT JOIN good_brands gb on g.good_brands_id=gb.id
 	   left JOIN pos_categories pc on g.pos_category_id=pc.id
@@ -20,7 +20,7 @@
   
     <select id="getGoodsList" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
          SELECT DISTINCT g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.lease_deposit,
-	     g.retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score
+	     g.retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title
 		 from goods g 
     	 LEFT JOIN good_brands b on g.good_brands_id=b.id
          LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id

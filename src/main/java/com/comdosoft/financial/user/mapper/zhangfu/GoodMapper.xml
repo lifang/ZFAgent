@@ -186,5 +186,9 @@
 		 or o.customer_id in (SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agent_id}))
    		 ),0)as quantity
      </select>
+     
+     <update id="upQuantity">
+     	UPDATE goods set quantity=#{city_id} WHERE id=#{goodId}
+     </update>
 	
 </mapper>

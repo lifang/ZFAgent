@@ -52,5 +52,7 @@ public interface GoodMapper {
 
     int getGoodsTotal(PosReq posreq);
 
+    void upQuantity(PosReq posreq);
+
 
 }

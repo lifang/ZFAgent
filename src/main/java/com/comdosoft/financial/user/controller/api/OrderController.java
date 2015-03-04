@@ -13,6 +13,7 @@ import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.service.OrderService;
+import com.comdosoft.financial.user.utils.Exception.LowstocksException;
 import com.comdosoft.financial.user.utils.page.Page;
 
 /**
@@ -117,11 +118,15 @@ public class OrderController {
     @RequestMapping(value = "agent", method = RequestMethod.POST)
     public Response createOrderFromAgent(@RequestBody OrderReq orderreq){
         Response resp=new Response();
-        int result= orderService.createOrderFromAgent(orderreq);
-        if(result==1){
+        try {
+            int  result = orderService.createOrderFromAgent(orderreq);
             resp.setCode(Response.SUCCESS_CODE);
-        }else{
+            resp.setResult(result);
+        } catch (LowstocksException e) {
+            resp.setCode(-2);
+        } catch (Exception e) {
             resp.setCode(Response.ERROR_CODE);
+            e.printStackTrace();
         }
         return resp;
     }

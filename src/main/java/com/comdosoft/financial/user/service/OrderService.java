@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.query.OrderReq;
+import com.comdosoft.financial.user.domain.query.PosReq;
 import com.comdosoft.financial.user.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.Good;
@@ -21,9 +22,11 @@ import com.comdosoft.financial.user.domain.zhangfu.Order;
 import com.comdosoft.financial.user.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.user.domain.zhangfu.OrderStatus;
 import com.comdosoft.financial.user.domain.zhangfu.Terminal;
+import com.comdosoft.financial.user.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.OrderMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
+import com.comdosoft.financial.user.utils.Exception.LowstocksException;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -33,15 +36,27 @@ public class OrderService {
     private OrderMapper orderMapper;
     @Autowired
     private  GoodService goodService;
+    
+    @Autowired
+    private  GoodMapper goodMapper;
 
     
-    public int createOrderFromAgent(OrderReq orderreq) {
-        try {
+    public int createOrderFromAgent(OrderReq orderreq) throws LowstocksException {
             Map<String, Object> goodMap = orderMapper.getGoodInfo(orderreq);
             int quantity = orderreq.getQuantity();
             int opening_cost = SysUtils.Object2int(goodMap.get("opening_cost"));
             int payprice=0;
             int price=0;
+            int count = SysUtils.Object2int(goodMap.get("count"));
+            if (count < quantity) {
+                throw new LowstocksException("库存不足");
+            } else {
+                int goodId = SysUtils.Object2int(goodMap.get("goodid"));
+                PosReq posreq = new PosReq();
+                posreq.setGoodId(goodId);
+                posreq.setCity_id(count-quantity);
+                //goodMapper.upQuantity(posreq);
+            }
             //3 代理商代购 4 代理商代租赁 5 代理商批购
             if(3==orderreq.getOrderType()){
                 int retail_price = SysUtils.Object2int(goodMap.get("retail_price"));
@@ -72,11 +87,8 @@ public class OrderService {
             orderreq.setPrice(price);
             orderreq.setRetail_price(payprice);
             orderMapper.addOrderGood(orderreq);
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+            return orderreq.getId();
+        
     }
     
     

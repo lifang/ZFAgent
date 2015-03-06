@@ -4,7 +4,7 @@
   
     <select id="getSupportArea" resultType="String" >
         SELECT c.name from support_areas sa LEFT JOIN cities c on c.id= sa.city_id 
-		where sa.pay_channel_id=#{pcid} and sa.support_type=1
+		where sa.pay_channel_id=#{pcid} 
      </select>
      
      <select id="getOther_rate" resultType="map" >
@@ -50,7 +50,7 @@
     
     <select id="getPcinfo" resultType="Map">
 		SELECT pc.id,pc.name,pc.opening_cost,pc.support_cancel_flag,factory_id,
-               pc.opening_requirement,pc.opening_datum,pc.opening_protocol
+               pc.opening_requirement,pc.opening_datum,pc.opening_protocol,pc.support_type
  		from pay_channels pc 
  		where pc.id=#{pcid}
 	</select>

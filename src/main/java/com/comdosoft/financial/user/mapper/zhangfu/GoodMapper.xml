@@ -25,8 +25,9 @@
     	 LEFT JOIN good_brands b on g.good_brands_id=b.id
          LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
          LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
-    	 where g.status=5 and is_published=1 and pc.id in 
-         (SELECT sa.id from support_areas sa where sa.city_id=#{city_id} and sa.support_type=1)
+    	 where g.status=5 and is_published=1 and 
+    	 ((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
+      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )))
     	 <if test="type==1">
     	     and g.has_purchase=1
     	 </if>
@@ -87,8 +88,9 @@
     	 LEFT JOIN good_brands b on g.good_brands_id=b.id
          LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
          LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
-    	 where g.status=5 and is_published=1 and pc.id in 
-         (SELECT sa.id from support_areas sa where sa.city_id=#{city_id} and sa.support_type=1)
+    	 where g.status=5 and is_published=1 and 
+    	 ((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
+      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )))
     	 <if test="type==1">
     	     and g.has_purchase=1
     	 </if>
@@ -132,8 +134,9 @@
         SELECT pc.id,pc.name
  		from pay_channels pc 
  		LEFT JOIN goods_pay_channels gpc on gpc.pay_channel_id=pc.id
- 		where gpc.good_id=#{goodId} and pc.status=5 and pc.id in 
-         (SELECT sa.id from support_areas sa where sa.city_id=#{city_id} and sa.support_type=1)
+ 		where gpc.good_id=#{goodId} and pc.status=5 and 
+ 		((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
+      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )))
      </select>
      
      <select id="getgoodPics" resultType="String">
@@ -151,27 +154,33 @@
         SELECT id,name as value from pos_categories where parent_id =#{id}
      </select>
      <select id="getPay_channel_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
-		SELECT DISTINCT pc.id,pc.name as value from support_areas sa 
-		LEFT JOIN pay_channels pc on pc.id=sa.pay_channel_id and sa.support_type=1
-		and sa.city_id=#{city_id} where pc.id is not null
+		SELECT id,name as value from pay_channels pc where 
+		(pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
+       or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} ))
      </select>
      <select id="getPay_card_ids" resultType="map">
         SELECT id,card_type as value from dictionary_card_types
      </select>
      <select id="getTrade_type_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
-        SELECT DISTINCT dtt.id,dtt.trade_value as value from support_areas sa 
-	    LEFT JOIN support_trade_types stt on stt.pay_channel_id=sa.pay_channel_id 
-	    LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id  
-	    where sa.city_id=#{city_id} and sa.support_type=1 AND dtt.id is not null
+        SELECT DISTINCT dtt.id,dtt.trade_value as value from 
+	    support_trade_types stt
+	    LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id 
+	    LEFT JOIN pay_channels pc on pc.id=stt.pay_channel_id 
+	     where  dtt.id is not null and 
+	    (pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
+       or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} ))
      </select>
      <select id="getSale_slip_ids" resultType="map">
         SELECT id,sign_order_way as value from dictionary_sign_order_ways
      </select>
      <select id="getTDatesByCityId" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
-        SELECT DISTINCT dbc.id,dbc.name as value from support_areas sa 
-	    LEFT JOIN pay_channel_billing_cycles pcbc on pcbc.pay_channel_id=sa.pay_channel_id 
+        SELECT DISTINCT dbc.id,dbc.name as value from 
+	    pay_channel_billing_cycles pcbc  
 	    LEFT JOIN dictionary_billing_cycles dbc on pcbc.billing_cycles_id=dbc.id 
-	    where sa.city_id=#{city_id} and sa.support_type=1 and dbc.id is not null
+	    LEFT JOIN pay_channels pc on pc.id=pcbc.pay_channel_id
+	    where  dbc.id is not null and
+	    (pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
+        or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} ))
      </select>
      
        <select id="getFactoryById" resultType="map" >

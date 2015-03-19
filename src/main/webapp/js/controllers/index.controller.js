@@ -5,19 +5,7 @@
 
 var indexController = function($scope, $location, $http, LoginService,$cookieStore) {
 	$scope.loginUserName=LoginService.loginUserName;
-	$scope.city_name = $cookieStore.get("city_name")==null?"上海市":$cookieStore.get("city_name");
-	$scope.ngshow=true;
-	$scope.ngshow2=false;
-	$scope.shopcount=0;
-	$scope.shopcartcount=function () {
-    	if(LoginService.userid>0){
-    		$http.post("api/cart/total", {customerId:LoginService.userid}).success(function (data) {  //绑定
-                if (data.code==1) {
-                	$scope.shopcount= data.result;
-                }
-            });
-    	}
-    };
+
     $scope.$on('$locationChangeStart', function (scope, next, current) {                          		
 		//alert(strs[0]);
 		if(LoginService.userid == 0){
@@ -66,31 +54,6 @@ var indexController = function($scope, $location, $http, LoginService,$cookieSto
     	window.location.href = '#/';
     	
 	}
-	
-	
-	$scope.shopcount=0;
-	$scope.$on('shopcartcountchange', function() {
-		$scope.shopcartcount();
-	});
-	$scope.shopcartcount=function () {
-    	if(LoginService.userid>0){
-    		$http.post("api/cart/total", {customerId:LoginService.userid}).success(function (data) {  //绑定
-                if (data.code==1) {
-                	$scope.shopcount= data.result;
-                }
-            });
-    	}
-    };
-    $scope.shopcartcount();
-    
-    
-    
-//	$scope.$on('changeshow', function(d,data) {
-//		$scope.ngshow=data;
-//	});
-	$scope.$on('changesearchview', function(d,data) {
-		$scope.searchview=data;
-	});
 	
 	$scope.index=function() {
 		window.location.href = '#/';

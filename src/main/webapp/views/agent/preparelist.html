@@ -1,0 +1,74 @@
+<div class="right" ng-controller="preparelistController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">管理下级代理商</a></li>
+			<li><a href="#">管理配货</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>配货列表</h1>
+			<div class="userTopBtnBox">
+				<a href="#/addprepare" class="ghostBtn">配货</a>
+			</div>
+		</div>
+		<div class="seenBox clear">
+			<ul>
+				<li><div class="user_search">
+						<input name="" type="text" />
+						<button></button>
+					</div></li>
+				<li><div class="user_select">
+						<label>下级代理商</label> 
+						<select ng-options="x.id as x.company_name for x in son">
+						</select>
+					</div></li>
+				<li><div class="user_date">
+						<label>选择日期</label> <input name="" type="text" /> - <input name="" type="text" />
+					</div></li>
+				<li><button class="ghostBtn">搜索</button></li>
+			</ul>
+		</div>
+		<div class="uesr_table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+				<colgroup>
+					<col />
+					<col width="200" />
+					<col width="200" />
+					<col width="100" />
+					<col width="200" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>配于下级代理商</th>
+						<th>配货日期</th>
+						<th>配货商品</th>
+						<th>配货数量</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="one in prepareList">
+						<td>{{one.company_name}}</td>
+						<td>{{one.created_at}}</td>
+						<td>POS机名称：掌富 ZF300<br/>支付通道：收账宝
+						</td>
+						<td>{{one.quantity}}</td>
+						<td><a href="#/prepareinfo?id={{one.id}}" class="a_btn">查看详情</a></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		<div class="pageTurn">
+			<div class="p_num">
+				<a href="#" class="disabled">上一页</a> <a href="#" class="current">1</a> <a href="#?page=2">2</a> <a href="#?page=3">3</a> <a href="#?page=4">4</a> <a href="#?page=5">5</a> ... <a href="#?page=199">199</a> <a href="#?page=200">200</a> <a href="#?page=2">下一页</a>
+			</div>
+			<div class="p_skip">
+				<span>共24页</span> <span>到第&nbsp;&nbsp;<input name="" type="text" />&nbsp;&nbsp;页
+				</span>
+				<button>确定</button>
+			</div>
+		</div>
+	</div>
+</div>

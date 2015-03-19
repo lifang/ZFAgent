@@ -11,7 +11,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
     	isAuthorized:true,
     	//当前登陆的用户名
         loginUserName: typeof($cookieStore.get("loginUserName")) == 'undefined' ? "" : $cookieStore.get("loginUserName"),
-        userid: 1,//typeof($cookieStore.get("loginUserId")) == 'undefined' ? 0 : $cookieStore.get("loginUserId"),
+		agentid: 1,//typeof($cookieStore.get("loginUserId")) == 'undefined' ? 0 : $cookieStore.get("loginUserId"),
         city:1,
         goods: [],
         tradeTypeId: 0,

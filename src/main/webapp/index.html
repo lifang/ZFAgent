@@ -6,7 +6,7 @@
 	<meta name="renderer" content="webkit">
 		<title>代理商--我的掌富</title>
 		<link href="style/style.css" rel="stylesheet" type="text/css" />
-
+		<link href="style/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 		<script type="text/javascript" src="js/libs/angular.js"></script>
 		<script type="text/javascript" src="js/libs/angular-route.js"></script>
@@ -16,7 +16,9 @@
 		<script type="text/javascript" src="js/index.js"></script>
 		<!-- 系统分页 -->
 		<script type="text/javascript" src="js/page.js"></script>
-
+		<!-- 日历控件 -->
+		<script src="js/jQuery-1.11.2.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/services/loginService.js"></script>
 		<!-- Directives -->
 		<script type="text/javascript" src="js/directives/datepicker.directive.js"></script>
@@ -24,7 +26,8 @@
 		<!-- Controllers -->
 		<script type="text/javascript" src="js/controllers/route.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/index.controller.js"></script>
-
+		<script type="text/javascript" src="js/controllers/prepare.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/exchange.controller.js"></script>
 		<script src="js/jQuery-1.11.2.js"></script>
 		<script src="js/main.js"></script>
 
@@ -63,8 +66,8 @@
 					<li class="second"><a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
 						<ol>
 							<li><a href="#">下级代理商</a></li>
-							<li><a href="#">管理配货</a></li>
-							<li><a href="#">管理调货</a></li>
+							<li><a href="#/prepare">管理配货</a></li>
+							<li><a href="#/exchange">管理调货</a></li>
 						</ol></li>
 					<li class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
 						<ol>

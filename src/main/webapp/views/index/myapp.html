@@ -1,0 +1,87 @@
+<div class="right">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">我的掌富</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_deal">
+			<div class="cu_title">
+				7日交易动态<span>单位：元</span>
+			</div>
+			<div class="deal_text">
+				交易金额：<strong>￥5800.00</strong>&nbsp;&nbsp;交易笔数：<strong>3</strong> 次
+			</div>
+			<div class="barChart">
+				<canvas id="myChart" height="230" width="420"></canvas>
+			</div>
+
+			<script>
+				var randomScalingFactor = function() {
+					return Math.round(Math.random() * 100)
+				};
+
+				var barChartData = {
+					labels : [ "1", "2", "3", "4", "5", "6", "7" ],
+					datasets : [ {
+						fillColor : "rgba(151,187,205,0.5)",
+						strokeColor : "rgba(151,187,205,0.8)",
+						highlightFill : "rgba(151,187,205,0.75)",
+						highlightStroke : "rgba(151,187,205,1)",
+						data : [ randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(),
+								randomScalingFactor() ]
+					} ]
+				}
+				var globalGraphSettings = {
+					responsive : true,
+					barStrokeWidth : 1,
+					barValueSpacing : 10,
+				};
+				function showBarChart() {
+					var ctx = document.getElementById("myChart").getContext("2d");
+					new Chart(ctx).Bar(barChartData, globalGraphSettings);
+				};
+
+				$(function() {
+					showBarChart();
+				})
+			</script>
+		</div>
+		<div class="user_notice">
+			<div class="cu_title">公告板</div>
+			<div class="user_news_con">
+				<ul>
+					<li><a href="#">[公告] 华尔街金融正式上线华尔街金融正式上线华尔街金融正式上线华尔街金融正式上线华尔街金融正式上线华！</a></li>
+					<li><a href="#">[公告] 华尔街金融正式上线！</a></li>
+					<li><a href="#">[公告] 华尔街金融正式上线！</a></li>
+					<li><a href="#">[公告] 华尔街金融正式上线！</a></li>
+					<li><a href="#">[公告] 华尔街金融正式上线！</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="user_business">
+			<div class="cu_title">业务处理</div>
+			<div class="user_news_con">
+				<ul>
+					<li>1条退货申请已审核通过，<a href="#" class="a_btn">提交物流单号</a></li>
+					<li>1条退货申请已审核通过，<a href="#" class="a_btn">提交物流单号</a></li>
+					<li>1条退货申请已审核通过，<a href="#" class="a_btn">提交物流单号</a></li>
+					<li>1条退货申请已审核通过，<a href="#" class="a_btn">提交物流单号</a></li>
+					<li>1条退货申请已审核通过，<a href="#" class="a_btn">提交物流单号</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="user_message">
+			<div class="cu_title">消息栏</div>
+			<div class="user_news_con">
+				<ul>
+					<li><a href="#">[消息] 华尔街金融正式上线华尔街金融正式上线华尔街金融正式上线华尔街金融正式上线华尔街金融正式上线华！</a></li>
+					<li><a href="#">[消息] 华尔街金融正式上线！</a></li>
+					<li><a href="#">[消息] 华尔街金融正式上线！</a></li>
+					<li><a href="#">[消息] 华尔街金融正式上线！</a></li>
+					<li><a href="#">[消息] 华尔街金融正式上线！</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

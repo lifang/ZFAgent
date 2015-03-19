@@ -1,0 +1,33 @@
+<div class="right" ng-controller="exchangeinfoController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">管理下级代理商</a></li>
+			<li><a href="#">管理调货</a></li>
+			<li><a href="#">详情</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>调货详情</h1>
+		</div>
+		<div class="attributes_box">
+			<div class="item_list clear">
+				<ul>
+					<li class="block"><span class="labelSpan">填写终端号：</span>
+						<div class="text">
+							<div class="posNumber_area">
+							{{info.terminals_list}}
+							</div>
+						</div></li>
+					<li class="block"><span class="labelSpan">调货途径：</span>
+						<div class="text">{{info.fromname}} &gt; {{info.toname}}</div></li>
+					<li class="block"><span class="labelSpan">配货日期：</span>
+						<div class="text">{{info.created_at}}</div></li>
+					<li class="block"><span class="labelSpan">操作人：</span>
+						<div class="text">{{info.creator}}</div></li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+</div>

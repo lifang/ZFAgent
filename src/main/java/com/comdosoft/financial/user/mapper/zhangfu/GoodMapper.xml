@@ -183,6 +183,10 @@
         or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} ))
      </select>
      
+     <select id="getWebCategorys" resultType="map">
+        SELECT id,name as value from pos_categories where parent_id is not null and parent_id!=0
+     </select>
+     
        <select id="getFactoryById" resultType="map" >
        SELECT * from factories where id=#{factoryId}
      </select>

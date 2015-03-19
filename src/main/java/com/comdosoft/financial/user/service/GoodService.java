@@ -120,8 +120,10 @@ public class GoodService {
         List<Map<String, Object>> list5 = goodMapper.getTrade_type_ids(posreq);
         List<Map<String, Object>> list6 = goodMapper.getSale_slip_ids();
         List<Map<String, Object>> list7 = goodMapper.getTDatesByCityId(posreq);
+        List<Map<String, Object>> list8 = goodMapper.getWebCategorys();
         map.put("brands", list1);
         map.put("category", list2);
+        map.put("webcategory", list8);
         map.put("pay_channel", list3);
         map.put("pay_card", list4);
         map.put("trade_type", list5);

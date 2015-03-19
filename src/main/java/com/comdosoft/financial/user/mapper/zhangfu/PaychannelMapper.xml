@@ -14,8 +14,10 @@
      </select>
      
      <select id="getStandard_rates" resultType="map" >
-        SELECT name,standard_rate,description from pay_channel_standard_rates 
-        WHERE pay_channel_id=#{pcid}
+        SELECT dtsr.merchant_type_name as name,pcsr.standard_rate,pcsr.description from pay_channel_standard_rates pcsr
+		LEFT JOIN dictionary_trade_standard_rates dtsr on dtsr.id=pcsr.trade_standard_rate_id
+		WHERE
+		pay_channel_id=#{pcid}
      </select>
  
        <select id="getTDatesByPayChannel" resultType="map" >

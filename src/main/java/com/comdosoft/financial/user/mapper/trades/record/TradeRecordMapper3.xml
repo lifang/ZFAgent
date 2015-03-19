@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.trades.record.TradeRecordMapper3">
+
+	<select id="getTradeRecordsCount" resultType="map">
+		SELECT COUNT(r.id) total,SUM(r.amount) amountTotal
+		FROM trade_records r 
+		WHERE r.trade_type_id = #{tradeTypeId} and customer_id=#{customerId}
+		<if test="terminalNumber!=''">
+		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
+		</if>
+		<if test="startTime!=''">
+		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') >= #{startTime} ]]>
+		</if>
+		<if test="endTime!=''">
+		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') <= #{endTime} ]]>
+		</if>
+	</select>
+
+	<select id="getTradeRecords" resultType="map">
+		SELECT r.id,
+		DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
+		r.trade_number,
+		r.amount,
+		r.poundage,
+		r.terminal_number terminalNumber,
+		r.traded_status tradedStatus
+		FROM trade_records r 
+		WHERE r.trade_type_id = #{tradeTypeId} and customer_id=#{customerId}
+		<if test="terminalNumber!=''">
+		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
+		</if>
+		<if test="startTime!=''">
+		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') >= #{startTime} ]]>
+		</if>
+		<if test="endTime!=''">
+		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') <= #{endTime} ]]>
+		</if>
+		ORDER BY r.traded_at DESC
+		LIMIT #{offset}, #{rows}
+	</select>
+	
+	<select id="getTradeRecord" resultType="map">
+		SELECT  
+		trade_number as tradeNumber,
+		batch_number as batchNumber,
+		terminal_number as terminalNumber,pay_channel_id,
+		DATE_FORMAT(traded_at, '%Y-%m-%d %T') tradedTimeStr,
+		traded_status tradedStatus,poundage,amount,types
+		from trade_records
+		WHERE id=#{id}
+	</select>
+	
+	<select id="get23" resultType="map">
+		select IFNULL(pay_from_account,'无') payFromAccount,
+			   IFNULL(pay_into_account,'无') payIntoAccount
+			   from trade_transfer_repayment_records
+			   where id = #{id}
+	</select>
+	
+	<select id="get4" resultType="map">
+		select IFNULL(phone,'无') phone
+			   from trade_recharge_records
+			   where id = #{id}
+	</select>
+	
+	<select id="get5" resultType="map">
+		select IFNULL(account_name,'无') account_name ,
+			   IFNULL(account_number,'无') account_number	
+			   from trade_records
+			   where id = #{id}
+	</select>
+
+</mapper>

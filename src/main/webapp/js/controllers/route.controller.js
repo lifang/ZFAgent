@@ -19,6 +19,12 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/agent/exchangeadd.html'
 	}).when('/exchangeinfo', {
 		templateUrl : 'views/agent/exchangeinfo.html'
+	}).when('/trade', {
+		templateUrl : 'views/trade/trade.html'
+	}).when('/tradeinfo', {
+		templateUrl : 'views/trade/tradeinfo.html'
+	}).when('/tradestatistics', {
+		templateUrl : 'views/trade/tradestatistics.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

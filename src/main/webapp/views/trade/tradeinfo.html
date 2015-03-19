@@ -1,0 +1,36 @@
+<script type="text/javascript" src="js/controllers/traderecord/traderecordOne.js"></script>
+<div class="right" ng-controller="traderecordOneController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#/traderecord">交易流水</a></li>
+			<li><a href="javascript:void(0)">详情</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>交易流水详情</h1>
+		</div>
+		<div class="user_deal_text">
+			<ul class="udt_strong">
+				<li>交易金额：{{traderecord.amount/100|currency : "￥"}}</li>
+				<li>交易手续费：{{traderecord.poundage/100|currency : "￥"}}</li>
+				<li>交易状态： <span ng-if="traderecord.tradedStatus == 1">待付款</span>
+						  <span ng-if="traderecord.tradedStatus == 2">交易完成</span>
+						  <span ng-if="traderecord.tradedStatus == 3">交易失败</span>
+				</li>
+			</ul>
+			<ul>
+				<li>交易时间：{{traderecord.tradedTimeStr}}</li>
+				<li>终端号：{{traderecord.terminalNumber}}</li>
+				<li ng-show="traderecord.payFromAccount!=undefined">付款银行卡：{{traderecord.payFromAccount}}</li>
+				<li ng-show="traderecord.payIntoAccount!=undefined">转入银行卡：{{traderecord.payIntoAccount}}</li>
+				<li ng-show="traderecord.phone!=undefined">手机号：{{traderecord.phone}}</li>
+				<li ng-show="traderecord.account_name!=undefined">账户号码：{{traderecord.account_name}}</li>
+				<li ng-show="traderecord.account_number!=undefined">账户名：{{traderecord.account_number}}</li>
+				<li>支付通道：{{traderecord.paychannel}}</li>
+				<li>交易批次号：{{traderecord.batchNumber}}</li>
+				<li>交易流水号：{{traderecord.tradeNumber}}</li>
+			</ul>
+		</div>
+	</div>
+</div>

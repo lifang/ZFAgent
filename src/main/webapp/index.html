@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="indexModule" ng-controller="indexController">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+		<title>代理商--我的掌富</title>
+		<link href="style/style.css" rel="stylesheet" type="text/css" />
+
+
+		<script type="text/javascript" src="js/libs/angular.js"></script>
+		<script type="text/javascript" src="js/libs/angular-route.js"></script>
+		<script type="text/javascript" src="js/libs/angular-cookies.js"></script>
+		<script type="text/javascript" src="js/libs/angular-sanitize.js"></script>
+		<script type="text/javascript" src="js/libs/ng-csv.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<!-- 系统分页 -->
+		<script type="text/javascript" src="js/page.js"></script>
+
+		<script type="text/javascript" src="js/services/loginService.js"></script>
+		<!-- Directives -->
+		<script type="text/javascript" src="js/directives/datepicker.directive.js"></script>
+		<script type="text/javascript" src="js/directives/fileupload.directive.js"></script>
+		<!-- Controllers -->
+		<script type="text/javascript" src="js/controllers/route.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/index.controller.js"></script>
+
+		<script src="js/jQuery-1.11.2.js"></script>
+		<script src="js/main.js"></script>
+
+		<!--柱形图表-->
+		<script src="js/Chart.min.js"></script>
+		<!--[if lte IE 8]>
+	<script type="text/javascript" src="js/excanvas.js"></script>
+<![endif]-->
+</head>
+<body>
+	<div class="topInfo clear">
+		<div class="box">
+			<div class="top_user">
+				<a href="#">代理商</a><a href="#">退出</a>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="head clear">
+		<div class="box">
+			<div class="logo">华尔街金融</div>
+			<div class="systemName">代理商</div>
+		</div>
+	</div>
+	<div class="main">
+		<div class="box">
+			<div class="left">
+				<ul>
+					<li><a href="#" class="hover">我的掌富</a></li>
+					<li><a href="#">我的库存</a></li>
+					<li><a href="#">批购</a></li>
+					<li><a href="#">代购</a></li>
+					<li><a href="#">管理终端</a></li>
+					<li><a href="#">交易流水</a></li>
+					<li><a href="#">POS销售分润</a></li>
+					<li class="second"><a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
+						<ol>
+							<li><a href="#">下级代理商</a></li>
+							<li><a href="#">管理配货</a></li>
+							<li><a href="#">管理调货</a></li>
+						</ol></li>
+					<li class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
+						<ol>
+							<li><a href="#">注销记录</a></li>
+							<li><a href="#">更新资料记录</a></li>
+							<li><a href="#">代理商售后记录</a></li>
+						</ol></li>
+					<li><a href="#">管理用户</a></li>
+					<li class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
+						<ol>
+							<li><a href="#">代理商资料</a></li>
+							<li><a href="#">员工帐号</a></li>
+							<li><a href="#">修改密码</a></li>
+						</ol></li>
+					<li><a href="#">查看消息</a></li>
+				</ul>
+			</div>
+			<div ng-view></div>
+		</div>
+	</div>
+
+	<div class="foot">
+		<div class="box">
+			<ul class="foot_nav">
+				<li><a href="#">关于我们</a></li>
+				<li>/</li>
+				<li><a href="#">企业文化</a></li>
+				<li>/</li>
+				<li><a href="#">帮助中心</a></li>
+				<li>/</li>
+				<li><a href="#">企业招聘</a></li>
+			</ul>
+			<div class="copyright">版权所有 &copy; 2011-2014 上海掌富网络技术有限公司（备案号 1236548）</div>
+		</div>
+	</div>
+</body>
+</html>

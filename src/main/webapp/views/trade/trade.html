@@ -59,8 +59,8 @@
 						<th>终端号</th>
 						<th>所属代理商</th>
 						<th>交易金额</th>
-						<th>产出分润</th>
-						<th>需支付分润</th>
+						<th ng-if="is_have_profit==1">产出分润</th>
+						<th ng-if="is_have_profit==1">需支付分润</th>
 						<th>状态</th>
 					</tr>
 				</thead>
@@ -71,50 +71,15 @@
 						<td>AF456699452</td>
 						<td>华润</td>
 						<td><strong>￥485.00</strong></td>
-						<td><strong>￥10.00</strong></td>
-						<td><strong>￥5.00</strong></td>
+						<td ng-if="is_have_profit==1"><strong>￥10.00</strong></td>
+						<td ng-if="is_have_profit==1"><strong>￥5.00</strong></td>
 						<td><strong class="strong_status">已完成</strong></td>
 					</tr>
-					<tr>
-						<td>123654789</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>AF456699452</td>
-						<td>华润</td>
-						<td><strong>￥485.00</strong></td>
-						<td><strong>￥10.00</strong></td>
-						<td><strong>￥5.00</strong></td>
-						<td><strong class="strong_status">已完成</strong></td>
-					</tr>
-					<tr>
-						<td>123654789</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>AF456699452</td>
-						<td>华润</td>
-						<td><strong>￥485.00</strong></td>
-						<td><strong>￥10.00</strong></td>
-						<td><strong>￥5.00</strong></td>
-						<td><strong class="strong_status">已完成</strong></td>
-					</tr>
-					<tr>
-						<td>123654789</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>AF456699452</td>
-						<td>华润</td>
-						<td><strong>￥485.00</strong></td>
-						<td><strong>￥10.00</strong></td>
-						<td><strong>￥5.00</strong></td>
-						<td><strong class="strong_status">已完成</strong></td>
-					</tr>
+					
+					
 				</tbody>
 			</table>
 		</div>
-
-
-
-
-
-
-
 
 		<div class="pageTurn">
 			<div class="p_num">
@@ -128,10 +93,5 @@
 		</div>
 	</div>
 
-
-
-
-
-
-
 </div>
+

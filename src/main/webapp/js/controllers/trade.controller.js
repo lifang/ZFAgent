@@ -12,6 +12,7 @@ var tradelistController = function ($scope, $http, LoginService) {
 		}else{
 			$scope.req.tradeTypeId=LoginService.tradeTypeId;
 		}
+		$scope.is_have_profit=LoginService.is_have_profit;
 		$scope.getTradeType();
 		$scope.list();
 	};

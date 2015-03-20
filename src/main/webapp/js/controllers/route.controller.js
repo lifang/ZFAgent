@@ -25,6 +25,18 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/trade/tradeinfo.html'
 	}).when('/tradestatistics', {
 		templateUrl : 'views/trade/tradestatistics.html'
+	}).when('/purchaseOrder', {
+		templateUrl : 'views/order/purchaseOrder.html'
+	}).when('/othersOrder', {
+		templateUrl : 'views/order/othersOrder.html'
+	}).when('/shop', {
+		templateUrl : 'views/shop/shop.html'
+	}).when('/shopinfo', {
+		templateUrl : 'views/shop/shopinfo.html'
+	}).when('/purchaseShop', {
+		templateUrl : 'views/shop/purchaseShop.html'
+	}).when('/purchaseShopinfo', {
+		templateUrl : 'views/shop/purchaseShopinfo.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

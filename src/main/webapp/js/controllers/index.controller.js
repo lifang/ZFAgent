@@ -5,36 +5,29 @@
 
 var indexController = function($scope, $location, $http, LoginService,$cookieStore) {
 	$scope.loginUserName=LoginService.loginUserName;
-
+	$scope.right=true;
+	$scope.shop=false;
     $scope.$on('$locationChangeStart', function (scope, next, current) {                          		
-		//alert(strs[0]);
-		if(LoginService.userid == 0){
-			$scope.loginshow=false;
-			$scope.ngshow=true;
-			$scope.ngshow2=false;
-		}else{
-			$scope.loginshow=true;
-			var strs= new Array(); //定义一数组
-			strs=next.split("/#/"); //字符分割
-			if(strs.length==2){
-				strs=strs[1].split("?")
-				if(check(strs[0])){
-					$scope.ngshow=false;
-					$scope.ngshow2=true;
-				}else{
-					$scope.ngshow=true;
-					$scope.ngshow2=false;
-				}
+		
+		var strs= new Array(); //定义一数组
+		strs=next.split("/#/"); //字符分割
+		if(strs.length==2){
+			strs=strs[1].split("?")
+			if(check(strs[0])){
+				$scope.right=false;
+				$scope.shop=true;
 			}else{
-				$scope.ngshow=true;
-				$scope.ngshow2=false;
+				$scope.right=true;
+				$scope.shop=false;
 			}
+		}else{
+			$scope.right=true;
+			$scope.shop=false;
 		}
-		//$scope.searchview=true;
     });
 	
 	var check=function(str){
-		var arry=[];
+		var arry=['shop','shopinfo','purchaseShop','purchaseShopinfo'];
 		for (var i = 0; i < arry.length; i++) {
 			if(str==arry[i]){
 				return true;

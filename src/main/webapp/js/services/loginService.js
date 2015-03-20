@@ -14,6 +14,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
 		agentid: 1,//typeof($cookieStore.get("loginUserId")) == 'undefined' ? 0 : $cookieStore.get("loginUserId"),
         city:1,
         goods: [],
+        is_have_profit:0,//是否有分润（0无1有）
         tradeTypeId: 0,
         //用户登陆功能
         login: function ($scope,$http) {

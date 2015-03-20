@@ -6,18 +6,19 @@ var tradeModule = angular.module("tradeModule",[]);
 var tradelistController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
-		$scope.req.agents_id=LoginService.agentid;
+		initSystemPage($scope.req);// 初始化分页参数
+		$scope.req.agentId=LoginService.agentid;
 		if(LoginService.tradeTypeId==0){
 			$scope.req.tradeTypeId=1;
 		}else{
 			$scope.req.tradeTypeId=LoginService.tradeTypeId;
 		}
-		$scope.is_have_profit=LoginService.is_have_profit;
+		$scope.req.is_have_profit=LoginService.is_have_profit;
 		$scope.getTradeType();
 		$scope.list();
 	};
 	$scope.list=function(){
-		$http.post("api/tradegood/list", $scope.req).success(function (data) {  //绑定
+		$http.post("api/trade/getTradeRecords", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.tradeList=data.result.list;
             	calcSystemPage($scope.req, data.result.total);// 计算分页

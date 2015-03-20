@@ -254,6 +254,18 @@ public class SysUtils {
         }
         return sb.toString();
     }
+    public static String Arry2Str(List<Integer> arry) {
+        StringBuilder sb = new StringBuilder();
+        if (arry != null && arry.size() > 0) {
+            sb.append("(");
+            for (Object object : arry) {
+                sb.append(object + ",");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            sb.append(")");
+        }
+        return sb.toString();
+    }
 
     /**
      * author jwb
@@ -347,4 +359,8 @@ public class SysUtils {
         String[] ar = result.split(",");
         return ar;
     }
+
+    
+
+    
 }

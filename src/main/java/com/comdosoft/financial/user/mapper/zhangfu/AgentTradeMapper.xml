@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.AgentTradeMapper">
+
+	<select id="getTradeType" resultType="map">
+	<![CDATA[
+		SELECT id,trade_value value from dictionary_trade_types ORDER BY id 
+	]]>
+	</select>
+	
+	<select id="getpcname" resultType="String">
+	<![CDATA[
+		SELECT name from pay_channels where id=#{pcid}
+	]]>
+	</select>
+	
+	<select id="getAgentIds" resultType="Integer">
+	<![CDATA[
+		SELECT id from agents where  code like '${code}%'
+	]]>
+	</select>
+	
+	<select id="getCode" resultType="String">
+	<![CDATA[
+		SELECT code from agents where id=#{agentId}
+	]]>
+	</select>
+	
+	<select id="getAgentName" resultType="String">
+	<![CDATA[
+		SELECT company_name  from agents  where id=#{agentid}
+	]]>
+	</select>
+	
+	<select id="getProfit" resultType="map">
+	<![CDATA[
+		SELECT current_agent_id cid,top_agent_id tid,profits_get,profits_pay 
+		from profits where trade_record_id =#{id}
+	]]>
+	</select>
+	
+	
+
+</mapper>

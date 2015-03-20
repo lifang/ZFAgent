@@ -5,7 +5,7 @@
 	<select id="getTradeRecordsCount" resultType="map">
 		SELECT COUNT(r.id) total,SUM(r.amount) amountTotal
 		FROM trade_records r 
-		WHERE r.trade_type_id = #{tradeTypeId} and customer_id=#{customerId}
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds}
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
 		</if>
@@ -14,6 +14,9 @@
 		</if>
 		<if test="endTime!=''">
 		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') <= #{endTime} ]]>
+		</if>
+		<if test="sonagentId!=0">
+		    <![CDATA[ AND r.agent_id = #{sonagentId} ]]>
 		</if>
 	</select>
 
@@ -22,11 +25,11 @@
 		DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
 		r.trade_number,
 		r.amount,
-		r.poundage,
+		r.agent_id,
 		r.terminal_number terminalNumber,
 		r.traded_status tradedStatus
 		FROM trade_records r 
-		WHERE r.trade_type_id = #{tradeTypeId} and customer_id=#{customerId}
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds}
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
 		</if>
@@ -35,6 +38,9 @@
 		</if>
 		<if test="endTime!=''">
 		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') <= #{endTime} ]]>
+		</if>
+		<if test="sonagentId!=0">
+		    <![CDATA[ AND r.agent_id = #{sonagentId} ]]>
 		</if>
 		ORDER BY r.traded_at DESC
 		LIMIT #{offset}, #{rows}

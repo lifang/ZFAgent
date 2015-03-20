@@ -57,16 +57,6 @@
  		where pc.id=#{pcid}
 	</select>
 	
-	<select id="getTradeType" resultType="map">
-	<![CDATA[
-		SELECT id,trade_value value from dictionary_trade_types ORDER BY id 
-	]]>
-	</select>
 	
-	<select id="getpcname" resultType="String">
-	<![CDATA[
-		SELECT name from pay_channels where id=#{pcid}
-	]]>
-	</select>
 	
 </mapper>

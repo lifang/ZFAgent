@@ -36,9 +36,7 @@ var shopController = function ($scope, $http, LoginService) {
 		window.location.href = '#/';
 	};
 	$scope.init = function () {
-		$scope.$emit('changesearchview',false);
 		initSystemPage($scope.req);// 初始化分页参数
-		$scope.shopcartcount();
 		$scope.searchinfo();
 		$scope.list();
 		
@@ -389,18 +387,6 @@ var shopinfoController = function ($scope,$location, $http, LoginService) {
     	$http.post("api/paychannel/info", {pcid:id}).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.paychannel=data.result;
-            }
-        });
-    };
-    $scope.addCart = function () {
-    	$scope.cartreq={customerId:LoginService.userid,goodId:$scope.good.goodinfo.id,
-    			paychannelId:$scope.paychannel.id,quantity:$scope.quantity};
-    	$http.post("api/cart/add",$scope.cartreq ).success(function (data) {  //绑定
-            if (data.code==1) {
-            	//$scope.paychannel=data.result;
-            	//LoginService.shopcount+=1;
-            	$scope.$emit('shopcartcountchange');
-            	window.location.href = '#/shopcart';
             }
         });
     };

@@ -59,21 +59,23 @@
 						<th>终端号</th>
 						<th>所属代理商</th>
 						<th>交易金额</th>
-						<th ng-if="is_have_profit==1">产出分润</th>
-						<th ng-if="is_have_profit==1">需支付分润</th>
+						<th ng-if="req.is_have_profit==1">产出分润</th>
+						<th ng-if="req.is_have_profit==1">需支付分润</th>
 						<th>状态</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>123654789</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>AF456699452</td>
-						<td>华润</td>
-						<td><strong>￥485.00</strong></td>
-						<td ng-if="is_have_profit==1"><strong>￥10.00</strong></td>
-						<td ng-if="is_have_profit==1"><strong>￥5.00</strong></td>
-						<td><strong class="strong_status">已完成</strong></td>
+					<tr ng-repeat="one in tradeList">
+						<td>{{one.trade_number}}</td>
+						<td>{{one.tradedTimeStr}}</td>
+						<td>{{one.terminalNumber}}</td>
+						<td>{{one.agent}}</td>
+						<td><strong>{{one.amount/100|currency : "￥"}}</strong></td>
+						<td ng-if="req.is_have_profit==1"><strong>￥10.00</strong></td>
+						<td ng-if="req.is_have_profit==1"><strong>￥5.00</strong></td>
+						<td ng-if="one.tradedStatus == 1"><strong class="strong_status">待付款</strong></td>
+						<td ng-if="one.tradedStatus == 2"><strong class="strong_status">交易完成</strong></td>
+						<td ng-if="one.tradedStatus == 3"><strong class="strong_status">交易失败</strong></td>
 					</tr>
 					
 					

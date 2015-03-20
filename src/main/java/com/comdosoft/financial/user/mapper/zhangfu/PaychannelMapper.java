@@ -23,9 +23,7 @@ public interface PaychannelMapper {
 
     Map<String, Object> getPcinfo(int pcid);
 
-    String getpcname(int pcid);
-
-    List<Map<String, Object>> getTradeType();
+   
 
 
     

@@ -10,7 +10,7 @@ public interface TradeRecordMapper3 {
 
     Map<String, Object> getTradeRecordsCount(TradeReq req);
     
-    List<Map<Object, Object>> getTradeRecords(TradeReq req);
+    List<Map<String, Object>> getTradeRecords(TradeReq req);
 
     Map<String, Object> getTradeRecord(TradeReq req);
 
@@ -19,6 +19,8 @@ public interface TradeRecordMapper3 {
     Map<String, Object> get4(TradeReq req);
 
     Map<String, Object> get5(TradeReq req);
+
+    Map<String, Object> getProfit(int id);
 
 
 }

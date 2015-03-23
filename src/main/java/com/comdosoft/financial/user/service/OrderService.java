@@ -100,7 +100,7 @@ public class OrderService {
      */
 //获取批购订单
     public Page<Object> getWholesaleOrder(MyOrderReq myOrderReq) {
-        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getPageSize());
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
         int count = orderMapper.countWholesaleOrder(myOrderReq.getCustomer_id());
         List<Order> centers = orderMapper.getWholesaleOrder(myOrderReq);
         List<Object> obj_list = new ArrayList<Object>();
@@ -168,7 +168,7 @@ public class OrderService {
     }
 //    获取代购订单
     public Page<Object> getProxyOrder(MyOrderReq myOrderReq) {
-        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getPageSize());
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
         int count = orderMapper.countProxyOrder(myOrderReq.getCustomer_id());
         List<Order> centers = orderMapper.getProxyOrder(myOrderReq);
         List<Object> obj_list = new ArrayList<Object>();
@@ -176,7 +176,7 @@ public class OrderService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         for(Order o : centers){
             map = new LinkedHashMap<String, Object>();
-            map.put("order_id", o.getId().toString());
+            map.put("order_id", o.getId());
             map.put("order_number", o.getOrderNumber());
             String d = sdf.format(o.getCreatedAt());
             map.put("order_createTime", d);
@@ -188,7 +188,11 @@ public class OrderService {
             Customer customer = new Customer();
             customer.setId(guishu_user);
             customer = orderMapper.findCustomerById(customer);
-            map.put("guishu_user", customer.getName());//配送费
+            if(customer ==null){
+                map.put("guishu_user", ""); 
+            }else{
+            	map.put("guishu_user", customer.getName()==null?"": customer.getName()); 
+            }
             List<OrderGood> olist = o.getOrderGoodsList();
             List<Object> newObjList = new ArrayList<Object>();
             Map<String, Object> omap = null;
@@ -200,7 +204,7 @@ public class OrderService {
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                     omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
                     omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
-                    omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName());
+                    omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName()==null?"":od.getPayChannel().getName());
                     String good_logo = "";
                     if(null !=od.getGood()){
                         Good g = od.getGood();
@@ -227,7 +231,7 @@ public class OrderService {
      * @return
      * @throws ParseException 
      */
-    public Object getWholesaleById(Integer id) throws ParseException {
+    public Object getWholesaleById(Integer id)  {
         Order o = orderMapper.getWholesaleById(id);
         if(null == o){
             return "-1";
@@ -238,7 +242,7 @@ public class OrderService {
 //        Integer actual_price = o.getActualPrice();//这个单子的总额
         int pay_status = o.getFrontPayStatus(); //1 已支付  0 未支付
         Integer zhifu_dingjin = 0;
-        Integer dj_price = o.getFrontMoney();
+        Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
         if(pay_status==1){
             zhifu_dingjin = dj_price;
         }
@@ -252,8 +256,8 @@ public class OrderService {
             }
         }
         map.put("pay_status", pay_status);
-        map.put("order_totalPrice", o.getActualPrice());//总共金额
-        map.put("total_dingjin", o.getFrontMoney());//定金总额
+        map.put("order_totalPrice", o.getActualPrice()==null?0:o.getActualPrice());//总共金额
+        map.put("total_dingjin", o.getFrontMoney()==null?0:o.getFrontMoney());//定金总额
         map.put("zhifu_dingjin", zhifu_dingjin);//已付定金
 //        map.put("shengyu_price", shengyu_price);//剩余金额
         map.put("shipped_quantity", quantity);//已发货数量
@@ -272,7 +276,7 @@ public class OrderService {
             invoce_name = "公司";
         }
         map.put("order_invoce_type", invoce_name);//发票类型
-        map.put("order_invoce_info", o.getInvoiceInfo());//发票抬头
+        map.put("order_invoce_info", o.getInvoiceInfo()==null?"":o.getInvoiceInfo());//发票抬头
         
         map.put("order_number", o.getOrderNumber());//订单编号
         map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
@@ -293,13 +297,13 @@ public class OrderService {
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                 omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
                 omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
-                omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName());
+                omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName()==null?"":od.getPayChannel().getName());
                 String good_logo = "";
                 if(null !=od.getGood()){
                     Good g = od.getGood();
                     if(g.getPicsList().size()>0){
                         GoodsPicture gp  = g.getPicsList().get(0);
-                        good_logo = gp.getUrlPath();
+                        good_logo = gp.getUrlPath()==null?"":gp.getUrlPath();
                     }
                 }
                 omap.put("good_logo", good_logo);
@@ -356,7 +360,7 @@ public class OrderService {
             invoce_name = "公司";
         }
         map.put("order_invoce_type", invoce_name);//发票类型
-        map.put("order_invoce_info", o.getInvoiceInfo());//发票抬头
+        map.put("order_invoce_info", o.getInvoiceInfo()==null?"":o.getInvoiceInfo());//发票抬头
         List<OrderGood> olist = o.getOrderGoodsList();
         List<Object> newObjList = new ArrayList<Object>();
         Map<String, Object> omap = null;
@@ -396,9 +400,10 @@ public class OrderService {
         return obj_list;
     }
 
-    public void cancelMyOrder(MyOrderReq myOrderReq) {
+    public int cancelMyOrder(MyOrderReq myOrderReq) {
         myOrderReq.setOrderStatus(OrderStatus.CANCEL);
-        orderMapper.cancelMyOrder(myOrderReq);
+        int i = orderMapper.cancelMyOrder(myOrderReq);
+        return i;
     }
 
     public void comment(MyOrderReq myOrderReq) {

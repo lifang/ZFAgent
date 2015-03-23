@@ -9,7 +9,7 @@ public interface CsUpdateInfoMapper {
 
     List<Map<String, Object>> findAll(MyOrderReq myOrderReq);
 
-    void cancelApply(MyOrderReq myOrderReq);
+    int cancelApply(MyOrderReq myOrderReq);
     
     Map<String, Object> findById(MyOrderReq myOrderReq);
 

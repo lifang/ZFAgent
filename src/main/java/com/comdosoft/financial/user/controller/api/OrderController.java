@@ -33,38 +33,45 @@ public class OrderController {
     //批购订单
     @RequestMapping(value="getWholesaleOrder" ,method=RequestMethod.POST)
     public Response getWholesaleOrder(@RequestBody MyOrderReq myOrderReq) {
-        try{
+//        try{
             Page<Object> centers = orderService.getWholesaleOrder(myOrderReq);
+//            if(centers.getSize()<1){
+//            	return Response.getError("请求的数据列表为空");
+//            }
             return Response.getSuccess(centers);
-        }catch(NullPointerException e){
-            return Response.buildErrorWithMissing();
-        }catch(Exception e){
-            logger.debug("获取我的订单列表出错"+e);
-            return Response.getError("请求失败");
-        }
+//        }catch(NullPointerException e){
+//            return Response.buildErrorWithMissing();
+//        }catch(Exception e){
+//            logger.debug("获取我的订单列表出错"+e);
+//            return Response.getError("请求失败");
+//        }
     }
     
     @RequestMapping(value="getWholesaleById" ,method=RequestMethod.POST)
     public Response getWholesaleById(@RequestBody MyOrderReq myOrderReq ) {
-        try{
+//        try{
             Object centers = orderService.getWholesaleById(myOrderReq.getId());
             if(centers.equals("-1")){
                 return Response.getError("此订单不存在");
             }
             return Response.getSuccess(centers);
-        }catch(NullPointerException e){
-            return Response.buildErrorWithMissing();
-        }catch(Exception e){
-            logger.debug("获取我的订单详情出错"+e);
-            return Response.getError("请求失败");
-        }
+//        }catch(NullPointerException e){
+//            return Response.buildErrorWithMissing();
+//        }catch(Exception e){
+//            logger.debug("获取我的订单详情出错"+e);
+//            return Response.getError("请求失败");
+//        }
     }    
     
     @RequestMapping(value="cancelWholesale" ,method=RequestMethod.POST)
     public Response cancelWholesale(@RequestBody MyOrderReq myOrderReq ) {
         try{
-            orderService.cancelMyOrder(myOrderReq);
-            return Response.buildSuccess(null, "取消成功");
+          int i =   orderService.cancelMyOrder(myOrderReq);
+            if(i==1){
+                return Response.buildSuccess(null, "取消成功");
+            }else{
+                return Response.getError( "操作失败");
+            }
         }catch(Exception e){
             logger.debug("取消我的订单详情出错"+e);
             return Response.getError("取消失败");
@@ -76,15 +83,18 @@ public class OrderController {
 //    代购订单
     @RequestMapping(value="getProxyOrder" ,method=RequestMethod.POST)
     public Response getProxyOrder(@RequestBody MyOrderReq myOrderReq) {
-        try{
+//        try{
             Page<Object> centers = orderService.getProxyOrder(myOrderReq);
+//            if(centers.getSize()<1){
+//            	return Response.getError("请求的数据列表为空");
+//            }
             return Response.getSuccess(centers);
-        }catch(NullPointerException e){
-            return Response.buildErrorWithMissing();
-        }catch(Exception e){
-            logger.debug("获取我的订单列表出错"+e);
-            return Response.getError("请求失败");
-        }
+//        }catch(NullPointerException e){
+//            return Response.buildErrorWithMissing();
+//        }catch(Exception e){
+//            logger.debug("获取我的订单列表出错"+e);
+//            return Response.getError("请求失败");
+//        }
     }
     
     @RequestMapping(value="getProxyById" ,method=RequestMethod.POST)
@@ -106,8 +116,12 @@ public class OrderController {
     @RequestMapping(value="cancelProxy" ,method=RequestMethod.POST)
     public Response cancelProxy(@RequestBody MyOrderReq myOrderReq ) {
         try{
-            orderService.cancelMyOrder(myOrderReq);
-            return Response.buildSuccess(null, "取消成功");
+            int  i = orderService.cancelMyOrder(myOrderReq);
+            if(i==1){
+                return Response.buildSuccess(null, "取消成功");
+            }else{
+                return Response.getError( "操作失败");
+            }
         }catch(Exception e){
             logger.debug("取消我的订单详情出错"+e);
             return Response.getError("取消失败");

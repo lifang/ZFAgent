@@ -28,7 +28,7 @@ public class CsCencelsService {
     @Resource
     private CsCencelsMapper csCencelsMapper;
     public Page<List<Object>>  findAll(MyOrderReq myOrderReq) throws ParseException {
-        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getPageSize());
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
         int count = csCencelsMapper.count(myOrderReq);
         List<Map<String, Object>> o = csCencelsMapper.findAll(myOrderReq);
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -54,29 +54,37 @@ public class CsCencelsService {
      * 取消申请
      * @param myOrderReq
      */
-    public void cancelApply(MyOrderReq myOrderReq) {
+    public int cancelApply(MyOrderReq myOrderReq) {
         myOrderReq.setRepairStatus(RepairStatus.CANCEL);
-        csCencelsMapper.changeStatus(myOrderReq);
+       int i =  csCencelsMapper.changeStatus(myOrderReq);
+       return i;
     }
 
     @SuppressWarnings("unchecked")
     public Map<String,Object> findById(MyOrderReq myOrderReq) throws ParseException {
         Map<String, Object> o = csCencelsMapper.findById(myOrderReq);
         Map<String,Object> map = new HashMap<String,Object>();
+        if(o.isEmpty()){
+        	return map;
+        }
         String id = o.get("id").toString();
         map.put("id", id);
-        map.put("status", o.get("apply_status"));
+        map.put("status", o.get("apply_status")==null?"":o.get("apply_status"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String apply_time =   o.get("apply_time")+"";
-        map.put("apply_time", sdf.format(sdf.parse(apply_time)));
-        map.put("terminal_num", o.get("serial_num")+"");
-        map.put("brand_name", o.get("brand_name")+"");
-        map.put("brand_number", o.get("brand_number")+"");
-        map.put("zhifu_pingtai", o.get("zhifu_pt")+"");
-        map.put("merchant_name", o.get("merchant_name")+"");
-        map.put("merchant_phone", o.get("mer_phone")+"");
-        map.put("receiver_addr", o.get("address")+"");
-        String json = o.get("templete_info_xml")+"";
+        if(apply_time==""){
+        	map.put("apply_time", "");
+        }else{
+        	map.put("apply_time", sdf.format(sdf.parse(apply_time)));
+        }
+        map.put("terminal_num", o.get("serial_num")==null?"":o.get("serial_num"));
+        map.put("brand_name", o.get("brand_name")==null?"":o.get("brand_name"));
+        map.put("brand_number", o.get("brand_number")==null?"":o.get("brand_number"));
+        map.put("zhifu_pingtai", o.get("zhifu_pt")==null?"":o.get("zhifu_pt"));
+        map.put("merchant_name", o.get("merchant_name")==null?"":o.get("merchant_name"));
+        map.put("merchant_phone", o.get("mer_phone")==null?"":o.get("mer_phone"));
+        map.put("receiver_addr", o.get("address")==null?"":o.get("address"));
+        String json = o.get("templete_info_xml")==null?"":o.get("templete_info_xml").toString();
         ObjectMapper mapper = new ObjectMapper();
         if(!json.equals("")){
             List<LinkedHashMap<String, Object>> list_json;

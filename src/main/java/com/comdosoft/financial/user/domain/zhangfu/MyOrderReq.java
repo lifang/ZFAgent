@@ -8,7 +8,7 @@ public class MyOrderReq {
     private Integer page ;//当前页数
     @SuppressWarnings("unused")
     private Integer offset;
-    private Integer pageSize ;//每页大小
+    private Integer rows ;//每页大小
     private Integer customer_id;//用户id
     private String centent;//内容
     private PayType payType;
@@ -219,24 +219,17 @@ public class MyOrderReq {
     public void setPage(Integer page) {
         this.page = page;
     }
-    /**  
-     * 获取 pageSize  
-     * @return pageSize
-     */
-    public Integer getPageSize() {
-        if(null == pageSize) pageSize = 10;
-        return pageSize;
-    }
-    /**  
-     * 设置 pageSize  
-     * @param pageSize
-     */
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
+   
     
    
-    /**  
+    public Integer getRows() {
+    	if(rows==null) rows = 10;
+		return rows;
+	}
+	public void setRows(Integer rows) {
+		this.rows = rows;
+	}
+	/**  
      * 获取 payType  
      * @return payType
      */
@@ -258,11 +251,11 @@ public class MyOrderReq {
      */
     @Override
     public String toString() {
-        return "MyOrderReq [id=" + id + ", ids=" + Arrays.toString(ids) + ", page=" + page + ", pageSize=" + pageSize + ", customer_id=" + customer_id + ", centent=" + centent + ", payType=" + payType + ", orderStatus=" + orderStatus + ", repairStatus=" + repairStatus + "]";
+        return "MyOrderReq [id=" + id + ", ids=" + Arrays.toString(ids) + ", page=" + page + ", rows=" +rows + ", customer_id=" + customer_id + ", centent=" + centent + ", payType=" + payType + ", orderStatus=" + orderStatus + ", repairStatus=" + repairStatus + "]";
     }
     public int getOffset() {
         if(page>0){
-            return (page - 1) * pageSize;
+            return (page - 1) * rows;
         }
         return 0;
     }

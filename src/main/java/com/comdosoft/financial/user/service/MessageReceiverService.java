@@ -22,7 +22,7 @@ public class MessageReceiverService {
     private MessageReceiverMapper messageReceiverMapper;
 
     public Page<Object> findAll(MyOrderReq myOrderReq) {
-        PageRequest request = new PageRequest(myOrderReq.getPage(),myOrderReq.getPageSize());
+        PageRequest request = new PageRequest(myOrderReq.getPage(),myOrderReq.getRows());
         int count = messageReceiverMapper.count(myOrderReq.getCustomer_id());
         List<SysMessage> centers = messageReceiverMapper.findAll(myOrderReq);
         List<Object> list = new ArrayList<Object>();

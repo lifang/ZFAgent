@@ -9,10 +9,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.comdosoft.financial.user.domain.Paging;
+import com.comdosoft.financial.user.domain.query.TradeReq;
 import com.comdosoft.financial.user.domain.trades.TradeRecord;
 import com.comdosoft.financial.user.mapper.trades.record.TradeRecordMapper;
-import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.AgentTradeMapper;
+import com.comdosoft.financial.user.utils.SysUtils;
 
 /**
  * 业务层实现类<br>
@@ -28,39 +29,43 @@ public class TradeRecordService {
     private TradeRecordMapper tradeRecordMapper;
 
     @Resource
-    private TerminalsMapper terminalsMapper;
+    private  AgentTradeMapper agentTrade;
 
-    public List<Map<Object, Object>> getTerminals(int customerId) {
-        return terminalsMapper.getTerminals(customerId);
+    public List<Map<Object, Object>> getTerminals(int agentId) {
+        String code=agentTrade.getCode(agentId);
+        return agentTrade.getTerminals(code);
+    }
+    
+    public List<Map<Object, Object>> getAgents(int agentId) {
+        String code=agentTrade.getCode(agentId);
+        return agentTrade.getAgents(code);
     }
 
-    public List<Map<Object, Object>> getTradeRecords(int tradeTypeId, String terminalNumber, String startTime, String endTime, int page, int rows) {
-        Map<Object, Object> query = new HashMap<Object, Object>();
-        query.put("tradeTypeId", tradeTypeId);
-        query.put("terminalNumber", terminalNumber);
-        query.put("startTime", startTime);
-        query.put("endTime", endTime);
-
-        Paging paging = new Paging(page, rows);
-        query.put("offset", paging.getOffset());
-        query.put("rows", paging.getRows());
-
+    public Integer getTradeRecordTotal(TradeReq req) {
+        req.setCode(agentTrade.getCode(req.getAgentId()));
+        req.setAgentIds(SysUtils.Arry2Str(agentTrade.getAgentIds(req)));
+        return tradeRecordMapper.getTradeRecordsCount(req);
+    }
+    
+    public List<Map<Object, Object>> getTradeRecords(TradeReq req) {
+        req.setCode(agentTrade.getCode(req.getAgentId()));
+        req.setAgentIds(SysUtils.Arry2Str(agentTrade.getAgentIds(req)));
         List<Map<Object, Object>> list = null;
-        switch (tradeTypeId) {
+        switch (req.getTradeTypeId()) {
         case TradeRecord.TRADETYPEID_1:
-            list = tradeRecordMapper.getTradeRecords12(query);
+            list = tradeRecordMapper.getTradeRecords12(req);
             break;
         case TradeRecord.TRADETYPEID_2:
-            list = tradeRecordMapper.getTradeRecords12(query);
+            list = tradeRecordMapper.getTradeRecords12(req);
             break;
         case TradeRecord.TRADETYPEID_3:
-            list = tradeRecordMapper.getTradeRecords3(query);
+            list = tradeRecordMapper.getTradeRecords3(req);
             break;
         case TradeRecord.TRADETYPEID_4:
-            list = tradeRecordMapper.getTradeRecords45(query);
+            list = tradeRecordMapper.getTradeRecords45(req);
             break;
         case TradeRecord.TRADETYPEID_5:
-            list = tradeRecordMapper.getTradeRecords45(query);
+            list = tradeRecordMapper.getTradeRecords45(req);
             break;
         default:
             list = new ArrayList<Map<Object, Object>>();
@@ -82,5 +87,9 @@ public class TradeRecordService {
         // TODO Auto-generated method stub
         return null;
     }
+
+   
+
+    
 
 }

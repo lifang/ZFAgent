@@ -13,13 +13,7 @@ import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
  */
 public interface TerminalsMapper {
 
-    /**
-     * <!-- 查询交易流水用 -->
-     * 
-     * @param customerId
-     * @return
-     */
-    List<Map<Object, Object>> getTerminals(int customerId);
+   
 
     /**
      * 根据用户id获得终端列表

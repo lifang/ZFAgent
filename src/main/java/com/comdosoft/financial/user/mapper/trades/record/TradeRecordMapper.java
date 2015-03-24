@@ -3,6 +3,8 @@ package com.comdosoft.financial.user.mapper.trades.record;
 import java.util.List;
 import java.util.Map;
 
+import com.comdosoft.financial.user.domain.query.TradeReq;
+
 /**
  * Dao层接口
  * 
@@ -11,17 +13,18 @@ import java.util.Map;
  */
 public interface TradeRecordMapper {
 
-    List<Map<Object, Object>> getTerminals(int customerId);
-
-    List<Map<Object, Object>> getTradeRecords12(Map<Object, Object> query);
-
-    List<Map<Object, Object>> getTradeRecords3(Map<Object, Object> query);
-
-    List<Map<Object, Object>> getTradeRecords45(Map<Object, Object> query);
 
     Map<Object, Object> getTradeRecordTotal(Map<Object, Object> query);
 
     int getTradeRecordTotalByAgentId(int id);
+
+    List<Map<Object, Object>> getTradeRecords12(TradeReq req);
+
+    List<Map<Object, Object>> getTradeRecords3(TradeReq req);
+
+    List<Map<Object, Object>> getTradeRecords45(TradeReq req);
+
+    Integer getTradeRecordsCount(TradeReq req);
     
     
 

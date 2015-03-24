@@ -38,9 +38,10 @@ var tradelistController = function ($scope, $http, LoginService) {
 	};
 	$scope.changeType = function(one) {
 		$scope.req={startTime:"",endTime:"",terminalNumber:""};
-		$scope.req.customerId=LoginService.userid;
+		$scope.req.agentId=LoginService.agentid;
 		$scope.req.tradeTypeId=one.id;
 		LoginService.tradeTypeId=one.id;
+		$scope.req.is_have_profit=LoginService.is_have_profit;
 		initSystemPage($scope.req);// 初始化分页参数
 		$scope.typeName=one.value;
 		$scope.list();

@@ -1,11 +1,13 @@
 package com.comdosoft.financial.user.service.trades.record;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.query.TradeReq;
@@ -25,13 +27,13 @@ public class TradeRecordService3 {
     
 
     public Map<String, Object> getTradeRecordsCount(TradeReq req) {
-        req.setCode(agentTrade.getCode(req));
+        req.setCode(agentTrade.getCode(req.getAgentId()));
         req.setAgentIds(SysUtils.Arry2Str(agentTrade.getAgentIds(req)));
         return tradeRecordMapper3.getTradeRecordsCount(req);
     }
 
     public List<Map<String, Object>> getTradeRecords(TradeReq req) {
-        req.setCode(agentTrade.getCode(req));
+        req.setCode(agentTrade.getCode(req.getAgentId()));
         req.setAgentIds(SysUtils.Arry2Str(agentTrade.getAgentIds(req)));
         List<Map<String, Object>> result=tradeRecordMapper3.getTradeRecords(req);
         for (Map<String, Object> map : result) {
@@ -39,6 +41,7 @@ public class TradeRecordService3 {
             map.put("agent", agentTrade.getAgentName(agentid));
             if(1==req.getIs_have_profit()){
                 req.setId(SysUtils.Object2int(map.get("id")));
+                req.setPcid(SysUtils.Object2int(map.get("pay_channel_id")));
                 map.putAll(profit(req));
             }
         }
@@ -46,24 +49,61 @@ public class TradeRecordService3 {
     }
     
     private Map<String, Object> profit(TradeReq req){
+        Map<String, Object> result=new HashMap<String, Object>();
         Map<String, Object> map=tradeRecordMapper3.getProfit(req.getId());
+        if(map==null){
+            result.put("get", 0);
+            result.put("pay", 0);
+            return result;
+        }
         int tid=SysUtils.Object2int(map.get("tid"));
         int cid=SysUtils.Object2int(map.get("cid"));
-        Map<String, Object> result=new HashMap<String, Object>();
-        result.put("profits_get", 1);
-        result.put("profits_pay", 1);
+        int tpay=SysUtils.Object2int(map.get("profits_pay"));
         if(tid==req.getAgentId()){
-            result.put("profits_get", map.get("profits_get"));
+            result.put("get", tpay);
+            result.put("pay", 0);
         }else{
-            
+            List<Integer> percent=new ArrayList<Integer>();
+            int j1=req.getCode().length()/3;
+            for (int i = 1; i < j1; i++) {
+                String code2=req.getCode().substring(0, req.getCode().length()-3*i);
+                req.setCode(code2);
+                percent.add(percent(req));
+            }
+            for (Integer integer : percent) {
+                tpay=tpay*integer/1000;
+            }
+            result.put("get", tpay);
+            if(cid==req.getAgentId()){
+                result.put("pay", 0);
+            }else{
+                req.setCode(agentTrade.getCode(cid).substring(0,agentTrade.getCode(req.getAgentId()).length()+3));
+                result.put("pay", tpay*percent(req)/1000);
+            }
         }
-        if(cid==req.getAgentId()){
-            result.put("profits_pay", 0);
-        }else{
-            
-        }
-        return null;
+        return result;
     }
+    
+    private int percent(TradeReq req){
+        try {
+            int p1=agentTrade.getp1(req);
+            return p1;
+        } catch (BindingException e) {
+            try {
+                int p2=agentTrade.getp2(req.getCode());
+                return p2;
+            } catch (BindingException e1) {
+                try {
+                    int p3=agentTrade.getp3();
+                    return p3;
+                } catch (BindingException e2) {
+                    return 0;
+                }
+            }
+        }
+    }
+    
+
 
     public List<Map<String, Object>> getTradeType() {
         return agentTrade.getTradeType();

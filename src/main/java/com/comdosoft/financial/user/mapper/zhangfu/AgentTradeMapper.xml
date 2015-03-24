@@ -28,7 +28,7 @@
 	
 	<select id="getAgentName" resultType="String">
 	<![CDATA[
-		SELECT company_name  from agents  where id=#{agentid}
+		SELECT company_name  from agents  where id=#{agentId}
 	]]>
 	</select>
 	
@@ -39,6 +39,25 @@
 	]]>
 	</select>
 	
+	<select id="getp1" resultType="int">
+	<![CDATA[
+		SELECT aps.percent from agent_profit_settings aps 
+		LEFT JOIN agents a on a.id=aps.agent_id
+		where  aps.pay_channel_id=#{pcid} and aps.trade_type_id=#{tradeTypeId} and a.code=#{code}
+	]]>
+	</select>
+	
+	<select id="getp2" resultType="int">
+	<![CDATA[
+		SELECT default_profit from agents where code=#{code}
+	]]>
+	</select>
+	
+	<select id="getp3" resultType="int">
+	<![CDATA[
+		SELECT param_value from sys_config where param_name='tradeRecordDefaultProfit'
+	]]>
+	</select>
 	
 
 </mapper>

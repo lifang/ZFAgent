@@ -96,6 +96,13 @@
 			<systemPath>${basedir}/libs/simplecaptcha-1.2.1.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>3.0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/libs/commons-httpclient-3.0.1.jar</systemPath>
+		</dependency>		
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>

@@ -94,7 +94,7 @@ public interface TerminalsMapper {
      * 给用户绑定终端号
      * @param map
      */
-    void Binding(Map<String, String> map);
+    void Binding(Map<Object, Object> map);
     
     /**
      * 该用户所有终端

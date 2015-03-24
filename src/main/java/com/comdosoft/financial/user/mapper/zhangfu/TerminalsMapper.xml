@@ -156,10 +156,10 @@
 	</select>
 
 	<select id="screeningPosName" parameterType="int" resultType="map">
-		SELECT g.id,g.title FROM terminals t
+		SELECT distinct  g.id,g.title FROM terminals t
 		LEFT JOIN goods g ON
 		t.good_id = g.id
-		WHERE t.customer_id = #{customerId}
+		WHERE t.customer_id = #{customerId} AND g.id is not NULL
 	</select>
 
 </mapper>

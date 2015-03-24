@@ -25,11 +25,37 @@ public interface OpeningApplyMapper {
 	List<Map<Object, Object>> getApplyList(Map<String, Object> map);
 	
 	/**
+	 * 根据终端号模糊查询相关终端
+	 * @param map
+	 * @return
+	 */
+	List<Map<Object, Object>> searchApplyList(Map<String, Object> map);
+	
+	/**
+	 * 获得已有开通申请基本申请信息
+	 * @param id
+	 * @return
+	 */
+	Map<String, Object> getOppinfo(OpeningApplie openingApplie);
+	
+	/**
+	 * 申请开通时判断商户是否存在
+	 * @return
+	 */
+	Map<Object, Object> getMerchantsIsNo(Map<Object, Object> map);
+	
+	/**
 	 * 根据终端id获得该终端详情
 	 * @param id
 	 * @return
 	 */
 	Map<String, Object> getApplyDetails(Integer id);
+	
+	/**
+	 * 修改开通关联基本信息
+	 * @param openingApplie
+	 */
+	void updateApply(OpeningApplie openingApplie);
 	
 	/**
 	 * 获得所有商户
@@ -38,10 +64,22 @@ public interface OpeningApplyMapper {
 	List<Merchant> getMerchants(Integer customerId);
 	
 	/**
+	 * 添加商户
+	 * @return
+	 */
+	void addMerchan(Merchant merchant);
+	
+	/**
+	 * 获得所有通道周期
+	 * @return
+	 */
+	List<Map<Object, Object>> channelsT(int id);
+	
+	/**
 	 * 获得所有通道
 	 * @return
 	 */
-	List<Map<String, String>> getChannels();
+	List<Map<Object, Object>> getChannels();
 	
 	/**
 	 * 申请资料数据回显
@@ -55,13 +93,21 @@ public interface OpeningApplyMapper {
 	 * @param id
 	 * @return
 	 */
-	Merchant getMerchant(Integer id);
+	Map<Object, Object> getMerchant(Integer id);
 	
 	/**
 	 * 添加开通信息
 	 * @param map
 	 */
-	void addApply(Map<Object, Object> map);
+	void addApply(Map<String, Object> map);
+	
+	/**
+     * 判断该终端是否开通
+     * 
+     * @param map
+     * @return
+     */
+    int judgeOpen(int terminalId);
 	
 	/**
 	 * 添加开通关联信息

@@ -1,42 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper">
-
-	<resultMap  id="merchantMap" type="com.comdosoft.financial.user.domain.zhangfu.Merchant">
-		<id column="id" property="id" />
-		<result column="credit_type_id" property="creditTypeId" />
-		<result column="legal_person_name" property="legalPersonName" />
-		<result column="legal_person_card_id" property="legalPersonCardId" />
-		<result column="card_id_front_photo_path" property="cardIdFrontPhotoPath" />
-		<result column="card_id_back_photo_path" property="cardIdBackPhotoPath" />
-		<result column="title" property="title" />
-		<result column="business_license_no" property="businessLicenseNo" />
-		<result column="tax_registered_no" property="taxRegisteredNo" />
-		<result column="organization_code_no" property="organizationCodeNo" />
-		<result column="bank_open_account" property="bankOpenAccount" />
-		<result column="license_no_pic_path" property="bankOpenAccount" />
-		<result column="tax_no_pic_path" property="taxNoPicPath" />
-		<result column="org_code_no_pic_path" property="orgCodeNoPicPath" />
-		<result column="account_pic_path" property="accountPicPath" />
-		<result column="account_bank_name" property="accountBankName" />
-		<result column="account_bank_address" property="accountBankAddress" />
-		<result column="created_at" property="createdAt" />
-		<result column="updated_at" property="updatedAt" />
-		<result column="phone" property="phone" />
-		<result column="account_bank_num" property="accountBankNum" />
-		<result column="customer_id" property="customerId" />
-		<result column="city_id" property="cityId" />
-		<result column="body_photo_path" property="bodyPhotoPath" />
-	</resultMap>
- 	
- 	<insert id="addApply" useGeneratedKeys="true" keyProperty="id" parameterType="map">
-		INSERT INTO `terminal_opening_infos` (`key`, `value`,`types`,`opening_applies_id`,`created_at`,`updated_at`) 
-		VALUES (#{key},#{value},#{types},#{openingAppliesId},now(),now());
- 	</insert>
  	
  	<insert id="addOpeningApply" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
 		INSERT INTO `opening_applies` (`apply_customer_id`,`preliminary_verify_user_id`,`terminal_id`,`created_at`,`updated_at`,`status`,`types`) 
 		VALUES (#{applyCustomerId},#{terminalId},#{terminalId},now(),now(),#{status},#{types});
+ 	</insert>
+ 	
+ 	<insert id="addMerchan" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
+		 INSERT into merchants(legal_person_name,legal_person_card_id,title,tax_registered_no,organization_code_no,created_at,updated_at,account_bank_num,customer_id,city_id,phone)
+		 VALUES(#{legalPersonName},#{legalPersonCardId},#{title},#{taxRegisteredNo},#{organizationCodeNo},now(),now(),#{accountBankNum},#{customerId},#{cityId},#{phone})
+ 	</insert>
+ 	
+ 	<insert id="addApply" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO `terminal_opening_infos` (`key`, `value`,`types`,`opening_applies_id`,`target_id`,`opening_requirement_id`,`created_at`,`updated_at`) 
+		VALUES (#{key},#{value},#{types},#{openingAppliesId},#{targetId},#{openingRequirementId},now(),now());
  	</insert>
  
  	<select id="getApplyList" parameterType="map" resultType="map">
@@ -47,9 +25,49 @@
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
  	
+ 	<select id="judgeOpen"  resultType="int" parameterType="int">
+		select count(*) from opening_applies
+		where terminal_id = #{terminalId}
+	</select>
+ 	
+ 	<select id="searchApplyList" parameterType="map" resultType="map">
+ 		SELECT id,serial_num,status
+ 		FROM terminals
+ 		WHERE customer_id=#{id}
+ 		AND status in (#{twoStatus},#{threeStatus})
+ 		<if test="serialNum != null and serialNum != ''">AND serial_num like '%${serialNum}%'</if>
+ 		LIMIT #{offSetPage},#{pageSize}
+ 	</select>
+ 	
  	<update id="updateOpeningApplyStatus" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
 		UPDATE `opening_applies` SET `status` = #{status}  
 		WHERE id = #{id}
+ 	</update>
+ 	
+ 	<update id="updateApply" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
+ 		update  `opening_applies` set `apply_customer_id` = #{applyCustomerId}
+		,`terminal_id` = #{terminalId}
+		,`status` = #{status}
+		,`created_at` = now()
+		,`updated_at` = now()
+		,`types` = #{types}
+		,`merchant_id` = #{merchantId}
+		,`merchant_name` = #{merchantName}
+		,`sex` = #{sex}
+		,`birthday` = #{birthday}
+		,`card_id` =#{cardId}
+		,`phone` = #{phone}
+		,`email` =#{email}
+		,`city_id` = #{cityId}
+		,`name` = #{name}
+		,`pay_channel_id` = #{payChannelId}
+		,`account_bank_num` = #{accountBankNum}
+		,`account_bank_name` =#{accountBankName}
+		,`account_bank_code` = #{accountBankCode}
+		,`tax_registered_no` = #{taxRegisteredNo}
+		,`organization_code_no` = #{organizationCodeNo}
+		,`billing_cyde_id` =#{billingCydeId}
+		where id = #{id}
  	</update>
  	
  	<select id="getApplyDetails" parameterType="int" resultType="map">
@@ -60,15 +78,35 @@
 		WHERE t.id=#{terminalsId}
  	</select>
  	
+ 	<select id="getMerchantsIsNo" resultType="map"  parameterType="map">
+ 		SELECT * FROM merchants 
+ 		WHERE title = #{merchantName} or phone = #{phone}
+ 	</select>
+ 	
+ 	<select id="getOppinfo" resultType="map"  parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
+ 		SELECT e.*,p.`name` as channelname,b.`name` as billingname FROM opening_applies e 
+		LEFT JOIN pay_channels p on p.id = e.pay_channel_id
+		LEFT JOIN dictionary_billing_cycles b ON b.id = e.billing_cyde_id
+		WHERE  terminal_id = #{terminalId}
+ 	</select>
+ 	
  	<select id="getMerchants" resultType="map" parameterType="int">
  		SELECT id,title FROM merchants WHERE customer_id = #{customerId}
  	</select>
+ 	
+ 	<select id="channelsT" resultType="map">
+		SELECT d.id,d.`name`
+		FROM pay_channels s
+		LEFT JOIN pay_channel_billing_cycles p ON p.pay_channel_id = s.id
+		LEFT JOIN dictionary_billing_cycles d ON d.id = p.billing_cycles_id
+		WHERE s.id = #{id}
+	</select>
  	
  	<select id="getChannels" resultType="map">
  		SELECT id,name FROM pay_channels
  	</select>
  	
- 	<select id="getMerchant" resultMap="merchantMap" parameterType="int">
+ 	<select id="getMerchant" resultType="map" parameterType="int">
  		SELECT * FROM merchants
  		WHERE id=#{id}
  	</select>
@@ -84,7 +122,8 @@
  	</select>
  	
  	<select id="ReApplyFor" parameterType="int" resultType="map">
- 		SELECT * FROM terminal_opening_infos t LEFT JOIN opening_applies e on t.opening_applies_id=e.id
+ 		SELECT t.* FROM terminal_opening_infos t 
+ 		LEFT JOIN opening_applies e on t.opening_applies_id=e.id
 		WHERE e.terminal_id = #{terminalsId}
  	</select>
  	

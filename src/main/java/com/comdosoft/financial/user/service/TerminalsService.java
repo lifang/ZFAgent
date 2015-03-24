@@ -122,7 +122,7 @@ public class TerminalsService {
 	 * 给用户绑定终端号
 	 * @param map
 	 */
-	public void Binding(Map<String, String> map){
+	public void Binding(Map<Object, Object> map){
 		terminalsMapper.Binding(map);
 	}
 	

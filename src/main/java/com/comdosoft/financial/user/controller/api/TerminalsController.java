@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -34,6 +34,9 @@ public class TerminalsController {
 	
 	@Resource
 	private TerminalsService terminalsService;
+	
+	@Resource
+	private OpeningApplyService openingApplyService;
 
 	@Value("${passPath}")
 	private String passPath;
@@ -49,13 +52,13 @@ public class TerminalsController {
 		try {
 			Integer status = 0; 
 			PageRequest PageRequest = new PageRequest(
-					Integer.parseInt((String)map.get("page")),
-					Integer.parseInt((String)map.get("pageNum")));
+					(Integer)map.get("page"),
+					(Integer)map.get("rows"));
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(terminalsService.getTerminalList(
-					Integer.parseInt((String)map.get("customersId")),
+					(Integer)map.get("customersId"),
 					offSetPage,
-					Integer.parseInt((String)map.get("pageNum")),
+					(Integer)map.get("rows"),
 					status));
 		} catch (Exception e) {
 			logger.error("根据用户ID获得终端列表异常！", e);
@@ -75,16 +78,42 @@ public class TerminalsController {
 	public Response getTerminalList(@RequestBody Map<String, Object> map){
 		try {
 			PageRequest PageRequest = new PageRequest(
-					Integer.parseInt((String)map.get("page")),
-					Integer.parseInt((String)map.get("pageNum")));
+					(Integer)map.get("page"),
+					(Integer)map.get("rows"));
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(terminalsService.getTerminalList(
-					Integer.parseInt((String)map.get("customersId")),
+					(Integer)map.get("customersId"),
 					offSetPage,
-					Integer.parseInt((String)map.get("pageNum")),
-					Integer.parseInt((String)map.get("status"))));
+					(Integer)map.get("rows"),
+					(Integer)map.get("status")));
 		} catch (Exception e) {
 			logger.error("根据状态选择查询异常！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 根据终端号模糊查询相关终端
+	 * 
+	 * @param page
+	 * @param rows
+	 * @param customerId
+	 * @param serialNum
+	 * @return
+	 */
+	@RequestMapping(value = "searchApplyList", method = RequestMethod.POST)
+	public Response searchApplyList(@RequestBody Map<String, Object> map) {
+		try {
+			PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
+					(Integer)map.get("rows"));
+
+			int offSetPage = PageRequest.getOffset();
+			return Response.getSuccess(openingApplyService.searchApplyList(
+					(Integer)map.get("customerId"),
+					offSetPage, (Integer)map.get("rows"),
+					(String)map.get("serialNum")));
+		} catch (Exception e) {
+			logger.error("根据终端号获得开通申请列表异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
@@ -95,20 +124,19 @@ public class TerminalsController {
 	 * @param id
 	 */
 	@RequestMapping(value = "getApplyDetails", method = RequestMethod.POST)
-	public Response getApplyDetails(@RequestBody Map<String, Object> maps,
-			@PathVariable("terminalsId") Integer terminalsId) {
+	public Response getApplyDetails(@RequestBody Map<String, Object> maps) {
 		try {
 			Map<Object, Object> map = new HashMap<Object, Object>();
 			// 获得终端详情
 			map.put("applyDetails",
-					terminalsService.getApplyDetails(Integer.parseInt((String)maps.get("terminalsId"))));
+					terminalsService.getApplyDetails((Integer)maps.get("terminalsId")));
 			// 终端交易类型
-			map.put("rates", terminalsService.getRate(Integer.parseInt((String)maps.get("terminalsId"))));
+			map.put("rates", terminalsService.getRate((Integer)maps.get("terminalsId")));
 			// 追踪记录
-			map.put("trackRecord", terminalsService.getTrackRecord(Integer.parseInt((String)maps.get("terminalsId"))));
+			map.put("trackRecord", terminalsService.getTrackRecord((Integer)maps.get("terminalsId")));
 			// 开通详情
 			map.put("openingDetails",
-					terminalsService.getOpeningDetails(Integer.parseInt((String)maps.get("terminalsId"))));
+					terminalsService.getOpeningDetails((Integer)maps.get("terminalsId")));
 			return Response.getSuccess(map);
 		} catch (Exception e) {
 			logger.error("进入终端详情失败！", e);
@@ -124,7 +152,7 @@ public class TerminalsController {
 	@RequestMapping(value="getMerchants",method=RequestMethod.POST)
 	public Response getMerchants(@RequestBody Map<String, Object> map){
 		try {
-			return Response.getSuccess(terminalsService.getMerchants(Integer.parseInt((String)map.get("customerId"))));
+			return Response.getSuccess(terminalsService.getMerchants((Integer)map.get("customerId")));
 		} catch (Exception e) {
 			logger.error("获得代理商下面的用户失败！", e);
 			return Response.getError("请求失败！");
@@ -137,18 +165,18 @@ public class TerminalsController {
 	 * @return
 	 */
 	@RequestMapping(value="BindingTerminals",method=RequestMethod.POST)
-	public Response BindingTerminals(@RequestBody Map<String, String> map){
+	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
 		try {
-			if(terminalsService.getTerminalsNum(map.get("terminalsNum"))==null){
+			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"))==null){
 				return Response.getError("终端号不存在！");
 			}else{
-				if(terminalsService.numIsBinding(map.get("terminalsNum"))>0){
+				if(terminalsService.numIsBinding((String)map.get("terminalsNum"))>0){
 					return Response.getError("该终端已绑定！");
 				}else{
-					if(terminalsService.merchantsIsBinding(Integer.parseInt(map.get("erchantsId")))!=null){
+					if(terminalsService.merchantsIsBinding((Integer)map.get("merchantsId"))!=null){
 						return Response.getError("该商户已绑定终端！");
 					}else{
-						String terId =(String)terminalsService.getTerminalsNum(map.get("terminalsNum"));
+						String terId =(String)terminalsService.getTerminalsNum((String)map.get("terminalsNum"));
 						map.put("terchantsId", terId);
 						terminalsService.Binding(map);
 						return Response.getSuccess("绑定成功！");
@@ -198,7 +226,7 @@ public class TerminalsController {
 	@RequestMapping(value="getAddressee",method=RequestMethod.POST)
 	public Response getAddressee(@RequestBody Map<String, Object> map){
 		try{
-			return Response.getSuccess(terminalsService.getAddressee(Integer.parseInt((String)map.get("customerId"))));
+			return Response.getSuccess(terminalsService.getAddressee((Integer)map.get("customerId")));
 		}catch(Exception e){
 			logger.error("收件人信息异常！", e);
 			return Response.getError("请求失败！");
@@ -231,7 +259,7 @@ public class TerminalsController {
 	@RequestMapping(value="screeningPosName",method=RequestMethod.POST)
 	public Response screeningPosName(@RequestBody Map<String, Object> map){
 		try{
-			return Response.getSuccess(terminalsService.screeningPosName(Integer.parseInt((String)map.get("customerId"))));
+			return Response.getSuccess(terminalsService.screeningPosName((Integer)map.get("customerId")));
 		}catch(Exception e){
 			logger.error("POS机选择失败！", e);
 			return Response.getError("请求失败！");

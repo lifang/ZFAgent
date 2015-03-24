@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,46 @@ public class OpeningApplyService {
 		map.put("threeStatus", Terminal.TerminalTYPEID_3);
 		return openingApplyMapper.getApplyList(map);
 	}
+	
+	/**
+	 * 根据终端号模糊查询相关终端
+	 * 
+	 * @param id
+	 * @param offSetPage
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Map<Object, Object>> searchApplyList(Integer id,
+			Integer offSetPage, Integer pageSize,String serialNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
+		map.put("serialNum", serialNum);
+		map.put("twoStatus", Terminal.TerminalTYPEID_2);
+		map.put("threeStatus", Terminal.TerminalTYPEID_3);
+		return openingApplyMapper.searchApplyList(map);
+	}
+	
+	/**
+	 * 获得申请开通已有基本信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Map<String, Object> getOppinfo(Integer terminalsId) {
+		OpeningApplie openingApplie =new OpeningApplie();
+		openingApplie.setTerminalId(terminalsId);
+		
+		 SimpleDateFormat sdf =  new SimpleDateFormat( "yyyy-MM-dd" );
+		 Map<String, Object> map = openingApplyMapper.getOppinfo(openingApplie);
+		 if(map!=null){
+			 map.put("birthday", sdf.format(map.get("birthday")));
+				map.put("created_at", sdf.format(map.get("created_at")));
+				map.put("updated_at", sdf.format(map.get("updated_at")));
+		 }
+		return map;
+	}
 
 	/**
 	 * 获得终端详情
@@ -45,6 +86,33 @@ public class OpeningApplyService {
 	 */
 	public Map<String, Object> getApplyDetails(Integer id) {
 		return openingApplyMapper.getApplyDetails(id);
+	}
+	
+	/**
+	 * 修改开通申请资料
+	 */
+	public void updateApply(OpeningApplie openingApplie) {
+		openingApplyMapper.updateApply(openingApplie);
+
+	}
+	
+	/**
+     * 判断该终端是否开通
+     * 
+     * @param map
+     * @return
+     */
+    public int judgeOpen(int terminalId){
+    	return openingApplyMapper.judgeOpen(terminalId);
+    }
+	
+	/**
+	 * 申请开通时判断商户是否存在
+	 * 
+	 * @return
+	 */
+	public void addMerchan(Merchant merchant) {
+		openingApplyMapper.addMerchan(merchant);
 	}
 
 	/**
@@ -60,8 +128,16 @@ public class OpeningApplyService {
 	 * 获得所有通道
 	 * @return
 	 */
-	public List<Map<String, String>> getChannels(){
+	public List<Map<Object, Object>> getChannels(){
 		return openingApplyMapper.getChannels();
+	}
+	
+	/**
+	 * 获得所有通道周期
+	 * @return
+	 */
+	public List<Map<Object, Object>> channelsT(int id){
+		return openingApplyMapper.channelsT(id);
 	}
 
 	/**
@@ -80,21 +156,35 @@ public class OpeningApplyService {
 	 * @param id
 	 * @return
 	 */
-	public Merchant getMerchant(Integer merchantId) {
+	public Map<Object, Object> getMerchant(Integer merchantId) {
 		return openingApplyMapper.getMerchant(merchantId);
 	}
 
+	/**
+	 * 申请开通时判断商户是否存在
+	 * 
+	 * @return
+	 */
+	public Map<Object, Object> getMerchantsIsNo(String merchantName,String phone) {
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("merchantName", merchantName);
+		map.put("phone", phone);
+		return openingApplyMapper.getMerchantsIsNo(map);
+	}
+	
 	/**
 	 * 添加开通申请资料
 	 * 
 	 * @param map
 	 */
-	public void addApply(String key, String value,Integer types, String openingAppliesId) {
-		Map<Object, Object> map = new HashMap<Object, Object>();
+	public void addApply(String key, Object value,Integer types, String openingAppliesId,Integer openingRequirementId,Integer targetId) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("key", key);
 		map.put("value", value);
 		map.put("types", types);
 		map.put("openingAppliesId", openingAppliesId);
+		map.put("openingRequirementId", openingRequirementId);
+		map.put("targetId", targetId);
 		openingApplyMapper.addApply(map);
 	}
 

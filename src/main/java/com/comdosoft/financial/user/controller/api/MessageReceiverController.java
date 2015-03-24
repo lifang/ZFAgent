@@ -41,6 +41,7 @@ public class MessageReceiverController {
         }catch(NullPointerException e){
             return Response.buildErrorWithMissing();
         }catch(Exception e){
+        	e.printStackTrace();
             logger.debug("获取我的消息列表出错"+e);
             return Response.getError("请求失败");
         }

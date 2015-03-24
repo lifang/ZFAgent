@@ -24,7 +24,7 @@ public class CsAgentsService {
     @Resource
     private CsAgentsMapper csAgentsMapper;
     public Page<List<Object>>  findAll(MyOrderReq myOrderReq) throws ParseException {
-        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getPageSize());
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
         int count = csAgentsMapper.count(myOrderReq);
         List<Map<String, Object>> o = csAgentsMapper.findAll(myOrderReq);
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -57,14 +57,18 @@ public class CsAgentsService {
      * 取消申请
      * @param myOrderReq
      */
-    public void cancelApply(MyOrderReq myOrderReq) {
+    public Integer cancelApply(MyOrderReq myOrderReq) {
         myOrderReq.setRepairStatus(RepairStatus.CANCEL);
-        csAgentsMapper.changeStatus(myOrderReq);
+        int i = csAgentsMapper.changeStatus(myOrderReq);
+        return i;
     }
 
     public Map<String,Object> findById(MyOrderReq myOrderReq) throws ParseException {
         Map<String, Object> o = csAgentsMapper.findById(myOrderReq);
         Map<String,Object> map = new HashMap<String,Object>();
+        if(o.isEmpty()){
+        	return map;
+        }
         String id = o.get("id").toString();
         map.put("id", id);
 //        String status_name = RepairStatus.getName(Integer.parseInt(o.get("apply_status")+""));

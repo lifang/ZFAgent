@@ -22,7 +22,10 @@ public class AgentLoginService {
 	 * @return
 	 */
 	public Customer doLogin(Customer customer){
-		return agentLoginMapper.doLogin(customer);
+		Customer cu = new Customer();
+		cu = agentLoginMapper.doLogin(customer);
+		
+		return cu;
 	}
 	
 	/**
@@ -108,4 +111,6 @@ public class AgentLoginService {
 	public String findCode(Customer customer){
 		return agentLoginMapper.findCode(customer);
 	}
+	
+	
 }

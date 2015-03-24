@@ -1,15 +1,9 @@
 package com.comdosoft.financial.user.controller.api;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -17,14 +11,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.domain.query.MailReq;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.service.AgentLoginService;
+import com.comdosoft.financial.user.service.MailService;
 import com.comdosoft.financial.user.utils.SysUtils;
+
 
 /**
  * 
@@ -45,6 +41,12 @@ public class AgentLoginController {
 
 	@Value("${passPath}")
 	private String passPath;
+	
+	@Value("${sendEmailFindServicsePath}")
+    private String sendEmailFindServicsePath;
+	
+	@Resource
+    private MailService mailService;
 	
 	/**
 	 * 代理商登陆
@@ -74,8 +76,6 @@ public class AgentLoginController {
 		}
 	}
 
-	
-	
 	/**
 	 * 发送手机验证码(找回密码)
 	 * @param number
@@ -85,15 +85,17 @@ public class AgentLoginController {
 		try{
 			Customer customer = new Customer();
 			customer.setUsername((String)map.get("codeNumber"));
+			
+			String str = SysUtils.getCode();
+			customer.setDentcode(str);
 			if(agentLoginService.findUname(customer)>0){
-				char[] randchar=SysUtils.getRandNum(6);
-				String str ="";
-				for(int i=0;i<randchar.length;i++){
-					str+=randchar[i];
-				}
-				customer.setDentcode(str);
 				agentLoginService.updateDentcode(customer);
-				return Response.getSuccess(str);
+				Boolean is_sucess = SysUtils.sendPhoneCode("感谢您注册华尔街金融，您的验证码为："+str, (String)map.get("codeNumber"));
+                if(!is_sucess){
+                	return Response.getError("获取验证码失败！");
+                }else{
+                	return Response.getSuccess(str);
+                }
 			}else{
 				return Response.getError("该用户不存在！");
 			}
@@ -108,8 +110,24 @@ public class AgentLoginController {
 	 * @param number
 	 */
 	@RequestMapping(value = "sendEmailVerificationCode", method = RequestMethod.POST)
-	public void sendEmailVerificationCode(@RequestBody Map<String, Object> map){
-		//codeNumber
+	public Response sendEmailVerificationCode(@RequestBody Map<String, Object> map){
+		try{
+			Customer customer = new Customer();
+			customer.setUsername((String)map.get("codeNumber"));
+   		 	MailReq req = new MailReq();
+   		 	req.setUserName((String)map.get("codeNumber"));
+   		 	req.setAddress((String)map.get("codeNumber"));
+   		if(agentLoginService.findUname(customer)>0){
+   			req.setUrl("<a href='"+sendEmailFindServicsePath+"?sendStatus=-1&sendusername="+map.get("codeNumber")+"'>找回密码！</a>");
+      		 mailService.sendMailWithFilesAsynchronous(req);
+      		 return Response.getSuccess("发送邮件成功！");
+   		}else{
+			return Response.getError("该用户不存在！");
+		}
+   	 }catch(Exception e){
+   		logger.error("发送邮件(找回密码)异常！",e);
+   		 return Response.getSuccess("发送邮件失败！");
+   	 }
 	}
 	
 	/**
@@ -211,66 +229,4 @@ public class AgentLoginController {
 			return Response.getError("请求失败！");
 		}
 		}
-	
-	/**
-	 * 材料图片上传
-	 * 
-	 * @param filePath
-	 * @return
-	 */
-	@RequestMapping(value = "uploadFile", method = RequestMethod.POST)
-	@ResponseBody
-	public Response uploadFile(@RequestBody Map<String, String> map,
-			HttpServletRequest request) {
-		try {
-			String filePath = null;
-			Set<String> keys = map.keySet();
-			for (String str : keys) {
-				filePath = map.get(str);
-			}
-			String fileOutPath = request.getServletContext().getRealPath("/")
-					+ "WEB-INF/tempAgents/";
-			int byteread = 0;// 读取的位数
-			FileInputStream in = null;
-			FileOutputStream out = null;
-			File fileIn = new File(filePath);
-			File fileOut = new File(fileOutPath);
-
-			if (!fileOut.exists()) {
-				fileOut.mkdirs();
-			}
-			fileOut = new File(fileOutPath
-					+ filePath.substring(filePath.lastIndexOf("\\") + 1));
-			if (!fileIn.exists()) {
-				return Response.getSuccess("该路径图片不存在！");
-			}
-			try {
-				in = new FileInputStream(fileIn);
-				out = new FileOutputStream(fileOut);
-				byte[] buffer = new byte[1024];
-				while ((byteread = in.read(buffer)) != -1) {
-					// 将读取的字节写入输出流
-					out.write(buffer, 0, byteread);
-				}
-				return Response.getSuccess(fileOut);
-			} catch (Exception e) {
-				return Response.getSuccess("上传失败！");
-			} finally {
-				try {
-					if (out != null) {
-						out.close();
-					}
-					if (in != null) {
-						in.close();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (Exception e) {
-			logger.error("资料图片上传异常！",e);
-			return Response.getError("请求失败！");
-		}
-	}
-
 }

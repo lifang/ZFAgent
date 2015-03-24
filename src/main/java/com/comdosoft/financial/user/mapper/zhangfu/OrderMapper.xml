@@ -169,7 +169,7 @@
 		o.customer_id = #{customer_id}
 		and o.types = 1
 		order by o.created_at desc
-		LIMIT #{offset},#{pageSize}
+		LIMIT #{offset},#{rows}
 	</select>
 	
 	<select id="getProxyOrder" resultMap="orderMap" >
@@ -189,7 +189,7 @@
 		o.customer_id = #{customer_id}
 		and o.types = 0
 		order by o.created_at desc
-		LIMIT #{offset},#{pageSize}
+		LIMIT #{offset},#{rows}
 	</select>
 	
 	<select id="findCustomerById" resultMap="customerMap" >

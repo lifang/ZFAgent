@@ -8,24 +8,24 @@ package com.comdosoft.financial.user.utils.page;
 public class PageRequest {
 
 	private int page;
-	private int pageSize;
+	private int rows;
 	
-	public PageRequest(int page, int pageSize) {
+	public PageRequest(int page, int rows) {
 		this.page = page;
-		this.pageSize = pageSize;
+		this.rows = rows;
 	}
 
 	public int getPage() {
 		return page;
 	}
 
-	public int getPageSize() {
-		return pageSize;
+	public int getRows() {
+		return rows;
 	}
 	
 	public int getOffset() {
 		if(page>0){
-			return (page - 1) * pageSize;
+			return (page - 1) * rows;
 		}
 		return 0;
 	}

@@ -15,8 +15,8 @@ public class WebMessageService {
     @Resource
     private WebMessageMapper webMessageMapper;
     
-    public Page<Object> findAll(Integer page,Integer pageSize) {
-        PageRequest request = new PageRequest(page, pageSize);
+    public Page<Object> findAll(Integer page,Integer rows) {
+        PageRequest request = new PageRequest(page, rows);
         int count = webMessageMapper.count();
         List<Object> centers = webMessageMapper.findAll(request);
         return new Page<Object>(request, centers, count);

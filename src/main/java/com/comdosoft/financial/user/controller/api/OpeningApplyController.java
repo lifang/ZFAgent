@@ -53,13 +53,13 @@ public class OpeningApplyController {
 	@RequestMapping(value = "getApplyList", method = RequestMethod.POST)
 	public Response getApplyList(@RequestBody Map<String, Object> map) {
 		try {
-			PageRequest PageRequest = new PageRequest(Integer.parseInt((String)map.get("page")),
-					Integer.parseInt((String)map.get("pageNum")));
+			PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
+					(Integer)map.get("rows"));
 
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(openingApplyService.getApplyList(
-					Integer.parseInt((String)map.get("id")),
-					offSetPage, Integer.parseInt((String)map.get("pageNum"))));
+					(Integer)map.get("customerId"),
+					offSetPage, (Integer)map.get("rows")));
 		} catch (Exception e) {
 			logger.error("根据用户ID获得开通申请列表异常！",e);
 			return Response.getError("请求失败！");

@@ -17,6 +17,7 @@ public class TradeReq {
     
     private String code;
     private String agentIds;
+    private int pcid;
     
     private int page;
     private int rows;
@@ -135,6 +136,14 @@ public class TradeReq {
 
     public void setSonagentId(int sonagentId) {
         this.sonagentId = sonagentId;
+    }
+
+    public int getPcid() {
+        return pcid;
+    }
+
+    public void setPcid(int pcid) {
+        this.pcid = pcid;
     }
     
     

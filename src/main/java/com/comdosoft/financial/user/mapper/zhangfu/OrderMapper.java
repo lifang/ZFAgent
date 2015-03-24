@@ -29,7 +29,7 @@ public interface OrderMapper {
     Order getWholesaleById(Integer id);
     Order getProxyById(Integer id);
 
-    void cancelMyOrder(MyOrderReq myOrderReq);
+    int cancelMyOrder(MyOrderReq myOrderReq);
 
     void comment(MyOrderReq myOrderReq);
 

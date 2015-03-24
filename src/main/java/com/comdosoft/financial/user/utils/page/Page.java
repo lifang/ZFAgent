@@ -14,20 +14,20 @@ import java.util.Map;
  */
 public class Page<T> {
 	
-	private PageRequest pageRequest;
+//	private PageRequest pageRequest;
 	private List<T> content = new ArrayList<>();
 	
     private long total;
 
 	public Page(PageRequest pageRequest, List<T> content, long total) {
-		this.pageRequest = pageRequest;
+//		this.pageRequest = pageRequest;
 		this.content = content;
 		this.total = total;
 	}
 	
     @SuppressWarnings("unchecked")
     public Page(PageRequest pageRequest, List<Map<String,Object>> contents,int total) {
-        this.pageRequest = pageRequest;
+//        this.pageRequest = pageRequest;
         this.content =  (List<T>) contents;
         this.total = total;
     } 
@@ -40,15 +40,18 @@ public class Page<T> {
 		return Collections.unmodifiableList(content);
 	}
 	
-	public int getCurrentPage(){
-		return pageRequest.getPage();
+	public int getSize(){
+		return content.size();
 	}
+//	public int getCurrentPage(){
+//		return pageRequest.getPage();
+//	}
 	
-	public int getPageSize() {
-		return pageRequest.getPageSize();
-	}
+//	public int getrows() {
+//		return pageRequest.getrows();
+//	}
 	
-	public int getTotalPage() {
-		return getPageSize() == 0 ? 1 : (int) Math.ceil((double) total / (double) getPageSize());
-	}
+//	public int getTotalPage() {
+//		return getrows() == 0 ? 1 : (int) Math.ceil((double) total / (double) getrows());
+//	}
 }

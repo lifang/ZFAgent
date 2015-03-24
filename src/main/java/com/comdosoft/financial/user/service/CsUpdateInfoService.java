@@ -28,7 +28,7 @@ public class CsUpdateInfoService {
     private CsUpdateInfoMapper csUpdateInfoMapper;
     
     public Page<List<Object>> findAll(MyOrderReq myOrderReq) throws ParseException {
-        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getPageSize());
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
         List<Map<String, Object>> o = csUpdateInfoMapper.findAll(myOrderReq);
         int count = csUpdateInfoMapper.count(myOrderReq);
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -50,15 +50,19 @@ public class CsUpdateInfoService {
         return new Page<List<Object>>(request, list,count);
     }
 
-    public void cancelApply(MyOrderReq myOrderReq) {
+    public int cancelApply(MyOrderReq myOrderReq) {
         myOrderReq.setRepairStatus(RepairStatus.CANCEL);
-        csUpdateInfoMapper.cancelApply(myOrderReq);
+        int i = csUpdateInfoMapper.cancelApply(myOrderReq);
+        return i;
     }
 
     @SuppressWarnings("unchecked")
     public Map<String,Object>  findById(MyOrderReq myOrderReq) throws ParseException {
         Map<String, Object> o = csUpdateInfoMapper.findById(myOrderReq);
         Map<String,Object> map = new HashMap<String,Object>();
+        if(o.isEmpty()){
+        	return map;
+        }
         String id = o.get("id").toString();
         map.put("id", id);
         map.put("status", o.get("apply_status"));

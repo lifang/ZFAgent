@@ -27,7 +27,7 @@
 		FROM sys_messages s left join message_receivers m on m.sys_message_id = s.id
 		where m.customer_id = #{customer_id}
 		order by s.created_at desc
-		LIMIT #{offset},#{pageSize}
+		LIMIT #{offset},#{rows}
 	</select>
 
 	<select id="findById" resultMap="sysMessage">

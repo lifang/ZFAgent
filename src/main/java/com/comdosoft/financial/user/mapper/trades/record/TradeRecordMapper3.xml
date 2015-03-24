@@ -27,6 +27,7 @@
 		r.amount,
 		r.agent_id,
 		r.terminal_number terminalNumber,
+		r.pay_channel_id ,
 		r.traded_status tradedStatus
 		FROM trade_records r 
 		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds}
@@ -75,6 +76,10 @@
 			   IFNULL(account_number,'无') account_number	
 			   from trade_records
 			   where id = #{id}
+	</select>
+	
+	<select id="getProfit" resultType="map">
+		SELECT profits_pay,current_agent_id cid,top_agent_id tid from  profits where trade_record_id=#{id}
 	</select>
 
 </mapper>

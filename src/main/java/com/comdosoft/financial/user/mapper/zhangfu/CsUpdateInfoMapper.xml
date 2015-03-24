@@ -26,7 +26,7 @@
 			o.customer_id = #{customer_id}
 		ORDER BY
 			o.created_at DESC
-		LIMIT #{offset},#{pageSize}
+		LIMIT #{offset},#{rows}
 	</select>
 	
 		<select id="findById" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo">

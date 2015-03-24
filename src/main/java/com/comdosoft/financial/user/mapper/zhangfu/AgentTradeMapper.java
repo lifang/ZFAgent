@@ -16,9 +16,16 @@ public interface AgentTradeMapper {
 
     List<Integer> getAgentIds(TradeReq req);
 
-    String getCode(TradeReq req);
+    String getCode(int agentId);
 
-    String getAgentName(int agentid);
+    String getAgentName(int agentId);
+
+    int getp1(TradeReq req);
+
+    int getp2(String code);
+
+    int getp3();
+
 
 
 }

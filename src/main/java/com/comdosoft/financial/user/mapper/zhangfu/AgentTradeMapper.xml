@@ -47,7 +47,7 @@
 	]]>
 	</select>
 	
-	<select id="getp2" resultType="int">
+	<select id="getp2" resultType="int" >
 	<![CDATA[
 		SELECT default_profit from agents where code=#{code}
 	]]>
@@ -59,5 +59,24 @@
 	]]>
 	</select>
 	
+	<!-- 查询交易流水用 -->
+	<select id="getTerminals" resultType="map" >
+	<![CDATA[
+		SELECT t.serial_num serialNum,
+			   t.pay_channel_id payChannelId
+		  FROM terminals t
+		  LEFT JOIN agents a on a.id=t.agent_id
+		 WHERE t.status = 2 and a.code like '${code}%'
+	]]>
+	</select>
+	
+	<!-- 查询交易流水用 -->
+	<select id="getAgents" resultType="map" >
+	<![CDATA[
+		SELECT id as agentId,company_name as agentName
+		  FROM agents
+		 WHERE status = 2 and code like '${code}%'
+	]]>
+	</select>
 
 </mapper>

@@ -219,6 +219,7 @@ public class MailService {
     public static void main(String[] args) {
         MailReq req = new MailReq();
         //req.setAddress("445875775@qq.com");
+
         req.setAddress("513173396@qq.com");
         req.setUrl("<a href='localhost:8080/ZFMerchant/#/findpassEmail'>激活账号</a>");
         req.setUserName("jjj");

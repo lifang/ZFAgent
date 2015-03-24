@@ -28,7 +28,7 @@
 	
 	<select id="getAgentName" resultType="String">
 	<![CDATA[
-		SELECT company_name  from agents  where id=#{agentid}
+		SELECT company_name  from agents  where id=#{agentId}
 	]]>
 	</select>
 	
@@ -39,6 +39,44 @@
 	]]>
 	</select>
 	
+	<select id="getp1" resultType="int">
+	<![CDATA[
+		SELECT aps.percent from agent_profit_settings aps 
+		LEFT JOIN agents a on a.id=aps.agent_id
+		where  aps.pay_channel_id=#{pcid} and aps.trade_type_id=#{tradeTypeId} and a.code=#{code}
+	]]>
+	</select>
 	
+	<select id="getp2" resultType="int" >
+	<![CDATA[
+		SELECT default_profit from agents where code=#{code}
+	]]>
+	</select>
+	
+	<select id="getp3" resultType="int">
+	<![CDATA[
+		SELECT param_value from sys_config where param_name='tradeRecordDefaultProfit'
+	]]>
+	</select>
+	
+	<!-- 查询交易流水用 -->
+	<select id="getTerminals" resultType="map" >
+	<![CDATA[
+		SELECT t.serial_num serialNum,
+			   t.pay_channel_id payChannelId
+		  FROM terminals t
+		  LEFT JOIN agents a on a.id=t.agent_id
+		 WHERE t.status = 2 and a.code like '${code}%'
+	]]>
+	</select>
+	
+	<!-- 查询交易流水用 -->
+	<select id="getAgents" resultType="map" >
+	<![CDATA[
+		SELECT id as agentId,company_name as agentName
+		  FROM agents
+		 WHERE status = 2 and code like '${code}%'
+	]]>
+	</select>
 
 </mapper>

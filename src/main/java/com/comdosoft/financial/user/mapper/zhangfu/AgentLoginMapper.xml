@@ -19,7 +19,7 @@
  		SELECT id,username,account_type as accountType,name,city_id as cityId,types,last_logined_at as lastLoginedAt,
  		integral as integral,status,device_code as deviceCode,created_at as createdAt,updated_at as updatedAt,phone,email  
  		FROM customers 
- 		WHERE username=#{username} and password=#{password} and types=#{types}
+ 		WHERE username=#{username} and password=#{password} and types=#{types} and status=#{status}
  	</select>
  	
 	<update id="updateLastLoginedAt" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">

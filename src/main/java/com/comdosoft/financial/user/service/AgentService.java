@@ -9,10 +9,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.comdosoft.financial.user.domain.query.MailReq;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.mapper.zhangfu.AgentMapper;
+import com.comdosoft.financial.user.utils.CommUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
 
 /**
@@ -26,6 +28,9 @@ public class AgentService {
 
     @Resource
     private AgentMapper agentMapper;
+    
+    @Resource
+    private MailService MailService;
 
     public Map<Object, Object> getOne(int id) {
         return agentMapper.getOne(id);
@@ -52,8 +57,14 @@ public class AgentService {
         customer.setDentcode(dentcode);
         agentMapper.updateCustomer(customer);
 
-        // 发送短信 TODO
-        // phone
+        
+        //send the check code to the phone
+        try{
+            CommUtils.sendPhoneCode("请输入6位验证码："+dentcode, phone);
+        	
+        }catch (Exception e){
+        	e.printStackTrace();
+        }
 
         return result;
     }
@@ -71,8 +82,14 @@ public class AgentService {
         customer.setDentcode(dentcode);
         agentMapper.updateCustomer(customer);
 
-        // 发送邮箱 TODO
         // email
+        MailReq req = new MailReq();
+        req.setAddress(email);
+        req.setUrl("<a href='localhost:8080/ZFMerchant/#/findpassEmail'>激活账号</a>");
+        req.setUserName(String.valueOf(customer.getCustomerId()));
+
+        MailService.sendMail(req);
+        
 
         return result;
     }

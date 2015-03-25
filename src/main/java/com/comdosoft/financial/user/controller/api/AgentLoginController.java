@@ -34,7 +34,7 @@ import com.comdosoft.financial.user.utils.SysUtils;
 @RequestMapping(value = "/api/agent")
 public class AgentLoginController {
 	
-	private static final Logger logger = Logger.getLogger(UserManagementController.class);
+	private static final Logger logger = Logger.getLogger(AgentLoginController.class);
 	
 	@Resource
 	private AgentLoginService agentLoginService;

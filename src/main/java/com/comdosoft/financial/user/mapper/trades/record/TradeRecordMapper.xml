@@ -6,7 +6,7 @@
 	<select id="getTradeRecordsCount" resultType="int">
 		SELECT COUNT(r.id) total
 		FROM trade_records r
-		WHERE r.trade_type_id = #{tradeTypeId} and r.agent_id in ${agentIds}
+		WHERE r.trade_type_id = #{tradeTypeId} and r.agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
 		</if>
@@ -30,7 +30,7 @@
 		t.pay_into_account payIntoAccount
 		FROM trade_records r left JOIN
 		trade_transfer_repayment_records t ON r.id = t.id
-		WHERE r.trade_type_id = #{tradeTypeId} and r.agent_id in ${agentIds}
+		WHERE r.trade_type_id = #{tradeTypeId} and r.agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
 		</if>
@@ -54,7 +54,7 @@
 		r.traded_status tradedStatus,
 		t.phone
 		FROM trade_records r left JOIN trade_consume_records t ON r.id = t.id
-		WHERE r.trade_type_id = #{tradeTypeId} and r.agent_id in ${agentIds}
+		WHERE r.trade_type_id = #{tradeTypeId} and r.agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
 		</if>
@@ -78,7 +78,7 @@
 		r.traded_status tradedStatus,
 		t.phone
 		FROM trade_records r left JOIN trade_recharge_records t ON r.id = t.id
-		WHERE r.trade_type_id = #{tradeTypeId} and r.agent_id in ${agentIds}
+		WHERE r.trade_type_id = #{tradeTypeId} and r.agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
 		</if>
@@ -103,7 +103,7 @@
 			   r.pay_channel_id payChannelId,
 			   r.trade_type_id tradeTypeId
 		  FROM trade_records r
-		 WHERE r.trade_type_id = #{tradeTypeId}
+		 WHERE r.trade_type_id = #{tradeTypeId} and r.traded_status=2
 		   AND r.terminal_number = #{terminalNumber}
 		   AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') BETWEEN #{startTime} AND #{endTime}
 	]]>

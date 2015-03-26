@@ -604,6 +604,16 @@ td a.a_btn:hover { text-decoration: underline;}
 	text-align: center;
 	background: url(../images/date_icon.png) no-repeat 100px center;
 }
+.user_inputText { overflow: hidden;}
+.user_inputText label { display: inline-block; margin-right: 5px;}
+.user_inputText input { 	
+	display: inline-block; 
+	width: 120px;
+	padding:0 5px;	
+	height: 24px; 
+	border: 1px #CCCCCC solid; 
+}
+
 
 tr.order_hd { text-align: left; background: #f9f9f9; padding-top: 10px; color: #666;}
 tr.order_hd span { margin-right: 10px;}
@@ -705,7 +715,10 @@ tr.order_hd td { text-align: left; }
 	-webkit-border-radius: 0.2em;
 	display: none;
 	box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
+	width: 400px;
+	height: 300px;
 }
+.img_info img { width: 400px; height: 300px;}
 
 .attributes_box .attributes_list, .attributes_box .attributes_list_s { padding: 10px 0;}
 .attributes_box .attributes_list li { width: 846px; margin-bottom: 10px;}
@@ -1226,9 +1239,11 @@ span.checkboxRadio_span input {
 .myInfoBox li label { width: 80px; height: 24px; line-height: 24px; float: left;}
 .myInfoBox li div.text { height: 24px; line-height: 24px;}
 .myInfoBox li input[type="text"] { height: 24px; border: 1px #CCCCCC solid; float: left; width: 300px; padding: 0 10px;}
-.myInfoBox li select { height: 24px; border: 1px #CCCCCC solid; width: 161px; float: left;}
+.myInfoBox li select { height: 24px; border: 1px #CCCCCC solid; width: 158px;}
 .myInfoBox li textarea { height: 50px; border: 1px #CCCCCC solid; float: left; width: 300px; padding: 0 10px;}
 .myInfoBox li div.addr_area { float: left;}
+
+
 .myInfoBox li div.addr_area input { margin-top: 10px;}
 
 .myInfoBox li a { 

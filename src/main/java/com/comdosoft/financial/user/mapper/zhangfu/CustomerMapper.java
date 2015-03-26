@@ -5,7 +5,9 @@ import java.util.Map;
 
 import com.comdosoft.financial.user.domain.query.EmpReq;
 import com.comdosoft.financial.user.domain.query.MyAccountReq;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerRoleRelation;
 
 public interface CustomerMapper {
 
@@ -61,14 +63,16 @@ public interface CustomerMapper {
 	 * @param req
 	 * @return
 	 */
-	public Map<String, Object> deleteEmpInfoFromAgent(EmpReq req);
+	public int deleteEmpInfoFromAgent(int id);
+
+	public int updateStatus(int id);
 
 	/**
 	 * 向customer_agent_relations插入信息
 	 * 
 	 * @param req
 	 */
-	public void insertCustomerAgentRelations(EmpReq req);
+	public void insertCustomerAgentRelations(CustomerAgentRelation req);
 
 	/**
 	 * 按照用戶ID查詢用戶信息
@@ -85,5 +89,11 @@ public interface CustomerMapper {
 	 * @return
 	 */
 	public Map<String, Object> getEmpInfoByUsername(String userName);
+
+	public List<Map<Object, Object>> getList(Map<Object, Object> query);
+
+	public void insertCustomer(Customer customer);
+
+	public void insertCustomerRights(CustomerRoleRelation cr);
 
 }

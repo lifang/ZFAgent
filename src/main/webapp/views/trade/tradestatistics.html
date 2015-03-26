@@ -1,9 +1,9 @@
-<div class="right" ng-controller="exchangelistController">
+<div class="right" ng-controller="statisticsController">
 	<div class="breadcrumb">
 		<ul>
-			<li><a href="#">交易流水</a></li>
-			<li><a href="#">转账</a></li>
-			<li><a href="#">统计</a></li>
+			<li><a href="#/trade">交易流水</a></li>
+			<li><a href="#/trade">{{req.typeName}}</a></li>
+			<li><a href="javascript:void(0)">统计</a></li>
 		</ul>
 	</div>
 	
@@ -11,9 +11,10 @@
 		<div class="user_title">
 			<h1>交易流水统计</h1>
 		</div>
-		<div class="user_statistics">2014年11月25日 - 2014年12月25日 交易类型：转账</div>
+		<div class="user_statistics">2014年11月25日 - 2014年12月25日 交易类型：{{req.typeName}}</div>
 		<div class="attributes_table">
-			<table width="100%" border="0" cellspacing="1" cellpadding="0">
+			
+			<table ng-show="req.is_have_profit==2" width="100%" border="0" cellspacing="1" cellpadding="0">
 				<colgroup>
 					<col width="20%" />
 					<col width="20%" />
@@ -30,27 +31,35 @@
 						<th>需支付的分润</th>
 					</tr>
 				</thead>
-				<tr>
-					<td>华润</td>
-					<td>1000</td>
-					<td><strong>￥50000.00</strong></td>
-					<td><strong>￥500.00</strong></td>
-					<td><strong>￥500.00</strong></td>
+				<tr ng-repeat="one in tradeList">
+					<td>{{one.agent}}</td>
+					<td>{{one.total}}</td>
+					<td><strong>{{one.amountTotal/100|currency : "￥"}}</strong></td>
+					<td><strong>{{one.get/100|currency : "￥"}}</strong></td>
+					<td><strong>{{one.pay/100|currency : "￥"}}</strong></td>
 				</tr>
-				<tr>
-					<td>华润</td>
-					<td>1000</td>
-					<td><strong>￥50000.00</strong></td>
-					<td><strong>￥500.00</strong></td>
-					<td><strong>￥500.00</strong></td>
+				
+			</table>
+			
+			<table ng-show="req.is_have_profit!=2" width="100%" border="0" cellspacing="1" cellpadding="0">
+				<colgroup>
+					<col width="60%" />
+					<col width="20%" />
+					<col width="20%" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>代理商</th>
+						<th>总笔数</th>
+						<th>总金额</th>
+					</tr>
+				</thead>
+				<tr ng-repeat="one in tradeList">
+					<td>{{one.agent}}</td>
+					<td>{{one.total}}</td>
+					<td><strong>{{one.amountTotal/100|currency : "￥"}}</strong></td>
 				</tr>
-				<tr>
-					<td>华润</td>
-					<td>1000</td>
-					<td><strong>￥50000.00</strong></td>
-					<td><strong>￥500.00</strong></td>
-					<td><strong>￥500.00</strong></td>
-				</tr>
+				
 			</table>
 		</div>
 	</div>

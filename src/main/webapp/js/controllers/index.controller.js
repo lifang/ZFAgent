@@ -27,7 +27,7 @@ var indexController = function($scope, $location, $http, LoginService,$cookieSto
     });
 	
 	var check=function(str){
-		var arry=['shop','shopinfo','purchaseShop','purchaseShopinfo'];
+		var arry=['shop','shopinfo','purchaseShop','purchaseShopinfo','login','register','findpass','findpassEmail'];
 		for (var i = 0; i < arry.length; i++) {
 			if(str==arry[i]){
 				return true;

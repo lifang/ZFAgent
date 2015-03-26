@@ -204,7 +204,7 @@ public class TerminalsController {
 	}*/
 	
 	/**
-	 * 筛选终端
+	 * 筛选终端（pos机，通道，价格）
 	 * @param map
 	 * @return
 	 */
@@ -217,6 +217,22 @@ public class TerminalsController {
 			return Response.getError("请求失败！");
 		}
 	}
+	
+	/**
+	 * 批量终端号筛选终端
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="batchTerminalNum",method=RequestMethod.POST)
+	public Response batchTerminalNum(@RequestBody Map<Object, Object> map){
+		try{
+			return Response.getSuccess(terminalsService.screeningTerminalNum(map));
+		}catch(Exception e){
+			logger.error("筛选终端失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
 	
 	/**
 	 * 收件人信息

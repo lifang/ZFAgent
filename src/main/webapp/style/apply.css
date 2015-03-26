@@ -1,0 +1,90 @@
+@charset "utf-8";
+* { padding: 0; margin: 0;}
+body { font: 12px/1.5 "\5b8b\4f53", Arial,Verdana; color: #333;}
+li { list-style: none;}
+a { text-decoration: none;}
+button { cursor: pointer; border: none;}
+
+.clear:after, .apply_b li:after { clear: both; content:"."; display: block; height: 0; overflow: hidden; visibility:hidden;}
+
+.red { color: #F00;}
+
+.logo { height: 50px; width: 1200px; margin: 20px auto;}
+
+.apply { width: 1200px; margin: 20px auto;}
+
+.apply_h { 
+	border-bottom: 1px #fc5f25 solid; 
+	height: 35px; 
+	text-align: center;
+	font-size: 18px;
+	color: #fc5f25;
+	font-family:"微软雅黑";
+}
+
+.apply_b { width: 350px; margin: 30px auto;}
+.apply_b li { margin-bottom: 15px;}
+.apply_b li label { float: left; height: 34px; line-height: 34px; margin-right: 6px;}
+.fl_sp { float: left; display: block; height: 34px; line-height: 34px; margin-right: 20px;}
+.fl_sp input[type="radio"] { margin: 10px 5px 0 12px; float: left;}
+
+.apply_b li select { width: 150px; height: 34px; line-height: 34px; border: 1px #CCCCCC solid;}
+.apply_b li input[type="text"], .apply_b li input[type="password"] { 
+	width: 336px; 
+	height: 34px; 
+	line-height: 34px; 
+	border: 1px #CCCCCC solid; 
+	padding: 0 5px;
+	float: left;
+	color: #666;
+}
+.apply_b li input.l { width: 200px;}
+
+
+.apply_b li a { color: #666;}
+.apply_b li a:hover { color: #ff5f2b; text-decoration: underline;}
+
+.yzm_btn { 
+	width: 126px; 
+	height: 36px; 
+	line-height: 36px; 
+	color: #FFF; 
+	text-align: center; 
+	background: #ff5f2b;
+	margin-left: 10px;
+}
+.jym { 
+	width: 126px; 
+	height: 34px; 
+	border: 1px #CCCCCC solid; 
+	background: #dcdcdc; 
+	float: left; 
+	margin-left: 10px;
+	font-size: 0;
+}
+.jym img { height: 34px;}
+
+.btn { margin: 30px auto 0;}
+.btn button { 
+	height: 42px; 
+	line-height: 42px; 
+	background: #fc5f25; 
+	border: none; 
+	width: 350px; 
+	color: #FFF; 
+	font-size: 14px;
+	cursor: pointer;
+}
+.btn button:hover { background: #fc6d38;}
+
+
+/*-------foot-------*/
+.foot { border-top: 1px #ccc solid; padding: 10px 0; overflow: hidden; width: 1200px; margin: 0 auto;}
+.foot .foot_nav { float: left;}
+.foot .foot_nav li { float: left;}
+.foot .foot_nav li a { color: #016cb7; margin: 0 10px;}
+.foot .foot_nav li a:hover { color: #0292f7;}
+.copyright { float: right; color: #666;}
+
+
+

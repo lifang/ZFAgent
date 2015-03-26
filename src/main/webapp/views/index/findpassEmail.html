@@ -1,0 +1,48 @@
+<script type="text/javascript">
+	//input默认值
+	function focusBlur(e) {
+		$(e).focus(function() {
+			var thisVal = $(this).val();
+			if (thisVal == this.defaultValue) {
+				$(this).val('');
+			}
+		})
+		$(e).blur(function() {
+			var thisVal = $(this).val();
+			if (thisVal == '') {
+				$(this).val(this.defaultValue);
+			}
+		})
+	}
+
+	$(function() {
+		focusBlur('.ret_b input');//登录
+	})
+</script>
+
+<div ng-controller="findpassController">
+	<div id="findPassThree">
+		<!-- <div class="logo_retrieve" style="cursor: pointer" ng-click="index()">
+			<img src="images/logo.png" />
+		</div> -->
+		<div class="retrieve">
+			<div class="ret_h">
+				<ul>
+					<li><a href="javascript:void(0)">第一步</a></li>
+					<li><a href="javascript:void(0)">第二步</a></li>
+					<li><a href="javascript:void(0)" class="hover">第三步</a></li>
+				</ul>
+			</div>
+			<div class="ret_b">
+				<ul>
+					<li><input name="" type="password" placeholder="输入新密码:由6-20位，英文字符组成" ng-model="password1" /></li>
+					<li><input name="" type="password" placeholder="确认新密码:由6-20位，英文字符组成" ng-model="password2" /></li>
+				</ul>
+				<div class="btn">
+					<button ng-click="findPassEnd()">去登录</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

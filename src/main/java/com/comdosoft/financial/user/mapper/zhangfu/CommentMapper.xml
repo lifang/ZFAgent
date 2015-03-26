@@ -16,5 +16,29 @@
 		where gc.good_id=#{goodId} and gc.status=2 ORDER BY gc.created_at desc 
 		LIMIT #{offset}, #{rows}
      </select>
+     
+     <select id="getParentCitiesList" resultType="map" >
+	SELECT
+		c.`name`,
+		c.id
+	FROM
+		cities c
+	WHERE
+		c.parent_id = 0
+	ORDER BY
+		c.sort_index
+	</select>
+	
+	<select id="getChildrenCitiesList" resultType="map" >
+	SELECT
+		c.`name`,
+		c.id
+	FROM
+		cities c
+	WHERE
+		c.parent_id = #{param1}
+	ORDER BY
+		c.sort_index
+	</select>
 	
 </mapper>

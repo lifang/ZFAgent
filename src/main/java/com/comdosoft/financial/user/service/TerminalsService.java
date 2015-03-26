@@ -162,6 +162,15 @@ public class TerminalsService {
 	}
 	
 	/**
+	 * 批量终端号筛选终端
+	 * @param map
+	 * @return
+	 */
+	public List<Map<String, Object>> batchTerminalNum(Map<Object, Object> map){
+		return terminalsMapper.batchTerminalNum(map);
+	}
+	
+	/**
 	 * POS机选择
 	 * @param customerId
 	 * @return

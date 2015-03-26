@@ -123,6 +123,13 @@ public interface TerminalsMapper {
     List<Map<String, Object>> screeningTerminalNum(Map<Object, Object> map);
     
     /**
+     * 批量终端号筛选终端
+     * @param map
+     * @return
+     */
+    List<Map<String, Object>> batchTerminalNum(Map<Object, Object> map);
+    
+    /**
      * POS机选择
      * @param customerId
      * @return

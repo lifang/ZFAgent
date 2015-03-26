@@ -48,6 +48,14 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/systemset/empadd.html'
 	}).when('/empdelete', {
 		templateUrl : 'views/systemset/empaccount.html'
+	}).when('/login', {
+		templateUrl : 'views/index/login.html'
+	}).when('/register', {
+		templateUrl : 'views/index/registerAgent.html'
+	}).when('/findpass', {
+		templateUrl : 'views/index/findpass.html'
+	}).when('/findpassEmail', {
+		templateUrl : 'views/index/findpassEmail.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

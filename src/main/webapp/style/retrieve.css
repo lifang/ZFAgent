@@ -1,0 +1,107 @@
+@charset "utf-8";
+* { padding: 0; margin: 0;}
+body { font: 12px/1.5 "\5b8b\4f53", Arial,Verdana; color: #333;}
+li { list-style: none;}
+a { text-decoration: none;}
+button { cursor: pointer; border: none;}
+
+.clear:after, .ret_b li:after { clear: both; content:"."; display: block; height: 0; overflow: hidden; visibility:hidden;}
+
+.red { color: #F00;}
+
+.logo_retrieve { height: 50px; width: 1200px; margin: 20px auto;}
+
+.retrieve { width: 1200px; min-height: 500px; margin: 20px auto;}
+
+.ret_h { border-bottom: 1px #fc5f25 solid; height: 35px; text-align: center;}
+.ret_h li { display: inline-block;}
+.ret_h li a { 
+	height: 34px; 
+	width: 120px; 
+	line-height: 34px; 
+	display: inline-block;
+	background: #f7f7f7;
+	border: 1px #CCCCCC solid;
+	border-bottom: none;
+	color: #666666;
+}
+.ret_h li a:hover { color: #fc5f25;}
+.ret_h li a.hover { 
+	color: #FFF; 
+	background: #fc5f25;
+	border: 1px #fc5f25 solid;
+	border-bottom: none;
+}
+
+.ret_b { width: 350px; margin: 30px auto;}
+.ret_b li { margin-bottom: 15px;}
+.ret_b li select { width: 150px; height: 34px; line-height: 34px; border: 1px #CCCCCC solid;}
+.ret_b li input[type="text"], .ret_b li input[type="password"] { 
+	width: 336px; 
+	height: 34px; 
+	line-height: 34px; 
+	border: 1px #CCCCCC solid; 
+	padding: 0 5px;
+	float: left;
+	color: #666;
+}
+.ret_b li input.l { width: 200px;}
+.ret_b li input.m { width: 168px;}
+.ret_b li button.send_btn {
+	width: 160px;
+	height: 36px;
+	text-align: center;
+	border: 1px #CCCCCC solid;
+	margin-left: 10px;
+	color: #fc5f25;
+}
+
+.ret_b li input[type="radio"] { float: left; margin: 2px 10px 0 0;}
+.ret_b li a { color: #666;}
+.ret_b li a:hover { color: #ff5f2b; text-decoration: underline;}
+
+.yzm_btn { 
+	width: 126px; 
+	height: 36px; 
+	line-height: 36px; 
+	color: #FFF; 
+	text-align: center; 
+	background: #ff5f2b;
+	margin-left: 10px;
+}
+.jym { 
+	width: 126px; 
+	height: 34px; 
+	border: 1px #CCCCCC solid; 
+	background: #dcdcdc; 
+	float: left; 
+	margin-left: 10px;
+	font-size: 0;
+}
+.jym img { height: 34px;}
+
+.btn { margin: 30px auto 0;}
+.btn button { 
+	height: 42px; 
+	line-height: 42px; 
+	background: #fc5f25; 
+	border: none; 
+	width: 350px; 
+	color: #FFF; 
+	font-size: 14px;
+	cursor: pointer;
+}
+.btn button:hover { background: #fc6d38;}
+
+.win { margin: 20px auto; font-size: 14px;}
+
+/*-------foot-------*/
+.foot { border-top: 1px #ccc solid; padding: 10px 0; overflow: hidden; width: 1200px; margin: 0 auto;}
+.foot .foot_nav { float: left;}
+.foot .foot_nav li { float: left;}
+.foot .foot_nav li a { color: #016cb7; margin: 0 10px;}
+.foot .foot_nav li a:hover { color: #0292f7;}
+.copyright { float: right; color: #666;}
+
+
+

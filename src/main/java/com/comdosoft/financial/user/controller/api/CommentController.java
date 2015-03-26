@@ -1,6 +1,7 @@
 package com.comdosoft.financial.user.controller.api;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,16 @@ public class CommentController {
         response.setCode(Response.SUCCESS_CODE);
         response.setResult(pcInfo);
         return response;
+    }
+    
+    /**
+     * 获取城市列表
+     * @return
+     */
+    @RequestMapping(value = "getCity", method = RequestMethod.POST)
+    public Response getCity(){
+        List<Map<String,Object>> citys = commentService.findAllCity();
+        return Response.buildSuccess(citys, "");
     }
     
     /**

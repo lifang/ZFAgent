@@ -1,0 +1,88 @@
+<script type="text/javascript">
+	//input默认值
+	function focusBlur(e) {
+		$(e).focus(function() {
+			var thisVal = $(this).val();
+			if (thisVal == this.defaultValue) {
+				$(this).val('');
+			}
+		})
+		$(e).blur(function() {
+			var thisVal = $(this).val();
+			if (thisVal == '') {
+				$(this).val(this.defaultValue);
+			}
+		})
+	}
+
+	$(function() {
+		focusBlur('.ret_b input');//登录
+	})
+</script>
+
+<div ng-controller="findpassController">
+	<div id="findPassOne" ng-show="one">
+		<div class="retrieve">
+			<div class="ret_h">
+				<ul>
+					<li><a href="javascript:void(0)" class="hover">第一步</a></li>
+					<li><a href="javascript:void(0)">第二步</a></li>
+					<li><a href="javascript:void(0)">第三步</a></li>
+				</ul>
+			</div>
+			<div class="ret_b">
+				<ul>
+					<li><input name="" type="text" placeholder="手机号/邮箱" ng-model="phone_email" /></li>
+					<li><input name="" type="text" placeholder="输入图片校验码" class="l" ng-model="code" /><img class="loginRandCodeImg" src="images/yzm.jpg" ng-click="reGetRandCodeImg()" /></li>
+				</ul>
+				<div class="btn">
+					<button ng-click="findPassOnes()">下一步</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="findPassTwo" ng-show="two">
+		<div class="retrieve">
+			<div class="ret_h">
+				<ul>
+					<li><a href="javascript:void(0)">第一步</a></li>
+					<li><a href="javascript:void(0)" class="hover">第二步</a></li>
+					<li><a href="javascript:void(0)">第三步</a></li>
+				</ul>
+			</div>
+			<div class="ret_b">
+				<ul id="ulPhone" ng-show="!songToEmail">
+					<li><input name="" type="text" placeholder="输入验证码" class="m" ng-model="codeNumber" />
+						<button id="day_show" ng-click="newCode()" class="send_btn">重新发送验证码（120秒）</button></li>
+				</ul>
+				<div class="btn" id="updown" ng-show="!songToEmail">
+					<button ng-click="findPassThree()">下一步</button>
+				</div>
+				<div ng-show="songToEmail" class="win" id="emailtext">已向你的邮箱 {{phone_email}}发送了密码重置邮件，请登录邮箱重置密码！</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="findPassThree" ng-show="three">
+		<div class="retrieve">
+			<div class="ret_h">
+				<ul>
+					<li><a href="javascript:void(0)">第一步</a></li>
+					<li><a href="javascript:void(0)">第二步</a></li>
+					<li><a href="javascript:void(0)" class="hover">第三步</a></li>
+				</ul>
+			</div>
+			<div class="ret_b">
+				<ul>
+					<li><input name="" type="password" placeholder="输入新密码:由6-20位，英文字符组成" ng-model="password1" /></li>
+					<li><input name="" type="password" placeholder="确认新密码:由6-20位，英文字符组成" ng-model="password2" /></li>
+				</ul>
+				<div class="btn">
+					<button ng-click="findPassEnd()">去登录</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -604,6 +604,16 @@ td a.a_btn:hover { text-decoration: underline;}
 	text-align: center;
 	background: url(../images/date_icon.png) no-repeat 100px center;
 }
+.user_inputText { overflow: hidden;}
+.user_inputText label { display: inline-block; margin-right: 5px;}
+.user_inputText input { 	
+	display: inline-block; 
+	width: 120px;
+	padding:0 5px;	
+	height: 24px; 
+	border: 1px #CCCCCC solid; 
+}
+
 
 tr.order_hd { text-align: left; background: #f9f9f9; padding-top: 10px; color: #666;}
 tr.order_hd span { margin-right: 10px;}

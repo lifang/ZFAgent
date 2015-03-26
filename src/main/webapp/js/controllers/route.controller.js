@@ -38,12 +38,12 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/shop/purchaseShop.html'
 	}).when('/purchaseShopinfo', {
 		templateUrl : 'views/shop/purchaseShopinfo.html'
-	}).when('/empaccount', {
-		templateUrl : 'views/systemset/empaccount.html'
-	}).when('/empadd', {
-		templateUrl : 'views/systemset/empadd.html'
-	}).when('/empdetails', {
-		templateUrl : 'views/systemset/empdetails.html'
+	}).when('/accountList', {
+		templateUrl : 'views/account/accountList.html'
+	}).when('/accountAdd', {
+		templateUrl : 'views/account/accountAdd.html'
+	}).when('/accountOne', {
+		templateUrl : 'views/account/accountOne.html'
 	}).when('/empEdit', {
 		templateUrl : 'views/systemset/empadd.html'
 	}).when('/empdelete', {

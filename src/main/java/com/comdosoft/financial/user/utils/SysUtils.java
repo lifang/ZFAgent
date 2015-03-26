@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -380,34 +379,34 @@ public class SysUtils {
 		return ar;
 	}
 
-	/**
-	 * 使用md5的算法进行加密
-	 * 
-	 * @author zhaoshouyi
-	 * @param plainText
-	 *            :需要加密的字符串
-	 * @return 解密后的字符串
-	 * @since 2014-06-11
-	 */
-	public static String md5(String plainText) {
-		byte[] secretBytes = null;
-		if (plainText == null || "".equals(plainText)) {
-			return null;
-		}
-		try {
-			secretBytes = MessageDigest.getInstance("md5").digest(
-					plainText.getBytes());
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("没有md5这个算法！");
-		}
-		String md5code = new BigInteger(1, secretBytes).toString(16);// 16进制数字
-		// 如果生成数字未满32位，需要前面补0
-		for (int i = 0; i < 32 - md5code.length(); i++) {
-			md5code = "0" + md5code;
-		}
-		return md5code;
-	}
-
+	/*** 
+     * MD5加码 生成32位md5码 
+     */  
+    public static String string2MD5(String inStr){  
+        MessageDigest md5 = null;  
+        try{  
+            md5 = MessageDigest.getInstance("MD5");  
+        }catch (Exception e){  
+            System.out.println(e.toString());  
+            e.printStackTrace();  
+            return "";  
+        }  
+        char[] charArray = inStr.toCharArray();  
+        byte[] byteArray = new byte[charArray.length];  
+  
+        for (int i = 0; i < charArray.length; i++)  
+            byteArray[i] = (byte) charArray[i];  
+        byte[] md5Bytes = md5.digest(byteArray);  
+        StringBuffer hexValue = new StringBuffer();  
+        for (int i = 0; i < md5Bytes.length; i++){  
+            int val = ((int) md5Bytes[i]) & 0xff;  
+            if (val < 16)  
+                hexValue.append("0");  
+            hexValue.append(Integer.toHexString(val));  
+        }  
+        return hexValue.toString();  
+  
+    }
     
     /**
      * 发送验证码  
@@ -470,4 +469,5 @@ public class SysUtils {
         return mobilecode;
     }
 
+    
 }

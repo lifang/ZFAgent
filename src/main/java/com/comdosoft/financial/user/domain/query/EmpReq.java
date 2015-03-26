@@ -14,7 +14,7 @@ public class EmpReq {
 	private String name;// 账号
 	private String password;// 密码
 	private String comfirmPwd;// 确认密码
-	private String[] rights;// 权限数组
+	private String rights;// 权限数组
 
 	private int city_id;
 	private int account_type;
@@ -67,11 +67,11 @@ public class EmpReq {
 		this.comfirmPwd = comfirmPwd;
 	}
 
-	public String[] getRights() {
+	public String getRights() {
 		return rights;
 	}
 
-	public void setRights(String[] rights) {
+	public void setRights(String rights) {
 		this.rights = rights;
 	}
 

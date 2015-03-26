@@ -301,7 +301,7 @@ public class AgentLoginController {
 			customer.setTypes(Customer.TYPE_AGENT);
 			customer.setStatus(Customer.STATUS_NORMAL);
 			customer.setStatusEnd(Customer.TYPE_AGENT_STAFF);
-			customer.setPassword(SysUtils.md5(customer.getPassword()));
+			customer.setPassword(SysUtils.string2MD5(customer.getPassword()));
 			Map<Object, Object> customerMes = agentLoginService.doLogin(customer);
 			if(customerMes!=null){
 				agentLoginService.updateLastLoginedAt(customer);
@@ -367,7 +367,7 @@ public class AgentLoginController {
     public Response webUpdatePass(@RequestBody Customer customer) {
         try {
             if (agentLoginService.findUname(customer) > 0) {
-            	customer.setPassword(SysUtils.md5(customer.getPassword()));
+            	customer.setPassword(SysUtils.string2MD5(customer.getPassword()));
             	agentLoginService.updatePassword(customer);
                     return Response.getSuccess("找回密码成功！");
             } else {
@@ -429,7 +429,7 @@ public class AgentLoginController {
 				}else{
 					//向用户表添加数据
 					customer.setPassword((String)map.get("passworda"));
-					customer.setPassword(SysUtils.md5(customer.getPassword()));
+					customer.setPassword(SysUtils.string2MD5(customer.getPassword()));
 					//customer.setAccountType((Integer)map.get("accountType"));
 					customer.setTypes(Customer.TYPE_AGENT);
 					customer.setStatus(Customer.STATUS_NON_ACTIVE);

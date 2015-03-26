@@ -37,7 +37,7 @@ public class TradeRecordService3 {
         for (Map<String, Object> map : result) {
             int agentid = SysUtils.Object2int(map.get("agent_id"));
             map.put("agent", agentTrade.getAgentName(agentid));
-            if (1 == req.getIs_have_profit()) {
+            if (2 == req.getIs_have_profit()) {
                 //req.setAgentId(agentid);
                 req.setId(SysUtils.Object2int(map.get("id")));
                 req.setPcid(SysUtils.Object2int(map.get("pay_channel_id")));
@@ -108,9 +108,19 @@ public class TradeRecordService3 {
 
     public Map<String, Object> getTradeRecord(TradeReq req) {
         Map<String, Object> result = tradeRecordMapper3.getTradeRecord(req);
-        int type = SysUtils.Object2int(result.get("types").toString());
-        int pcid = SysUtils.Object2int(result.get("pay_channel_id").toString());
+        int type = SysUtils.Object2int(result.get("types"));
+        int pcid = SysUtils.Object2int(result.get("pay_channel_id"));
+        int agid=SysUtils.Object2int(result.get("agent_id"));
         result.put("paychannel", agentTrade.getpcname(pcid));
+        result.put("agentName", agentTrade.getAgentName(agid));
+        
+        if (2 == req.getIs_have_profit()) {
+            //req.setAgentId(agentid);
+            req.setPcid(pcid);
+            req.setCode(agentTrade.getCode(req.getAgentId()));
+            req.setTradeTypeId(type);
+            result.putAll(profit(req));
+        }
         Map<String, Object> result2 = null;
         switch (type) {
         case 2:
@@ -141,7 +151,7 @@ public class TradeRecordService3 {
         for (Map<String, Object> map : result) {
             int agentid = SysUtils.Object2int(map.get("agent_id"));
             map.put("agent", agentTrade.getAgentName(agentid));
-            if (1 == req.getIs_have_profit()) {
+            if (2 == req.getIs_have_profit()) {
                // req.setAgentId(agentid);
                 req.setId(agentid);
                 map.putAll(profit2(req));

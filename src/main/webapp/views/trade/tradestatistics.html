@@ -13,7 +13,8 @@
 		</div>
 		<div class="user_statistics">2014年11月25日 - 2014年12月25日 交易类型：{{req.typeName}}</div>
 		<div class="attributes_table">
-			<table width="100%" border="0" cellspacing="1" cellpadding="0">
+			
+			<table ng-show="req.is_have_profit==2" width="100%" border="0" cellspacing="1" cellpadding="0">
 				<colgroup>
 					<col width="20%" />
 					<col width="20%" />
@@ -36,6 +37,27 @@
 					<td><strong>{{one.amountTotal/100|currency : "￥"}}</strong></td>
 					<td><strong>{{one.get/100|currency : "￥"}}</strong></td>
 					<td><strong>{{one.pay/100|currency : "￥"}}</strong></td>
+				</tr>
+				
+			</table>
+			
+			<table ng-show="req.is_have_profit!=2" width="100%" border="0" cellspacing="1" cellpadding="0">
+				<colgroup>
+					<col width="60%" />
+					<col width="20%" />
+					<col width="20%" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>代理商</th>
+						<th>总笔数</th>
+						<th>总金额</th>
+					</tr>
+				</thead>
+				<tr ng-repeat="one in tradeList">
+					<td>{{one.agent}}</td>
+					<td>{{one.total}}</td>
+					<td><strong>{{one.amountTotal/100|currency : "￥"}}</strong></td>
 				</tr>
 				
 			</table>

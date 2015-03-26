@@ -107,10 +107,12 @@ var tradeinfoController = function ($scope, $http,$location, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
 		$scope.req.id=$location.search()['id'];
+		$scope.req.agentId=LoginService.agentid;
+		$scope.req.is_have_profit=LoginService.is_have_profit;
 		$scope.info();
 	};
 	$scope.info=function(){
-		$http.post("api/tradegood/info", $scope.req).success(function (data) {  //绑定
+		$http.post("api/trade/getTradeRecord", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.info=data.result;
             }

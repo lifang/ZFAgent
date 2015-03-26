@@ -1,3 +1,4 @@
+
 <div class="main mshop" ng-controller="shopController">
 	<div class="box">
 
@@ -93,7 +94,7 @@
 				<label>价格</label> <input ng-model="req.minPrice" type="text" placeholder="¥" /> - <input ng-model="req.maxPrice" type="text" placeholder="¥" />
 			</div>
 			<div class="lease">
-				<input ng-model="req.has_purchase" type="checkbox" value="1" /> 支持租赁
+				<input ng-model="req.has_lease" type="checkbox" value="1" /> 支持租赁
 			</div>
 			<div class="sortBtn">
 				<button class="btn" ng-click="search()">确定</button>
@@ -184,3 +185,9 @@
 	</div>
 </div>
 <script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jQuery.autoIMG.js"></script>
+<script>
+$(function(){
+	$('.cn_img').autoIMG();
+})
+</script>

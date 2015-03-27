@@ -1,5 +1,7 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -34,6 +36,10 @@ public class OrderController {
     @RequestMapping(value="getWholesaleOrder" ,method=RequestMethod.POST)
     public Response getWholesaleOrder(@RequestBody MyOrderReq myOrderReq) {
 //        try{
+    		Integer id = myOrderReq.getCustomer_id();
+    		if(null == id){
+    			return Response.getError("请传入用户id");
+    		}
             Page<Object> centers = orderService.getWholesaleOrder(myOrderReq);
 //            if(centers.getSize()<1){
 //            	return Response.getError("请求的数据列表为空");
@@ -50,8 +56,8 @@ public class OrderController {
     @RequestMapping(value="getWholesaleById" ,method=RequestMethod.POST)
     public Response getWholesaleById(@RequestBody MyOrderReq myOrderReq ) {
 //        try{
-            Object centers = orderService.getWholesaleById(myOrderReq.getId());
-            if(centers.equals("-1")){
+    	Map<String,Object> centers = orderService.getWholesaleById(myOrderReq.getId());
+            if(centers.isEmpty()){
                 return Response.getError("此订单不存在");
             }
             return Response.getSuccess(centers);
@@ -84,6 +90,10 @@ public class OrderController {
     @RequestMapping(value="getProxyOrder" ,method=RequestMethod.POST)
     public Response getProxyOrder(@RequestBody MyOrderReq myOrderReq) {
 //        try{
+			Integer id = myOrderReq.getCustomer_id();
+			if(null == id){
+				return Response.getError("请传入用户id");
+			}
             Page<Object> centers = orderService.getProxyOrder(myOrderReq);
 //            if(centers.getSize()<1){
 //            	return Response.getError("请求的数据列表为空");

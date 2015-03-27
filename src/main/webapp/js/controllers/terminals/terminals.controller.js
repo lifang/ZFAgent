@@ -1,33 +1,27 @@
 'user strict';
 
 //系统设置模块
-var terminalModule = angular.module("terminalModule",['loginServiceModule']);
+var terminalModule = angular.module("agentTerminalModule",['loginServiceModule']);
 
-var terminalController = function ($scope, $http, LoginService) {
+var agentTerminalController = function ($scope, $http, LoginService) {
 	  initSystemPage($scope);// 初始化分页参数
-	  $scope.customersId = LoginService.userid;
+	  //$scope.customersId = LoginService.userid;
+	  $scope.customersId = 80;
 	  $scope.total = 0;
 	  //付款筛选状态
 	  $scope.frontStatus = null;
 	  //根据终端号筛选
 	  $scope.serialNum = null;
-	  
-	  //付款状态集
-	  $scope.frontPayStatus = [];
-	  
-	  //辨别获取付款状态
-	  $scope.boolean = true;
-
 	
 	//获得终端列表
 	$scope.getInfo = function () {
 		
-		if(LoginService.userid == 0){
+		/*if(LoginService.userid == 0){
 			window.location.href = '#/login';
 		}else{
 			//显示用户登录部分
 			$scope.$emit('changeshow',false);
-		} 
+		} */
       $scope.req={
     		  customersId:$scope.customersId,
     		  page:$scope.indexPage,
@@ -36,15 +30,13 @@ var terminalController = function ($scope, $http, LoginService) {
     		  serialNum:$scope.serialNum
     		  };
       
-      $http.post("api/terminal/getApplyList", $scope.req).success(function (data) {  //绑定
+      $http.post("api/webTerminal/getAgentApplyList", $scope.req).success(function (data) {  //绑定
           if (data != null && data != undefined) {
               $scope.list = data.result.list;
               $scope.total = data.result.total;
+              $scope.appstatus = data.result.frontPayStatus;
               //所有通道
-              $scope.channels = data.result.channels;
-              if($scope.boolean){
-            	  $scope.frontPayStatus = data.result.frontPayStatus;
-              }
+              //$scope.channels = data.result.channels;
           }
           $scope.pages = [];
           calcSystemPage($scope, $scope.total);// 计算分页
@@ -53,13 +45,13 @@ var terminalController = function ($scope, $http, LoginService) {
       });
 	}  
 	
-	$scope.payChannelId = null;
+	/*$scope.payChannelId = null;
 	//添加終端是通道Id
 	$scope.channelId = function(){
 		//$scope.payChannelId = Math.ceil(chanId);
-	}
+	}*/
 	//添加終端$scope.channels
-	$scope.addChannel = function() {
+	/*$scope.addChannel = function() {
 		if ($scope.payChannelId == null) {
 			alert("请选择通道！");
 		} else if ($scope.title == undefined) {
@@ -96,14 +88,13 @@ var terminalController = function ($scope, $http, LoginService) {
 			});
 		}
 	}
-	
+	*/
 	// 筛选状态
 	$scope.screening = function(){
 		$scope.indexPage = 1;
 		//再一次初始化分页
 		initSystemPage($scope);
 		$scope.frontStatus = Math.ceil($scope.screeningStatus);
-		$scope.boolean = false;
 		//取消终端号的筛选
 		$scope.serialNum = null;
 		$scope.getInfo();
@@ -114,7 +105,6 @@ var terminalController = function ($scope, $http, LoginService) {
 		 $scope.indexPage = 1;
 		//取消终端状态的筛选
 		$scope.frontStatus = null;
-		$scope.boolean = true;
 		$scope.getInfo();
 	}
 
@@ -146,10 +136,9 @@ var terminalController = function ($scope, $http, LoginService) {
       $scope.getInfo();
   };
   
-  
   $scope.getInfo();
 
 };
 
 terminalModule.$inject = ['$scope', '$http', '$cookieStore'];
-terminalModule.controller("terminalController", terminalController);
+terminalModule.controller("agentTerminalController", agentTerminalController);

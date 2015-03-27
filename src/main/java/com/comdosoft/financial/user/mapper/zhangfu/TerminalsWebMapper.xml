@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.TerminalsWebMapper">
+
+	<select id="getTerminalList" parameterType="map" resultType="map">
+		SELECT t.id,t.serial_num,t.status,t.type,o.id as appid,m.title,m.phone,p.`name` as channelName ,g.model_number,b.`name` as brandsName
+		FROM terminals t LEFT JOIN opening_applies o
+		ON o.terminal_id = t.id
+		LEFT JOIN merchants m 
+		ON m.id = t.merchant_id
+		LEFT JOIN pay_channels p
+		ON p.id = t.pay_channel_id
+		LEFT JOIN goods g
+		ON g.id = t.good_id
+		LEFT JOIN good_brands b
+		ON b.id = g.good_brands_id
+
+		WHERE t.customer_id = #{id} 
+		<if test="frontStatus != null and frontStatus !=''">AND t.`status` = #{frontStatus}</if>
+		<if test="serialNum != null and serialNum !=''">AND  t.serial_num like '%${serialNum}%'</if>
+		ORDER BY t.created_at DESC
+		LIMIT #{offSetPage},#{pageSize}
+
+	</select>
+
+	<select id="getTerminalListPage" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM terminals t LEFT JOIN opening_applies o
+		ON o.terminal_id = t.id
+		LEFT JOIN merchants m 
+		ON m.id = t.merchant_id
+		LEFT JOIN pay_channels p
+		ON p.id = t.pay_channel_id
+		LEFT JOIN goods g
+		ON g.id = t.good_id
+		LEFT JOIN good_brands b
+		ON b.id = g.good_brands_id
+
+		WHERE t.customer_id = #{id} 
+		<if test="frontStatus != null and frontStatus !=''">AND t.`status` = #{frontStatus}</if>
+		<if test="serialNum != null and serialNum !=''">AND  t.serial_num like '%${serialNum}%'</if>
+		ORDER BY t.created_at DESC
+	</select>
+	
+	<select id="getTerminStatus" resultType="map">
+		SELECT t.`status`
+		FROM terminals t 
+		GROUP BY t.`status`
+		HAVING t.`status` is not NULL
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<insert id="addMerchants" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
+		INSERT into
+		merchants(title,customer_id,created_at)
+		VALUES(#{title},#{customerId},now())
+	</insert>
+
+	<insert id="addTerminal" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT into
+		terminals(good_id,serial_num,merchant_id,customer_id,pay_channel_id,status,is_return_cs_depots,created_at,type)
+		VALUES(0,#{serialNum},#{merchantId},#{customerId},#{payChannelId},#{status},#{isReturnCsDepots},now(),#{type})
+	</insert>
+	
+	<insert id="subRentalReturn" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsCancel" >
+		INSERT INTO cs_cancels(terminal_id,status,templete_info_xml,created_at,updated_at,types,customer_id,apply_num)
+		VALUES(#{terminalId},#{status},#{templeteInfoXml},now(),now(),#{types},#{customerId},unix_timestamp(now()))
+	</insert>
+	
+	<insert id="subLeaseReturn" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO cs_lease_returns(status,terminal_id,created_at,updated_at,apply_num,order_types,contact,phone,return_address_id,customer_id,cs_cencel_id)
+		VALUES(#{status},#{terminalId},now(),now(),unix_timestamp(now()),#{orderTypes},#{contact},#{phone},1,#{customerId},#{csCencelId})
+	</insert>
+	
+	<insert id="subRepairAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress">
+		INSERT into cs_receiver_addresses(address,phone,zip_code,receiver,created_at)
+		VALUES(#{address},#{phone},#{zipCode},#{receiver},now())
+	</insert>
+	
+	<insert id="addCostometAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		INSERT INTO customer_addresses(city_id,receiver,address,moblephone,zip_code,is_default,customer_id,created_at,updated_at)
+		VALUES(#{cityId},#{receiver},#{address},#{moblephone},#{zipCode},#{isDefault},#{customerId},now(),now())
+	</insert>
+	
+	
+	<insert id="subRepair" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT into cs_repairs(terminal_id,status,description,receive_address_id,customer_id,created_at,updated_at,apply_num,return_address_id,cs_repair_marks_id)
+		VALUES(#{terminalsId},#{status},#{description},#{receiveAddressId},#{customerId},now(),now(),unix_timestamp(now()),#{returnAddressId},0)
+	</insert>
+	
+	<insert id="subChange" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT into cs_changes(terminal_id,status,receive_address_id,templete_info_xml,created_at,updated_at,reason,customer_id,should_cancel,cs_cencel_id,apply_num)
+		VALUES(#{terminalsId},#{status},#{receiveAddressId},#{templeteInfoXml},now(),now(),#{reason},#{customerId},1,#{csCencelId},unix_timestamp(now()))
+	</insert>
+	
+	<insert id="subReturn" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO cs_returns(terminal_id,status,return_price,reason,should_cencel,cs_cencel_id,customer_id,created_at,updated_at,apply_num,cs_return_marks_id)
+		VALUES(#{terminalsId},#{status},#{returnPrice},#{reason},1,#{csCencelId},#{customerId},now(),now(),unix_timestamp(now()),1)
+	</insert>
+	
+	<insert id="subToUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO cs_update_infos(terminal_id,status,templete_info_xml,created_at,updated_at,customer_id,apply_num)
+		VALUES(#{terminalsId},#{status},#{templeteInfoXml},now(),now(),#{customerId},unix_timestamp(now()))
+	</insert>
+	
+	<!-- 查询交易流水用 -->
+	<select id="getTerminals" resultType="map">
+	<![CDATA[
+		SELECT serial_num serialNum,
+			   pay_channel_id payChannelId
+		  FROM terminals
+		 WHERE customer_id = #{customerId} 
+		 and serial_num is not null 
+		 and pay_channel_id is not null
+	]]>
+	</select>
+
+	
+	
+	
+	
+	
+	
+	
+	<select id="getTerminalListByPhone" parameterType="map" resultType="map">
+		SELECT  t.id,t.serial_num
+		FROM terminals t
+    	LEFT JOIN merchants m on t.merchant_id=m.id 
+		WHERE
+		m.phone=#{phone}
+	</select>
+	
+	<select id="getTerminalOpenStatus"  resultType="map">
+		SELECT dtt.trade_value,ttti.status from  terminal_trade_type_infos ttti LEFT JOIN
+    	dictionary_trade_types dtt on ttti.trade_type_id=dtt.id
+     	where ttti.terminal_id=#{id}
+	</select>
+	
+	<select id="getCustomerAddress"  resultType="map" parameterType="int">
+		SELECT * from customer_addresses
+		WHERE customer_id = #{customerId}
+	</select>
+	
+	<select id="JudgeChangStatus"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_changes
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
+	
+	<select id="JudgeUpdateStatus"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_update_infos
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
+	
+	<select id="JudgeRentalReturnStatus"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_cancels
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
+	
+	<select id="JudgeRepair"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_repairs
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
+	
+	<select id="JudgeReturn"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_returns
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
+	
+	<select id="JudgeLeaseReturn"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_lease_returns
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
+	
+	<select id="judgeOpen"  resultType="int" parameterType="int">
+		select count(*) from opening_applies
+		where terminal_id = #{terminalId}
+	</select>
+	
+	<select id="getModule"  resultType="map">
+		SELECT o.* 
+		FROM terminals t LEFT JOIN other_requirements o ON t.pay_channel_id = o.pay_channel_id
+		where t.id = #{terminalsId} and o.types = #{type}
+	</select>
+	
+	<select id="getCities"  resultType="map">
+		SELECT * FROM cities 
+	</select>
+	
+	<select id="getShiCities"  resultType="map" parameterType="int">
+		SELECT * FROM cities 
+		WHERE parent_id = #{parentId}
+	</select>
+
+	<select id="getApplyDetails" parameterType="int" resultType="map">
+		SELECT t.id,t.serial_num,t.`status`,g.model_number,b.name as
+		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,l.`id` as appId,l.`status` as applieStatus,e.types
+		FROM terminals t 
+		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
+		LEFT JOIN goods g on o.good_id=g.id
+		LEFT JOIN good_brands b on g.good_brands_id=b.id
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
+		LEFT JOIN factories a ON c.factory_id=a.id
+		LEFT JOIN merchants m ON t.merchant_id=m.id
+		LEFT JOIN orders e ON t.order_id=e.id
+		LEFT JOIN opening_applies l ON l.terminal_id = t.id
+		WHERE t.id=#{id}
+		AND
+		e.customer_id=t.customer_id
+	</select>
+
+	<select id="getRate" parameterType="int" resultType="map">
+		SELECT
+		s.id,s.terminal_rate,d.trade_type,d.trade_value,y.service_rate,t.base_rate,l.`status`
+		FROM terminals t LEFT JOIN
+		support_trade_types s ON t.pay_channel_id = s.pay_channel_id
+		LEFT JOIN dictionary_trade_types d ON d.id = s.trade_type_id
+		LEFT JOIN dictionary_billing_cycles y ON y.id = t.billing_cycles_id
+		LEFT JOIN terminal_trade_type_infos l ON l.trade_type_id = s.trade_type_id
+		WHERE t.id=#{id} and l.terminal_id = #{id}
+	</select>
+
+	<select id="getTrackRecord" parameterType="int" resultType="map">
+		SELECT s.created_at,s.content,c.`name`
+		FROM terminals t LEFT
+		JOIN opening_applies i ON t.id=i.terminal_id
+		LEFT JOIN
+		opening_apply_marks s ON i.id=s.opening_apply_id
+		LEFT JOIN customers c ON
+		s.custom_id=c.id
+		where t.id=#{id}
+	</select>
+
+	<select id="getOpeningDetails" parameterType="int" resultType="map">
+		SELECT s.`key`,s.`value`,s.types
+		FROM terminals t LEFT JOIN
+		opening_applies i ON t.id=i.terminal_id
+		LEFT JOIN terminal_opening_infos s ON
+		i.id=s.opening_applies_id
+		where t.id=#{id}
+	</select>
+	
+	<select id="getTenancy" parameterType="int" resultType="map">
+	<![CDATA[
+		SELECT
+		g.has_lease,g.lease_price,g.lease_time,g.lease_deposit,
+		g.return_time
+		,g.lease_description,
+		date_format(o.updated_at,'%Y-%m-%d') as created_at
+		FROM terminals t LEFT JOIN
+		goods g ON t.good_id = g.id
+		LEFT JOIN orders o ON o.id = t.order_id
+		where t.id = #{id}
+		 ]]>
+	</select>
+
+	<select id="channels" resultType="map">
+		SELECT s.id,s.`name`
+		FROM pay_channels s
+	</select>
+	
+	<select id="channelsT" resultType="map">
+		SELECT d.id,d.`name`
+		FROM pay_channels s
+		LEFT JOIN pay_channel_billing_cycles p ON p.pay_channel_id = s.id
+		LEFT JOIN dictionary_billing_cycles d ON d.id = p.billing_cycles_id
+		WHERE s.id = #{id}
+	</select>
+
+	<select id="isExistence" resultType="int" parameterType="String">
+		SELECT count(*) FROM terminals
+		WHERE serial_num=#{serialNum}
+	</select>
+
+	<select id="isMerchantName" parameterType="string" resultType="map">
+		SELECT id from merchants
+		WHERE title=#{title}
+	</select>
+
+	<select id="findPassword" parameterType="int" resultType="string">
+		SELECT password
+		FROM terminals
+		WHERE id=#{id}
+	</select>
+</mapper>

@@ -56,6 +56,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/index/findpass.html'
 	}).when('/findpassEmail', {
 		templateUrl : 'views/index/findpassEmail.html'
+	}).when('/terminals', {
+		templateUrl : 'views/terminals/terminalsList.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

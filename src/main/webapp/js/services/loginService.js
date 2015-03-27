@@ -31,8 +31,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	$scope.agentNameMessage = data.message; 
       			        	$scope.agentNameClass = true;
       			           }else{
-      			        	   alert(data.code);
-      			        	   /*$scope.nameMessag = "";
+      			        	   $scope.nameMessag = "";
       			        	   $scope.code = "";
       			        	   //记住密码
       			        	   if($scope.agentRememberPass == true){
@@ -40,12 +39,15 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   }else{
       			        		   $cookieStore.remove("loginPass");
       			        	   }
-      			        	   $cookieStore.put("loginUserName",data.result.username);
-      			        	   $cookieStore.put("loginUserId",data.result.id);
+      			        	   $cookieStore.put("loginUserName",data.result.username);//用户名
+      			        	   $cookieStore.put("loginUserId",data.result.id);//用户id
+      			        	   $cookieStore.put("userIsHaveProfit",data.result.is_have_profit);//是否有分润
+      			        	   $cookieStore.put("userTypes",data.result.types);//用户类型
+      			        	   $cookieStore.put("userParentId",data.result.parent_id);//是否为一级代理商
       			        	   //刷新
       			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   window.location.href = '#/';
-      			        	location.reload();*/
+      			        	//location.reload();
       			           }
       			        }).error(function (data) {
       			        	$scope.message = "登陆异常！"

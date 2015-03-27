@@ -56,6 +56,16 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/index/findpass.html'
 	}).when('/findpassEmail', {
 		templateUrl : 'views/index/findpassEmail.html'
+	}).when('/lowerAgent', {
+		templateUrl : 'views/agent/lowerAgentList.html'
+	}).when('/lowerAgentInfo', {
+		templateUrl : 'views/agent/lowerAgentInfo.html'
+	}).when('/lowerAgentAdd', {
+		templateUrl : 'views/agent/lowerAgentAdd.html'
+	}).when('/lowerAgentEdit', {
+		templateUrl : 'views/agent/lowerAgentEdit.html'
+	}).when('/lowerAgentSet', {
+		templateUrl : 'views/agent/lowerAgentSet.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

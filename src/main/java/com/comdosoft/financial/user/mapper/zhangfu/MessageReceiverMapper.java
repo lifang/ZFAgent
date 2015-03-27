@@ -1,15 +1,17 @@
 package com.comdosoft.financial.user.mapper.zhangfu;
 
 import java.util.List;
+import java.util.Map;
 
+import com.comdosoft.financial.user.domain.zhangfu.MessageReceiver;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.SysMessage;
 
 public interface MessageReceiverMapper {
 
-    List<SysMessage> findAll(MyOrderReq myOrderReq);
+    List<MessageReceiver> findAll(MyOrderReq myOrderReq);
 
-    int count(int person_id);
+    int count(MyOrderReq myOrderReq);
 
     SysMessage findById(MyOrderReq myOrderReq);
     
@@ -23,5 +25,9 @@ public interface MessageReceiverMapper {
     void batchUpdate(MyOrderReq myOrderReq );
 
     void isRead(MyOrderReq myOrderReq);
+
+    List<Map<String, Object>> getServerDynamic(MyOrderReq myOrderReq);
+
+    void deleteAll(MyOrderReq myOrderReq);
 
 }

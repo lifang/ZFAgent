@@ -8,7 +8,7 @@
 			   a.address, a.card_id_photo_path, a.license_no_pic_path, a.tax_no_pic_path,
 			   c.username, c.city_id
 		  FROM agents a JOIN customers c ON a.customer_id = c.id
-		 WHERE customer_id = #{customerId}
+		 WHERE a.customer_id = #{customerId}
 	]]>
 	</select>
 

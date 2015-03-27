@@ -36,13 +36,17 @@ public class CsUpdateInfoService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         for(Map<String,Object> m: o){
             map = new HashMap<String,Object>();
-            String d = (m.get("created_at")+"");
-            Date date = sdf.parse(d);
-            String c_date = sdf.format(date);
+            String d = m.get("created_at")==null?"":m.get("created_at")+"";
+            if(d==""){
+            	map.put("create_time", "");
+            }else{
+            	Date date = sdf.parse(d);
+            	String c_date = sdf.format(date);
+            	map.put("create_time", c_date);
+            }
             String status = (m.get("status")+"");
             map.put("id",m.get("id"));
             map.put("status", status);
-            map.put("create_time", c_date);
             map.put("terminal_num", m.get("serial_num"));//终端号
             map.put("apply_num", m.get("apply_num"));//维修编号
             list.add(map);

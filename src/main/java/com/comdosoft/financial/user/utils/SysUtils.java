@@ -30,6 +30,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.HttpEntity;
 
+import com.comdosoft.financial.user.service.SystemSetService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -467,6 +468,12 @@ public class SysUtils {
         }
         String mobilecode = stringBuffer.toString();
         return mobilecode;
+    }
+    
+    //记录操作记录
+    public static int operateRecord(String content,int operateUserId){
+    	SystemSetService sss=new SystemSetService();
+    	return sss.operateRecord(content, operateUserId);
     }
 
     

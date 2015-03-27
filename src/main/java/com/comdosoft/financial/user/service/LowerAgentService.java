@@ -21,6 +21,7 @@ import com.comdosoft.financial.user.domain.query.LowerAgentReq;
 import com.comdosoft.financial.user.domain.query.PrepareGoodReq;
 import com.comdosoft.financial.user.mapper.zhangfu.LowerAgentMapper;
 import com.comdosoft.financial.user.utils.Param;
+import com.comdosoft.financial.user.utils.SysUtils;
 /**
  * 下级代理商
  * @author yyb
@@ -32,6 +33,26 @@ public class LowerAgentService {
 	@Autowired
 	private LowerAgentMapper lowerAgentMapper;
 	
+	
+	public Map<String,Object> changeStatus(LowerAgentReq req){
+		Map<String,Object> map =new HashMap<String, Object>();
+		if(req.getStatus()==5){
+			req.setStatus(6);
+		}else if(req.getStatus()==6){
+			req.setStatus(5);
+		}
+		int result=lowerAgentMapper.changeStatus(req);
+		if(result>=1){
+			//成功
+			map.put("resultCode", 1);
+			map.put("resultInfo", "修改状态成功");
+		}else{
+			//失败
+			map.put("resultCode", -1);
+			map.put("resultInfo", "修改状态出错");
+		}
+		return map;
+	}
 	
 	public Map<String, Object> getProfitlist(LowerAgentReq req) {
         req.setStartTime(Param.setDay(req.getStartTime()));
@@ -116,6 +137,11 @@ public class LowerAgentService {
         return lowerAgentMapper.getInfo(req);
     }
 	
+	public Map<String, Object> getProCity(LowerAgentReq req) {
+        return lowerAgentMapper.getProCity(req.getCityId());
+    }
+	
+	
 	public Map<String,Object> getProvinceList(){
 		Map<String, Object> map=new HashMap<String, Object>();
 		List<Map<String, Object>> list= lowerAgentMapper.getProvinceList();
@@ -130,34 +156,41 @@ public class LowerAgentService {
         return map;
 	}
 	
-	public int addNewAgent(LowerAgentReq req) {
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Map<String,Object> addNewAgent(LowerAgentReq req) {
 		
-        try {
+		Map<String, Object> map=new HashMap<String, Object>();
         	//向customers表中插入记录
-        	int affect_series1=lowerAgentMapper.addNewCustomer(req);
-        	if(affect_series1==1){
-        		//成功
-                //获取新的agents表ID
-        		int customer_id=lowerAgentMapper.getCustomerId(req);
-            	req.setCustomer_id(customer_id);
-            	//调用加密方法
-            	//req.setPwd(req.getPwd());
-            	//向agents表中插入记录
-            	int affect_series=lowerAgentMapper.addNewAgent(req);
-            	if(affect_series>=1){
-            		return 1;
-            	}else{
-            		return 0;
-            	}
+        	//调用加密方法
+        	req.setPwd(SysUtils.string2MD5(req.getPwd()));;
+        	//判断该登陆名是否已经存在
+        	if(lowerAgentMapper.checkLoginId(req)>=1){
+        		//已经存在
+        		map.put("resultCode", -1);
+        		map.put("resultInfo", "当前登录名已经存在！");
         	}else{
-        		//失败
-        		return 0;
+	        	int affect_series1=lowerAgentMapper.addNewCustomer(req);
+	        	if(affect_series1==1){
+	        		//成功
+	                //获取新的agents表ID
+	        		int customer_id=lowerAgentMapper.getCustomerId(req);
+	            	req.setCustomer_id(customer_id);
+	            	//向agents表中插入记录
+	            	int affect_series=lowerAgentMapper.addNewAgent(req);
+	            	if(affect_series >=1){
+	            		map.put("resultCode", 1);
+		        		map.put("resultInfo", "新增成功");
+	            	}else{
+	            		map.put("resultCode", -1);
+		        		map.put("resultInfo", "新增agents表出错");
+	            	}
+	        	}else{
+	        		//失败
+	        		map.put("resultCode", -1);
+	        		map.put("resultInfo", "新增customers表出错");
+	        	}
         	}
-        	
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+        return map;
     }
 	
 	
@@ -180,8 +213,7 @@ public class LowerAgentService {
         return lowerAgentMapper.checkLoginId(req);
     }
 	
-	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String,Object> saveOrEdit(LowerAgentReq req){
 		
 		Map<String,Object> map=new HashMap<String, Object>();
@@ -192,9 +224,9 @@ public class LowerAgentService {
 			//遍历分解
 			String profitPercent=req.getProfitPercent();
 			//tradeTypeId_channelId
-			String[] temp1=profitPercent.split("|");
+			String[] temp1=profitPercent.split("\\|");
 			for(int i=0;i<temp1.length;i++){
-				String[] temp2=temp1[i].split("_");
+				String[] temp2=temp1[i].split("\\_");
 				int tradeTypeId=Integer.parseInt(temp2[1]);
 				int precent=Integer.parseInt(temp2[0]);
 				req.setTradeTypeId(tradeTypeId);
@@ -211,9 +243,9 @@ public class LowerAgentService {
 			//遍历分解
 			String profitPercent=req.getProfitPercent();
 			//tradeTypeId_channelId
-			String[] temp1=profitPercent.split("|");
+			String[] temp1=profitPercent.split("\\|");
 			for(int i=0;i<temp1.length;i++){
-				String[] temp2=temp1[i].split("_");
+				String[] temp2=temp1[i].split("\\_");
 				int tradeTypeId=Integer.parseInt(temp2[1]);
 				int precent=Integer.parseInt(temp2[0]);
 				req.setTradeTypeId(tradeTypeId);

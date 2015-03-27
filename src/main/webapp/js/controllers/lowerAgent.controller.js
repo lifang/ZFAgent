@@ -3,6 +3,7 @@
 //系统设置模块
 var lowerAgentModule = angular.module("lowerAgentModule",[]);
 
+//下级代理商列表
 var lowerAgentlistController = function ($scope, $http, LoginService){
 	$scope.init=function(){
 		$scope.req={};
@@ -25,25 +26,48 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
             }
         });
 	};
+	
+	$scope.changeStatus=function(val,status){
+		$scope.req.son_agents_id=val;
+		$scope.req.status=status;
+		$http.post("api/lowerAgent/changeStatus", $scope.req).success(function (data) {  //绑定
+			if (data.code==1) {
+				alert(3);
+            	location.reload();
+            	alert(4);
+            }
+			alert(5);
+        });
+		
+	};
 	$scope.init();
 };
 
+//下级代理商详细
 var lowerInfoController = function ($scope, $http,$location, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
-		$scope.req.id=$location.search()['id'];
+		$scope.req.son_agents_id=$location.search()['id'];
 		$scope.info();
 	};
 	$scope.info=function(){
 		$http.post("api/lowerAgent/info", $scope.req).success(function (data) {  //绑定
 	            if (data.code==1) {
 	            	$scope.info=data.result;
+	            	$scope.req.cityId=data.result.cityId;
+	            	$http.post("api/lowerAgent/getProCity",$scope.req).success(function (data) {  //绑定
+	    	            if (data.code==1) {
+	    	            	$scope.cityName=data.result.city;
+	    	            	$scope.provinceName=data.result.province;
+	    	            }
+	    	        });
 	            }
 	        });
 		};
 	$scope.init();
 };
 
+//新增下级代理商
 var lowerAgentAddController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
@@ -67,7 +91,6 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 		$http.post("api/lowerAgent/getProvince", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.provinceList=data.result.list;
-            	calcSystemPage($scope.req, data.result.total);// 计算分页
             }
         });
 	};
@@ -76,33 +99,84 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 		$http.post("api/lowerAgent/getCity", $scope.proModel.id).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.cityList=data.result.list;
-            	calcSystemPage($scope.req, data.result.total);// 计算分页
             }
         });
 	};
-	
+	//校验输入的登陆名是否已经存在
 	$scope.checkIsIn=function(){
 		$scope.req.loginId=$scope.loginId;
 		//登陆ID校验是否已经存在
 		$http.post("api/lowerAgent/check", $scope.req).success(function (data) {  //绑定
-            if (data.code==1) {
+			if(data.code==-2){
+				alert("错误信息为："+data.message);
+			}else if (data.code==-1) {
             	//已经存在
-            	alert("该登陆ID已经存在");
+				alert("错误信息为："+data.message);
             	$scope.loginId="";
-            }else if(data.code==-2){
-            	alert(data.message);
-            }else if(data.code==-1){
-            	
             }
         });
 	}
 	
+	$scope.isNull=function(val,valDetail){
+		if(val=="" || val==" " || val==undefined){
+			alert("输入的【"+valDetail+"】一栏不能为空，请重新输入");
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 	$scope.createNew=function(){
-		//验证
-		if($scope.pwd !=$scope.pwd1){
-			alert("两次输入的密码不一致，请重新输入");
+		//验证为空
+		if(!$scope.isNull($scope.agentName,"负责人姓名")){
 			return;
 		}
+		if(!$scope.isNull($scope.agentCardId,"负责人身份证号")){
+			return;
+		}
+		if(!$scope.isNull($scope.companyName,"公司全称")){
+			return;
+		}
+		if(!$scope.isNull($scope.companyId,"公司营业执照登记号")){
+			return;
+		}
+		if(!$scope.isNull($scope.phoneNum,"手机号")){
+			return;
+		}
+		if(!$scope.isNull($scope.emailStr,"邮箱")){
+			return;
+		}
+		if(!$scope.isNull($scope.addDetail,"所在地")){
+			return;
+		}
+		//验证城市
+		if($scope.cityModel==undefined || $scope.proModel==undefined){
+			alert("请选择你所在的省市！");
+			return;
+		}
+		if(!$scope.isNull($scope.loginId,"登陆ID")){
+			return;
+		}
+		
+		if(!$scope.isNull($scope.pwd,"密码")){
+			return;
+		}
+		
+		//校验手机号码
+		
+		//校验邮箱
+		
+		//校验身份证号
+		
+		//校验两次输入的密码是否一致
+		if($scope.pwd !=$scope.pwd1){
+			alert("两次输入的密码不一致，请重新输入");
+			$scope.pwd="";
+			$scope.pwd1="";
+			return;
+		}
+		
+		$scope.req.loginId=$scope.loginId;
 		$scope.req.agentType=$scope.agentType;
 		$scope.req.agentName=$scope.agentName;
 		$scope.req.agentCardId=$scope.agentCardId;
@@ -110,15 +184,17 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 		$scope.req.companyId=$scope.companyId;
 		$scope.req.phoneNum=$scope.phoneNum;
 		$scope.req.emailStr=$scope.emailStr;
-		$scope.req.addressStr=$scope.proModel.name+""+$scope.cityModel.name+""+$scope.addDetail;
+		$scope.req.addressStr=$scope.addDetail;
 		$scope.req.loginId=$scope.loginId;
 		$scope.req.pwd=$scope.pwd;
 		$scope.req.isProfit=$scope.isProfit;
+		$scope.req.cityId=$scope.cityModel.id;
+		
 		$http.post("api/lowerAgent/createNew", $scope.req).success(function (data) {  //绑定
-            if (data.code==1) {
-            	alert("新增下级代理商成功！");
+            if (data.code==-1) {
+            	alert("新增下级代理商失败！错误信息为："+data.message);
             }else{
-            	alert("新增下级代理商失败！");
+            	window.location.href="#/lowerAgent";
             }
         });
 	}
@@ -126,12 +202,13 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 	$scope.init();
 };
 
+//修改编辑下级代理商
 var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	$scope.init=function(){
 		$scope.req={};
-		$scope.req.id=$location.search()['id'];
-		$scope.info();
+		$scope.req.son_agents_id=$location.search()['id'];
 		$scope.list();
+		$scope.info();
 	};
 	$scope.info=function(){
 		$http.post("api/lowerAgent/info", $scope.req).success(function (data) {  //绑定
@@ -146,6 +223,15 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	        		$scope.addDetail=data.result.address;
 	        		$scope.loginId=data.result.loginId;
 	        		$scope.isProfit=data.result.is_have_profit;
+	        		
+	        		$scope.req.cityId=data.result.cityId;
+	        		$http.post("api/lowerAgent/getProCity",$scope.req).success(function (data) {  //绑定
+	    	            if (data.code==1) {
+	    	            	$scope.cityModel=data.result.cityId;
+	    	            	$scope.proModel=data.result.provinceId;
+	    	            }
+	    	        });
+	        		
 	            }
 	    });
 	};
@@ -197,6 +283,7 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	$scope.init();
 };
 
+//设置代理商分润
 var lowerAgentSetController=function($scope,$http,$location,LoginService){
 	$scope.init=function(){
 		$scope.req={};
@@ -325,6 +412,7 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 		$scope.edit();
 	};
 };
+
 
 lowerAgentlistController.$inject = ['$scope','$http','LoginService'];
 lowerAgentModule.controller("lowerAgentlistController", lowerAgentlistController);

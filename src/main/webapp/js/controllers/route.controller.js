@@ -56,7 +56,6 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/index/findpass.html'
 	}).when('/findpassEmail', {
 		templateUrl : 'views/index/findpassEmail.html'
-<<<<<<< HEAD
 	}).when('/lowerAgent', {
 		templateUrl : 'views/agent/lowerAgentList.html'
 	}).when('/lowerAgentInfo', {
@@ -67,10 +66,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/agent/lowerAgentEdit.html'
 	}).when('/lowerAgentSet', {
 		templateUrl : 'views/agent/lowerAgentSet.html'
-=======
 	}).when('/terminals', {
 		templateUrl : 'views/terminals/terminalsList.html'
->>>>>>> branch 'master' of https://github.com/lifang/ZFAgent.git
 	}).otherwise({
 		redirectTo : "/"
 	});

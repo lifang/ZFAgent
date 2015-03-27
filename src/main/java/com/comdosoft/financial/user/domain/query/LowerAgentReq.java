@@ -14,7 +14,7 @@ public class LowerAgentReq {
     private int agents_id;
     //操作的子代理商id
     private int son_agents_id;
-    
+    //agents表关联customer表的id
     private int customer_id;
 
     private String startTime;
@@ -60,10 +60,60 @@ public class LowerAgentReq {
     private int tradeTypeId;
     //precent分润比例
     private int precent;
+    //代理商状态
+    private int status;
+    //cityId 
+    private int cityId;
+    private int provinceId;
+    //
+    private String cityName;
+    private String provinceName;
     
     
     
     
+    
+    
+	public int getProvinceId() {
+		return provinceId;
+	}
+
+	public void setProvinceId(int provinceId) {
+		this.provinceId = provinceId;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getProvinceName() {
+		return provinceName;
+	}
+
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
+	}
+
+	public int getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public int getTradeTypeId() {
 		return tradeTypeId;
 	}

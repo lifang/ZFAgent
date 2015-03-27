@@ -8,7 +8,7 @@
  from agent_profit_settings a 
 left join pay_channels b on a.pay_channel_id=b.id 
 left join dictionary_trade_types c on a.trade_type_id=c.id 
-where a.agent_id=1 group by a.trade_type_id,a.pay_channel_id order by c.id,a.updated_at desc
+where a.agent_id=#{son_agents_id} group by a.trade_type_id,a.pay_channel_id order by c.id,a.updated_at desc
      </select>
 
 
@@ -40,8 +40,19 @@ where a.agent_id=1 group by a.trade_type_id,a.pay_channel_id order by c.id,a.upd
      
     <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="map">
         select a.types,a.name,a.card_id,a.company_name,a.business_license,a.phone,a.email,a.address,a.is_have_profit,
-        (select b.username from customers b where b.id=a.customer_id) as loginId from agents a where a.id=#{id}
+         b.username as loginId,b.city_id as cityId
+		from agents a 
+		left join customers b on b.id=a.customer_id
+		where a.id=#{son_agents_id}
     </select>
+    <select id="getProCity" resultType="map" parameterType="int">
+    	select a.name as city,b.name as province,a.id as cityId,b.id as provinceId from cities a
+		left join cities b on a.parent_id=b.id
+		 where a.id=#{cityId}
+    </select>
+    
+    
+    
     
     <select id="getProvinceList" resultType="map">
     	select a.name,a.id  from cities a where a.parent_id=0	
@@ -69,7 +80,7 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-   		insert into customers(username,password,created_at,updated_at) values(#{loginId},#{pwd},now(),now())
+   		insert into customers(username,password,created_at,updated_at,city_id,status) values(#{loginId},#{pwd},now(),now(),#{cityId},1)
    </insert>
    
    <insert id="savePrecent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
@@ -92,5 +103,8 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
     <update id="saveCustomers" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		update customers a set a.password=#{pwd} where a.username =#{loginId}
 	</update>
-    
+	
+    <update id="changeStatus" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
+		update agents a set a.status =#{status} ,a.updated_at =now() where a.id=#{son_agents_id}
+	</update>
 </mapper>

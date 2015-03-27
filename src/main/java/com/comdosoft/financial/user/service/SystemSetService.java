@@ -17,6 +17,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerRoleRelation;
 import com.comdosoft.financial.user.mapper.zhangfu.CustomerMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.SysconfigMapper;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -25,6 +26,9 @@ public class SystemSetService {
 	@Autowired
 	private CustomerMapper customerMapper;
 
+	@Autowired
+	private SysconfigMapper sysConfigMapper;
+	
 	/**
 	 * 获取代理商下所有的用户
 	 * 
@@ -160,5 +164,17 @@ public class SystemSetService {
 
 	public void insertCustomerRights(CustomerRoleRelation cr) {
 		customerMapper.insertCustomerRights(cr);
+	}
+	
+	/**
+	 * 记录操作记录
+	 * @param content  操作内容
+	 * @param operateUserId 操作人ID
+	 */
+	public int operateRecord(String content,int operateUserId){
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("content", content);
+		map.put("operateUserId", operateUserId);
+		return sysConfigMapper.operateRecord(map);
 	}
 }

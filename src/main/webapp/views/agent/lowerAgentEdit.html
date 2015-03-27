@@ -10,7 +10,7 @@
 		<div class="user_title">
 			<h1>编辑下级代理商</h1>
 			<div class="userTopBtnBox">
-				<a href="#" class="ghostBtn">返回</a>
+				<a href="#/lowerAgent" class="ghostBtn">返回</a>
 			</div>
 		</div>
 		<div class="attributes_box">
@@ -65,10 +65,10 @@
 					<li class="block"><span class="labelSpan">所在地：</span>
 						<div class="text">
 							<select ng-model="proModel" ng-options="o.name for o in provinceList"
-							 ng-change="selChange(proModel)">
+							 ng-change="selChange(proModel)" style="width: 120px;">
 								<option value="">-- 请选择 --</option>
 							</select>
-							<select ng-model="cityModel" ng-options="o.name for o in cityList">
+							<select ng-model="cityModel" ng-options="o.name for o in cityList" style="width: 120px;">
 								<option value="">-- 请选择 --</option>
 							</select>
 							

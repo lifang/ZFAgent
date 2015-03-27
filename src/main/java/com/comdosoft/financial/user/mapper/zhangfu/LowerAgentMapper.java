@@ -28,6 +28,10 @@ public interface LowerAgentMapper {
 	
 	List<Map<String,Object>> getCityList(int proId);
 	
+	Map<String,Object> getProCity(int cityId);
+	
+	int changeStatus(LowerAgentReq req);
+	
 	int addNewAgent(LowerAgentReq req);
 	
 	int addNewCustomer(LowerAgentReq req);
@@ -42,4 +46,6 @@ public interface LowerAgentMapper {
 	
 	int savePrecent(LowerAgentReq req);
 	int editPrecent(LowerAgentReq req);
+	
+	
 }

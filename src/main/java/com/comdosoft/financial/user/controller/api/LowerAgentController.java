@@ -3,6 +3,8 @@ package com.comdosoft.financial.user.controller.api;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +14,7 @@ import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.ExchangeGoodReq;
 import com.comdosoft.financial.user.domain.query.LowerAgentReq;
 import com.comdosoft.financial.user.service.LowerAgentService;
+import com.comdosoft.financial.user.service.SystemSetService;
 /**
  * 下级代销商业务处理
  * @author yyb
@@ -22,6 +25,30 @@ import com.comdosoft.financial.user.service.LowerAgentService;
 public class LowerAgentController {
 	@Autowired
 	private LowerAgentService lowerAgentService;
+	
+	@Autowired
+	private SystemSetService sys;
+	
+	/**
+	 * 根据传入的agentId,statusId，修改代理商状态
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "changeStatus", method = RequestMethod.POST)
+	public Response changeStatus(@RequestBody LowerAgentReq req){
+		Response response=new Response();
+		Map<String,Object> result=lowerAgentService.changeStatus(req);
+		if(Integer.parseInt(result.get("resultCode").toString()) == 1){
+			response.setCode(Response.SUCCESS_CODE);
+			response.setMessage(result.get("resultInfo").toString());
+		}else{
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(result.get("resultInfo").toString());
+		}
+		return response;
+	}
+	
+	
 	
 	/**
 	 * 获取下级代理商分润设置比例列表
@@ -124,14 +151,32 @@ public class LowerAgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "createNew", method = RequestMethod.POST)
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Response createNew(@RequestBody LowerAgentReq req){
 		Response response = new Response();
-        int temp=lowerAgentService.addNewAgent(req);
-		if(temp==1){
-        	response.setCode(Response.SUCCESS_CODE);
-        }else{
-        	response.setCode(Response.ERROR_CODE);
-        }
+		
+		if(req.getLoginId().trim().equals("")){
+			response.setCode(Response.MISSING_CODE);
+			response.setMessage("输入登陆ID不能为空！");
+		}else{
+			req.setLoginId(req.getLoginId().trim());
+			int temp=lowerAgentService.checkLoginId(req);
+			if(temp>=1){
+				response.setCode(Response.ERROR_CODE);
+	        	response.setMessage("输入登陆ID已经存在！");
+	        }else{
+	        	Map<String,Object> map=lowerAgentService.addNewAgent(req);
+				if(map.get("resultCode").toString().equals("-1")){
+					response.setCode(Response.ERROR_CODE);
+		        	response.setMessage(map.get("resultInfo").toString());
+		        }else{
+		        	response.setCode(Response.SUCCESS_CODE);
+		        	response.setMessage(map.get("resultInfo").toString());
+		        }
+	        }
+		}
+		String resultInfo="执行新增下级代理商操作,结果为："+response.getMessage();
+		sys.operateRecord(resultInfo,req.getAgents_id());
         return response;
 	}
 	
@@ -153,28 +198,19 @@ public class LowerAgentController {
 	}
 	
 	/**
-	 * 检查新的登陆名是否已经存在
-	 * @param req
+	 * 根据传入的cityId,获取省市信息
+	 * @param cityId
 	 * @return
 	 */
-	@RequestMapping(value = "check", method = RequestMethod.POST)
-	public Response checkLoginId(@RequestBody LowerAgentReq req){
+	@RequestMapping(value = "getProCity", method = RequestMethod.POST)
+	public Response getProCity(@RequestBody LowerAgentReq req){
 		Response response = new Response();
-		if(req.getLoginId().trim().equals("")){
-			response.setCode(Response.MISSING_CODE);
-			response.setMessage("输入登陆ID不能为空！");
-		}else{
-			int temp=lowerAgentService.checkLoginId(req);
-			if(temp>=1){
-	        	response.setCode(Response.SUCCESS_CODE);
-	        }else{
-	        	response.setCode(Response.ERROR_CODE);
-	        }
-		}
-		req.setLoginId(req.getLoginId().trim());
-        
+        Map<String,Object> result= lowerAgentService.getProCity(req);
+        response.setCode(Response.SUCCESS_CODE);
+        response.setResult(result);
         return response;
 	}
+	
 	
 	/**
 	 * 代理商 分润新增  或者保存  1为新增，0为保存

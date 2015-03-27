@@ -12,16 +12,14 @@ var indexController = function($scope, $location, $http, LoginService,
 	$scope.$on('$locationChangeStart', function(scope, next, current) {
 
 		var strs = new Array(); // 定义一数组
-		strs = next.split("#/"); // 字符分割
+		strs = next.split("/#/"); // 字符分割
 
 		if (strs.length == 2) {
 			strs = strs[1].split("?");
-
-			if (strs.length == 2) {
 				if (check(strs[0])) {
 					// alert("check(strs[0]) == " + check(strs[0]));
-					$scope.right = true;
-					$scope.shop = false;
+					$scope.right = false;
+					$scope.shop = true;
 				} else {
 					$scope.right = true;
 					$scope.shop = false;
@@ -30,11 +28,6 @@ var indexController = function($scope, $location, $http, LoginService,
 				$scope.right = true;
 				$scope.shop = false;
 			}
-
-		} else {
-			$scope.right = true;
-			$scope.shop = false;
-		}
     });
 	
 	var check = function(str) {

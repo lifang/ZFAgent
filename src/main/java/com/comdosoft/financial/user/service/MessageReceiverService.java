@@ -2,7 +2,9 @@ package com.comdosoft.financial.user.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,14 +27,19 @@ public class MessageReceiverService {
         PageRequest request = new PageRequest(myOrderReq.getPage(),myOrderReq.getRows());
         int count = messageReceiverMapper.count(myOrderReq.getCustomer_id());
         List<SysMessage> centers = messageReceiverMapper.findAll(myOrderReq);
-        List<Object> list = new ArrayList<Object>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        List<Object> list =new LinkedList<Object>();
         Map<String,String> map = null;
         for(SysMessage s: centers){
             map = new HashMap<String,String>();
             map.put("id", s.getId().toString());
             map.put("title", s.getTitle());
-            map.put("create_at",sdf.format(s.getCreatedAt()));
+            Date d = s.getCreatedAt();
+            if(null ==d){
+                map.put("create_at","");
+            }else{
+            	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	map.put("create_at",sdf.format(d));
+            }
             map.put("content", s.getContent());
             list.add(map);
         }

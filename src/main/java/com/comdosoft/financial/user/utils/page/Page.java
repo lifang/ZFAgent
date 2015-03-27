@@ -40,9 +40,9 @@ public class Page<T> {
 		return Collections.unmodifiableList(content);
 	}
 	
-	public int getSize(){
-		return content.size();
-	}
+//	public int getSize(){
+//		return content.size();
+//	}
 //	public int getCurrentPage(){
 //		return pageRequest.getPage();
 //	}

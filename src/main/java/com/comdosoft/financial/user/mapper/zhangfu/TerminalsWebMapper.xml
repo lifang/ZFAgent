@@ -50,14 +50,43 @@
 	</select>
 	
 	<select id="searchUser" resultType="map">
-		SELECT id,name
-		FROM customers
-		WHERE 1=1
+		
+		SELECT u.id ,u.`username` FROM  agents s
+		LEFT JOIN customer_agent_relations c ON c.agent_id = s.id
+		LEFT JOIN customers u ON u.id = c.customer_id
+		WHERE s.customer_id = #{customerId}
 		<if test="name != null and name != ''">
-		and name like '%${name}%' 
+		and u.name like '%${name}%' 
 		</if>
-		and types = #{type}
 	</select>
+	
+	<select id="getTerminalsNum" parameterType="string" resultType="object">
+		SELECT id FROM terminals
+		WHERE serial_num =#{terminalsNum}
+	</select>
+	
+	<select id="numIsBinding" parameterType="string" resultType="int">
+		SELECT count(*) FROM terminals t
+		WHERE t.serial_num=#{terminalsNum} and customer_id is null
+	</select>
+	
+	<update id="Binding" parameterType="map">
+		UPDATE terminals SET customer_id = #{userId}
+		WHERE serial_num = #{terminalsNum}
+	</update>
+	
+	<select id="findUname" parameterType="map" resultType="int">
+		SELECT COUNT(*) from customers 
+		WHERE username=#{username}
+	</select>
+	
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		<!-- INSERT  into customers(username,password,city_id,account_type,types,phone,email,created_at,status,name,integral,updated_at)
+		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{status},#{name},#{integral},now()) -->
+		
+		INSERT  into customers(username,password,city_id,types,created_at,status,name,integral,updated_at)
+		VALUES(#{username},#{password},#{cityId},#{types},now(),#{status},#{name},#{integral},now())
+	</insert>
 
 
 

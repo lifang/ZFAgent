@@ -86,7 +86,7 @@ public class TerminalsWebController {
 	}
 	
 	/**
-	 * 搜索所有用户
+	 * 搜索代理商相关所有用户
 	 * 
 	 * @param namemap
 	 * @return
@@ -94,13 +94,74 @@ public class TerminalsWebController {
 	@RequestMapping(value="searchUser",method=RequestMethod.POST)
 	public Response searchUser(@RequestBody Map<Object, Object> namemap){
 		try{
-			namemap.put("type", Customer.TYPE_CUSTOMER);
+			//namemap.put("type", Customer.TYPE_CUSTOMER);
 			return Response.getSuccess(terminalsWebService.searchUser(namemap));
 		}catch(Exception e){
 			e.printStackTrace();
 			return Response.getError("系统异常");
 		}
 	}
+	
+	/**
+	 * 为用户绑定
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="BindingTerminals",method=RequestMethod.POST)
+	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
+		try {
+			if(terminalsWebService.getTerminalsNum((String)map.get("terminalsNum"))==null){
+				return Response.getError("终端号不存在！");
+			}else{
+				if(terminalsWebService.numIsBinding((String)map.get("terminalsNum"))==0){
+					return Response.getError("该终端已绑定！");
+				}else{
+					/*if(terminalsWebService.merchantsIsBinding((Integer)map.get("merchantsId"))>0){
+						return Response.getError("该商户已绑定终端！");
+					}else{*/
+						//Integer terId =(Integer) terminalsWebService.getTerminalsNum((String)map.get("terminalsNum"));
+						//map.put("terchantsId", terId);
+						terminalsWebService.Binding(map);
+						return Response.getSuccess("绑定成功！");
+					//}
+				}
+			}
+		} catch (Exception e) {
+			logger.error("为用户绑定失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 新创建用户
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="addCustomer",method=RequestMethod.POST)
+	public Response addCustomer(@RequestBody Map<Object, Object> map){
+		try {
+			if(terminalsWebService.findUname(map)>0){
+				return Response.getError("用户已存在！");
+			}else{
+				//添加新用户
+				Customer customer = new Customer();
+				customer.setUsername((String)map.get("username"));
+				customer.setName((String)map.get("name"));
+				customer.setPassword((String)map.get("pass1"));
+				customer.setCityId((Integer)map.get("cityid"));
+				customer.setTypes(Customer.TYPE_CUSTOMER);
+				customer.setStatus(Customer.STATUS_NORMAL);
+				customer.setIntegral(0);
+				terminalsWebService.addUser(customer);
+				return Response.getSuccess(customer);
+			}
+		} catch (Exception e) {
+			logger.error("为用户绑定失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	
 
 	/**
 	 * 根据用户ID获得终端列表
@@ -220,35 +281,7 @@ public class TerminalsWebController {
 		}
 	}*/
 	
-	/**
-	 * 为用户绑定
-	 * @param map
-	 * @return
-	 */
-	/*@RequestMapping(value="BindingTerminals",method=RequestMethod.POST)
-	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
-		try {
-			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"))==null){
-				return Response.getError("终端号不存在！");
-			}else{
-				if(terminalsService.numIsBinding((String)map.get("terminalsNum"))>0){
-					return Response.getError("该终端已绑定！");
-				}else{
-					if(terminalsService.merchantsIsBinding((Integer)map.get("merchantsId"))!=null){
-						return Response.getError("该商户已绑定终端！");
-					}else{
-						String terId =(String)terminalsService.getTerminalsNum((String)map.get("terminalsNum"));
-						map.put("terchantsId", terId);
-						terminalsService.Binding(map);
-						return Response.getSuccess("绑定成功！");
-					}
-				}
-			}
-		} catch (Exception e) {
-			logger.error("为用户绑定失败！", e);
-			return Response.getError("请求失败！");
-		}
-	}*/
+	
 	
 	/**
 	 * 选择终端号

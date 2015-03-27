@@ -24,7 +24,7 @@
                         	<input name="" type="text" ng-model="agentToUserName"/><button ng-click="searchUser()">搜索</button>
                         </div>
                         <div class="su_s_box">
-                            <a style="padding: 5px 10px;" href="javascript:void(0)" ng-repeat="user in agentToUsers" ng-click="test(user.id)" ng-class="{true:'hover'}[userId == user.id]">{{user.name}}</a>
+                            <a href="javascript:void(0)" ng-repeat="user in agentToUsers" ng-click="checkUserId(user.id)" ng-class="{true:'hover'}[userId == user.id]">{{user.username}}</a>
                         </div>
                     </div>
                     <div ng-show="!butshow">
@@ -37,14 +37,15 @@
                        	  </select>
                       </div>
                       <div class="suc_selectInput">
-                        	<input name="" type="text" value="手机号 / 邮箱" />
-                            <input name="" type="text" value="用户姓名（可选）" />
-                            <input name="" type="text" value="密码" />
-                            <input name="" type="text" value="确认密码" />
+                        	<input name="" type="text" ng-model="binobject.username" placeholder="手机号 / 邮箱"/>
+                            <input name="" type="text" ng-model="binobject.name" placeholder="用户姓名（可选）"/>
+                            <input name="" type="password" ng-model="binobject.pass1" placeholder="密码"/>
+                            <input name="" type="password" ng-model="binobject.pass2" placeholder="确认密码"/>
                             <button ng-click="establish()">创建</button>
                       </div>
-                      <div class="su_s_box">
-                        	<a href="#" class="hover">张三</a>
+                      <div class="su_s_box"  ng-show="addShow">
+                        	<a href="javascript:void(0)" class="hover">{{aduser}}</a>
+                        	<!-- <a href="javascript:void(0)" ng-class="{true:'hover'}[numbe>0]" ng-click="numbe=1">{{aduser}}</a> -->
                         </div>
                     </div>
                 </div>
@@ -52,10 +53,10 @@
                         <div class="item_list clear">
                             <ul>
                             	<li><span class="labelSpan">指定终端号：</span>
-                            		<div class="text"><input name="" type="text" /></div>
+                            		<div class="text"><input name="" type="text" ng-model="terminalsNum"/></div>
                                 </li>
                             </ul>
                         </div>
-                    <div class="btnBottom"><button class="blueBtn">绑定</button></div>
+                    <div class="btnBottom"><button class="blueBtn" ng-click="BindingTerminals()">绑定</button></div>
             	</div>
             </div>

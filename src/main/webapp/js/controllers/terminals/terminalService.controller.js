@@ -1,9 +1,9 @@
 'user strict';
 
 //系统设置模块
-var terminalBindingModule = angular.module("terminalBindingModule",['loginServiceModule']);
+var terminalServiceModule = angular.module("terminalServiceModule",['loginServiceModule']);
 
-var agentBinTerminalController = function ($scope, $http, LoginService) {
+var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	//$scope.customersId = LoginService.userid;
 	  $scope.customersId = 80;
 	 $scope.butshow = true;//按钮切换
@@ -85,5 +85,5 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 $scope.bininit();
 };
 
-terminalBindingModule.$inject = ['$scope', '$http', '$cookieStore'];
-terminalBindingModule.controller("agentBinTerminalController", agentBinTerminalController);
+terminalServiceModule.$inject = ['$scope', '$http', '$cookieStore'];
+terminalServiceModule.controller("agentServiceTerminalController", agentServiceTerminalController);

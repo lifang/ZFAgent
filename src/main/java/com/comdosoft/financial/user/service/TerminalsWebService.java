@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
@@ -72,8 +73,68 @@ public class TerminalsWebService {
 		return terminalsWebMapper.searchUser(map);
 	}
 	
+	/**
+	 * 查看该终端号是否存在
+	 * @param terminalsNum
+	 * @return
+	 */
+	public Object getTerminalsNum(String terminalsNum){
+		return terminalsWebMapper.getTerminalsNum(terminalsNum);
+	}
 	
-		
+	/**
+	 * 查看该终端号是否已经绑定
+	 * @param terminalsNum
+	 * @return
+	 */
+	public int numIsBinding(String terminalsNum){
+		return terminalsWebMapper.numIsBinding(terminalsNum);
+	}
+	
+	/**
+	 * 查看该用户是否已有绑定终端
+	 * @param erchantsId
+	 * @return
+	 */
+	public int merchantsIsBinding(int merchantsId){
+		return terminalsWebMapper.merchantsIsBinding(merchantsId);
+	}
+	
+	
+	/**
+	 * 给用户绑定终端号
+	 * @param map
+	 */
+	public void Binding(Map<Object, Object> map){
+		terminalsWebMapper.Binding(map);
+	}
+	
+	/**
+	 * 判断用户是否存在
+	 * @param map
+	 */
+	public int findUname(Map<Object, Object> map){
+		return terminalsWebMapper.findUname(map);
+	}
+	
+	/**
+	 * 添加新用户
+	 * @param map
+	 */
+	public void addUser(Customer customer){
+		terminalsWebMapper.addUser(customer);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

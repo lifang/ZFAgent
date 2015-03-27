@@ -170,17 +170,17 @@ public class TerminalsController {
 			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"))==null){
 				return Response.getError("终端号不存在！");
 			}else{
-				if(terminalsService.numIsBinding((String)map.get("terminalsNum"))>0){
+				if(terminalsService.numIsBinding((String)map.get("terminalsNum"))==0){
 					return Response.getError("该终端已绑定！");
 				}else{
-					if(terminalsService.merchantsIsBinding((Integer)map.get("merchantsId"))!=null){
+					/*if(terminalsService.merchantsIsBinding((Integer)map.get("merchantsId"))!=null){
 						return Response.getError("该商户已绑定终端！");
-					}else{
+					}else{*/
 						String terId =(String)terminalsService.getTerminalsNum((String)map.get("terminalsNum"));
 						map.put("terchantsId", terId);
 						terminalsService.Binding(map);
 						return Response.getSuccess("绑定成功！");
-					}
+					/*}*/
 				}
 			}
 		} catch (Exception e) {

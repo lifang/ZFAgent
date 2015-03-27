@@ -164,7 +164,7 @@ public class TerminalsController {
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping(value="BindingTerminals",method=RequestMethod.POST)
+	@RequestMapping(value="bindingTerminals",method=RequestMethod.POST)
 	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
 		try {
 			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"))==null){

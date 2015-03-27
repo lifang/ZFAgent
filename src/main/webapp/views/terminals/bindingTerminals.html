@@ -13,30 +13,27 @@
                     <div class="searchUser">
             	<div class="su_title">
                 	<ul>
-                    	<li ng-class="{true:'hover'}[butshow == true]">搜索现有用户</li>
-                        <li ng-class="{true:'hover'}[butshow == false]">创建新用户</li>
+                    	<li ng-class="{true:'hover'}[butshow == true]" ng-click="butshow = true">搜索现有用户</li>
+                        <li ng-class="{true:'hover'}[butshow == false]" ng-click="butshow = false">创建新用户</li>
                         
                     </ul>
                 </div>
                 <div class="su_con">
-                	<div>
+                	<div ng-show="butshow">
                     	<div class="su_search">
-                        	<input name="" type="text" /><button>搜索</button>
+                        	<input name="" type="text" ng-model="agentToUserName"/><button ng-click="searchUser()">搜索</button>
                         </div>
                         <div class="su_s_box">
-                        	<a href="#" class="hover">张三</a>
-                            <a href="#">张三01</a>
-                            <a href="#">张三02</a>
-                            <a href="#">张03三</a>
+                            <a style="padding: 5px 10px;" href="javascript:void(0)" ng-repeat="user in agentToUsers" ng-click="test(user.id)" ng-class="{true:'hover'}[userId == user.id]">{{user.name}}</a>
                         </div>
                     </div>
-                    <div>
+                    <div ng-show="!butshow">
                    	  <div class="suc_selectInput">
-                        	<select name="">
-                        	  <option>省</option>
+                        	<select name="" ng-model="citys" ng-options="binc.name for binc in cityList">
+                        	  <option value="">省</option>
                        	  </select>
-                          <select name="">
-                        	  <option>市/地区</option>
+                          <select name="" ng-model="binobject.address" ng-options="adss.name for adss in citys.childrens">
+                        	  <option value="">市/地区</option>
                        	  </select>
                       </div>
                       <div class="suc_selectInput">
@@ -44,7 +41,7 @@
                             <input name="" type="text" value="用户姓名（可选）" />
                             <input name="" type="text" value="密码" />
                             <input name="" type="text" value="确认密码" />
-                            <button>创建</button>
+                            <button ng-click="establish()">创建</button>
                       </div>
                       <div class="su_s_box">
                         	<a href="#" class="hover">张三</a>

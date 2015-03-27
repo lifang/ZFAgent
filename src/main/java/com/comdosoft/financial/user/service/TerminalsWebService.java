@@ -62,9 +62,18 @@ public class TerminalsWebService {
 		return terminalsWebMapper.getTerminalListPage(map);
 	}
 	
+	/**
+	 * 搜索所有用户
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public List<Map<Object, Object>> searchUser(Map<Object, Object> map) {
+		return terminalsWebMapper.searchUser(map);
+	}
 	
 	
-	
+		
 	
 	
 	

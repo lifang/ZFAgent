@@ -40,8 +40,12 @@ public class CommentController {
      */
     @RequestMapping(value = "getCity", method = RequestMethod.POST)
     public Response getCity(){
-        List<Map<String,Object>> citys = commentService.findAllCity();
-        return Response.buildSuccess(citys, "");
+    	try {
+    		 List<Map<String,Object>> citys = commentService.findAllCity();
+    	        return Response.buildSuccess(citys, "");
+        } catch (Exception e) {
+        	return Response.getError("请求失败！");
+        }
     }
     
     /**

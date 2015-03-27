@@ -32,6 +32,13 @@ public interface TerminalsWebMapper {
      */
     int getTerminalListPage(Map<String, Object> map);
 	
+    /**
+     * 搜索所有用户
+     * 
+     * @param map
+     * @return
+     */
+    List<Map<Object, Object>> searchUser(Map<Object, Object> map);
 	
 	
 	
@@ -39,7 +46,7 @@ public interface TerminalsWebMapper {
 	
 	
 	
-	
+    
 	
 	
 	

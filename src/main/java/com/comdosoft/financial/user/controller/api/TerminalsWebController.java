@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -81,6 +82,23 @@ public class TerminalsWebController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 搜索所有用户
+	 * 
+	 * @param namemap
+	 * @return
+	 */
+	@RequestMapping(value="searchUser",method=RequestMethod.POST)
+	public Response searchUser(@RequestBody Map<Object, Object> namemap){
+		try{
+			namemap.put("type", Customer.TYPE_CUSTOMER);
+			return Response.getSuccess(terminalsWebService.searchUser(namemap));
+		}catch(Exception e){
+			e.printStackTrace();
+			return Response.getError("系统异常");
 		}
 	}
 

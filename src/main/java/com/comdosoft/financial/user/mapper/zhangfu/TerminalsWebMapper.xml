@@ -48,6 +48,16 @@
 		GROUP BY t.`status`
 		HAVING t.`status` is not NULL
 	</select>
+	
+	<select id="searchUser" resultType="map">
+		SELECT id,name
+		FROM customers
+		WHERE 1=1
+		<if test="name != null and name != ''">
+		and name like '%${name}%' 
+		</if>
+		and types = #{type}
+	</select>
 
 
 

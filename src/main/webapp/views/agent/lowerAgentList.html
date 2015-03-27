@@ -1,0 +1,69 @@
+<div class="right" ng-controller="lowerAgentlistController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">管理下级代理商</a></li>
+			<li><a href="#">下级代理商</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>下级代理商列表</h1>
+			<div class="userTopBtnBox">
+				<a href="#" class="ghostBtn">设置默认分润比例</a>
+				<a href="#/lowerAgentAdd" class="ghostBtn">创建下级代理商</a>
+			</div>
+		</div>
+		<div class="seenBox clear">
+			<ul>
+				<li><div class="user_search">
+						<input name="" type="text" />
+						<button></button>
+					</div></li>
+			</ul>
+		</div>
+		<div class="uesr_table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+				<colgroup>
+					<col />
+					<col width="100" />
+					<col width="100" />
+					<col width="100" />
+					<col width="100" />
+					<col width="300" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>下级代理商名称</th>
+						<th>进货量</th>
+						<th>开通数量</th>
+						<th>状态</th>
+						<th>分润</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="one in lowerAgentList">
+						<td>{{one.company_name}}</td>
+						<td id="allQty">{{one.allQtyStr}}</td>
+						<td id="openNum">{{one.openNum}}</td>
+						<td id="status">{{one.statusStr}}</td>
+						<td id="isProfit">{{one.isProfitStr}}</td>
+						<td><a href="#/lowerAgentInfo?id={{one.id}}" class="a_btn">查看详情</a>&nbsp;<a href="#/lowerAgentEdit?id={{one.id}}" class="a_btn">编辑</a><a href="#" ng-show="one.status==5" class="a_btn">停用</a><a href="#" ng-show="one.status==6" class="a_btn">启用</a><br/>
+						<a href="#" class="a_btn">密码重置</a><a href="#/lowerAgentSet?id={{one.id}}" ng-show="one.is_have_profit!=0" class="a_btn">设置分润比例</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pageTurn">
+			<div class="p_num">
+				<a href="#" class="disabled">上一页</a> <a href="#" class="current">1</a> <a href="#?page=2">2</a> <a href="#?page=3">3</a> <a href="#?page=4">4</a> <a href="#?page=5">5</a> ... <a href="#?page=199">199</a> <a href="#?page=200">200</a> <a href="#?page=2">下一页</a>
+			</div>
+			<div class="p_skip">
+				<span>共{{total}}页</span> <span>到第&nbsp;&nbsp;<input name="" type="text" />&nbsp;&nbsp;页
+				</span>
+				<button>确定</button>
+			</div>
+		</div>
+	</div>
+</div>

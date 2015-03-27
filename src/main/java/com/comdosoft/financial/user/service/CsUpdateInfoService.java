@@ -54,6 +54,33 @@ public class CsUpdateInfoService {
         return new Page<List<Object>>(request, list,count);
     }
 
+    public Page<List<Object>> orderSearch(MyOrderReq myOrderReq) throws ParseException {
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
+        List<Map<String, Object>> o = csUpdateInfoMapper.search(myOrderReq);
+        int count = csUpdateInfoMapper.countSearch(myOrderReq);
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        Map<String,Object> map = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        for(Map<String,Object> m: o){
+            map = new HashMap<String,Object>();
+            String d = m.get("created_at")==null?"":m.get("created_at")+"";
+            if(d==""){
+            	map.put("create_time", "");
+            }else{
+            	Date date = sdf.parse(d);
+            	String c_date = sdf.format(date);
+            	map.put("create_time", c_date);
+            }
+            String status = (m.get("status")+"");
+            map.put("id",m.get("id"));
+            map.put("status", status);
+            map.put("terminal_num", m.get("serial_num"));//终端号
+            map.put("apply_num", m.get("apply_num"));//维修编号
+            list.add(map);
+        }
+        return new Page<List<Object>>(request, list,count);
+    }
+    
     public int cancelApply(MyOrderReq myOrderReq) {
         myOrderReq.setRepairStatus(RepairStatus.CANCEL);
         int i = csUpdateInfoMapper.cancelApply(myOrderReq);

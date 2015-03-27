@@ -9,6 +9,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
         //定义当前用户是否被授权
         //isAuthorized: typeof($cookieStore.get("loginInfo")) == 'undefined' ? false : true,
     	isAuthorized:true,
+    	
     	//当前登陆的用户名
         loginAgentName: typeof($cookieStore.get("loginAgentName")) == 'undefined' ? "" : $cookieStore.get("loginAgentName"),
         agentid: typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),

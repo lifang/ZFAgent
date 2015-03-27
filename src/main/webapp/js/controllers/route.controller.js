@@ -68,6 +68,14 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/agent/lowerAgentSet.html'
 	}).when('/terminals', {
 		templateUrl : 'views/terminals/terminalsList.html'
+	}).when('/cs_cencel', {
+		templateUrl : 'views/cs/cencel.html'
+	}).when('/cs_cencelinfo', {
+		templateUrl : 'views/cs/cencelinfo.html'
+	}).when('/cs_update', {
+		templateUrl : 'views/cs/update.html'
+	}).when('/cs_updateinfo', {
+		templateUrl : 'views/cs/updateinfo.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

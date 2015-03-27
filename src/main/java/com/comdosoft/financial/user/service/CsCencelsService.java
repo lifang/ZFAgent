@@ -112,5 +112,29 @@ public class CsCencelsService {
         myOrderReq.setUpdateStatus(UpdateStatus.PENDING);
         csCencelsMapper.changeStatus(myOrderReq);
     }
+    
+    public Page<List<Object>> search(MyOrderReq myOrderReq) throws ParseException {
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
+        int count = csCencelsMapper.countSearch(myOrderReq);
+        List<Map<String, Object>> o = csCencelsMapper.search(myOrderReq);
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        Map<String,Object> map = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        for(Map<String,Object> m: o){
+            map = new HashMap<String,Object>();
+            String d = (m.get("created_at")+"");
+            Date date = sdf.parse(d);
+            String c_date = sdf.format(date);
+            String status = (m.get("status")+"");
+            map.put("id",m.get("id"));
+            map.put("status", status);
+            map.put("create_time", c_date);
+            map.put("terminal_num", m.get("serial_num"));//终端号
+            map.put("apply_num", m.get("apply_num"));//维修编号
+            list.add(map);
+        }
+        return new Page<List<Object>>(request, list,count);
+    }
+
 
 }

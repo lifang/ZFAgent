@@ -86,4 +86,39 @@ public class CsAgentsService {
         return map;
     }
 
+	public Page<List<Object>> Search(MyOrderReq myOrderReq) {
+		  PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
+	        int count = csAgentsMapper.countSearch(myOrderReq);
+	        List<Map<String, Object>> o = csAgentsMapper.search(myOrderReq);
+	        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+	        Map<String,Object> map = null;
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+	        for(Map<String,Object> m: o){
+	            map = new HashMap<String,Object>();
+	            String d = (m.get("created_at")+"");
+	            Date date;
+				try {
+					date = sdf.parse(d);
+					String c_date = sdf.format(date);
+					map.put("create_time", c_date);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+	            String status = (m.get("status")+"");
+	            String t = m.get("terminals_list")+"";
+	            String[] arrt = t.split(",");
+//	            String status_name = RepairStatus.getName(Integer.parseInt(status));
+	            map.put("id",m.get("id"));
+	            map.put("status", status);
+	            if(arrt.length>0){
+	                map.put("terminal_num", arrt[0]);//终端号
+	            }else{
+	                map.put("terminal_num", "");
+	            }
+	            map.put("apply_num", m.get("apply_num"));//维修编号
+	            list.add(map);
+	        }
+	        return new Page<List<Object>>(request, list,count);
+	}
+
 }

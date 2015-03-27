@@ -374,5 +374,10 @@ $(function(){
 	creationRole(".cr_third span",".cr_three");//三级
 })
 
-
+//配货 调货
+$(function(){
+	$(".ac_area a").click(function(){
+		$(this).addClass("hover").siblings().removeClass("hover");
+	})
+})
 

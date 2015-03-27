@@ -10,8 +10,8 @@ var loginService = function ($http, $rootScope, $cookieStore) {
         //isAuthorized: typeof($cookieStore.get("loginInfo")) == 'undefined' ? false : true,
     	isAuthorized:true,
     	//当前登陆的用户名
-        loginUserName: typeof($cookieStore.get("loginUserName")) == 'undefined' ? "" : $cookieStore.get("loginUserName"),
-        userid: typeof($cookieStore.get("loginUserId")) == 'undefined' ? 0 : $cookieStore.get("loginUserId"),
+        loginAgentName: typeof($cookieStore.get("loginAgentName")) == 'undefined' ? "" : $cookieStore.get("loginAgentName"),
+        agentid: typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
         city:1,
         goods: [],
         tradeTypeId: 0,
@@ -35,15 +35,15 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $scope.code = "";
       			        	   //记住密码
       			        	   if($scope.agentRememberPass == true){
-      			        		   $cookieStore.put("loginPass",data.result.password);
+      			        		   $cookieStore.put("agentPass",data.result.password);
       			        	   }else{
-      			        		   $cookieStore.remove("loginPass");
+      			        		   $cookieStore.remove("agentPass");
       			        	   }
-      			        	   $cookieStore.put("loginUserName",data.result.username);//用户名
-      			        	   $cookieStore.put("loginUserId",data.result.id);//用户id
-      			        	   $cookieStore.put("userIsHaveProfit",data.result.is_have_profit);//是否有分润
-      			        	   $cookieStore.put("userTypes",data.result.types);//用户类型
-      			        	   $cookieStore.put("userParentId",data.result.parent_id);//是否为一级代理商
+      			        	   $cookieStore.put("loginAgentName",data.result.username);//用户名
+      			        	   $cookieStore.put("loginAgentId",data.result.id);//用户id
+      			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit);//是否有分润
+      			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
+      			        	   $cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
       			        	   //刷新
       			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   window.location.href = '#/';

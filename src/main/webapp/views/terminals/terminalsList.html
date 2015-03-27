@@ -1,31 +1,26 @@
 <script type="text/javascript" src="js/controllers/terminals.controller.js"></script>
-<script src="js/main.js"></script>
-    	<div class="box" ng-controller="terminalController">
-            <div class="right">
+<div class="right">
             	<div class="breadcrumb">
                     <ul>
-                        <li><a href="#">我的终端</a></li>
+                        <li><a href="#">管理终端</a></li>
                     </ul>
                 </div>
                 <div class="content clear">
                     <div class="user_title">
                     	<h1>终端列表</h1>
-                    	<div class="userTopBtnBox">
-                        	<a href="#" class="ghostBtn addOtherTerminal_a">添加其他终端</a>
-                        </div>
+                        <div class="userTopBtnBox">
+                        	<a href="#" class="ghostBtn">申请售后</a><a href="#" class="ghostBtn">为用户绑定终端</a>
+                     	</div>
                     </div>
                     <div class="seenBox clear">
                     	<ul>
-                        	<li><div class="user_search"><input placeholder="请输入终端号查询" name="" type="text" ng-model="serialNum"/><button ng-click="screeningSerialNum()"></button></div></li>
+                        	<li><div class="user_search"><input name="" type="text" /><button></button></div></li>
                             <li><div class="user_select">
                             	<label>状态筛选</label>
-                            	<select name="" ng-model="screeningStatus" ng-change="screening()">
-                            	  <option value="">请选择</option>
-                            	  <option value="2">部分开通</option>
-                            	  <option value="1">已开通</option>
-                            	  <option value="3">未开通</option>
-                            	  <option value="4">已注销</option>
-                            	  <option value="5">已停用</option>
+                            	<select name="">
+                            	  <option>111</option>
+                            	  <option>222</option>
+                            	  <option>333</option>
                             	</select>
                             </div></li>
                         </ul>
@@ -33,95 +28,97 @@
                     <div class="uesr_table">
                     	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
                          <colgroup>
-                         	<col />
+                         	<col width="150" />
+                            <col width="150" />
+                            <col width="150" />
                             <col />
                             <col />
-                            <col width="200" />
-                            <col />
-                            <col />
+                            <col width="80" />
                             <col width="150" />
                          </colgroup>
                          <thead>
                           <tr>
                             <th>终端号</th>
-                            <th>POS机</th>
+                            <th>POS产品</th>
                             <th>支付通道</th>
                             <th>商户名称</th>
                             <th>商户电话</th>
-                            <th>状态</th>
+                            <th>开通状态</th>
                             <th>操作</th>
                           </tr>
                           </thead>
                           <tbody>
-                          <tr ng-repeat="nums in list">
-                            <td>{{nums.serial_num}}</td>
-                            <td>{{nums.brandsName + nums.model_number}}</td>
-                            <td>{{nums.channelName}}</td>
-                            <td>{{nums.title}}</td>
-                            <td>{{nums.phone}}</td>
-                            <td><strong class="strong_status">
-                            <span ng-if="nums.status == 2"> 部分开通</span> 
-                            <span ng-if="nums.status == 1"> 已开通</span>
-                            <span ng-if="nums.status == 3"> 未开通</span>  
-                           </strong></td>
-                            <td ng-if="nums.type != 0"><a href="#/terminalDetail?terminalId={{nums.id}}" class="a_btn">查看详情</a><a href="#" class="a_btn">视频认证</a>
-                            <span ng-if="nums.appid != null">
-                            <a href="#/terminalOpening?terminalId={{nums.id}}" class="a_btn">重新开通</a>
-                            </span>
-                            <span ng-if="nums.appid == null">
-                            <a href="#/terminalOpening?terminalId={{nums.id}}" class="a_btn">申请开通</a>
-                            </span>
+                          <tr>
+                            <td>AC1254566</td>
+                            <td>掌富ZF300</td>
+                            <td>收账宝</td>
+                            <td>三峡格格</td>
+                            <td>0512-6589744</td>
+                            <td><strong class="strong_status">已开通</strong></td>
+                            <td><a href="#" class="a_btn">查看详情</a></td>
+                          </tr>
+                          <tr>
+                            <td>AC1254566</td>
+                            <td>掌富ZF300</td>
+                            <td>收账宝</td>
+                            <td>三峡格格</td>
+                            <td>0512-6589744</td>
+                            <td><strong class="strong_status">未开通</strong></td>
+                            <td><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">申请开通</a>
                             </td>
-                            <td ng-if="nums.type == 0"><a href="#/terminalDetail?terminalId={{nums.id}}" class="a_btn"></a><a href="#" class="a_btn"></a>
-                            
+                          </tr>
+                          <tr>
+                            <td>AC1254566</td>
+                            <td>掌富ZF300</td>
+                            <td>收账宝</td>
+                            <td>三峡格格</td>
+                            <td>0512-6589744</td>
+                            <td><strong class="strong_status">部分开通</strong></td>
+                            <td><a href="#" class="a_btn">查看详情</a><a href="#" class="a_btn">申请开通</a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>AC1254566</td>
+                            <td>掌富ZF300</td>
+                            <td>收账宝</td>
+                            <td>三峡格格</td>
+                            <td>0512-6589744</td>
+                            <td><strong class="strong_status">已停用</strong></td>
+                            <td><a href="#" class="a_btn">查看详情</a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>AC1254566</td>
+                            <td>掌富ZF300</td>
+                            <td>收账宝</td>
+                            <td>三峡格格</td>
+                            <td>0512-6589744</td>
+                            <td><strong class="strong_status">已注销</strong></td>
+                            <td>
+                            	<a href="#" class="a_btn">查看详情</a>
                             </td>
                           </tr>
                           </tbody>                          
                         </table>
                     </div>
-                    <div class="pageTurn"  ng-show="totalPage>1"> 
-            	<div class="p_num">
-                <!-- <a href="#" class="current">1</a>  -->
-                <a ng-class="{true:'disabled'}[indexPage==1]" href="javascript:void(0)" ng-click="indexPage=1;getInfo()">首页</a>
-                <a ng-class="{true:'disabled'}[indexPage==1]" href="javascript:void(0);" ng-click="prev()">上一页</a>
-                <a ng-class="{true:'current'}[indexPage==page]" ng-repeat="page in pages" href="javascript:void(0);" ng-click="loadPage(page)">{{ page }}</a>
-                <a ng-class="{true:'disabled'}[indexPage==totalPage]" href="javascript:void(0);" ng-click="next()">下一页</a>
-                <a ng-class="{true:'disabled'}[indexPage==totalPage]" href="javascript:void(0)" ng-click="indexPage=totalPage;getInfo()">末页</a>
-                </div>
-                <div class="p_skip">
-                	 <span>共{{totalPage}}页</span>
-                     <span>到第&nbsp;&nbsp;<input name="" type="text"  ng-model="tiaoPage"/>&nbsp;&nbsp;页</span>
-                     <button ng-click="getPage()">确定</button>
-                </div>
-            </div>
-            	</div>
-        	</div>
-    	</div>
-    	 <div class="mask" ng-controller="terminalController"></div>
-
-<div id="closeWin" class="tab otherTerminal_tab" ng-controller="terminalController">
-	<a href="javascript:void(0);" class="close">关闭</a>
-	<div class="tabHead">添加终端</div>
-	<div class="tabBody">
-    	<div class="item_list clear">
-        	<ul>
-            	<li><span class="labelSpan">支付通道：</span>
-                	<div class="text">
-                        <select name="" ng-model="payChannelId" ng-change="channelId()">
-                        	<option>请选择</option>
-                            <option value="{{chan.id}}" ng-repeat="chan in channels">{{chan.name}}</option>
-                        </select>
+                    <div class="pageTurn"> 
+                        <div class="p_num">
+                        <a href="#" class="disabled">上一页</a> 
+                        <a href="#" class="current">1</a> 
+                        <a href="#?page=2">2</a> 
+                        <a href="#?page=3">3</a> 
+                        <a href="#?page=4">4</a> 
+                        <a href="#?page=5">5</a>
+                        ...
+                        <a href="#?page=199">199</a> 
+                        <a href="#?page=200">200</a> 
+                        <a href="#?page=2">下一页</a> 
+                        </div>
+                        <div class="p_skip">
+                             <span>共24页</span>
+                             <span>到第&nbsp;&nbsp;<input name="" type="text" />&nbsp;&nbsp;页</span>
+                             <button>确定</button>
+                        </div>
                     </div>
-                </li>
-                <li><span class="labelSpan">商户名称：</span>
-                	<div class="text"><input name="" type="text" ng-model="title"/></div>
-                </li>
-                <li><span class="labelSpan">终端号：</span>
-                	<div class="text"><input name="" type="text" ng-model="serialNums"/></div>
-                </li>
-            </ul>
-        </div>
-	</div>
-	<div class="tabFoot"><button class="orangeBtn" ng-click="addChannel('1')">确定</button></div>
-</div>
-   
+            	</div>
+            </div>

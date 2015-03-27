@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,20 +109,22 @@ public class OrderService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         for(Order o : centers){
             map = new LinkedHashMap<String, Object>();
-            map.put("order_id", o.getId().toString());
-            map.put("order_number", o.getOrderNumber());
+            map.put("order_id", o.getId()+"");
+            map.put("order_number", o.getOrderNumber()==null?"":o.getOrderNumber());
             String d = sdf.format(o.getCreatedAt());
             map.put("order_createTime", d);
-            map.put("order_status", o.getStatus().getCode());
+            map.put("order_status", o.getStatus()==null?"":o.getStatus()+"");
             
-            Integer actual_price = o.getActualPrice();//这个单子的总额
-            int pay_status = o.getFrontPayStatus(); //1 已支付  0 未支付
+            Integer actual_price = o.getActualPrice()==null?0:o.getActualPrice();//这个单子的总额
+            int pay_status = o.getFrontPayStatus()==null?0:o.getFrontPayStatus(); //1 已支付  0 未支付
             Integer zhifu_dingjin = 0;
-            Integer dj_price = o.getFrontMoney();
+            Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
             if(pay_status==1){
                 zhifu_dingjin = dj_price;
             }
-            Integer shengyu_price = actual_price-zhifu_dingjin;
+            BigDecimal bd_act = new BigDecimal(actual_price);
+            BigDecimal bd_dj = new BigDecimal(zhifu_dingjin);
+            BigDecimal shengyu_price =     bd_act.subtract(bd_dj) ;    //actual_price-zhifu_dingjin;
             List<CsOutStorage> csOutList = o.getCsOutStorageList();
             Integer quantity = 0;
             for(CsOutStorage cs_out:csOutList){
@@ -130,9 +133,10 @@ public class OrderService {
                     quantity = quantity+q;
                 }
             }
-            map.put("zhifu_dingjin", zhifu_dingjin);//已付定金
-            map.put("shengyu_price", shengyu_price);//已付定金
-            map.put("quantity", quantity);//已发货数量
+            map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
+            map.put("shengyu_price", shengyu_price+"");//
+            map.put("actual_price", bd_act+"");//
+            map.put("quantity", quantity+"");//已发货数量
             
             List<OrderGood> olist = o.getOrderGoodsList();
             List<Object> newObjList = new ArrayList<Object>();
@@ -140,13 +144,13 @@ public class OrderService {
             if (olist.size() > 0) {
                 for (OrderGood od : olist) {
                     omap = new HashMap<String, Object>();
-                    omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId().toString());
-                    omap.put("good_price", od.getGood() == null ? "" : od.getGood().getPrice()+"");//原价
-                    omap.put("good_batch_price",od.getGood() == null ? "" : od.getGood().getPurchasePrice()+"");
+                    omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId()==null?"":od.getGood().getId().toString());
+                    omap.put("good_price", od.getGood() == null ? "" : od.getGood().getPrice()==null?"": od.getGood().getPrice());//原价
+                    omap.put("good_batch_price",od.getGood() == null ? "" : od.getGood().getPurchasePrice()==null?"":od.getGood().getPurchasePrice());
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
-                    omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
-                    omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
-                    omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName());
+                    omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle()==null?"":od.getGood().getTitle());
+                    omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName()==null?"" :od.getGood().getGoodsBrand().getName());
+                    omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName()==null?"":od.getPayChannel().getName());
                     String good_logo = "";
                     if(null !=od.getGood()){
                         Good g = od.getGood();
@@ -155,9 +159,9 @@ public class OrderService {
                         if(list.size()>0){
                             GoodsPicture gp  = list.get(0);
                             good_logo = gp.getUrlPath();
-                            omap.put("good_logo", good_logo);
                         }
                     }
+                    omap.put("good_logo", good_logo);
                     newObjList.add(omap);
                 }
                 map.put("order_goodsList", newObjList);
@@ -176,13 +180,13 @@ public class OrderService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         for(Order o : centers){
             map = new LinkedHashMap<String, Object>();
-            map.put("order_id", o.getId());
-            map.put("order_number", o.getOrderNumber());
+            map.put("order_id", o.getId()+"");
+            map.put("order_number", o.getOrderNumber()==null?"":o.getOrderNumber());
             String d = sdf.format(o.getCreatedAt());
             map.put("order_createTime", d);
-            map.put("order_status", o.getStatus().getCode());
+            map.put("order_status", o.getStatus()==null?"":o.getStatus()+"");
             map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
-            map.put("order_totalPrice", o.getActualPrice());
+            map.put("order_totalPrice", o.getActualPrice()==null?"":o.getActualPrice()+"");
             map.put("order_psf", "0");//配送费
             Integer guishu_user = o.getBelongsUserId();
             Customer customer = new Customer();
@@ -202,8 +206,8 @@ public class OrderService {
                     omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId().toString());
                     omap.put("good_price", od.getGood() == null ? "" : od.getGood().getRetailPrice().toString());
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
-                    omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
-                    omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
+                    omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle()==null?"":od.getGood().getTitle());
+                    omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName()== null ? "" : od.getGood().getGoodsBrand().getName());
                     omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName()==null?"":od.getPayChannel().getName());
                     String good_logo = "";
                     if(null !=od.getGood()){
@@ -213,9 +217,9 @@ public class OrderService {
                         if(list.size()>0){
                             GoodsPicture gp  = list.get(0);
                             good_logo = gp.getUrlPath();
-                            omap.put("good_logo", good_logo);
                         }
                     }
+                    omap.put("good_logo", good_logo);
                     newObjList.add(omap);
                 }
                 map.put("order_goodsList", newObjList);
@@ -231,19 +235,18 @@ public class OrderService {
      * @return
      * @throws ParseException 
      */
-    public Object getWholesaleById(Integer id)  {
+    public Map<String,Object> getWholesaleById(Integer id)  {
         Order o = orderMapper.getWholesaleById(id);
-        if(null == o){
-            return "-1";
-        }
-        List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = new LinkedHashMap<String, Object>();
-        map.put("order_id", id);
+        if(null == o){
+        	return map;
+        }
+        map.put("order_id", id+"");
 //        Integer actual_price = o.getActualPrice();//这个单子的总额
-        int pay_status = o.getFrontPayStatus(); //1 已支付  0 未支付
+        String pay_status = o.getFrontPayStatus()==null?"":o.getFrontPayStatus().toString(); //1 已支付  0 未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
-        if(pay_status==1){
+        if(pay_status.equals("1")){
             zhifu_dingjin = dj_price;
         }
 //        Integer shengyu_price = actual_price-zhifu_dingjin;
@@ -255,19 +258,19 @@ public class OrderService {
                 quantity = quantity+q;
             }
         }
-        map.put("pay_status", pay_status);
-        map.put("order_totalPrice", o.getActualPrice()==null?0:o.getActualPrice());//总共金额
-        map.put("total_dingjin", o.getFrontMoney()==null?0:o.getFrontMoney());//定金总额
-        map.put("zhifu_dingjin", zhifu_dingjin);//已付定金
+        map.put("pay_status", pay_status+"");
+        map.put("order_totalPrice", o.getActualPrice()==null?"":o.getActualPrice()+"");//总共金额
+        map.put("total_dingjin", o.getFrontMoney()==null?"":o.getFrontMoney()+"");//定金总额
+        map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
 //        map.put("shengyu_price", shengyu_price);//剩余金额
-        map.put("shipped_quantity", quantity);//已发货数量
+        map.put("shipped_quantity", quantity+"");//已发货数量
         map.put("total_quantity", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数  
         
-        map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver());
-        map.put("order_receiver_phone", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getMoblephone());
-        map.put("order_address", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getAddress());
+        map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver()==null ?"":o.getCustomerAddress().getReceiver());
+        map.put("order_receiver_phone", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getMoblephone()==null ?"":o.getCustomerAddress().getMoblephone());
+        map.put("order_address", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getAddress()==null ?"":o.getCustomerAddress().getAddress());
         
-        map.put("order_comment", o.getComment());//留言
+        map.put("order_comment", o.getComment()==null?"":o.getComment());//留言
         Integer invoce_type = o.getInvoiceType();
         String invoce_name ="";
         if(null != invoce_type && invoce_type==1){//个人
@@ -279,11 +282,11 @@ public class OrderService {
         map.put("order_invoce_info", o.getInvoiceInfo()==null?"":o.getInvoiceInfo());//发票抬头
         
         map.put("order_number", o.getOrderNumber());//订单编号
-        map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
+        map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType()==null ?"":o.getOrderPayment().getPayType().getName()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         String d = sdf.format(o.getCreatedAt());
         map.put("order_createTime", d);//订单日期
-        map.put("order_status", o.getStatus().getCode());
+        map.put("order_status", o.getStatus()==null?"":o.getStatus()+"");
         
         List<OrderGood> olist = o.getOrderGoodsList();
         List<Object> newObjList = new ArrayList<Object>();
@@ -291,11 +294,11 @@ public class OrderService {
         if (olist.size() > 0) {
             for (OrderGood od : olist) {
                 omap = new HashMap<String, Object>();
-                omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId().toString());
+                omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId()==null?"":od.getGood().getId().toString());
                 omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
-                omap.put("good_batch_price",od.getGood() == null ? "" : od.getGood().getPurchasePrice()+"");
+                omap.put("good_batch_price",od.getGood() == null ? "" : od.getGood().getPurchasePrice() == null ? "" : od.getGood().getPurchasePrice()+"");
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
-                omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
+                omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle()== null ? "" : od.getGood().getTitle());
                 omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
                 omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName()==null?"":od.getPayChannel().getName());
                 String good_logo = "";
@@ -313,7 +316,7 @@ public class OrderService {
         List<Terminal> terminals = orderMapper.getTerminsla(id);
         StringBuffer sb = new StringBuffer();
         for(Terminal t:terminals){
-            sb.append(t.getSerialNum()+" ");
+            sb.append(t.getSerialNum()+",");
         }
         map.put("terminals", sb.toString());
         map.put("order_goodsList", newObjList);
@@ -321,8 +324,8 @@ public class OrderService {
         myOrderReq.setId(id);
         List<Map<String,Object>> list = orderMapper.findTraceById(myOrderReq);
         map.put("comments", OrderUtils.getTraceByVoId(myOrderReq, list));
-        obj_list.add(map);
-        return obj_list;
+//        obj_list.add(map);
+        return map;
     }
     
     /**
@@ -344,14 +347,14 @@ public class OrderService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         String d = sdf.format(o.getCreatedAt());
         map.put("order_createTime", d);//订单日期
-        map.put("order_status", o.getStatus().getCode());
+        map.put("order_status", o.getStatus()==null?"":o.getStatus()+"");
         map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
-        map.put("order_totalPrice", o.getActualPrice());
+        map.put("order_totalPrice", o.getActualPrice()==null?"":o.getActualPrice()+"");
         map.put("order_psf", "0");//配送费
-        map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver());
-        map.put("order_address", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getAddress());
-        map.put("order_receiver_phone", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getMoblephone());
-        map.put("order_comment", o.getComment());//留言
+        map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver()==null ?"":o.getCustomerAddress().getReceiver());
+        map.put("order_address", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getAddress()==null ?"":o.getCustomerAddress().getAddress());
+        map.put("order_receiver_phone", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getMoblephone()==null ?"":o.getCustomerAddress().getMoblephone());
+        map.put("order_comment", o.getComment()==null?"":o.getComment());//留言
         Integer invoce_type = o.getInvoiceType();
         String invoce_name ="";
         if(null != invoce_type && invoce_type==1){//个人
@@ -372,7 +375,7 @@ public class OrderService {
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                 omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
                 omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
-                omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName());
+                omap.put("good_channel", od.getPayChannel() == null ? "" : od.getPayChannel().getName()== null ? "" : od.getPayChannel().getName());
                 String good_logo = "";
                 if(null !=od.getGood()){
                     Good g = od.getGood();

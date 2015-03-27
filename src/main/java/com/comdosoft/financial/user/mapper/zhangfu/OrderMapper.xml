@@ -100,7 +100,7 @@
 		<result property="customerId" column="customer_id" />
 		<result property="belongsUserId" column="belongs_user_id" />
 		<result property="totalPrice" column="total_price" />
-		<result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="status" column="status" />
 		<result property="payedAt" column="payed_at" />
 		<result property="types" column="types" />
 		<result property="needInvoice" column="need_invoice" />
@@ -119,7 +119,7 @@
 		<result property="comment" column="comment" />
 		<result property="invoiceInfo" column="invoice_info" />
 		<result property="totalQuantity" column="total_quantity" />
-		<result property="payStatus" column="pay_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="payStatus" column="pay_status"  />
 		<association property="customerAddress" javaType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress" resultMap="addressMap" />  
 		<association property="orderPayment" javaType="com.comdosoft.financial.user.domain.zhangfu.OrderPayment" resultMap="orderPaymentMap" />  
 	    <collection property="orderGoodsList" ofType="com.comdosoft.financial.user.domain.zhangfu.OrderGood" resultMap="orderGoodsMap" />  

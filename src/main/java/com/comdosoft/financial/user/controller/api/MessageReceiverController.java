@@ -73,7 +73,7 @@ public class MessageReceiverController {
             if(res.equals("-1")){
                 return Response.buildErrorWithMissing();
             }
-            return Response.buildSuccess(null, "删除成功");
+            return Response.buildSuccess("", "删除成功");
         }catch(Exception e){
             logger.debug("根据id删除我的消息出错"+e);
             return Response.getError("请求失败");
@@ -84,7 +84,7 @@ public class MessageReceiverController {
     public Response batchDelete(@RequestBody MyOrderReq myOrderReq){
 //        try{
             messageReceiverService.batchDelete(myOrderReq);
-            return Response.buildSuccess(null, "删除成功");
+            return Response.buildSuccess("", "删除成功");
 //        }catch(Exception e){
 //            logger.debug("根据ids[]批量删除我的消息出错"+e);
 //            return Response.getError("请求失败");
@@ -95,7 +95,7 @@ public class MessageReceiverController {
     public Response batchRead(@RequestBody MyOrderReq myOrderReq){
         try{
             messageReceiverService.batchRead(myOrderReq);
-            return Response.buildSuccess(null, "已读设置成功");
+            return Response.buildSuccess("", "已读设置成功");
         }catch(Exception e){
             logger.debug("根据ids[]批量设置我的消息已读 出错"+e);
             return Response.getError("请求失败");

@@ -1,0 +1,61 @@
+<link href="style/style.css" rel="stylesheet" type="text/css" />
+<div class="right" ng-controller="agentBinTerminalController">
+            	<div class="breadcrumb">
+                    <ul>
+                        <li><a href="#">管理终端</a></li>
+                        <li><a href="#">为用户绑定终端</a></li>
+                    </ul>
+                </div>
+                <div class="content clear">
+                    <div class="user_title">
+                    	<h1>为用户绑定终端</h1>
+                    </div>
+                    <div class="searchUser">
+            	<div class="su_title">
+                	<ul>
+                    	<li ng-class="{true:'hover'}[butshow == true]" ng-click="butshow = true">搜索现有用户</li>
+                        <li ng-class="{true:'hover'}[butshow == false]" ng-click="butshow = false">创建新用户</li>
+                        
+                    </ul>
+                </div>
+                <div class="su_con">
+                	<div ng-show="butshow">
+                    	<div class="su_search">
+                        	<input name="" type="text" ng-model="agentToUserName"/><button ng-click="searchUser()">搜索</button>
+                        </div>
+                        <div class="su_s_box">
+                            <a style="padding: 5px 10px;" href="javascript:void(0)" ng-repeat="user in agentToUsers" ng-click="test(user.id)" ng-class="{true:'hover'}[userId == user.id]">{{user.name}}</a>
+                        </div>
+                    </div>
+                    <div ng-show="!butshow">
+                   	  <div class="suc_selectInput">
+                        	<select name="" ng-model="citys" ng-options="binc.name for binc in cityList">
+                        	  <option value="">省</option>
+                       	  </select>
+                          <select name="" ng-model="binobject.address" ng-options="adss.name for adss in citys.childrens">
+                        	  <option value="">市/地区</option>
+                       	  </select>
+                      </div>
+                      <div class="suc_selectInput">
+                        	<input name="" type="text" value="手机号 / 邮箱" />
+                            <input name="" type="text" value="用户姓名（可选）" />
+                            <input name="" type="text" value="密码" />
+                            <input name="" type="text" value="确认密码" />
+                            <button ng-click="establish()">创建</button>
+                      </div>
+                      <div class="su_s_box">
+                        	<a href="#" class="hover">张三</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="item_list clear">
+                            <ul>
+                            	<li><span class="labelSpan">指定终端号：</span>
+                            		<div class="text"><input name="" type="text" /></div>
+                                </li>
+                            </ul>
+                        </div>
+                    <div class="btnBottom"><button class="blueBtn">绑定</button></div>
+            	</div>
+            </div>

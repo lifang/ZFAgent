@@ -68,6 +68,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/agent/lowerAgentSet.html'
 	}).when('/terminals', {
 		templateUrl : 'views/terminals/terminalsList.html'
+	}).when('/binding', {
+		templateUrl : 'views/terminals/bindingTerminals.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

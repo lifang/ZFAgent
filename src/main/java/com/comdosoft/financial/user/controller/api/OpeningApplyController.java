@@ -162,7 +162,7 @@ public class OpeningApplyController {
 	/**
 	 * 从第三方接口获得银行
 	 */
-	@RequestMapping(value = "ChooseBank", method = RequestMethod.POST)
+	@RequestMapping(value = "chooseBank", method = RequestMethod.POST)
 	public Response ChooseBank(@RequestBody Map<String, Object> map) {
 		try {
 			List<Map<String, String>> list = new ArrayList<Map<String,String>>();

@@ -68,6 +68,10 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/agent/lowerAgentSet.html'
 	}).when('/terminals', {
 		templateUrl : 'views/terminals/terminalsList.html'
+	}).when('/stock', {
+		templateUrl : 'views/agent/stock.html'
+	}).when('/stockinfo', {
+		templateUrl : 'views/agent/stockinfo.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

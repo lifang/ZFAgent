@@ -32,12 +32,12 @@ public class AgentService {
     @Resource
     private MailService MailService;
 
-    public Map<Object, Object> getOne(int id) {
-        return agentMapper.getOne(id);
+    public Map<Object, Object> getOne(Customer param) {
+        return agentMapper.getOne(param);
     }
 
-    public Customer getOneCustomer(int id) {
-        return agentMapper.getOneCustomer(id);
+    public Customer getOneCustomer(Customer param) {
+        return agentMapper.getOneCustomer(param);
     }
 
     public void updateCustomer(Customer param) {
@@ -108,12 +108,12 @@ public class AgentService {
         agentMapper.updateCustomer(customer);
     }
 
-    public List<Map<Object, Object>> getAddressList(int customerId) {
-        return agentMapper.getAddressList(customerId);
+    public List<Map<Object, Object>> getAddressList(Customer param) {
+        return agentMapper.getAddressList(param);
     }
 
-    public Map<Object, Object> getOneAddress(int id) {
-        return agentMapper.getOneAddress(id);
+    public Map<Object, Object> getOneAddress(Customer param) {
+        return agentMapper.getOneAddress(param);
     }
 
     @Transactional(value = "transactionManager-zhangfu")
@@ -126,8 +126,8 @@ public class AgentService {
         agentMapper.insertAddress(param);
     }
 
-    public void deleteAddress(int id) {
-        agentMapper.deleteAddress(id);
+    public void deleteAddress(Customer param) {
+        agentMapper.deleteAddress(param);
     }
 
 }

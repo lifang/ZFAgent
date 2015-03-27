@@ -6,8 +6,8 @@
 		<id property="id" column="id"/>
 		<result property="title" column="title" />
 		<result property="isPlacedTop" column="is_placed_top" />
-		<result property="createAt" column="create_at" javaType="java.sql.Date" jdbcType="DATE"/>
-		<result property="updatedAt" column="updated_at" javaType="java.sql.Date" jdbcType="DATE"/>
+		<result property="createAt" column="create_at" />
+		<result property="updatedAt" column="updated_at" />
 		<result property="content" column="content" />
 	</resultMap>
 
@@ -20,13 +20,12 @@
 		SELECT title,id,create_at,
 		updated_at,content
 		   FROM web_messages m 
-		    order by m.updated_at desc
-		<!-- LIMIT #{param1.page},#{param1.rows} -->
-		 
+		    order by  m.is_placed_top desc,m.create_at desc
+		LIMIT #{offset},#{rows}
 	</select>
 	
 	<select id="findById" resultMap="webMessage" >
-		SELECT title,content,create_at,updated_at,content
+		SELECT id,title,content,create_at,updated_at,content
 		   FROM web_messages m 
 		   where m.id = #{param1}
 	</select>

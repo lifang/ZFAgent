@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.comdosoft.financial.user.domain.query.TradeReq;
+import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 
 /**
  * Dao层接口
@@ -25,6 +26,8 @@ public interface TradeRecordMapper {
     List<Map<Object, Object>> getTradeRecords45(TradeReq req);
 
     Integer getTradeRecordsCount(TradeReq req);
+
+	List<Map<String, Object>> getSevenDynamic(MyOrderReq myOrderReq);
     
     
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.TradeReq;
+import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.service.trades.record.TradeRecordService;
 
 /**
@@ -134,6 +135,13 @@ public class TradeRecordAPI {
             sysResponse = Response.getError("获取交易流水详情失败:系统异常");
         }
         return sysResponse;
+    }
+    
+    @RequestMapping(value = "getSevenDynamic", method = RequestMethod.POST)
+    public Response getSevenDynamic(@RequestBody MyOrderReq myOrderReq) {
+        Map<String, Object> ts = tradeRecordService.getSevenDynamic(myOrderReq);
+        Response rs = Response.buildSuccess(ts, "");
+        return rs;
     }
 
 }

@@ -37,9 +37,9 @@ public class CsAgentsController {
     public Response getAll(@RequestBody MyOrderReq myOrderReq) {
         try{
             Page<List<Object>> centers = csAgentsService.findAll(myOrderReq);
-//            if(centers.getSize()<1){
-//            	return Response.getError("请求的数据列表为空");
-//            }
+            if(centers.getTotal()<1){
+            	return Response.buildMisSuccess();
+            }
             return Response.getSuccess(centers);
         }catch(Exception e){
             logger.debug("出错"+e+"==>>"+myOrderReq);
@@ -52,7 +52,7 @@ public class CsAgentsController {
         try{
             Map<String,Object> centers = csAgentsService.findById(myOrderReq);
             if(centers.isEmpty()){
-            	return Response.getError("列表为空或请求出错");
+            	return Response.buildMisSuccess();
             }
             return Response.getSuccess(centers);
         }catch(Exception e){
@@ -66,9 +66,9 @@ public class CsAgentsController {
         try{
             Integer i =  csAgentsService.cancelApply(myOrderReq);
             if(i==1){
-                return Response.buildSuccess(null, "取消成功");
+                return Response.buildSuccess("", "取消成功");
             }else{
-                return Response.getError( "操作失败");
+            	return Response.buildMisSuccess();
             }
         }catch(Exception e){
         	e.printStackTrace();

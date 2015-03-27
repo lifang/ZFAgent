@@ -1,27 +1,118 @@
 package com.comdosoft.financial.user.domain.zhangfu;
 
 import java.util.Arrays;
+import java.util.List;
+
+
 
 public class MyOrderReq {
     private Integer id;//业务id
     private String[] ids;
     private Integer page ;//当前页数
-    @SuppressWarnings("unused")
     private Integer offset;
+    private String search;//搜索条件
+    private String phone;//手机号
+    private String userName;
+    private String email;
+    private String q;//状态值
+    private String p;//订单类型
     private Integer rows ;//每页大小
     private Integer customer_id;//用户id
-    private String centent;//内容
+    private String content;//内容
     private PayType payType;
     private OrderStatus orderStatus;
     private RepairStatus repairStatus;
     private UpdateStatus updateStatus;
     private Integer score;//分数
     private Integer good_id;
-    private Integer order_good_id;
     private String computer_name;
     private String track_number;
+    private List<CommentsJson> json;
     
+   
     
+    public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getP() {
+		return p;
+	}
+	public void setP(String p) {
+		this.p = p;
+	}
+	/**  
+     * 获取 email  
+     * @return email
+     */
+    public String getEmail() {
+        return email;
+    }
+    /**  
+     * 设置 email  
+     * @param email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    /**  
+     * 获取 phone  
+     * @return phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+    /**  
+     * 设置 phone  
+     * @param phone
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    /**  
+     * 获取 json  
+     * @return json
+     */
+    public List<CommentsJson> getJson() {
+        return json;
+    }
+    /**  
+     * 设置 json  
+     * @param json
+     */
+    public void setJson(List<CommentsJson> json) {
+        this.json = json;
+    }
+    /**  
+     * 获取 search  
+     * @return search
+     */
+    public String getSearch() {
+        return search;
+    }
+    /**  
+     * 设置 search  
+     * @param search
+     */
+    public void setSearch(String search) {
+        this.search = search;
+    }
+    /**  
+     * 获取 q  
+     * @return q
+     */
+    public String getQ() {
+        return q;
+    }
+    /**  
+     * 设置 q  
+     * @param q
+     */
+    public void setQ(String q) {
+        this.q = q;
+    }
     /**  
      * 获取 updateStatus  
      * @return updateStatus
@@ -35,20 +126,6 @@ public class MyOrderReq {
      */
     public void setUpdateStatus(UpdateStatus updateStatus) {
         this.updateStatus = updateStatus;
-    }
-    /**  
-     * 获取 order_good_id  
-     * @return order_good_id
-     */
-    public Integer getOrder_good_id() {
-        return order_good_id;
-    }
-    /**  
-     * 设置 order_good_id  
-     * @param order_good_id
-     */
-    public void setOrder_good_id(Integer order_good_id) {
-        this.order_good_id = order_good_id;
     }
     /**  
      * 获取 computer_name  
@@ -106,19 +183,20 @@ public class MyOrderReq {
     public void setGood_id(Integer good_id) {
         this.good_id = good_id;
     }
+ 
     /**  
-     * 获取 centent  
-     * @return centent
+     * 获取 content  
+     * @return content
      */
-    public String getCentent() {
-        return centent;
+    public String getContent() {
+        return content;
     }
     /**  
-     * 设置 centent  
-     * @param centent
+     * 设置 content  
+     * @param content
      */
-    public void setCentent(String centent) {
-        this.centent = centent;
+    public void setContent(String content) {
+        this.content = content;
     }
     /**  
      * 获取 repairStatus  
@@ -219,17 +297,24 @@ public class MyOrderReq {
     public void setPage(Integer page) {
         this.page = page;
     }
-   
+    /**  
+     * 获取 pageSize  
+     * @return pageSize
+     */
+    public Integer getRows() {
+        if(null == rows) rows = 10;
+        return rows;
+    }
+    /**  
+     * 设置 pageSize  
+     * @param pageSize
+     */
+    public void setPageSize(Integer pageSize) {
+        this.rows = pageSize;
+    }
     
    
-    public Integer getRows() {
-    	if(rows==null) rows = 10;
-		return rows;
-	}
-	public void setRows(Integer rows) {
-		this.rows = rows;
-	}
-	/**  
+    /**  
      * 获取 payType  
      * @return payType
      */
@@ -246,17 +331,20 @@ public class MyOrderReq {
     public MyOrderReq() {
         super();
     }
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "MyOrderReq [id=" + id + ", ids=" + Arrays.toString(ids) + ", page=" + page + ", rows=" +rows + ", customer_id=" + customer_id + ", centent=" + centent + ", payType=" + payType + ", orderStatus=" + orderStatus + ", repairStatus=" + repairStatus + "]";
-    }
+     
     public int getOffset() {
         if(page>0){
             return (page - 1) * rows;
         }
         return 0;
     }
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "MyOrderReq [id=" + id + ", ids=" + Arrays.toString(ids) + ", page=" + page + ", offset=" + offset + ", search=" + search + ", q=" + q + ", rows=" + rows + ", customer_id=" + customer_id + ", content=" + content + ", payType=" + payType + ", orderStatus=" + orderStatus + ", repairStatus=" + repairStatus + ", updateStatus=" + updateStatus + ", score=" + score + ", good_id=" + good_id + ", computer_name=" + computer_name + ", track_number=" + track_number + ", json=" + json + "]";
+    }
+  
+    
 }

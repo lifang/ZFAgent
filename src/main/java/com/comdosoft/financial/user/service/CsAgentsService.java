@@ -66,7 +66,7 @@ public class CsAgentsService {
     public Map<String,Object> findById(MyOrderReq myOrderReq) throws ParseException {
         Map<String, Object> o = csAgentsMapper.findById(myOrderReq);
         Map<String,Object> map = new HashMap<String,Object>();
-        if(o.isEmpty()){
+        if(null ==o ){
         	return map;
         }
         String id = o.get("id").toString();

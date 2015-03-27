@@ -10,7 +10,7 @@ var shopController = function ($scope, $http, LoginService) {
 	$scope.req.city_id=LoginService.city;
 	$scope.req.orderType=1;
 	
-	$scope.req.has_purchase=false;
+	$scope.req.has_lease=false;
 	//$scope.req.keys="";
 	//$scope.req.minPrice=0;
 	//$scope.req.maxPrice=0;
@@ -59,20 +59,20 @@ var shopController = function ($scope, $http, LoginService) {
 	    $scope.list();
     };
     $scope.list = function () {
-    	if($scope.req.has_purchase){
-    		$scope.req.has_purchase=1;
+    	if($scope.req.has_lease){
+    		$scope.req.has_lease=1;
     	}else{
-    		$scope.req.has_purchase=0;
+    		$scope.req.has_lease=0;
     	}
     	$scope.req.page=$scope.req.indexPage;
 		$http.post("api/good/list", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.goodList=data.result.list;
             	calcSystemPage($scope.req, data.result.total);// 计算分页
-            	if($scope.req.has_purchase==1){
-            		$scope.req.has_purchase=true;
+            	if($scope.req.has_lease==1){
+            		$scope.req.has_lease=true;
             	}else{
-            		$scope.req.has_purchase=false;
+            		$scope.req.has_lease=false;
             	}
             	
             }

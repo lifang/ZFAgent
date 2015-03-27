@@ -38,16 +38,39 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/shop/purchaseShop.html'
 	}).when('/purchaseShopinfo', {
 		templateUrl : 'views/shop/purchaseShopinfo.html'
-	}).when('/empaccount', {
-		templateUrl : 'views/systemset/empaccount.html'
-	}).when('/empadd', {
-		templateUrl : 'views/systemset/empadd.html'
-	}).when('/empdetails', {
-		templateUrl : 'views/systemset/empdetails.html'
+	}).when('/accountList', {
+		templateUrl : 'views/account/accountList.html'
+	}).when('/accountAdd', {
+		templateUrl : 'views/account/accountAdd.html'
+	}).when('/accountOne', {
+		templateUrl : 'views/account/accountOne.html'
 	}).when('/empEdit', {
 		templateUrl : 'views/systemset/empadd.html'
 	}).when('/empdelete', {
 		templateUrl : 'views/systemset/empaccount.html'
+	}).when('/login', {
+		templateUrl : 'views/index/login.html'
+	}).when('/register', {
+		templateUrl : 'views/index/registerAgent.html'
+	}).when('/findpass', {
+		templateUrl : 'views/index/findpass.html'
+	}).when('/findpassEmail', {
+		templateUrl : 'views/index/findpassEmail.html'
+<<<<<<< HEAD
+	}).when('/lowerAgent', {
+		templateUrl : 'views/agent/lowerAgentList.html'
+	}).when('/lowerAgentInfo', {
+		templateUrl : 'views/agent/lowerAgentInfo.html'
+	}).when('/lowerAgentAdd', {
+		templateUrl : 'views/agent/lowerAgentAdd.html'
+	}).when('/lowerAgentEdit', {
+		templateUrl : 'views/agent/lowerAgentEdit.html'
+	}).when('/lowerAgentSet', {
+		templateUrl : 'views/agent/lowerAgentSet.html'
+=======
+	}).when('/terminals', {
+		templateUrl : 'views/terminals/terminalsList.html'
+>>>>>>> branch 'master' of https://github.com/lifang/ZFAgent.git
 	}).otherwise({
 		redirectTo : "/"
 	});

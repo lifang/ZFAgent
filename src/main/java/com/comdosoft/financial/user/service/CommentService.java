@@ -3,6 +3,7 @@ package com.comdosoft.financial.user.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,37 @@ public class CommentService {
         map.put("total", total);
         map.put("list", list);
         return map;
+    }
+    
+    /**
+     * 获得所有省份
+     * 
+     * @return
+     * @throws IOException
+     */
+    public List<Map<String, Object>> findAllCity() {
+        List<Map<String, Object>> parent_list = commentMapper.getParentCitiesList();
+        List<Map<String, Object>> newlist = new ArrayList<Map<String,Object>>();
+        Map<String,Object> map = null;
+        for(Map<String,Object> m: parent_list){
+            map = new HashMap<String,Object>();
+            String id =  m.get("id")==null?"":m.get("id").toString();
+            map.put("id", id);
+            map.put("name", m.get("name")==null?"":m.get("name"));
+            List<Map<String, Object>> children_list = commentMapper.getChildrenCitiesList(id);
+            List<Map<String, Object>> new_children_list = new ArrayList<Map<String,Object>>();
+            Map<String,Object> cmap = null;
+            for(Map<String,Object> c:children_list){
+                cmap = new HashMap<String,Object>();
+                String cid =  c.get("id")==null?"":c.get("id").toString();
+                cmap.put("id", cid);
+                cmap.put("name", c.get("name")==null?"":c.get("name"));
+                new_children_list.add(cmap);
+            }
+            map.put("childrens",new_children_list );
+            newlist.add(map);
+        }
+        return newlist;
     }
     
     /**

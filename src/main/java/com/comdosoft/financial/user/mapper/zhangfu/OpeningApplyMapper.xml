@@ -112,13 +112,11 @@
  	</select>
  	
  	<select id="getMaterialName" resultType="map" parameterType="map">
- 		select * from dictionary_open_private_infos where id in(
-		select l.requirement_setting_id
-		from terminals t LEFT JOIN pay_channels p on t.pay_channel_id=p.id
-		LEFT JOIN opening_requirements o on p.id = o.pay_channel_id 
-		LEFT JOIN opening_requirement_lists l on o.id=l.opening_requirements_id
-		where t.id=#{terminalsId} AND l.requirement_type=#{status}
-		)
+ 		select  dop.*, l.opening_requirements_id from  dictionary_open_private_infos dop
+		LEFT JOIN opening_requirement_lists l on dop.id=l.requirement_setting_id
+		LEFT JOIN opening_requirements o ON o.id = l.opening_requirements_id
+		left join terminals t  on t.pay_channel_id = o.pay_channel_id
+		where t.id=#{terminalsId} AND l.requirement_type=#{status} order by l.opening_requirements_id
  	</select>
  	
  	<select id="ReApplyFor" parameterType="int" resultType="map">

@@ -8,7 +8,7 @@
 		<link href="style/style.css" rel="stylesheet" type="text/css" />
 		<link href="style/shop.css" rel="stylesheet" type="text/css" />
 		<link href="style/jquery-ui.css" rel="stylesheet" type="text/css" />
-
+		
 		<script type="text/javascript" src="js/libs/angular.js"></script>
 		<script type="text/javascript" src="js/libs/angular-route.js"></script>
 		<script type="text/javascript" src="js/libs/angular-cookies.js"></script>
@@ -27,12 +27,17 @@
 		<!-- Controllers -->
 		<script type="text/javascript" src="js/controllers/route.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/index.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/login/register.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/login/login.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/login/findPass.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/prepare.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/exchange.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/trade.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/shop.controller.js"></script>
-		<script type="text/javascript" src="js/controllers/systemset.controller.js"></script>
-		<script type="text/javascript" src="js/controllers/empInfo/empinfoController.js"></script>
+		<script type="text/javascript" src="js/controllers/account/accountList.js"></script>
+		<script type="text/javascript" src="js/controllers/account/accountAdd.js"></script>
+		<script type="text/javascript" src="js/controllers/account/accountOne.js"></script>
+		<script type="text/javascript" src="js/controllers/lowerAgent.controller.js"></script>
 		<script src="js/jQuery-1.11.2.js"></script>
 		<script src="js/main.js"></script>
 
@@ -66,12 +71,12 @@
 					<li><a href="#">我的库存</a></li>
 					<li><a href="#/purchaseOrder">批购</a></li>
 					<li><a href="#/othersOrder">代购</a></li>
-					<li><a href="#">管理终端</a></li>
+					<li><a href="#/terminals">管理终端</a></li>
 					<li><a href="#/trade">交易流水</a></li>
 					<li><a href="#">POS销售分润</a></li>
 					<li class="second"><a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
 						<ol>
-							<li><a href="#">下级代理商</a></li>
+							<li><a href="#/lowerAgent">下级代理商</a></li>
 							<li><a href="#/prepare">管理配货</a></li>
 							<li><a href="#/exchange">管理调货</a></li>
 						</ol></li>
@@ -85,7 +90,7 @@
 					<li class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
 						<ol>
 							<li><a href="#">代理商资料</a></li>
-							<li><a href="#/empaccount">员工帐号</a></li>
+							<li><a href="#/accountList">员工帐号</a></li>
 							<li><a href="#">修改密码</a></li>
 						</ol></li>
 					<li><a href="#">查看消息</a></li>

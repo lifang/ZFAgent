@@ -2,6 +2,7 @@ package com.comdosoft.financial.user.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.user.domain.Paging;
 import com.comdosoft.financial.user.domain.query.EmpReq;
 import com.comdosoft.financial.user.domain.query.MyAccountReq;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerRoleRelation;
 import com.comdosoft.financial.user.mapper.zhangfu.CustomerMapper;
-import com.comdosoft.financial.user.utils.Exception.AccountRepetitionException;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -61,8 +64,12 @@ public class SystemSetService {
 	 * 
 	 * @param empReq
 	 */
-	public void addCustomer(EmpReq empReq) throws AccountRepetitionException {
+	public void addCustomer(EmpReq empReq) {
 		customerMapper.addCustomer(empReq);
+	}
+	
+	public void insertCustomer(Customer customer) {
+		customerMapper.insertCustomer(customer);
 	}
 
 	/**
@@ -75,7 +82,7 @@ public class SystemSetService {
 		return customerMapper.checkAccount(empReq);
 	}
 
-	public void insertCustomerAgentRelations(EmpReq empReq) {
+	public void insertCustomerAgentRelations(CustomerAgentRelation empReq) {
 		customerMapper.insertCustomerAgentRelations(empReq);
 	}
 
@@ -115,7 +122,43 @@ public class SystemSetService {
 	 * @param req
 	 * @return
 	 */
-	public Map<String, Object> deleteEmpInfoFromAgent(EmpReq req) {
-		return customerMapper.deleteEmpInfoFromAgent(req);
+	public int deleteEmpInfoFromAgent(int id) {
+		return customerMapper.deleteEmpInfoFromAgent(id);
+	}
+
+	public int updateCustomerStatus(int id) {
+		return customerMapper.updateStatus(id);
+	}
+	
+	public int getListCount(int customerId) {
+		return customerMapper.countCustomes(customerId);
+	}
+
+	public List<Map<Object, Object>> getList(int customerId, int page, int rows) {
+		Map<Object, Object> query = new HashMap<Object, Object>();
+		query.put("customerId", customerId);
+		Paging paging = new Paging(page, rows);
+		query.put("offset", paging.getOffset());
+		query.put("rows", paging.getRows());
+
+		Integer customer_id = null;
+		Map<String, Object> subMap = null;
+		List<Map<Object, Object>> result = new ArrayList<Map<Object, Object>>();
+		List<Map<Object, Object>> list = customerMapper.getList(query);
+		for (Map<Object, Object> map : list) {
+			customer_id = Integer.parseInt(map.get("customer_id").toString());
+			subMap = customerMapper.getEmpInfoById(customer_id);
+			if (subMap != null) {
+				map.put("username", subMap.get("username").toString());
+				map.put("name", subMap.get("name").toString());
+				// map.put("password", subMap.get("password").toString());
+				result.add(map);
+			}
+		}
+		return result;
+	}
+
+	public void insertCustomerRights(CustomerRoleRelation cr) {
+		customerMapper.insertCustomerRights(cr);
 	}
 }

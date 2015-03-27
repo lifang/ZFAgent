@@ -16,10 +16,10 @@ function initSystemPage(page) {
  * @param collectons
  */
 function calcSystemPage(page, total) {
-	
+
 	if (total != null && total > 0) {
 		page.total = total;
-	}else{
+	} else {
 		initSystemPage(page);
 	}
 	page.pages = [];// 页码集合

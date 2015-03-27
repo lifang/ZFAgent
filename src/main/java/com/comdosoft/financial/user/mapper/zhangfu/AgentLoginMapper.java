@@ -22,7 +22,7 @@ public interface AgentLoginMapper {
 	 * @param customer
 	 * @return
 	 */
-	Customer doLogin(Customer customer);
+	Map<Object, Object> doLogin(Customer customer);
 	
 	/**
 	 * 找回密码
@@ -79,7 +79,7 @@ public interface AgentLoginMapper {
 	 * @param customer
 	 * @return
 	 */
-	List<Map<String, String>> Toestemming(Customer customer);
+	List<Map<Object, Object>> Toestemming(Customer customer);
 	
 	/**
 	 * 获取验证码

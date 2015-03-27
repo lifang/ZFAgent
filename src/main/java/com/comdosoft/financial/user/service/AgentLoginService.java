@@ -21,11 +21,8 @@ public class AgentLoginService {
 	 * @param customer
 	 * @return
 	 */
-	public Customer doLogin(Customer customer){
-		Customer cu = new Customer();
-		cu = agentLoginMapper.doLogin(customer);
-		
-		return cu;
+	public Map<Object, Object> doLogin(Customer customer){
+		return agentLoginMapper.doLogin(customer);
 	}
 	
 	/**
@@ -99,7 +96,7 @@ public class AgentLoginService {
 	 * @param customer
 	 * @return
 	 */
-	public List<Map<String, String>> Toestemming(Customer customer){
+	public List<Map<Object, Object>> Toestemming(Customer customer){
 		return agentLoginMapper.Toestemming(customer);
 	}
 	

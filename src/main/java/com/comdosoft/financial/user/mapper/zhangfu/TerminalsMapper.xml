@@ -132,12 +132,9 @@
 		LEFT JOIN goods g ON t.good_id = g.id
 		LEFT JOIN pay_channels p ON
 		t.pay_channel_id = p.id
-		WHERE t.serial_num in
-		<foreach item="item" index="index" collection="serialNum" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+		WHERE 1 = 1
 		<if test="title != null">
-			AND g.title = #{title}
+			AND g.title LIKE '%${title}%' 
 		</if>
 		<if test="channelsId != null">
 			AND p.id = #{channelsId}
@@ -153,6 +150,17 @@
 				AND g.retail_price &gt; #{minPrice}
 			</when>
 		</choose>
+	</select>
+	
+	<select id="batchTerminalNum" resultType="map" parameterType="map">
+		SELECT t.id,t.serial_num,g.retail_price from terminals t
+		LEFT JOIN goods g ON t.good_id = g.id
+		LEFT JOIN pay_channels p ON
+		t.pay_channel_id = p.id
+		WHERE t.serial_num in
+		<foreach item="item" index="index" collection="serialNum" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</select>
 
 	<select id="screeningPosName" parameterType="int" resultType="map">

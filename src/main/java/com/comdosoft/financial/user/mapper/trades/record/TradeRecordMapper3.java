@@ -22,5 +22,9 @@ public interface TradeRecordMapper3 {
 
     Map<String, Object> getProfit(int id);
 
+    List<Map<String, Object>> getTradeStatistics(TradeReq req);
+
+    List<Map<String, Object>> getProfitTotal(TradeReq req);
+
 
 }

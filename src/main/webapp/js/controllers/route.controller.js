@@ -76,6 +76,14 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/cs/update.html'
 	}).when('/cs_updateinfo', {
 		templateUrl : 'views/cs/updateinfo.html'
+	}).when('/binding', {
+		templateUrl : 'views/terminals/bindingTerminals.html'
+	}).when('/terminalSerivce', {
+		templateUrl : 'views/terminals/terminalService.html'
+	}).when('/stock', {
+		templateUrl : 'views/agent/stock.html'
+	}).when('/stockinfo', {
+		templateUrl : 'views/agent/stockinfo.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
@@ -433,7 +435,7 @@ public class SysUtils {
         return false;
     }
 
-    @SuppressWarnings({ "resource", "rawtypes" })
+    @SuppressWarnings({ "resource", "rawtypes", "deprecation" })
     public static String doGetRequest(String urlstr) {
         HttpClient client = new DefaultHttpClient();
         client.getParams().setIntParameter("http.socket.timeout", 10000);
@@ -468,6 +470,21 @@ public class SysUtils {
         String mobilecode = stringBuffer.toString();
         return mobilecode;
     }
-
+    /**
+     * 验证手机号码
+     * @param mobiles
+     * @return
+     */
+    public static boolean isMobileNO(String mobiles){
+     boolean flag = false;
+     try{
+      Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+      Matcher m = p.matcher(mobiles);
+      flag = m.matches();
+     }catch(Exception e){
+      flag = false;
+     }
+     return flag;
+    }
     
 }

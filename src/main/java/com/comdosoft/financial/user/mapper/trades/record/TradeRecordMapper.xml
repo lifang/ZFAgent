@@ -117,5 +117,19 @@
 		 WHERE traded_status = 2 and agent_id=#{id}),0)
 	]]>
 	</select>
+	
+		<select id="getSevenDynamic" resultType="map">
+	<![CDATA[
+		SELECT SUM(t.amount) as tread_sum,
+			count(t.id) as tread_num,DATE(t.created_at) as riqi 
+		FROM
+			trade_records t
+		WHERE
+		  DATEDIFF(NOW(),t.created_at)<8 and DATEDIFF(NOW(),t.created_at)>0
+		and t.customer_id=  #{customer_id}
+		GROUP BY riqi
+		ORDER BY riqi DESC
+	]]>
+	</select>
 
 </mapper>

@@ -6,13 +6,65 @@ var terminalServiceModule = angular.module("terminalServiceModule",['loginServic
 var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	//$scope.customersId = LoginService.userid;
 	  $scope.customersId = 80;
-	 $scope.butshow = true;//按钮切换
-	 $scope.binobject = {};//数据封装
+	  $scope.butshow = false;//添加新地址显示
+	  $scope.serviceObject = {};//数据封装
+	  $scope.addressObject = {};//数据封装
 	 
-	 $scope.bininit = function(){
+	 $scope.serviceInit = function(){
 		 $scope.cityList();
+		 $scope.getAddress();
 	 }
 	 
+	 //获得联系地址
+	 $scope.getAddress = function(){
+		  $http.post('api/webTerminal/getAddressee',{customerId:$scope.customersId}).success(function(data){
+			 if(data.code == 1){
+				 $scope.addressList = data.result;
+			 }else if(data.code == -1){
+				 alert(data.message);
+			 }
+		 }).error(function(){
+			 alert("联系地址请求失败！");
+		 })
+	 }
+	 
+	 //添加联系地址
+	 $scope.addAddress = function(){
+		 $scope.addressObject.cityId = $scope.serviceObject.sitys.id;
+		 $scope.addressObject.customerId = $scope.customersId;
+		 $http.post('api/webTerminal/addCostometAddress',$scope.addressObject).success(function(data){
+			 if(data.code == 1){
+				 $scope.getAddress();
+			 }else if(data.code == -1){
+				 alert(data.message);
+			 }
+		 })
+	 }
+	 
+	 $scope.radioId = function(obj){
+		 for(var i=0;i< $scope.addressList.length;i++){
+			 if(obj == i){
+				 $scope.serviceObject.receiver = $scope.addressList[i].receiver;
+				 $scope.serviceObject.address = $scope.addressList[i].address;
+				 $scope.serviceObject.zipCode = $scope.addressList[i].zipCode;
+				 $scope.serviceObject.phone = $scope.addressList[i].moblephone;
+				 //$scope.serviceObject.cityId = $scope.addressList[i].cityId;
+			 }
+		 }
+	 };
+	 
+	 $scope.terminalSub = function(){
+		 $scope.serviceObject.customerId = $scope.customersId;
+		 $scope.serviceObject.content = $("#comsName").html()+$scope.coms+","+$("#orderName").html()+$scope.order;
+		 $http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
+			 if(data.code == 1){
+				 alert(data.code);
+			 }else if(data.code == -1){
+				 alert(data.code);
+				 alert(data.result);
+			 }
+		 })
+	 }
 	 //获得省市
 	 $scope.cityList = function(){
 		 $http.post('api/comment/getCity').success(function(data){
@@ -25,64 +77,8 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 			 alert("城市列表请求失败！");
 		 })
 	 }
-	 
-	 //搜索现有用户 （类型为用户）
-	 $scope.agentToUserName = null;
-	 $scope.userId = -1;
-	 $scope.searchUser = function(){
-		 $http.post('api/webTerminal/searchUser',{name:$scope.agentToUserName,customerId:$scope.customersId}).success(function(data){
-			 if(data.code == 1){
-				 $scope.agentToUsers = data.result;
-			 }else if(data.code == -1){
-				 alert(data.message);
-			 }
-		 }).error(function(){
-			 alert("用户列表请求失败！");
-		 })
-	 }
-	 
-	 //点击获取用户id
-	 $scope.checkUserId = function(num){
-		 $scope.userId = num;
-	 }
-	 
-	 //开始绑定
-	 $scope.BindingTerminals = function(){
-		 $http.post('api/webTerminal/BindingTerminals',{customerId:$scope.customersId,terminalsNum:$scope.terminalsNum,userId:Math.ceil($scope.userId)}).success(function(data){
-			 if(data.code == 1){
-				 alert(data.result);
-			 }else if(data.code == -1){
-				 alert(data.message);
-			 }
-		 }).error(function(){
-			 alert("绑定请求失败！");
-		 })
-	 }
-	 //创建新用户
-	 $scope.addShow = false;
-	 $scope.establish = function(){
-		 $scope.binobject.cityid = Math.ceil($scope.binobject.address.id);
-		 $http.post('api/webTerminal/addCustomer',$scope.binobject).success(function(data){
-			 if(data.code == 1){
-				 $scope.aduser = data.result.username;
-				 $scope.binobject = {};
-				 $scope.addShow = true;
-				 $scope.userId = data.result.id;
-			 }else if(data.code == -1){
-				 $scope.addShow = false;
-				 $scope.binobject = {};
-				 alert(data.message);
-			 }
-		 }).error(function(){
-			 alert("绑定请求失败！");
-		 })
-	 }
-	 
-	 
-	 
-	
 	 //初始化数据
-	 $scope.bininit();
+	 $scope.serviceInit();
 };
 
 terminalServiceModule.$inject = ['$scope', '$http', '$cookieStore'];

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -160,6 +162,106 @@ public class TerminalsWebController {
 			return Response.getError("请求失败！");
 		}
 	}
+	
+	/**
+	 * 收件人信息
+	 * @param customerId
+	 * @return
+	 */
+	@RequestMapping(value="getAddressee",method=RequestMethod.POST)
+	public Response getAddressee(@RequestBody Map<String, Object> map){
+		try{
+			System.out.println("查看地址："+(Integer)map.get("customerId"));
+			return Response.getSuccess(terminalsWebService.getAddressee((Integer)map.get("customerId")));
+		}catch(Exception e){
+			logger.error("收件人信息异常！", e);
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 *添加联系地址
+	 * 
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value = "addCostometAddress", method = RequestMethod.POST)
+	public Response addCostometAddress(@RequestBody CustomerAddress customerAddress) {
+		try {
+			customerAddress.setIsDefault(CustomerAddress.ISDEFAULT_2);
+			terminalsWebService.addCostometAddress(customerAddress);
+			return Response.getSuccess("添加成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 提交申请售后
+	 * @param customerId
+	 * @return
+	 */
+	@RequestMapping(value="submitAgent",method=RequestMethod.POST)
+	public Response submitAgent(@RequestBody Map<Object, Object> map){
+		try{
+			List<String> errorlist = new ArrayList<String>();//错误终端号数据
+			List<String> successlist = new ArrayList<String>();//正确终端号数据
+			
+			CsAgent csAgent = new CsAgent();
+			csAgent.setCustomerId((Integer)map.get("customerId"));
+			csAgent.setAddress((String)map.get("address"));
+			csAgent.setReason((String)map.get("reason"));
+			csAgent.setTerminalsList((String)map.get("terminalsList"));
+			csAgent.setReciver((String)map.get("receiver"));
+			csAgent.setPhone((String)map.get("phone"));
+			
+			String[] arr = csAgent.getTerminalsList().split(",");
+			
+			for(int i=0;i<arr.length;i++){
+				int count = terminalsWebService.checkTerminalCode(arr[i]);
+				if(count == 0){
+					errorlist.add(arr[i]);
+				}else{
+					successlist.add(arr[i]);
+				}
+			}
+			if(errorlist.size() == 0){
+				//提交数据操作
+				csAgent.setStatus(CsAgent.STSTUS_1);
+				csAgent.setApplyNum(String.valueOf(System.currentTimeMillis())+csAgent.getCustomerId());
+				csAgent.setTerminalsQuantity(arr.length);
+				terminalsWebService.submitAgent(csAgent);//添加售后信息
+				map.put("agentId", csAgent.getId());
+				map.put("customerId", csAgent.getCustomerId());
+				terminalsWebService.addCsAgentMark(map);
+				return Response.getSuccess("提交申请成功！");
+			}else{
+				//返回错误终端号数组
+				return Response.getErrorContext(errorlist);
+			}
+		}catch(Exception e){
+			logger.error("提交申请售后失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 物流信息
+	 * @param customerId
+	 * @return
+	 */
+/*	@RequestMapping(value="getMerchants",method=RequestMethod.POST)
+	public Response getMerchants(@RequestBody Map<String, Object> map){
+		try {
+			return Response.getSuccess(terminalsService.getMerchants((Integer)map.get("customerId")));
+		} catch (Exception e) {
+			logger.error("获得代理商下面的用户失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}*/
 	
 	
 

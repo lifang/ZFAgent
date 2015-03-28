@@ -45,6 +45,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit);//是否有分润
       			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
       			        	   $cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
+      			        	   $cookieStore.put("agentId",data.result.agentId);//代理商Id
       			        	   //刷新
       			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   window.location.href = '#/';

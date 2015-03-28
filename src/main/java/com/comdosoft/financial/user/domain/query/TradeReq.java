@@ -6,7 +6,7 @@ public class TradeReq {
     private int id;
     private int agentId;
     private int tradeTypeId;
-    private int is_have_profit;
+    private int isHaveProfit;
     
     private String terminalNumber="";
     private String startTime="";
@@ -122,12 +122,12 @@ public class TradeReq {
         this.agentId = agentId;
     }
 
-    public int getIs_have_profit() {
-        return is_have_profit;
+    public int getIsHaveProfit() {
+        return isHaveProfit;
     }
 
-    public void setIs_have_profit(int is_have_profit) {
-        this.is_have_profit = is_have_profit;
+    public void setIsHaveProfit(int isHaveProfit) {
+        this.isHaveProfit = isHaveProfit;
     }
 
     public int getSonagentId() {

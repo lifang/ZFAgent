@@ -4,17 +4,17 @@ public class PrepareGoodReq {
 
     private int id;
     
-    private int customer_id;
+    private int customerId;
     
-    private int agents_id;
+    private int agentId;
 
-    private int son_agents_id;
+    private int sonAgentId;
     
-    private int good_id;
+    private int goodId;
 
-    private int paychannel_id;
+    private int paychannelId;
     
-    private String[] serial_nums;
+    private String[] serialNums;
 
     private String startTime;
     
@@ -23,66 +23,66 @@ public class PrepareGoodReq {
     //--------
     private int quantity;
     
-    private String serial_num;
+    private String serialNum;
     
-    private String terminal_list;
+    private String terminalList;
     
-    public int getCustomer_id() {
-        return customer_id;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
-    public int getGood_id() {
-        return good_id;
+    public int getGoodId() {
+        return goodId;
     }
 
-    public void setGood_id(int good_id) {
-        this.good_id = good_id;
+    public void setGoodId(int goodId) {
+        this.goodId = goodId;
     }
 
-    public int getPaychannel_id() {
-        return paychannel_id;
+    public int getPaychannelId() {
+        return paychannelId;
     }
 
-    public void setPaychannel_id(int paychannel_id) {
-        this.paychannel_id = paychannel_id;
+    public void setPaychannelId(int paychannelId) {
+        this.paychannelId = paychannelId;
     }
 
  
 
-    public String getTerminal_list() {
-        return terminal_list;
+    public String getTerminalList() {
+        return terminalList;
     }
 
-    public void setTerminal_list(String terminal_list) {
-        this.terminal_list = terminal_list;
+    public void setTerminalList(String terminalList) {
+        this.terminalList = terminalList;
     }
 
-    public String[] getSerial_nums() {
-        return serial_nums;
+    public String[] getSerialNums() {
+        return serialNums;
     }
 
-    public void setSerial_nums(String[] serial_nums) {
-        this.serial_nums = serial_nums;
+    public void setSerialNums(String[] serialNums) {
+        this.serialNums = serialNums;
     }
 
-    public String getSerial_num() {
-        return serial_num;
+    public String getSerialNum() {
+        return serialNum;
     }
 
-    public void setSerial_num(String serial_num) {
-        this.serial_num = serial_num;
+    public void setSerialNum(String serialNum) {
+        this.serialNum = serialNum;
     }
 
-    public int getSon_agents_id() {
-        return son_agents_id;
+    public int getSonAgentsId() {
+        return sonAgentId;
     }
 
-    public void setSon_agents_id(int son_agents_id) {
-        this.son_agents_id = son_agents_id;
+    public void setSonAgentsId(int sonAgentId) {
+        this.sonAgentId = sonAgentId;
     }
 
     public int getQuantity() {
@@ -93,12 +93,12 @@ public class PrepareGoodReq {
         this.quantity = quantity;
     }
 
-    public int getAgents_id() {
-        return agents_id;
+    public int getAgentsId() {
+        return agentId;
     }
 
-    public void setAgents_id(int agents_id) {
-        this.agents_id = agents_id;
+    public void setAgentsId(int agentId) {
+        this.agentId = agentId;
     }
 
     public String getStartTime() {

@@ -36,16 +36,16 @@ public class PrepareGoodService {
 
     public int add(PrepareGoodReq req) {
         try {
-            if (null != req.getSerial_nums() && req.getSerial_nums().length > 0) {
+            if (null != req.getSerialNums() && req.getSerialNums().length > 0) {
                 StringBuilder sb = new StringBuilder();
-                for (String serial_num : req.getSerial_nums()) {
-                    req.setSerial_num(serial_num);
+                for (String serialNum : req.getSerialNums()) {
+                    req.setSerialNum(serialNum);
                     prepareGoodMapper.upTerminal_AgentId(req);
-                    sb.append(serial_num + ",");
+                    sb.append(serialNum + ",");
                 }
                 sb.deleteCharAt(sb.length() - 1);
-                req.setTerminal_list(sb.toString());
-                req.setQuantity(req.getSerial_nums().length);
+                req.setTerminalList(sb.toString());
+                req.setQuantity(req.getSerialNums().length);
                 prepareGoodMapper.add(req);
                 return 1;
             } else {
@@ -70,10 +70,10 @@ public class PrepareGoodService {
     }
 
     public Map<String, Object> getTerminalsList(PrepareGoodReq req) {
-        if (null != req.getSerial_nums() && req.getSerial_nums().length > 0) {
-            req.setTerminal_list(SysUtils.Arry2Str(req.getSerial_nums()));
+        if (null != req.getSerialNums() && req.getSerialNums().length > 0) {
+            req.setTerminalList(SysUtils.Arry2Str(req.getSerialNums()));
         } else {
-            req.setTerminal_list(null);
+            req.setTerminalList(null);
         }
         Map<String, Object> map = new HashMap<String, Object>();
         int total = prepareGoodMapper.getTerminalTotal(req);
@@ -85,7 +85,7 @@ public class PrepareGoodService {
 
     public Map<String, Object> checkTerminals(PrepareGoodReq req) {
         List<Map<String, Object>> errorTerminals = new ArrayList<Map<String, Object>>();
-        String[] ss = req.getSerial_num().split("\\s+|,|;");
+        String[] ss = req.getSerialNum().split("\\s+|,|;");
         List<String> list = new ArrayList<String>();
         for (String string : ss) {
             if (!"".equals(string.trim())) {
@@ -98,7 +98,7 @@ public class PrepareGoodService {
                 map = new HashMap<String, Object>();
                 map.put("serialNum", s);
                 if (s.length() == 12) {
-                    req.setSerial_num(s);
+                    req.setSerialNum(s);
                     int t1 = prepareGoodMapper.isExit(req);
                     if (t1 == 0) {
                         map.put("error", "终端不存在");

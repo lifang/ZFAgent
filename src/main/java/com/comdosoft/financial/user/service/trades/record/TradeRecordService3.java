@@ -37,7 +37,7 @@ public class TradeRecordService3 {
         for (Map<String, Object> map : result) {
             int agentid = SysUtils.Object2int(map.get("agent_id"));
             map.put("agent", agentTrade.getAgentName(agentid));
-            if (2 == req.getIs_have_profit()) {
+            if (2 == req.getIsHaveProfit()) {
                 //req.setAgentId(agentid);
                 req.setId(SysUtils.Object2int(map.get("id")));
                 req.setPcid(SysUtils.Object2int(map.get("pay_channel_id")));
@@ -114,7 +114,7 @@ public class TradeRecordService3 {
         result.put("paychannel", agentTrade.getpcname(pcid));
         result.put("agentName", agentTrade.getAgentName(agid));
         
-        if (2 == req.getIs_have_profit()) {
+        if (2 == req.getIsHaveProfit()) {
             //req.setAgentId(agentid);
             req.setPcid(pcid);
             req.setCode(agentTrade.getCode(req.getAgentId()));
@@ -151,7 +151,7 @@ public class TradeRecordService3 {
         for (Map<String, Object> map : result) {
             int agentid = SysUtils.Object2int(map.get("agent_id"));
             map.put("agent", agentTrade.getAgentName(agentid));
-            if (2 == req.getIs_have_profit()) {
+            if (2 == req.getIsHaveProfit()) {
                // req.setAgentId(agentid);
                 req.setId(agentid);
                 map.putAll(profit2(req));

@@ -5,12 +5,12 @@
       <insert id="add"  parameterType="com.comdosoft.financial.user.domain.query.ExchangeGoodReq">
 		INSERT into exchange_goods_records(customer_id,terminals_list,from_agent_id,
 		to_agent_id,created_at,updated_at,quantity)
-		VALUES (#{customer_id},#{terminal_list},#{from_agent_id},
-		#{to_agent_id},NOW(),NOW(),#{quantity})
+		VALUES (#{customerId},#{terminalList},#{fromAgentId},
+		#{toAgentId},NOW(),NOW(),#{quantity})
  	 </insert>
      
       <update id="upTerminal_AgentId" parameterType="com.comdosoft.financial.user.domain.query.ExchangeGoodReq">
-         UPDATE terminals set agent_id=#{to_agent_id} where serial_num=#{serial_num}
+         UPDATE terminals set agent_id=#{toAgentId} where serial_num=#{serialNum}
      </update>
      
      
@@ -30,7 +30,7 @@
 			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="son_agents_id!=0">
-			   <![CDATA[ and (egr.from_agent_id=#{son_agents_id} or egr.to_agent_id=#{son_agents_id} )  ]]>
+			   <![CDATA[ and (egr.from_agent_id=#{sonAgentsId} or egr.to_agent_id=#{sonAgentsId} )  ]]>
 			</if>
 			LIMIT #{offset}, #{rows}
      </select>
@@ -48,7 +48,7 @@
 			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="son_agents_id!=0">
-			   <![CDATA[ and (egr.from_agent_id=#{son_agents_id} or egr.to_agent_id=#{son_agents_id} )  ]]>
+			   <![CDATA[ and (egr.from_agent_id=#{sonAgentsId} or egr.to_agent_id=#{sonAgentsId} )  ]]>
 			</if>
      </select>
      
@@ -66,7 +66,7 @@
      <select id="getTerminalTotal"  resultType="int">
 		SELECT count(t.id)
 	    from terminals t 
-		where t.agent_id=#{from_agent_id} and t.customer_id is null 
+		where t.agent_id=#{fromAgentId} and t.customer_id is null 
      </select>
      
      <select id="getTerminalList"  resultType="map">
@@ -74,7 +74,7 @@
 	    from terminals t 
 	    LEFT JOIN goods g on t.good_id=g.id 
 	    LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
-		where t.agent_id=#{from_agent_id} and t.customer_id is null 
+		where t.agent_id=#{fromAgentId} and t.customer_id is null 
 		LIMIT #{offset}, #{rows}
      </select>
 	

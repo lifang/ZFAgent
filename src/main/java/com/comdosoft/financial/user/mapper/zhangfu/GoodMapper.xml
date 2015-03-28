@@ -26,12 +26,12 @@
          LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
          LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
     	 where g.status=5 and is_published=1 and 
-    	 ((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
-      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )))
+    	 ((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
+      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )))
     	 <if test="type==1">
     	     and g.has_purchase=1
     	 </if>
-    	 <if test="has_lease==1">
+    	 <if test="hasLease==1">
     	     and g.has_lease=1
     	 </if>
     	 <if test="keys!=null">
@@ -43,23 +43,23 @@
     	 <if test="maxPricei!=0">
     	     <![CDATA[ and g.retail_price <= #{maxPricei}]]>
     	 </if>
-    	 <if test="brands_ids!=null">
-		   and g.good_brands_id in ${brands_ids}
+    	 <if test="brandsIds!=null">
+		   and g.good_brands_id in ${brandsIds}
 		 </if>
 		 <if test="categorys!=null">
 		   and g.pos_category_id in ${categorys}
 		 </if>
-		 <if test="pay_channel_ids!=null">
-		   and pc.id in ${pay_channel_ids}
+		 <if test="payChannelIds!=null">
+		   and pc.id in ${payChannelIds}
 		 </if>
-		 <if test="pay_card_ids!=null">
-		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${pay_card_ids})
+		 <if test="payCardIds!=null">
+		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${payCardIds})
 		 </if>
-		 <if test="trade_type_ids!=null">
-		    and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${trade_type_ids})
+		 <if test="tradeTypeIds!=null">
+		    and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${tradeTypeIds})
 		 </if>
-		 <if test="sale_slip_ids!=null">
-		   and g.sign_order_way_id in ${sale_slip_ids}
+		 <if test="saleSlipIds!=null">
+		   and g.sign_order_way_id in ${saleSlipIds}
 		 </if>
 		 <if test="tDates!=null">
 		   and pc.id in (SELECT pcbc.pay_channel_id from  pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
@@ -89,12 +89,12 @@
          LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
          LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
     	 where g.status=5 and is_published=1 and 
-    	 ((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
-      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )))
+    	 ((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
+      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )))
     	 <if test="type==1">
     	     and g.has_purchase=1
     	 </if>
-    	 <if test="has_lease==1">
+    	 <if test="hasLease==1">
     	     and g.has_lease=1
     	 </if>
     	 <if test="keys!=null">
@@ -106,23 +106,23 @@
     	 <if test="maxPricei!=0">
     	     <![CDATA[ and g.retail_price <= #{maxPricei}]]>
     	 </if>
-    	 <if test="brands_ids!=null">
-		   and g.good_brands_id in ${brands_ids}
+    	 <if test="brandsIds!=null">
+		   and g.good_brands_id in ${brandsIds}
 		 </if>
 		 <if test="categorys!=null">
 		   and g.pos_category_id in ${categorys}
 		 </if>
-		 <if test="pay_channel_ids!=null">
-		   and pc.id in ${pay_channel_ids}
+		 <if test="payChannelIds!=null">
+		   and pc.id in ${payChannelIds}
 		 </if>
-		 <if test="pay_card_ids!=null">
-		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${pay_card_ids})
+		 <if test="payCardIds!=null">
+		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${payCardIds})
 		 </if>
-		 <if test="trade_type_ids!=null">
-		    and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${trade_type_ids})
+		 <if test="tradeTypeIds!=null">
+		    and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${tradeTypeIds})
 		 </if>
-		 <if test="sale_slip_ids!=null">
-		   and g.sign_order_way_id in ${sale_slip_ids}
+		 <if test="saleSlipIds!=null">
+		   and g.sign_order_way_id in ${saleSlipIds}
 		 </if>
 		 <if test="tDates!=null">
 		   and pc.id in (SELECT pcbc.pay_channel_id from  pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
@@ -135,8 +135,8 @@
  		from pay_channels pc 
  		LEFT JOIN goods_pay_channels gpc on gpc.pay_channel_id=pc.id
  		where gpc.good_id=#{goodId} and pc.status=5 and 
- 		((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
-      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )))
+ 		((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
+      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )))
      </select>
      
      <select id="getgoodPics" resultType="String">
@@ -155,8 +155,8 @@
      </select>
      <select id="getPay_channel_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
 		SELECT id,name as value from pay_channels pc where 
-		(pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
-       or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} ))
+		(pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
+       or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} ))
      </select>
      <select id="getPay_card_ids" resultType="map">
         SELECT id,card_type as value from dictionary_card_types
@@ -167,8 +167,8 @@
 	    LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id 
 	    LEFT JOIN pay_channels pc on pc.id=stt.pay_channel_id 
 	     where  dtt.id is not null and 
-	    (pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
-       or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} ))
+	    (pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
+       or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} ))
      </select>
      <select id="getSale_slip_ids" resultType="map">
         SELECT id,sign_order_way as value from dictionary_sign_order_ways
@@ -179,8 +179,8 @@
 	    LEFT JOIN dictionary_billing_cycles dbc on pcbc.billing_cycles_id=dbc.id 
 	    LEFT JOIN pay_channels pc on pc.id=pcbc.pay_channel_id
 	    where  dbc.id is not null and
-	    (pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} )) 
-        or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{city_id} ))
+	    (pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
+        or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} ))
      </select>
      
      <select id="getWebCategorys" resultType="map">
@@ -195,13 +195,13 @@
       <select id="getHasBuyCount" resultType="int" >
          select IFNULL( (
     	SELECT SUM(o.total_quantity)  from orders o 
-		where o.types=5 and o.status=1 and ( o.customer_id=(SELECT customer_id from agents WHERE id=#{agent_id})
-		 or o.customer_id in (SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agent_id}))
+		where o.types=5 and o.status=1 and ( o.customer_id=(SELECT customer_id from agents WHERE id=#{agentId})
+		 or o.customer_id in (SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}))
    		 ),0)as quantity
      </select>
      
      <update id="upQuantity">
-     	UPDATE goods set quantity=#{city_id} WHERE id=#{goodId}
+     	UPDATE goods set quantity=#{cityId} WHERE id=#{goodId}
      </update>
 	
 </mapper>

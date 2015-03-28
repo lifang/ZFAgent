@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
-import com.comdosoft.financial.user.domain.query.ExchangeGoodReq;
 import com.comdosoft.financial.user.domain.query.LowerAgentReq;
 import com.comdosoft.financial.user.service.LowerAgentService;
 /**

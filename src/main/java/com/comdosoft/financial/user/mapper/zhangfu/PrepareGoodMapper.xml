@@ -5,12 +5,12 @@
 	<insert id="add" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
 		insert into prepare_goods_records(agent_id,good_id,quantity,created_at,updated_at,
 		process_user_id,terminal_list,pay_channel_id)
-		VALUES (#{sonAgentsId},#{goodId},#{quantity},NOW(),NOW(),
+		VALUES (#{sonagentId},#{goodId},#{quantity},NOW(),NOW(),
 		#{customerId},#{terminalList},#{paychannelId})
 	</insert>
 
 	<update id="upTerminal_AgentId" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
-		UPDATE terminals set agent_id=#{sonAgentsId} where serial_num=#{serialNum}
+		UPDATE terminals set agent_id=#{sonagentId} where serial_num=#{serialNum}
 	</update>
 
 	<select id="getPrepareGoodList" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
@@ -19,32 +19,32 @@
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
 		where (process_user_id in
-		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentsId}) OR
-		process_user_id=(SELECT customer_id from agents WHERE id=#{agentsId}))
+		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
+		process_user_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 		<if test="startTime!=null">
 			   <![CDATA[ and pgr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="endTime!=null">
 			   <![CDATA[ and pgr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 		</if>
-		<if test="son_agents_id!=0">
-			   <![CDATA[ and pgr.agent_id=#{sonAgentsId} ]]>
+		<if test="sonAgentId!=0">
+			   <![CDATA[ and pgr.agent_id=#{sonagentId} ]]>
 		</if>
 		LIMIT #{offset}, #{rows}
 	</select>
 	<select id="getPrepareGoodTotal" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">
 		SELECT count(*) from prepare_goods_records
 		where (process_user_id in
-		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentsId}) OR
-		process_user_id=(SELECT customer_id from agents WHERE id=#{agentsId}))
+		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
+		process_user_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 		<if test="startTime!=null">
 			   <![CDATA[ and created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="endTime!=null">
 			   <![CDATA[ and created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 		</if>
-		<if test="son_agents_id!=0">
-			   <![CDATA[ and agent_id=#{sonAgentsId} ]]>
+		<if test="sonAgentId!=0">
+			   <![CDATA[ and agent_id=#{sonagentId} ]]>
 		</if>
 	</select>
 
@@ -58,28 +58,28 @@
 	</select>
 
 	<select id="getSonAgent" resultType="map">
-		SELECT id,company_name from agents where parent_id=#{agentsId} and status=2
+		SELECT id,company_name from agents where parent_id=#{agentId} and status=2
 	</select>
 
 	<select id="getGoodList" resultType="map">
 		SELECT DISTINCT g.id,IFNULL(agn.name,g.title) as goodname from terminals t
 		LEFT JOIN goods g on t.good_id=g.id
 		LEFT JOIN agent_good_names agn on g.id=agn.good_id
-		where t.agent_id=#{agentsId} and t.customer_id is null
+		where t.agent_id=#{agentId} and t.customer_id is null
 	</select>
 
 	<select id="getPayChannelList" resultType="map">
 		SELECT DISTINCT pc.id,pc.name as paychannel
 		from terminals t
 		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
-		where t.agent_id=#{agentsId} and t.customer_id is null
+		where t.agent_id=#{agentId} and t.customer_id is null
 	</select>
 
 
 	<select id="getTerminalTotal" resultType="int">
 		SELECT count(t.id)
 		from terminals t
-		where t.agent_id=#{agentsId} and t.customer_id is null and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
+		where t.agent_id=#{agentId} and t.customer_id is null and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
 		<if test="terminal_list!=null">
 			and t.serial_num in ${terminal_list}
 		</if>
@@ -90,7 +90,7 @@
 		from terminals t
 		LEFT JOIN goods g on t.good_id=g.id
 		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
-		where t.agent_id=#{agentsId} and t.customer_id is null and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
+		where t.agent_id=#{agentId} and t.customer_id is null and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
 		<if test="terminal_list!=null">
 			and t.serial_num in ${terminal_list}
 		</if>
@@ -99,12 +99,12 @@
 
 	<select id="isExit" resultType="int">
 		SELECT count(t.serial_num) FROM terminals t
-		WHERE t.agent_id = #{agentsId} and t.serial_num=#{serialNum}
+		WHERE t.agent_id = #{agentId} and t.serial_num=#{serialNum}
 	</select>
 	
 	<select id="isUsed" resultType="int">
 		SELECT count(t.serial_num) FROM terminals t
-		WHERE t.agent_id = #{agentsId} AND t.customer_id IS NULL and t.serial_num=#{serialNum}
+		WHERE t.agent_id = #{agentId} AND t.customer_id IS NULL and t.serial_num=#{serialNum}
 	</select>
 	
 	<select id="isGoodId" resultType="int">
@@ -112,7 +112,7 @@
 		FROM terminals t
 		LEFT JOIN goods g ON t.good_id = g.id
 		WHERE
-		t.agent_id = #{agentsId}
+		t.agent_id = #{agentId}
 		AND t.good_id = #{goodId}
 		and t.serial_num=#{serialNum}
 	</select>
@@ -122,7 +122,7 @@
 		FROM terminals t
 		LEFT JOIN pay_channels pc ON pc.id = t.pay_channel_id
 		WHERE
-		t.agent_id = #{agentsId}
+		t.agent_id = #{agentId}
 		AND t.pay_channel_id = #{paychannelId}
 		and t.serial_num=#{serialNum}
 	</select>

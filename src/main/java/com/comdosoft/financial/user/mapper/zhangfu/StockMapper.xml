@@ -16,29 +16,29 @@
 		LEFT JOIN goods g on t.good_id=g.id 
 		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
 		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
-		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agents_id}
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
 		where g.id is not null AND  t.agent_id in 
 		(SELECT id from agents where code like '${code}%')
 		LIMIT #{offset}, #{rows}
      </select>
      
      <update id="rename">
-         update agent_good_names set name=#{goodname} where good_id=#{good_id}
-         and agent_id=#{agents_id}
+         update agent_good_names set name=#{goodname} where good_id=#{goodId}
+         and agent_id=#{agentId}
      </update>
      
      <select id="getHoitoryCount" resultType="int" >
        SELECT  count(DISTINCT t.id) from terminals t 
 	   where  t.agent_id in 
 	   (SELECT id from agents where code like '${code}%')
-       and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+       and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
      </select>
      
      <select id="getOpenCount" resultType="int" >
        SELECT  count(DISTINCT t.id) from terminals t 
 	   where  t.agent_id in 
 	   (SELECT id from agents where code like '${code}%')
-       and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+       and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
        and t.status=1
      </select>
      
@@ -46,20 +46,20 @@
        SELECT  count(DISTINCT t.id) from terminals t 
 	   where  t.agent_id in 
 	   (SELECT id from agents where code like '${code}%')
-       and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+       and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
        and t.customer_id is null
      </select>
      
      <select id="getTotalCount" resultType="int" >
        SELECT  count(DISTINCT t.id) from terminals t 
-	   where  t.agent_id =#{agents_id} 
-       and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
+	   where  t.agent_id =#{agentId} 
+       and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
        and t.customer_id is null
      </select>
     
       
       <select id="getAgentCode" resultType="String" >
-     	 SELECT code from agents where id=#{agents_id}
+     	 SELECT code from agents where id=#{agentId}
       </select>
       
       
@@ -67,7 +67,7 @@
         SELECT pgr.agent_id,SUM(pgr.quantity) hoitoryCount,a.company_name
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
-		where good_id=#{good_id} and pay_channel_id=#{paychannel_id} and a.parent_id=#{agents_id}
+		where good_id=#{goodId} and pay_channel_id=#{paychannelId} and a.parent_id=#{agentId}
 		<if test="agentname!=''">
 		   and a.company_name like '%${agentname}%'
 		</if>
@@ -79,7 +79,7 @@
         select count(*) from (SELECT pgr.agent_id,SUM(pgr.quantity)
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
-		where good_id=#{good_id} and pay_channel_id=#{paychannel_id} and a.parent_id=#{agents_id}
+		where good_id=#{goodId} and pay_channel_id=#{paychannelId} and a.parent_id=#{agentId}
 		<if test="agentname!=''">
 		   and a.company_name like '%${agentname}%'
 		</if>
@@ -90,7 +90,7 @@
       <select id="getLastPrepareTime" resultType="String" >
      	 SELECT DATE_FORMAT(MAX(created_at),'%Y-%m-%d %H:%i:%s')  
 		 from prepare_goods_records 
-		 where good_id=#{good_id} and pay_channel_id=#{paychannel_id} and agent_id=#{agents_id}
+		 where good_id=#{goodId} and pay_channel_id=#{paychannelId} and agent_id=#{agentId}
       </select>
       
       <select id="getLastOpenTime" resultType="String" >
@@ -101,7 +101,7 @@
       
       <select id="getTerminalTotal" resultType="int" >
         SELECT  count(t.id) from terminals t 
-   	    WHERE t.good_id=#{good_id} AND t.pay_channel_id=#{paychannel_id} and t.agent_id=#{agents_id}
+   	    WHERE t.good_id=#{goodId} AND t.pay_channel_id=#{paychannelId} and t.agent_id=#{agentId}
      </select>
      
      <select id="getTerminalList" resultType="map" >
@@ -109,7 +109,7 @@
     	from terminals t 
 		LEFT JOIN goods g on t.good_id=g.id 
 		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
-   	    WHERE t.good_id=#{good_id} AND t.pay_channel_id=#{paychannel_id} and t.agent_id=#{agents_id}
+   	    WHERE t.good_id=#{goodId} AND t.pay_channel_id=#{paychannelId} and t.agent_id=#{agentId}
         LIMIT #{offset}, #{rows}
      </select>
      

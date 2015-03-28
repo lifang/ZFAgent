@@ -26,7 +26,7 @@ public class StockService {
     private GoodMapper goodMapper;
 
     public Map<String, Object> getList(StockReq req) {
-        String code=stockMapper.getAgentCode(req.getAgentsId());
+        String code=stockMapper.getAgentCode(req.getAgentId());
         if(null==code||code.length()<3){
             return null;
         }
@@ -63,8 +63,8 @@ public class StockService {
         List<Map<String, Object>> list=stockMapper.getSonAgent(req);
         if(null!=list&&list.size()>0){
             for (Map<String, Object> map : list) {
-                req.setAgentsId(SysUtils.Object2int( map.get("id")));
-                req.setCode(stockMapper.getAgentCode(req.getAgentsId()));
+                req.setAgentId(SysUtils.Object2int( map.get("id")));
+                req.setCode(stockMapper.getAgentCode(req.getAgentId()));
              //   map.put("hoitoryCount", stockMapper.getHoitoryCount(req));
                 map.put("openCount", stockMapper.getOpenCount(req));
                 map.put("lastPrepareTime", stockMapper.getLastPrepareTime(req));

@@ -7,7 +7,7 @@ var stockController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
-		$scope.req.agents_id=LoginService.agentid;
+		$scope.req.agentId=LoginService.agentid;
 		$scope.list();
 	};
 	$scope.list=function(){
@@ -55,9 +55,9 @@ var stockController = function ($scope, $http, LoginService) {
 var stockinfoController = function ($scope, $http,$location, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
-		$scope.req.good_id=$location.search()['goodid'];
-		$scope.req.paychannel_id=$location.search()['pcid'];
-		$scope.req.agents_id=LoginService.agentid;
+		$scope.req.goodId=$location.search()['goodid'];
+		$scope.req.paychannelId=$location.search()['pcid'];
+		$scope.req.agentId=LoginService.agentid;
 		$scope.info();
 	};
 	$scope.info=function(){

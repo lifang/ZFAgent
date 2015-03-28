@@ -15,20 +15,20 @@ import java.util.Map;
 public class Page<T> {
 	
 //	private PageRequest pageRequest;
-	private List<T> content = new ArrayList<>();
+	private List<T> list = new ArrayList<>();
 	
     private long total;
 
-	public Page(PageRequest pageRequest, List<T> content, long total) {
+	public Page(PageRequest pageRequest, List<T> list, long total) {
 //		this.pageRequest = pageRequest;
-		this.content = content;
+		this.list = list;
 		this.total = total;
 	}
 	
     @SuppressWarnings("unchecked")
-    public Page(PageRequest pageRequest, List<Map<String,Object>> contents,int total) {
+    public Page(PageRequest pageRequest, List<Map<String,Object>> list,int total) {
 //        this.pageRequest = pageRequest;
-        this.content =  (List<T>) contents;
+        this.list =  (List<T>) list;
         this.total = total;
     } 
 
@@ -36,8 +36,8 @@ public class Page<T> {
 		return total;
 	}
 	
-	public List<T> getContent(){
-		return Collections.unmodifiableList(content);
+	public List<T> getList(){
+		return Collections.unmodifiableList(list);
 	}
 	
 //	public int getSize(){

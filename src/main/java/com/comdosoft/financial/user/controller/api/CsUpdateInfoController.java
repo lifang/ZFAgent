@@ -80,7 +80,7 @@ public class CsUpdateInfoController {
         try{
            int i =  csUpdateInfoService.cancelApply(myOrderReq);
             if(i==1){
-                return Response.buildSuccess(null, "取消成功");
+                return Response.buildSuccess("", "取消成功");
             }else{
             	return Response.buildMisSuccess();
             }

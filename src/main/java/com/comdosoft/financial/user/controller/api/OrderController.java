@@ -74,7 +74,7 @@ public class OrderController {
         try{
           int i =   orderService.cancelMyOrder(myOrderReq);
             if(i==1){
-                return Response.buildSuccess(null, "取消成功");
+                return Response.buildSuccess("", "取消成功");
             }else{
                 return Response.getError( "操作失败");
             }
@@ -128,7 +128,7 @@ public class OrderController {
         try{
             int  i = orderService.cancelMyOrder(myOrderReq);
             if(i==1){
-                return Response.buildSuccess(null, "取消成功");
+                return Response.buildSuccess("", "取消成功");
             }else{
                 return Response.getError( "操作失败");
             }

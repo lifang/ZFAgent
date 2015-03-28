@@ -15,16 +15,16 @@ public interface MessageReceiverMapper {
 
     SysMessage findById(MyOrderReq myOrderReq);
     
-    void delete(MyOrderReq myOrderReq);
+    int delete(MyOrderReq myOrderReq);
     
-    void batchDelete(MyOrderReq myOrderReq);
+    int batchDelete(MyOrderReq myOrderReq);
     /**
      * 批量设置为已读
      * @param ids
      */
-    void batchUpdate(MyOrderReq myOrderReq );
+    int batchUpdate(MyOrderReq myOrderReq );
 
-    void isRead(MyOrderReq myOrderReq);
+    int isRead(MyOrderReq myOrderReq);
 
     List<Map<String, Object>> getServerDynamic(MyOrderReq myOrderReq);
 

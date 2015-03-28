@@ -108,4 +108,18 @@
 	SET STATUS = #{repairStatus.code}
 	where id = #{id}
 	</update>
+	
+	<select id="findTemplete" resultType="map">
+		SELECT
+			oo.id,
+			oo.title,
+			oo.templet_file_path
+		FROM
+			other_requirements oo
+		WHERE
+			oo.id IN  
+		<foreach item="ids" collection="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</select>
 </mapper>

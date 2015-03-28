@@ -57,16 +57,16 @@ public class MessageReceiverService {
         return sysMessage;
     }
     
-    public void delete(MyOrderReq myOrderReq){
-        messageReceiverMapper.delete(myOrderReq);
+    public int delete(MyOrderReq myOrderReq){
+       return messageReceiverMapper.delete(myOrderReq);
     }
     
-    public void batchDelete(MyOrderReq myOrderReq){
-        messageReceiverMapper.batchDelete(myOrderReq);
+    public int batchDelete(MyOrderReq myOrderReq){
+        return messageReceiverMapper.batchDelete(myOrderReq);
     }
     
-    public void batchRead(MyOrderReq myOrderReq){
-        messageReceiverMapper.batchUpdate(myOrderReq);
+    public int batchRead(MyOrderReq myOrderReq){
+        return messageReceiverMapper.batchUpdate(myOrderReq);
     }
 
     public List<Map<String,Object>> getServerDynamic(MyOrderReq myOrderReq) {

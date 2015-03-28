@@ -76,6 +76,10 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/cs/update.html'
 	}).when('/cs_updateinfo', {
 		templateUrl : 'views/cs/updateinfo.html'
+	}).when('/cs_agent', {
+		templateUrl : 'views/cs/agent.html'
+	}).when('/cs_agentinfo', {
+		templateUrl : 'views/cs/agentinfo.html'
 	}).when('/binding', {
 		templateUrl : 'views/terminals/bindingTerminals.html'
 	}).when('/terminalSerivce', {

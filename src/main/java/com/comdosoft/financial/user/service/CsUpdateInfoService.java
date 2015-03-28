@@ -1,12 +1,10 @@
 package com.comdosoft.financial.user.service;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +18,13 @@ import com.comdosoft.financial.user.mapper.zhangfu.CsUpdateInfoMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class CsUpdateInfoService {
 
     @Resource
     private CsUpdateInfoMapper csUpdateInfoMapper;
+    @Resource
+    private CsCencelsService csCencelsService;
     
     public Page<List<Object>> findAll(MyOrderReq myOrderReq) throws ParseException {
         PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
@@ -87,7 +86,6 @@ public class CsUpdateInfoService {
         return i;
     }
 
-    @SuppressWarnings("unchecked")
     public Map<String,Object>  findById(MyOrderReq myOrderReq) throws ParseException {
         Map<String, Object> o = csUpdateInfoMapper.findById(myOrderReq);
         Map<String,Object> map = new HashMap<String,Object>();
@@ -106,17 +104,9 @@ public class CsUpdateInfoService {
         map.put("zhifu_pingtai", o.get("zhifu_pt")+"");
         map.put("merchant_name", o.get("merchant_name")+"");
         map.put("merchant_phone", o.get("mer_phone")+"");
-        String json = o.get("templete_info_xml")+"";
-        ObjectMapper mapper = new ObjectMapper();
+        String json = o.get("templete_info_xml")==null?"":o.get("templete_info_xml")+"";
         if(!json.equals("")){
-            List<LinkedHashMap<String, Object>> list_json;
-            try {
-                list_json = mapper.readValue(json, List.class);
-                map.put("resource_info", list_json);
-            } catch (IOException e) {
-                e.printStackTrace();
-                map.put("resource_info", "");
-            }
+            map = csCencelsService.getTemplePaths(map, json);
         }else{
             map.put("resource_info", "");
         }

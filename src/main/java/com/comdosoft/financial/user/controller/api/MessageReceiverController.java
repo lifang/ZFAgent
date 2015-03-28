@@ -69,11 +69,12 @@ public class MessageReceiverController {
     @RequestMapping(value="deleteById",method=RequestMethod.POST)
     public Response deleteById(@RequestBody MyOrderReq myOrderReq){
         try{
-            if(null ==myOrderReq.getCustomer_id() || null == myOrderReq.getId()){
-                return Response.buildErrorWithMissing();
+            int i = messageReceiverService.delete(myOrderReq);
+            if(i==1){
+            	return Response.buildSuccess("", "删除成功");
+            }else{
+            	return Response.buildMisSuccess();
             }
-            messageReceiverService.delete(myOrderReq);
-            return Response.buildSuccess(null, "删除成功");
         }catch(Exception e){
             logger.debug("根据id删除我的消息出错"+e);
             return Response.getError("请求失败");
@@ -83,8 +84,12 @@ public class MessageReceiverController {
     @RequestMapping(value="batchDelete",method=RequestMethod.POST)
     public Response batchDelete(@RequestBody MyOrderReq myOrderReq){
         try{
-            messageReceiverService.batchDelete(myOrderReq);
-            return Response.buildSuccess("", "删除成功");
+            int i = messageReceiverService.batchDelete(myOrderReq);
+            if(i==1){
+            	return Response.buildSuccess("", "删除成功");
+            }else{
+            	return Response.buildMisSuccess();
+            }
         }catch(Exception e){
             logger.debug("根据ids[]批量删除我的消息出错"+e);
             return Response.getError("请求失败");

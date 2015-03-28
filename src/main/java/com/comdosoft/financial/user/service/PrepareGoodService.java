@@ -1,8 +1,6 @@
 package com.comdosoft.financial.user.service;
 
-
-
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,22 +13,19 @@ import com.comdosoft.financial.user.mapper.zhangfu.PrepareGoodMapper;
 import com.comdosoft.financial.user.utils.Param;
 import com.comdosoft.financial.user.utils.SysUtils;
 
-
 @Service
 public class PrepareGoodService {
 
     @Autowired
     private PrepareGoodMapper prepareGoodMapper;
-    
-    
-    
+
     public Map<String, Object> getList(PrepareGoodReq req) {
         req.setStartTime(Param.setDay(req.getStartTime()));
         req.setEndTime(Param.setDay(req.getEndTime()));
-        Map<String, Object> map=new HashMap<String, Object>();
-        int total=prepareGoodMapper.getPrepareGoodTotal(req);
+        Map<String, Object> map = new HashMap<String, Object>();
+        int total = prepareGoodMapper.getPrepareGoodTotal(req);
         map.put("total", total);
-        List<Map<String, Object>> list=prepareGoodMapper.getPrepareGoodList(req);
+        List<Map<String, Object>> list = prepareGoodMapper.getPrepareGoodList(req);
         map.put("list", list);
         return map;
     }
@@ -41,19 +36,19 @@ public class PrepareGoodService {
 
     public int add(PrepareGoodReq req) {
         try {
-            if(null!=req.getSerial_nums()&&req.getSerial_nums().length>0){
+            if (null != req.getSerial_nums() && req.getSerial_nums().length > 0) {
                 StringBuilder sb = new StringBuilder();
                 for (String serial_num : req.getSerial_nums()) {
                     req.setSerial_num(serial_num);
                     prepareGoodMapper.upTerminal_AgentId(req);
-                    sb.append(serial_num+",");
+                    sb.append(serial_num + ",");
                 }
-                sb.deleteCharAt(sb.length()-1);
+                sb.deleteCharAt(sb.length() - 1);
                 req.setTerminal_list(sb.toString());
                 req.setQuantity(req.getSerial_nums().length);
                 prepareGoodMapper.add(req);
                 return 1;
-            }else{
+            } else {
                 return 0;
             }
         } catch (Exception e) {
@@ -75,21 +70,68 @@ public class PrepareGoodService {
     }
 
     public Map<String, Object> getTerminalsList(PrepareGoodReq req) {
-        if(null!=req.getSerial_nums()&&req.getSerial_nums().length>0){
+        if (null != req.getSerial_nums() && req.getSerial_nums().length > 0) {
             req.setTerminal_list(SysUtils.Arry2Str(req.getSerial_nums()));
-        }else{
+        } else {
             req.setTerminal_list(null);
         }
-        Map<String, Object> map=new HashMap<String, Object>();
-        int total=prepareGoodMapper.getTerminalTotal(req);
+        Map<String, Object> map = new HashMap<String, Object>();
+        int total = prepareGoodMapper.getTerminalTotal(req);
         map.put("total", total);
-        List<Map<String, Object>> list=prepareGoodMapper.getTerminalList(req);
+        List<Map<String, Object>> list = prepareGoodMapper.getTerminalList(req);
         map.put("list", list);
         return map;
     }
 
-    
-   
-    
+    public Map<String, Object> checkTerminals(PrepareGoodReq req) {
+        List<Map<String, Object>> errorTerminals = new ArrayList<Map<String, Object>>();
+        String[] ss = req.getSerial_num().split("\\s+|,|;");
+        List<String> list = new ArrayList<String>();
+        for (String string : ss) {
+            if (!"".equals(string.trim())) {
+                list.add(string.trim());
+            }
+        }
+        if (list.size() > 0) {
+            Map<String, Object> map = null;
+            for (String s : list) {
+                map = new HashMap<String, Object>();
+                map.put("serialNum", s);
+                if (s.length() == 12) {
+                    req.setSerial_num(s);
+                    int t1 = prepareGoodMapper.isExit(req);
+                    if (t1 == 0) {
+                        map.put("error", "终端不存在");
+                        errorTerminals.add(map);
+                    } else {
+                        int t2 = prepareGoodMapper.isUsed(req);
+                        if (t2 == 0) {
+                            map.put("error", "终端已使用");
+                            errorTerminals.add(map);
+                        } else {
+                            int t3 = prepareGoodMapper.isGoodId(req);
+                            if (t3 == 0) {
+                                map.put("error", "终端不属于该商品");
+                                errorTerminals.add(map);
+                            } else {
+                                int t4 = prepareGoodMapper.isPcId(req);
+                                if (t4 == 0) {
+                                    map.put("error", "终端不属于该支付通道");
+                                    errorTerminals.add(map);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    map.put("error", "终端不合法");
+                    errorTerminals.add(map);
+                }
+            }
+        }
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("errorCount", errorTerminals.size());
+        result.put("errorList", errorTerminals);
+        return result;
+    }
 
 }

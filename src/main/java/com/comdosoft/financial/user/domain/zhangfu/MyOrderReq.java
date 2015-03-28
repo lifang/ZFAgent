@@ -17,7 +17,7 @@ public class MyOrderReq {
     private String q;//状态值
     private String p;//订单类型
     private Integer rows ;//每页大小
-    private Integer customer_id;//用户id
+    private Integer customerId;//用户id
     private String content;//内容
     private PayType payType;
     private OrderStatus orderStatus;
@@ -212,21 +212,14 @@ public class MyOrderReq {
     public void setRepairStatus(RepairStatus repairStatus) {
         this.repairStatus = repairStatus;
     }
-    /**  
-     * 获取 customer_id  
-     * @return customer_id
-     */
-    public Integer getCustomer_id() {
-        return customer_id;
-    }
-    /**  
-     * 设置 customer_id  
-     * @param customer_id
-     */
-    public void setCustomer_id(Integer customer_id) {
-        this.customer_id = customer_id;
-    }
-    /**  
+  
+    public Integer getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+	/**  
      * 获取 orderStatus  
      * @return orderStatus
      */
@@ -338,13 +331,18 @@ public class MyOrderReq {
         }
         return 0;
     }
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "MyOrderReq [id=" + id + ", ids=" + Arrays.toString(ids) + ", page=" + page + ", offset=" + offset + ", search=" + search + ", q=" + q + ", rows=" + rows + ", customer_id=" + customer_id + ", content=" + content + ", payType=" + payType + ", orderStatus=" + orderStatus + ", repairStatus=" + repairStatus + ", updateStatus=" + updateStatus + ", score=" + score + ", good_id=" + good_id + ", computer_name=" + computer_name + ", track_number=" + track_number + ", json=" + json + "]";
-    }
-  
+	@Override
+	public String toString() {
+		return "MyOrderReq [id=" + id + ", ids=" + Arrays.toString(ids)
+				+ ", page=" + page + ", offset=" + offset + ", search="
+				+ search + ", phone=" + phone + ", userName=" + userName
+				+ ", email=" + email + ", q=" + q + ", p=" + p + ", rows="
+				+ rows + ", customerId=" + customerId + ", content=" + content
+				+ ", payType=" + payType + ", orderStatus=" + orderStatus
+				+ ", repairStatus=" + repairStatus + ", updateStatus="
+				+ updateStatus + ", score=" + score + ", good_id=" + good_id
+				+ ", computer_name=" + computer_name + ", track_number="
+				+ track_number + ", json=" + json + "]";
+	}
     
 }

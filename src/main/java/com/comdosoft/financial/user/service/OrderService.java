@@ -102,7 +102,7 @@ public class OrderService {
 //获取批购订单
     public Page<Object> getWholesaleOrder(MyOrderReq myOrderReq) {
         PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
-        int count = orderMapper.countWholesaleOrder(myOrderReq.getCustomer_id());
+        int count = orderMapper.countWholesaleOrder(myOrderReq.getCustomerId());
         List<Order> centers = orderMapper.getWholesaleOrder(myOrderReq);
         List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = null;
@@ -173,7 +173,7 @@ public class OrderService {
 //    获取代购订单
     public Page<Object> getProxyOrder(MyOrderReq myOrderReq) {
         PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
-        int count = orderMapper.countProxyOrder(myOrderReq.getCustomer_id());
+        int count = orderMapper.countProxyOrder(myOrderReq.getCustomerId());
         List<Order> centers = orderMapper.getProxyOrder(myOrderReq);
         List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = null;

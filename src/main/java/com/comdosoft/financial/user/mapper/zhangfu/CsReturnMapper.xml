@@ -11,7 +11,7 @@
 		FROM
 			cs_returns o
 		WHERE
-			o.customer_id = #{customer_id}
+			o.customer_id = #{customerId}
 		ORDER BY
 			o.created_at DESC
 		LIMIT #{page},#{rows}
@@ -52,6 +52,6 @@
 	<!-- 提交物流信息 -->
 	<insert id="addMark" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsRepairMark">
        INSERT INTO cs_return_marks (cs_return_id,customer_id,content,created_at)
-       VALUES(#{id},#{customer_id},#{centent},NOW())
+       VALUES(#{id},#{customerId},#{centent},NOW())
     </insert>
 </mapper>

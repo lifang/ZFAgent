@@ -36,7 +36,7 @@ public class OrderController {
     @RequestMapping(value="getWholesaleOrder" ,method=RequestMethod.POST)
     public Response getWholesaleOrder(@RequestBody MyOrderReq myOrderReq) {
 //        try{
-    		Integer id = myOrderReq.getCustomer_id();
+    		Integer id = myOrderReq.getCustomerId();
     		if(null == id){
     			return Response.getError("请传入用户id");
     		}
@@ -90,7 +90,7 @@ public class OrderController {
     @RequestMapping(value="getProxyOrder" ,method=RequestMethod.POST)
     public Response getProxyOrder(@RequestBody MyOrderReq myOrderReq) {
 //        try{
-			Integer id = myOrderReq.getCustomer_id();
+			Integer id = myOrderReq.getCustomerId();
 			if(null == id){
 				return Response.getError("请传入用户id");
 			}

@@ -7,7 +7,7 @@
 		FROM
 			cs_agents o
 		WHERE
-			o.customer_id = #{customer_id}
+			o.customer_id = #{customerId}
 		ORDER BY
 			o.created_at DESC
 	</select>
@@ -17,7 +17,7 @@
 		FROM
 			cs_agents o
 		WHERE
-			o.customer_id = #{customer_id}
+			o.customer_id = #{customerId}
 				<if test="search !=null and search!=''">
 	       and (o.apply_num like "%"#{search}"%"  ) 
 	   </if>
@@ -39,7 +39,7 @@
 		FROM
 			cs_agents o
 		WHERE
-			o.customer_id = #{customer_id}
+			o.customer_id = #{customerId}
 		ORDER BY
 			o.created_at DESC
 		LIMIT #{offset},#{rows}
@@ -56,7 +56,7 @@
 		FROM
 			cs_agents o
 		WHERE
-			o.customer_id = #{customer_id}
+			o.customer_id = #{customerId}
 				<if test="search !=null and search!=''">
 	       and (o.apply_num like "%"#{search}"%"  ) 
 	   </if>

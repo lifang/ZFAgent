@@ -15,7 +15,7 @@ var cs_agentController = function ($scope, $http, LoginService) {
 	$scope.submitSearch = function(){
 		initSystemPage($scope);// 初始化分页参数
 		$scope.req = {
-			customer_id : LoginService.userid,
+			customerId : LoginService.userid,
 			search : $scope.search,
 			page : $scope.indexPage,
 			rows : $scope.rows
@@ -33,7 +33,7 @@ var cs_agentController = function ($scope, $http, LoginService) {
 	$scope.submitScreen = function(){
 		initSystemPage($scope);// 初始化分页参数
 		$scope.req = {
-			customer_id : LoginService.userid,
+			customerId : LoginService.userid,
 			search : $scope.search,
 			q : $scope.screen,
 			page : $scope.indexPage,
@@ -51,7 +51,7 @@ var cs_agentController = function ($scope, $http, LoginService) {
 	
 	$scope.submitPage = function(){
 		$scope.req = {
-			customer_id : LoginService.userid,
+			customerId : LoginService.userid,
 			search : $scope.search,
 			q : $scope.screen,
 			page : $scope.indexPage,
@@ -69,7 +69,7 @@ var cs_agentController = function ($scope, $http, LoginService) {
 	//订单列表
 	$scope.orderlist = function () {
 		initSystemPage($scope);// 初始化分页参数
-        $scope.req={customer_id:LoginService.userid,
+        $scope.req={customerId:LoginService.userid,
         		page:$scope.indexPage,
         		rows:$scope.rows};
         $http.post("api/cs/agents/getAll", $scope.req).success(function (data) {  //绑定

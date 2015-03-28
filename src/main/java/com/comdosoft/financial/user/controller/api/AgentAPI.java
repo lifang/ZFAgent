@@ -3,6 +3,7 @@ package com.comdosoft.financial.user.controller.api;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -86,10 +87,10 @@ public class AgentAPI {
     }
 
     @RequestMapping(value = "getUpdateEmailDentcode", method = RequestMethod.POST)
-    public Response getUpdateEmailDentcode(@RequestBody Customer param) {
+    public Response getUpdateEmailDentcode(@RequestBody Customer param,HttpServletRequest request) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(param.getCustomerId(),param	.getPhone()));
+            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(request,param.getCustomerId(),param	.getPhone()));
         } catch (Exception e) {
             logger.error("获取代理商修改邮箱验证码失败", e);
             sysResponse = Response.getError("获取代理商修改邮箱验证码失败:系统异常");

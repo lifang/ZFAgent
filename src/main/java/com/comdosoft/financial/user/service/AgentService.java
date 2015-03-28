@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,11 +70,14 @@ public class AgentService {
         return result;
     }
 
-    public Object getUpdateEmailDentcode(int customerId, String email) {
+    public Object getUpdateEmailDentcode(HttpServletRequest request, int customerId, String email) {
         Map<Object, Object> result = new HashMap<Object, Object>();
-
+        String url = request.getScheme() + "://"; // 请求协议 http 或 https
+		url += request.getHeader("host"); // 请求服务器
+		url += request.getContextPath();
+		System.err.println("===>>>"+url);
         // 生成随机6位验证码
-        String dentcode = SysUtils.getRandNumberString(6);
+        String dentcode = SysUtils.getCode();
         result.put("dentcode", dentcode);
 
         // 保存验证码入库
@@ -85,7 +89,7 @@ public class AgentService {
         // email
         MailReq req = new MailReq();
         req.setAddress(email);
-        req.setUrl("<a href='localhost:8080/ZFMerchant/#/findpassEmail'>激活账号</a>");
+        req.setUrl("<a href='"+url+"/#/findpassEmail'>激活账号</a>");
         req.setUserName(String.valueOf(customer.getCustomerId()));
 
         MailService.sendMail(req);

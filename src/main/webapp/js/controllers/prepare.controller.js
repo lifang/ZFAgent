@@ -7,7 +7,7 @@ var preparelistController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
-		$scope.req.agents_id=LoginService.agentid;
+		$scope.req.agentId=LoginService.agentid;
 		$scope.sonlist();
 		$scope.list();
 	};
@@ -23,7 +23,7 @@ var preparelistController = function ($scope, $http, LoginService) {
 	$scope.sonlist=function(){
 		$http.post("api/preparegood/getsonagent", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.son=data.result.list;
+            	$scope.son=data.result;
             }
         });
 	};
@@ -61,12 +61,37 @@ var preparelistController = function ($scope, $http, LoginService) {
 
 var prepareaddController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
-		$scope.req={};
-		$scope.req.agents_id=LoginService.agentid;
+		$scope.req={son_agents_id:0};
+		$scope.req.agentId=LoginService.agentid;
 		$scope.sonlist();
-		$scope.list();
+		$scope.getglist();
+		$scope.getpclist();
 	};
-	
+	$scope.sonlist=function(){
+		$http.post("api/preparegood/getsonagent", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.son=data.result;
+            }
+        });
+	};
+	$scope.getglist=function(){
+		$http.post("api/preparegood/getgoodlist", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.goodlist=data.result;
+            }
+        });
+	};
+	$scope.getpclist=function(){
+		$http.post("api/preparegood/getpaychannellist", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.pclist=data.result;
+            }
+        });
+	};
+	$scope.checkson=function(id){
+		$(this).addClass("hover").siblings().removeClass("hover");
+		$scope.req.son_agents_id=id;
+	};
 	$scope.init();
 };
 

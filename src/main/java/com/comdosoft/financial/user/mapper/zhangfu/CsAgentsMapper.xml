@@ -7,7 +7,23 @@
 		FROM
 			cs_agents o
 		WHERE
-			o.customer_id = #{customer_id}
+			o.customer_id = #{customerId}
+		ORDER BY
+			o.created_at DESC
+	</select>
+	
+	<select id="countSearch" resultType="int" >
+		SELECT count(o.id) as count
+		FROM
+			cs_agents o
+		WHERE
+			o.customer_id = #{customerId}
+				<if test="search !=null and search!=''">
+	       and (o.apply_num like "%"#{search}"%"  ) 
+	   </if>
+		<if test="q !=null and q!=''">
+			and o.status = #{q}
+		</if>
 		ORDER BY
 			o.created_at DESC
 	</select>
@@ -23,7 +39,30 @@
 		FROM
 			cs_agents o
 		WHERE
-			o.customer_id = #{customer_id}
+			o.customer_id = #{customerId}
+		ORDER BY
+			o.created_at DESC
+		LIMIT #{offset},#{rows}
+	</select>
+	
+	<select id="search" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgent">
+		SELECT
+			o.id,
+			o.created_at,
+			o.status,
+			o.terminals_list,
+			o.terminals_quantity,
+			o.apply_num
+		FROM
+			cs_agents o
+		WHERE
+			o.customer_id = #{customerId}
+				<if test="search !=null and search!=''">
+	       and (o.apply_num like "%"#{search}"%"  ) 
+	   </if>
+		<if test="q !=null and q!=''">
+			and o.status = #{q}
+		</if>
 		ORDER BY
 			o.created_at DESC
 		LIMIT #{offset},#{rows}

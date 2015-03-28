@@ -3,8 +3,10 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 import java.util.List;
 import java.util.Map;
 
+import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 
@@ -39,6 +41,95 @@ public interface TerminalsWebMapper {
      * @return
      */
     List<Map<Object, Object>> searchUser(Map<Object, Object> map);
+    
+    /**
+     * 查看该终端号是否存在
+     * @param terminalsNum
+     * @return
+     */
+    Object getTerminalsNum(String terminalsNum);
+    
+    /**
+     * 查看该终端号是否已经绑定
+     * @param terminalsNum
+     * @return
+     */
+    int numIsBinding(String terminalsNum);
+    
+    /**
+     * 查看该用户是否已有绑定终端
+     * @param erchantsId
+     * @return
+     */
+    int merchantsIsBinding(int merchantsId);
+    
+    /**
+     * 给用户绑定终端号
+     * @param map
+     */
+    void Binding(Map<Object, Object> map);
+    
+    /**
+     * 判断用户是否存在
+     * @param map
+     */
+    int findUname(Map<Object, Object> map);
+    
+    /**
+     * 添加新用户
+     * @param map
+     */
+    void addUser(Customer customer);
+    
+    /**
+     * 检查终端号是否存在
+     * @param map
+     */
+    int checkTerminalCode(String str);
+    
+    /**
+     * 添加申请售后记录
+     * @param csAgent
+     */
+    void submitAgent(CsAgent csAgent);
+    
+    /**
+     * 收件人信息
+     * @param customerId
+     * @return
+     */
+    List<Map<String, Object>> getAddressee(int customerId);
+    
+    /**
+     * <!-添加联系地址 -->
+     * 
+     * @param 
+     * @return
+     */
+    void addCostometAddress(CustomerAddress customerAddress);
+    
+    /**
+     * 物流信息
+     * 
+     * @param 
+     * @return
+     */
+    void addCsAgentMark(Map<Object, Object> map);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	
 	
 	
@@ -88,13 +179,7 @@ public interface TerminalsWebMapper {
      */
     List<Map<Object, Object>> getShiCities(int parentId);
     
-    /**
-     * <!-添加联系地址 -->
-     * 
-     * @param 
-     * @return
-     */
-    void addCostometAddress(CustomerAddress customerAddress);
+    
     
     /**
      * 根据通道id获得周期
@@ -178,7 +263,7 @@ public interface TerminalsWebMapper {
      * @param map
      * @return
      */
-    void subRepairAddress(CsReceiverAddress csReceiverAddress);
+   //void subRepairAddress(CsReceiverAddress csReceiverAddress);
     
     /**
      * 申请维修添加

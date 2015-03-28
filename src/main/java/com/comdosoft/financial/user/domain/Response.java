@@ -73,12 +73,27 @@ public class Response {
         return response;
     }
     
+    public static Response buildMisSuccess() {
+    	Response response = new Response();
+    	response.code = SUCCESS_CODE;
+    	response.result = "";
+    	response.message = "请求的数据列表为空 或请求参数错误！请检查";
+    	return response;
+    }
+    
     public static Response buildErrorWithMissing() {
         Response r = new Response();
         r.code = MISSING_CODE;
         r.result = null;
         r.message = "参数错误或数据不存在";
         return r;
+    }
+    
+    public static Response getErrorContext(Object result) {
+        Response response = new Response();
+        response.code = ERROR_CODE;
+        response.result = result;//错误数据
+        return response;
     }
 
 }

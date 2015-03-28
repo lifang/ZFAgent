@@ -166,7 +166,7 @@
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		LEFT JOIN cs_out_storages os ON o.id = os.order_id
 		WHERE
-		o.customer_id = #{customer_id}
+		o.customer_id = #{customerId}
 		and o.types = 1
 		order by o.created_at desc
 		LIMIT #{offset},#{rows}
@@ -186,7 +186,7 @@
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		LEFT JOIN customers c ON o.customer_id = c.id
 		WHERE
-		o.customer_id = #{customer_id}
+		o.customer_id = #{customerId}
 		and o.types = 0
 		order by o.created_at desc
 		LIMIT #{offset},#{rows}
@@ -273,7 +273,7 @@
     <insert id="comment" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.GoodComment">
 		INSERT into good_comments 
 		(score,content,customer_id,good_id,order_id,created_at)
-		VALUES(#{score},#{content},#{customer_id},#{good_id},#{order_id},NOW())
+		VALUES(#{score},#{content},#{customerId},#{good_id},#{order_id},NOW())
   </insert>
     
      <select id="findTraceById" resultType="map" >
@@ -303,7 +303,7 @@
 		invoice_info,actual_price,created_at,updated_at,
 		comment,total_quantity)
 		VALUES(#{ordernumber},#{customerId},#{totalprice},0,#{orderType},
-		#{addressId},#{is_need_invoice},#{invoice_type},#{invoice_info},
+		#{addressId},#{isNeedInvoice},#{invoiceType},#{invoiceInfo},
 		#{totalprice},NOW(),NOW(),#{comment},#{totalcount})
   </insert>
   
@@ -312,7 +312,7 @@
 		(good_id,pay_channel_id,quantity,price,actual_price,
 		order_id,created_at,updated_at)
 		VALUES(#{goodId},#{paychannelId},#{quantity},
-		#{price},#{retail_price},#{id},NOW(),NOW())
+		#{price},#{retailPrice},#{id},NOW(),NOW())
   </insert>
   
   

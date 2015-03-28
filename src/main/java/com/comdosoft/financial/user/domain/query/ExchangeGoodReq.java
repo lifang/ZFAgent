@@ -3,20 +3,20 @@ package com.comdosoft.financial.user.domain.query;
 public class ExchangeGoodReq {
     
     private int id;
-    private String[] serial_nums;
-    private int agents_id;
-    private int son_agents_id;
-    private int customer_id;
-    private int from_agent_id;
-    private int to_agent_id;
+    private String[] serialNums;
+    private int agentId;
+    private int sonAgentId;
+    private int customerId;
+    private int fromAgentId;
+    private int toAgentId;
     private String startTime;
     private String endTime;
     
     //--------
     
-    private String serial_num;
+    private String serialNum;
     
-    private String terminal_list;
+    private String terminalList;
     
     private int quantity;
     
@@ -24,52 +24,62 @@ public class ExchangeGoodReq {
     
     
 
-    public int getCustomer_id() {
-        return customer_id;
+    
+
+    public int getId() {
+        return id;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getFrom_agent_id() {
-        return from_agent_id;
+    public String[] getSerialNums() {
+        return serialNums;
     }
 
-    public void setFrom_agent_id(int from_agent_id) {
-        this.from_agent_id = from_agent_id;
+    public void setSerialNums(String[] serialNums) {
+        this.serialNums = serialNums;
     }
 
-    public int getTo_agent_id() {
-        return to_agent_id;
+    public int getAgentId() {
+        return agentId;
     }
 
-    public void setTo_agent_id(int to_agent_id) {
-        this.to_agent_id = to_agent_id;
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
     }
 
-    public String getTerminal_list() {
-        return terminal_list;
+    public int getSonAgentId() {
+        return sonAgentId;
     }
 
-    public void setTerminal_list(String terminal_list) {
-        this.terminal_list = terminal_list;
+    public void setSonAgentId(int sonAgentId) {
+        this.sonAgentId = sonAgentId;
     }
 
-    public String[] getSerial_nums() {
-        return serial_nums;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setSerial_nums(String[] serial_nums) {
-        this.serial_nums = serial_nums;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
-    public String getSerial_num() {
-        return serial_num;
+    public int getFromAgentId() {
+        return fromAgentId;
     }
 
-    public void setSerial_num(String serial_num) {
-        this.serial_num = serial_num;
+    public void setFromAgentId(int fromAgentId) {
+        this.fromAgentId = fromAgentId;
+    }
+
+    public int getToAgentId() {
+        return toAgentId;
+    }
+
+    public void setToAgentId(int toAgentId) {
+        this.toAgentId = toAgentId;
     }
 
     public String getStartTime() {
@@ -88,20 +98,20 @@ public class ExchangeGoodReq {
         this.endTime = endTime;
     }
 
-    public int getAgents_id() {
-        return agents_id;
+    public String getSerialNum() {
+        return serialNum;
     }
 
-    public void setAgents_id(int agents_id) {
-        this.agents_id = agents_id;
+    public void setSerialNum(String serialNum) {
+        this.serialNum = serialNum;
     }
 
-    public int getSon_agents_id() {
-        return son_agents_id;
+    public String getTerminalList() {
+        return terminalList;
     }
 
-    public void setSon_agents_id(int son_agents_id) {
-        this.son_agents_id = son_agents_id;
+    public void setTerminalList(String terminalList) {
+        this.terminalList = terminalList;
     }
 
     public int getQuantity() {
@@ -110,14 +120,6 @@ public class ExchangeGoodReq {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     private int page;

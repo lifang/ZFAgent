@@ -1,24 +1,16 @@
 package com.comdosoft.financial.user.service;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.DefaultTransactionStatus;
 
-import com.comdosoft.financial.user.domain.query.ExchangeGoodReq;
 import com.comdosoft.financial.user.domain.query.LowerAgentReq;
-import com.comdosoft.financial.user.domain.query.PrepareGoodReq;
 import com.comdosoft.financial.user.mapper.zhangfu.LowerAgentMapper;
 import com.comdosoft.financial.user.utils.Param;
 import com.comdosoft.financial.user.utils.SysUtils;

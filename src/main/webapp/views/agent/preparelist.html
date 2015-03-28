@@ -14,18 +14,26 @@
 		</div>
 		<div class="seenBox clear">
 			<ul>
-				<li><div class="user_search">
+				<li>
+					<div class="user_search">
 						<input name="" type="text" />
 						<button></button>
-					</div></li>
-				<li><div class="user_select">
-						<label>下级代理商</label> <select ng-options="x.id as x.company_name for x in son">
-						</select>
-					</div></li>
-				<li><div class="user_date">
+					</div>
+				</li>
+				<li>
+					<div class="user_select">
+						<label>下级代理商</label>
+						<select ng-model="req.sonAgentsId" ng-options="x.id as x.company_name for x in son"></select>
+					</div>
+				</li>
+				<li>
+					<div class="user_date">
 						<label>选择日期</label> <input name="" type="text" /> - <input name="" type="text" />
-					</div></li>
-				<li><button class="ghostBtn">搜索</button></li>
+					</div>
+				</li>
+				<li>
+					<button class="ghostBtn" ng-click="list()">搜索</button>
+				</li>
 			</ul>
 		</div>
 		<div class="uesr_table">

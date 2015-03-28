@@ -43,7 +43,7 @@ public class GoodService {
         for (Map<String, Object> map : list) {
             if(1==posreq.getType()){
                 map.put("purchase_price", setPurchasePrice(
-                        posreq.getAgent_id(),SysUtils.Object2int(map.get("purchase_price")),
+                        posreq.getAgentId(),SysUtils.Object2int(map.get("purchase_price")),
                         SysUtils.Object2int(map.get("floor_price"))));
             }
             int id = Integer.valueOf("" + map.get("id"));
@@ -71,7 +71,7 @@ public class GoodService {
         int id = SysUtils.Object2int("" + goodinfo.get("id"));
         if(1==posreq.getType()){
             goodinfo.put("purchase_price", setPurchasePrice(
-                    posreq.getAgent_id(),SysUtils.Object2int(goodinfo.get("purchase_price")),
+                    posreq.getAgentId(),SysUtils.Object2int(goodinfo.get("purchase_price")),
                     SysUtils.Object2int(goodinfo.get("floor_price"))));
         }
         if (id > 0) {

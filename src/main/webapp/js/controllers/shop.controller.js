@@ -7,20 +7,20 @@ var shopController = function ($scope, $http, LoginService) {
 	
 	$scope.req={};
 	$scope.req.keys=LoginService.keys;
-	$scope.req.city_id=LoginService.city;
+	$scope.req.cityId=LoginService.city;
 	$scope.req.orderType=1;
 	
-	$scope.req.has_purchase=false;
+	$scope.req.hasLease=false;
 	//$scope.req.keys="";
 	//$scope.req.minPrice=0;
 	//$scope.req.maxPrice=0;
 	
-	$scope.req.brands_id=[];
+	$scope.req.brandsId=[];
 	$scope.req.category=[];
-	$scope.req.pay_channel_id=[];
-	$scope.req.pay_card_id=[];
-	$scope.req.trade_type_id=[];
-	$scope.req.sale_slip_id=[];
+	$scope.req.payChannelId=[];
+	$scope.req.payCardId=[];
+	$scope.req.tradeTypeId=[];
+	$scope.req.saleSlipId=[];
 	$scope.req.tDate=[];
 	
 	$scope.xxx="";
@@ -59,20 +59,20 @@ var shopController = function ($scope, $http, LoginService) {
 	    $scope.list();
     };
     $scope.list = function () {
-    	if($scope.req.has_purchase){
-    		$scope.req.has_purchase=1;
+    	if($scope.req.hasLease){
+    		$scope.req.hasLease=1;
     	}else{
-    		$scope.req.has_purchase=0;
+    		$scope.req.hasLease=0;
     	}
     	$scope.req.page=$scope.req.indexPage;
 		$http.post("api/good/list", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.goodList=data.result.list;
             	calcSystemPage($scope.req, data.result.total);// 计算分页
-            	if($scope.req.has_purchase==1){
-            		$scope.req.has_purchase=true;
+            	if($scope.req.hasLease==1){
+            		$scope.req.hasLease=true;
             	}else{
-            		$scope.req.has_purchase=false;
+            		$scope.req.hasLease=false;
             	}
             	
             }
@@ -112,11 +112,11 @@ var shopController = function ($scope, $http, LoginService) {
     	if(p.clazz=="hover"){
     		p.clazz="";
     		$scope.chli1val="";
-    		$scope.req.brands_id=[];
+    		$scope.req.brandsId=[];
     		angular.forEach($scope.brands, function (one) {
        		  if(one.clazz=="hover"){
        			$scope.chli1val=$scope.chli1val+one.value+",";
-       			$scope.req.brands_id.push(one.id);
+       			$scope.req.brandsId.push(one.id);
        		  }
             });
     		if($scope.chli1val==""){
@@ -133,14 +133,14 @@ var shopController = function ($scope, $http, LoginService) {
     			$scope.chli1val=p.value;
     		}
     		$scope.chli1show=true;
-    		$scope.req.brands_id.push(p.id);
+    		$scope.req.brandsId.push(p.id);
     		p.clazz="hover";
     	}
     	$scope.search();
     }
     $scope.chli1del=function () {
     	$scope.chli1show=false;
-    	$scope.req.brands_id=[];
+    	$scope.req.brandsId=[];
     	 angular.forEach($scope.brands, function (one) {
     		 one.clazz="";
          });
@@ -191,11 +191,11 @@ var shopController = function ($scope, $http, LoginService) {
     	if(p.clazz=="hover"){
     		p.clazz="";
     		$scope.chli3val="";
-    		$scope.req.pay_channel_id=[];
+    		$scope.req.payChannelId=[];
     		angular.forEach($scope.pay_channel, function (one) {
        		  if(one.clazz=="hover"){
        			$scope.chli3val=$scope.chli3val+one.value+",";
-       			$scope.req.pay_channel_id.push(one.id);
+       			$scope.req.payChannelId.push(one.id);
        		  }
             });
     		if($scope.chli3val==""){
@@ -212,14 +212,14 @@ var shopController = function ($scope, $http, LoginService) {
     			$scope.chli3val=p.value;
     		}
     		$scope.chli3show=true;
-    		$scope.req.pay_channel_id.push(p.id);
+    		$scope.req.payChannelId.push(p.id);
     		p.clazz="hover";
     	}
     	$scope.search();
     }
     $scope.chli3del=function () {
     	$scope.chli3show=false;
-    	$scope.req.pay_channel_id=[];
+    	$scope.req.payChannelId=[];
     	 angular.forEach($scope.pay_channel, function (one) {
     		 one.clazz="";
          });
@@ -231,11 +231,11 @@ var shopController = function ($scope, $http, LoginService) {
     	if(p.clazz=="hover"){
     		p.clazz="";
     		$scope.chli4val="";
-    		$scope.req.pay_card_id=[];
+    		$scope.req.payCardId=[];
     		angular.forEach($scope.pay_card, function (one) {
        		  if(one.clazz=="hover"){
        			$scope.chli4val=$scope.chli4val+one.value+",";
-       			$scope.req.pay_card_id.push(one.id);
+       			$scope.req.payCardId.push(one.id);
        		  }
             });
     		if($scope.chli4val==""){
@@ -252,14 +252,14 @@ var shopController = function ($scope, $http, LoginService) {
     			$scope.chli4val=p.value;
     		}
     		$scope.chli4show=true;
-    		$scope.req.pay_card_id.push(p.id);
+    		$scope.req.payCardId.push(p.id);
     		p.clazz="hover";
     	}
     	$scope.search();
     }
     $scope.chli4del=function () {
     	$scope.chli4show=false;
-    	$scope.req.pay_card_id=[];
+    	$scope.req.payCardId=[];
     	 angular.forEach($scope.pay_card, function (one) {
     		 one.clazz="";
          });
@@ -271,11 +271,11 @@ var shopController = function ($scope, $http, LoginService) {
     	if(p.clazz=="hover"){
     		p.clazz="";
     		$scope.chli5val="";
-    		$scope.req.trade_type_id=[];
+    		$scope.req.tradeTypeId=[];
     		angular.forEach($scope.trade_type, function (one) {
        		  if(one.clazz=="hover"){
        			$scope.chli5val=$scope.chli5val+one.value+",";
-       			$scope.req.trade_type_id.push(one.id);
+       			$scope.req.tradeTypeId.push(one.id);
        		  }
             });
     		if($scope.chli5val==""){
@@ -292,14 +292,14 @@ var shopController = function ($scope, $http, LoginService) {
     			$scope.chli5val=p.value;
     		}
     		$scope.chli5show=true;
-    		$scope.req.trade_type_id.push(p.id);
+    		$scope.req.tradeTypeId.push(p.id);
     		p.clazz="hover";
     	}
     	$scope.search();
     }
     $scope.chli5del=function () {
     	$scope.chli5show=false;
-    	$scope.req.trade_type_id=[];
+    	$scope.req.tradeTypeId=[];
     	 angular.forEach($scope.trade_type, function (one) {
     		 one.clazz="";
          });
@@ -311,11 +311,11 @@ var shopController = function ($scope, $http, LoginService) {
     	if(p.clazz=="hover"){
     		p.clazz="";
     		$scope.chli6val="";
-    		$scope.req.sale_slip_id=[];
+    		$scope.req.saleSlipId=[];
     		angular.forEach($scope.sale_slip, function (one) {
        		  if(one.clazz=="hover"){
        			$scope.chli6val=$scope.chli6val+one.value+",";
-       			$scope.req.sale_slip_id.push(one.id);
+       			$scope.req.saleSlipId.push(one.id);
        		  }
             });
     		if($scope.chli6val==""){
@@ -332,14 +332,14 @@ var shopController = function ($scope, $http, LoginService) {
     			$scope.chli6val=p.value;
     		}
     		$scope.chli6show=true;
-    		$scope.req.sale_slip_id.push(p.id);
+    		$scope.req.saleSlipId.push(p.id);
     		p.clazz="hover";
     	}
     	$scope.search();
     }
     $scope.chli6del=function () {
     	$scope.chli6show=false;
-    	$scope.req.sale_slip_id=[];
+    	$scope.req.saleSlipId=[];
     	 angular.forEach($scope.sale_slip, function (one) {
     		 one.clazz="";
          });
@@ -367,7 +367,7 @@ var shopinfoController = function ($scope,$location, $http, LoginService) {
 	$scope.quantity=1;
 	$scope.req.goodId=$location.search()['goodId'];
 	$scope.creq.goodId=$scope.req.goodId;
-	$scope.req.city_id=LoginService.city;
+	$scope.req.cityId=LoginService.city;
 	$scope.init = function () {
 		initSystemPage($scope.creq);// 初始化分页参数
 		//LoginService.hadLoginShow();

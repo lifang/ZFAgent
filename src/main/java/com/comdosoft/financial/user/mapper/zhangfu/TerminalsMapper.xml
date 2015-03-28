@@ -96,11 +96,13 @@
 	</select>
 
 	<select id="numIsBinding" parameterType="string" resultType="int">
-		SELECT count(*) FROM terminals t
+		<!-- SELECT count(*) FROM terminals t
 		JOIN merchants s
 		ON
 		t.customer_id = s.customer_id
-		WHERE t.serial_num=#{terminalsNum}
+		WHERE t.serial_num=#{terminalsNum} -->
+		SELECT count(*) FROM terminals t
+		WHERE t.serial_num=#{terminalsNum} and customer_id is null
 	</select>
 
 	<select id="merchantsIsBinding" parameterType="int" resultType="object">

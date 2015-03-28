@@ -9,8 +9,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
@@ -72,24 +74,82 @@ public class TerminalsWebService {
 		return terminalsWebMapper.searchUser(map);
 	}
 	
+	/**
+	 * 查看该终端号是否存在
+	 * @param terminalsNum
+	 * @return
+	 */
+	public Object getTerminalsNum(String terminalsNum){
+		return terminalsWebMapper.getTerminalsNum(terminalsNum);
+	}
 	
-		
+	/**
+	 * 查看该终端号是否已经绑定
+	 * @param terminalsNum
+	 * @return
+	 */
+	public int numIsBinding(String terminalsNum){
+		return terminalsWebMapper.numIsBinding(terminalsNum);
+	}
+	
+	/**
+	 * 查看该用户是否已有绑定终端
+	 * @param erchantsId
+	 * @return
+	 */
+	public int merchantsIsBinding(int merchantsId){
+		return terminalsWebMapper.merchantsIsBinding(merchantsId);
+	}
 	
 	
+	/**
+	 * 给用户绑定终端号
+	 * @param map
+	 */
+	public void Binding(Map<Object, Object> map){
+		terminalsWebMapper.Binding(map);
+	}
 	
+	/**
+	 * 判断用户是否存在
+	 * @param map
+	 */
+	public int findUname(Map<Object, Object> map){
+		return terminalsWebMapper.findUname(map);
+	}
 	
+	/**
+	 * 添加新用户
+	 * @param map
+	 */
+	public void addUser(Customer customer){
+		terminalsWebMapper.addUser(customer);
+	}
 	
+	/**
+	 * 检查终端号是否存在
+	 * @param map
+	 */
+	public int checkTerminalCode(String str){
+		return  terminalsWebMapper.checkTerminalCode(str);
+	}
 	
+	/**
+	 * 添加申请售后记录
+	 * @param csAgent
+	 */
+	public  void submitAgent(CsAgent csAgent){
+		terminalsWebMapper.submitAgent(csAgent);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 收件人信息
+	 * @param customerId
+	 * @return
+	 */
+	public  List<Map<String, Object>> getAddressee(int customerId){
+		return terminalsWebMapper.getAddressee(customerId);
+	}
 	
 	/**
 	 * 添加联系地址
@@ -100,6 +160,44 @@ public class TerminalsWebService {
 	public void addCostometAddress(CustomerAddress customerAddress) {
 		terminalsWebMapper.addCostometAddress(customerAddress);
 	}
+	
+	/**
+	 * 添加联系地址
+	 * 
+	 * @param customerAddress
+	 * @return
+	 */
+	public void addCsAgentMark(Map<Object, Object> map) {
+		terminalsWebMapper.addCsAgentMark(map);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/**
@@ -259,7 +357,7 @@ public class TerminalsWebService {
 	 * @param pageSize
 	 * @return
 	 */
-	public CsReceiverAddress subRepairAddress(Map<Object, Object> map) {
+	/*public CsReceiverAddress subRepairAddress(Map<Object, Object> map) {
 		CsReceiverAddress csReceiverAddress = new CsReceiverAddress();
 		//csReceiverAddress.setAddress((String)map.get("address"));
 		csReceiverAddress.setPhone((String)map.get("phone"));
@@ -268,7 +366,7 @@ public class TerminalsWebService {
 		terminalsWebMapper.subRepairAddress(csReceiverAddress);
 		return csReceiverAddress;
 	}
-	
+	*/
 	/**
 	 *添加申请维修
 	 * 

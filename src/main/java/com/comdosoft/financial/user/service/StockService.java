@@ -26,7 +26,7 @@ public class StockService {
     private GoodMapper goodMapper;
 
     public Map<String, Object> getList(StockReq req) {
-        String code=stockMapper.getAgentCode(req.getAgents_id());
+        String code=stockMapper.getAgentCode(req.getAgentId());
         if(null==code||code.length()<3){
             return null;
         }
@@ -41,8 +41,8 @@ public class StockService {
                 if (null != goodPics && goodPics.size() > 0) {
                     map2.put("picurl", goodPics.get(0));
                 }
-                req.setGood_id(SysUtils.Object2int(map2.get("good_id")));
-                req.setPaychannel_id(SysUtils.Object2int(map2.get("paychannel_id")));
+                req.setGoodId(SysUtils.Object2int(map2.get("good_id")));
+                req.setPaychannelId(SysUtils.Object2int(map2.get("paychannel_id")));
                 map2.put("hoitoryCount", stockMapper.getHoitoryCount(req));
                 map2.put("openCount", stockMapper.getOpenCount(req));
                 map2.put("agentCount", stockMapper.getAgentCount(req));
@@ -63,8 +63,8 @@ public class StockService {
         List<Map<String, Object>> list=stockMapper.getSonAgent(req);
         if(null!=list&&list.size()>0){
             for (Map<String, Object> map : list) {
-                req.setAgents_id(SysUtils.Object2int( map.get("id")));
-                req.setCode(stockMapper.getAgentCode(req.getAgents_id()));
+                req.setAgentId(SysUtils.Object2int( map.get("id")));
+                req.setCode(stockMapper.getAgentCode(req.getAgentId()));
              //   map.put("hoitoryCount", stockMapper.getHoitoryCount(req));
                 map.put("openCount", stockMapper.getOpenCount(req));
                 map.put("lastPrepareTime", stockMapper.getLastPrepareTime(req));

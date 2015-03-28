@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -86,7 +88,7 @@ public class TerminalsWebController {
 	}
 	
 	/**
-	 * 搜索所有用户
+	 * 搜索代理商相关所有用户
 	 * 
 	 * @param namemap
 	 * @return
@@ -94,13 +96,174 @@ public class TerminalsWebController {
 	@RequestMapping(value="searchUser",method=RequestMethod.POST)
 	public Response searchUser(@RequestBody Map<Object, Object> namemap){
 		try{
-			namemap.put("type", Customer.TYPE_CUSTOMER);
+			//namemap.put("type", Customer.TYPE_CUSTOMER);
 			return Response.getSuccess(terminalsWebService.searchUser(namemap));
 		}catch(Exception e){
 			e.printStackTrace();
 			return Response.getError("系统异常");
 		}
 	}
+	
+	/**
+	 * 为用户绑定
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="BindingTerminals",method=RequestMethod.POST)
+	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
+		try {
+			if(terminalsWebService.getTerminalsNum((String)map.get("terminalsNum"))==null){
+				return Response.getError("终端号不存在！");
+			}else{
+				if(terminalsWebService.numIsBinding((String)map.get("terminalsNum"))==0){
+					return Response.getError("该终端已绑定！");
+				}else{
+					/*if(terminalsWebService.merchantsIsBinding((Integer)map.get("merchantsId"))>0){
+						return Response.getError("该商户已绑定终端！");
+					}else{*/
+						//Integer terId =(Integer) terminalsWebService.getTerminalsNum((String)map.get("terminalsNum"));
+						//map.put("terchantsId", terId);
+						terminalsWebService.Binding(map);
+						return Response.getSuccess("绑定成功！");
+					//}
+				}
+			}
+		} catch (Exception e) {
+			logger.error("为用户绑定失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 新创建用户
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="addCustomer",method=RequestMethod.POST)
+	public Response addCustomer(@RequestBody Map<Object, Object> map){
+		try {
+			if(terminalsWebService.findUname(map)>0){
+				return Response.getError("用户已存在！");
+			}else{
+				//添加新用户
+				Customer customer = new Customer();
+				customer.setUsername((String)map.get("username"));
+				customer.setName((String)map.get("name"));
+				customer.setPassword((String)map.get("pass1"));
+				customer.setCityId((Integer)map.get("cityid"));
+				customer.setTypes(Customer.TYPE_CUSTOMER);
+				customer.setStatus(Customer.STATUS_NORMAL);
+				customer.setIntegral(0);
+				terminalsWebService.addUser(customer);
+				return Response.getSuccess(customer);
+			}
+		} catch (Exception e) {
+			logger.error("为用户绑定失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 收件人信息
+	 * @param customerId
+	 * @return
+	 */
+	@RequestMapping(value="getAddressee",method=RequestMethod.POST)
+	public Response getAddressee(@RequestBody Map<String, Object> map){
+		try{
+			System.out.println("查看地址："+(Integer)map.get("customerId"));
+			return Response.getSuccess(terminalsWebService.getAddressee((Integer)map.get("customerId")));
+		}catch(Exception e){
+			logger.error("收件人信息异常！", e);
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 *添加联系地址
+	 * 
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping(value = "addCostometAddress", method = RequestMethod.POST)
+	public Response addCostometAddress(@RequestBody CustomerAddress customerAddress) {
+		try {
+			customerAddress.setIsDefault(CustomerAddress.ISDEFAULT_2);
+			terminalsWebService.addCostometAddress(customerAddress);
+			return Response.getSuccess("添加成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 提交申请售后
+	 * @param customerId
+	 * @return
+	 */
+	@RequestMapping(value="submitAgent",method=RequestMethod.POST)
+	public Response submitAgent(@RequestBody Map<Object, Object> map){
+		try{
+			List<String> errorlist = new ArrayList<String>();//错误终端号数据
+			List<String> successlist = new ArrayList<String>();//正确终端号数据
+			
+			CsAgent csAgent = new CsAgent();
+			csAgent.setCustomerId((Integer)map.get("customerId"));
+			csAgent.setAddress((String)map.get("address"));
+			csAgent.setReason((String)map.get("reason"));
+			csAgent.setTerminalsList((String)map.get("terminalsList"));
+			csAgent.setReciver((String)map.get("receiver"));
+			csAgent.setPhone((String)map.get("phone"));
+			
+			String[] arr = csAgent.getTerminalsList().split(",");
+			
+			for(int i=0;i<arr.length;i++){
+				int count = terminalsWebService.checkTerminalCode(arr[i]);
+				if(count == 0){
+					errorlist.add(arr[i]);
+				}else{
+					successlist.add(arr[i]);
+				}
+			}
+			if(errorlist.size() == 0){
+				//提交数据操作
+				csAgent.setStatus(CsAgent.STSTUS_1);
+				csAgent.setApplyNum(String.valueOf(System.currentTimeMillis())+csAgent.getCustomerId());
+				csAgent.setTerminalsQuantity(arr.length);
+				terminalsWebService.submitAgent(csAgent);//添加售后信息
+				map.put("agentId", csAgent.getId());
+				map.put("customerId", csAgent.getCustomerId());
+				terminalsWebService.addCsAgentMark(map);
+				return Response.getSuccess("提交申请成功！");
+			}else{
+				//返回错误终端号数组
+				return Response.getErrorContext(errorlist);
+			}
+		}catch(Exception e){
+			logger.error("提交申请售后失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 物流信息
+	 * @param customerId
+	 * @return
+	 */
+/*	@RequestMapping(value="getMerchants",method=RequestMethod.POST)
+	public Response getMerchants(@RequestBody Map<String, Object> map){
+		try {
+			return Response.getSuccess(terminalsService.getMerchants((Integer)map.get("customerId")));
+		} catch (Exception e) {
+			logger.error("获得代理商下面的用户失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}*/
+	
+	
 
 	/**
 	 * 根据用户ID获得终端列表
@@ -220,35 +383,7 @@ public class TerminalsWebController {
 		}
 	}*/
 	
-	/**
-	 * 为用户绑定
-	 * @param map
-	 * @return
-	 */
-	/*@RequestMapping(value="BindingTerminals",method=RequestMethod.POST)
-	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
-		try {
-			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"))==null){
-				return Response.getError("终端号不存在！");
-			}else{
-				if(terminalsService.numIsBinding((String)map.get("terminalsNum"))>0){
-					return Response.getError("该终端已绑定！");
-				}else{
-					if(terminalsService.merchantsIsBinding((Integer)map.get("merchantsId"))!=null){
-						return Response.getError("该商户已绑定终端！");
-					}else{
-						String terId =(String)terminalsService.getTerminalsNum((String)map.get("terminalsNum"));
-						map.put("terchantsId", terId);
-						terminalsService.Binding(map);
-						return Response.getSuccess("绑定成功！");
-					}
-				}
-			}
-		} catch (Exception e) {
-			logger.error("为用户绑定失败！", e);
-			return Response.getError("请求失败！");
-		}
-	}*/
+	
 	
 	/**
 	 * 选择终端号

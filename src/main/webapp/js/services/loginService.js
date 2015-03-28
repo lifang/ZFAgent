@@ -9,9 +9,10 @@ var loginService = function ($http, $rootScope, $cookieStore) {
         //定义当前用户是否被授权
         //isAuthorized: typeof($cookieStore.get("loginInfo")) == 'undefined' ? false : true,
     	isAuthorized:true,
+    	
     	//当前登陆的用户名
         loginAgentName: typeof($cookieStore.get("loginAgentName")) == 'undefined' ? "" : $cookieStore.get("loginAgentName"),
-        agentid: typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
+        agentid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
         city:1,
         goods: [],
         tradeTypeId: 0,
@@ -44,6 +45,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit);//是否有分润
       			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
       			        	   $cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
+      			        	   $cookieStore.put("agentId",data.result.agentId);//代理商Id
       			        	   //刷新
       			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   window.location.href = '#/';

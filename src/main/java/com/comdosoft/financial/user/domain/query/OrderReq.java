@@ -9,9 +9,9 @@ public class OrderReq {
     private int totalprice;
     private int totalcount;
     private int price;
-    private int retail_price;
+    private int retailPrice;
     
-    private int agent_id;
+    private int agentId;
     private int goodId;
     private int paychannelId;
     private int quantity;
@@ -19,9 +19,9 @@ public class OrderReq {
     private int customerId;
     private int addressId;
     private String comment;
-    private int is_need_invoice;
-    private int invoice_type;
-    private String invoice_info;
+    private int isNeedInvoice;
+    private int invoiceType;
+    private String invoiceInfo;
     /**
     {"quantity":2,"customerId":1,"addressId":1,"comment":"nihao",
     "is_need_invoice":0,"cartid":[1,2,3],"goodId":2,"paychannelId":2,"":}
@@ -80,24 +80,7 @@ public class OrderReq {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    public int getIs_need_invoice() {
-        return is_need_invoice;
-    }
-    public void setIs_need_invoice(int is_need_invoice) {
-        this.is_need_invoice = is_need_invoice;
-    }
-    public int getInvoice_type() {
-        return invoice_type;
-    }
-    public void setInvoice_type(int invoice_type) {
-        this.invoice_type = invoice_type;
-    }
-    public String getInvoice_info() {
-        return invoice_info;
-    }
-    public void setInvoice_info(String invoice_info) {
-        this.invoice_info = invoice_info;
-    }
+    
     public int getPaychannelId() {
         return paychannelId;
     }
@@ -116,11 +99,11 @@ public class OrderReq {
     public void setPrice(int price) {
         this.price = price;
     }
-    public int getRetail_price() {
-        return retail_price;
+    public int getRetailPrice() {
+        return retailPrice;
     }
-    public void setRetail_price(int retail_price) {
-        this.retail_price = retail_price;
+    public void setRetailPrice(int retailPrice) {
+        this.retailPrice = retailPrice;
     }
     public int getOrderType() {
         return orderType;
@@ -128,12 +111,31 @@ public class OrderReq {
     public void setOrderType(int orderType) {
         this.orderType = orderType;
     }
-    public int getAgent_id() {
-        return agent_id;
+    public int getAgentId() {
+        return agentId;
     }
-    public void setAgent_id(int agent_id) {
-        this.agent_id = agent_id;
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
     }
+    public int getIsNeedInvoice() {
+        return isNeedInvoice;
+    }
+    public void setIsNeedInvoice(int isNeedInvoice) {
+        this.isNeedInvoice = isNeedInvoice;
+    }
+    public int getInvoiceType() {
+        return invoiceType;
+    }
+    public void setInvoiceType(int invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+    public String getInvoiceInfo() {
+        return invoiceInfo;
+    }
+    public void setInvoiceInfo(String invoiceInfo) {
+        this.invoiceInfo = invoiceInfo;
+    }
+   
     
     
 }

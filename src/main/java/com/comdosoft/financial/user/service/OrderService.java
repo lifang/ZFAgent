@@ -55,7 +55,7 @@ public class OrderService {
                 int goodId = SysUtils.Object2int(goodMap.get("goodid"));
                 PosReq posreq = new PosReq();
                 posreq.setGoodId(goodId);
-                posreq.setCity_id(count-quantity);
+                posreq.setCityId(count-quantity);
                 //goodMapper.upQuantity(posreq);
             }
             //3 代理商代购 4 代理商代租赁 5 代理商批购
@@ -74,7 +74,7 @@ public class OrderService {
                 if(quantity<floor_purchase_quantity){
                     return 0; 
                 }
-                int factprice=goodService.setPurchasePrice(orderreq.getAgent_id(), purchase_price, floor_price);
+                int factprice=goodService.setPurchasePrice(orderreq.getAgentId(), purchase_price, floor_price);
                 payprice=factprice+opening_cost;
                 price=SysUtils.Object2int(goodMap.get("price"))+opening_cost;
             }else{
@@ -86,7 +86,7 @@ public class OrderService {
             orderMapper.addOrder(orderreq);
             
             orderreq.setPrice(price);
-            orderreq.setRetail_price(payprice);
+            orderreq.setRetailPrice(payprice);
             orderMapper.addOrderGood(orderreq);
             return orderreq.getId();
         
@@ -102,7 +102,7 @@ public class OrderService {
 //获取批购订单
     public Page<Object> getWholesaleOrder(MyOrderReq myOrderReq) {
         PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
-        int count = orderMapper.countWholesaleOrder(myOrderReq.getCustomer_id());
+        int count = orderMapper.countWholesaleOrder(myOrderReq.getCustomerId());
         List<Order> centers = orderMapper.getWholesaleOrder(myOrderReq);
         List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = null;
@@ -173,7 +173,7 @@ public class OrderService {
 //    获取代购订单
     public Page<Object> getProxyOrder(MyOrderReq myOrderReq) {
         PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
-        int count = orderMapper.countProxyOrder(myOrderReq.getCustomer_id());
+        int count = orderMapper.countProxyOrder(myOrderReq.getCustomerId());
         List<Order> centers = orderMapper.getProxyOrder(myOrderReq);
         List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = null;

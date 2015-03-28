@@ -9,6 +9,7 @@
 		<link href="style/shop.css" rel="stylesheet" type="text/css" />
 		<link href="style/jquery-ui.css" rel="stylesheet" type="text/css" />
 		
+		<script type="text/javascript"  src="js/jQuery-1.11.2.js"></script>
 		<script type="text/javascript" src="js/libs/angular.js"></script>
 		<script type="text/javascript" src="js/libs/angular-route.js"></script>
 		<script type="text/javascript" src="js/libs/angular-cookies.js"></script>
@@ -18,7 +19,6 @@
 		<!-- 系统分页 -->
 		<script type="text/javascript" src="js/page.js"></script>
 		<!-- 日历控件 -->
-		<script src="js/jQuery-1.11.2.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/services/loginService.js"></script>
 		<!-- Directives -->
@@ -39,7 +39,10 @@
 		<script type="text/javascript" src="js/controllers/account/accountOne.js"></script>
 		<script type="text/javascript" src="js/controllers/terminals/terminals.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/terminals/bindingTerminals.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/terminals/terminalService.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/terminals/terminalsDetail.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/lowerAgent.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/stock.controller.js"></script>
 		<script src="js/jQuery-1.11.2.js"></script>
 		<script src="js/main.js"></script>
 
@@ -69,8 +72,8 @@
 		<div class="box">
 			<div class="left">
 				<ul>
-					<li><a href="#" class="hover">我的掌富</a></li>
-					<li><a href="#">我的库存</a></li>
+					<li><a href="#/myapp">我的掌富</a></li>
+					<li><a href="#/stock">我的库存</a></li>
 					<li><a href="#/purchaseOrder">批购</a></li>
 					<li><a href="#/othersOrder">代购</a></li>
 					<li><a href="#/terminals">管理终端</a></li>
@@ -84,9 +87,9 @@
 						</ol></li>
 					<li class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
 						<ol>
-							<li><a href="#">注销记录</a></li>
-							<li><a href="#">更新资料记录</a></li>
-							<li><a href="#">代理商售后记录</a></li>
+						    <li><a href="#/cs_cencel">注销记录</a></li>
+							<li><a href="#/cs_update">更新资料记录</a></li>
+							<li><a href="#/cs_agent">代理商售后记录</a></li>
 						</ol></li>
 					<li><a href="#">管理用户</a></li>
 					<li class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
@@ -99,6 +102,7 @@
 				</ul>
 			</div>
 			<div ng-view></div>
+			<script src="js/left.js"></script>
 		</div>
 	</div>
 
@@ -118,5 +122,6 @@
 			<div class="copyright">版权所有 &copy; 2011-2014 上海掌富网络技术有限公司（备案号 1236548）</div>
 		</div>
 	</div>
+	<div class="mask"></div>
 </body>
 </html>

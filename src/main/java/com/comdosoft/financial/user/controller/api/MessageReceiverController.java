@@ -2,6 +2,7 @@ package com.comdosoft.financial.user.controller.api;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -35,16 +36,15 @@ public class MessageReceiverController {
     
     @RequestMapping(value="getAll",method=RequestMethod.POST)
     public Response getAll(@RequestBody MyOrderReq myOrderReq){
-        try{
+//        try{
             Page<Object> mrs= messageReceiverService.findAll(myOrderReq);
             return Response.getSuccess(mrs);
-        }catch(NullPointerException e){
-            return Response.buildErrorWithMissing();
-        }catch(Exception e){
-        	e.printStackTrace();
-            logger.debug("获取我的消息列表出错"+e);
-            return Response.getError("请求失败");
-        }
+//        }catch(NullPointerException e){
+//            return Response.buildErrorWithMissing();
+//        }catch(Exception e){
+//            logger.debug("获取我的消息列表出错"+e);
+//            return Response.getError("请求失败");
+//        }
     }
     
     @RequestMapping(value="getById",method=RequestMethod.POST)
@@ -69,11 +69,12 @@ public class MessageReceiverController {
     @RequestMapping(value="deleteById",method=RequestMethod.POST)
     public Response deleteById(@RequestBody MyOrderReq myOrderReq){
         try{
-            String res = messageReceiverService.delete(myOrderReq);
-            if(res.equals("-1")){
-                return Response.buildErrorWithMissing();
+            int i = messageReceiverService.delete(myOrderReq);
+            if(i==1){
+            	return Response.buildSuccess("", "删除成功");
+            }else{
+            	return Response.buildMisSuccess();
             }
-            return Response.buildSuccess("", "删除成功");
         }catch(Exception e){
             logger.debug("根据id删除我的消息出错"+e);
             return Response.getError("请求失败");
@@ -82,13 +83,27 @@ public class MessageReceiverController {
     
     @RequestMapping(value="batchDelete",method=RequestMethod.POST)
     public Response batchDelete(@RequestBody MyOrderReq myOrderReq){
-//        try{
-            messageReceiverService.batchDelete(myOrderReq);
+        try{
+            int i = messageReceiverService.batchDelete(myOrderReq);
+            if(i==1){
+            	return Response.buildSuccess("", "删除成功");
+            }else{
+            	return Response.buildMisSuccess();
+            }
+        }catch(Exception e){
+            logger.debug("根据ids[]批量删除我的消息出错"+e);
+            return Response.getError("请求失败");
+        }
+    }
+    
+    @RequestMapping(value="deleteAll",method=RequestMethod.POST)
+    public Response deleteAll(@RequestBody MyOrderReq myOrderReq){
+        try{
+            messageReceiverService.deleteAll(myOrderReq);
             return Response.buildSuccess("", "删除成功");
-//        }catch(Exception e){
-//            logger.debug("根据ids[]批量删除我的消息出错"+e);
-//            return Response.getError("请求失败");
-//        }
+        }catch(Exception e){
+            return Response.getError("请求失败");
+        }
     }
     
     @RequestMapping(value="batchRead",method=RequestMethod.POST)
@@ -100,5 +115,12 @@ public class MessageReceiverController {
             logger.debug("根据ids[]批量设置我的消息已读 出错"+e);
             return Response.getError("请求失败");
         }
+    }
+    
+    @RequestMapping(value="getServerDynamic",method=RequestMethod.POST)
+    public Response getServerDynamic(@RequestBody MyOrderReq myOrderReq){
+        List<Map<String,Object>> ts = messageReceiverService.getServerDynamic(myOrderReq);
+        Response rs = Response.buildSuccess(ts, "");
+        return rs;
     }
 }

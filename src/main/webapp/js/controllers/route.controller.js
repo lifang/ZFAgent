@@ -68,8 +68,28 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/agent/lowerAgentSet.html'
 	}).when('/terminals', {
 		templateUrl : 'views/terminals/terminalsList.html'
+	}).when('/cs_cencel', {
+		templateUrl : 'views/cs/cencel.html'
+	}).when('/cs_cencelinfo', {
+		templateUrl : 'views/cs/cencelinfo.html'
+	}).when('/cs_update', {
+		templateUrl : 'views/cs/update.html'
+	}).when('/cs_updateinfo', {
+		templateUrl : 'views/cs/updateinfo.html'
+	}).when('/cs_agent', {
+		templateUrl : 'views/cs/agent.html'
+	}).when('/cs_agentinfo', {
+		templateUrl : 'views/cs/agentinfo.html'
 	}).when('/binding', {
 		templateUrl : 'views/terminals/bindingTerminals.html'
+	}).when('/terminalSerivce', {
+		templateUrl : 'views/terminals/terminalService.html'
+	}).when('/terminalDetail', {
+		templateUrl : 'views/terminals/terminalDetail.html'
+	}).when('/stock', {
+		templateUrl : 'views/agent/stock.html'
+	}).when('/stockinfo', {
+		templateUrl : 'views/agent/stockinfo.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

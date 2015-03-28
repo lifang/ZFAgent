@@ -36,7 +36,7 @@ public class OrderController {
     @RequestMapping(value="getWholesaleOrder" ,method=RequestMethod.POST)
     public Response getWholesaleOrder(@RequestBody MyOrderReq myOrderReq) {
 //        try{
-    		Integer id = myOrderReq.getCustomer_id();
+    		Integer id = myOrderReq.getCustomerId();
     		if(null == id){
     			return Response.getError("请传入用户id");
     		}
@@ -74,7 +74,7 @@ public class OrderController {
         try{
           int i =   orderService.cancelMyOrder(myOrderReq);
             if(i==1){
-                return Response.buildSuccess(null, "取消成功");
+                return Response.buildSuccess("", "取消成功");
             }else{
                 return Response.getError( "操作失败");
             }
@@ -90,7 +90,7 @@ public class OrderController {
     @RequestMapping(value="getProxyOrder" ,method=RequestMethod.POST)
     public Response getProxyOrder(@RequestBody MyOrderReq myOrderReq) {
 //        try{
-			Integer id = myOrderReq.getCustomer_id();
+			Integer id = myOrderReq.getCustomerId();
 			if(null == id){
 				return Response.getError("请传入用户id");
 			}
@@ -128,7 +128,7 @@ public class OrderController {
         try{
             int  i = orderService.cancelMyOrder(myOrderReq);
             if(i==1){
-                return Response.buildSuccess(null, "取消成功");
+                return Response.buildSuccess("", "取消成功");
             }else{
                 return Response.getError( "操作失败");
             }
@@ -148,6 +148,7 @@ public class OrderController {
             resp.setResult(result);
         } catch (LowstocksException e) {
             resp.setCode(-2);
+            resp.setMessage("库存不足");
         } catch (Exception e) {
             resp.setCode(Response.ERROR_CODE);
             e.printStackTrace();

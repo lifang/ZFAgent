@@ -48,7 +48,7 @@ public class AgentService {
         Map<Object, Object> result = new HashMap<Object, Object>();
 
         // 生成随机6位验证码
-        String dentcode = SysUtils.getRandNumberString(6);
+        String dentcode = SysUtils.getCode();
         result.put("dentcode", dentcode);
 
         // 保存验证码入库

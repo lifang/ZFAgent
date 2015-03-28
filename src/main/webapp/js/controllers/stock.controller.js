@@ -71,7 +71,7 @@ var stockinfoController = function ($scope, $http,$location, LoginService) {
 };
 
 
-stocklistController.$inject = ['$scope','$http','LoginService'];
+stockController.$inject = ['$scope','$http','LoginService'];
 stockModule.controller("stockController", stockController);
 
 stockinfoController.$inject = ['$scope','$http','$location','LoginService'];

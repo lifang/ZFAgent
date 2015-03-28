@@ -303,7 +303,7 @@
 		invoice_info,actual_price,created_at,updated_at,
 		comment,total_quantity)
 		VALUES(#{ordernumber},#{customerId},#{totalprice},0,#{orderType},
-		#{addressId},#{is_need_invoice},#{invoice_type},#{invoice_info},
+		#{addressId},#{isNeedInvoice},#{invoiceType},#{invoiceInfo},
 		#{totalprice},NOW(),NOW(),#{comment},#{totalcount})
   </insert>
   
@@ -312,7 +312,7 @@
 		(good_id,pay_channel_id,quantity,price,actual_price,
 		order_id,created_at,updated_at)
 		VALUES(#{goodId},#{paychannelId},#{quantity},
-		#{price},#{retail_price},#{id},NOW(),NOW())
+		#{price},#{retailPrice},#{id},NOW(),NOW())
   </insert>
   
   

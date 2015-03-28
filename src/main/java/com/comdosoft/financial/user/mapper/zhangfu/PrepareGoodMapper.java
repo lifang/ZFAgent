@@ -32,6 +32,14 @@ public interface PrepareGoodMapper {
 
     List<Map<String, Object>> getTerminalList(PrepareGoodReq req);
 
+    int isExit(PrepareGoodReq req);
+
+    int isUsed(PrepareGoodReq req);
+
+    int isGoodId(PrepareGoodReq req);
+
+    int isPcId(PrepareGoodReq req);
+
    
 
     

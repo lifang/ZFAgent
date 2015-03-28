@@ -3,11 +3,11 @@ package com.comdosoft.financial.user.domain.query;
 public class StockReq {
     
     
-    private int agents_id;
+    private int agentId;
     
-    private int good_id;
+    private int goodId;
     
-    private int paychannel_id;
+    private int paychannelId;
     
     private String goodname;
     
@@ -17,20 +17,20 @@ public class StockReq {
     
     private String code;
 
-    public int getAgents_id() {
-        return agents_id;
+    public int getAgentsId() {
+        return agentId;
     }
 
-    public void setAgents_id(int agents_id) {
-        this.agents_id = agents_id;
+    public void setAgentsId(int agentId) {
+        this.agentId = agentId;
     }
 
-    public int getGood_id() {
-        return good_id;
+    public int getGoodId() {
+        return goodId;
     }
 
-    public void setGood_id(int good_id) {
-        this.good_id = good_id;
+    public void setGoodId(int goodId) {
+        this.goodId = goodId;
     }
 
     public String getGoodname() {
@@ -41,12 +41,12 @@ public class StockReq {
         this.goodname = goodname.trim();
     }
 
-    public int getPaychannel_id() {
-        return paychannel_id;
+    public int getPaychannelId() {
+        return paychannelId;
     }
 
-    public void setPaychannel_id(int paychannel_id) {
-        this.paychannel_id = paychannel_id;
+    public void setPaychannelId(int paychannelId) {
+        this.paychannelId = paychannelId;
     }
 
     public String getCode() {

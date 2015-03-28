@@ -30,23 +30,23 @@ public class GoodsController {
     }
     
     private PosReq setPosReq(PosReq req){
-        if(null!=req.getBrands_id()&&0!=req.getBrands_id().length){
-            req.setBrands_ids(SysUtils.Arry2Str(req.getBrands_id()));
+        if(null!=req.getBrandsId()&&0!=req.getBrandsId().length){
+            req.setBrandsIds(SysUtils.Arry2Str(req.getBrandsId()));
         }
         if(null!=req.getCategory()&&0!=req.getCategory().length){
             req.setCategorys(SysUtils.Arry2Str(req.getCategory()));
         }
-        if(null!=req.getPay_channel_id()&&0!=req.getPay_channel_id().length){
-            req.setPay_channel_ids(SysUtils.Arry2Str(req.getPay_channel_id()));
+        if(null!=req.getPayChannelId()&&0!=req.getPayChannelId().length){
+            req.setPayChannelIds(SysUtils.Arry2Str(req.getPayChannelId()));
         }
-        if(null!=req.getPay_card_id()&&0!=req.getPay_card_id().length){
-            req.setPay_card_ids(SysUtils.Arry2Str(req.getPay_card_id()));
+        if(null!=req.getPayCardId()&&0!=req.getPayCardId().length){
+            req.setPayCardIds(SysUtils.Arry2Str(req.getPayCardId()));
         }
-        if(null!=req.getTrade_type_id()&&0!=req.getTrade_type_id().length){
-            req.setTrade_type_ids(SysUtils.Arry2Str(req.getTrade_type_id()));
+        if(null!=req.getTradeTypeId()&&0!=req.getTradeTypeId().length){
+            req.setTradeTypeIds(SysUtils.Arry2Str(req.getTradeTypeId()));
         }
-        if(null!=req.getSale_slip_id()&&0!=req.getSale_slip_id().length){
-            req.setSale_slip_ids(SysUtils.Arry2Str(req.getSale_slip_id()));
+        if(null!=req.getSaleSlipId()&&0!=req.getSaleSlipId().length){
+            req.setSaleSlipIds(SysUtils.Arry2Str(req.getSaleSlipId()));
         }
         if(null!=req.gettDate()&&0!=req.gettDate().length){
             req.settDates(SysUtils.Arry2Str(req.gettDate()));

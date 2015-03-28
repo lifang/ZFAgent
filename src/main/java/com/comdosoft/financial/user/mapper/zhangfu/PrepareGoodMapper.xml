@@ -1,100 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.PrepareGoodMapper">
-  
-      <insert id="add"  parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
+
+	<insert id="add" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
 		insert into prepare_goods_records(agent_id,good_id,quantity,created_at,updated_at,
 		process_user_id,terminal_list,pay_channel_id)
-		VALUES (#{son_agents_id},#{good_id},#{quantity},NOW(),NOW(),
-		#{customer_id},#{terminal_list},#{paychannel_id})
- 	 </insert>
-  
-    <update id="upTerminal_AgentId" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
-         UPDATE terminals set agent_id=#{son_agents_id} where serial_num=#{serial_num}
-     </update>
-     
-     <select id="getPrepareGoodList" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
-            SELECT pgr.id,a.company_name,pgr.quantity,  
-            DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') as created_at
-            from prepare_goods_records pgr
-            LEFT JOIN agents a on a.id=pgr.agent_id
-			where (process_user_id in 
-			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agents_id}) OR
-			process_user_id=(SELECT customer_id from agents WHERE id=#{agents_id}))
-			<if test="startTime!=null">
+		VALUES (#{sonAgentsId},#{goodId},#{quantity},NOW(),NOW(),
+		#{customerId},#{terminalList},#{paychannelId})
+	</insert>
+
+	<update id="upTerminal_AgentId" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
+		UPDATE terminals set agent_id=#{sonAgentsId} where serial_num=#{serialNum}
+	</update>
+
+	<select id="getPrepareGoodList" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
+		SELECT pgr.id,a.company_name,pgr.quantity,
+		DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') as created_at
+		from prepare_goods_records pgr
+		LEFT JOIN agents a on a.id=pgr.agent_id
+		where (process_user_id in
+		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentsId}) OR
+		process_user_id=(SELECT customer_id from agents WHERE id=#{agentsId}))
+		<if test="startTime!=null">
 			   <![CDATA[ and pgr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
-			</if>
-			<if test="endTime!=null">
-			   <![CDATA[ and pgr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
-			</if>
-			<if test="son_agents_id!=0">
-			   <![CDATA[ and pgr.agent_id=#{son_agents_id} ]]>
-			</if>
-			LIMIT #{offset}, #{rows}
-     </select>
-      <select id="getPrepareGoodTotal" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">
-            SELECT count(*) from prepare_goods_records 
-			where (process_user_id in 
-			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agents_id}) OR
-			process_user_id=(SELECT customer_id from agents WHERE id=#{agents_id}))
-			<if test="startTime!=null">
-			   <![CDATA[ and created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
-			</if>
-			<if test="endTime!=null">
-			   <![CDATA[ and created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
-			</if>
-			<if test="son_agents_id!=0">
-			   <![CDATA[ and agent_id=#{son_agents_id} ]]>
-			</if>
-     </select>
-     
-      <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
-			SELECT pgr.id,a.company_name ,DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') created_at,
-			pgr.quantity,pgr.terminal_list ,c.name as creator
-			from prepare_goods_records pgr
-			LEFT JOIN agents a on a.id=pgr.agent_id
-			LEFT JOIN customers c on c.id=pgr.process_user_id
-			where pgr.id=#{id}
-     </select>
-     
-     <select id="getSonAgent"  resultType="map">
-		SELECT id,company_name from agents where parent_id=#{agents_id} and status=2
-     </select>
-     
-     <select id="getGoodList"  resultType="map">
-		SELECT DISTINCT g.id,IFNULL(agn.name,g.title) as goodname from terminals t 
-		LEFT JOIN goods g on t.good_id=g.id 
-		LEFT JOIN agent_good_names agn on g.id=agn.good_id 
-		where t.agent_id=#{agents_id} and t.customer_id is null
-     </select>
-     
-     <select id="getPayChannelList"  resultType="map">
-		SELECT DISTINCT pc.id,pc.name as paychannel 
-    	from terminals t 
-		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
-		where t.agent_id=#{agents_id} and t.customer_id is null
-     </select>
-     
-     
-     <select id="getTerminalTotal"  resultType="int">
-		SELECT count(t.id)
-	    from terminals t 
-		where t.agent_id=#{agents_id} and t.customer_id is null and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
-     	<if test="terminal_list!=null">
-		  and t.serial_num in ${terminal_list}
 		</if>
-     </select>
-     
-     <select id="getTerminalList"  resultType="map">
-		SELECT t.serial_num,(pc.opening_cost+g.retail_price) as money
-	    from terminals t 
-	    LEFT JOIN goods g on t.good_id=g.id 
-	    LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
-		where t.agent_id=#{agents_id} and t.customer_id is null and t.good_id=#{good_id} and t.pay_channel_id=#{paychannel_id}
-		<if test="terminal_list!=null">
-		  and t.serial_num in ${terminal_list}
+		<if test="endTime!=null">
+			   <![CDATA[ and pgr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="son_agents_id!=0">
+			   <![CDATA[ and pgr.agent_id=#{sonAgentsId} ]]>
 		</if>
 		LIMIT #{offset}, #{rows}
-     </select>
-     
+	</select>
+	<select id="getPrepareGoodTotal" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">
+		SELECT count(*) from prepare_goods_records
+		where (process_user_id in
+		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentsId}) OR
+		process_user_id=(SELECT customer_id from agents WHERE id=#{agentsId}))
+		<if test="startTime!=null">
+			   <![CDATA[ and created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="endTime!=null">
+			   <![CDATA[ and created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="son_agents_id!=0">
+			   <![CDATA[ and agent_id=#{sonAgentsId} ]]>
+		</if>
+	</select>
+
+	<select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
+		SELECT pgr.id,a.company_name ,DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') created_at,
+		pgr.quantity,pgr.terminal_list ,c.name as creator
+		from prepare_goods_records pgr
+		LEFT JOIN agents a on a.id=pgr.agent_id
+		LEFT JOIN customers c on c.id=pgr.process_user_id
+		where pgr.id=#{id}
+	</select>
+
+	<select id="getSonAgent" resultType="map">
+		SELECT id,company_name from agents where parent_id=#{agentsId} and status=2
+	</select>
+
+	<select id="getGoodList" resultType="map">
+		SELECT DISTINCT g.id,IFNULL(agn.name,g.title) as goodname from terminals t
+		LEFT JOIN goods g on t.good_id=g.id
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id
+		where t.agent_id=#{agentsId} and t.customer_id is null
+	</select>
+
+	<select id="getPayChannelList" resultType="map">
+		SELECT DISTINCT pc.id,pc.name as paychannel
+		from terminals t
+		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
+		where t.agent_id=#{agentsId} and t.customer_id is null
+	</select>
+
+
+	<select id="getTerminalTotal" resultType="int">
+		SELECT count(t.id)
+		from terminals t
+		where t.agent_id=#{agentsId} and t.customer_id is null and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
+		<if test="terminal_list!=null">
+			and t.serial_num in ${terminal_list}
+		</if>
+	</select>
+
+	<select id="getTerminalList" resultType="map">
+		SELECT t.serial_num,(pc.opening_cost+g.retail_price) as money
+		from terminals t
+		LEFT JOIN goods g on t.good_id=g.id
+		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
+		where t.agent_id=#{agentsId} and t.customer_id is null and t.good_id=#{goodId} and t.pay_channel_id=#{paychannelId}
+		<if test="terminal_list!=null">
+			and t.serial_num in ${terminal_list}
+		</if>
+		LIMIT #{offset}, #{rows}
+	</select>
+
+	<select id="isExit" resultType="int">
+		SELECT count(t.serial_num) FROM terminals t
+		WHERE t.agent_id = #{agentsId} and t.serial_num=#{serialNum}
+	</select>
+	
+	<select id="isUsed" resultType="int">
+		SELECT count(t.serial_num) FROM terminals t
+		WHERE t.agent_id = #{agentsId} AND t.customer_id IS NULL and t.serial_num=#{serialNum}
+	</select>
+	
+	<select id="isGoodId" resultType="int">
+		SELECT count(t.serial_num)
+		FROM terminals t
+		LEFT JOIN goods g ON t.good_id = g.id
+		WHERE
+		t.agent_id = #{agentsId}
+		AND t.good_id = #{goodId}
+		and t.serial_num=#{serialNum}
+	</select>
+	
+	<select id="isPcId" resultType="int">
+		SELECT count(t.serial_num)
+		FROM terminals t
+		LEFT JOIN pay_channels pc ON pc.id = t.pay_channel_id
+		WHERE
+		t.agent_id = #{agentsId}
+		AND t.pay_channel_id = #{paychannelId}
+		and t.serial_num=#{serialNum}
+	</select>
+
 </mapper>

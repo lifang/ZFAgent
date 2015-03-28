@@ -6,9 +6,9 @@ public class PosReq {
     private int goodId;
 
     
-    private int city_id;
+    private int cityId;
     
-    private int agent_id;
+    private int agentId;
     
     private int type; //1 批购
     /**
@@ -17,37 +17,37 @@ public class PosReq {
     private int orderType;
 
     /**
-     * POS品牌 brands_id ------>good_brands
+     * POS品牌 brandsId ------>good_brands
      * 
-     * POS机类型 pos_category_id ---->pos_categories
+     * POS机类型 posCategoryId ---->posCategories
      * 
-     * 支付通道 goods_pay_channels---> pay_channels
+     * 支付通道 goods_payChannels---> payChannels
      * 
-     * 支付卡类型 good_card_types --->dictionary_card_types
+     * 支付卡类型 goodCardTypes --->dictionaryCardTypes
      * 
      * 
-     * 支付交易类型 goods_pay_channels ---> pay_channels---> support_trade_types --->dictionary_trade_types
+     * 支付交易类型 goods_payChannels ---> payChannels---> supportTradeTypes --->dictionaryTradeTypes
      * 
-     * 签购单打印方式 sign_order_way_id --->dictionary_sign_order_ways
+     * 签购单打印方式 sign_order_wayId --->dictionarySign_order_ways
      * 
-     * 对账日期 goods_pay_channels---> pay_channels---> pay_channel_billing_cycles--->dictionary_billing_cycles
+     * 对账日期 goods_payChannels---> payChannels---> payChannel_billingCycles--->dictionary_billingCycles
      */
-    private int[] brands_id;// POS品牌
-    private String brands_ids;
+    private int[] brandsId;// POS品牌
+    private String brandsIds;
     private int[] category;// POS机类型
     private String categorys;
-    private int[] pay_channel_id;// 支付通道
-    private String pay_channel_ids;
-    private int[] pay_card_id;// 支付卡类型
-    private String pay_card_ids;
-    private int[] trade_type_id;// 支持交易类型
-    private String trade_type_ids;
-    private int[] sale_slip_id;// 签单方式
-    private String sale_slip_ids;
+    private int[] payChannelId;// 支付通道
+    private String payChannelIds;
+    private int[] payCardId;// 支付卡类型
+    private String payCardIds;
+    private int[] tradeTypeId;// 支持交易类型
+    private String tradeTypeIds;
+    private int[] saleSlipId;// 签单方式
+    private String saleSlipIds;
     private int[] tDate;// 对账日期
     private String tDates;
 
-    private int has_lease;// 只包含租贷 1是
+    private int hasLease;// 只包含租贷 1是
     private double minPrice;
     private double maxPrice;
 
@@ -70,20 +70,20 @@ public class PosReq {
         this.orderType = orderType;
     }
 
-    public int[] getBrands_id() {
-        return brands_id;
+    public int[] getBrandsId() {
+        return brandsId;
     }
 
-    public void setBrands_id(int[] brands_id) {
-        this.brands_id = brands_id;
+    public void setBrandsId(int[] brandsId) {
+        this.brandsId = brandsId;
     }
 
-    public String getBrands_ids() {
-        return brands_ids;
+    public String getBrandsIds() {
+        return brandsIds;
     }
 
-    public void setBrands_ids(String brands_ids) {
-        this.brands_ids = brands_ids;
+    public void setBrandsIds(String brandsIds) {
+        this.brandsIds = brandsIds;
     }
     public int[] getCategory() {
         return category;
@@ -101,68 +101,68 @@ public class PosReq {
         this.categorys = categorys;
     }
 
-    public int[] getPay_channel_id() {
-        return pay_channel_id;
+    public int[] getPayChannelId() {
+        return payChannelId;
     }
 
-    public void setPay_channel_id(int[] pay_channel_id) {
-        this.pay_channel_id = pay_channel_id;
+    public void setPayChannelId(int[] payChannelId) {
+        this.payChannelId = payChannelId;
     }
 
-    public String getPay_channel_ids() {
-        return pay_channel_ids;
+    public String getPayChannelIds() {
+        return payChannelIds;
     }
 
-    public void setPay_channel_ids(String pay_channel_ids) {
-        this.pay_channel_ids = pay_channel_ids;
+    public void setPayChannelIds(String payChannelIds) {
+        this.payChannelIds = payChannelIds;
     }
 
-    public int[] getPay_card_id() {
-        return pay_card_id;
+    public int[] getPayCardId() {
+        return payCardId;
     }
 
-    public void setPay_card_id(int[] pay_card_id) {
-        this.pay_card_id = pay_card_id;
+    public void setPayCardId(int[] payCardId) {
+        this.payCardId = payCardId;
     }
 
-    public String getPay_card_ids() {
-        return pay_card_ids;
+    public String getPayCardIds() {
+        return payCardIds;
     }
 
-    public void setPay_card_ids(String pay_card_ids) {
-        this.pay_card_ids = pay_card_ids;
+    public void setPayCardIds(String payCardIds) {
+        this.payCardIds = payCardIds;
     }
 
-    public int[] getTrade_type_id() {
-        return trade_type_id;
+    public int[] getTradeTypeId() {
+        return tradeTypeId;
     }
 
-    public void setTrade_type_id(int[] trade_type_id) {
-        this.trade_type_id = trade_type_id;
+    public void setTradeTypeId(int[] tradeTypeId) {
+        this.tradeTypeId = tradeTypeId;
     }
 
-    public String getTrade_type_ids() {
-        return trade_type_ids;
+    public String getTradeTypeIds() {
+        return tradeTypeIds;
     }
 
-    public void setTrade_type_ids(String trade_type_ids) {
-        this.trade_type_ids = trade_type_ids;
+    public void setTradeTypeIds(String tradeTypeIds) {
+        this.tradeTypeIds = tradeTypeIds;
     }
 
-    public int[] getSale_slip_id() {
-        return sale_slip_id;
+    public int[] getSaleSlipId() {
+        return saleSlipId;
     }
 
-    public void setSale_slip_id(int[] sale_slip_id) {
-        this.sale_slip_id = sale_slip_id;
+    public void setSaleSlipId(int[] saleSlipId) {
+        this.saleSlipId = saleSlipId;
     }
 
-    public String getSale_slip_ids() {
-        return sale_slip_ids;
+    public String getSaleSlipIds() {
+        return saleSlipIds;
     }
 
-    public void setSale_slip_ids(String sale_slip_ids) {
-        this.sale_slip_ids = sale_slip_ids;
+    public void setSaleSlipIds(String saleSlipIds) {
+        this.saleSlipIds = saleSlipIds;
     }
 
     public int[] gettDate() {
@@ -183,20 +183,20 @@ public class PosReq {
 
    
 
-    public int getCity_id() {
-        return city_id;
+    public int getCityId() {
+        return cityId;
     }
 
-    public void setCity_id(int city_id) {
-        this.city_id = city_id;
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
-    public int getHas_lease() {
-        return has_lease;
+    public int getHasLease() {
+        return hasLease;
     }
 
-    public void setHas_lease(int has_lease) {
-        this.has_lease = has_lease;
+    public void setHasLease(int hasLease) {
+        this.hasLease = hasLease;
     }
 
     public double getMinPrice() {
@@ -235,12 +235,12 @@ public class PosReq {
  
   
 
-    public int getAgent_id() {
-        return agent_id;
+    public int getAgentId() {
+        return agentId;
     }
 
-    public void setAgent_id(int agent_id) {
-        this.agent_id = agent_id;
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
     }
 
     public int getMinPricei() {

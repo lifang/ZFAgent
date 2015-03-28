@@ -40,16 +40,16 @@ public class ExchangeGoodService {
 
     public int add(ExchangeGoodReq req) {
         try {
-            if(null!=req.getSerial_nums()&&req.getSerial_nums().length>0){
+            if(null!=req.getSerialNums()&&req.getSerialNums().length>0){
                 StringBuilder sb = new StringBuilder();
-                for (String serial_num : req.getSerial_nums()) {
-                    req.setSerial_num(serial_num);
+                for (String serialNum : req.getSerialNums()) {
+                    req.setSerialNum(serialNum);
                     exchangeGoodMapper.upTerminal_AgentId(req);
-                    sb.append(serial_num+",");
+                    sb.append(serialNum+",");
                 }
                 sb.deleteCharAt(sb.length()-1);
-                req.setQuantity(req.getSerial_nums().length);
-                req.setTerminal_list(sb.toString());
+                req.setQuantity(req.getSerialNums().length);
+                req.setTerminalList(sb.toString());
                 exchangeGoodMapper.add(req);
                 return 1;
             }else{

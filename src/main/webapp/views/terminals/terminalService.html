@@ -1,5 +1,5 @@
 <link href="style/style.css" rel="stylesheet" type="text/css" />
-<div class="right">
+<div class="right" ng-controller="agentServiceTerminalController">
             	<div class="breadcrumb">
                     <ul>
                         <li><a href="#">管理终端</a></li>
@@ -15,10 +15,10 @@
                             <ul>
                                
                                 <li class="block"><span class="labelSpan">填写终端号：</span>
-                                	<div class="text"><textarea name="" cols="" rows=""></textarea></div>
+                                	<div class="text"><textarea name="" cols="" rows="" ng-model="serviceObject.terminalsList"></textarea></div>
                                 </li> 
                                 <li class="block"><span class="labelSpan">售后原因：</span>
-                                	<div class="text"><textarea name="" cols="" rows=""></textarea></div>
+                                	<div class="text"><textarea name="" cols="" rows="" ng-model="serviceObject.reason"></textarea></div>
                                 </li>
                             </ul>
                         </div> 
@@ -47,69 +47,49 @@
                                     <th>&nbsp;</th>
                                   </tr>
                                   </thead>
-                                  <tr>
-                                    <td><input name="" type="radio" value="" /></td>
-                                    <td>张三三</td>
-                                    <td>江苏省苏州市吴中区</td>
-                                    <td> 	东方大道1788号7栋311室东方大道1788号7栋311室东方大道1788号7栋311室东方大道1788号7栋311室东方大道1788号7栋311室东方大道</td>
-                                    <td>215000</td>
-                                    <td>123456789</td>
-                                    <td><span class="defaultAddr">默认地址</span></td>
-                                  </tr>
-                                  <tr>
-                                    <td><input name="" type="radio" value="" /></td>
-                                    <td>张三三</td>
-                                    <td>江苏省苏州市吴中区</td>
-                                    <td> 	东方大道1788号7栋311室</td>
-                                    <td>215000</td>
-                                    <td>123456789</td>
-                                    <td><a href="#" class="set_defaultAddr">设为默认地址</a></td>
-                                  </tr>
-                                  <tr>
-                                    <td><input name="" type="radio" value="" /></td>
-                                    <td>张三三</td>
-                                    <td>江苏省苏州市吴中区</td>
-                                    <td>东方大道1788号7栋311室</td>
-                                    <td>215000</td>
-                                    <td>123456789</td>
-                                    <td><a href="#" class="set_defaultAddr">设为默认地址</a></td>
+                                  <tr  ng-repeat="addre in addressList">
+                                    <td><input name="radio" type="radio" value="" ng-click="radioId($index)" /></td>
+                                    <td>{{addre.receiver}}</td>
+                                    <td>{{addre.parentName+addre.sonName}}</td>
+                                    <td>{{addre.address}}</td>
+                                    <td>{{addre.zipCode}}</td>
+                                    <td>{{addre.moblephone}}</td>
+                                    <td><span class="defaultAddr" ng-if="addre.isDefault == 1">默认地址</span></td>
                                   </tr>
                                   <tr class="addAddr_box">
                                     <td>&nbsp;</td>
-                                    <td><input name="" type="text" value="收件人姓名" /></td>
+                                    <td><input name="" type="text" ng-model="addressObject.receiver" placeholder="收件人姓名" value="收件人姓名" /></td>
                                     <td>
-                                        <select name="">
-                                          <option>省</option>
-                                          <option>江苏省</option>
+                                        <select name="" ng-model="citys" ng-options="ct.name for ct in cityList">
+                                          <option value="">省</option>
                                         </select>
-                                        <select name="">
-                                          <option>市</option>
-                                          <option>南京市</option>
+                                        <select name="" ng-model="serviceObject.sitys" ng-options="ct.name for ct in citys.childrens">
+                                          <option value="">市</option>
                                         </select>
-                                        <select name="">
+                                        <!-- <select name="">
                                           <option>区/县</option>
                                           <option>姑苏区</option>
-                                        </select>
+                                        </select> -->
                                     </td>
-                                    <td><input name="" type="text" value="详细地址" class="l" /></td>
-                                    <td><input name="" type="text" value="邮编" /></td>
-                                    <td><input name="" type="text" value="手机号码" /></td>
+                                    <td><input name="" type="text" ng-model="addressObject.address" placeholder="详细地址" value="详细地址" class="l" /></td>
+                                    <td><input name="" type="text" ng-model="addressObject.zipCode" placeholder="邮编" value="邮编" /></td>
+                                    <td><input name="" type="text" ng-model="addressObject.moblephone" placeholder="手机号码" value="手机号码" /></td>
                                     <td>&nbsp;</td>
                                   </tr>
                    	</table>
-                    <div class="addAddr_btn"><button>使用新地址</button></div>  
+                    <div class="addAddr_btn"><button ng-click="addAddress()">使用新地址</button></div>  
                    </div>
                     <div class="attributes_box">
                     	<h2>填写物流信息</h2>
                     	<div class="item_list clear">
                         	<ul>
-                                <li class="block"><span class="labelSpan">物流公司：</span>
-                                <div class="text"><input name="" type="text" /></div></li>
-                                <li class="block"><span class="labelSpan">物流单号：</span>
-                                <div class="text"><input name="" type="text" /></div></li>
+                                <li class="block"><span id="comsName" class="labelSpan">物流公司：</span>
+                                <div class="text"><input name="" type="text" ng-model="coms"></div></li>
+                                <li class="block"><span id="orderName" class="labelSpan">物流单号：</span>
+                                <div class="text"><input name="" type="text" ng-model="order"/></div></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="btnBottom"><button class="blueBtn">提交</button></div>
+                    <div class="btnBottom"><button class="blueBtn" ng-click="terminalSub()">提交</button></div>
             	</div>
             </div>

@@ -88,5 +88,12 @@ public class Response {
         r.message = "参数错误或数据不存在";
         return r;
     }
+    
+    public static Response getErrorContext(Object result) {
+        Response response = new Response();
+        response.code = ERROR_CODE;
+        response.result = result;//错误数据
+        return response;
+    }
 
 }

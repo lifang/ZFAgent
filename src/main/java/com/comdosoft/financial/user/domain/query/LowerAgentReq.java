@@ -48,11 +48,13 @@ public class LowerAgentReq {
     private String loginId;
     //密码
     private String pwd;
+    //确认密码
+    private String pwd1;
     //分润
     private int isProfit;
     //存放页面修该分润比例的值  格式为   precent_tradeId|precent_tradeId
     private String profitPercent;
-    //分润比例设置   是修该还是新增    0为修该   1为新增
+    //分润比例设置   是修该还是新增    0为修改   1为新增
     private int sign;
     //支付通道 id channelId
     private int channelId;
@@ -68,12 +70,30 @@ public class LowerAgentReq {
     //
     private String cityName;
     private String provinceName;
+    //默认分润比例
+    private int defaultProfit;
     
     
     
     
     
     
+	public int getDefaultProfit() {
+		return defaultProfit;
+	}
+
+	public void setDefaultProfit(int defaultProfit) {
+		this.defaultProfit = defaultProfit;
+	}
+
+	public String getPwd1() {
+		return pwd1;
+	}
+
+	public void setPwd1(String pwd1) {
+		this.pwd1 = pwd1;
+	}
+
 	public int getProvinceId() {
 		return provinceId;
 	}
@@ -117,7 +137,6 @@ public class LowerAgentReq {
 	public int getTradeTypeId() {
 		return tradeTypeId;
 	}
-
 	public void setTradeTypeId(int tradeTypeId) {
 		this.tradeTypeId = tradeTypeId;
 	}

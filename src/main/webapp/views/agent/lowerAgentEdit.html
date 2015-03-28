@@ -64,12 +64,10 @@
 					</li>
 					<li class="block"><span class="labelSpan">所在地：</span>
 						<div class="text">
-							<select ng-model="proModel" ng-options="o.name for o in provinceList"
+							<select ng-model="proModel" ng-options="o.id as o.name for o in provinceList"
 							 ng-change="selChange(proModel)" style="width: 120px;">
-								<option value="">-- 请选择 --</option>
 							</select>
-							<select ng-model="cityModel" ng-options="o.name for o in cityList" style="width: 120px;">
-								<option value="">-- 请选择 --</option>
+							<select ng-model="cityModel" ng-options="o.id as o.name for o in cityList" style="width: 120px;">
 							</select>
 							
 							<input type="text" style="color: darkgrey;" id="addDetail" ng-model="addDetail"/>

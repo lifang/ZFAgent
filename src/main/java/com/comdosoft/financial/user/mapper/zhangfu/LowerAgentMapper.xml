@@ -74,9 +74,9 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
     
     <insert id="addNewAgent" useGeneratedKeys="true" keyProperty="id"  parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 			insert into agents(types,name,card_id,company_name,business_license,phone,email,address,
-			is_have_profit,created_at,updated_at,code,customer_id,status,parent_id) 
+			is_have_profit,created_at,updated_at,code,customer_id,status,parent_id,default_profit) 
 		values(#{agentType},#{agentName},#{agentCardId},#{companyName},#{companyId},#{phoneNum},
-		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{agents_id},#{customer_id},1,#{agents_id})
+		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{agents_id},#{customer_id},1,#{agents_id},(select a.default_profit from agents a where a.id=#{agents_id}))
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
@@ -97,7 +97,7 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 		update agents a set a.types=#{agentType},a.company_name=#{companyName},
 		a.business_license=#{companyId},a.name=#{agentName},a.card_id=#{agentCardId},
 		a.phone=#{phoneNum},a.email=#{emailStr},a.address=#{addressStr} ,is_have_profit=#{isProfit},
-		a.updated_at=now(),code=#{agents_id} where a.id=#{id}
+		a.updated_at=now(),code=#{agents_id} where a.id=#{son_agents_id}
 	</update>
     
     <update id="saveCustomers" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
@@ -107,4 +107,14 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
     <update id="changeStatus" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		update agents a set a.status =#{status} ,a.updated_at =now() where a.id=#{son_agents_id}
 	</update>
+	
+	<update id="changePwd" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
+		update customers a set a.password =#{pwd} ,a.updated_at=now()
+		where a.id=(select b.customer_id from agents b where b.id=#{son_agents_id})
+	</update>
+	
+	<update id="changeProfit" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
+		update agents a set a.default_profit=#{defaultProfit} ,a.updated_at=now() where a.parent_id=#{agents_id} or a.id=#{agents_id}
+	</update>
+	
 </mapper>

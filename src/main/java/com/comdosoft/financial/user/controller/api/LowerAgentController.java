@@ -48,7 +48,24 @@ public class LowerAgentController {
 		return response;
 	}
 	
-	
+	/**
+	 * 修改默认分润比例
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "changeProfit", method = RequestMethod.POST)
+	public Response changeProfit(@RequestBody LowerAgentReq req){
+		Response response=new Response();
+		Map<String,Object> result=lowerAgentService.changeProfit(req);
+		if(Integer.parseInt(result.get("resultCode").toString()) == 1){
+			response.setCode(Response.SUCCESS_CODE);
+			response.setMessage(result.get("resultInfo").toString());
+		}else{
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(result.get("resultInfo").toString());
+		}
+		return response;
+	}
 	
 	/**
 	 * 获取下级代理商分润设置比例列表
@@ -151,32 +168,34 @@ public class LowerAgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "createNew", method = RequestMethod.POST)
-	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Response createNew(@RequestBody LowerAgentReq req){
 		Response response = new Response();
 		
 		if(req.getLoginId().trim().equals("")){
-			response.setCode(Response.MISSING_CODE);
+			response.setCode(Response.ERROR_CODE);
 			response.setMessage("输入登陆ID不能为空！");
 		}else{
-			req.setLoginId(req.getLoginId().trim());
-			int temp=lowerAgentService.checkLoginId(req);
-			if(temp>=1){
+			if(!req.getPwd().equals(req.getPwd1())){
 				response.setCode(Response.ERROR_CODE);
-	        	response.setMessage("输入登陆ID已经存在！");
-	        }else{
-	        	Map<String,Object> map=lowerAgentService.addNewAgent(req);
-				if(map.get("resultCode").toString().equals("-1")){
+				response.setMessage("两次输入的密码不一致");
+			}else{
+				req.setLoginId(req.getLoginId().trim());
+				int temp=lowerAgentService.checkLoginId(req);
+				if(temp>=1){
 					response.setCode(Response.ERROR_CODE);
-		        	response.setMessage(map.get("resultInfo").toString());
+		        	response.setMessage("输入登陆ID已经存在！");
 		        }else{
-		        	response.setCode(Response.SUCCESS_CODE);
-		        	response.setMessage(map.get("resultInfo").toString());
+		        	Map<String,Object> map=lowerAgentService.addNewAgent(req);
+					if(map.get("resultCode").toString().equals("-1")){
+						response.setCode(Response.ERROR_CODE);
+			        	response.setMessage(map.get("resultInfo").toString());
+			        }else{
+			        	response.setCode(Response.SUCCESS_CODE);
+			        	response.setMessage(map.get("resultInfo").toString());
+			        }
 		        }
-	        }
+			}
 		}
-		String resultInfo="执行新增下级代理商操作,结果为："+response.getMessage();
-		sys.operateRecord(resultInfo,req.getAgents_id());
         return response;
 	}
 	
@@ -188,11 +207,13 @@ public class LowerAgentController {
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public Response save(@RequestBody LowerAgentReq req){
 		Response response = new Response();
-        int temp=lowerAgentService.save(req);
-		if(temp==1){
+		Map<String,Object> map=lowerAgentService.save(req);
+		if(map.get("resultCode").toString().equals("1")){
         	response.setCode(Response.SUCCESS_CODE);
+        	response.setMessage(map.get("resultInfo").toString());
         }else{
         	response.setCode(Response.ERROR_CODE);
+        	response.setMessage(map.get("resultInfo").toString());
         }
         return response;
 	}
@@ -227,10 +248,36 @@ public class LowerAgentController {
 	    	response.setMessage("保存时出错！");
 	    }else{
 	    	response.setCode(Response.SUCCESS_CODE);
-	    	response.setMessage("保存时出错！");
+	    	response.setMessage("保存成功！");
 	    }
         return response;
 	}
 	
-	
+	/**
+	 * 
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "changePwd", method = RequestMethod.POST)
+	public Response changePwd(@RequestBody LowerAgentReq req){
+		Response response = new Response();
+		if(req.getPwd()==null ||req.getPwd().trim().equals("")){
+			response.setCode(Response.ERROR_CODE);
+	    	response.setMessage("输入的密码不能为空！");
+		}else if(!req.getPwd().trim().equals(req.getPwd1().trim())){
+			response.setCode(Response.ERROR_CODE);
+	    	response.setMessage("两次输入的密码不一致！");
+		}else{
+			Map<String, Object> map=lowerAgentService.changePwd(req);
+		    int result= (Integer)map.get("errorCode");
+		    if(result==-1){
+		    	response.setCode(Response.ERROR_CODE);
+		    	response.setMessage("保存时出错！");
+		    }else{
+		    	response.setCode(Response.SUCCESS_CODE);
+		    	response.setMessage("保存成功！");
+		    }
+		}
+        return response;
+	}
 }

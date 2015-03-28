@@ -9,7 +9,7 @@
 		<div class="user_title">
 			<h1>下级代理商列表</h1>
 			<div class="userTopBtnBox">
-				<a href="#" class="ghostBtn">设置默认分润比例</a>
+				<a ng-click="showProfitTab()" class="ghostBtn defaultRatio_a">设置默认分润比例</a>
 				<a href="#/lowerAgentAdd" class="ghostBtn">创建下级代理商</a>
 			</div>
 		</div>
@@ -52,7 +52,8 @@
 						<a href="#/lowerAgentEdit?id={{one.id}}" class="a_btn">编辑</a>
 						<a href="#/lowerAgent" ng-show="one.status==5" ng-click="changeStatus(one.id,5)" class="a_btn">停用</a>
 						<a href="#/lowerAgent" ng-show="one.status==6" ng-click="changeStatus(one.id,6)" class="a_btn">启用</a><br/>
-						<a href="#" class="a_btn">密码重置</a><a href="#/lowerAgentSet?id={{one.id}}" ng-show="one.is_have_profit!=0" class="a_btn">设置分润比例</a>
+						<a ng-click="showPwdTab(one.id)" class="a_btn resetPassword_a">密码重置</a>
+						<a href="#/lowerAgentSet?id={{one.id}}" ng-show="one.is_have_profit!=0" class="a_btn">设置分润比例</a>
 						</td>
 					</tr>
 				</tbody>
@@ -69,4 +70,37 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="tab resetPassword_tab">
+		<a href="javascript:void(0)" class="close">关闭</a>
+		<div class="tabBody">
+	    	<div class="item_list">
+	        	<ul>
+	            	<li><span class="labelSpan">新密码：</span>
+	                	<div class="text"><input name="" type="password" ng-model="tabPwd1"/></div>
+	                </li>
+	                <li><span class="labelSpan">确认新密码：</span>
+	                	<div class="text"><input name="" type="password" ng-model="tabPwd2"/></div>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="tabFoot"><button class="blueBtn" ng-click="changePwd()">确定</button></div>
+	</div>
+	
+	
+	<div class="tab defaultRatio_tab">
+		<a href="javascript:void(0)" class="close">关闭</a>
+		<div class="tabBody">
+	    	<div class="item_list">
+	        	<ul>
+	            	<li><span class="labelSpan">默认分润比例：</span>
+	                	<div class="text"><input name="" type="text" value="%" ng-model="tabProfit" /></div>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="tabFoot"><button class="blueBtn" ng-click="changeDefaultProfit()">确定</button></div>
+	</div>
 </div>
+

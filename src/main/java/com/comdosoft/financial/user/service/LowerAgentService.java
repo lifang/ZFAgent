@@ -33,7 +33,14 @@ public class LowerAgentService {
 	@Autowired
 	private LowerAgentMapper lowerAgentMapper;
 	
-	
+	@Autowired
+	private SystemSetService sys;
+	/**
+	 * 修改代理商状态
+	 * @param req
+	 * @return
+	 */
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String,Object> changeStatus(LowerAgentReq req){
 		Map<String,Object> map =new HashMap<String, Object>();
 		if(req.getStatus()==5){
@@ -51,6 +58,40 @@ public class LowerAgentService {
 			map.put("resultCode", -1);
 			map.put("resultInfo", "修改状态出错");
 		}
+		String resultInfo="执行修改下级代理商状态操作,结果为："+map.get("resultInfo");
+		sys.operateRecord(resultInfo,req.getAgents_id());
+		return map;
+	}
+	
+	/**
+	 * 修改默认分润比例
+	 * @param req
+	 * @return
+	 */
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Map<String,Object> changeProfit(LowerAgentReq req){
+		Map<String,Object> map =new HashMap<String, Object>();
+		
+		int profit=req.getDefaultProfit();
+		
+		if(profit>100 || profit<0){
+			map.put("resultCode", -1);
+			map.put("resultInfo", "默认分润比例必须介于0-100之间");
+		}else{
+			int result=lowerAgentMapper.changeProfit(req);
+			if(result>=1){
+				//成功
+				map.put("resultCode", 1);
+				map.put("resultInfo", "修改默认分润比例成功");
+			}else{
+				//失败
+				map.put("resultCode", -1);
+				map.put("resultInfo", "修改默认分润比例出错");
+			}
+		}
+		
+		String resultInfo="执行修改下级代理商默认分润比例操作,结果为："+map.get("resultInfo");
+		sys.operateRecord(resultInfo,req.getAgents_id());
 		return map;
 	}
 	
@@ -106,7 +147,10 @@ public class LowerAgentService {
         return map;
     }
 	
-	
+	/**
+	 * 获取channelList表
+	 * @return
+	 */
 	public Map<String, Object> getChannellist() {
         Map<String, Object> map=new HashMap<String, Object>();
         List<Map<String, Object>> list=lowerAgentMapper.getChannellist();
@@ -156,6 +200,11 @@ public class LowerAgentService {
         return map;
 	}
 	
+	/**
+	 * 新增下级代理商
+	 * @param req
+	 * @return
+	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String,Object> addNewAgent(LowerAgentReq req) {
 		
@@ -190,29 +239,69 @@ public class LowerAgentService {
 	        		map.put("resultInfo", "新增customers表出错");
 	        	}
         	}
+    	String resultInfo="执行新增下级代理商操作,结果为："+map.get("resultInfo");
+		sys.operateRecord(resultInfo,req.getAgents_id());
         return map;
     }
 	
+	/**
+	 * 修改下级代理商密码
+	 * @param req
+	 * @return
+	 */
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Map<String,Object> changePwd(LowerAgentReq req){
+		req.setPwd(SysUtils.string2MD5(req.getPwd()));
+		int result=lowerAgentMapper.changePwd(req);
+		Map<String,Object> map=new HashMap<String, Object>();
+		if(result>=1){
+			map.put("errorCode", 1);
+			map.put("errorInfo", "保存成功！");
+		}else{
+			map.put("errorCode", -1);
+			map.put("errorInfo", "保存出错！");
+		}
+		String resultInfo="执行修改下级代理商密码操作,结果为："+map.get("errorInfo");
+		sys.operateRecord(resultInfo,req.getAgents_id());
+		return map;
+	}
 	
-	public int save(LowerAgentReq req) {
+	/**
+	 * 修改下级代理商，保存
+	 * @param req
+	 * @return
+	 */
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Map<String,Object> save(LowerAgentReq req) {
+		Map<String,Object> map=new HashMap<String, Object>();
+		
     	int affect_series1=lowerAgentMapper.saveAgents(req);
-    	
     	//调用加密方法
-    	//req.setPwd(req.getPwd());
+    	req.setPwd(SysUtils.string2MD5(req.getPwd()));
     	int affect_series2=lowerAgentMapper.saveCustomers(req);
     	
     	//都更新成功
     	if(affect_series1>=1 && affect_series2>=1){
-    		return 1;
+    		map.put("resultCode", 1);
+			map.put("resultInfo", "保存修改成功！");
     	}else{
-    		return 0;
+    		map.put("resultCode", -1);
+			map.put("resultInfo", "保存修改失败！");
     	}
+    	String resultInfo="执行修改下级代理商信息操作,结果为："+map.get("resultInfo");
+		sys.operateRecord(resultInfo,req.getAgents_id());
+    	return map;
     }
 	
 	public int checkLoginId(LowerAgentReq req) {
         return lowerAgentMapper.checkLoginId(req);
     }
 	
+	/**
+	 * 代理商 分润新增  或者保存  1为新增，0为保存
+	 * @param req
+	 * @return
+	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String,Object> saveOrEdit(LowerAgentReq req){
 		
@@ -238,6 +327,16 @@ public class LowerAgentService {
 					map.put("errorInfo", "保存出错！");
 				}
 			}
+			if(map==null || map.get("errorCode")==null){
+				map.put("errorCode", 1);
+				map.put("errorInfo", "保存成功！");
+			}else if(!map.get("errorCode").toString().equals("-1")){
+				map.put("errorCode", 1);
+				map.put("errorInfo", "保存成功！");
+			}
+			
+			String resultInfo="执行新增下级代理商操作,结果为："+map.get("errorInfo");
+			sys.operateRecord(resultInfo,req.getAgents_id());
 		}else if(req.getSign() ==0){
 			//修该
 			//遍历分解
@@ -256,6 +355,16 @@ public class LowerAgentService {
 					map.put("errorInfo", "保存出错！");
 				}
 			}
+			if(map==null || map.get("errorCode")==null){
+				map.put("errorCode", 1);
+				map.put("errorInfo", "保存成功！");
+			}else if(!map.get("errorCode").toString().equals("-1")){
+				map.put("errorCode", 1);
+				map.put("errorInfo", "保存成功！");
+			}
+			
+			String resultInfo="执行修改下级代理商分润操作,结果为："+map.get("errorInfo");
+			sys.operateRecord(resultInfo,req.getAgents_id());
 		}
 		return map;
 	}

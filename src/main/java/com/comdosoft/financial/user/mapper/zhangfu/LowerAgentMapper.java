@@ -47,5 +47,9 @@ public interface LowerAgentMapper {
 	int savePrecent(LowerAgentReq req);
 	int editPrecent(LowerAgentReq req);
 	
+	int changePwd(LowerAgentReq req);
+	
+	int changeProfit(LowerAgentReq req);
+	
 	
 }

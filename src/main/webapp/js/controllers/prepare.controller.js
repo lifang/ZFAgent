@@ -7,7 +7,7 @@ var preparelistController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
-		$scope.req.agents_id=LoginService.agentid;
+		$scope.req.agentId=LoginService.agentid;
 		$scope.sonlist();
 		$scope.list();
 	};
@@ -62,7 +62,7 @@ var preparelistController = function ($scope, $http, LoginService) {
 var prepareaddController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={son_agents_id:0};
-		$scope.req.agents_id=LoginService.agentid;
+		$scope.req.agentId=LoginService.agentid;
 		$scope.sonlist();
 		$scope.getglist();
 		$scope.getpclist();

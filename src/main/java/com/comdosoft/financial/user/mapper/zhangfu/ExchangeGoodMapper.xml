@@ -21,16 +21,16 @@
             LEFT JOIN agents a on a.id=egr.from_agent_id
             LEFT JOIN agents a2 on a2.id=egr.to_agent_id
 			where (egr.customer_id in 
-			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agents_id}) OR
-			egr.customer_id=(SELECT customer_id from agents WHERE id=#{agents_id}))
+			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
+			egr.customer_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 			<if test="startTime!=null">
 			   <![CDATA[ and egr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="endTime!=null">
 			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
-			<if test="son_agents_id!=0">
-			   <![CDATA[ and (egr.from_agent_id=#{sonAgentsId} or egr.to_agent_id=#{sonAgentsId} )  ]]>
+			<if test="sonAgentId!=0">
+			   <![CDATA[ and (egr.from_agent_id=#{sonagentId} or egr.to_agent_id=#{sonagentId} )  ]]>
 			</if>
 			LIMIT #{offset}, #{rows}
      </select>
@@ -39,16 +39,16 @@
             SELECT count(*) 
 			from exchange_goods_records egr
 			where (customer_id in 
-			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agents_id}) OR
-			customer_id=(SELECT customer_id from agents WHERE id=#{agents_id}))
+			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
+			customer_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 			<if test="startTime!=null">
 			   <![CDATA[ and egr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="endTime!=null">
 			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
-			<if test="son_agents_id!=0">
-			   <![CDATA[ and (egr.from_agent_id=#{sonAgentsId} or egr.to_agent_id=#{sonAgentsId} )  ]]>
+			<if test="sonAgentId!=0">
+			   <![CDATA[ and (egr.from_agent_id=#{sonagentId} or egr.to_agent_id=#{sonagentId} )  ]]>
 			</if>
      </select>
      

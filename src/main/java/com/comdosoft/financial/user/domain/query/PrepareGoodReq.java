@@ -27,12 +27,40 @@ public class PrepareGoodReq {
     
     private String terminalList;
     
+   
+    
+    
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getCustomerId() {
         return customerId;
     }
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
+    }
+
+    public int getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
+    }
+
+    public int getSonAgentId() {
+        return sonAgentId;
+    }
+
+    public void setSonAgentId(int sonAgentId) {
+        this.sonAgentId = sonAgentId;
     }
 
     public int getGoodId() {
@@ -51,54 +79,12 @@ public class PrepareGoodReq {
         this.paychannelId = paychannelId;
     }
 
- 
-
-    public String getTerminalList() {
-        return terminalList;
-    }
-
-    public void setTerminalList(String terminalList) {
-        this.terminalList = terminalList;
-    }
-
     public String[] getSerialNums() {
         return serialNums;
     }
 
     public void setSerialNums(String[] serialNums) {
         this.serialNums = serialNums;
-    }
-
-    public String getSerialNum() {
-        return serialNum;
-    }
-
-    public void setSerialNum(String serialNum) {
-        this.serialNum = serialNum;
-    }
-
-    public int getSonAgentsId() {
-        return sonAgentId;
-    }
-
-    public void setSonAgentsId(int sonAgentId) {
-        this.sonAgentId = sonAgentId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getAgentsId() {
-        return agentId;
-    }
-
-    public void setAgentsId(int agentId) {
-        this.agentId = agentId;
     }
 
     public String getStartTime() {
@@ -117,14 +103,30 @@ public class PrepareGoodReq {
         this.endTime = endTime;
     }
 
-    public int getId() {
-        return id;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-    
+
+    public String getSerialNum() {
+        return serialNum;
+    }
+
+    public void setSerialNum(String serialNum) {
+        this.serialNum = serialNum;
+    }
+
+    public String getTerminalList() {
+        return terminalList;
+    }
+
+    public void setTerminalList(String terminalList) {
+        this.terminalList = terminalList;
+    }
+
     private int page;
     private int rows;
     private int offset;

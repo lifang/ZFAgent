@@ -26,7 +26,7 @@ public interface StockMapper {
 
     int getTotalCount(StockReq req);
 
-    String getAgentCode(int agents_id);
+    String getAgentCode(int agentId);
 
     List<Map<String, Object>> getSonAgent(StockReq req);
 

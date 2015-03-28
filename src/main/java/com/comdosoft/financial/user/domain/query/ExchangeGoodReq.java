@@ -24,6 +24,40 @@ public class ExchangeGoodReq {
     
     
 
+    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String[] getSerialNums() {
+        return serialNums;
+    }
+
+    public void setSerialNums(String[] serialNums) {
+        this.serialNums = serialNums;
+    }
+
+    public int getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
+    }
+
+    public int getSonAgentId() {
+        return sonAgentId;
+    }
+
+    public void setSonAgentId(int sonAgentId) {
+        this.sonAgentId = sonAgentId;
+    }
+
     public int getCustomerId() {
         return customerId;
     }
@@ -48,30 +82,6 @@ public class ExchangeGoodReq {
         this.toAgentId = toAgentId;
     }
 
-    public String getTerminalList() {
-        return terminalList;
-    }
-
-    public void setTerminalList(String terminalList) {
-        this.terminalList = terminalList;
-    }
-
-    public String[] getSerialNums() {
-        return serialNums;
-    }
-
-    public void setSerialNums(String[] serialNums) {
-        this.serialNums = serialNums;
-    }
-
-    public String getSerialNum() {
-        return serialNum;
-    }
-
-    public void setSerialNum(String serialNum) {
-        this.serialNum = serialNum;
-    }
-
     public String getStartTime() {
         return startTime;
     }
@@ -88,20 +98,20 @@ public class ExchangeGoodReq {
         this.endTime = endTime;
     }
 
-    public int getAgentsId() {
-        return agentId;
+    public String getSerialNum() {
+        return serialNum;
     }
 
-    public void setAgentsId(int agentId) {
-        this.agentId = agentId;
+    public void setSerialNum(String serialNum) {
+        this.serialNum = serialNum;
     }
 
-    public int getSonAgentsId() {
-        return sonAgentId;
+    public String getTerminalList() {
+        return terminalList;
     }
 
-    public void setSonAgentsId(int sonAgentId) {
-        this.sonAgentId = sonAgentId;
+    public void setTerminalList(String terminalList) {
+        this.terminalList = terminalList;
     }
 
     public int getQuantity() {
@@ -110,14 +120,6 @@ public class ExchangeGoodReq {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     private int page;

@@ -17,11 +17,11 @@ public class StockReq {
     
     private String code;
 
-    public int getAgentsId() {
+    public int getAgentId() {
         return agentId;
     }
 
-    public void setAgentsId(int agentId) {
+    public void setAgentId(int agentId) {
         this.agentId = agentId;
     }
 

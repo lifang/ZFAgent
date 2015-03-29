@@ -1,0 +1,42 @@
+<link href="style/style.css" rel="stylesheet" type="text/css" />
+<div class="right" ng-controller="accountEditController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">系统设定</a></li>
+			<li><a href="#/accountList">员工帐号</a></li>
+			<li><a href="#/">编辑</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+
+		<div class="user_title">
+			<h1>编辑员工账号</h1>
+		</div>
+		<form name="addAccountForm" ng-submit="accountEdit()">
+		<div class="myInfoBox clear">
+			<ul>
+				<li><label>姓名：</label><input name="" ng-model="info.name" type="text" /></li>
+				<li><label>登录ID：</label><input ng-model="info.username" disabled="disabled" type="text" /></li>
+				<li><label>密码：</label><input name="" type="password" ng-model="password" /></li>
+				<li><label>确认密码：</label><input name="" type="password" ng-model="comfirmpwd"/></li>
+				<li><label>权限：</label>
+					<div class="authority_con">
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="1" />批购</span>
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="2" />代购</span> 
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="3" />终端管理/售后记录</span> 
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="4" />交易流水/POS销售分润</span> 
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="5" />管理下级代理商</span> 
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="6" />管理用户</span> 
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="7" />员工账号</span> 
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="8" />代理商资料</span> 
+						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="9" />库存</span>
+					</div></li>
+			</ul>
+		</div>
+		<div class="myInfoBox_btn">
+			<input type="submit" class="blueBtn" value="修改">
+		</div>
+		</form>
+	</div>
+</div>
+

@@ -96,4 +96,15 @@ public interface CustomerMapper {
 
 	public void insertCustomerRights(CustomerRoleRelation cr);
 
+	public int resetPassword(int customer_id, String password);
+
+	public List<Map<String, Object>> getDetailInfoById(int id);
+
+	public int editCustomerInfo(EmpReq req);
+
+	public int editCustomerRights(int customer_id, int right_id);
+
+	public List<Map<String, Object>> getCustomerRights(int customer_id);
+
+	public int updateRights(int customer_id, int role_id);
 }

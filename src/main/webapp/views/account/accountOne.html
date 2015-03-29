@@ -1,4 +1,3 @@
-<!-- <script type="text/javascript" src="js/controllers/account/accountOne.js"></script> -->
 <div class="right" ng-controller="accountOneController">
 	<div class="breadcrumb">
 		<ul>
@@ -12,7 +11,7 @@
 		<div class="user_title">
 			<h1>员工账号详情</h1>
 			<div class="userTopBtnBox">
-				<a href="#/empEdit" class="ghostBtn">编辑</a>
+				<a href="#/accountEdit?id={{info.customer_id}}" class="ghostBtn">编辑</a>
 			</div>
 		</div>
 		<div class="myInfoBox clear">
@@ -23,15 +22,9 @@
 					<div class="text">{{info.username}}</div></li>
 				<li><label>权限：</label>
 					<div class="authority_con">
-						<span class="checkboxRadio_span"> 批购</span> <span
-							class="checkboxRadio_span"> 代购</span> <span
-							class="checkboxRadio_span"> 终端管理/售后记录</span> <span
-							class="checkboxRadio_span"> 交易流水/POS销售分润</span> <span
-							class="checkboxRadio_span"> 管理下级代理商</span> <span
-							class="checkboxRadio_span"> 管理用户</span> <span
-							class="checkboxRadio_span"> 员工账号</span> <span
-							class="checkboxRadio_span"> 代理商资料</span> <span
-							class="checkboxRadio_span"> 库存</span>
+						<div ng-repeat="one in roleNames">
+							<span class="checkboxRadio_span">{{one}}</span>
+						</div>
 					</div></li>
 			</ul>
 		</div>

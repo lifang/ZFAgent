@@ -28,7 +28,7 @@ public class SystemSetService {
 
 	@Autowired
 	private SysconfigMapper sysConfigMapper;
-	
+
 	/**
 	 * 获取代理商下所有的用户
 	 * 
@@ -38,8 +38,7 @@ public class SystemSetService {
 	public Page<Object> getAllAccountlist(MyAccountReq req) {
 		PageRequest request = new PageRequest(req.getPage(), req.getRows());
 		int count = customerMapper.countCustomes(req.getAgentId());
-		List<CustomerAgentRelation> list = customerMapper
-				.getAllAccountlist(req);
+		List<CustomerAgentRelation> list = customerMapper.getAllAccountlist(req);
 		List<Object> result = new ArrayList<Object>();
 		Map<String, Object> map = null;
 		Map<String, Object> subMap = null;
@@ -71,7 +70,7 @@ public class SystemSetService {
 	public void addCustomer(EmpReq empReq) {
 		customerMapper.addCustomer(empReq);
 	}
-	
+
 	public void insertCustomer(Customer customer) {
 		customerMapper.insertCustomer(customer);
 	}
@@ -133,7 +132,7 @@ public class SystemSetService {
 	public int updateCustomerStatus(int id) {
 		return customerMapper.updateStatus(id);
 	}
-	
+
 	public int getListCount(int customerId) {
 		return customerMapper.countCustomes(customerId);
 	}
@@ -165,16 +164,108 @@ public class SystemSetService {
 	public void insertCustomerRights(CustomerRoleRelation cr) {
 		customerMapper.insertCustomerRights(cr);
 	}
-	
+
 	/**
 	 * 记录操作记录
-	 * @param content  操作内容
-	 * @param operateUserId 操作人ID
+	 * 
+	 * @param content
+	 *            操作内容
+	 * @param operateUserId
+	 *            操作人ID
 	 */
-	public int operateRecord(String content,int operateUserId){
-		Map<String,Object> map=new HashMap<String, Object>();
+	public int operateRecord(String content, int operateUserId) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("content", content);
 		map.put("operateUserId", operateUserId);
 		return sysConfigMapper.operateRecord(map);
 	}
+
+	public int resetPassword(int customer_id, String password) {
+		return customerMapper.resetPassword(customer_id, password);
+	}
+
+	public Map<String, Object> getEmpInfoFromAgent(int customerId) {
+		Map<String, Object> result = null;
+		List<Map<String, Object>> list = customerMapper.getDetailInfoById(customerId);
+
+		if (list != null && !list.isEmpty()) {
+			int customer_id = 0;
+			int role_id = 0;
+			String role_name = "";
+			String name = null;
+			String username = null;
+			Map<String, Object> map = null;
+			List<Integer> roleIds = new ArrayList<Integer>();
+			List<String> roleNames = new ArrayList<String>();
+			result = new HashMap<String, Object>();
+			for (int i = 0, j = list.size(); i < j; i++) {
+				map = list.get(i);
+				if (map.get("role_id") != null) {
+					role_id = Integer.parseInt(map.get("role_id").toString());
+					role_name = getRoleName(role_id);
+					roleIds.add(role_id);
+					roleNames.add(role_name);
+				}
+
+				customer_id = Integer.parseInt(map.get("id").toString());
+				name = map.get("name").toString();
+				username = map.get("username").toString();
+
+			}
+			result.put("customer_id", customer_id);
+			result.put("name", name);
+			result.put("username", username);
+			result.put("rightIds", roleIds);
+			result.put("roleNames", roleNames);
+
+		}
+		return result;
+	}
+
+	/**
+	 * 获得权限名
+	 * 
+	 * @param role_id
+	 * @return
+	 */
+	private String getRoleName(int role_id) {
+		String role_name = "";
+		if (role_id == 1) {
+			role_name = CustomerRoleRelation.Right1;
+		} else if (role_id == 2) {
+			role_name = CustomerRoleRelation.Right2;
+		} else if (role_id == 3) {
+			role_name = CustomerRoleRelation.Right3;
+		} else if (role_id == 4) {
+			role_name = CustomerRoleRelation.Right4;
+		} else if (role_id == 5) {
+			role_name = CustomerRoleRelation.Right5;
+		} else if (role_id == 6) {
+			role_name = CustomerRoleRelation.Right6;
+		} else if (role_id == 7) {
+			role_name = CustomerRoleRelation.Right7;
+		} else if (role_id == 8) {
+			role_name = CustomerRoleRelation.Right8;
+		} else if (role_id == 9) {
+			role_name = CustomerRoleRelation.Right9;
+		}
+		return role_name;
+	}
+
+	public int editCustomerInfo(EmpReq req) {
+		return customerMapper.editCustomerInfo(req);
+	}
+
+	public int editCustomerRights(int customer_id, int right_id) {
+		return customerMapper.editCustomerRights(customer_id, right_id);
+	}
+
+	public List<Map<String, Object>> getCustomerRights(int customer_id) {
+		return customerMapper.getCustomerRights(customer_id);
+	}
+
+	public int updateRights(int customer_id, int role_id) {
+		return customerMapper.updateRights(customer_id, role_id);
+	}
+
 }

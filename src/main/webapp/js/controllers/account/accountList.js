@@ -7,7 +7,9 @@ var accountListController = function($scope, $location, $http, LoginService) {
 	$scope.list = function() {
 		// var customerId = LoginService.userid;
 		var customerId = 5;
-		var query = customerId + "/" + $scope.indexPage + "/" + $scope.rows;
+		var page = $scope.indexPage;
+		var rows = $scope.rows;
+		var query = customerId + "/" + page + "/" + rows;
 		$http.post("api/account/getList/" + query).success(function(data) {
 			if (data.code == 1) {
 				$scope.accountList = data.result.list;

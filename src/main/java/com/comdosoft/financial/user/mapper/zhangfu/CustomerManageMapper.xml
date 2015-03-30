@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.CustomerManageMapper">
+	<select id="getTotal" parameterType="com.comdosoft.financial.user.mapper.zhangfu.CustomerManageMapper" resultType="int">
+        select count(DISTINCT b.id) from customer_agent_relations a
+			left join customers b on a.customer_id=b.id
+ 			where 1=1 and a.types=2 and a.status=1 and a.agent_id=#{agentsId}
+   </select>
+   
+   <select id="getCustomerList" parameterType="com.comdosoft.financial.user.mapper.zhangfu.CustomerManageMapper" resultType="map">
+        select b.username,b.id from customer_agent_relations a
+		left join customers b on a.customer_id=b.id
+ 		where 1=1 and a.types=2 and a.status=1 and a.agent_id=#{agentsId} 
+ 		order by a.updated_at desc Limit #{offset},#{rows}
+     </select>
+</mapper>

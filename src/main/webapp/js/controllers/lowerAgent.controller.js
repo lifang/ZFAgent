@@ -38,7 +38,7 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 	$scope.init=function(){
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
-		$scope.req.agents_id=LoginService.agentid;
+		$scope.req.agentsId=LoginService.agentid;
 		$scope.pwdTabSign=1;
 		$scope.list();
 	};

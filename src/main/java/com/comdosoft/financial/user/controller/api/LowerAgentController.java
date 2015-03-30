@@ -241,19 +241,19 @@ public class LowerAgentController {
 	public Response saveOrEdit(@RequestBody LowerAgentReq req){
 		Response response = new Response();
 	    Map<String, Object> map=lowerAgentService.saveOrEdit(req);
-	    int result= (Integer)map.get("errorCode");
+	    int result= (Integer)map.get("resultCode");
 	    if(result==-1){
 	    	response.setCode(Response.ERROR_CODE);
-	    	response.setMessage("保存时出错！");
+	    	response.setMessage(map.get("resultInfo").toString());
 	    }else{
 	    	response.setCode(Response.SUCCESS_CODE);
-	    	response.setMessage("保存成功！");
+	    	response.setMessage(map.get("resultInfo").toString());
 	    }
         return response;
 	}
 	
 	/**
-	 * 
+	 * 修改密码
 	 * @param req
 	 * @return
 	 */
@@ -279,4 +279,28 @@ public class LowerAgentController {
 		}
         return response;
 	}
+	
+	/**
+	 * 
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "delChannel", method = RequestMethod.POST)
+	public Response delChannel(@RequestBody LowerAgentReq req){
+		Response response = new Response();
+		
+		Map<String, Object> map=lowerAgentService.delChannel(req);
+		
+		int result= (Integer)map.get("resultCode");
+	    if(result==-1){
+	    	response.setCode(Response.ERROR_CODE);
+	    	response.setMessage("删除时出错！");
+	    }else{
+	    	response.setCode(Response.SUCCESS_CODE);
+	    	response.setMessage("删除成功！");
+	    }
+		
+        return response;
+	}
+	
 }

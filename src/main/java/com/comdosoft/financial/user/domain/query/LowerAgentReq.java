@@ -12,7 +12,8 @@ public class LowerAgentReq {
     private String[] serialNums;
     //当前登陆的iD
     private int agentsId;
-    //操作的子代理商id
+    
+	//操作的子代理商id
     private int sonAgentsId;
     //agents表关联customer表的id
     private int customerId;
@@ -72,7 +73,67 @@ public class LowerAgentReq {
     private String provinceName;
     //默认分润比例
     private int defaultProfit;
+    //法人身份证图片
+    private String cardPhotoPath;
+    //营业执照照片
+    private String licensePhotoPath;
+    //税务登记证照片
+    private String taxPhotoPath;
+    //公司税务登记证号
+    private String taxNumStr;
     
+    public int getAgentsId() {
+		return agentsId;
+	}
+
+	public void setAgentsId(int agentsId) {
+		this.agentsId = agentsId;
+	}
+    
+	public String getTaxNumStr() {
+		if(taxNumStr==null){
+			taxNumStr=" ";
+		}
+		return taxNumStr;
+	}
+
+	public void setTaxNumStr(String taxNumStr) {
+		this.taxNumStr = taxNumStr;
+	}
+
+	public String getCardPhotoPath() {
+		if(cardPhotoPath==null){
+			cardPhotoPath=" ";
+		}
+		return cardPhotoPath;
+	}
+
+	public void setCardPhotoPath(String cardPhotoPath) {
+		this.cardPhotoPath = cardPhotoPath;
+	}
+
+	public String getLicensePhotoPath() {
+		if(licensePhotoPath==null){
+			licensePhotoPath=" ";
+		}
+		return licensePhotoPath;
+	}
+
+	public void setLicensePhotoPath(String licensePhotoPath) {
+		this.licensePhotoPath = licensePhotoPath;
+	}
+
+	public String getTaxPhotoPath() {
+		if(taxPhotoPath==null){
+			taxPhotoPath=" ";
+		}
+		return taxPhotoPath;
+	}
+
+	public void setTaxPhotoPath(String taxPhotoPath) {
+		this.taxPhotoPath = taxPhotoPath;
+	}
+
 	public int getDefaultProfit() {
 		return defaultProfit;
 	}
@@ -297,14 +358,7 @@ public class LowerAgentReq {
 		this.serialNums = serialNums;
 	}
 
-	public int getAgentsId() {
-		return agentsId;
-	}
-
-	public void setAgentsId(int agentsId) {
-		this.agentsId = agentsId;
-	}
-
+	
 	public int getSonAgentsId() {
 		return sonAgentsId;
 	}

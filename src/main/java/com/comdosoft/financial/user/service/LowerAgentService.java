@@ -285,6 +285,28 @@ public class LowerAgentService {
     	return map;
     }
 	
+	
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Map<String,Object> delChannel(LowerAgentReq req) {
+		Map<String,Object> map=new HashMap<String, Object>();
+		
+    	int affect_series1=lowerAgentMapper.delChannel(req);
+    	
+    	//都更新成功
+    	if(affect_series1>=1){
+    		map.put("resultCode", 1);
+			map.put("resultInfo", "删除成功！");
+    	}else{
+    		map.put("resultCode", -1);
+			map.put("resultInfo", "删除失败！");
+    	}
+    	String resultInfo="执行删除下级代理商分润渠道操作,结果为："+map.get("resultInfo");
+		sys.operateRecord(resultInfo,req.getAgentsId());
+    	return map;
+    }
+	
+	
+	
 	public int checkLoginId(LowerAgentReq req) {
         return lowerAgentMapper.checkLoginId(req);
     }
@@ -302,32 +324,38 @@ public class LowerAgentService {
 		//precent_tradeId|precent_tradeId
 		if(req.getSign() == 1){
 			//新增 
-			//遍历分解
-			String profitPercent=req.getProfitPercent();
-			//tradeTypeId_channelId
-			String[] temp1=profitPercent.split("\\|");
-			for(int i=0;i<temp1.length;i++){
-				String[] temp2=temp1[i].split("\\_");
-				int tradeTypeId=Integer.parseInt(temp2[1]);
-				int precent=Integer.parseInt(temp2[0]);
-				req.setTradeTypeId(tradeTypeId);
-				req.setPrecent(precent);
-				
-				int result=lowerAgentMapper.savePrecent(req);
-				if(result<1){
-					map.put("errorCode", -1);
-					map.put("errorInfo", "保存出错！");
+			//看该代理商是否已经存在该渠道的分润设置
+			int temp=lowerAgentMapper.checkChannelById(req);
+			if(temp>=1){
+				map.put("resultCode", -1);
+				map.put("resultInfo", "该代理商支付通道分润比例设置已经存在！");
+			}else{
+				//遍历分解
+				String profitPercent=req.getProfitPercent();
+				//tradeTypeId_channelId
+				String[] temp1=profitPercent.split("\\|");
+				for(int i=0;i<temp1.length;i++){
+					String[] temp2=temp1[i].split("\\_");
+					int tradeTypeId=Integer.parseInt(temp2[1]);
+					int precent=Integer.parseInt(temp2[0]);
+					req.setTradeTypeId(tradeTypeId);
+					req.setPrecent(precent);
+					
+					int result=lowerAgentMapper.savePrecent(req);
+					if(result<1){
+						map.put("resultCode", -1);
+						map.put("resultInfo", "保存出错！");
+					}
+				}
+				if(map==null || map.get("resultCode")==null){
+					map.put("resultCode", 1);
+					map.put("resultInfo", "保存成功！");
+				}else if(!map.get("resultCode").toString().equals("-1")){
+					map.put("resultCode", 1);
+					map.put("resultInfo", "保存成功！");
 				}
 			}
-			if(map==null || map.get("errorCode")==null){
-				map.put("errorCode", 1);
-				map.put("errorInfo", "保存成功！");
-			}else if(!map.get("errorCode").toString().equals("-1")){
-				map.put("errorCode", 1);
-				map.put("errorInfo", "保存成功！");
-			}
-			
-			String resultInfo="执行新增下级代理商操作,结果为："+map.get("errorInfo");
+			String resultInfo="执行新增下级代理商支付通道分润比例操作,结果为："+map.get("resultInfo");
 			sys.operateRecord(resultInfo,req.getAgentsId());
 		}else if(req.getSign() ==0){
 			//修该
@@ -343,16 +371,16 @@ public class LowerAgentService {
 				req.setPrecent(precent);
 				int result=lowerAgentMapper.editPrecent(req);
 				if(result<1){
-					map.put("errorCode", -1);
-					map.put("errorInfo", "保存出错！");
+					map.put("resultCode", -1);
+					map.put("resultInfo", "保存出错！");
 				}
 			}
-			if(map==null || map.get("errorCode")==null){
-				map.put("errorCode", 1);
-				map.put("errorInfo", "保存成功！");
-			}else if(!map.get("errorCode").toString().equals("-1")){
-				map.put("errorCode", 1);
-				map.put("errorInfo", "保存成功！");
+			if(map==null || map.get("resultCode")==null){
+				map.put("resultCode", 1);
+				map.put("resultInfo", "保存成功！");
+			}else if(!map.get("resultCode").toString().equals("-1")){
+				map.put("resultCode", 1);
+				map.put("resultInfo", "保存成功！");
 			}
 			
 			String resultInfo="执行修改下级代理商分润操作,结果为："+map.get("errorInfo");

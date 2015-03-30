@@ -16,7 +16,7 @@
 				<ul>
 					<li class="block"><span class="labelSpan">填写终端号：</span>
 						<div class="text">
-							<textarea name="" cols="" rows=""></textarea>
+							<textarea ng-model="req.serialNum" cols="" rows=""></textarea>
 						</div></li>
 					<li class="block"><span class="labelSpan">指定下级代理商：</span>
 						<div class="text">
@@ -26,7 +26,7 @@
 									<button>搜索</button>
 								</div>
 								<div class="ac_area">
-									<a href="javascript:void(0);"  ng-repeat="one in son" ng-click="checkson(one.id)">{{one.company_name}}</a> 
+									<a href="javascript:void(0);"  ng-repeat="one in son" ng-click="checkson(one.id,this)">{{one.company_name}}</a> 
 								</div>
 							</div>
 						</div></li>
@@ -43,12 +43,11 @@
 			</div>
 		</div>
 		<div class="btnBottom">
-			<button class="blueBtn">确认配货</button>
+			<button class="blueBtn" ng-click="add()">确认配货</button>
 		</div>
 	</div>
 </div>
 
-<div class="mask"></div>
 
 <div class="tab">
 	<a href="javascript:void(0);" class="close">关闭</a>

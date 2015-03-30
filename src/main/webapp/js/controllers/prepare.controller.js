@@ -88,9 +88,20 @@ var prepareaddController = function ($scope, $http, LoginService) {
             }
         });
 	};
-	$scope.checkson=function(id){
-		$(this).addClass("hover").siblings().removeClass("hover");
+	$scope.checkson=function(id,one){
+		$(one).addClass("hover").siblings().removeClass("hover");
 		$scope.req.son_agents_id=id;
+	};
+	$scope.add=function(id){
+		$http.post("api/preparegood/checkTerminals", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	if(data.result.errorCount==0){
+            		
+            	}else{
+            		$scope.errorlist=data.result.errorList;
+            	}
+            }
+        });
 	};
 	$scope.init();
 };

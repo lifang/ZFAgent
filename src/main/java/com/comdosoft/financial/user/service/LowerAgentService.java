@@ -51,7 +51,7 @@ public class LowerAgentService {
 			map.put("resultInfo", "修改状态出错");
 		}
 		String resultInfo="执行修改下级代理商状态操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgents_id());
+		sys.operateRecord(resultInfo,req.getAgentsId());
 		return map;
 	}
 	
@@ -83,7 +83,7 @@ public class LowerAgentService {
 		}
 		
 		String resultInfo="执行修改下级代理商默认分润比例操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgents_id());
+		sys.operateRecord(resultInfo,req.getAgentsId());
 		return map;
 	}
 	
@@ -215,7 +215,7 @@ public class LowerAgentService {
 	        		//成功
 	                //获取新的agents表ID
 	        		int customer_id=lowerAgentMapper.getCustomerId(req);
-	            	req.setCustomer_id(customer_id);
+	            	req.setCustomerId(customer_id);
 	            	//向agents表中插入记录
 	            	int affect_series=lowerAgentMapper.addNewAgent(req);
 	            	if(affect_series >=1){
@@ -232,7 +232,7 @@ public class LowerAgentService {
 	        	}
         	}
     	String resultInfo="执行新增下级代理商操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgents_id());
+		sys.operateRecord(resultInfo,req.getAgentsId());
         return map;
     }
 	
@@ -254,7 +254,7 @@ public class LowerAgentService {
 			map.put("errorInfo", "保存出错！");
 		}
 		String resultInfo="执行修改下级代理商密码操作,结果为："+map.get("errorInfo");
-		sys.operateRecord(resultInfo,req.getAgents_id());
+		sys.operateRecord(resultInfo,req.getAgentsId());
 		return map;
 	}
 	
@@ -281,7 +281,7 @@ public class LowerAgentService {
 			map.put("resultInfo", "保存修改失败！");
     	}
     	String resultInfo="执行修改下级代理商信息操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgents_id());
+		sys.operateRecord(resultInfo,req.getAgentsId());
     	return map;
     }
 	
@@ -328,7 +328,7 @@ public class LowerAgentService {
 			}
 			
 			String resultInfo="执行新增下级代理商操作,结果为："+map.get("errorInfo");
-			sys.operateRecord(resultInfo,req.getAgents_id());
+			sys.operateRecord(resultInfo,req.getAgentsId());
 		}else if(req.getSign() ==0){
 			//修该
 			//遍历分解
@@ -356,7 +356,7 @@ public class LowerAgentService {
 			}
 			
 			String resultInfo="执行修改下级代理商分润操作,结果为："+map.get("errorInfo");
-			sys.operateRecord(resultInfo,req.getAgents_id());
+			sys.operateRecord(resultInfo,req.getAgentsId());
 		}
 		return map;
 	}

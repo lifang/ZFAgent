@@ -9,13 +9,13 @@ public class LowerAgentReq {
 	
 	private int id;
     
-    private String[] serial_nums;
+    private String[] serialNums;
     //当前登陆的iD
-    private int agents_id;
+    private int agentsId;
     //操作的子代理商id
-    private int son_agents_id;
+    private int sonAgentsId;
     //agents表关联customer表的id
-    private int customer_id;
+    private int customerId;
 
     private String startTime;
     
@@ -23,9 +23,9 @@ public class LowerAgentReq {
     
     private int quantity;
     
-    private String serial_num;
+    private String serialNum;
     
-    private String terminal_list;
+    private String terminalList;
     
 	//新增表单中的字段
     //代理商类型
@@ -264,38 +264,6 @@ public class LowerAgentReq {
 		this.id = id;
 	}
 
-	public String[] getSerial_nums() {
-		return serial_nums;
-	}
-
-	public void setSerial_nums(String[] serial_nums) {
-		this.serial_nums = serial_nums;
-	}
-
-	public int getAgents_id() {
-		return agents_id;
-	}
-
-	public void setAgents_id(int agents_id) {
-		this.agents_id = agents_id;
-	}
-
-	public int getSon_agents_id() {
-		return son_agents_id;
-	}
-
-	public void setSon_agents_id(int son_agents_id) {
-		this.son_agents_id = son_agents_id;
-	}
-
-	public int getCustomer_id() {
-		return customer_id;
-	}
-
-	public void setCustomer_id(int customer_id) {
-		this.customer_id = customer_id;
-	}
-
 	public String getStartTime() {
 		return startTime;
 	}
@@ -320,21 +288,56 @@ public class LowerAgentReq {
 		this.quantity = quantity;
 	}
 
-	public String getSerial_num() {
-		return serial_num;
+	
+	public String[] getSerialNums() {
+		return serialNums;
 	}
 
-	public void setSerial_num(String serial_num) {
-		this.serial_num = serial_num;
+	public void setSerialNums(String[] serialNums) {
+		this.serialNums = serialNums;
 	}
 
-	public String getTerminal_list() {
-		return terminal_list;
+	public int getAgentsId() {
+		return agentsId;
 	}
 
-	public void setTerminal_list(String terminal_list) {
-		this.terminal_list = terminal_list;
+	public void setAgentsId(int agentsId) {
+		this.agentsId = agentsId;
 	}
+
+	public int getSonAgentsId() {
+		return sonAgentsId;
+	}
+
+	public void setSonAgentsId(int sonAgentsId) {
+		this.sonAgentsId = sonAgentsId;
+	}
+
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getSerialNum() {
+		return serialNum;
+	}
+
+	public void setSerialNum(String serialNum) {
+		this.serialNum = serialNum;
+	}
+
+	public String getTerminalList() {
+		return terminalList;
+	}
+
+	public void setTerminalList(String terminalList) {
+		this.terminalList = terminalList;
+	}
+
+
 	private int page;
     private int rows;
     private int offset;

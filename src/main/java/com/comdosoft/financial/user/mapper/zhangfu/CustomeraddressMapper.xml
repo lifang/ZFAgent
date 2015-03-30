@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.comdosoft.financial.user.mapper.zhangfu.CustomeraddressMapper">
+
+
+	<insert id="insertadderss" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		INSERT into
+		customer_addresses(city_id,receiver,address,moblephone,zip_code,is_default,created_at,updated_at,telphone)
+		VALUES(#{cityId},#{receiver},#{address},#{moblephone},#{zipCode},#{isDefault},NOW(),NOW(),#{telphone})
+	</insert>
+
+	<delete id="deleteadderss"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		DELETE FROM customer_addresses
+		WHERE id = #{id}
+	</delete>
+
+	<select id="queryadderss" resultType="map"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		SELECT * FROM customer_addresses WHERE customer_id=#{id}
+	</select>
+
+	<update id="updateadderss"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		UPDATE from customer_addresses c set
+		c.moblephone=#{moblephone}
+		AND c.zip_code=#{zip_code} where id=#{id}
+	</update>
+
+	<update id="setisDefault"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		UPDATE customer_addresses
+		SET
+		isDefault=#{setisDefault},updated_at =
+		NOW()
+		WHERE id=#{id}
+	</update>
+
+	<update id="dateDefault"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		UPDATE customer_addresses
+		SET
+		isDefault=#{Default},updated_at =
+		NOW()
+		WHERE isDefault=#{oidDefault}
+	</update>
+</mapper>

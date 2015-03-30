@@ -33,7 +33,7 @@ where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order 
    </select>
      
    <select id="getLowerAgentTotal" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
-        select count(DISTINCT a.id) from agents a where a.parent_id=#{agentsId}
+        select count(a.id) from agents a where a.parent_id=#{agentsId}
    </select>
    
    <select id="getCustomerId" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
@@ -41,11 +41,16 @@ where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order 
    </select>
      
     <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="map">
-        select a.types,a.name,a.card_id,a.company_name,a.business_license,a.phone,a.email,a.address,a.is_have_profit,
-         b.username as loginId,b.city_id as cityId
+        select c.*,c.name as cityName,if(e.name is null," ",e.name) as provinceName from 
+		(select a.types,a.name,a.card_id,a.company_name,a.business_license,a.phone,a.email,a.address,a.is_have_profit,
+         b.username as loginId,b.city_id as cityId,if(a.tax_registered_no is null, " ",a.tax_registered_no) as tax_registered_no,a.created_at,
+         (select if(sum(f.quantity) is null,0,sum(f.quantity)) from prepare_goods_records f where f.agent_id=a.id) as allQty,
+		(select count(g.id) from terminals g where g.agent_id=a.id and g.customer_id!=null and g.status=1) as openNum,
+		(select count(h.id) from terminals h where h.agent_id=a.id and h.customer_id!=null) as soldNum
 		from agents a 
 		left join customers b on b.id=a.customer_id
-		where a.id=#{sonAgentsId}
+		where a.id=#{sonAgentsId}) c left join cities d on c.cityId=d.id
+		left join cities e on d.id=e.parent_id;
     </select>
     <select id="getProCity" resultType="map" parameterType="int">
     	select a.name as city,b.name as province,a.id as cityId,b.id as provinceId from cities a
@@ -75,14 +80,17 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
     </select>
     
     <insert id="addNewAgent" useGeneratedKeys="true" keyProperty="id"  parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-			insert into agents(types,name,card_id,company_name,business_license,phone,email,address,
-			is_have_profit,created_at,updated_at,code,customer_id,status,parent_id,default_profit) 
+		insert into agents(types,name,card_id,company_name,business_license,phone,email,address,
+			is_have_profit,created_at,updated_at,code,customer_id,status,parent_id,
+			default_profit,card_id_photo_path,license_no_pic_path,tax_no_pic_path,tax_registered_no) 
 		values(#{agentType},#{agentName},#{agentCardId},#{companyName},#{companyId},#{phoneNum},
-		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{agents_id},#{customerId},1,#{agentsId},(select a.default_profit from agents a where a.id=#{agentsId}))
+		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{agentsId},#{customerId},1,#{agentsId},
+		(select a.default_profit from agents a where a.id=#{agentsId}),#{cardPhotoPath},#{licensePhotoPath},#{taxPhotoPath},#{taxNumStr})
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-   		insert into customers(username,password,created_at,updated_at,city_id,status) values(#{loginId},#{pwd},now(),now(),#{cityId},1)
+   		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email)
+   		 values(#{loginId},#{pwd},now(),now(),#{cityId},1,#{phoneNum},#{emailStr})
    </insert>
    
    <insert id="savePrecent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
@@ -118,5 +126,15 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 	<update id="changeProfit" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		update agents a set a.default_profit=#{defaultProfit} ,a.updated_at=now() where a.parent_id=#{agentsId} or a.id=#{agentsId}
 	</update>
+	
+	<delete id="delChannel"  parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
+		DELETE FROM agent_profit_settings
+		 WHERE pay_channel_id = #{payChannelId}
+		   AND agent_id = #{sonAgentsId}
+	</delete>
+	
+	<select id="checkChannelById"  parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
+    	select count(a.id) from agent_profit_settings a where a.agent_id=#{sonAgentsId} and a.pay_channel_id = #{payChannelId}
+    </select> 
 	
 </mapper>

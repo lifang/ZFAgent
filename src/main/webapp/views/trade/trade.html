@@ -27,17 +27,16 @@
 		<div class="seenBox clear">
 			<ul>
 				<li><div class="user_select">
-						<label>选择代理商</label> <select name="">
-							
-						</select>
+						<label>选择代理商</label> 
+						<select ng-model="req.sonagentId" ng-options="x.agentId as x.agentName for x in son"></select>
 					</div></li>
 					<li><div class="user_inputText">
-						<label>输入终端号</label> <input name="" type="text"/>
+						<label>输入终端号</label> <input ng-model="req.terminalNumber" type="text"/>
 					</div></li>
 				<li><div class="user_date">
-						<label>选择日期</label> <input name="" type="text" /> - <input name="" type="text" />
+						<label>选择日期</label> <input  ng-model="req.startTime" type="text" /> - <input ng-model="req.endTime" type="text" />
 					</div></li>
-				<li><button class="ghostBtn">搜索</button></li>
+				<li><button ng-click="search()" class="ghostBtn" >搜索</button></li>
 			</ul>
 		</div>
 

@@ -20,10 +20,14 @@ var exchangelistController = function ($scope, $http, LoginService) {
             }
         });
 	};
+	$scope.search=function(){
+		$scope.req.indexPage=1;
+		$scope.list();
+	};
 	$scope.sonlist=function(){
 		$http.post("api/preparegood/getsonagent", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.son=data.result.list;
+            	$scope.son=data.result;
             }
         });
 	};

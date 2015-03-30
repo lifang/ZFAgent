@@ -40,6 +40,8 @@ public interface LowerAgentMapper {
 	
 	int saveCustomers(LowerAgentReq req);
 	
+	int delChannel(LowerAgentReq req);
+	
 	int checkLoginId(LowerAgentReq req);
 	
 	int getCustomerId(LowerAgentReq req);
@@ -50,6 +52,8 @@ public interface LowerAgentMapper {
 	int changePwd(LowerAgentReq req);
 	
 	int changeProfit(LowerAgentReq req);
+	
+	int checkChannelById(LowerAgentReq req);
 	
 	
 }

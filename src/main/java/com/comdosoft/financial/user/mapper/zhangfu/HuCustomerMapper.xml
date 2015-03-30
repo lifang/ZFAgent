@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.HuCustomerMapper">
+	
+	<select id="getSysConfig" resultType="map">
+	<![CDATA[
+		SELECT param_name, param_value, remark
+		  FROM sys_config
+		 WHERE param_name = #{paramName}
+	]]>
+	</select>
+
+	<select id="getOne" resultType="map">
+	<![CDATA[
+		SELECT name, phone, email, city_id, integral, password
+		  FROM customers
+		 WHERE id = #{id}  
+	]]>
+	</select>
+
+	<select id="findCustById" resultType="map">
+	<![CDATA[
+	SELECT
+		c.name,
+		c.phone,
+		c.email,
+		c.city_id,
+		c.integral,
+		c.password,
+		c.account_type,
+		t.id,
+		t.`name` as c_name,
+		t.parent_id,
+		tt.`name` as p_name
+	FROM
+		customers c
+	LEFT JOIN cities t ON c.city_id = t.id
+	LEFT JOIN cities tt ON t.parent_id = tt.id
+	WHERE
+		 c.id = #{customer_id} 
+	]]>
+	</select>
+
+	<update id="update" flushCache="true" >
+		UPDATE customers
+		<trim prefix="SET" suffixOverrides=",">
+			updated_at = NOW(),
+			<if test="name != null and name !=''">name = #{name},</if>
+			<if test="phone != null and phone !=''">phone = #{phone},</if>
+			<if test="email != null and email !=''">email = #{email},</if>
+			<if test="cityId != null and cityId !=''">city_id = #{cityId}</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+
+	<update id="cust_update" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" flushCache="true"  statementType="PREPARED">
+		update customers
+		<trim prefix="SET" suffixOverrides=",">
+			updated_at = NOW(),
+			<if test="name != null and name !=''">name = #{name},</if>
+			<if test="phone != null and phone !=''">phone = #{phone},</if>
+			<if test="email != null and email !=''">email = #{email},</if>
+			<if test="cityId != null and cityId !=''">city_id = #{cityId}</if>
+			<if test="accountType == 1">username = #{phone}</if>
+			<if test="accountType == 2">username = #{email}</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<update id="updatePassword" flushCache="true">
+	<![CDATA[
+		UPDATE customers SET password = #{password} ,updated_at = NOW()
+		 WHERE id = #{id}
+	]]>
+	</update>
+
+	<select id="findUsername" resultType="map">
+	<![CDATA[
+		SELECT
+			c.id
+		FROM
+			customers c
+		WHERE
+			c.username = #{param1}
+	]]>
+	</select>
+	
+	
+	<select id="getTradeRecordsCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(i.id)
+		  FROM customer_integral_records i LEFT JOIN orders d ON i.target_id = d.id
+		 WHERE i.customer_id = #{customerId}
+	]]>
+	</select>
+
+	<select id="getIntegralList" resultType="map">
+	<![CDATA[
+		SELECT i.quantity, i.types, i.target_type,i.description as order_number,  
+			   DATE_FORMAT(i.created_at, '%Y-%m-%d %T') payedAt
+		  FROM customer_integral_records i  
+		 WHERE i.customer_id = #{customerId}
+	  ORDER BY i.created_at DESC
+		 LIMIT #{offset}, #{rows}
+	]]>
+	</select>
+
+	<select id="getIntegralTotal" resultType="map">
+	<![CDATA[
+		SELECT SUM(i.quantity) quantityTotal
+		  FROM customer_integral_records i
+		 WHERE i.customer_id = #{customerId}
+	]]>
+	</select>
+	
+	<select id="getjifen" resultType="map">
+	<![CDATA[
+	SELECT
+		c.integral  as quantityTotal,c.integral/s.param_value as dh_total
+	FROM
+		customers c
+	LEFT JOIN sys_config s on s.param_name='integralConvert'
+	WHERE
+		c.id =  #{customer_id}
+	]]>
+	</select>
+
+	<insert id="insertIntegralConvert" useGeneratedKeys="true" keyProperty="id">
+	<![CDATA[
+		INSERT INTO customer_integral_converts (name, phone, price, quantity, created_at, updated_at, customer_id)
+		VALUES (#{name}, #{phone}, #{price}, #{quantity}, #{createdAt}, #{updatedAt}, #{customerId})
+	]]>
+	</insert>
+
+	<update id="updateIntegralTotal" flushCache="true">
+	<![CDATA[
+		UPDATE customers SET integral = #{integralTotal} ,updated_at = NOW()
+		 WHERE id = #{customerId}
+	]]>
+	</update>
+
+	<insert id="insertIntegralRecord" useGeneratedKeys="true" keyProperty="id">
+	<![CDATA[
+		INSERT INTO customer_integral_records (customer_id, types, quantity)
+		VALUES (#{customerId}, #{types}, #{quantity})
+	]]>
+	</insert>
+
+	<select id="getAddressList" resultType="map">
+	<![CDATA[
+	     SELECT ca.id,c2.id as city_parent_id,c.name as city_name,c2.name as city_parent_name, city_id cityId,concat(IFNULL(c2.name,''),IFNULL(c.name,'')) as city, address, zip_code zipCode, receiver, moblephone, telphone, is_default isDefault, customer_id customerId
+		 FROM customer_addresses ca 
+  		 LEFT JOIN cities c on ca.city_id=c.id
+   		 LEFT JOIN cities c2 on c.parent_id=c2.id
+		 WHERE ca.customer_id = #{customerId} and ca.status = 1
+	  	 ORDER BY ca.created_at DESC
+	]]>
+	</select>
+
+	<select id="getOneAddress" resultType="map">
+	<![CDATA[
+		SELECT id, city_id, receiver, moblephone, zip_code, is_default, address
+		  FROM customer_addresses
+		 WHERE id = #{id} and status = 1
+	]]>
+	</select>
+
+	<insert id="insertAddress" useGeneratedKeys="true" keyProperty="id">
+	<![CDATA[
+		INSERT INTO customer_addresses (city_id, receiver, moblephone, telphone, zip_code, address, is_default, customer_id, created_at, status)
+		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{telphone}, #{zipCode}, #{address}, #{isDefault}, #{customerId}, NOW(),1)
+	]]>
+	</insert>
+
+	<update id="updateAddress">
+		UPDATE customer_addresses
+		<trim prefix="SET" suffixOverrides=",">
+		updated_at = NOW(),
+			<if test="cityId != null">city_id = #{cityId},</if>
+			<if test="zipCode != null and zipCode !=''">zip_code = #{zipCode},</if>
+			<if test="address != null and address !=''">address = #{address},</if>
+			<if test="receiver != null and receiver !=''">receiver = #{receiver},</if>
+			<if test="telphone != null and telphone !=''">telphone = #{telphone},</if>
+			<if test="moblephone != null and moblephone !=''">moblephone = #{moblephone},</if>
+			<if test="isDefault != null">is_default = #{isDefault}</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateDefaultAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default = #{is_default} ,updated_at = NOW()
+		 WHERE customer_id = #{customerId}
+	]]>
+	</update>
+
+	<update id="setDefaultAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default = 1 ,updated_at = NOW()
+		 WHERE id = #{id}
+	]]>
+	</update>
+
+	<!-- <delete id="deleteAddress">
+	<![CDATA[
+		DELETE FROM customer_addresses WHERE id = #{id}
+	]]>
+	</delete> -->
+	
+	<update id="deleteAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET status = 2
+		 WHERE id = #{id}
+	]]>
+	</update>
+
+</mapper>

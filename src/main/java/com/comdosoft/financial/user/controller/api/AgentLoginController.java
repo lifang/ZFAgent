@@ -488,4 +488,23 @@ public class AgentLoginController {
 			return Response.getError("请求失败！");
 		}
 		}
+	/**
+	 * 修改密码
+	 * 
+	 * @param customer
+	 * @return
+	 */
+	@RequestMapping(value = "modifyPassword", method = RequestMethod.POST)
+	public Response modifyPassword(@RequestBody Customer customer) {
+
+		Response response = new Response();
+		if (agentLoginService.modifyPassword(customer) > 0) {
+			response.setMessage("修改密码成功!");
+			response.setCode(Response.SUCCESS_CODE);
+		} else {
+			response.setMessage("修改密码失敗!");
+			response.setCode(Response.ERROR_CODE);
+		}
+		return response;
+	}
 }

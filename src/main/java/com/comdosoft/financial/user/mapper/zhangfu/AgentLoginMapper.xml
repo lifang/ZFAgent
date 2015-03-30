@@ -65,4 +65,9 @@
 		WHERE username=#{username} and status = #{status}
 	</select>
 	
+	<update id="modifyPassword">
+		UPDATE customers c SET
+		c.password=#{password},updated_at = NOW()
+		WHERE c.id = #{id} AND c.password = #{passwordOld}
+	</update>
 </mapper>

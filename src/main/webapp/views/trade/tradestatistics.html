@@ -11,7 +11,12 @@
 		<div class="user_title">
 			<h1>交易流水统计</h1>
 		</div>
-		<div class="user_statistics">2014年11月25日 - 2014年12月25日 交易类型：{{req.typeName}}</div>
+		<div class="user_statistics">
+			<span ng-show="req.startTime.length>5&&req.endTime.length>5">{{req.startTime}}至{{req.endTime}}&nbsp;</span>
+			<span ng-show="req.startTime.length>5&&req.endTime.length<5">{{req.startTime}}至今&nbsp;</span>
+			<span ng-show="req.startTime.length<5&&req.endTime.length>5">{{req.endTime}}之前&nbsp;</span>
+		          交易类型：{{req.typeName}}
+		</div>
 		<div class="attributes_table">
 			
 			<table ng-show="req.is_have_profit==2" width="100%" border="0" cellspacing="1" cellpadding="0">

@@ -87,4 +87,10 @@ public interface AgentLoginMapper {
 	 * @return
 	 */
 	String findCode(Customer customer);
+	
+	/**
+	 * 修改密码
+	 * @param customer	
+	 */
+	int modifyPassword(Customer customer);
 }

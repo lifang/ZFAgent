@@ -2,7 +2,6 @@ package com.comdosoft.financial.user.controller.api;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,13 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.EmpReq;
-import com.comdosoft.financial.user.domain.query.MyAccountReq;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerRoleRelation;
 import com.comdosoft.financial.user.service.SystemSetService;
 import com.comdosoft.financial.user.utils.SysUtils;
-import com.comdosoft.financial.user.utils.page.Page;
 
 /**
  * 系统设定controller
@@ -37,18 +34,6 @@ public class SystemSetController {
 	private static final Logger logger = Logger.getLogger(SystemSetController.class);
 	@Resource
 	private SystemSetService systemSetService;
-
-	@RequestMapping(value = "getAllAccountlist", method = RequestMethod.POST)
-	public Response getAllAccountlist(@RequestBody MyAccountReq myAccountReq) {
-		Response response = null;
-
-		response = new Response();
-		Page<Object> centers = systemSetService.getAllAccountlist(myAccountReq);
-		response.setResult(centers);
-		response.setCode(Response.SUCCESS_CODE);
-		return response;
-
-	}
 
 	/**
 	 * 插入用户
@@ -135,28 +120,25 @@ public class SystemSetController {
 	}
 
 	/**
-	 * 获取代理商所有权限
+	 * 删除用户
 	 * 
-	 * @param req
+	 * @param param
 	 * @return
 	 */
-	@RequestMapping(value = "getWholeRights", method = RequestMethod.POST)
-	public Response getWholeRightsByAgentId(@RequestBody MyAccountReq req) {
-		Response response = new Response();
-		List<Object> results = systemSetService.getWholeRightsByAgentId(req);
-		response.setResult(results);
-		return response;
-	}
-
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	public Response deleteEmpInfoFromAgent(@RequestBody Map<Object, Object> param) {
 		Response response = new Response();
 
-		Integer id = (Integer) param.get("ids");
-		if (systemSetService.updateCustomerStatus(id) > 0) {
-			if (systemSetService.deleteEmpInfoFromAgent(id) > 0) {
-				response.setCode(Response.SUCCESS_CODE);
-				response.setMessage("删除成功!!!!");
+		if (param.get("ids") != null) {
+			int id = Integer.parseInt(param.get("ids").toString());
+			if (systemSetService.updateCustomerStatus(id) > 0) {
+				if (systemSetService.deleteEmpInfoFromAgent(id) > 0) {
+					response.setCode(Response.SUCCESS_CODE);
+					response.setMessage("删除成功!!!!");
+				} else {
+					response.setCode(Response.ERROR_CODE);
+					response.setMessage("删除失败!!!!");
+				}
 			} else {
 				response.setCode(Response.ERROR_CODE);
 				response.setMessage("删除失败!!!!");
@@ -169,6 +151,14 @@ public class SystemSetController {
 		return response;
 	}
 
+	/**
+	 * 获取用户列表
+	 * 
+	 * @param customerId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
 	@RequestMapping(value = "getList/{customerId}/{page}/{rows}", method = RequestMethod.POST)
 	public Response getList(@PathVariable int customerId, @PathVariable int page, @PathVariable int rows) {
 		Response response = null;
@@ -187,46 +177,82 @@ public class SystemSetController {
 		return response;
 	}
 
+	/**
+	 * 重置用户密码
+	 * 
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping(value = "resetPassword", method = RequestMethod.POST)
 	public Response insert(@RequestBody Map<String, Object> map) {
 		Response response = new Response();
-		int customer_id = (int) map.get("customer_id");
-		String password = (String) map.get("password");
-		if (systemSetService.resetPassword(customer_id, SysUtils.string2MD5(password).trim()) > 0) {
-			response.setCode(Response.SUCCESS_CODE);
-			response.setMessage("重置密码成功");
+		if (map.get("customer_id") != null) {
+			int customer_id = Integer.parseInt(map.get("customer_id").toString());
+			String password = (String) map.get("password");
+			if (systemSetService.resetPassword(customer_id, SysUtils.string2MD5(password)) > 0) {
+				response.setCode(Response.SUCCESS_CODE);
+				response.setMessage("重置密码成功");
+			} else {
+				response.setCode(Response.ERROR_CODE);
+				response.setMessage("重置密码失败");
+			}
 		} else {
 			response.setCode(Response.ERROR_CODE);
 			response.setMessage("重置密码失败");
 		}
+
 		return response;
 	}
 
+	/**
+	 * 编辑用户信息
+	 * 
+	 * @param req
+	 * @return
+	 */
 	@RequestMapping(value = "editCustomer", method = RequestMethod.POST)
 	public Response editCustomer(@RequestBody EmpReq req) {
 		Response response = new Response();
 		int customer_id = req.getCustomer_id();
 		String rights = req.getRights();
 
+		logger.debug(rights);
 		req.setPassword(SysUtils.string2MD5(req.getPassword()));
 		if (systemSetService.editCustomerInfo(req) > 0) {
+
+			/*
+			 * if (rights != null) { List<Map<String, Object>> list =
+			 * systemSetService.getCustomerRights(customer_id); List<Integer>
+			 * rightids = new ArrayList<Integer>(); String[] roleIds =
+			 * rights.split(","); int rid1 = 0; for (Map<String, Object> map :
+			 * list) { for (int i = 0; i < roleIds.length; i++) { rid1 =
+			 * Integer.parseInt(map.get("role_id").toString()); if (rid1 ==
+			 * Integer.parseInt(roleIds[i])) {
+			 * logger.debug(Integer.parseInt(roleIds[i]));
+			 * systemSetService.updateRights(customer_id, rid1);
+			 * rightids.add(rid1); break; } }
+			 * 
+			 * } }
+			 */
+
 			if (rights != null) {
 				String[] arr = rights.split(",");
-				// 获取该用户所有权限
-				List<Map<String, Object>> list = systemSetService.getCustomerRights(customer_id);
-				if (list != null && !list.isEmpty()) {
-					int j = arr.length;
-				
-					for (Map<String, Object> map : list) {
-						for (int i = 0; i < j; i++) {
-							if (Integer.parseInt(arr[i]) == Integer.parseInt(map.get("role_id").toString())) {
-								systemSetService.updateRights(customer_id, Integer.parseInt(arr[i]));
-							} else {
-
-							}
-						}
+				int role_id = 0;
+				CustomerRoleRelation role = null;
+				for (int i = 0, j = arr.length; i < j; i++) {
+					role_id = Integer.parseInt(arr[i]);
+					if (systemSetService.countCustomerRightsByRoleId(customer_id, role_id) > 0) {
+						systemSetService.updateRights(customer_id, role_id);
+					} else {
+						role = new CustomerRoleRelation();
+						role.setCreatedAt(new Date());
+						role.setCustomerId(customer_id);
+						role.setRoleId(role_id);
+						systemSetService.insertCustomerRights(role);
 					}
+
 				}
+
 			}
 			response.setCode(Response.SUCCESS_CODE);
 			response.setMessage("更新用户信息成功");

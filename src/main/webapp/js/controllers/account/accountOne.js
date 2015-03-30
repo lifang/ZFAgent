@@ -8,6 +8,7 @@ var accountOneController = function($scope, $http, $location, LoginService) {
 		$http.post("api/account/info/" + merchantId).success(function(data) {
 			if (data.code == 1) {
 				$scope.info = data.result;
+				$scope.roleNames = data.result.roleNames;
 			} else {
 				alert(data.message);
 			}

@@ -44,10 +44,10 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/account/accountAdd.html'
 	}).when('/accountOne', {
 		templateUrl : 'views/account/accountOne.html'
-	}).when('/empEdit', {
-		templateUrl : 'views/systemset/empadd.html'
-	}).when('/empdelete', {
-		templateUrl : 'views/systemset/empaccount.html'
+	}).when('/accountEdit', {
+		templateUrl : 'views/account/accountEdit.html'
+	}).when('/accountResetPassword', {
+		templateUrl : 'views/account/accountResetPassword.html'
 	}).when('/login', {
 		templateUrl : 'views/index/login.html'
 	}).when('/register', {

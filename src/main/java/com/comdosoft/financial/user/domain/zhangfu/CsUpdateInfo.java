@@ -234,4 +234,24 @@ public class CsUpdateInfo {
 	public void setTempleteInfoXml(String templeteInfoXml) {
 		this.templeteInfoXml = templeteInfoXml;
 	}
+	
+	/**
+	 * 1.代理处
+	 */
+	public static final Integer STATUS_1 = 1;
+	
+	/**
+	 * 2.处理中
+	 */
+	public static final Integer STATUS_2 = 2;
+	
+	/**
+	 * 4.处理完成
+	 */
+	public static final Integer STATUS_4 = 4;
+	
+	/**
+	 * 5.已取消
+	 */
+	public static final Integer STATUS_5 = 5;
 }

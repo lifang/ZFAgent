@@ -120,7 +120,7 @@
 	</insert>
 	
 	<select id="getApplyDetails" parameterType="int" resultType="map">
-		SELECT t.id,t.serial_num,t.`status`,g.model_number,b.name as
+		SELECT t.id,t.serial_num,t.`status`,g.title,g.model_number,b.name as
 		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,l.`id` as appId,l.`status` as applieStatus,e.types,
 		u.`name` as userName ,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
 		FROM terminals t 
@@ -170,6 +170,34 @@
 		LEFT JOIN dictionary_billing_cycles b ON b.id = e.billing_cyde_id
 		WHERE  terminal_id = #{terminalId}
  	</select>
+ 	
+ 	<select id="getModule"  resultType="map">
+		SELECT o.* 
+		FROM terminals t LEFT JOIN other_requirements o ON t.pay_channel_id = o.pay_channel_id
+		where t.id = #{terminalsId} and o.types = #{type}
+	</select>
+	
+	<insert id="subRentalReturn" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsCancel" >
+		INSERT INTO cs_cancels(terminal_id,status,templete_info_xml,created_at,updated_at,types,customer_id,apply_num)
+		VALUES(#{terminalId},#{status},#{templeteInfoXml},now(),now(),#{types},#{customerId},unix_timestamp(now()))
+	</insert>
+	
+	<select id="JudgeRentalReturnStatus"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_cancels
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
+	
+	<insert id="subToUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO cs_update_infos(terminal_id,status,templete_info_xml,created_at,updated_at,customer_id,apply_num)
+		VALUES(#{terminalsId},#{status},#{templeteInfoXml},now(),now(),#{customerId},unix_timestamp(now()))
+	</insert>
+	
+	<select id="JudgeUpdateStatus"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_update_infos
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
 
 
 
@@ -205,10 +233,7 @@
 		VALUES(0,#{serialNum},#{merchantId},#{customerId},#{payChannelId},#{status},#{isReturnCsDepots},now(),#{type})
 	</insert>
 	
-	<insert id="subRentalReturn" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsCancel" >
-		INSERT INTO cs_cancels(terminal_id,status,templete_info_xml,created_at,updated_at,types,customer_id,apply_num)
-		VALUES(#{terminalId},#{status},#{templeteInfoXml},now(),now(),#{types},#{customerId},unix_timestamp(now()))
-	</insert>
+	
 	
 	<insert id="subLeaseReturn" useGeneratedKeys="true" keyProperty="id" parameterType="map">
 		INSERT INTO cs_lease_returns(status,terminal_id,created_at,updated_at,apply_num,order_types,contact,phone,return_address_id,customer_id,cs_cencel_id)
@@ -238,10 +263,7 @@
 		VALUES(#{terminalsId},#{status},#{returnPrice},#{reason},1,#{csCencelId},#{customerId},now(),now(),unix_timestamp(now()),1)
 	</insert>
 	
-	<insert id="subToUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="map">
-		INSERT INTO cs_update_infos(terminal_id,status,templete_info_xml,created_at,updated_at,customer_id,apply_num)
-		VALUES(#{terminalsId},#{status},#{templeteInfoXml},now(),now(),#{customerId},unix_timestamp(now()))
-	</insert>
+	
 	
 	<!-- 查询交易流水用 -->
 	<select id="getTerminals" resultType="map">
@@ -287,17 +309,9 @@
 		AND `status` in (#{statusa},#{statusb})
 	</select>
 	
-	<select id="JudgeUpdateStatus"  resultType="int" parameterType="map">
-		SELECT count(*) from cs_update_infos
-		WHERE terminal_id = #{terminalId}
-		AND `status` in (#{statusa},#{statusb})
-	</select>
 	
-	<select id="JudgeRentalReturnStatus"  resultType="int" parameterType="map">
-		SELECT count(*) from cs_cancels
-		WHERE terminal_id = #{terminalId}
-		AND `status` in (#{statusa},#{statusb})
-	</select>
+	
+	
 	
 	<select id="JudgeRepair"  resultType="int" parameterType="map">
 		SELECT count(*) from cs_repairs
@@ -322,11 +336,7 @@
 		where terminal_id = #{terminalId}
 	</select>
 	
-	<select id="getModule"  resultType="map">
-		SELECT o.* 
-		FROM terminals t LEFT JOIN other_requirements o ON t.pay_channel_id = o.pay_channel_id
-		where t.id = #{terminalsId} and o.types = #{type}
-	</select>
+	
 	
 	<select id="getCities"  resultType="map">
 		SELECT * FROM cities 

@@ -1,20 +1,20 @@
 <script src="js/jquery.form.min.js"></script>
-<div class="right" ng-controller="terminalCancellationController">
+<div class="right" ng-controller="terminalToUpdateController">
             	<div class="breadcrumb">
                     <ul>
                         <li><a href="#">管理终端</a></li>
-                        <li><a href="#">注销申请</a></li>
+                        <li><a href="#">更新资料</a></li>
                     </ul>
                 </div>
                 <div class="content clear">
                     <div class="user_title">
-                    	<h1>注销申请</h1>
+                    	<h1>申请更新资料</h1>
                     </div>
                     <div class="attributes_box">
                     	<h2>终端信息</h2>
                         <div class="attributes_list clear">
                             <ul>
-                                <li>POS机名称：{{applyDetails.title}}</li>
+                            	<li>POS机名称：{{applyDetails.title}} </li>
                                 <li>品牌型号：{{applyDetails.brandName + applyDetails.model_number}}</li>
                                 <li>支付通道：{{applyDetails.channelName}}</li>
                                 <li>终端号：{{applyDetails.serial_num}}</li>
@@ -24,25 +24,25 @@
                         </div> 
                     </div>
                     <div class="attributes_box">
-                    	<h2>注销申请资料</h2>
-                        <div class="applyFor_list clear" ng-repeat="re in reModel">
-                           <div class="af_con">
+                    	<h2>更新申请资料</h2>
+                        <div class="applyFor_list clear">
+                           <div class="af_con" ng-repeat="re in reModel">
                             	<div class="af_con_n">{{$index+1+'.'+re.title}}<a href="{{re.templet_file_path}}" class="a_btn">下载模版</a></div>
                                 <div class="af_con_b">
-                                 <form method="post" action="api/comment/upload/tempImage" enctype="multipart/form-data">  
+                                <form  method="post" action="api/comment/upload/tempImage" enctype="multipart/form-data">
                                 <i></i>
                                 	<a href="javascript:void(0);" class="informImg_a">
                                         <span>上传</span>
                                         <input type="text" id="up_{{$index}}"/>
-                                        <input name="img" multiple type="file" onchange="setSpanName(this)">
+                                        <input name="" multiple type="file" onchange="setSpanName(this)">
                                     </a>
-                                    </form>
+                                </form>
                                 </div>
+                                <input type="hidden" id="upId_{{$index}}" value="{{re.id}}"/>
                            </div>
-                           <input type="hidden" id="upId_{{$index}}" value="{{re.id}}"/>
                         </div>
                     </div>
-                    <div class="btnBottom"><button class="blueBtn" ng-click="subRentalReturn()">提交申请</button></div>
+                    <div class="btnBottom"><button class="blueBtn" ng-click="subToUpdate()">提交申请</button></div>
             	</div>
             </div>
             <script type="text/javascript">

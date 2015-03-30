@@ -22,5 +22,11 @@
 		<property name="freemarkerSettings" ref="freemarkerConfiguration" />
 		<property name="defaultEncoding" value="utf-8" />
 	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 上传文件限制大小(单位Byte):5MB -->
+		<property name="maxUploadSize" value="5242880"></property>
+	</bean>
 
 </beans>

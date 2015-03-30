@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
+import com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
+import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
 /**
@@ -307,6 +310,129 @@ public class TerminalsWebController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 注销/更新申请获取信息(Web)
+	 * 
+	 * @param id
+	 */
+	@RequestMapping(value = "getWebApplyCancellation", method = RequestMethod.POST)
+	public Response getWebApplyCancellation(@RequestBody Map<Object, Object> maps) {
+		try {
+			Map<Object, Object> map = new HashMap<Object, Object>();
+			// 获得终端详情
+			map.put("applyDetails",
+					terminalsWebService.getApplyDetails((Integer)maps.get("terminalsId")));
+			//获得模板路径
+			map.put("ReModel", terminalsWebService.getModule((Integer)maps.get("terminalsId"),(Integer)maps.get("types")));
+			//获得用户收货地址
+			//map.put("address", terminalsWebService.getCustomerAddress((Integer)maps.get("customerId")));
+			//城市级联
+			/*map.put("Cities", terminalsService.getCities());*/
+			return Response.getSuccess(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 提交注销
+	 * 
+	 * @param maps
+	 */
+	@RequestMapping(value = "subRentalReturn", method = RequestMethod.POST)
+	public Response subRentalReturn(@RequestBody Map<Object, Object> maps) {
+		try {
+			CsCancel csCancel =new CsCancel();
+			csCancel.setTerminalId((Integer)maps.get("terminalId"));
+			csCancel.setStatus(CsCancel.STATUS_1);
+			csCancel.setTempleteInfoXml(maps.get("templeteInfoXml").toString());
+			csCancel.setTypes((Integer)maps.get("type"));
+			csCancel.setCustomerId((Integer)maps.get("customerId"));
+			//注销
+			terminalsWebService.subRentalReturn(csCancel);
+			return Response.getSuccess("操作成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 判断申请注销
+	 * 
+	 * @param maps
+	 */
+	@RequestMapping(value = "judgeRentalReturn", method = RequestMethod.POST)
+	public Response judgeRentalReturn(@RequestBody Map<Object, Object> maps) {
+		try {
+			int count = terminalsWebService.JudgeRentalReturnStatus((Integer)maps.get("terminalid"),CsCancel.STATUS_1,CsCancel.STATUS_2);
+			if(count == 0){
+				return Response.getSuccess("可以申请！");
+			}else{
+				return Response.getError("已有相关申请！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 申请更新资料
+	 * 
+	 * @param maps
+	 */
+	@RequestMapping(value = "getApplyToUpdate", method = RequestMethod.POST)
+	public Response getApplyToUpdate(@RequestBody Map<Object, Object> maps) {
+		try {
+			maps.put("templeteInfoXml", maps.get("templeteInfoXml").toString());
+			maps.put("status", CsUpdateInfo.STATUS_1);
+			terminalsWebService.subToUpdate(maps);
+			return Response.getSuccess("更新成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 判断申请更新资料
+	 * @param maps
+	 */
+	@RequestMapping(value = "judgeUpdate", method = RequestMethod.POST)
+	public Response JudgeUpdate(@RequestBody Map<Object, Object> maps) {
+		try {
+			int count = terminalsWebService.judgeUpdateStatus((Integer)maps.get("terminalid"),CsUpdateInfo.STATUS_1,CsUpdateInfo.STATUS_2);
+			if(count == 0){
+				return Response.getSuccess("可以申请！");
+			}else{
+				return Response.getError("已有相关申请！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 找回POS机密码
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "Encryption", method = RequestMethod.POST)
+	public Response Encryption(@RequestBody Map<String, Object> map) {
+		try {
+			String pass = SysUtils.Decrypt(
+					terminalsWebService.findPassword((Integer)map.get("terminalid")),passPath);
+			return Response.getSuccess(pass);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.getError("请求失败!");
 		}
 	}
 	

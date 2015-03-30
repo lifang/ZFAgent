@@ -219,6 +219,65 @@ public class TerminalsWebService {
 		return map;
 	}
 	
+	/**
+	 * 获得注销模板
+	 * @param id
+	 * @return
+	 */
+	public List<Map<String, Object>>  getModule(Integer  terminalsId,int type){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("terminalsId",terminalsId);
+		map.put("type", type);
+		return terminalsWebMapper.getModule(map);
+	}
+	
+	/**
+	 * 提交注销
+	 * @param map
+	 */
+	public void subRentalReturn(CsCancel csCancel){
+		terminalsWebMapper.subRentalReturn(csCancel);
+	}
+	
+	/**
+	 * 注销申请判断
+	 * 
+	 * @param terminalId
+	 * @param statusa
+	 * @param statusb
+	 * @return
+	 */
+	public int JudgeRentalReturnStatus(Integer terminalId,Integer statusa,Integer statusb) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("terminalId", terminalId);
+		map.put("statusa", statusa);
+		map.put("statusb", statusb);
+		return terminalsWebMapper.JudgeRentalReturnStatus(map);
+	}
+	
+	/**
+	 * 提交更新申请
+	 * @param map
+	 */
+	public void subToUpdate(Map<Object, Object> map){
+		terminalsWebMapper.subToUpdate(map);
+	}
+	
+	/**
+	 * 跟新申请判断
+	 * 
+	 * @param terminalId
+	 * @param statusa
+	 * @param statusb
+	 * @return
+	 */
+	public int judgeUpdateStatus(Integer terminalId,Integer statusa,Integer statusb) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("terminalId", terminalId);
+		map.put("statusa", statusa);
+		map.put("statusb", statusb);
+		return terminalsWebMapper.JudgeUpdateStatus(map);
+	}
 	
 	
 	
@@ -290,37 +349,9 @@ public class TerminalsWebService {
 		return terminalsWebMapper.JudgeChangStatus(map);
 	}
 	
-	/**
-	 * 跟新申请判断
-	 * 
-	 * @param terminalId
-	 * @param statusa
-	 * @param statusb
-	 * @return
-	 */
-	public int judgeUpdateStatus(Integer terminalId,Integer statusa,Integer statusb) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("terminalId", terminalId);
-		map.put("statusa", statusa);
-		map.put("statusb", statusb);
-		return terminalsWebMapper.JudgeUpdateStatus(map);
-	}
 	
-	/**
-	 * 注销申请判断
-	 * 
-	 * @param terminalId
-	 * @param statusa
-	 * @param statusb
-	 * @return
-	 */
-	public int JudgeRentalReturnStatus(Integer terminalId,Integer statusa,Integer statusb) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("terminalId", terminalId);
-		map.put("statusa", statusa);
-		map.put("statusb", statusb);
-		return terminalsWebMapper.JudgeRentalReturnStatus(map);
-	}
+	
+	
 	
 	/**
 	 * 维修申请判断
@@ -505,17 +536,7 @@ public class TerminalsWebService {
 	}
 	
 
-	/**
-	 * 获得注销模板
-	 * @param id
-	 * @return
-	 */
-	public List<Map<String, Object>>  getModule(Integer  terminalsId,int type){
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("terminalsId",terminalsId);
-		map.put("type", type);
-		return terminalsWebMapper.getModule(map);
-	}
+	
 	
 	/**
 	 * 判断商户名是否存在
@@ -542,13 +563,7 @@ public class TerminalsWebService {
 		terminalsWebMapper.addTerminal(map);
 	}
 	
-	/**
-	 * 提交注销
-	 * @param map
-	 */
-	public void subRentalReturn(CsCancel csCancel){
-		terminalsWebMapper.subRentalReturn(csCancel);
-	}
+	
 	
 
 	/**
@@ -559,13 +574,7 @@ public class TerminalsWebService {
 		terminalsWebMapper.subLeaseReturn(map);
 	}
 	
-	/**
-	 * 提交更新申请
-	 * @param map
-	 */
-	public void subToUpdate(Map<Object, Object> map){
-		terminalsWebMapper.subToUpdate(map);
-	}
+	
 	
 	
 	

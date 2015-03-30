@@ -147,7 +147,46 @@ public interface TerminalsWebMapper {
 	 * @return
 	 */
 	Map<String, Object> getOppinfo(OpeningApplie openingApplie);
+	
+	 /**
+     * 获得模板
+     * 
+     * @param id
+     * @return
+     */
+    List<Map<String, Object>> getModule(Map<String, Object> map);
     
+    /**
+     * 提交退还申请
+     * 
+     * @param map
+     * @return
+     */
+    void subRentalReturn(CsCancel csCancel);
+    
+    /**
+     * 查看注销申请是否有未处理中
+     * 
+     * @param map
+     * @return
+     */
+    int JudgeRentalReturnStatus(Map<String, Object> map);
+    
+    /**
+     * 申请更新添加
+     * 
+     * @param map
+     * @return
+     */
+    void subToUpdate(Map<Object, Object> map);
+    
+    /**
+     * 查看跟新申请是否有未处理中
+     * 
+     * @param map
+     * @return
+     */
+    int JudgeUpdateStatus(Map<String, Object> map);
     
     
     
@@ -249,21 +288,9 @@ public interface TerminalsWebMapper {
      */
     int JudgeChangStatus(Map<String, Object> map);
     
-    /**
-     * 查看跟新申请是否有未处理中
-     * 
-     * @param map
-     * @return
-     */
-    int JudgeUpdateStatus(Map<String, Object> map);
     
-    /**
-     * 查看注销申请是否有未处理中
-     * 
-     * @param map
-     * @return
-     */
-    int JudgeRentalReturnStatus(Map<String, Object> map);
+    
+    
     
     /**
      * 查看维修申请是否有未处理中
@@ -305,13 +332,7 @@ public interface TerminalsWebMapper {
      */
     void subRepair(Map<Object, Object> map);
     
-    /**
-     * 申请更新添加
-     * 
-     * @param map
-     * @return
-     */
-    void subToUpdate(Map<Object, Object> map);
+   
     
     /**
      * 申请退货添加
@@ -330,13 +351,7 @@ public interface TerminalsWebMapper {
     void subChange(Map<Object, Object> map);
     
     
-    /**
-     * 提交退还申请
-     * 
-     * @param map
-     * @return
-     */
-    void subRentalReturn(CsCancel csCancel);
+    
     
     
     /**
@@ -430,12 +445,6 @@ public interface TerminalsWebMapper {
      */
     List<Map<String, Object>> getTerminalOpenStatus(int id);
     
-    /**
-     * 获得模板
-     * 
-     * @param id
-     * @return
-     */
-    List<Map<String, Object>> getModule(Map<String, Object> map);
+   
     
 }

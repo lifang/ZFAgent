@@ -8,10 +8,10 @@
                 <div class="content clear">
 					 <div class="user_title"><h1>终端详情</h1>
                      <div class="userTopBtnBox">
-                     	<a href="#/terminalCancellation" class="ghostBtn">注销</a>
-                        <a href="#" class="ghostBtn">同步</a>
-                        <a href="#" class="ghostBtn">更新资料</a>
-                        <a href="#" class="ghostBtn">找回POS密码</a>
+                     	<a href="javascript:void(0)" ng-click="judgeRentalReturn()" class="ghostBtn">注销</a>
+                        <a href="javascript:void(0)" class="ghostBtn">同步</a>
+                        <a href="javascript:void(0)" ng-click="judgeUpdate()" class="ghostBtn">更新资料</a>
+                        <a href="javascript:void(0)" class="ghostBtn" ng-click="findPassword()">找回POS密码</a>
                      </div>
                      </div>
                      <div class="attributes_box">
@@ -133,4 +133,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div ng-controller="terminalDetailController">
+            	<div class="mask"></div>
+                <div id="pass" class="tab posPassword_tab">
+	<a href="javascript:void(0);" class="close" ng-click="closeDocument('pass')">关闭</a>
+	<div class="tabHead">找回POS机密码</div>
+	<div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">POS机密码：</span><div id="passdiv" class="text">{{pass}}</div></li>
+            </ul>
+        </div>
+	</div>
+    <div class="tabFoot"><button class="orangeBtn" ng-click="closeDocument('pass')">确定</button></div>
+</div>
             </div>

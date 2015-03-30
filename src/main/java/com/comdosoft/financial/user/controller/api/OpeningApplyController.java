@@ -252,7 +252,7 @@ public class OpeningApplyController {
 				openingApplie.setPayChannelId((Integer) map
 						.get("channel"));
 				openingApplie.setBillingCydeId((Integer) map
-						.get("billingId"));
+						.get("billingId")); 
 				openingApplie.setAccountBankNum((String) map
 						.get("bankNum"));
 				openingApplie.setAccountBankName((String) map

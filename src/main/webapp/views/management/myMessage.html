@@ -1,0 +1,48 @@
+<script type="text/javascript" src="js/controllers/myMessage/message.js"></script>
+<div class="right" ng-controller="messageController">
+	<div class="breadcrumb">
+        <ul>
+            <li><a href="#/myMessage">查看消息</a></li>
+        </ul>
+    </div>
+    <div class="content clear">
+        <div class="user_title">
+        	<h1>消息列表</h1>
+        </div>
+        
+        <div class="message_con">
+        	<div class="mail_title border_b">
+            	<span class="mail_span"><input type="checkbox" ng-model="isSelectAll" ng-click="checkAll()" /> 全选</span>
+                <a href="javascript:void(0);" ng-click="delmore()">删除所选</a>                
+                <a href="javascript:void(0);" ng-click="unread()" ng-show="req.q>0">只看未读</a>
+                <a href="javascript:void(0);" ng-click="delall()">清空所有</a>
+            </div>
+            <div class="mail_list" ng-repeat="one in list">
+				<span><input ng-model="one.checked" type="checkbox" ng-click="checkOne(one)" /></span>
+				<div class="mail_text">
+					<a href="#/messageinfo?id={{one.id}}" class="{{one.status?'':'unread'}}">{{one.title}}</a>
+				</div>
+				<em>{{one.create_at}}</em>
+			</div>
+            
+            <div class="mail_title border_t">
+            	<span class="mail_span"><input type="checkbox" ng-model="isSelectAll" ng-click="checkAll()" /> 全选</span>
+                <a href="javascript:void(0);" ng-click="delmore()">删除所选</a>                
+                <a href="javascript:void(0);" ng-click="unread()" ng-show="req.q>0">只看未读</a>
+                <a href="javascript:void(0);" ng-click="delall()">清空所有</a>            
+            </div>   
+           	<div class="pageTurn">
+				<div class="p_num" ng-show="req.totalPage>1">
+					<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;getlist()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
+						ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
+						href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;getlist()">末页</a>
+				</div>
+				<div class="p_skip">
+					<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
+					</span>
+					<button ng-click="getPage()">确定</button>
+				</div>
+			</div>                     
+        </div>        
+	</div>
+</div>

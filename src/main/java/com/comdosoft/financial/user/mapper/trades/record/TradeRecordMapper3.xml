@@ -7,7 +7,7 @@
 		FROM trade_records r
 		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
-		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
+		    <![CDATA[ AND r.terminal_number like '%${terminalNumber}%'  ]]>
 		</if>
 		<if test="startTime!=''">
 		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') >= #{startTime} ]]>
@@ -32,7 +32,7 @@
 		FROM trade_records r
 		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
-		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
+		    <![CDATA[ AND r.terminal_number like '%${terminalNumber}%'  ]]>
 		</if>
 		<if test="startTime!=''">
 		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') >= #{startTime} ]]>
@@ -96,7 +96,7 @@
 		FROM trade_records r
 		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
-		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
+		    <![CDATA[ AND r.terminal_number like '%${terminalNumber}%'  ]]>
 		</if>
 		<if test="startTime!=''">
 		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') >= #{startTime} ]]>
@@ -122,7 +122,7 @@
 		JOIN profits p ON p.trade_record_id = r.id
 		WHERE r.trade_type_id = #{tradeTypeId} and agent_id =#{id} and r.traded_status=2
 		<if test="terminalNumber!=''">
-		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
+		    <![CDATA[ AND r.terminal_number like '%${terminalNumber}%'  ]]>
 		</if>
 		<if test="startTime!=''">
 		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') >= #{startTime} ]]>

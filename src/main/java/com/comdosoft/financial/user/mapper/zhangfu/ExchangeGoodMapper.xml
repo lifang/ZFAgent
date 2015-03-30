@@ -30,7 +30,7 @@
 			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="sonAgentId!=0">
-			   <![CDATA[ and (egr.from_agent_id=#{sonagentId} or egr.to_agent_id=#{sonagentId} )  ]]>
+			   <![CDATA[ and (egr.from_agent_id=#{sonAgentId} or egr.to_agent_id=#{sonAgentId} )  ]]>
 			</if>
 			LIMIT #{offset}, #{rows}
      </select>
@@ -48,7 +48,7 @@
 			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="sonAgentId!=0">
-			   <![CDATA[ and (egr.from_agent_id=#{sonagentId} or egr.to_agent_id=#{sonagentId} )  ]]>
+			   <![CDATA[ and (egr.from_agent_id=#{sonAgentId} or egr.to_agent_id=#{sonAgentId} )  ]]>
 			</if>
      </select>
      

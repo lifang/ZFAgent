@@ -18,6 +18,7 @@
 		<script type="text/javascript" src="js/index.js"></script>
 		<!-- 系统分页 -->
 		<script type="text/javascript" src="js/page.js"></script>
+		<script src="js/main.js"></script>
 		<!-- 日历控件 -->
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/services/loginService.js"></script>
@@ -45,10 +46,11 @@
 		<script type="text/javascript" src="js/controllers/terminals/bindingTerminals.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/terminals/terminalService.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/terminals/terminalsDetail.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/myMessage/message.js"></script>
 		<script type="text/javascript" src="js/controllers/lowerAgent.controller.js"></script>
-		<script type="text/javascript" src="js/controllers/stock.controller.js"></script>
-		<script src="js/jQuery-1.11.2.js"></script>
-		<script src="js/main.js"></script>
+		<script type="text/javascript" src="js/controllers/stock.controller.js"></script>	
+		<script type="text/javascript" src="js/controllers/agent.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/adderss.controller.js"></script>
 
 		<!--柱形图表-->
 		<script src="js/Chart.min.js"></script>
@@ -98,11 +100,11 @@
 					<li><a href="#">管理用户</a></li>
 					<li class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
 						<ol>
-							<li><a href="#">代理商资料</a></li>
+							<li><a href="#/agentinform">代理商资料</a></li>
 							<li><a href="#/accountList">员工帐号</a></li>
-							<li><a href="#">修改密码</a></li>
+							<li><a href="#/modifypassword">修改密码</a></li>
 						</ol></li>
-					<li><a href="#">查看消息</a></li>
+					<li><a href="#/myMessage">查看消息</a></li>
 				</ul>
 			</div>
 			<div ng-view></div>

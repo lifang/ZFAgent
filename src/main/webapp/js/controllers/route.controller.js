@@ -30,6 +30,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/order/purchaseOrder.html'
 	}).when('/othersOrder', {
 		templateUrl : 'views/order/othersOrder.html'
+	}).when('/email_up', {
+		templateUrl : 'views/customer/up_email.html'
 	}).when('/shop', {
 		templateUrl : 'views/shop/shop.html'
 	}).when('/shopinfo', {
@@ -44,6 +46,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/account/accountAdd.html'
 	}).when('/accountOne', {
 		templateUrl : 'views/account/accountOne.html'
+	}).when('/myMessage',{
+		templateUrl : 'views/management/myMessage.html'		
 	}).when('/accountEdit', {
 		templateUrl : 'views/account/accountEdit.html'
 	}).when('/accountResetPassword', {
@@ -86,10 +90,18 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/terminals/terminalService.html'
 	}).when('/terminalDetail', {
 		templateUrl : 'views/terminals/terminalDetail.html'
+	}).when('/terminalCancellation', {
+		templateUrl : 'views/terminals/terminalCancellation.html'
 	}).when('/stock', {
 		templateUrl : 'views/agent/stock.html'
 	}).when('/stockinfo', {
 		templateUrl : 'views/agent/stockinfo.html'
+	}).when('/agentinform', {
+		templateUrl : 'views/systemset/agentinform.html'
+	}).when('/adderss', {
+		templateUrl : 'views/systemset/adderss.html'
+	}).when('/modifypassword', {
+		templateUrl : 'views/systemset/modifypassword.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

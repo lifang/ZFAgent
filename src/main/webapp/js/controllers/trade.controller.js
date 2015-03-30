@@ -15,6 +15,7 @@ var tradelistController = function ($scope, $http, LoginService) {
 		}
 		$scope.req.is_have_profit=LoginService.is_have_profit;
 		$scope.getTradeType();
+		$scope.sonlist();
 		$scope.list();
 	};
 	$scope.list=function(){
@@ -24,6 +25,19 @@ var tradelistController = function ($scope, $http, LoginService) {
             	$scope.tradeList=data.result.list;
             	calcSystemPage($scope.req, data.result.total);// 计算分页
             	LoginService.trade=$scope.req;
+            }
+        });
+	};
+	$scope.search=function(){
+		$scope.req.indexPage=1;
+		$scope.list();
+	};
+	
+	$scope.sonlist=function(){
+		$scope.req.page=$scope.req.indexPage;
+		$http.post("api/trade/record/getAgents", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.son=data.result;
             }
         });
 	};
@@ -90,6 +104,12 @@ var statisticsController = function ($scope, $http, LoginService) {
 			window.location.href = '#/trade';
 		}else{
 			$scope.list();
+			if($scope.req.startTime==undefined){
+				$scope.req.startTime="";
+			}
+			if($scope.req.endTime==undefined){
+				$scope.req.endTime="";
+			}
 		}
 		
 	};

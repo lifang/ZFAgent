@@ -9,6 +9,7 @@ import com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
+import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 
 /**
  * 用户终端管理
@@ -115,6 +116,37 @@ public interface TerminalsWebMapper {
      * @return
      */
     void addCsAgentMark(Map<Object, Object> map);
+    
+    /**
+     * 获得终端详情
+     * 
+     * @param id
+     * @return
+     */
+    Map<String, String> getApplyDetails(Integer id);
+    
+    /**
+     * 获得该终端交易类型
+     * 
+     * @param id
+     * @return
+     */
+    List<Map<String, String>> getRate(Integer id);
+    
+    /**
+     * 获得租赁信息
+     * 
+     * @param id
+     * @return
+     */
+    Map<String, String> getTenancy(Integer id);
+    
+    /**
+	 * 获得已有开通申请基本申请信息
+	 * @param id
+	 * @return
+	 */
+	Map<String, Object> getOppinfo(OpeningApplie openingApplie);
     
     
     
@@ -315,29 +347,11 @@ public interface TerminalsWebMapper {
      */
     void subLeaseReturn(Map<Object, Object> map);
     
-    /**
-     * 获得终端详情
-     * 
-     * @param id
-     * @return
-     */
-    Map<String, String> getApplyDetails(Integer id);
     
-    /**
-     * 获得租赁信息
-     * 
-     * @param id
-     * @return
-     */
-    Map<String, String> getTenancy(Integer id);
     
-    /**
-     * 获得该终端交易类型
-     * 
-     * @param id
-     * @return
-     */
-    List<Map<String, String>> getRate(Integer id);
+    
+    
+   
 
     /**
      * 获得追踪记录

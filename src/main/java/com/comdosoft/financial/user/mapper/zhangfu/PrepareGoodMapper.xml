@@ -5,12 +5,12 @@
 	<insert id="add" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
 		insert into prepare_goods_records(agent_id,good_id,quantity,created_at,updated_at,
 		process_user_id,terminal_list,pay_channel_id)
-		VALUES (#{sonagentId},#{goodId},#{quantity},NOW(),NOW(),
+		VALUES (#{sonAgentId},#{goodId},#{quantity},NOW(),NOW(),
 		#{customerId},#{terminalList},#{paychannelId})
 	</insert>
 
 	<update id="upTerminal_AgentId" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq">
-		UPDATE terminals set agent_id=#{sonagentId} where serial_num=#{serialNum}
+		UPDATE terminals set agent_id=#{sonAgentId} where serial_num=#{serialNum}
 	</update>
 
 	<select id="getPrepareGoodList" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
@@ -28,7 +28,7 @@
 			   <![CDATA[ and pgr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="sonAgentId!=0">
-			   <![CDATA[ and pgr.agent_id=#{sonagentId} ]]>
+			   <![CDATA[ and pgr.agent_id=#{sonAgentId} ]]>
 		</if>
 		LIMIT #{offset}, #{rows}
 	</select>
@@ -44,7 +44,7 @@
 			   <![CDATA[ and created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="sonAgentId!=0">
-			   <![CDATA[ and agent_id=#{sonagentId} ]]>
+			   <![CDATA[ and agent_id=#{sonAgentId} ]]>
 		</if>
 	</select>
 

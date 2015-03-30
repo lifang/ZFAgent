@@ -268,4 +268,8 @@ public class SystemSetService {
 		return customerMapper.updateRights(customer_id, role_id);
 	}
 
+	public int countCustomerRightsByRoleId(int customer_id, int role_id) {
+		return customerMapper.countCustomerRightsByRoleId(customer_id, role_id);
+	}
+
 }

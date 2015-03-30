@@ -32,25 +32,13 @@ var indexController = function($scope, $location, $http, LoginService,
 	
 	var check = function(str) {
 		// alert(str + "====index.controller");
-		var arry = [ "shop", "shopinfo", "purchaseShop", "purchaseShopinfo","myapp",
-				"accountList", "accountAdd", "accountOne" ,'login','register','findpass','findpassEmail'];
+		var arry = [ "shop", "shopinfo", "purchaseShop", "purchaseShopinfo",'login','register','findpass','findpassEmail'];
 		for (var i = 0; i < arry.length; i++) {
 			if (str == arry[i]) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	// 退出页面(清除$cookieStore)
-	$scope.escLogin = function() {
-		$cookieStore.put("loginUserName", null);
-		$cookieStore.put("loginUserId", 0);
-		$scope.password1 = "";
-		$scope.code = "";
-		location.reload();
-		window.location.href = '#/';
-
 	}
 
 	$scope.index = function() {

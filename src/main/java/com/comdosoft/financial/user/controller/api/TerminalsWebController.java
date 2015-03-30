@@ -236,7 +236,7 @@ public class TerminalsWebController {
 				terminalsWebService.submitAgent(csAgent);//添加售后信息
 				map.put("agentId", csAgent.getId());
 				map.put("customerId", csAgent.getCustomerId());
-				terminalsWebService.addCsAgentMark(map);
+				terminalsWebService.addCsAgentMark(map);//物流信息
 				return Response.getSuccess("提交申请成功！");
 			}else{
 				//返回错误终端号数组
@@ -244,6 +244,68 @@ public class TerminalsWebController {
 			}
 		}catch(Exception e){
 			logger.error("提交申请售后失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 进入终端详情
+	 * 
+	 * @param id
+	 *//*
+	@RequestMapping(value = "getWebApplyDetail", method = RequestMethod.POST)
+	public Response getWebApplyDetail(@RequestBody Map<String, Object> maps) {
+		try {
+			Map<Object, Object> map = new HashMap<Object, Object>();
+			// 获得终端详情
+			map.put("applyDetails",
+					terminalsWebService.getApplyDetails((Integer)maps.get("terminalsId")));
+			// 终端交易类型
+			map.put("rates", terminalsWebService.getRate((Integer)maps.get("terminalsId")));
+			// 追踪记录
+			map.put("trackRecord", terminalsWebService.getTrackRecord((Integer)maps.get("terminalsId")));
+			// 开通详情
+			map.put("openingDetails",
+					terminalsWebService.getOpeningDetails((Integer)maps.get("terminalsId")));
+			return Response.getSuccess(map);
+		} catch (Exception e) {
+			logger.error("进入终端详情失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}*/
+	/**
+	 * 进入终端详情(Web)
+	 * 
+	 * @param id
+	 */
+	@RequestMapping(value = "getWebApplyDetail", method = RequestMethod.POST)
+	public Response getWebApplyDetail(@RequestBody Map<Object, Object> maps) {
+		try {
+			Map<Object, Object> map = new HashMap<Object, Object>();
+			// 获得终端详情
+			map.put("applyDetails",
+					terminalsWebService.getApplyDetails((Integer)maps.get("terminalsId")));
+			// 终端交易类型
+			map.put("rates", terminalsWebService.getRate((Integer)maps.get("terminalsId")));
+			//获得租赁信息
+			map.put("tenancy", terminalsWebService.getTenancy((Integer)maps.get("terminalsId")));
+			// 追踪记录
+			map.put("trackRecord", terminalsWebService.getTrackRecord((Integer)maps.get("terminalsId")));
+			// 开通详情
+			map.put("openingDetails",
+					terminalsWebService.getOpeningDetails((Integer)maps.get("terminalsId")));
+			// 获得已有申请开通基本信息
+						map.put("openingInfos",
+								terminalsWebService.getOppinfo((Integer)maps.get("terminalsId")));
+			//获得模板路径
+			//map.put("ReModel", terminalsWebService.getModule((Integer)maps.get("terminalsId"),(Integer)maps.get("types")));
+			//获得用户收货地址
+			//map.put("address", terminalsWebService.getCustomerAddress((Integer)maps.get("customerId")));
+			//城市级联
+			/*map.put("Cities", terminalsService.getCities());*/
+			return Response.getSuccess(map);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return Response.getError("请求失败！");
 		}
 	}
@@ -342,31 +404,7 @@ public class TerminalsWebController {
 		}
 	}*/
 
-	/**
-	 * 进入终端详情
-	 * 
-	 * @param id
-	 */
-	@RequestMapping(value = "getApplyDetails", method = RequestMethod.POST)
-	public Response getApplyDetails(@RequestBody Map<String, Object> maps) {
-		try {
-			Map<Object, Object> map = new HashMap<Object, Object>();
-			// 获得终端详情
-			map.put("applyDetails",
-					terminalsWebService.getApplyDetails((Integer)maps.get("terminalsId")));
-			// 终端交易类型
-			map.put("rates", terminalsWebService.getRate((Integer)maps.get("terminalsId")));
-			// 追踪记录
-			map.put("trackRecord", terminalsWebService.getTrackRecord((Integer)maps.get("terminalsId")));
-			// 开通详情
-			map.put("openingDetails",
-					terminalsWebService.getOpeningDetails((Integer)maps.get("terminalsId")));
-			return Response.getSuccess(map);
-		} catch (Exception e) {
-			logger.error("进入终端详情失败！", e);
-			return Response.getError("请求失败！");
-		}
-	}
+	
 
 	/**
 	 * 获得代理商下面的用户

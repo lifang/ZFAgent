@@ -76,4 +76,9 @@
 	]]>
 	</delete>
 
+	<select id="queryAgent"  resultType="map" >
+	<![CDATA[
+		SELECT * FROM agents  WHERE id = #{id}
+	]]>
+	</select>
 </mapper>

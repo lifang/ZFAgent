@@ -129,11 +129,16 @@ public class SystemSetController {
 	public Response deleteEmpInfoFromAgent(@RequestBody Map<Object, Object> param) {
 		Response response = new Response();
 
-		Integer id = (Integer) param.get("ids");
-		if (systemSetService.updateCustomerStatus(id) > 0) {
-			if (systemSetService.deleteEmpInfoFromAgent(id) > 0) {
-				response.setCode(Response.SUCCESS_CODE);
-				response.setMessage("删除成功!!!!");
+		if (param.get("ids") != null) {
+			int id = Integer.parseInt(param.get("ids").toString());
+			if (systemSetService.updateCustomerStatus(id) > 0) {
+				if (systemSetService.deleteEmpInfoFromAgent(id) > 0) {
+					response.setCode(Response.SUCCESS_CODE);
+					response.setMessage("删除成功!!!!");
+				} else {
+					response.setCode(Response.ERROR_CODE);
+					response.setMessage("删除失败!!!!");
+				}
 			} else {
 				response.setCode(Response.ERROR_CODE);
 				response.setMessage("删除失败!!!!");
@@ -181,15 +186,21 @@ public class SystemSetController {
 	@RequestMapping(value = "resetPassword", method = RequestMethod.POST)
 	public Response insert(@RequestBody Map<String, Object> map) {
 		Response response = new Response();
-		int customer_id = Integer.parseInt(map.get("customer_id").toString());
-		String password = (String) map.get("password");
-		if (systemSetService.resetPassword(customer_id, SysUtils.string2MD5(password).trim()) > 0) {
-			response.setCode(Response.SUCCESS_CODE);
-			response.setMessage("重置密码成功");
+		if (map.get("customer_id") != null) {
+			int customer_id = Integer.parseInt(map.get("customer_id").toString());
+			String password = (String) map.get("password");
+			if (systemSetService.resetPassword(customer_id, SysUtils.string2MD5(password)) > 0) {
+				response.setCode(Response.SUCCESS_CODE);
+				response.setMessage("重置密码成功");
+			} else {
+				response.setCode(Response.ERROR_CODE);
+				response.setMessage("重置密码失败");
+			}
 		} else {
 			response.setCode(Response.ERROR_CODE);
 			response.setMessage("重置密码失败");
 		}
+
 		return response;
 	}
 
@@ -209,24 +220,20 @@ public class SystemSetController {
 		req.setPassword(SysUtils.string2MD5(req.getPassword()));
 		if (systemSetService.editCustomerInfo(req) > 0) {
 
-			/*if (rights != null) {
-				List<Map<String, Object>> list = systemSetService.getCustomerRights(customer_id);
-				List<Integer> rightids = new ArrayList<Integer>();
-				String[] roleIds = rights.split(",");
-				int rid1 = 0;
-				for (Map<String, Object> map : list) {
-					for (int i = 0; i < roleIds.length; i++) {
-						rid1 = Integer.parseInt(map.get("role_id").toString());
-						if (rid1 == Integer.parseInt(roleIds[i])) {
-							logger.debug(Integer.parseInt(roleIds[i]));
-							systemSetService.updateRights(customer_id, rid1);
-							rightids.add(rid1);
-							break;
-						}
-					}
-					
-				}
-			}*/
+			/*
+			 * if (rights != null) { List<Map<String, Object>> list =
+			 * systemSetService.getCustomerRights(customer_id); List<Integer>
+			 * rightids = new ArrayList<Integer>(); String[] roleIds =
+			 * rights.split(","); int rid1 = 0; for (Map<String, Object> map :
+			 * list) { for (int i = 0; i < roleIds.length; i++) { rid1 =
+			 * Integer.parseInt(map.get("role_id").toString()); if (rid1 ==
+			 * Integer.parseInt(roleIds[i])) {
+			 * logger.debug(Integer.parseInt(roleIds[i]));
+			 * systemSetService.updateRights(customer_id, rid1);
+			 * rightids.add(rid1); break; } }
+			 * 
+			 * } }
+			 */
 
 			if (rights != null) {
 				String[] arr = rights.split(",");

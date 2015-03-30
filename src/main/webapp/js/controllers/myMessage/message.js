@@ -22,7 +22,7 @@ var messageController = function($scope,$location, $http, LoginService) {
 			$scope.getlist();
 		}
 	};
-	$scope.getlist()=function(){
+	$scope.getlist=function(){
 		$scope.req.page=$scope.req.indexPage;
 		$http.post("api/message/receiver/getAll",$scop.req).success(function(data){
 			if (data.code == 1){

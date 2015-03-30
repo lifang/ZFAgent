@@ -73,11 +73,6 @@ public class LowerAgentReq {
     //默认分润比例
     private int defaultProfit;
     
-    
-    
-    
-    
-    
 	public int getDefaultProfit() {
 		return defaultProfit;
 	}
@@ -340,7 +335,6 @@ public class LowerAgentReq {
 	public void setTerminal_list(String terminal_list) {
 		this.terminal_list = terminal_list;
 	}
-
 	private int page;
     private int rows;
     private int offset;

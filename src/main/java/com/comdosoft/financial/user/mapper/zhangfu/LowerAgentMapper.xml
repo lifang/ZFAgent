@@ -31,7 +31,7 @@ where a.agent_id=#{son_agents_id} group by a.trade_type_id,a.pay_channel_id orde
    </select>
      
    <select id="getLowerAgentTotal" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
-        select count(a.id) from agents a where a.parent_id=#{agents_id}
+        select count(DISTINCT a.id) from agents a where a.parent_id=#{agents_id}
    </select>
    
    <select id="getCustomerId" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">

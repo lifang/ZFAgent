@@ -144,6 +144,7 @@ public class AgentLoginController {
 	@RequestMapping(value = "updatePassword", method = RequestMethod.POST)
 	public Response updatePassword(@RequestBody Customer customer,HttpSession session){
 		try {
+			customer.setStatus(Customer.STATUS_NORMAL);
 			if(customer.getCode().equals(agentLoginService.findCode(customer))){
 				if(agentLoginService.findUname(customer)>0){
 					agentLoginService.updatePassword(customer);
@@ -211,8 +212,8 @@ public class AgentLoginController {
 						agent.setName((String)map.get("name"));
 						agent.setCardId((String)map.get("cardId"));
 						agent.setTypes((Integer)map.get("types"));
-						agent.setCompanyName((String)map.get("companyName"));
-						agent.setBusinessLicense((String)map.get("businessLicense"));
+						
+						
 						agent.setPhone((String)map.get("phone"));
 						agent.setEmail((String)map.get("email"));
 						agent.setCustomerId(customer.getId());
@@ -222,9 +223,13 @@ public class AgentLoginController {
 						agent.setParentId(Agent.PARENT_ID);
 						agent.setIsHaveProfit(Agent.IS_HAVE_PROFIT_N);
 						agent.setCardIdPhotoPath((String)map.get("cardIdPhotoPath"));
-						agent.setTaxRegisteredNo((String)map.get("taxRegisteredNo"));
-						agent.setLicenseNoPicPath((String)map.get("licenseNoPicPath"));
-						agent.setTaxNoPicPath((String)map.get("taxNoPicPath"));
+						if(agent.getTypes() ==1){//公司选项多出几个
+							agent.setCompanyName((String)map.get("companyName"));
+							agent.setBusinessLicense((String)map.get("businessLicense"));
+							agent.setTaxRegisteredNo((String)map.get("taxRegisteredNo"));
+							agent.setLicenseNoPicPath((String)map.get("licenseNoPicPath"));
+							agent.setTaxNoPicPath((String)map.get("taxNoPicPath"));
+						}
 						agentLoginService.addAgent(agent);
 						return Response.getSuccess("注册成功！");
 					}

@@ -33,7 +33,7 @@
 	
 	<update id="updatePassword" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		UPDATE customers set `password`=#{password},updated_at=now()
-		WHERE username=#{username}
+		WHERE username=#{username} and ststus=#{status}
 	</update>
 	
 	<update id="updateDentcode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
@@ -62,6 +62,7 @@
 	
 	<select id="findCode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="string">
 		SELECT dentcode from customers
-		WHERE username=#{username}
+		WHERE username=#{username} and status = #{status}
 	</select>
+	
 </mapper>

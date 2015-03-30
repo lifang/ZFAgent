@@ -40,7 +40,7 @@ public class OpeningApplyController {
 	private OpeningApplyService openingApplyService;
 
 	/**
-	 * 根据用户ID获得开通申请列表
+	 * 根据代理商ID获得开通申请列表
 	 * 
 	 * @param page
 	 * @param rows
@@ -52,10 +52,10 @@ public class OpeningApplyController {
 		try {
 			PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
 					(Integer)map.get("rows"));
-
+			
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(openingApplyService.getApplyList(
-					(Integer)map.get("customerId"),
+					(Integer)map.get("agentId"),
 					offSetPage, (Integer)map.get("rows")));
 		} catch (Exception e) {
 			logger.error("根据用户ID获得开通申请列表异常！",e);
@@ -80,7 +80,7 @@ public class OpeningApplyController {
 
 			int offSetPage = PageRequest.getOffset();
 			return Response.getSuccess(openingApplyService.searchApplyList(
-					(Integer)map.get("customerId"),
+					(Integer)map.get("agentId"),
 					offSetPage, (Integer)map.get("rows"),
 					(String)map.get("serialNum")));
 		} catch (Exception e) {
@@ -102,7 +102,7 @@ public class OpeningApplyController {
 			map.put("applyDetails",
 					openingApplyService.getApplyDetails((Integer)maps.get("terminalsId")));
 			// 获得所有商户
-			map.put("merchants", openingApplyService.getMerchants((Integer)maps.get("customerId")));
+			//map.put("merchants", openingApplyService.getMerchants((Integer)maps.get("customerId")));
 			// 数据回显(针对重新开通申请)
 			map.put("applyFor", openingApplyService.ReApplyFor((Integer)maps.get("terminalsId")));
 			// 材料名称

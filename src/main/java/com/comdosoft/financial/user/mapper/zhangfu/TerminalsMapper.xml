@@ -25,22 +25,18 @@
 	</select>
 
 	<select id="getApplyDetails" parameterType="int" resultType="map">
-		SELECT t.serial_num,g.model_number,b.name as
-		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt
-		FROM
-		terminals t LEFT JOIN goods g on t.good_id=g.id
+		SELECT t.id,t.serial_num,t.`status`,g.model_number,b.name as
+		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,l.`id` as appId,l.`status` as applieStatus,e.types
+		FROM terminals t 
+		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
+		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
-		LEFT JOIN pay_channels c on
-		c.id=t.pay_channel_id
-		LEFT JOIN factories a ON
-		c.factory_id=a.id
-		LEFT JOIN merchants m ON
-		t.merchant_id=m.id
-		LEFT JOIN order_goods
-		o ON t.good_id=o.good_id
-		LEFT JOIN orders e ON
-		o.order_id=e.id
-		WHERE t.id=#{id}
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
+		LEFT JOIN factories a ON c.factory_id=a.id
+		LEFT JOIN merchants m ON t.merchant_id=m.id
+		LEFT JOIN orders e ON t.order_id=e.id
+		LEFT JOIN opening_ap_id = t.id
+		WHERE t.id=#{id}plies l ON l.terminal
 		AND
 		e.customer_id=t.customer_id
 	</select>

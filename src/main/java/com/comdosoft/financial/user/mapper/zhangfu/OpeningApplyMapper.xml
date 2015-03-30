@@ -20,7 +20,7 @@
  	<select id="getApplyList" parameterType="map" resultType="map">
  		SELECT id,serial_num,status
  		FROM terminals
- 		WHERE customer_id=#{id}
+ 		WHERE agent_id=#{id}
  		AND status in (#{twoStatus},#{threeStatus})
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
@@ -33,7 +33,7 @@
  	<select id="searchApplyList" parameterType="map" resultType="map">
  		SELECT id,serial_num,status
  		FROM terminals
- 		WHERE customer_id=#{id}
+ 		WHERE agent_id=#{id}
  		AND status in (#{twoStatus},#{threeStatus})
  		<if test="serialNum != null and serialNum != ''">AND serial_num like '%${serialNum}%'</if>
  		LIMIT #{offSetPage},#{pageSize}

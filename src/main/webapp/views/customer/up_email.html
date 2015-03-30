@@ -1,0 +1,36 @@
+<script type="text/javascript" src="js/controllers/myinfo/myinfobaseController.js"></script>
+<div class="right" ng-controller="myinfobaseController">
+ 
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#/myinfobase">我的信息</a></li>
+			<li><a href="#/myinfobase">基本信息</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="myInfoNav">
+			<ul>
+				<li><a href="#/myinfobase" class="hover">基本信息</a></li>
+				<li><a href="#/myinfoupdatepassword">修改密码</a></li>
+				<li><a href="#/myinfoAddresses">地址管理</a></li>
+				<li><a href="#/myinfointegral">我的积分</a></li>
+			</ul>
+		</div>
+		<div class="user_title">
+			<h1>编辑基本信息</h1>
+		</div>
+		<div class="myInfoBox">
+			<ul>
+				
+				<li><label>邮箱：</label><input type="text" ng-model="customer.new_email"  /> </li>
+				
+			</ul>
+			<div class="myInfoBox_btn">
+				<button type="button" class="orangeBtn" ng-click="save_email()">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="mask"></div>
+

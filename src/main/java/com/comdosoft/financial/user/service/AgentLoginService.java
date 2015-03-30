@@ -109,5 +109,14 @@ public class AgentLoginService {
 		return agentLoginMapper.findCode(customer);
 	}
 	
+	/**
+	 * 修改密码
+	 * 
+	 * @param customer
+	 * 
+	 */
+	public int modifyPassword(Customer customer) {
+		return agentLoginMapper.modifyPassword(customer);
+	}
 	
 }

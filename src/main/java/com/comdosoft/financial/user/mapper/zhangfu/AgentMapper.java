@@ -31,5 +31,13 @@ public interface AgentMapper {
     void updateAddress(Map<Object, Object> param);
 
     void deleteAddress(Customer param);
+    
+    /***
+     * 
+     * 查询商户
+     * @param id
+     * @return
+     */
+    Map<Object, Object>  queryAgent( int id);
 
 }

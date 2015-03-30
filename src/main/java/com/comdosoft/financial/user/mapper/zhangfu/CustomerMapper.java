@@ -107,4 +107,6 @@ public interface CustomerMapper {
 	public List<Map<String, Object>> getCustomerRights(int customer_id);
 
 	public int updateRights(int customer_id, int role_id);
+
+	public int countCustomerRightsByRoleId(int customer_id, int role_id);
 }

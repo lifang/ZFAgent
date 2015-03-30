@@ -35,7 +35,7 @@ var empAddController = function($scope, $http, $location, LoginService) {
 
 		$scope.customer.rights = getCheckboxValue();
 
-		alert($scope.customer.rights);
+		// alert($scope.customer.rights);
 		if (typeof ($scope.customer.rights) == "undefined" || $scope.customer.rights == "") {
 			alert("权限不能为空");
 			return false;

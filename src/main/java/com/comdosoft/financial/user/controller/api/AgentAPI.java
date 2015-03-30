@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -177,6 +178,23 @@ public class AgentAPI {
             logger.error("删除代理商地址失败", e);
             sysResponse = Response.getError("删除代理商地址失败:系统异常");
         }
+        return sysResponse;
+    }
+    
+    @RequestMapping(value = "query/{customer_id}", method = RequestMethod.POST)
+    public Response queryAddress(@PathVariable int customer_id) {
+        Response sysResponse = new Response();
+      
+        Map<Object, Object> result= agentService.queryAgent(customer_id);
+        	  if(result!=null)
+        	  {
+        		   sysResponse = Response.getSuccess();
+                   sysResponse.setResult(result);
+        	  }
+        	  else{
+        		  sysResponse.setMessage("系统异常");
+        		  //setisDefault
+        	  }
         return sysResponse;
     }
 

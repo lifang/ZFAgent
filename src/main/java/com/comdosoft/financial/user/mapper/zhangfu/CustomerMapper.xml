@@ -115,7 +115,7 @@
 
 	<update id="resetPassword" flushCache="true">
 		<![CDATA[
-			UPDATE customers c SET c.password = #{password}, c.updated_at = NOW() WHERE c.id = #{customer_id}
+			UPDATE customers c SET c.password = #{1}, c.updated_at = NOW() WHERE c.id = #{0}
 		]]>
 	</update>
 
@@ -129,7 +129,7 @@
 	<update id="updateRights" flushCache="true">
 		<![CDATA[
 			UPDATE customer_role_relations c SET c.updated_at = NOW() 
-			WHERE c.customer_id = #{customer_id} AND c.role_id = #{role_id}
+			WHERE c.customer_id = #{0} AND c.role_id = #{1}
 		]]>
 	</update>
 	
@@ -137,6 +137,13 @@
 		<![CDATA[
 			SELECT c.id, c.role_id, c.updated_at FROM customer_role_relations c 
 			WHERE c.customer_id = #{customer_id}
+		]]>
+	</select>
+	
+	<select id="countCustomerRightsByRoleId" resultType="int">
+		<![CDATA[
+			SELECT count(c.id) as count FROM customer_role_relations c 
+			WHERE c.customer_id = #{0} AND c.role_id = #{1}
 		]]>
 	</select>
 </mapper>

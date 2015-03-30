@@ -32,7 +32,7 @@ var resetPasswordController = function($scope, $http, $location, LoginService) {
 	$scope.update = function(customerId) {
 		var password = $scope.password;
 		var comfirmpwd = $scope.comfirmpwd;
-
+		var customerId = $location.search()['id'];
 		if (typeof ($scope.password) == "undefined" || typeof ($scope.comfirmpwd) == "undefined") {
 			alert("密码不能为空！");
 			return false;
@@ -47,6 +47,12 @@ var resetPasswordController = function($scope, $http, $location, LoginService) {
 			customer_id : customerId,
 			password : password
 		}).success(function(data) {
+			if (data.code == 1) {
+				alert(data.message);
+				window.location.href = '#/accountList';
+			} else {
+				alert(data.message);
+			}
 
 		}).error(function(data) {
 		});

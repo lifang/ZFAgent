@@ -134,4 +134,7 @@ public class AgentService {
         agentMapper.deleteAddress(param);
     }
 
+    public  Map<Object, Object> queryAgent(int id) {
+        return agentMapper.queryAgent(id);
+    } 
 }

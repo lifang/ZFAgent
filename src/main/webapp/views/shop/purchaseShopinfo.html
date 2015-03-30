@@ -1,130 +1,349 @@
-<div class="right" ng-controller="shopinfoController">
-	<div class="breadcrumb">
-		<ul>
-			<li><a href="#">批购</a></li>
-		</ul>
-	</div>
-	<div class="content clear">
-		<div class="user_title">
-			<h1>批购订单列表</h1>
-			<div class="userTopBtnBox">
-				<a href="#" class="ghostBtn">去批购</a>
+<link href="style/jqzoom.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.jqzoom.min.js"></script>
+<script type="text/javascript" src="js/pro-show.js"></script>
+<script type="text/javascript" src="js/jQuery.autoIMG.js"></script>
+<div class="main" ng-controller="purchaseshopinfoController">
+	<div class="box">
+		<div class="product_left clear">
+			<div class="pro_head clear">
+				<div class="pro_show">
+					<div class="bigImg jqzoom">
+						<img src="{{good.goodPics[picnb]}}" jqimg="{{good.goodPics[picnb]}}" />
+					</div>
+					<div class="picBox">
+						<div class="prev">Prev</div>
+						<div class="smallImg">
+							<ul class="pic_show">
+								<li ng-repeat="(nb,one) in good.goodPics track by $index" ng-click="tt(nb)"><img src="{{one}}" width="55" /></li>
+							</ul>
+						</div>
+						<div class="next">Next</div>
+					</div>
+				</div>
+
+				<script>
+					$(document).ready(function() {
+						$(".jqzoom").jqueryzoom({
+							xzoom : 388,
+							yzoom : 330,
+							offset : 10,
+							position : "right",
+							preload : 1,
+							lens : 1
+						});
+					});
+				</script>
+
+				<div class="proInfo_area">
+					<h1>{{good.goodinfo.Title}}</h1>
+					<h3>{{good.goodinfo.second_title}}</h3>
+					<div class="pac_summary">
+						<ul>
+							<li class="price_li"><span>零售价</span>
+								<div class="text">
+									<strong class="original">{{(paychannel.opening_cost+good.goodinfo.retail_price)/100|currency : "￥"}}</strong>
+								</div></li>
+							<li class="price_li"><span>现价</span>
+								<div class="text">
+									<strong>{{(paychannel.opening_cost+good.goodinfo.purchase_price)/100|currency : "￥"}}</strong>
+								</div></li>
+							 <li class="selected_li"><span>最小批购量</span><div class="text">{{good.goodinfo.floor_purchase_quantity}}台</div></li>
+							<li class="selected_li"><span>支付通道</span>
+								<div class="text">
+									<a href="javascript:void(0);" ng-repeat="one in good.payChannelList" class="{{one.id==paychannel.id?'hover':''}}" ng-click="getPayChannelInfo(one.id)">{{one.name}}</a>
+								</div></li>
+								
+							<li><span>购买数量</span>
+								<div class="text">
+									<div class="buy_numb">
+										<a href="javascript:void(0);" ng-click="count(-1)">-</a><input type="text" ng-model="quantity" /><a href="javascript:void(0);" ng-click="count(1)">+</a>&nbsp;&nbsp;件
+									</div>
+									<em class="buy_stock">库存{{good.goodinfo.quantity}}件</em>
+								</div></li>
+						</ul>
+					</div>
+					<div class="buy_action">
+						<a href="#/shopmakeorder?goodId={{good.goodinfo.id}}&type=1&quantity={{quantity}}&paychannelId={{paychannel.id}}" class="buy_btn">批购</a>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="seenBox clear">
-			<ul>
-				<li><div class="user_search">
-						<input name="" type="text" />
-						<button></button>
-					</div></li>
-				<li><div class="user_select">
-						<label>状态筛选</label> <select name="">
-							<option>111</option>
-							<option>222</option>
-							<option>333</option>
-						</select>
-					</div></li>
-			</ul>
-		</div>
-		<div class="uesr_table">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
-				<colgroup>
-					<col />
-					<col width="130" />
-					<col width="130" />
-					<col width="70" />
-					<col width="100" />
-					<col width="150" />
-					<col />
-				</colgroup>
-				<thead>
-					<tr>
-						<th>商品</th>
-						<th>批购价</th>
-						<th>数量</th>
-						<th>金额</th>
-						<th>状态</th>
-						<th>操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="order_hd">
-						<td colspan="6"><span>订单号 1265974136684</span><span>2014/12/12 14:22:23</span> <span>类型：批购订单</span></td>
-					</tr>
-					<tr>
-						<td>
-							<div class="td_proBox clear">
-								<a href="#" class="cn_img"><img src="images/c.jpg" /></a>
-								<div class="td_proBox_info">
-									<h1>
-										<a href="#">汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装点餐机奶茶店</a>
-									</h1>
-									<h3>热销5000件</h3>
+			<div class="pro_body">
+				<div class="pro_detail_title">
+					<ul>
+						<li class="hover"><a href="javascript:void(0);">商品描述</a></li>
+						<li><a href="javascript:void(0);">交易费率信息</a></li>
+						<li><a href="javascript:void(0);">开通申请条件</a></li>
+						<li><a href="javascript:void(0);">开通所需材料</a></li>
+						<li><a href="javascript:void(0);" ng-show="good.commentsCount>0" ng-click="commentList()">评价(<strong>{{good.commentsCount}}</strong>)
+						</a></li>
+						<li><a href="javascript:void(0);" ng-show="good.goodinfo.has_lease">租赁说明</a></li>
+					</ul>
+				</div>
+				<div class="pro_detail_con">
+					<div>
+						<div class="pro_attributes">
+							<h2>POS机信息</h2>
+							<ul>
+								<li><span>品牌：</span>
+									<div class="text">{{good.goodinfo.good_brand}}</div></li>
+								<li><span>型号：</span>
+									<div class="text">{{good.goodinfo.Model_number}}</div></li>
+								<li><span>外壳型号：</span>
+									<div class="text">{{good.goodinfo.shell_material}}</div></li>
+								<li><span>电池信息：</span>
+									<div class="text">{{good.goodinfo.battery_info}}</div></li>
+								<li><span>签购单打印方式：</span>
+									<div class="text">{{good.goodinfo.sign_order_way}}</div></li>
+								<li><span>加密卡方式：</span>
+									<div class="text">{{good.goodinfo.encrypt_card_way}}</div></li>
+								<li><span>支持银行卡类型：</span>
+									<div class="text">全部</div></li>
+							</ul>
+						</div>
+						<div class="pro_attributes">
+							<h2>支付平台信息</h2>
+							<ul>
+								<li><span>{{paychannel.support_type==0?"不":""}}支持区域：</span>
+									<div class="text">
+										<span ng-show="paychannel.supportArea.length==0">无</span><span ng-show="paychannel.supportArea.length>0" ng-repeat="one in paychannel.supportArea">{{one}}&nbsp</span>
+									</div></li>
+								<li><span>是否支持注销：</span>
+									<div class="text">{{paychannel.support_cancel_flag?'支持':'不支持'}}</div></li>
+							</ul>
+						</div>
+						<div class="pro_attributes" ng-show="paychannel.standard_rates.length>0">
+							<h2>刷卡交易标准手续费</h2>
+							<table width="100%" border="0" cellspacing="1" cellpadding="0">
+								<colgroup>
+									<col width="25%" />
+									<col width="25%" />
+									<col width="50%" />
+								</colgroup>
+								<thead>
+									<tr>
+										<th>商户类型</th>
+										<th>费率</th>
+										<th>说明</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="one in paychannel.standard_rates">
+									<td>{{one.name}}</td>
+									<td>{{one.standard_rate/1000}}%</td>
+									<td><p>{{one.description}}</p></td>
+								</tr>
+
+
+							</table>
+						</div>
+						<div class="pro_attributes" ng-show="paychannel.tDates.length>0">
+							<h2>资金服务费</h2>
+							<table width="100%" border="0" cellspacing="1" cellpadding="0">
+								<colgroup>
+									<col width="25%" />
+									<col width="25%" />
+									<col width="50%" />
+								</colgroup>
+								<thead>
+									<tr>
+										<th>结算周期</th>
+										<th>费率</th>
+										<th>说明</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="one in paychannel.tDates">
+									<td>{{one.name}}</td>
+									<td>{{one.service_rate/1000}}%</td>
+									<td><p>{{one.description}}</p></td>
+								</tr>
+							</table>
+						</div>
+						<div class="pro_attributes" ng-show="paychannel.other_rate.length>0">
+							<h2>其他交易费率</h2>
+							<table width="100%" border="0" cellspacing="1" cellpadding="0">
+								<colgroup>
+									<col width="25%" />
+									<col width="25%" />
+									<col width="50%" />
+								</colgroup>
+								<thead>
+									<tr>
+										<th>交易类型</th>
+										<th>费率</th>
+										<th>说明</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="one in paychannel.other_rate">
+									<td>{{one.trade_value}}</td>
+									<td>{{one.terminal_rate/1000}}%</td>
+									<td><p>{{one.description}}</p></td>
+								</tr>
+
+							</table>
+						</div>
+						<div class="pro_attributes">
+							<h2>详细说明</h2>
+							<div class="text">{{good.goodinfo.description}}</div>
+						</div>
+					</div>
+
+
+					<div>
+						<div class="pro_attributes" ng-show="paychannel.tDates.length>0">
+							<h2>资金服务费</h2>
+							<table width="100%" border="0" cellspacing="1" cellpadding="0">
+								<colgroup>
+									<col width="25%" />
+									<col width="25%" />
+									<col width="50%" />
+								</colgroup>
+								<thead>
+									<tr>
+										<th>结算周期</th>
+										<th>费率</th>
+										<th>说明</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="one in paychannel.tDates">
+									<td>{{one.name}}</td>
+									<td>{{one.service_rate/1000}}%</td>
+									<td><p>{{one.description}}</p></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+
+					<div>
+						<div class="pro_attributes">
+							<div class="text">{{paychannel.opening_requirement}}</div>
+						</div>
+					</div>
+					<div>
+						<div class="pro_attributes">
+							<h2 ng-show="paychannel.requireMaterial_pra.length>0">对个人开通</h2>
+							<div class="text">
+								<span ng-repeat="one in paychannel.requireMaterial_pra">{{one.name}}({{one.introduction}})；<br /></span>
+							</div>
+						</div>
+						<div class="pro_attributes">
+							<h2 ng-show="paychannel.requireMaterial_pub.length>0">对公开通</h2>
+							<div class="text">
+								<span ng-repeat="one in paychannel.requireMaterial_pub">{{one.name}}({{one.introduction}})；<br /></span>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="pro_evaluate">
+							<div class="evaluate_title">
+								<i></i>综合评分{{good.goodinfo.total_score/10}}
+							</div>
+
+							<div class="evaluate_item" ng-repeat="one in comment">
+								<div class="evaluate_star">
 									<ul>
-										<li><span>品牌型号：</span>
-										<div class="c_text">掌富ZF-300</div></li>
-										<li><span>支付通道：</span>
-										<div class="c_text">收账宝</div></li>
+										<li class="{{one.score>9?'p_li_o':''}}"></li>
+										<li class="{{one.score>19?'p_li_o':''}}"></li>
+										<li class="{{one.score>29?'p_li_o':''}}"></li>
+										<li class="{{one.score>39?'p_li_o':''}}"></li>
+										<li class="{{one.score>49?'p_li_o':''}}"></li>
 									</ul>
 								</div>
-							</div>
-						</td>
-						<td><strong>￥459.00</strong>
-						<p class="original">零售价：￥500</p></td>
-						<td>200
-							<p>已发货数量：198</p>
-						</td>
-						<td><strong>￥918.00</strong></td>
-						<td><strong class="strong_status">未付款</strong></td>
-						<td><a href="#" class="a_btn">支付定金</a> <a href="#" class="a_btn">取消</a> <a href="#" class="a_btn">查看详情</a></td>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr class="order_hd">
-						<td colspan="6"><span>订单号 1265974136684</span><span>2014/12/12 14:22:23</span> <span>类型：批购订单</span></td>
-					</tr>
-					<tr>
-						<td>
-							<div class="td_proBox clear">
-								<a href="#" class="cn_img"><img src="images/c.jpg" /></a>
-								<div class="td_proBox_info">
-									<h1>
-										<a href="#">汉米SS3010收银机 触摸屏POS机收款机 超市餐饮服装点餐机奶茶店</a>
-									</h1>
-									<h3>热销5000件</h3>
-									<ul>
-										<li><span>品牌型号：</span>
-										<div class="c_text">掌富ZF-300</div></li>
-										<li><span>支付通道：</span>
-										<div class="c_text">收账宝</div></li>
-									</ul>
+								<div class="evaluate_text">{{one.content}}</div>
+								<div class="evaluate_name">
+									<h3>{{one.name}}</h3>
+									<span>{{one.created_at}}</span>
 								</div>
 							</div>
-						</td>
-						<td><strong>￥459.00</strong>
-						<p class="original">零售价：￥500</p></td>
-						<td>200
-							<p>已发货数量：198</p>
-						</td>
-						<td><strong>￥918.00</strong></td>
-						<td><strong class="strong_status">已付定金</strong></td>
-						<td><a href="#" class="a_btn">支付</a> <a href="#" class="a_btn">取消</a> <a href="#" class="a_btn">查看详情</a></td>
-					</tr>
-				</tbody>
-				
-				
-			</table>
+
+
+
+							<div class="pageTurn">
+								<div class="p_num" ng-show="creq.totalPage>1">
+									<a ng-class="{true:'disabled'}[creq.indexPage==1]" href="javascript:void(0)" ng-click="creq.indexPage=1;commentList()">首页</a> <a ng-class="{true:'disabled'}[creq.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
+										ng-class="{true:'current'}[creq.indexPage==currentPage]" ng-repeat="currentPage in creq.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[creq.indexPage==creq.totalPage]"
+										href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[creq.indexPage==creq.totalPage]" href="javascript:void(0)" ng-click="creq.indexPage=creq.totalPage;commentList()">末页</a>
+								</div>
+								<div class="p_skip">
+									<span>共&nbsp;{{creq.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="creq.gotoPage">&nbsp;页
+									</span>
+									<button ng-click="getPage()">确定</button>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+					<div>
+						<div class="pro_attributes">
+							<h2>租赁最小期限</h2>
+							<div class="text">{{good.goodinfo.lease_time}}月</div>
+						</div>
+						<div class="pro_attributes">
+							<h2>租赁说明</h2>
+							<div class="text">{{good.goodinfo.lease_description}}</div>
+						</div>
+						<div class="pro_attributes">
+							<h2>租赁协议</h2>
+							<div class="text">{{good.goodinfo.lease_agreement}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="pageTurn">
-			<div class="p_num">
-				<a href="#" class="disabled">上一页</a> <a href="#" class="current">1</a> <a href="#?page=2">2</a> <a href="#?page=3">3</a> <a href="#?page=4">4</a> <a href="#?page=5">5</a> ... <a href="#?page=199">199</a> <a href="#?page=200">200</a> <a href="#?page=2">下一页</a>
+
+		<div class="product_right">
+			<div class="pro_manufacturer">
+				<div class="manufacturer">
+					<h2>生产厂商</h2>
+					<div class="mf_title">
+						<div class="mf_logo">
+							<img src="{{good.factory.logo_file_path}}" />
+						</div>
+						<div class="mf_name">{{good.factory.name}}</div>
+					</div>
+					<div class="mf_text">
+						{{good.factory.description}}<br /> <a href="{{good.factory.website_url}}">{{good.factory.website_url}}</a>
+					</div>
+				</div>
+				<div class="manufacturer">
+					<h2>收单机构</h2>
+					<div class="mf_title">
+						<div class="mf_logo">
+							<img src="{{paychannel.pcfactory.logo_file_path}}" />
+						</div>
+						<div class="mf_name">{{paychannel.pcfactory.name}}</div>
+					</div>
+					<div class="mf_text">
+						{{paychannel.pcfactory.description}}<br /> <a href="{{paychannel.pcfactory.website_url}}">{{paychannel.pcfactory.website_url}}</a>
+					</div>
+				</div>
 			</div>
-			<div class="p_skip">
-				<span>共24页</span> <span>到第&nbsp;&nbsp;<input name="" type="text" />&nbsp;&nbsp;页
-				</span>
-				<button>确定</button>
+
+			<div class="hot_product" ng-show="good.relativeShopList.length>0">
+				<h1>推荐商品</h1>
+				<ul>
+					<li ng-repeat="one in good.relativeShopList">
+						<div class="hotPro_img">
+							<a href="#shopinfo?goodId={{one.id}}"><img src="{{one.url_path}}" /></a>
+						</div>
+						<h2>
+							<a href="#shopinfo?goodId={{one.id}}">{{one.Title}}</a>
+						</h2>
+						<h2>
+							<a href="#shopinfo?goodId={{one.id}}" class="hp_price">{{one.retail_price/100|currency : "￥"}}</a>
+						</h2>
+					</li>
+
+				</ul>
 			</div>
+
 		</div>
 	</div>
 </div>
 
+<script type="text/javascript" src="js/main.js"></script>
+<script>
+	$(function() {
+		$('.hotPro_img').autoIMG();
+		$('.mf_logo').autoIMG();
+	})
+</script>

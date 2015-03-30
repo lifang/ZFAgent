@@ -21,7 +21,12 @@ var accountEditController = function($scope, $http, $location, LoginService) {
 			if (data.code == 1) {
 				$scope.info = data.result;
 				var rightIds = data.result.rightIds;
-				// alert(rightIds);
+				for (var i = 0; i < rightIds.length; i++) {
+					// alert(i);
+					isCheckBoxChecked(rightIds[i]);
+				}
+				// alert(rightIds[0]);
+
 			} else {
 				alert(data.message);
 			}
@@ -32,8 +37,8 @@ var accountEditController = function($scope, $http, $location, LoginService) {
 
 	$scope.accountEdit = function() {
 		var name = $scope.info.name;
-		var password = $scope.password;
-		var comfirmpwd = $scope.comfirmpwd;
+		var password = $scope.info.password;
+		var comfirmpwd = $scope.info.comfirmpwd;
 
 		if (typeof (name) == "undefined") {
 			alert("姓名不能为空");
@@ -64,7 +69,7 @@ var accountEditController = function($scope, $http, $location, LoginService) {
 
 		$http.post("api/account/editCustomer", $scope.info).success(function(data) {
 			if (data.code == 1) {
-				window.location.href = '#/accountList';
+				window.location.href = '#/accountOne?id=' + $scope.info.customer_id;
 			} else {
 				alert(data.message);
 			}

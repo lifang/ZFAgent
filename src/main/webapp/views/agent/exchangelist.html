@@ -58,13 +58,15 @@
 			</table>
 		</div>
 		<div class="pageTurn">
-			<div class="p_num">
-				<a href="#" class="disabled">上一页</a> <a href="#" class="current">1</a> <a href="#?page=2">2</a> <a href="#?page=3">3</a> <a href="#?page=4">4</a> <a href="#?page=5">5</a> ... <a href="#?page=199">199</a> <a href="#?page=200">200</a> <a href="#?page=2">下一页</a>
+			<div class="p_num" ng-show="req.totalPage>1">
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
+					ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
+					href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
 			</div>
 			<div class="p_skip">
-				<span>共24页</span> <span>到第&nbsp;&nbsp;<input name="" type="text" />&nbsp;&nbsp;页
+				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
 				</span>
-				<button>确定</button>
+				<button ng-click="getPage()">确定</button>
 			</div>
 		</div>
 	</div>

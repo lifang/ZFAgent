@@ -14,19 +14,26 @@
 		</div>
 		<div class="seenBox clear">
 			<ul>
-				<li><div class="user_search">
+				<li>
+					<div class="user_search">
 						<input name="" type="text" />
 						<button></button>
-					</div></li>
-				<li><div class="user_select">
-						<label>下级代理商</label> 
-						<select ng-options="x.id as x.company_name for x in son">
-						</select>
-					</div></li>
-				<li><div class="user_date">
+					</div>
+				</li>
+				<li>
+					<div class="user_select">
+						<label>下级代理商</label>
+						<select ng-model="req.sonAgentsId" ng-options="x.id as x.company_name for x in son"></select>
+					</div>
+				</li>
+				<li>
+					<div class="user_date">
 						<label>选择日期</label> <input name="" type="text" /> - <input name="" type="text" />
-					</div></li>
-				<li><button class="ghostBtn">搜索</button></li>
+					</div>
+				</li>
+				<li>
+					<button class="ghostBtn" ng-click="list()">搜索</button>
+				</li>
 			</ul>
 		</div>
 		<div class="uesr_table">
@@ -51,23 +58,25 @@
 					<tr ng-repeat="one in prepareList">
 						<td>{{one.company_name}}</td>
 						<td>{{one.created_at}}</td>
-						<td>POS机名称：掌富 ZF300<br/>支付通道：收账宝
+						<td>POS机名称：掌富 ZF300<br />支付通道：收账宝
 						</td>
 						<td>{{one.quantity}}</td>
 						<td><a href="#/prepareinfo?id={{one.id}}" class="a_btn">查看详情</a></td>
 					</tr>
-					
+
 				</tbody>
 			</table>
 		</div>
 		<div class="pageTurn">
-			<div class="p_num">
-				<a href="#" class="disabled">上一页</a> <a href="#" class="current">1</a> <a href="#?page=2">2</a> <a href="#?page=3">3</a> <a href="#?page=4">4</a> <a href="#?page=5">5</a> ... <a href="#?page=199">199</a> <a href="#?page=200">200</a> <a href="#?page=2">下一页</a>
+			<div class="p_num" ng-show="req.totalPage>1">
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
+					ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
+					href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
 			</div>
 			<div class="p_skip">
-				<span>共24页</span> <span>到第&nbsp;&nbsp;<input name="" type="text" />&nbsp;&nbsp;页
+				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
 				</span>
-				<button>确定</button>
+				<button ng-click="getPage()">确定</button>
 			</div>
 		</div>
 	</div>

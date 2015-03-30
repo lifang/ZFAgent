@@ -96,11 +96,13 @@
 	</select>
 
 	<select id="numIsBinding" parameterType="string" resultType="int">
-		SELECT count(*) FROM terminals t
+		<!-- SELECT count(*) FROM terminals t
 		JOIN merchants s
 		ON
 		t.customer_id = s.customer_id
-		WHERE t.serial_num=#{terminalsNum}
+		WHERE t.serial_num=#{terminalsNum} -->
+		SELECT count(*) FROM terminals t
+		WHERE t.serial_num=#{terminalsNum} and customer_id is null
 	</select>
 
 	<select id="merchantsIsBinding" parameterType="int" resultType="object">
@@ -132,12 +134,9 @@
 		LEFT JOIN goods g ON t.good_id = g.id
 		LEFT JOIN pay_channels p ON
 		t.pay_channel_id = p.id
-		WHERE t.serial_num in
-		<foreach item="item" index="index" collection="serialNum" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+		WHERE 1 = 1
 		<if test="title != null">
-			AND g.title = #{title}
+			AND g.title LIKE '%${title}%' 
 		</if>
 		<if test="channelsId != null">
 			AND p.id = #{channelsId}
@@ -154,12 +153,23 @@
 			</when>
 		</choose>
 	</select>
+	
+	<select id="batchTerminalNum" resultType="map" parameterType="map">
+		SELECT t.id,t.serial_num,g.retail_price from terminals t
+		LEFT JOIN goods g ON t.good_id = g.id
+		LEFT JOIN pay_channels p ON
+		t.pay_channel_id = p.id
+		WHERE t.serial_num in
+		<foreach item="item" index="index" collection="serialNum" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 
 	<select id="screeningPosName" parameterType="int" resultType="map">
-		SELECT g.id,g.title FROM terminals t
+		SELECT distinct  g.id,g.title FROM terminals t
 		LEFT JOIN goods g ON
 		t.good_id = g.id
-		WHERE t.customer_id = #{customerId}
+		WHERE t.customer_id = #{customerId} AND g.id is not NULL
 	</select>
 
 </mapper>

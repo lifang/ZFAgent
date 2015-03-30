@@ -13,8 +13,10 @@
 		<result property="updatedAt" column="updated_at" />
 	</resultMap>
 	<select id="getAllAccountlist" resultMap="accountMap">
-		SELECT * FROM customer_agent_relations c WHERE
-		c.agent_id = #{agentId} AND c.status = 2 ORDER BY
+		SELECT * FROM
+		customer_agent_relations c WHERE
+		c.agent_id = #{agentId} AND c.status =
+		2 ORDER BY
 		c.created_at
 		DESC LIMIT
 		#{offset}, #{rows}
@@ -24,7 +26,8 @@
 		SELECT count(o.id) as
 		count
 		FROM customer_agent_relations o
-		where o.agent_id = #{agentId}
+		where o.agent_id = #{agentId} AND
+		o.status = 2
 	</select>
 
 	<select id="checkAccount" parameterType="com.comdosoft.financial.user.domain.query.EmpReq"
@@ -44,25 +47,96 @@
 	</insert>
 
 	<insert id="insertCustomerAgentRelations" useGeneratedKeys="true"
-		keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.EmpReq">
+		keyProperty="id">
+		<![CDATA[
 		INSERT INTO
-		customer_agent_relations(customer_id, agent_id, created_at)
-		VALUES(#{customer_id}, #{agent_id}, now())
+		customer_agent_relations(customer_id, agent_id, created_at,status,types)
+		VALUES(#{customerId}, #{agentId}, #{createdAt},#{status},#{types})
+		]]>
 	</insert>
 
+	<insert id="insertCustomer" useGeneratedKeys="true" keyProperty="id">
+	<![CDATA[
+		INSERT INTO customers(name,username,password,status,types,created_at) 
+		VALUES(#{name},#{username},#{password},#{status},#{types},#{createdAt})
+	]]>
+	</insert>
+
+	<insert id="insertCustomerRights" useGeneratedKeys="true"
+		keyProperty="id">
+		<![CDATA[
+			INSERT INTO customer_role_relations(role_id,customer_id,created_at) 
+			VALUES(#{roleId},#{customerId},#{createdAt})
+		]]>
+	</insert>
 	<select id="getEmpInfoById" parameterType="com.comdosoft.financial.user.domain.query.EmpReq"
 		resultType="map">
 		SELECT c.id,c.name,c.username,c.account_type
-		FROM customers c WHERE c.id =
+		FROM customers
+		c WHERE c.id =
 		#{id}
 	</select>
 
 	<select id="getEmpInfoByUsername" resultType="map">
-		SELECT * FROM customers c WHERE c.username = #{userName}
+		SELECT * FROM
+		customers c WHERE c.username = #{userName}
 	</select>
-	
+
 	<update id="deleteEmpInfoFromAgent">
-		UPDATE customers c SET c.status = 1 WHERE id = #{id}
+		UPDATE customers c SET
+		c.status = 1,c.updated_at =
+		now() WHERE id = #{id}
 	</update>
 
+	<update id="updateStatus">
+		UPDATE customer_agent_relations c SET
+		c.status = 1,
+		c.updated_at = now() WHERE c.customer_id = #{id}
+	</update>
+
+	<select id="getList" resultType="map">
+	<![CDATA[
+		 SELECT * FROM
+		customer_agent_relations c WHERE
+		c.agent_id = #{customerId} AND c.status =
+		2 ORDER BY
+		c.created_at
+		DESC LIMIT
+		#{offset}, #{rows}
+	]]>
+	</select>
+
+	<select id="getDetailInfoById" resultType="map">
+		<![CDATA[
+			SELECT c.id, c.name, c.username, c.password, crr.role_id FROM customers c 
+			LEFT JOIN customer_role_relations crr ON c.id = crr.customer_id WHERE c.id = #{id}
+		]]>
+	</select>
+
+	<update id="resetPassword" flushCache="true">
+		<![CDATA[
+			UPDATE customers c SET c.password = #{password}, c.updated_at = NOW() WHERE c.id = #{customer_id}
+		]]>
+	</update>
+
+	<update id="editCustomerInfo" parameterType="com.comdosoft.financial.user.domain.query.EmpReq" flushCache="true">
+		<![CDATA[
+			UPDATE customers c SET c.name = #{name}, c.password = #{password}, c.updated_at = NOW() 
+			WHERE c.id = #{customer_id}
+		]]>
+	</update>
+	
+	<update id="updateRights" flushCache="true">
+		<![CDATA[
+			UPDATE customer_role_relations c SET c.updated_at = NOW() 
+			WHERE c.customer_id = #{customer_id} AND c.role_id = #{role_id}
+		]]>
+	</update>
+	
+	<select id="getCustomerRights" resultType="map">
+		<![CDATA[
+			SELECT c.id, c.role_id, c.updated_at FROM customer_role_relations c 
+			WHERE c.customer_id = #{customer_id}
+		]]>
+	</select>
 </mapper>

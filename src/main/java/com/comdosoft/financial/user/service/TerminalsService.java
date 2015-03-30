@@ -122,7 +122,7 @@ public class TerminalsService {
 	 * 给用户绑定终端号
 	 * @param map
 	 */
-	public void Binding(Map<String, String> map){
+	public void Binding(Map<Object, Object> map){
 		terminalsMapper.Binding(map);
 	}
 	
@@ -159,6 +159,15 @@ public class TerminalsService {
 	 */
 	public List<Map<String, Object>> screeningTerminalNum(Map<Object, Object> map){
 		return terminalsMapper.screeningTerminalNum(map);
+	}
+	
+	/**
+	 * 批量终端号筛选终端
+	 * @param map
+	 * @return
+	 */
+	public List<Map<String, Object>> batchTerminalNum(Map<Object, Object> map){
+		return terminalsMapper.batchTerminalNum(map);
 	}
 	
 	/**

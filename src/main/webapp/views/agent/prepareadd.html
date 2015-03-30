@@ -14,10 +14,9 @@
 		<div class="attributes_box">
 			<div class="item_list clear">
 				<ul>
-
 					<li class="block"><span class="labelSpan">填写终端号：</span>
 						<div class="text">
-							<textarea name="" cols="" rows=""></textarea>
+							<textarea ng-model="req.serialNum" cols="" rows=""></textarea>
 						</div></li>
 					<li class="block"><span class="labelSpan">指定下级代理商：</span>
 						<div class="text">
@@ -27,17 +26,14 @@
 									<button>搜索</button>
 								</div>
 								<div class="ac_area">
-									<a href="#" class="hover">代理商001</a> <a href="#">代理商001</a> <a href="#">代理商001</a> <a href="#">代理商001</a>
+									<a href="javascript:void(0);"  ng-repeat="one in son" ng-click="checkson(one.id,this)">{{one.company_name}}</a> 
 								</div>
 							</div>
 						</div></li>
 					<li class="block o"><span class="labelSpan">指定配货商品：</span>
 						<div class="text">
-							<select name="">
-								<option>POS机</option>
-							</select> <select name="">
-								<option>支付通道</option>
-							</select>
+							<select ng-model="req.goodId" ng-options="x.id as x.goodname for x in goodlist"></select> 
+							<select ng-model="req.paychannelId" ng-options="x.id as x.paychannel for x in pclist"></select>
 						</div></li>
 					<li class="block"><span class="labelSpan">指定配货数量：</span>
 						<div class="text">
@@ -47,7 +43,16 @@
 			</div>
 		</div>
 		<div class="btnBottom">
-			<button class="blueBtn">确认配货</button>
+			<button class="blueBtn" ng-click="add()">确认配货</button>
 		</div>
 	</div>
 </div>
+
+
+<div class="tab">
+	<a href="javascript:void(0);" class="close">关闭</a>
+	<div class="tabBody">
+    	<p>终端错误</p>
+	</div>
+</div>
+<script src="js/main.js"></script>

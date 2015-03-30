@@ -2,14 +2,14 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 
 import java.util.List;
 
+import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.WebMessage;
-import com.comdosoft.financial.user.utils.page.PageRequest;
 
 public interface WebMessageMapper {
 
     int count();
 
-    List<Object> findAll(PageRequest request);
+    List<WebMessage> findAll(MyOrderReq myOrderReq);
 
     WebMessage findById(Integer id);
 

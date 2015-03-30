@@ -17,4 +17,7 @@ public interface CsUpdateInfoMapper {
 
     int count(MyOrderReq myOrderReq);
 
+    List<Map<String, Object>> search(MyOrderReq myOrderReq);
+
+    int countSearch(MyOrderReq myOrderReq);
 }

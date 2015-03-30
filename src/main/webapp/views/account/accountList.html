@@ -1,0 +1,58 @@
+<div class="right" ng-controller="accountListController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">系统设定</a></li>
+			<li><a href="#">员工帐号</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+
+		<div class="user_title">
+			<h1>员工帐号列表</h1>
+			<div class="userTopBtnBox">
+				<a href="#/accountAdd" class="ghostBtn">创建帐号</a>
+			</div>
+		</div>
+		<div class="user_table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="b_table">
+				<colgroup>
+					<col />
+					<col />
+					<col width="200" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>帐号ID</th>
+						<th>姓名</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="one in accountList">
+						<td>{{one.username}}</td>
+						<td>{{one.name}}</td>
+						<td><a href="#/accountOne?id={{one.customer_id}}"
+							class="a_btn">查看详情</a><a href="#/accountResetPassword?id={{one.customer_id}}" class="a_btn">密码重置</a><a
+							href="javascript:void(0)" class="a_btn" ng-click="accountDelete(one)">删除</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pageTurn">
+			<div class="p_num" ng-show="totalPage>1">
+				<a ng-class="{true:'disabled'}[indexPage==1]" href="javascript:void(0)" ng-click="indexPage=1;list()">首页</a>
+				<a ng-class="{true:'disabled'}[indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a>
+				<a ng-class="{true:'current'}[indexPage==currentPage]" ng-repeat="currentPage in pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a>
+				<a ng-class="{true:'disabled'}[indexPage==totalPage]" href="javascript:void(0)" ng-click="next()">下一页</a>
+				<a ng-class="{true:'disabled'}[indexPage==totalPage]" href="javascript:void(0)" ng-click="indexPage=totalPage;list()">末页</a>
+			</div>
+			<div class="p_skip">
+				<span>共&nbsp;{{totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="gotoPage">&nbsp;页</span>
+				<button ng-click="getPage()">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+

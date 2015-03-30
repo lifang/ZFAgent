@@ -1,0 +1,106 @@
+<div class="right" ng-controller="lowerAgentSetController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">管理下级代理商</a></li>
+			<li><a href="#">下级代理商</a></li>
+			<li><a href="#">设置分润比例</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>设置分润比例</h1>
+			<div class="userTopBtnBox">
+				<a href="#/lowerAgent" class="ghostBtn">返回</a>
+			</div>
+		</div>
+		<div class="seenBox clear">
+			<ul>
+				<li><div class="user_search">
+						<input name="" type="text" />
+						<button></button>
+					</div></li>
+			</ul>
+		</div>
+		<div class="uesr_table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+				<colgroup>
+					<col width="200"/>
+					<col />
+					<col width="100" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>支付通道</th>
+						<th>分润比例</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="one in lowerAgentList">
+						<td>
+						{{one.channelName}}
+						</td>
+						<td>
+							<table cellpadding="0" cellspacing="0" style="border-bottom: 1px silver solid;border-right: 1px silver solid;">
+								<tr>
+									<td ng-repeat="child in one.detail" style="border-top: 1px silver solid;border-left: 1px silver solid; padding: 0px;margin: 0px;;">
+										<table style="width:120px;height: auto;" cellpadding="0" cellspacing="0">
+											<tr>
+												<td style="border-bottom: 1px silver solid;">{{child.tradeTypeName}}</td>
+											</tr>
+											<tr>
+												<td >
+													{{child.percent}} %
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>	
+						</td>
+						<td>
+							<a class="a_btn" ng-click="edit(one.id+'_'+one.channelName)">编辑</a>
+						</td>
+					</tr>
+					<tr ng-show="isShow==0">
+						<td>
+							<select ng-show="sign==0" ng-model="channelModel" ng-options="o.name for o in channelList"
+								 ng-change="selChange(channelModel)">
+								 <option value="">-- 请选择 --</option>
+							</select>
+							<div class="text" ng-show="sign==1">
+								{{curChannel}}
+							</div>
+						<td>
+							<table cellpadding="0" cellspacing="0" style="border-bottom: 1px silver solid;border-right: 1px silver solid;">
+								<tr>
+									<td ng-repeat="child in detailList" style="border-top: 1px silver solid;border-left: 1px silver solid; padding: 0px;margin: 0px;;">
+										<table style="width:120px;height: auto;" cellpadding="0" cellspacing="0">
+											<tr>
+												<td style="border-bottom: 1px silver solid; ">{{child.trade_value}}</td>
+											</tr>
+											<tr>
+												<td >
+													<div class="text">
+														<input id="{{child.id}}_model" type="text" value="%" style="border:1px silver solid;width:100px;"/>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>	
+						</td>
+						<td>
+							<a class="a_btn" ng-click="saveOne()" ng-show="sign==1">保存</a>
+							<a class="a_btn" ng-click="saveNew()" ng-show="sign==0">保存</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="btnBottom">
+			<button class="blueBtn" ng-click="save()">增加支付产品</button>
+		</div>
+	</div>
+</div>

@@ -4,17 +4,17 @@ public class PrepareGoodReq {
 
     private int id;
     
-    private int customer_id;
+    private int customerId;
     
-    private int agents_id;
+    private int agentId;
 
-    private int son_agents_id;
+    private int sonAgentId;
     
-    private int good_id;
+    private int goodId;
 
-    private int paychannel_id;
+    private int paychannelId;
     
-    private String[] serial_nums;
+    private String[] serialNums;
 
     private String startTime;
     
@@ -23,82 +23,68 @@ public class PrepareGoodReq {
     //--------
     private int quantity;
     
-    private String serial_num;
+    private String serialNum;
     
-    private String terminal_list;
+    private String terminalList;
     
-    public int getCustomer_id() {
-        return customer_id;
+   
+    
+    
+    
+    public int getId() {
+        return id;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getGood_id() {
-        return good_id;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setGood_id(int good_id) {
-        this.good_id = good_id;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
-    public int getPaychannel_id() {
-        return paychannel_id;
+    public int getAgentId() {
+        return agentId;
     }
 
-    public void setPaychannel_id(int paychannel_id) {
-        this.paychannel_id = paychannel_id;
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
     }
 
- 
-
-    public String getTerminal_list() {
-        return terminal_list;
+    public int getSonAgentId() {
+        return sonAgentId;
     }
 
-    public void setTerminal_list(String terminal_list) {
-        this.terminal_list = terminal_list;
+    public void setSonAgentId(int sonAgentId) {
+        this.sonAgentId = sonAgentId;
     }
 
-    public String[] getSerial_nums() {
-        return serial_nums;
+    public int getGoodId() {
+        return goodId;
     }
 
-    public void setSerial_nums(String[] serial_nums) {
-        this.serial_nums = serial_nums;
+    public void setGoodId(int goodId) {
+        this.goodId = goodId;
     }
 
-    public String getSerial_num() {
-        return serial_num;
+    public int getPaychannelId() {
+        return paychannelId;
     }
 
-    public void setSerial_num(String serial_num) {
-        this.serial_num = serial_num;
+    public void setPaychannelId(int paychannelId) {
+        this.paychannelId = paychannelId;
     }
 
-    public int getSon_agents_id() {
-        return son_agents_id;
+    public String[] getSerialNums() {
+        return serialNums;
     }
 
-    public void setSon_agents_id(int son_agents_id) {
-        this.son_agents_id = son_agents_id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getAgents_id() {
-        return agents_id;
-    }
-
-    public void setAgents_id(int agents_id) {
-        this.agents_id = agents_id;
+    public void setSerialNums(String[] serialNums) {
+        this.serialNums = serialNums;
     }
 
     public String getStartTime() {
@@ -117,14 +103,30 @@ public class PrepareGoodReq {
         this.endTime = endTime;
     }
 
-    public int getId() {
-        return id;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-    
+
+    public String getSerialNum() {
+        return serialNum;
+    }
+
+    public void setSerialNum(String serialNum) {
+        this.serialNum = serialNum;
+    }
+
+    public String getTerminalList() {
+        return terminalList;
+    }
+
+    public void setTerminalList(String terminalList) {
+        this.terminalList = terminalList;
+    }
+
     private int page;
     private int rows;
     private int offset;

@@ -30,6 +30,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/order/purchaseOrder.html'
 	}).when('/othersOrder', {
 		templateUrl : 'views/order/othersOrder.html'
+	}).when('/email_up', {
+		templateUrl : 'views/customer/up_email.html'
 	}).when('/shop', {
 		templateUrl : 'views/shop/shop.html'
 	}).when('/shopinfo', {
@@ -38,16 +40,62 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/shop/purchaseShop.html'
 	}).when('/purchaseShopinfo', {
 		templateUrl : 'views/shop/purchaseShopinfo.html'
-	}).when('/empaccount', {
-		templateUrl : 'views/systemset/empaccount.html'
-	}).when('/empadd', {
-		templateUrl : 'views/systemset/empadd.html'
-	}).when('/empdetails', {
-		templateUrl : 'views/systemset/empdetails.html'
-	}).when('/empEdit', {
-		templateUrl : 'views/systemset/empadd.html'
-	}).when('/empdelete', {
-		templateUrl : 'views/systemset/empaccount.html'
+	}).when('/accountList', {
+		templateUrl : 'views/account/accountList.html'
+	}).when('/accountAdd', {
+		templateUrl : 'views/account/accountAdd.html'
+	}).when('/accountOne', {
+		templateUrl : 'views/account/accountOne.html'
+	}).when('/myMessage',{
+		templateUrl : 'views/management/myMessage.html'		
+	}).when('/accountEdit', {
+		templateUrl : 'views/account/accountEdit.html'
+	}).when('/accountResetPassword', {
+		templateUrl : 'views/account/accountResetPassword.html'
+	}).when('/login', {
+		templateUrl : 'views/index/login.html'
+	}).when('/register', {
+		templateUrl : 'views/index/registerAgent.html'
+	}).when('/findpass', {
+		templateUrl : 'views/index/findpass.html'
+	}).when('/findpassEmail', {
+		templateUrl : 'views/index/findpassEmail.html'
+	}).when('/lowerAgent', {
+		templateUrl : 'views/agent/lowerAgentList.html'
+	}).when('/lowerAgentInfo', {
+		templateUrl : 'views/agent/lowerAgentInfo.html'
+	}).when('/lowerAgentAdd', {
+		templateUrl : 'views/agent/lowerAgentAdd.html'
+	}).when('/lowerAgentEdit', {
+		templateUrl : 'views/agent/lowerAgentEdit.html'
+	}).when('/lowerAgentSet', {
+		templateUrl : 'views/agent/lowerAgentSet.html'
+	}).when('/terminals', {
+		templateUrl : 'views/terminals/terminalsList.html'
+	}).when('/cs_cencel', {
+		templateUrl : 'views/cs/cencel.html'
+	}).when('/cs_cencelinfo', {
+		templateUrl : 'views/cs/cencelinfo.html'
+	}).when('/cs_update', {
+		templateUrl : 'views/cs/update.html'
+	}).when('/cs_updateinfo', {
+		templateUrl : 'views/cs/updateinfo.html'
+	}).when('/cs_agent', {
+		templateUrl : 'views/cs/agent.html'
+	}).when('/cs_agentinfo', {
+		templateUrl : 'views/cs/agentinfo.html'
+	}).when('/binding', {
+		templateUrl : 'views/terminals/bindingTerminals.html'
+	}).when('/terminalSerivce', {
+		templateUrl : 'views/terminals/terminalService.html'
+	}).when('/terminalDetail', {
+		templateUrl : 'views/terminals/terminalDetail.html'
+	}).when('/terminalCancellation', {
+		templateUrl : 'views/terminals/terminalCancellation.html'
+	}).when('/stock', {
+		templateUrl : 'views/agent/stock.html'
+	}).when('/stockinfo', {
+		templateUrl : 'views/agent/stockinfo.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

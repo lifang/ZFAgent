@@ -91,5 +91,14 @@ public class PrepareGoodController {
         response.setResult(list);
         return response;
     }
+    
+    @RequestMapping(value = "checkTerminals", method = RequestMethod.POST)
+    public Response checkTerminals(@RequestBody  PrepareGoodReq req){
+        Response response = new Response();
+        response.setCode(Response.SUCCESS_CODE);
+        Map<String,Object> list=repareGoodService.checkTerminals(req);
+        response.setResult(list);
+        return response;
+    }
    
 }

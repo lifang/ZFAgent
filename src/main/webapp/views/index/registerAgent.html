@@ -1,0 +1,56 @@
+<link href="style/apply.css" rel="stylesheet" type="text/css" />
+<div class="apply" ng-controller="registerAgentController">
+	<div class="apply_h">申请成为代理商</div>
+    <div class="apply_b">
+    	<ul>
+        	<li><label>类型</label>
+            	<span class="fl_sp"><input name="radio" checked="checked" ng-change="agent.types = 2" type="radio" value="" /> 个人</span>
+                <span class="fl_sp"><input name="radio" ng-change="agent.types = 1"  type="radio" value="" /> 公司</span>
+            </li>
+            <li><input name="" type="text" ng-model="agent.name" placeholder="负责人姓名" /></li>
+            <li><input name="" type="text" ng-model="agent.card" placeholder="负责人身份证号"/></li>
+            <li><input name="" type="text" ng-model="agent.companyName" placeholder="公司名"/></li>
+            <li><input name="" type="text" ng-model="agent.licenseCode" placeholder="公司营业执照登记号"/></li>
+            <li><input name="" type="text" ng-model="agent.phone" placeholder="手机号码" class="l" /><button id="time_show_agent" ng-click="getAgentRegisterCode()" class="yzm_btn">获取验证码</button></li>
+            <li><input name="" type="text" ng-model="agent.code" placeholder="验证码"/></li>
+            <li><input name="" type="text" ng-model="agent.email" placeholder="邮箱"/></li>
+        	<li><label>所在地</label>
+            	<select name="" ng-model="agselect" ng-options="g.name for g in cities">
+            	  <option value="">请选择</option>
+            	</select>
+                <select name="" ng-model="agcitis" ng-options="x.name for x in agselect.childrens">
+            	  <option value="">请选择</option>
+            	</select>
+            </li>
+            <li><input name="" type="text" ng-model="agent.userId" placeholder="登录ID"/></li>
+            <li><input name="" type="text" ng-model="agent.passworda" placeholder="密码:密码由6-20位，英文字符组成"/></li>
+            <li><input name="" type="password" ng-model="agent.passwordb" placeholder="确认密码:密码由6-20位，英文字符组成"/></li>
+            <li><input name="" type="password" ng-model="agent.imgCode" placeholder="输入图片校验码" class="l" /><div class="jym"><img ng-click="reGetRandCodeImg()" class="loginRandCodeImg" src="images/yzm.jpg" /></div></li>
+            <li><span class="fl_sp"><input ng-model="ridel_xy" ng-click="ridel_xy = !ridel_xy" name="" type="radio" value="" /> <a href="#">同意《掌富服务协议》</a></span></li>
+        </ul>
+        <div class="btn" ng-click="addAgentRegister()"><button>确定</button></div>
+    </div>
+</div>
+<script type="text/javascript">
+
+//input默认值
+function focusBlur(e){
+	$(e).focus(function(){
+		var thisVal = $(this).val();
+		if(thisVal == this.defaultValue){
+			$(this).val('');
+		}	
+	})	
+	$(e).blur(function(){
+		var thisVal = $(this).val();
+		if(thisVal == ''){
+			$(this).val(this.defaultValue);
+		}	
+	})	
+}
+
+$(function(){
+	focusBlur('.apply_b input');//登录
+})
+
+</script>

@@ -8,7 +8,8 @@
 		<link href="style/style.css" rel="stylesheet" type="text/css" />
 		<link href="style/shop.css" rel="stylesheet" type="text/css" />
 		<link href="style/jquery-ui.css" rel="stylesheet" type="text/css" />
-
+		
+		<script type="text/javascript"  src="js/jQuery-1.11.2.js"></script>
 		<script type="text/javascript" src="js/libs/angular.js"></script>
 		<script type="text/javascript" src="js/libs/angular-route.js"></script>
 		<script type="text/javascript" src="js/libs/angular-cookies.js"></script>
@@ -17,25 +18,39 @@
 		<script type="text/javascript" src="js/index.js"></script>
 		<!-- 系统分页 -->
 		<script type="text/javascript" src="js/page.js"></script>
-		<!-- 日历控件 -->
-		<script src="js/jQuery-1.11.2.js"></script>
-		<script type="text/javascript" src="js/jquery-ui.js"></script>
+		
 		<script type="text/javascript" src="js/services/loginService.js"></script>
+		
+		<script type="text/javascript" src="js/util.js"></script>
 		<!-- Directives -->
 		<script type="text/javascript" src="js/directives/datepicker.directive.js"></script>
 		<script type="text/javascript" src="js/directives/fileupload.directive.js"></script>
 		<!-- Controllers -->
 		<script type="text/javascript" src="js/controllers/route.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/index.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/login/register.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/login/login.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/login/findPass.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/prepare.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/exchange.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/trade.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/shop.controller.js"></script>
-		<script type="text/javascript" src="js/controllers/systemset.controller.js"></script>
-		<script type="text/javascript" src="js/controllers/empInfo/empinfoController.js"></script>
+		<script type="text/javascript" src="js/controllers/account/accountList.js"></script>
+		<script type="text/javascript" src="js/controllers/account/accountAdd.js"></script>
+		<script type="text/javascript" src="js/controllers/account/accountOne.js"></script>
+		<script type="text/javascript" src="js/controllers/account/accountResetPassword.js"></script>
+		<script type="text/javascript" src="js/controllers/account/accountEdit.js"></script>
+		<script type="text/javascript" src="js/controllers/terminals/terminals.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/terminals/bindingTerminals.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/terminals/terminalService.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/terminals/terminalsDetail.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/myMessage/message.js"></script>
+		<script type="text/javascript" src="js/controllers/lowerAgent.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/stock.controller.js"></script>
 		<script src="js/jQuery-1.11.2.js"></script>
 		<script src="js/main.js"></script>
-
+		<!-- 日历控件 -->
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<!--柱形图表-->
 		<script src="js/Chart.min.js"></script>
 		<!--[if lte IE 8]>
@@ -62,36 +77,37 @@
 		<div class="box">
 			<div class="left">
 				<ul>
-					<li><a href="#" class="hover">我的掌富</a></li>
-					<li><a href="#">我的库存</a></li>
+					<li><a href="#/myapp">我的掌富</a></li>
+					<li><a href="#/stock">我的库存</a></li>
 					<li><a href="#/purchaseOrder">批购</a></li>
 					<li><a href="#/othersOrder">代购</a></li>
-					<li><a href="#">管理终端</a></li>
+					<li><a href="#/terminals">管理终端</a></li>
 					<li><a href="#/trade">交易流水</a></li>
 					<li><a href="#">POS销售分润</a></li>
 					<li class="second"><a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
 						<ol>
-							<li><a href="#">下级代理商</a></li>
+							<li><a href="#/lowerAgent">下级代理商</a></li>
 							<li><a href="#/prepare">管理配货</a></li>
 							<li><a href="#/exchange">管理调货</a></li>
 						</ol></li>
 					<li class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
 						<ol>
-							<li><a href="#">注销记录</a></li>
-							<li><a href="#">更新资料记录</a></li>
-							<li><a href="#">代理商售后记录</a></li>
+						    <li><a href="#/cs_cencel">注销记录</a></li>
+							<li><a href="#/cs_update">更新资料记录</a></li>
+							<li><a href="#/cs_agent">代理商售后记录</a></li>
 						</ol></li>
 					<li><a href="#">管理用户</a></li>
 					<li class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
 						<ol>
 							<li><a href="#">代理商资料</a></li>
-							<li><a href="#/empaccount">员工帐号</a></li>
+							<li><a href="#/accountList">员工帐号</a></li>
 							<li><a href="#">修改密码</a></li>
 						</ol></li>
-					<li><a href="#">查看消息</a></li>
+					<li><a href="#/myMessage">查看消息</a></li>
 				</ul>
 			</div>
 			<div ng-view></div>
+			<script src="js/left.js"></script>
 		</div>
 	</div>
 
@@ -111,5 +127,6 @@
 			<div class="copyright">版权所有 &copy; 2011-2014 上海掌富网络技术有限公司（备案号 1236548）</div>
 		</div>
 	</div>
+	<!-- <div class="mask"></div> -->
 </body>
 </html>

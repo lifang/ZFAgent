@@ -1,0 +1,41 @@
+<!-- <script type="text/javascript" src="js/controllers/account/accountAdd.js"></script> -->
+<div class="right" ng-controller="empAddController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">系统设定</a></li>
+			<li><a href="#/accountList">员工帐号</a></li>
+			<li><a href="#/accountAdd">创建</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>创建员工账号</h1>
+		</div>
+		<form name="addAccountForm" ng-submit="accountAdd()">
+			<div class="myInfoBox clear">
+				<ul>
+					<li><label>姓名：</label><input type="text" ng-model="customer.name" /></li>
+					<li><label>登录ID：</label><input type="text" ng-model="customer.username" /></li>
+					<li><label>密码：</label><input type="password" ng-model="customer.password" /></li>
+					<li><label>确认密码：</label><input type="password" ng-model="customer.comfirmpwd" /></li>
+					<li><label>权限：</label>
+						<div class="authority_con">
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="1" />批购</span>
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="2" />代购</span>
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="3" />终端管理/售后记录</span>
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="4" />交易流水/POS销售分润</span>
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="5" />管理下级代理商</span>
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="6" />管理用户</span> 
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="7" />员工账号</span> 
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="8" />代理商资料</span> 
+							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="9" />库存</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="myInfoBox_btn">
+				<input class="blueBtn" type="submit" value="创建">
+			</div>
+		</form>
+	</div>
+</div>

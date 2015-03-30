@@ -1,0 +1,87 @@
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/controllers/cs_update.controller.js"></script>
+<div class="right" ng-controller="cs_updateController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="javascript:void(0)">售后记录</a></li>
+			<li><a href="#/cs_update">更新资料记录</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>更新资料记录列表</h1>
+		</div>
+		<div class="seenBox clear">
+			<ul>
+				<li><div class="user_search">
+						<input name="search" type="text" ng-model="search" placeholder="终端号、维修编号查询" title="根据终端号、维修编号查询"/>
+						<button ng-click="submitSearch()"></button>
+					</div></li>
+				<li><div class="user_select">
+						<label>状态筛选</label> <select name="q" ng-model="screen" ng-change="submitScreen()">
+							<option value="">请选择</option>
+							<option value="1">待处理</option>
+							<option value="2">处理中</option>
+							<option value="4">处理完成</option>
+							<option value="5">已取消</option>
+						</select>
+					</div></li>
+
+			</ul>
+		</div>
+		<div class="user_table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+				<colgroup>
+					<col />
+					<col />
+					<col />
+					<col width="200" />
+					<col />
+					<col />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>编号</th>
+						<th>申请日期</th>
+						<th>终端</th>
+						<th>商户</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="o in list.content">
+						<td>{{o.apply_num}}</td>
+						<td>{{o.create_time}}</td>
+						<td>{{o.terminal_num}}<br />{{o.brand_name}} {{o.brand_number}} {{o.zhifu_pingtai}}
+						</td>
+						<td>{{o.merchant_name}}<br />{{o.merchant_phone}}
+						</td>
+						<td><strong ng-if="o.status==1" class="strong_status">待处理</strong>
+						 <strong ng-if="o.status==2" class="strong_status">处理中</strong> 
+						 <strong ng-if="o.status==4" class="strong_status">处理完成</strong> 
+						 <strong ng-if="o.status==5" class="strong_status">已取消</strong>
+						</td>
+						<td><a href="#/cs_updateinfo?infoId={{o.id}}" class="a_btn">查看详情</a>
+						 <a href="javascript:void(0)" ng-click="cancelApply(o)"    ng-if="o.status==1" class="a_btn">取消</a>
+						 <a href="javascript:void(0)" ng-click="resubmitCancel(o)"   ng-if="o.status==5" class="a_btn">重新提交</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pageTurn">
+			<div class="p_num" ng-show="totalPage >1">
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="indexPage=1;submitPage()">首页</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="prev()">上一页</a>
+				<a ng-class="{true:'current'}[indexPage==currentPage]" ng-repeat="currentPage in pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="next()">下一页</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="indexPage=totalPage;submitPage()">末页</a>
+			<div class="p_skip">
+				<span>共&nbsp;{{totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="gotoPage">&nbsp;页</span>
+				<button ng-click="getPage()">确定</button>
+			</div>
+			</div>
+		</div>
+	</div>
+
+</div>

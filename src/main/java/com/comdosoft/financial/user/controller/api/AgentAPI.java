@@ -3,9 +3,9 @@ package com.comdosoft.financial.user.controller.api;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,11 +34,11 @@ public class AgentAPI {
      */
     private static final Logger logger = Logger.getLogger(AgentAPI.class);
 
-    @RequestMapping(value = "getOne/{customerId}", method = RequestMethod.GET)
-    public Response getOne(@PathVariable int customerId) {
+    @RequestMapping(value = "getOne", method = RequestMethod.POST)
+    public Response getOne(@RequestBody Customer param) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(agentService.getOne(customerId));
+            sysResponse = Response.getSuccess(agentService.getOne(param));
         } catch (Exception e) {
             logger.error("获取代理商信息失败", e);
             sysResponse = Response.getError("获取代理商信息失败:系统异常");
@@ -46,11 +46,17 @@ public class AgentAPI {
         return sysResponse;
     }
 
-    @RequestMapping(value = "getUpdatePhoneDentcode/{phone}/{customerId}", method = RequestMethod.GET)
-    public Response getUpdatePhoneDentcode(@PathVariable String phone, @PathVariable int customerId) {
+    @RequestMapping(value = "getUpdatePhoneDentcode", method = RequestMethod.POST)
+    public Response getUpdatePhoneDentcode(@RequestBody Customer param  ) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(agentService.getUpdatePhoneDentcode(customerId, phone));
+        	if(null == param.getPhone()){
+        		return Response.getError("请传入手机号");
+        	}
+        	if(0 ==param.getCustomerId()){
+        		return Response.getError("请传入用户id");
+        	}
+            sysResponse = Response.getSuccess(agentService.getUpdatePhoneDentcode(param.getCustomerId(), param.getPhone()));
         } catch (Exception e) {
             logger.error("获取代理商修改手机验证码失败", e);
             sysResponse = Response.getError("获取代理商修改手机验证码失败:系统异常");
@@ -62,7 +68,7 @@ public class AgentAPI {
     public Response updatePhone(@RequestBody Customer param) {
         Response sysResponse = null;
         try {
-            Customer customer = agentService.getOneCustomer(param.getCustomerId());
+            Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
                     agentService.update(param);
@@ -80,11 +86,11 @@ public class AgentAPI {
         return sysResponse;
     }
 
-    @RequestMapping(value = "getUpdateEmailDentcode/{email}/{customerId}", method = RequestMethod.GET)
-    public Response getUpdateEmailDentcode(@PathVariable String email, @PathVariable int customerId) {
+    @RequestMapping(value = "getUpdateEmailDentcode", method = RequestMethod.POST)
+    public Response getUpdateEmailDentcode(@RequestBody Customer param,HttpServletRequest request) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(customerId, email));
+            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(request,param.getCustomerId(),param	.getPhone()));
         } catch (Exception e) {
             logger.error("获取代理商修改邮箱验证码失败", e);
             sysResponse = Response.getError("获取代理商修改邮箱验证码失败:系统异常");
@@ -96,7 +102,7 @@ public class AgentAPI {
     public Response updateEmail(@RequestBody Customer param) {
         Response sysResponse = null;
         try {
-            Customer customer = agentService.getOneCustomer(param.getCustomerId());
+            Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
                     agentService.update(param);
@@ -118,7 +124,7 @@ public class AgentAPI {
     public Response updatePassword(@RequestBody Customer param) {
         Response sysResponse = null;
         try {
-            Customer customer = agentService.getOneCustomer(param.getCustomerId());
+            Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (param.getPasswordOld().equals(customer.getPassword())) {// 判断原密码
                     agentService.update(param);
@@ -136,11 +142,11 @@ public class AgentAPI {
         return sysResponse;
     }
 
-    @RequestMapping(value = "getAddressList/{customerId}", method = RequestMethod.GET)
-    public Response getAddressList(@PathVariable int customerId) {
+    @RequestMapping(value = "getAddressList", method = RequestMethod.POST)
+    public Response getAddressList(@RequestBody Customer param) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(agentService.getAddressList(customerId));
+            sysResponse = Response.getSuccess(agentService.getAddressList(param));
         } catch (Exception e) {
             logger.error("获取代理商地址列表失败", e);
             sysResponse = Response.getError("获取代理商地址列表失败:系统异常");
@@ -161,11 +167,11 @@ public class AgentAPI {
         return sysResponse;
     }
 
-    @RequestMapping(value = "deleteAddress/{id}", method = RequestMethod.GET)
-    public Response deleteAddress(@PathVariable int id) {
+    @RequestMapping(value = "deleteAddress", method = RequestMethod.POST)
+    public Response deleteAddress(@RequestBody Customer param) {
         Response sysResponse = null;
         try {
-            agentService.deleteAddress(id);
+            agentService.deleteAddress(param);
             sysResponse = Response.getSuccess();
         } catch (Exception e) {
             logger.error("删除代理商地址失败", e);

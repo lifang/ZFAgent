@@ -14,22 +14,22 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
  */
 public interface AgentMapper {
 
-    Map<Object, Object> getOne(int customerId);
+    Map<Object, Object> getOne(Customer param);
 
-    Customer getOneCustomer(int customerId);
+    Customer getOneCustomer(Customer param);
 
     void updateCustomer(Customer param);
 
     void update(Agent param);
 
-    List<Map<Object, Object>> getAddressList(int customerId);
+    List<Map<Object, Object>> getAddressList(Customer param);
 
-    Map<Object, Object> getOneAddress(int id);
+    Map<Object, Object> getOneAddress(Customer param);
 
     void insertAddress(Map<Object, Object> param);
 
     void updateAddress(Map<Object, Object> param);
 
-    void deleteAddress(int id);
+    void deleteAddress(Customer param);
 
 }

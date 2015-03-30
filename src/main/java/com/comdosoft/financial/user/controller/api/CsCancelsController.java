@@ -37,9 +37,9 @@ public class CsCancelsController {
     public Response getAll(@RequestBody MyOrderReq myOrderReq) {
         try{
             Page<List<Object>> centers = csCencelsService.findAll(myOrderReq);
-//            if(centers.getSize()<1){
-//            	return Response.getError("请求的数据列表为空");
-//            }
+            if(centers.getTotal()<1){
+            	return Response.buildMisSuccess();
+            }
             return Response.getSuccess(centers);
         }catch(Exception e){
             logger.debug("出错"+e+"==>>"+myOrderReq);
@@ -52,7 +52,7 @@ public class CsCancelsController {
         try{
             Map<String,Object> centers = csCencelsService.findById(myOrderReq);
             if(centers.isEmpty()){
-            	return Response.getError("列表为空或请求出错");
+            	return Response.buildMisSuccess();
             }
             return Response.getSuccess(centers);
         }catch(Exception e){
@@ -66,9 +66,9 @@ public class CsCancelsController {
         try{
           int i =   csCencelsService.cancelApply(myOrderReq);
             if(i==1){
-                return Response.buildSuccess(null, "取消成功");
+                return Response.buildSuccess("", "取消成功");
             }else{
-                return Response.getError( "操作失败");
+            	return Response.buildMisSuccess();
             }
         }catch(Exception e){
             logger.debug("出错"+e+"==>>"+myOrderReq);
@@ -85,10 +85,24 @@ public class CsCancelsController {
     public Response resubmitCancel(@RequestBody MyOrderReq myOrderReq ) {
         try{
             csCencelsService.resubmitCancel(myOrderReq);
-            return Response.buildSuccess(null, "提交成功");
+            return Response.buildSuccess("", "提交成功");
         }catch(Exception e){
             logger.debug("出错"+e+"==>>"+myOrderReq);
             return Response.getError("提交失败");
         }
     }  
+    
+    //搜索筛选
+    @RequestMapping(value="search" ,method=RequestMethod.POST)
+    public Response search(@RequestBody MyOrderReq myOrderReq) {
+        try{
+            Page<List<Object>> centers = csCencelsService.search(myOrderReq);
+            return Response.getSuccess(centers);
+        }catch(NullPointerException e){
+            return Response.buildErrorWithMissing();
+        }catch(Exception e){
+            logger.debug("获取我的订单列表出错"+e);
+            return Response.getError("请求失败");
+        }
+    }
 }

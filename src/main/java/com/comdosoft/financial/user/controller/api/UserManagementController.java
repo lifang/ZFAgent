@@ -16,7 +16,7 @@ import com.comdosoft.financial.user.service.UserManagementService;
 
 /**
  * 
- * 终端管理<br>
+ * 用户管理<br>
  * <功能描述>
  *
  * @author xfh 2015年2月10日
@@ -40,7 +40,7 @@ public class UserManagementController {
 	public Response getUser(@RequestBody Map<String, Object> map) {
 		try {
 			return Response.getSuccess(userManagementService
-					.getUser(Integer.parseInt((String)map.get("customerId"))));
+					.getUser((Integer)map.get("customerId")));
 		} catch (Exception e) {
 			logger.error("获得该代理商有关联的所有用户异常！",e);
 			return Response.getError("请求失败！");
@@ -57,8 +57,8 @@ public class UserManagementController {
 	public Response delectAgentUser(@RequestBody Map<String, Object> map) {
 		try {
 			userManagementService.delectAgentUser(
-					Integer.parseInt((String)map.get("agentId")),
-					Integer.parseInt((String)map.get("customerId")),
+					(Integer)map.get("agentId"),
+					(Integer)map.get("customerId"),
 					CustomerAgentRelation.STATUS_2);
 			return Response.getSuccess("删除成功！");
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class UserManagementController {
 	@RequestMapping(value="getTerminals")
 	public Response getTerminals(@RequestBody Map<String, Object> map){
 		try {
-			return Response.getSuccess(userManagementService.getTerminals(Integer.parseInt((String)map.get("customerId"))));
+			return Response.getSuccess(userManagementService.getTerminals((Integer)map.get("customerId")));
 		} catch (Exception e) {
 			logger.error("获得该代理商下面某个用户的相关终端列表异常！",e);
 			return Response.getError("请求失败！");

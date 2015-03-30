@@ -1,11 +1,14 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.EmpReq;
 import com.comdosoft.financial.user.domain.query.MyAccountReq;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerRoleRelation;
 import com.comdosoft.financial.user.service.SystemSetService;
 import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.Page;
@@ -26,10 +32,9 @@ import com.comdosoft.financial.user.utils.page.Page;
  *
  */
 @RestController
-@RequestMapping(value = "/api/empAccount")
+@RequestMapping(value = "api/account")
 public class SystemSetController {
-	private static final Logger logger = Logger
-			.getLogger(SystemSetController.class);
+	private static final Logger logger = Logger.getLogger(SystemSetController.class);
 	@Resource
 	private SystemSetService systemSetService;
 
@@ -55,32 +60,56 @@ public class SystemSetController {
 	public Response addCustomer(@RequestBody EmpReq req) {
 		Response response = new Response();
 
-		Map<String, Object> map = systemSetService.checkAccount(req);
+		String username = req.getUsername().trim();
+		Map<String, Object> map = systemSetService.getEmpInfoByUsername(username);
 		if (map != null) {
-			response.setMessage("用户名重复,请选择其他用户名");
 			response.setCode(Response.ERROR_CODE);
+			response.setMessage("用户名重复");
 		} else {
-			String password = req.getPassword();
-			String md5Password = SysUtils.md5(password);
-			logger.debug("原始密码: " + password + " ,加密密码: " + md5Password);
-			req.setPassword(md5Password);
+			Date d = new Date();
+			Customer c = new Customer();
+			c.setName(req.getName());
+			c.setUsername(username);
+			c.setPassword(SysUtils.string2MD5(req.getPassword()));
+			c.setStatus(Customer.STATUS_NORMAL);// 正常
+			c.setAccountType(1);// 1 普通用户/商户
+			c.setCreatedAt(d);
+			systemSetService.insertCustomer(c);
 
-			// 向customers表插入数据
-			systemSetService.addCustomer(req);
+			map = systemSetService.getEmpInfoByUsername(username);
+			if (map != null) {
+				CustomerAgentRelation ca = new CustomerAgentRelation();
+				logger.debug(req.getAgent_id());
+				ca.setAgentId(req.getAgent_id());
+				int customerId = Integer.parseInt(map.get("id").toString());
+				ca.setCustomerId(customerId);
+				ca.setStatus(CustomerAgentRelation.STATUS_2);
+				ca.setTypes(1);
+				ca.setCreatedAt(d);
+				systemSetService.insertCustomerAgentRelations(ca);
 
-			Map<String, Object> result = systemSetService
-					.getEmpInfoByUsername(req.getUsername());
-			if (result != null) {
-				int customer_id = Integer.parseInt(result.get("customer_id").toString());
-				// customer_agent_relations表插入数据
-				req.setCustomer_id(customer_id);
-				systemSetService.insertCustomerAgentRelations(req);
+				CustomerRoleRelation cr = null;
+
+				String rights = req.getRights();
+				if (rights != null && !"".equals(rights)) {
+					String[] arr = rights.split(",");
+					if (arr != null && arr.length > 0) {
+						for (int i = 0, j = arr.length; i < j; i++) {
+							cr = new CustomerRoleRelation();
+							cr.setCreatedAt(d);
+							cr.setCustomerId(customerId);
+							cr.setRoleId(Integer.parseInt(arr[i].trim()));
+							systemSetService.insertCustomerRights(cr);
+						}
+					}
+
+				}
+
+				response.setCode(Response.SUCCESS_CODE);
+				response.setMessage("添加账号成功");
 			}
-			
-			response.setMessage("创建用户成功");
-			response.setCode(Response.SUCCESS_CODE);
-		}
 
+		}
 		return response;
 	}
 
@@ -90,13 +119,18 @@ public class SystemSetController {
 	 * @param myAccountReq
 	 * @return
 	 */
-	@RequestMapping(value = "info", method = RequestMethod.POST)
-	public Response getEmpInfoFromAgent(@RequestBody EmpReq req) {
+	@RequestMapping(value = "info/{customerId}", method = RequestMethod.POST)
+	public Response getEmpInfoFromAgent(@PathVariable int customerId) {
 		Response response = new Response();
-		int id = req.getId();
-		Map<String, Object> result = systemSetService.getEmpInfoById(id);
-		response.setCode(Response.SUCCESS_CODE);
-		response.setResult(result);
+		Map<String, Object> result = systemSetService.getEmpInfoFromAgent(customerId);
+		if (result != null) {
+			logger.debug(result);
+			response.setCode(Response.SUCCESS_CODE);
+			response.setResult(result);
+		} else {
+			response.setCode(Response.ERROR_CODE);
+		}
+
 		return response;
 	}
 
@@ -115,12 +149,91 @@ public class SystemSetController {
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
-	public Response deleteEmpInfoFromAgent(@RequestBody EmpReq req) {
+	public Response deleteEmpInfoFromAgent(@RequestBody Map<Object, Object> param) {
 		Response response = new Response();
-		Map<String, Object> result = systemSetService
-				.deleteEmpInfoFromAgent(req);
-		response.setCode(Response.SUCCESS_CODE);
-		response.setResult(result);
+
+		Integer id = (Integer) param.get("ids");
+		if (systemSetService.updateCustomerStatus(id) > 0) {
+			if (systemSetService.deleteEmpInfoFromAgent(id) > 0) {
+				response.setCode(Response.SUCCESS_CODE);
+				response.setMessage("删除成功!!!!");
+			} else {
+				response.setCode(Response.ERROR_CODE);
+				response.setMessage("删除失败!!!!");
+			}
+		} else {
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage("删除失败!!!!");
+		}
+
+		return response;
+	}
+
+	@RequestMapping(value = "getList/{customerId}/{page}/{rows}", method = RequestMethod.POST)
+	public Response getList(@PathVariable int customerId, @PathVariable int page, @PathVariable int rows) {
+		Response response = null;
+		try {
+			response = new Response();
+			Map<Object, Object> result = new HashMap<Object, Object>();
+			result.put("total", systemSetService.getListCount(customerId));
+			result.put("list", systemSetService.getList(customerId, page, rows));
+			logger.debug(result);
+			response.setResult(result);
+			response.setCode(Response.SUCCESS_CODE);
+		} catch (Exception e) {
+			logger.error("获取商户信息列表失败", e);
+			response.setMessage("获取商户信息列表失败:系统异常");
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "resetPassword", method = RequestMethod.POST)
+	public Response insert(@RequestBody Map<String, Object> map) {
+		Response response = new Response();
+		int customer_id = (int) map.get("customer_id");
+		String password = (String) map.get("password");
+		if (systemSetService.resetPassword(customer_id, SysUtils.string2MD5(password).trim()) > 0) {
+			response.setCode(Response.SUCCESS_CODE);
+			response.setMessage("重置密码成功");
+		} else {
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage("重置密码失败");
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "editCustomer", method = RequestMethod.POST)
+	public Response editCustomer(@RequestBody EmpReq req) {
+		Response response = new Response();
+		int customer_id = req.getCustomer_id();
+		String rights = req.getRights();
+
+		req.setPassword(SysUtils.string2MD5(req.getPassword()));
+		if (systemSetService.editCustomerInfo(req) > 0) {
+			if (rights != null) {
+				String[] arr = rights.split(",");
+				// 获取该用户所有权限
+				List<Map<String, Object>> list = systemSetService.getCustomerRights(customer_id);
+				if (list != null && !list.isEmpty()) {
+					int j = arr.length;
+				
+					for (Map<String, Object> map : list) {
+						for (int i = 0; i < j; i++) {
+							if (Integer.parseInt(arr[i]) == Integer.parseInt(map.get("role_id").toString())) {
+								systemSetService.updateRights(customer_id, Integer.parseInt(arr[i]));
+							} else {
+
+							}
+						}
+					}
+				}
+			}
+			response.setCode(Response.SUCCESS_CODE);
+			response.setMessage("更新用户信息成功");
+		} else {
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage("更新用户信息失败");
+		}
 		return response;
 	}
 }

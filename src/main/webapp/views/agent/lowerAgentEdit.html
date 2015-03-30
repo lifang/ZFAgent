@@ -1,0 +1,115 @@
+<div class="right" ng-controller="lowerAgentEditController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">管理下级代理商</a></li>
+			<li><a href="#">下级代理商</a></li>
+			<li><a href="#">编辑</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>编辑下级代理商</h1>
+			<div class="userTopBtnBox">
+				<a href="#/lowerAgent" class="ghostBtn">返回</a>
+			</div>
+		</div>
+		<div class="attributes_box">
+			<div class="item_list clear">
+				<ul>
+					<li class="block"><span class="labelSpan">类型：</span>
+						<div class="form-group">
+						   <div class="radio" style="float:left">
+						       <label>
+						           <input type="radio" name="agentType" value="2" ng-model="agentType">
+						          	 个人
+						       </label>
+						   </div>
+						   <div class="radio" style="float:left">
+						       <label>
+						           <input type="radio" name="agentType" value="1" ng-model="agentType">
+						           	公司
+						       </label>
+						   </div>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">负责人姓名：</span>
+						<div class="text">
+							<input type="text" id="agentName" ng-model="agentName"/>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">负责人身份证号：</span>
+						<div class="text">
+							<input type="text" id="agentCardId" ng-model="agentCardId"/>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">公司全称：</span>
+						<div class="text">
+							<input type="text" id="companyName" ng-model="companyName"/>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">公司营业执照登记号：</span>
+						<div class="text">
+							<input type="text" id="companyId" ng-model="companyId"/>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">手机：</span>
+						<div class="text">
+							<input type="text" id="phoneNum" ng-model="phoneNum"/>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">邮箱：</span>
+						<div class="text">
+							<input type="text" id="emailStr" ng-model="emailStr"/>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">所在地：</span>
+						<div class="text">
+							<select ng-model="proModel" ng-options="o.id as o.name for o in provinceList"
+							 ng-change="selChange(proModel)" style="width: 120px;">
+							</select>
+							<select ng-model="cityModel" ng-options="o.id as o.name for o in cityList" style="width: 120px;">
+							</select>
+							
+							<input type="text" style="color: darkgrey;" id="addDetail" ng-model="addDetail"/>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">登陆ID：</span>
+						<div class="text">
+							{{loginId}}
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">密码：</span>
+						<div class="text">
+							<input type="password" id="pwd" ng-model="pwd" />
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">确认密码：</span>
+						<div class="text">
+							<input type="password" id="pwd1" ng-model="pwd1"/>
+						</div>
+					</li>
+					<li class="block"><span class="labelSpan">分润：</span>
+						<div class="form-group">
+						   <div class="radio" style="float:left">
+						       <label>
+						           <input type="radio" name="isProfit" value="1" ng-model="isProfit">
+						          	 开通
+						       </label>
+						   </div>
+						   <div class="radio" style="float:left">
+						       <label>
+						           <input type="radio" name="isProfit" value="0" ng-model="isProfit">
+						           	关闭
+						       </label>
+						   </div>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+		<div class="btnBottom">
+			<button class="blueBtn" ng-click="save()">保存</button>
+		</div>
+	</div>
+</div>

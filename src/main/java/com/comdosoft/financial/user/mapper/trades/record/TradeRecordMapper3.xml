@@ -4,8 +4,8 @@
 
 	<select id="getTradeRecordsCount" resultType="map">
 		SELECT COUNT(r.id) total,SUM(r.amount) amountTotal
-		FROM trade_records r 
-		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds}
+		FROM trade_records r
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
 		</if>
@@ -29,8 +29,8 @@
 		r.terminal_number terminalNumber,
 		r.pay_channel_id ,
 		r.traded_status tradedStatus
-		FROM trade_records r 
-		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds}
+		FROM trade_records r
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
 		</if>
@@ -46,40 +46,91 @@
 		ORDER BY r.traded_at DESC
 		LIMIT #{offset}, #{rows}
 	</select>
-	
+
 	<select id="getTradeRecord" resultType="map">
-		SELECT  
+		SELECT
+		agent_id,
+		merchant_number,
+		merchant_name,
 		trade_number as tradeNumber,
 		batch_number as batchNumber,
 		terminal_number as terminalNumber,pay_channel_id,
 		DATE_FORMAT(traded_at, '%Y-%m-%d %T') tradedTimeStr,
-		traded_status tradedStatus,poundage,amount,types
+		traded_status
+		tradedStatus,poundage,amount,
+		trade_type_id as types
 		from trade_records
 		WHERE id=#{id}
 	</select>
-	
+
 	<select id="get23" resultType="map">
 		select IFNULL(pay_from_account,'无') payFromAccount,
-			   IFNULL(pay_into_account,'无') payIntoAccount
-			   from trade_transfer_repayment_records
-			   where id = #{id}
+		IFNULL(pay_into_account,'无') payIntoAccount
+		from trade_transfer_repayment_records
+		where id = #{id}
 	</select>
-	
+
 	<select id="get4" resultType="map">
 		select IFNULL(phone,'无') phone
-			   from trade_recharge_records
-			   where id = #{id}
+		from trade_recharge_records
+		where id = #{id}
 	</select>
-	
+
 	<select id="get5" resultType="map">
 		select IFNULL(account_name,'无') account_name ,
-			   IFNULL(account_number,'无') account_number	
-			   from trade_records
-			   where id = #{id}
+		IFNULL(account_number,'无') account_number
+		from trade_records
+		where id = #{id}
 	</select>
-	
+
 	<select id="getProfit" resultType="map">
-		SELECT profits_pay,current_agent_id cid,top_agent_id tid from  profits where trade_record_id=#{id}
+		SELECT profits_pay,current_agent_id cid,top_agent_id tid from profits where trade_record_id=#{id}
+	</select>
+
+
+	<select id="getTradeStatistics" resultType="map">
+		SELECT
+		COUNT(r.id) total,
+		IFNULL(SUM(r.amount), 0) amountTotal,
+		r.agent_id
+		FROM trade_records r
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
+		<if test="terminalNumber!=''">
+		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
+		</if>
+		<if test="startTime!=''">
+		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') >= #{startTime} ]]>
+		</if>
+		<if test="endTime!=''">
+		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') <= #{endTime} ]]>
+		</if>
+		<if test="sonagentId!=0">
+		    <![CDATA[ AND r.agent_id = #{sonagentId} ]]>
+		</if>
+		GROUP BY agent_id
+	</select>
+
+
+	<select id="getProfitTotal" resultType="map">
+		SELECT
+		IFNULL(SUM(p.profits_pay), 0) profits_pay,
+		r.pay_channel_id as pcid,
+		p.current_agent_id as cid,
+		p.top_agent_id as tid
+		FROM
+		trade_records r
+		JOIN profits p ON p.trade_record_id = r.id
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id =#{id} and r.traded_status=2
+		<if test="terminalNumber!=''">
+		    <![CDATA[ AND r.terminal_number = #{terminalNumber}  ]]>
+		</if>
+		<if test="startTime!=''">
+		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') >= #{startTime} ]]>
+		</if>
+		<if test="endTime!=''">
+		    <![CDATA[ AND DATE_FORMAT(r.traded_at, '%Y-%m-%d') <= #{endTime} ]]>
+		</if>
+		GROUP BY r.pay_channel_id,p.current_agent_id,p.top_agent_id
 	</select>
 
 </mapper>

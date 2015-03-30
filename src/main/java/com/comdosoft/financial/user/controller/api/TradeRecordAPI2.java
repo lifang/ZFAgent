@@ -34,8 +34,6 @@ public class TradeRecordAPI2 {
     public Response getTradeRecords(@RequestBody TradeReq req) {
         Response sysResponse = null;
         try {
-           // Map<String, Object> result = tradeRecordService2.getTradeRecordsCount(req);
-           // result.put("list", tradeRecordService2.getTradeRecords(req));
             Map<String, Object> result = tradeRecordService3.getTradeRecordsCount(req);
             result.put("list", tradeRecordService3.getTradeRecords(req));
             sysResponse = Response.getSuccess(result);
@@ -50,8 +48,6 @@ public class TradeRecordAPI2 {
     public Response getTradeRecord(@RequestBody TradeReq req) {
         Response sysResponse = null;
         try {
-           // Map<String, Object> result = tradeRecordService2.getTradeRecordsCount(req);
-           // result.put("list", tradeRecordService2.getTradeRecords(req));
             Map<String, Object> result = tradeRecordService3.getTradeRecord(req);
             sysResponse = Response.getSuccess(result);
         } catch (Exception e) {
@@ -75,6 +71,17 @@ public class TradeRecordAPI2 {
     }
     
 
-   
+    @RequestMapping(value = "getTradeStatistics", method = RequestMethod.POST)
+    public Response getTradeStatistics(@RequestBody TradeReq req) {
+        Response sysResponse = null;
+        try {
+            List<Map<String,Object>> result=tradeRecordService3.getTradeStatistics(req);
+            sysResponse = Response.getSuccess(result);
+        } catch (Exception e) {
+            logger.error("查询交易流水统计失败", e);
+            sysResponse = Response.getError("查询交易流水统计失败:系统异常");
+        }
+        return sysResponse;
+    }
 
 }

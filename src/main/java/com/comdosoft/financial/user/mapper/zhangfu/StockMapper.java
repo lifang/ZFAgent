@@ -42,4 +42,6 @@ public interface StockMapper {
 
     List<Integer> getAgents(@Param("code") String code);
 
+    Map<String, Object> getStock(StockReq req);
+
 }

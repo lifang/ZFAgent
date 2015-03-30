@@ -90,6 +90,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/terminals/terminalService.html'
 	}).when('/terminalDetail', {
 		templateUrl : 'views/terminals/terminalDetail.html'
+	}).when('/terminalCancellation', {
+		templateUrl : 'views/terminals/terminalCancellation.html'
 	}).when('/stock', {
 		templateUrl : 'views/agent/stock.html'
 	}).when('/stockinfo', {

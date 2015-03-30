@@ -15,6 +15,7 @@ import com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
+import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsWebMapper;
 
@@ -169,6 +170,53 @@ public class TerminalsWebService {
 	 */
 	public void addCsAgentMark(Map<Object, Object> map) {
 		terminalsWebMapper.addCsAgentMark(map);
+	}
+	
+	/**
+	 * 获得终端详情
+	 * @param id
+	 * @return
+	 */
+	public Map<String, String> getApplyDetails(Integer id){
+		return terminalsWebMapper.getApplyDetails(id);
+	}
+	
+	/**
+	 * 获得该终端交易类型详情
+	 * @param id
+	 * @return
+	 */
+	public List<Map<String, String>> getRate(Integer id){
+		return terminalsWebMapper.getRate(id);
+	}
+	
+	/**
+	 * 获得租赁信息
+	 * @param id
+	 * @return
+	 */
+	public Map<String, String> getTenancy(Integer id){
+		return terminalsWebMapper.getTenancy(id);
+	}
+	
+	/**
+	 * 获得申请开通已有基本信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Map<String, Object> getOppinfo(Integer terminalsId) {
+		OpeningApplie openingApplie =new OpeningApplie();
+		openingApplie.setTerminalId(terminalsId);
+		
+		 SimpleDateFormat sdf =  new SimpleDateFormat( "yyyy-MM-dd" );
+		 Map<String, Object> map = terminalsWebMapper.getOppinfo(openingApplie);
+		 if(map!=null){
+			 map.put("birthday", sdf.format(map.get("birthday")));
+				map.put("created_at", sdf.format(map.get("created_at")));
+				map.put("updated_at", sdf.format(map.get("updated_at")));
+		 }
+		return map;
 	}
 	
 	
@@ -405,33 +453,12 @@ public class TerminalsWebService {
 	
 	
 
-	/**
-	 * 获得终端详情
-	 * @param id
-	 * @return
-	 */
-	public Map<String, String> getApplyDetails(Integer id){
-		return terminalsWebMapper.getApplyDetails(id);
-	}
-	
-	/**
-	 * 获得租赁信息
-	 * @param id
-	 * @return
-	 */
-	public Map<String, String> getTenancy(Integer id){
-		return terminalsWebMapper.getTenancy(id);
-	}
 	
 	
-	/**
-	 * 获得该终端交易类型详情
-	 * @param id
-	 * @return
-	 */
-	public List<Map<String, String>> getRate(Integer id){
-		return terminalsWebMapper.getRate(id);
-	}
+	
+	
+	
+	
 
 	/**
 	 * 获得追踪记录

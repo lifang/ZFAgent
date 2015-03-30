@@ -8,7 +8,7 @@
  from agent_profit_settings a 
 left join pay_channels b on a.pay_channel_id=b.id 
 left join dictionary_trade_types c on a.trade_type_id=c.id 
-where a.agent_id=#{son_agents_id} group by a.trade_type_id,a.pay_channel_id order by c.id,a.updated_at desc
+where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order by c.id,a.updated_at desc
      </select>
 
 
@@ -21,8 +21,10 @@ where a.agent_id=#{son_agents_id} group by a.trade_type_id,a.pay_channel_id orde
         case d.is_have_profit when 0 then '关闭' else if(d.default_profit is null,'非默认比例','默认比例') end as isProfitStr,  
           d.* from(select a.id,a.company_name,a.status,a.is_have_profit,a.default_profit,
 		(select sum(b.quantity) from prepare_goods_records b where b.agent_id=a.id) as allQty,
-		(select count(c.id) from terminals c where c.agent_id=a.id and c.status=1) as openNum
-		from agents a where a.parent_id=#{agents_id} order by a.updated_at desc) d
+		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id!=null and c.status=1) as openNum,
+		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id!=null) as soldNum,
+		a.created_at,a.types
+		from agents a where a.parent_id=#{agentsId} order by a.updated_at desc) d
 		Limit #{offset},#{rows}
      </select>
      
@@ -31,7 +33,7 @@ where a.agent_id=#{son_agents_id} group by a.trade_type_id,a.pay_channel_id orde
    </select>
      
    <select id="getLowerAgentTotal" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
-        select count(a.id) from agents a where a.parent_id=#{agents_id}
+        select count(DISTINCT a.id) from agents a where a.parent_id=#{agentsId}
    </select>
    
    <select id="getCustomerId" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
@@ -43,7 +45,7 @@ where a.agent_id=#{son_agents_id} group by a.trade_type_id,a.pay_channel_id orde
          b.username as loginId,b.city_id as cityId
 		from agents a 
 		left join customers b on b.id=a.customer_id
-		where a.id=#{son_agents_id}
+		where a.id=#{sonAgentsId}
     </select>
     <select id="getProCity" resultType="map" parameterType="int">
     	select a.name as city,b.name as province,a.id as cityId,b.id as provinceId from cities a
@@ -76,7 +78,7 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 			insert into agents(types,name,card_id,company_name,business_license,phone,email,address,
 			is_have_profit,created_at,updated_at,code,customer_id,status,parent_id,default_profit) 
 		values(#{agentType},#{agentName},#{agentCardId},#{companyName},#{companyId},#{phoneNum},
-		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{agents_id},#{customer_id},1,#{agents_id},(select a.default_profit from agents a where a.id=#{agents_id}))
+		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{agents_id},#{customerId},1,#{agentsId},(select a.default_profit from agents a where a.id=#{agentsId}))
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
@@ -85,19 +87,19 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
    
    <insert id="savePrecent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
    		insert into agent_profit_settings(agent_id,pay_channel_id,percent,created_at,updated_at,trade_type_id) value
-   		 (#{son_agents_id},#{channelId},#{precent},now(),now(),#{tradeTypeId})
+   		 (#{sonAgentsId},#{channelId},#{precent},now(),now(),#{tradeTypeId})
    </insert>
    
    <update id="editPrecent" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		update agent_profit_settings set percent=#{precent},created_at=now(),updated_at=now() 
-		where agent_id=#{son_agents_id} and pay_channel_id=#{channelId} and trade_type_id=#{tradeTypeId}  
+		where agent_id=#{sonAgentsId} and pay_channel_id=#{channelId} and trade_type_id=#{tradeTypeId}  
 	</update>
    
    <update id="saveAgents" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		update agents a set a.types=#{agentType},a.company_name=#{companyName},
 		a.business_license=#{companyId},a.name=#{agentName},a.card_id=#{agentCardId},
 		a.phone=#{phoneNum},a.email=#{emailStr},a.address=#{addressStr} ,is_have_profit=#{isProfit},
-		a.updated_at=now(),code=#{agents_id} where a.id=#{son_agents_id}
+		a.updated_at=now(),code=#{agentsId} where a.id=#{sonAgentsId}
 	</update>
     
     <update id="saveCustomers" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
@@ -105,16 +107,16 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 	</update>
 	
     <update id="changeStatus" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-		update agents a set a.status =#{status} ,a.updated_at =now() where a.id=#{son_agents_id}
+		update agents a set a.status =#{status} ,a.updated_at =now() where a.id=#{sonAgentsId}
 	</update>
 	
 	<update id="changePwd" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		update customers a set a.password =#{pwd} ,a.updated_at=now()
-		where a.id=(select b.customer_id from agents b where b.id=#{son_agents_id})
+		where a.id=(select b.customer_id from agents b where b.id=#{sonAgentsId})
 	</update>
 	
 	<update id="changeProfit" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-		update agents a set a.default_profit=#{defaultProfit} ,a.updated_at=now() where a.parent_id=#{agents_id} or a.id=#{agents_id}
+		update agents a set a.default_profit=#{defaultProfit} ,a.updated_at=now() where a.parent_id=#{agentsId} or a.id=#{agentsId}
 	</update>
 	
 </mapper>

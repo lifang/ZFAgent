@@ -22,6 +22,15 @@
 		LIMIT #{offset}, #{rows}
      </select>
      
+     <select id="getStock" resultType="map" >
+        SELECT DISTINCT g.id as good_id,pc.id as paychannel_id,IFNULL(agn.name,g.title) as goodname ,gb.name as good_brand,g.Model_number,pc.name as paychannel from terminals t 
+		LEFT JOIN goods g on t.good_id=g.id 
+		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
+		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
+		where g.id =#{goodId} and pc.id=#{paychannelId} 
+     </select>
+     
      <update id="rename">
          update agent_good_names set name=#{goodname} where good_id=#{goodId}
          and agent_id=#{agentId}

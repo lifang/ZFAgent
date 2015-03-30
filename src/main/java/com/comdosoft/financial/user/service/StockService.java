@@ -1,8 +1,5 @@
 package com.comdosoft.financial.user.service;
 
-
-
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,27 +12,26 @@ import com.comdosoft.financial.user.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.StockMapper;
 import com.comdosoft.financial.user.utils.SysUtils;
 
-
 @Service
 public class StockService {
 
     @Autowired
     private StockMapper stockMapper;
-    
+
     @Autowired
     private GoodMapper goodMapper;
 
     public Map<String, Object> getList(StockReq req) {
-        String code=stockMapper.getAgentCode(req.getAgentId());
-        if(null==code||code.length()<3){
+        String code = stockMapper.getAgentCode(req.getAgentId());
+        if (null == code || code.length() < 3) {
             return null;
         }
         req.setCode(code);
-        Map<String, Object> map=new HashMap<String, Object>();
-        int total=stockMapper.getStockTotal(req);
+        Map<String, Object> map = new HashMap<String, Object>();
+        int total = stockMapper.getStockTotal(req);
         map.put("total", total);
-        List<Map<String, Object>> list=stockMapper.getStockList(req);
-        if(total>0){
+        List<Map<String, Object>> list = stockMapper.getStockList(req);
+        if (total > 0) {
             for (Map<String, Object> map2 : list) {
                 List<String> goodPics = goodMapper.getgoodPics(SysUtils.Object2int(map2.get("good_id")));
                 if (null != goodPics && goodPics.size() > 0) {
@@ -54,18 +50,18 @@ public class StockService {
     }
 
     public Map<String, Object> getInfo(StockReq req) {
-        Map<String, Object> resultmap=new HashMap<String, Object>();
-        if(null==req.getAgentname()){
+        Map<String, Object> resultmap = new HashMap<String, Object>();
+        if (null == req.getAgentname()) {
             req.setAgentname("");
         }
-        int total =stockMapper.getSonAgentCount(req);
+        int total = stockMapper.getSonAgentCount(req);
         resultmap.put("total", total);
-        List<Map<String, Object>> list=stockMapper.getSonAgent(req);
-        if(null!=list&&list.size()>0){
+        List<Map<String, Object>> list = stockMapper.getSonAgent(req);
+        if (null != list && list.size() > 0) {
             for (Map<String, Object> map : list) {
-                req.setAgentId(SysUtils.Object2int( map.get("id")));
+                req.setAgentId(SysUtils.Object2int(map.get("id")));
                 req.setCode(stockMapper.getAgentCode(req.getAgentId()));
-             //   map.put("hoitoryCount", stockMapper.getHoitoryCount(req));
+                // map.put("hoitoryCount", stockMapper.getHoitoryCount(req));
                 map.put("openCount", stockMapper.getOpenCount(req));
                 map.put("lastPrepareTime", stockMapper.getLastPrepareTime(req));
                 map.put("lastOpenTime", stockMapper.getLastOpenTime(req));
@@ -83,19 +79,30 @@ public class StockService {
             e.printStackTrace();
             return 0;
         }
-        
+
     }
 
     public Map<String, Object> getTerminalList(StockReq req) {
-        Map<String, Object> map=new HashMap<String, Object>();
-        int total=stockMapper.getTerminalTotal(req);
+        Map<String, Object> map = new HashMap<String, Object>();
+        int total = stockMapper.getTerminalTotal(req);
         map.put("total", total);
-        List<Map<String, Object>> list=stockMapper.getTerminalList(req);
+        List<Map<String, Object>> list = stockMapper.getTerminalList(req);
         map.put("list", list);
         return map;
     }
-    
 
-    
+    public Map<String, Object> getInfo_web(StockReq req) {
+        String code = stockMapper.getAgentCode(req.getAgentId());
+        if (null == code || code.length() < 3) {
+            return null;
+        }
+        req.setCode(code);
+        Map<String, Object> map =  stockMapper.getStock(req);
+        map.put("hoitoryCount", stockMapper.getHoitoryCount(req));
+        map.put("openCount", stockMapper.getOpenCount(req));
+        map.put("agentCount", stockMapper.getAgentCount(req));
+        map.put("totalCount", stockMapper.getTotalCount(req));
+        return map;
+    }
 
 }

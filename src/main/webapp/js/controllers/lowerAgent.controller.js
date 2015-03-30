@@ -5,8 +5,39 @@ var lowerAgentModule = angular.module("lowerAgentModule",[]);
 
 //下级代理商列表
 var lowerAgentlistController = function ($scope, $http, LoginService){
+	//首页
+	// 上一页
+   	$scope.prev = function() {
+   		if ($scope.req.indexPage > 1) {
+   			$scope.req.indexPage--;
+   			$scope.list();
+   		}
+   	};
+
+   	// 当前页
+   	$scope.loadPage = function(currentPage) {
+   		$scope.req.indexPage = currentPage;
+   		$scope.list();
+   	};
+
+   	// 下一页
+   	$scope.next = function() {
+   		if ($scope.req.indexPage < $scope.req.totalPage) {
+   			$scope.req.indexPage++;
+   			$scope.list();
+   		}
+   	};
+
+   	// 跳转到XX页
+   	$scope.getPage = function() {
+   		$scope.req.indexPage = Math.ceil($scope.req.gotoPage);
+   		$scope.list();
+   	};
+	
+	
 	$scope.init=function(){
 		$scope.req={};
+		initSystemPage($scope.req);// 初始化分页参数
 		$scope.req.agents_id=LoginService.agentid;
 		$scope.pwdTabSign=1;
 		$scope.list();
@@ -19,17 +50,18 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
         });
 	};
 	$scope.list=function(){
+		$scope.req.page=$scope.req.indexPage;
 		$http.post("api/lowerAgent/list", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.lowerAgentList=data.result.list;
-            	$scope.total=data.result.total;
+            	$scope.totalPage=data.result.total;
             	calcSystemPage($scope.req, data.result.total);// 计算分页
             }
         });
 	};
 	
 	$scope.changeStatus=function(val,status){
-		$scope.req.son_agents_id=val;
+		$scope.req.sonAgentsId=val;
 		$scope.req.status=status;
 		$http.post("api/lowerAgent/changeStatus", $scope.req).success(function (data) {  //绑定
 			if (data.code==1) {
@@ -63,7 +95,7 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 	}
 	
 	$scope.showPwdTab=function(val){
-		$scope.req.son_agents_id=val;
+		$scope.req.sonAgentsId=val;
 		popup(".resetPassword_tab",".resetPassword_a");
 	}
 	
@@ -103,7 +135,7 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 var lowerInfoController = function ($scope, $http,$location, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
-		$scope.req.son_agents_id=$location.search()['id'];
+		$scope.req.sonAgentsId=$location.search()['id'];
 		$scope.info();
 	};
 	$scope.info=function(){
@@ -127,7 +159,7 @@ var lowerInfoController = function ($scope, $http,$location, LoginService) {
 var lowerAgentAddController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
-		$scope.req.agents_id=LoginService.agentid;
+		$scope.req.agentsId=LoginService.agentid;
 		$scope.list();
 		
 		$scope.agentType=1;
@@ -397,8 +429,8 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 var lowerAgentSetController=function($scope,$http,$location,LoginService){
 	$scope.init=function(){
 		$scope.req={};
-		$scope.req.agents_id=LoginService.agentid;
-		$scope.req.son_agents_id=$location.search()['id'];
+		$scope.req.agentsId=LoginService.agentid;
+		$scope.req.sonAgentsId=$location.search()['id'];
 		$scope.list();
 		$scope.isShow=1;
 	};

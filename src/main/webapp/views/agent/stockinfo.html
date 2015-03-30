@@ -13,12 +13,12 @@
 			<h2>基础信息</h2>
 			<div class="attributes_list clear">
 				<ul>
-					<li><em>POS机名称：</em><span>移动pos机0.38费率机0.78收银机26封顶机30刷卡一清机pos机有后台</span></li>
-					<li><em>品牌型号：</em><span>掌富 ZF300</span></li>
-					<li><em>支付通道：</em><span>收账宝</span></li>
-					<li><em>进货量：</em><span>200</span></li>
-					<li><em>开通量：</em><span>198</span></li>
-					<li><em>当前库存：</em><span>2</span></li>
+					<li><em>POS机名称：</em><span>{{info.goodname}}</span></li>
+					<li><em>品牌型号：</em><span>{{info.good_brand}} {{info.Model_number}}</span></li>
+					<li><em>支付通道：</em><span>{{info.paychannel}}</span></li>
+					<li><em>进货量：</em><span>{{info.hoitoryCount}}</span></li>
+					<li><em>开通量：</em><span>{{info.openCount}}</span></li>
+					<li><em>当前库存：</em><span>{{info.agentCount}}</span></li>
 				</ul>
 			</div>
 		</div>
@@ -49,53 +49,29 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>华润</td>
-						<td>200</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>198</td>
-						<td>2014/12/29 20:20:20</td>
-					</tr>
-					<tr>
-						<td>华润</td>
-						<td>200</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>198</td>
-						<td>2014/12/29 20:20:20</td>
-					</tr>
-					<tr>
-						<td>华润</td>
-						<td>200</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>198</td>
-						<td>2014/12/29 20:20:20</td>
-					</tr>
-					<tr>
-						<td>华润</td>
-						<td>200</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>198</td>
-						<td>2014/12/29 20:20:20</td>
-					</tr>
-					<tr>
-						<td>华润</td>
-						<td>200</td>
-						<td>2014/12/12 20:20:20</td>
-						<td>198</td>
-						<td>2014/12/29 20:20:20</td>
+					<tr ng-repeat="one in list">
+						<td>{{one.company_name}}</td>
+						<td>{{one.hoitoryCount}}</td>
+						<td>{{one.lastPrepareTime}}</td>
+						<td>{{one.openCount}}</td>
+						<td>{{one.lastOpenTime}}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		
 		<div class="pageTurn">
-			<div class="p_num">
-				<a href="#" class="disabled">上一页</a> <a href="#" class="current">1</a> <a href="#?page=2">2</a> <a href="#?page=3">3</a> <a href="#?page=4">4</a> <a href="#?page=5">5</a> ... <a href="#?page=199">199</a> <a href="#?page=200">200</a> <a href="#?page=2">下一页</a>
+			<div class="p_num" ng-show="req.totalPage>1">
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
+					ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
+					href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
 			</div>
 			<div class="p_skip">
-				<span>共24页</span> <span>到第&nbsp;&nbsp;<input name="" type="text" />&nbsp;&nbsp;页
+				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
 				</span>
-				<button>确定</button>
+				<button ng-click="getPage()">确定</button>
 			</div>
 		</div>
+		
 	</div>
 </div>

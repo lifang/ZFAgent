@@ -1,58 +1,67 @@
-
-<div class="right" ng-controller="prepareaddController">
-	<div class="breadcrumb">
-		<ul>
-			<li><a href="#">管理下级代理商</a></li>
-			<li><a href="#">管理配货</a></li>
-			<li><a href="#">配货</a></li>
-		</ul>
-	</div>
-	<div class="content clear">
-		<div class="user_title">
-			<h1>配货</h1>
+<div ng-controller="prepareaddController">
+	<div class="right">
+		<div class="breadcrumb">
+			<ul>
+				<li><a href="#/lowerAgent">管理下级代理商</a></li>
+				<li><a href="#/prepare">管理配货</a></li>
+				<li><a href="javascript:void(0);">配货</a></li>
+			</ul>
 		</div>
-		<div class="attributes_box">
+		<div class="content clear">
+			<div class="user_title">
+				<h1>配货</h1>
+			</div>
+			<div class="attributes_box">
+				<div class="item_list clear">
+					<ul>
+						<li class="block"><span class="labelSpan">填写终端号：</span>
+							<div class="text">
+								<textarea ng-model="req.serialNum" cols="" rows=""></textarea>
+							</div></li>
+						<li class="block"><span class="labelSpan">指定下级代理商：</span>
+							<div class="text">
+								<div class="allocationCargo">
+									<div class="su_search">
+										<input name="" type="text" />
+										<button>搜索</button>
+									</div>
+									<div class="ac_area">
+										<a href="javascript:void(0);" ng-repeat="one in son" ng-click="checkson(one.id)">{{one.company_name}}</a>
+									</div>
+								</div>
+							</div></li>
+						<li class="block o"><span class="labelSpan">指定配货商品：</span>
+							<div class="text">
+								<select ng-model="req.goodId" ng-options="x.id as x.goodname for x in goodlist"></select> <select ng-model="req.paychannelId" ng-options="x.id as x.paychannel for x in pclist"></select>
+							</div></li>
+						<li class="block"><span class="labelSpan">指定配货数量：</span>
+							<div class="text">
+								<input name="" type="text" />
+							</div></li>
+					</ul>
+				</div>
+			</div>
+			<div class="btnBottom">
+				<button class="blueBtn" ng-click="check()">确认配货</button>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="tab rename_tab">
+		<a href="javascript:void(0);" ng-click="close()" class="close">关闭</a>
+		<div class="tabHead">错误终端</div>
+		<div class="tabBody">
 			<div class="item_list clear">
 				<ul>
-					<li class="block"><span class="labelSpan">填写终端号：</span>
-						<div class="text">
-							<textarea ng-model="req.serialNum" cols="" rows=""></textarea>
-						</div></li>
-					<li class="block"><span class="labelSpan">指定下级代理商：</span>
-						<div class="text">
-							<div class="allocationCargo">
-								<div class="su_search">
-									<input name="" type="text" />
-									<button>搜索</button>
-								</div>
-								<div class="ac_area">
-									<a href="javascript:void(0);"  ng-repeat="one in son" ng-click="checkson(one.id,this)">{{one.company_name}}</a> 
-								</div>
-							</div>
-						</div></li>
-					<li class="block o"><span class="labelSpan">指定配货商品：</span>
-						<div class="text">
-							<select ng-model="req.goodId" ng-options="x.id as x.goodname for x in goodlist"></select> 
-							<select ng-model="req.paychannelId" ng-options="x.id as x.paychannel for x in pclist"></select>
-						</div></li>
-					<li class="block"><span class="labelSpan">指定配货数量：</span>
-						<div class="text">
-							<input name="" type="text" />
-						</div></li>
+					<li ng-repeat="one in errorlist"><span class="labelSpan">{{one.serialNum}}</span>
+						<div class="text">{{one.error}}</div></li>
 				</ul>
 			</div>
 		</div>
-		<div class="btnBottom">
-			<button class="blueBtn" ng-click="add()">确认配货</button>
+		<div class="tabFoot">
+			<button class="blueBtn" ng-click="close()">确定</button>
 		</div>
 	</div>
 </div>
-
-
-<div class="tab">
-	<a href="javascript:void(0);" class="close">关闭</a>
-	<div class="tabBody">
-    	<p>终端错误</p>
-	</div>
-</div>
-<script src="js/main.js"></script>

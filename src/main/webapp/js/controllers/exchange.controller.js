@@ -67,11 +67,53 @@ var exchangeaddController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
 		$scope.req.agentId=LoginService.agentid;
+		$scope.sonlist();
+	};
+	
+	
+	$scope.sonlist=function(){
+		$http.post("api/preparegood/getsonagent", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.son=data.result;
+            }
+        });
+	};
+	$scope.checkson1=function(id){
+		$scope.req.fromAgentId=id;
+	};
+	$scope.checkson2=function(id){
+		$scope.req.toAgentId=id;
+	};
+	
+	$scope.check=function(){
+		if($scope.req.serialNum!=undefined&&$scope.req.serialNum.trim().length>11){
+			$http.post("api/exchangegood/checkTerminals", $scope.req).success(function (data) {  //绑定
+	            if (data.code==1) {
+	            	if(data.result.errorCount==0){
+	            		$scope.add();
+	            	}else{
+	            		$scope.errorlist=data.result.errorList;
+	            		$('.tab').show();
+	            	}
+	            }
+	        });
+		}
+	};
+	
+	$scope.add=function(){
+		$scope.req.web=1;
+		$scope.req.customerId=LoginService.loginid;
+		$http.post("api/exchangegood/add", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	window.location.href="#/exchange"
+            }
+        });
+	};
+	$scope.close=function(){
+		$('.tab').hide();
 	};
 	
 	$scope.init();
-	
-	
 };
 
 var exchangeinfoController = function ($scope, $http,$location, LoginService) {

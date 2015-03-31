@@ -92,20 +92,34 @@ var prepareaddController = function ($scope, $http, LoginService) {
             }
         });
 	};
-	$scope.checkson=function(id,one){
-		$(one).addClass("hover").siblings().removeClass("hover");
-		$scope.req.son_agents_id=id;
+	$scope.checkson=function(id){
+		$scope.req.sonAgentId=id;
 	};
-	$scope.add=function(id){
-		$http.post("api/preparegood/checkTerminals", $scope.req).success(function (data) {  //绑定
+	$scope.check=function(){
+		if($scope.req.serialNum!=undefined&&$scope.req.serialNum.trim().length>11){
+			$http.post("api/preparegood/checkTerminals", $scope.req).success(function (data) {  //绑定
+	            if (data.code==1) {
+	            	if(data.result.errorCount==0){
+	            		$scope.add();
+	            	}else{
+	            		$scope.errorlist=data.result.errorList;
+	            		$('.tab').show();
+	            	}
+	            }
+	        });
+		}
+	};
+	$scope.add=function(){
+		$scope.req.web=1;
+		$scope.req.customerId=LoginService.loginid
+		$http.post("api/preparegood/add", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
-            	if(data.result.errorCount==0){
-            		
-            	}else{
-            		$scope.errorlist=data.result.errorList;
-            	}
+            	window.location.href="#/prepare"
             }
         });
+	};
+	$scope.close=function(){
+		$('.tab').hide();
 	};
 	$scope.init();
 };

@@ -44,6 +44,6 @@ public interface AgentMapper {
      * @param id
      * @return
      */
-    Map<String, Object>  findAgentByCustomerId( int customer_id);
+    Map<String, Object>   findAgentByCustomerId( int customer_id);
 
 }

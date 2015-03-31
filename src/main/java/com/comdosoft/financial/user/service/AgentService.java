@@ -1,6 +1,5 @@
 package com.comdosoft.financial.user.service;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,6 @@ import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.mapper.zhangfu.AgentMapper;
 import com.comdosoft.financial.user.utils.CommUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  * 代理商 - 业务层<br>
@@ -64,7 +61,7 @@ public class AgentService {
         
         //send the check code to the phone
         try{
-           Boolean b =  CommUtils.sendPhoneCode("感谢您使用华尔街金融，您的验证码为："+dentcode, phone);
+           CommUtils.sendPhoneCode("感谢您使用华尔街金融，您的验证码为："+dentcode, phone);
         }catch (Exception e){
         	e.printStackTrace();
         }
@@ -74,29 +71,30 @@ public class AgentService {
 
     public Object getUpdateEmailDentcode(HttpServletRequest request, int customerId, String email) {
         Map<Object, Object> result = new HashMap<Object, Object>();
-        String url = request.getScheme() + "://"; // 请求协议 http 或 https
-		url += request.getHeader("host"); // 请求服务器
-		url += request.getContextPath();
-		System.err.println("===>>>"+url);
         // 生成随机6位验证码
         String dentcode = SysUtils.getCode();
         result.put("dentcode", dentcode);
 
         // 保存验证码入库
-        Customer customer = new Customer();
-        customer.setCustomerId(customerId);
-        customer.setDentcode(dentcode);
-        agentMapper.updateCustomer(customer);
+        Map<String, Object>  m = agentMapper.findAgentByCustomerId(customerId);
+        if(null != m){
+        	 MailReq req = new MailReq();
+             req.setUserName(m.get("username")+"");//姓名
+             req.setAddress(email);//邮箱
+             try {
+                 MailService.sendMail_phone(req,dentcode);
+                 return result;
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
+        }
+//        Customer customer = new Customer();
+//        customer.setCustomerId(customerId);
+//        customer.setDentcode(dentcode);
+//        agentMapper.updateCustomer(customer);
 
-        // email
-        MailReq req = new MailReq();
-        req.setAddress(email);
-        req.setUrl("<a href='"+url+"/#/findpassEmail'>激活账号</a>");
-        req.setUserName(String.valueOf(customer.getCustomerId()));
-
-        MailService.sendMail(req);
         
-
+       
         return result;
     }
 

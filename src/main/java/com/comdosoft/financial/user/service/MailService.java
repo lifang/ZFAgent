@@ -254,4 +254,83 @@ public class MailService {
         sb.append("support@ebank007.com<b>");
         return sb.toString();
     }
+    
+    //手机接口用
+    public static String changeEmailContent(MailReq req,String code) {
+    	StringBuffer sb = new StringBuffer();
+    	sb.append("Hi,"+req.getUserName() + "<br>");
+    	sb.append("您正在进行修改邮箱的操作，验证码为：<br>");
+    	sb.append( code + "<br>");
+    	sb.append("请勿回复此邮件，如果有疑问，请联系我们：<br>");
+    	sb.append("support@ebank007.com<b>");
+    	return sb.toString();
+    }
+    
+    
+    //修改邮箱发送邮件  shouji
+    public void sendMail_phone(MailReq req,String code) {
+        try {
+            
+            // 创建邮件Session所需的Properties对象
+            Properties properties = new Properties();
+            properties.put("mail.smtp.host", mailServerHost);
+            properties.put("mail.smtp.port", mailServerPort);
+            properties.put("mail.smtp.auth", true);
+            
+            // 设置SSL
+            MailSSLSocketFactory sf = new MailSSLSocketFactory();
+            sf.setTrustAllHosts(true);
+            properties.put("mail.smtp.ssl.enable", "true");
+            properties.put("mail.smtp.ssl.socketFactory", sf);
+            
+            // 创建邮件Session对象
+            Session session = Session.getInstance(properties, new Authenticator() {
+                public PasswordAuthentication getPasswordAuthentication() {// 以匿名内部类的形式创建登录服务器的认证对象
+                    return new PasswordAuthentication(mailUserName, mailPassword);
+                }
+            });
+            
+            // 创建一个邮件消息
+            Message message = new MimeMessage(session);
+            
+            // 发送者地址
+            message.setFrom(new InternetAddress(mailUserName));
+            
+            // 接收者地址
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(req.getAddress()));
+            
+            // 主题
+            message.setSubject(MimeUtility.encodeText("【华尔街金融】修改邮箱", MimeUtility.mimeCharset("utf-8"), null));
+            
+            // 构造Multipart
+            Multipart multipart = new MimeMultipart();
+            
+            // 加入文本内容
+            MimeBodyPart bodyText = new MimeBodyPart();
+            bodyText.setText(changeEmailContent(req,code), "utf-8", "html");// HTML
+            multipart.addBodyPart(bodyText);
+            
+            // 加入附件内容
+            // MimeBodyPart bodyFile = null;
+            // if (!CollectionUtils.isEmpty(files)) {
+            // for (File file : files) {
+            // bodyFile = new MimeBodyPart();
+            // FileDataSource fileDataSource = new FileDataSource(file);
+            // bodyFile.setDataHandler(new DataHandler(fileDataSource));
+            // bodyFile.setDisposition(Part.ATTACHMENT);
+            // bodyFile.setFileName(MimeUtility.encodeText(fileDataSource.getName())); // 设置附件名
+            // multipart.addBodyPart(bodyFile);
+            // }
+            // }
+            
+            message.setContent(multipart);// 发送内容
+            message.setSentDate(new Date()); // 发送时间
+            
+            Transport.send(message);
+            
+            logger.debug("from[" + mailUserName + "]to[" + req.getAddress() + "]send[" + "" + "]content[" + req.getUrl() + "]成功");
+        } catch (Exception e) {
+            logger.debug("from[" + mailUserName + "]to[" + req.getAddress() + "]send[" + "" + "]content[" + req.getUrl() + "]失败", e);
+        }
+    }
 }

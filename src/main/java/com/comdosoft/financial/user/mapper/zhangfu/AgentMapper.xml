@@ -84,7 +84,7 @@
 	
 	<select id="findAgentByCustomerId"  resultType="map" >
 	<![CDATA[
-		SELECT * FROM agents  WHERE customer_id = #{param1}
+		SELECT * FROM customers  WHERE id = #{param1}
 	]]>
 	</select>
 </mapper>

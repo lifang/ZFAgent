@@ -4,14 +4,23 @@
   
      
      <select id="getStockTotal" resultType="int" >
-        SELECT  count(DISTINCT g.id) from terminals t 
+        SELECT count(*) from (
+        SELECT DISTINCT g.id as good_id,pc.id as paychannel_id,IFNULL(agn.name,g.title) as goodname ,gb.name as good_brand,g.Model_number,pc.name as paychannel  from terminals t 
 		LEFT JOIN goods g on t.good_id=g.id 
 		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
-		where g.id is not null 
-		AND  t.agent_id in (SELECT id from agents where code like '${code}%')
+		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
+		where g.id is not null AND  t.agent_id in 
+		(SELECT id from agents where code like '${code}%')
+		) t
+		where 1=1
+		<if test="name!=''">
+			and t.goodname like '%${name}%'
+		</if>
      </select>
      
      <select id="getStockList" resultType="map" >
+     SELECT * from (
         SELECT DISTINCT g.id as good_id,pc.id as paychannel_id,IFNULL(agn.name,g.title) as goodname ,gb.name as good_brand,g.Model_number,pc.name as paychannel from terminals t 
 		LEFT JOIN goods g on t.good_id=g.id 
 		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
@@ -19,6 +28,12 @@
 		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
 		where g.id is not null AND  t.agent_id in 
 		(SELECT id from agents where code like '${code}%')
+		  order by g.id desc
+		) t
+		where 1=1
+		<if test="name!=''">
+			and t.goodname like '%${name}%'
+		</if>
 		LIMIT #{offset}, #{rows}
      </select>
      

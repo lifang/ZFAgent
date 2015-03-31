@@ -96,7 +96,7 @@
 	
 	<update id="changeStatus"  >
 	update  cs_agents 
-	SET STATUS = #{repairStatus.code}
+	SET STATUS = #{serviceStatus.code}
 	where id = #{id}
 	</update>
 </mapper>

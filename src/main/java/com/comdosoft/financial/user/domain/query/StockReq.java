@@ -16,6 +16,18 @@ public class StockReq {
     //-----
     
     private String code;
+    
+    private String name="";
+    
+    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name.trim();
+    }
 
     public int getAgentId() {
         return agentId;

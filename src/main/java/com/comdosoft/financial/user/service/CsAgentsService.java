@@ -118,6 +118,7 @@ public class CsAgentsService {
 	                map.put("terminal_num", "");
 	            }
 	            map.put("apply_num", m.get("apply_num"));//维修编号
+	            map.put("terminals_quantity", m.get("terminals_quantity"));//终端数量
 	            list.add(map);
 	        }
 	        return new Page<List<Object>>(request, list,count);

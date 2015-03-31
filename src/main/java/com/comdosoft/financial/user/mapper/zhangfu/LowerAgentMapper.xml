@@ -58,9 +58,6 @@ where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order 
 		 where a.id=#{cityId}
     </select>
     
-    
-    
-    
     <select id="getProvinceList" resultType="map">
     	select a.name,a.id  from cities a where a.parent_id=0	
     </select>
@@ -89,8 +86,8 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-   		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email)
-   		 values(#{loginId},#{pwd},now(),now(),#{cityId},1,#{phoneNum},#{emailStr})
+   		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email,name)
+   		 values(#{loginId},#{pwd},now(),now(),#{cityId},1,#{phoneNum},#{emailStr},#{agentName})
    </insert>
    
    <insert id="savePrecent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">

@@ -203,7 +203,7 @@ public class LowerAgentService {
 		Map<String, Object> map=new HashMap<String, Object>();
         	//向customers表中插入记录
         	//调用加密方法
-        	req.setPwd(SysUtils.string2MD5(req.getPwd()));;
+        	req.setPwd(SysUtils.string2MD5(req.getPwd()));
         	//判断该登陆名是否已经存在
         	if(lowerAgentMapper.checkLoginId(req)>=1){
         		//已经存在

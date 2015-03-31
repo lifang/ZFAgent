@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,15 +68,16 @@ public class AgentService {
         return result;
     }
 
-    public Object getUpdateEmailDentcode(HttpServletRequest request, int customerId, String email) {
+    public Object getUpdateEmailDentcode( int customerId, String email) {
+    	System.err.println("customerid==>"+customerId+" ==>"+email);
         Map<Object, Object> result = new HashMap<Object, Object>();
         // 生成随机6位验证码
         String dentcode = SysUtils.getCode();
         result.put("dentcode", dentcode);
         Customer c = new Customer();
-        c.setId(customerId);
+        c.setCustomerId(customerId);
         c.setDentcode(dentcode);
-        agentMapper.updateCustomer(c);
+       agentMapper.updateCustomer(c);
         // 保存验证码入库
         Map<String, Object>  m = agentMapper.findAgentByCustomerId(customerId);
         if(null != m){

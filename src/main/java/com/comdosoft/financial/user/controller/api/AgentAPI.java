@@ -88,10 +88,10 @@ public class AgentAPI {
     }
 
     @RequestMapping(value = "getUpdateEmailDentcode", method = RequestMethod.POST)
-    public Response getUpdateEmailDentcode(@RequestBody Customer param,HttpServletRequest request) {
+    public Response getUpdateEmailDentcode(@RequestBody Customer param) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(request,param.getCustomerId(),param.getEmail()));
+            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(param.getCustomerId(),param.getEmail()));
         } catch (Exception e) {
             logger.error("获取代理商修改邮箱验证码失败", e);
             sysResponse = Response.getError("获取代理商修改邮箱验证码失败:系统异常");

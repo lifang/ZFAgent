@@ -130,15 +130,15 @@
 	<select id="countWholesaleOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.customer_id = #{param1} and o.types = 1
+		where o.customer_id = #{param1} and o.types = 5
 	</select>
 	<select id="countProxyOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.customer_id = #{param1} and o.types = 0
+		where o.customer_id = #{param1}  and ( o.types = 3 or o.types = 4)
 	</select>
 
-	<!-- 我的订单列表 -->
+	<!-- 批购 -->
 	<select id="getWholesaleOrder" resultMap="orderMap" >
 		SELECT
 			o.id AS id,os.id as cs_out_id,
@@ -167,11 +167,12 @@
 		LEFT JOIN cs_out_storages os ON o.id = os.order_id
 		WHERE
 		o.customer_id = #{customerId}
-		and o.types = 1
+		and o.types = 5
 		order by o.created_at desc
 		LIMIT #{offset},#{rows}
 	</select>
 	
+	<!-- 代购 -->
 	<select id="getProxyOrder" resultMap="orderMap" >
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,g.retail_price,
@@ -187,7 +188,7 @@
 		LEFT JOIN customers c ON o.customer_id = c.id
 		WHERE
 		o.customer_id = #{customerId}
-		and o.types = 0
+		and ( o.types = 3 or o.types = 4)
 		order by o.created_at desc
 		LIMIT #{offset},#{rows}
 	</select>
@@ -211,7 +212,7 @@
 		 gp.good_id = #{param1}
 		order by gp.id desc
 	</select>
-	
+	  <!--  批购订单 -->
 	<select id="getWholesaleById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.price,g.purchase_price,
@@ -237,9 +238,9 @@
 		LEFT JOIN order_payments op on o.id = op.order_id
 		WHERE
 		o.id = #{param1}
-		and o.types = 1
+		and o.types = 5
 	</select>
-	
+	<!-- 代购 -->
 	<select id="getProxyById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,
@@ -261,7 +262,7 @@
 		LEFT JOIN order_payments op on o.id = op.order_id
 		WHERE
 		o.id = #{param1}
-		and o.types = 0
+		and  ( o.types = 3 or o.types = 4)
 	</select>
 	<update id="cancelMyOrder" parameterType="com.comdosoft.financial.user.domain.zhangfu.Order">
         UPDATE orders

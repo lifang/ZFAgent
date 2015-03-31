@@ -442,9 +442,6 @@ var shopinfoController = function ($scope, $http,$location, LoginService) {
    	};
 };
 
-
-
-
 var purchaseshopController = function ($scope, $http, LoginService) {
 	
 	
@@ -807,8 +804,6 @@ var purchaseshopController = function ($scope, $http, LoginService) {
 
 };
 
-
-
 var purchaseshopinfoController = function ($scope, $http,$location, LoginService) {
 	$scope.req={};
 	$scope.req.type=1;
@@ -891,6 +886,113 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
    	};
 };
 
+
+var shopmakeorderController = function($scope,$http ,$location , LoginService) {
+	$scope.order={invoice_type:1};
+	//$scope.order.customerId=LoginService.userid;
+	//$scope.order.addressId=1;
+	$scope.init = function() {
+		$scope.order.goodId=$location.search()['goodId'];
+		$scope.order.type=parseInt($location.search()['type']);
+		//$scope.order.quantity=$location.search()['quantity'];
+		$scope.order.paychannelId=$location.search()['paychannelId'];
+		$scope.getGood();
+	};
+	$scope.getGood = function() {
+		$http.post("api/makeorder/shop", $scope.order).success(function(data) {
+			if (data.code == 1) {
+				$scope.shop = data.result;
+				$scope.order.quantity=parseInt($location.search()['quantity']);
+			}
+		});
+	};
+	$scope.upadteCart = function(type) {
+			if ($scope.order.quantity != 1 || type != -1) {
+				$scope.order.quantity += type;
+			}
+	};
+	$scope.submit = function() {
+		if($scope.order.is_need_invoice){
+			$scope.order.is_need_invoice=1;
+		}else{
+			$scope.order.is_need_invoice=0;
+		}
+		if(2==$scope.order.type){
+			$http.post("api/order/lease", $scope.order).success(function(data) {
+				if (data.code == 1) {
+					window.location.href = '#/pay?id='+data.result;
+				}else if(data.code == -2){
+					window.location.href = '#/lowstocks';
+				}
+			});
+		}else{
+			$http.post("api/order/shop", $scope.order).success(function(data) {
+				if (data.code == 1) {
+					window.location.href = '#/pay?id='+data.result;
+				}else if(data.code == -2){
+					window.location.href = '#/lowstocks';
+				}
+			});
+		}
+	};
+	$scope.ctype=function(v){
+		$scope.order.invoice_type=v;
+	}
+	
+	$scope.init();
+};
+
+
+var addressController=function($scope,$http , $location, LoginService){
+	$scope.list = function() {
+		$http.post("api/customers/getAddressList/"+LoginService.userid).success(function(data) {
+			if (data.code == 1) {
+				$scope.addressList = data.result;
+			} else {
+				// 提示错误信息
+				alert(data.message);
+			}
+		});
+	};
+	$scope.addad = function(id) {
+		$scope.ad.customerId=LoginService.userid;
+		$scope.ad.isDefault=2;
+		$scope.ad.cityId=$scope.city.id;
+		$http.post("api/customers/insertAddress", $scope.ad).success(function(data) {
+			if (data.code == 1) {
+				$scope.init();
+			} else {
+				alert(data.message);
+			}
+		});
+	};
+	$scope.setDefaultAddress = function(e) {
+		$http.post("api/customers/setDefaultAddress/", e).success(function(data) {
+			if (data.code == 1) {
+				$scope.init();
+			} else {
+				alert(data.message);
+			}
+		});
+	};
+	$scope.init = function() {
+		$scope.address = {};
+		$scope.ad = {};
+		$scope.address.isDefault = "2";
+		$scope.list();
+	};
+	
+	$scope.city_list = function(){
+		$http.post("api/index/getCity").success(function (data) {   
+			if (data != null && data != undefined) {
+				$scope.city_list = data.result;
+			}
+		});
+	};
+	
+	$scope.init();
+}
+
 shopController.$inject = ['$scope','$http','LoginService'];
 shopModule.controller("shopController", shopController);
 purchaseshopController.$inject = ['$scope','$http','LoginService'];
@@ -899,3 +1001,7 @@ shopinfoController.$inject = ['$scope','$http','$location','LoginService'];
 shopModule.controller("shopinfoController", shopinfoController);
 purchaseshopinfoController.$inject = ['$scope','$http','$location','LoginService'];
 shopModule.controller("purchaseshopinfoController", purchaseshopinfoController);
+shopmakeorderController.$inject = ['$scope','$http','$location','LoginService'];
+shopModule.controller("shopmakeorderController", shopmakeorderController);
+addressController.$inject = ['$scope','$http','$location','LoginService'];
+shopModule.controller("addressController", addressController);

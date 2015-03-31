@@ -118,5 +118,15 @@ public class AgentLoginService {
 	public int modifyPassword(Customer customer) {
 		return agentLoginMapper.modifyPassword(customer);
 	}
+
+	
+	/**
+	 * 查找旧密码
+	 * @param id
+	 * @return
+	 */
+	public String findCustomerPwdById(Integer id) {
+		return agentLoginMapper.findCustomerPwdById(id);
+	}
 	
 }

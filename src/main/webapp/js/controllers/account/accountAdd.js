@@ -33,10 +33,10 @@ var empAddController = function($scope, $http, $location, LoginService) {
 			return false;
 		}
 
-		$scope.customer.rights = getCheckboxValue();
+		$scope.customer.rightIds = getCheckboxValue();
 
 		// alert($scope.customer.rights);
-		if (typeof ($scope.customer.rights) == "undefined" || $scope.customer.rights == "") {
+		if (typeof ($scope.customer.rightIds) == "undefined" || $scope.customer.rightIds == "") {
 			alert("权限不能为空");
 			return false;
 		}

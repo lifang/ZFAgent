@@ -72,7 +72,7 @@ public class AgentAPI {
             Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
-                    agentService.update(param);
+                    agentService.update(param,3);
                     sysResponse = Response.getSuccess();
                 } else {
                     sysResponse = Response.getError("修改代理商手机失败:验证码不正确");
@@ -88,10 +88,10 @@ public class AgentAPI {
     }
 
     @RequestMapping(value = "getUpdateEmailDentcode", method = RequestMethod.POST)
-    public Response getUpdateEmailDentcode(@RequestBody Customer param,HttpServletRequest request) {
+    public Response getUpdateEmailDentcode(@RequestBody Customer param) {
         Response sysResponse = null;
         try {
-            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(request,param.getCustomerId(),param	.getPhone()));
+            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(param.getCustomerId(),param.getEmail()));
         } catch (Exception e) {
             logger.error("获取代理商修改邮箱验证码失败", e);
             sysResponse = Response.getError("获取代理商修改邮箱验证码失败:系统异常");
@@ -106,7 +106,7 @@ public class AgentAPI {
             Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
-                    agentService.update(param);
+                    agentService.update(param,2);
                     sysResponse = Response.getSuccess();
                 } else {
                     sysResponse = Response.getError("修改代理商邮箱失败:验证码不正确");
@@ -128,7 +128,7 @@ public class AgentAPI {
             Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (param.getPasswordOld().equals(customer.getPassword())) {// 判断原密码
-                    agentService.update(param);
+                    agentService.update(param,1);//更新密码
                     sysResponse = Response.getSuccess();
                 } else {
                     sysResponse = Response.getError("修改代理商密码失败:原密码不正确");

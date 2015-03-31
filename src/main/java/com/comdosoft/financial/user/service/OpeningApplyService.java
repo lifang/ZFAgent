@@ -39,6 +39,24 @@ public class OpeningApplyService {
 	}
 	
 	/**
+	 * 获得申请开通列表总记录数
+	 * 
+	 * @param id
+	 * @param offSetPage
+	 * @param pageSize
+	 * @return
+	 */
+	public int getApplyListSize(Integer id,
+			Integer offSetPage, Integer pageSize) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
+		map.put("twoStatus", Terminal.TerminalTYPEID_2);
+		map.put("threeStatus", Terminal.TerminalTYPEID_3);
+		return openingApplyMapper.getApplyListSize(map);
+	}
+	/**
 	 * 根据终端号模糊查询相关终端
 	 * 
 	 * @param id
@@ -57,6 +75,27 @@ public class OpeningApplyService {
 		map.put("threeStatus", Terminal.TerminalTYPEID_3);
 		return openingApplyMapper.searchApplyList(map);
 	}
+	
+	/**
+	 * 根据终端号模糊查询相关终端
+	 * 
+	 * @param id
+	 * @param offSetPage
+	 * @param pageSize
+	 * @return
+	 */
+	public int searchApplyListSize(Integer id,
+			Integer offSetPage, Integer pageSize,String serialNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
+		map.put("serialNum", serialNum);
+		map.put("twoStatus", Terminal.TerminalTYPEID_2);
+		map.put("threeStatus", Terminal.TerminalTYPEID_3);
+		return openingApplyMapper.searchApplyListSize(map);
+	}
+	
 	
 	/**
 	 * 获得申请开通已有基本信息
@@ -120,10 +159,26 @@ public class OpeningApplyService {
 	 * 
 	 * @return
 	 */
-	public List<Merchant> getMerchants(Integer customerId) {
-		return openingApplyMapper.getMerchants(customerId);
+	public List<Merchant> getMerchants(Integer customerId,Integer offSetPage,Integer pageSize) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("customerId", customerId);
+			map.put("offSetPage", offSetPage);
+			map.put("pageSize", pageSize);
+		return openingApplyMapper.getMerchants(map);
 	}
 	
+	/**
+	 * 获得所有商户列表
+	 * 
+	 * @return
+	 */
+	public int getMerchantSize(Integer customerId,Integer offSetPage,Integer pageSize) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("customerId", customerId);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
+		return openingApplyMapper.getMerchantSize(map);
+	}
 	/**
 	 * 获得所有通道
 	 * @return

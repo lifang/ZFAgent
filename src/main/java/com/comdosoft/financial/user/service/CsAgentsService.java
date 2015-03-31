@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
-import com.comdosoft.financial.user.domain.zhangfu.RepairStatus;
+import com.comdosoft.financial.user.domain.zhangfu.ServiceStatus;
 import com.comdosoft.financial.user.mapper.zhangfu.CsAgentsMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.page.Page;
@@ -48,6 +48,7 @@ public class CsAgentsService {
                 map.put("terminal_num", "");
             }
             map.put("apply_num", m.get("apply_num"));//维修编号
+            map.put("terminals_quantity", m.get("terminals_quantity"));//终端数量
             list.add(map);
         }
         return new Page<List<Object>>(request, list,count);
@@ -58,7 +59,7 @@ public class CsAgentsService {
      * @param myOrderReq
      */
     public Integer cancelApply(MyOrderReq myOrderReq) {
-        myOrderReq.setRepairStatus(RepairStatus.CANCEL);
+    	myOrderReq.setServiceStatus(ServiceStatus.CANCEL);
         int i = csAgentsMapper.changeStatus(myOrderReq);
         return i;
     }
@@ -79,6 +80,7 @@ public class CsAgentsService {
         map.put("terminals_quantity", o.get("terminals_quantity")+"");
         map.put("terminals_list", o.get("terminals_list")+"");
         map.put("address", o.get("address")+"");
+        map.put("apply_num", o.get("apply_num")+"");
         map.put("reason", o.get("reason")+"");
         myOrderReq.setId(Integer.parseInt(id));
         List<Map<String,Object>> list = csAgentsMapper.findTraceById(myOrderReq);
@@ -116,6 +118,7 @@ public class CsAgentsService {
 	                map.put("terminal_num", "");
 	            }
 	            map.put("apply_num", m.get("apply_num"));//维修编号
+	            map.put("terminals_quantity", m.get("terminals_quantity"));//终端数量
 	            list.add(map);
 	        }
 	        return new Page<List<Object>>(request, list,count);

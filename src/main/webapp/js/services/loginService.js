@@ -13,6 +13,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
     	//当前登陆的用户名
         loginAgentName: typeof($cookieStore.get("loginAgentName")) == 'undefined' ? "" : $cookieStore.get("loginAgentName"),
         agentid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
+        loginid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
         city:1,
         goods: [],
         tradeTypeId: 0,

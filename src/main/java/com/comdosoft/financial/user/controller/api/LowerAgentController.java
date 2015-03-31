@@ -170,11 +170,11 @@ public class LowerAgentController {
 	public Response createNew(@RequestBody LowerAgentReq req){
 		Response response = new Response();
 		
-		if(req.getLoginId().trim().equals("")){
+		if(req.getLoginId()==null || req.getLoginId().trim().equals("")){
 			response.setCode(Response.ERROR_CODE);
 			response.setMessage("输入登陆ID不能为空！");
 		}else{
-			if(!req.getPwd().equals(req.getPwd1())){
+			if(req.getPwd()==null || req.getPwd1()==null|| !req.getPwd().equals(req.getPwd1())){
 				response.setCode(Response.ERROR_CODE);
 				response.setMessage("两次输入的密码不一致");
 			}else{

@@ -20,6 +20,26 @@ var stockController = function ($scope, $http, LoginService) {
         });
 	};
 	
+	$scope.rename=function(id){
+		$scope.renam={};
+		$scope.renam.agentId=LoginService.agentid;
+		$scope.renam.goodId=id;
+		$('.tab').show();
+	};
+	$scope.search=function(id){
+		$scope.req.indexPage=1;
+		$scope.list();
+	};
+	$scope.re=function(){
+		$http.post("api/stock/rename", $scope.renam).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.list();
+            	$('.tab').hide();
+            }
+        });
+	};
+	
+	
 	$scope.init();
 	
 	// 上一页

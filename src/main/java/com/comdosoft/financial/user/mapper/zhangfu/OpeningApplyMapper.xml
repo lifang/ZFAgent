@@ -25,6 +25,13 @@
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
  	
+ 	<select id="getApplyListSize" parameterType="map" resultType="int">
+ 		SELECT count(*)
+ 		FROM terminals
+ 		WHERE agent_id=#{id}
+ 		AND status in (#{twoStatus},#{threeStatus})
+ 	</select>
+ 	
  	<select id="judgeOpen"  resultType="int" parameterType="int">
 		select count(*) from opening_applies
 		where terminal_id = #{terminalId}
@@ -37,6 +44,14 @@
  		AND status in (#{twoStatus},#{threeStatus})
  		<if test="serialNum != null and serialNum != ''">AND serial_num like '%${serialNum}%'</if>
  		LIMIT #{offSetPage},#{pageSize}
+ 	</select>
+ 	
+ 	<select id="searchApplyListSize" parameterType="map" resultType="int">
+ 		SELECT count(*)
+ 		FROM terminals
+ 		WHERE agent_id=#{id}
+ 		AND status in (#{twoStatus},#{threeStatus})
+ 		<if test="serialNum != null and serialNum != ''">AND serial_num like '%${serialNum}%'</if>
  	</select>
  	
  	<update id="updateOpeningApplyStatus" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
@@ -90,8 +105,13 @@
 		WHERE  terminal_id = #{terminalId}
  	</select>
  	
- 	<select id="getMerchants" resultType="map" parameterType="int">
+ 	<select id="getMerchants" resultType="map" parameterType="map">
  		SELECT id,title FROM merchants WHERE customer_id = #{customerId}
+ 		LIMIT #{offSetPage},#{pageSize}
+ 	</select>
+ 	
+ 	<select id="getMerchantSize" resultType="int" parameterType="map">
+ 		SELECT count(*) FROM merchants WHERE customer_id = #{customerId}
  	</select>
  	
  	<select id="channelsT" resultType="map">

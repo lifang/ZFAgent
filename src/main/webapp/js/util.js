@@ -2,14 +2,15 @@
  * 获取checkbox值
  */
 function getCheckboxValue() {
-	var str = "";
+	var arrayObj = new Array();// 创建一个数组
 	$("input[name='checkboxs']:checkbox").each(function() {
 		if ($(this).prop("checked")) {
-			str += $(this).val() + ",";
+			// str += $(this).val() + ",";
+			arrayObj.push($(this).val());
 		}
 	});
 
-	return str.substring(0, str.length - 1);
+	return arrayObj;
 	// alert(str);
 
 }

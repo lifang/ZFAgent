@@ -146,7 +146,7 @@ public class IndexService {
 	        req.setAddress(myOrderReq.getEmail());//邮箱
 	        try {
 	        	String code = SysUtils.getCode() ;
-//	            MailService.sendMail_phone(req,code);
+	            MailService.sendMail_phone(req,code);
 	            return code;
 	        } catch (Exception e) {
 	            e.printStackTrace();

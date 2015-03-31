@@ -15,4 +15,20 @@ public interface CustomerManageMapper {
 	int getTotal(CustomerManageReq req);
     
 	List<Map<String, Object>> getCustomerList(CustomerManageReq req);
+	
+	int getCusAgentInfo(CustomerManageReq req);
+	
+	int creCusAgentRelation(CustomerManageReq req);
+
+	int getCusRoleInfo(CustomerManageReq req);
+	
+	int creCusRoleRelation(CustomerManageReq req);
+	
+	int delCusAgentRel(CustomerManageReq req);
+	
+	int delCusRoleRel(CustomerManageReq req);
+	
+	int delCustomer(CustomerManageReq req);
+	
+	List<Map<String, Object>> getInfo(CustomerManageReq req);
 }

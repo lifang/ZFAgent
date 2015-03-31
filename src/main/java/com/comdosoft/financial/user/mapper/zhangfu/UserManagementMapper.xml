@@ -15,9 +15,10 @@
 		WHERE agent_id = #{id} AND customer_id = #{customerId}
 	</update>
 
-	<select id="getTerminals" parameterType="int" resultType="map">
+	<select id="getTerminals" parameterType="map" resultType="map">
 		SELECT id,serial_num FROM terminals
 		WHERE customer_id=#{id}
+		LIMIT #{offSetPage},#{pageSize}
 	</select>
 
 </mapper>

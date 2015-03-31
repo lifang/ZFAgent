@@ -75,17 +75,14 @@ public class SystemSetController {
 
 				CustomerRoleRelation cr = null;
 
-				String rights = req.getRights();
-				if (rights != null && !"".equals(rights)) {
-					String[] arr = rights.split(",");
-					if (arr != null && arr.length > 0) {
-						for (int i = 0, j = arr.length; i < j; i++) {
-							cr = new CustomerRoleRelation();
-							cr.setCreatedAt(d);
-							cr.setCustomerId(customerId);
-							cr.setRoleId(Integer.parseInt(arr[i].trim()));
-							systemSetService.insertCustomerRights(cr);
-						}
+				String[] rights = req.getRightIds();
+				if (rights != null) {
+					for (int i = 0, j = rights.length; i < j; i++) {
+						cr = new CustomerRoleRelation();
+						cr.setCreatedAt(d);
+						cr.setCustomerId(customerId);
+						cr.setRoleId(Integer.parseInt(rights[i].trim()));
+						systemSetService.insertCustomerRights(cr);
 					}
 
 				}
@@ -187,9 +184,9 @@ public class SystemSetController {
 	public Response insert(@RequestBody Map<String, Object> map) {
 		Response response = new Response();
 		if (map.get("customer_id") != null) {
-			int customer_id = Integer.parseInt(map.get("customer_id").toString());
-			String password = (String) map.get("password");
-			if (systemSetService.resetPassword(customer_id, SysUtils.string2MD5(password)) > 0) {
+			map.put("password", SysUtils.string2MD5((String) map.get("password")));
+
+			if (systemSetService.resetPassword(map) > 0) {
 				response.setCode(Response.SUCCESS_CODE);
 				response.setMessage("重置密码成功");
 			} else {
@@ -213,49 +210,23 @@ public class SystemSetController {
 	@RequestMapping(value = "editCustomer", method = RequestMethod.POST)
 	public Response editCustomer(@RequestBody EmpReq req) {
 		Response response = new Response();
-		int customer_id = req.getCustomer_id();
-		String rights = req.getRights();
+		String[] roleIds = req.getRightIds();
 
-		logger.debug(rights);
-		req.setPassword(SysUtils.string2MD5(req.getPassword()));
+		req.setComfirmpwd((SysUtils.string2MD5(req.getComfirmpwd())));
 		if (systemSetService.editCustomerInfo(req) > 0) {
-
-			/*
-			 * if (rights != null) { List<Map<String, Object>> list =
-			 * systemSetService.getCustomerRights(customer_id); List<Integer>
-			 * rightids = new ArrayList<Integer>(); String[] roleIds =
-			 * rights.split(","); int rid1 = 0; for (Map<String, Object> map :
-			 * list) { for (int i = 0; i < roleIds.length; i++) { rid1 =
-			 * Integer.parseInt(map.get("role_id").toString()); if (rid1 ==
-			 * Integer.parseInt(roleIds[i])) {
-			 * logger.debug(Integer.parseInt(roleIds[i]));
-			 * systemSetService.updateRights(customer_id, rid1);
-			 * rightids.add(rid1); break; } }
-			 * 
-			 * } }
-			 */
-
-			if (rights != null) {
-				String[] arr = rights.split(",");
-				int role_id = 0;
-				CustomerRoleRelation role = null;
-				for (int i = 0, j = arr.length; i < j; i++) {
-					role_id = Integer.parseInt(arr[i]);
-					if (systemSetService.countCustomerRightsByRoleId(customer_id, role_id) > 0) {
-						systemSetService.updateRights(customer_id, role_id);
-					} else {
-						role = new CustomerRoleRelation();
-						role.setCreatedAt(new Date());
-						role.setCustomerId(customer_id);
-						role.setRoleId(role_id);
-						systemSetService.insertCustomerRights(role);
-					}
-
+			systemSetService.deleteCustomerRights(req);
+			if (roleIds != null) {
+				for (int i = 0, j = roleIds.length; i < j; i++) {
+					req.setRole_id(Integer.parseInt(roleIds[i]));
+					systemSetService.insertRights(req);
 				}
-
+				response.setCode(Response.SUCCESS_CODE);
+				response.setMessage("更新用户信息成功");
+			} else {
+				response.setCode(Response.ERROR_CODE);
+				response.setMessage("更新用户信息失败");
 			}
-			response.setCode(Response.SUCCESS_CODE);
-			response.setMessage("更新用户信息成功");
+
 		} else {
 			response.setCode(Response.ERROR_CODE);
 			response.setMessage("更新用户信息失败");

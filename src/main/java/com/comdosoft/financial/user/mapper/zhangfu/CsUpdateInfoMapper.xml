@@ -12,7 +12,7 @@
 			o.created_at DESC
 	</select>
 	
-		<select id="countSearch" resultType="int" >
+	<select id="countSearch" resultType="int" >
 		SELECT count(o.id) as count 
 		FROM
 			cs_update_infos o
@@ -29,16 +29,24 @@
 			o.created_at DESC
 	</select>
 	
-	<select id="findAll" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo">
+	<select id="findAll" resultType="map"  >
 		SELECT
 			o.id,
 			o.created_at,
 			o.status,
 			t.serial_num,
-			o.apply_num
+			o.apply_num,
+			gb.`name` AS brand_name,
+			g.model_number AS brand_number,
+			pc.`name` as zhifu_pt, m.title AS merchant_name,
+			m.phone AS mer_phone
 		FROM
 			cs_update_infos o
-			LEFT JOIN terminals t ON o.terminal_id = t.id
+		LEFT JOIN terminals t ON o.terminal_id = t.id
+		LEFT JOIN goods g ON t.good_id = g.id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON t.pay_channel_id = pc.id
+		LEFT JOIN merchants m ON t.merchant_id = m.id
 		WHERE
 			o.customer_id = #{customerId}
 		ORDER BY
@@ -46,19 +54,27 @@
 		LIMIT #{offset},#{rows}
 	</select>
 	
-	<select id="search" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo">
+	<select id="search" resultType="map"  >
 		SELECT
 			o.id,
 			o.created_at,
 			o.status,
 			t.serial_num,
-			o.apply_num
+			o.apply_num,
+		gb.`name` AS brand_name,
+			g.model_number AS brand_number,
+			pc.`name` as zhifu_pt, m.title AS merchant_name,
+			m.phone AS mer_phone
 		FROM
 			cs_update_infos o
-			LEFT JOIN terminals t ON o.terminal_id = t.id
+		LEFT JOIN terminals t ON o.terminal_id = t.id
+		LEFT JOIN goods g ON t.good_id = g.id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON t.pay_channel_id = pc.id
+		LEFT JOIN merchants m ON t.merchant_id = m.id
 		WHERE
 			o.customer_id = #{customerId}
-				<if test="search !=null and search!=''">
+		<if test="search !=null and search!=''">
 	        and (o.apply_num like "%"#{search}"%"  or t.serial_num like "%"#{search}"%") 
 	   </if>
 		<if test="q !=null and q!=''">
@@ -69,14 +85,15 @@
 		LIMIT #{offset},#{rows}
 	</select>
 	
-		<select id="findById" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo">
+		<select id="findById" resultType="map" >
 			SELECT
-			o.id,o.templete_info_xml,
+			o.id,o.templete_info_xml,o.apply_num,
 			o.`status` AS apply_status,
 			o.created_at AS apply_time,
 			t.serial_num,
 			gb.`name` AS brand_name,
 			g.model_number AS brand_number,
+			g.title as good_name,
 			pc.`name` as zhifu_pt, m.title AS merchant_name,
 			m.phone AS mer_phone
 		FROM
@@ -105,6 +122,14 @@
 	<update id="cancelApply">
 	update  cs_update_infos 
 	SET STATUS = #{repairStatus.code}
+	,updated_at = NOW()
+	where id = #{id}
+	</update>
+	
+	 <update id="changeStatus">
+	update  cs_update_infos 
+	SET STATUS = #{updateStatus.code},
+	updated_at = NOW()
 	where id = #{id}
 	</update>
 </mapper>

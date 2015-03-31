@@ -13,8 +13,7 @@ public class EmpReq {
 	private String username;// 姓名
 	private String name;// 账号
 	private String password;// 密码
-	private String comfirmPwd;// 确认密码
-	private String rights;// 权限数组
+	private String comfirmpwd;// 确认密码
 
 	private int city_id;
 	private int account_type;
@@ -26,6 +25,8 @@ public class EmpReq {
 	private int role_id;
 	private String role_name;
 	private int agent_id;
+
+	private String[] rightIds;
 
 	public int getId() {
 		return id;
@@ -59,20 +60,12 @@ public class EmpReq {
 		this.password = password;
 	}
 
-	public String getComfirmPwd() {
-		return comfirmPwd;
+	public String getComfirmpwd() {
+		return comfirmpwd;
 	}
 
-	public void setComfirmPwd(String comfirmPwd) {
-		this.comfirmPwd = comfirmPwd;
-	}
-
-	public String getRights() {
-		return rights;
-	}
-
-	public void setRights(String rights) {
-		this.rights = rights;
+	public void setComfirmpwd(String comfirmpwd) {
+		this.comfirmpwd = comfirmpwd;
 	}
 
 	public int getCity_id() {
@@ -153,6 +146,14 @@ public class EmpReq {
 
 	public void setCustomer_id(int customer_id) {
 		this.customer_id = customer_id;
+	}
+
+	public String[] getRightIds() {
+		return rightIds;
+	}
+
+	public void setRightIds(String[] rightIds) {
+		this.rightIds = rightIds;
 	}
 
 }

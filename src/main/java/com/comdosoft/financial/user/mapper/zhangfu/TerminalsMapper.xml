@@ -16,14 +16,25 @@
 		SELECT id,serial_num,status
 		FROM terminals
 		WHERE
-		customer_id=#{id}
-		<if test="status!=0">
+		agent_id=#{id}
+		<if test="status != -1">
 			AND status = #{status}
 		</if>
 		ORDER BY created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
 
+	<select id="getTerminalListSize" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM terminals
+		WHERE
+		agent_id=#{id}
+		<if test="status != -1">
+			AND status = #{status}
+		</if>
+		ORDER BY created_at DESC
+	</select>
+	
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.id,t.serial_num,t.`status`,g.model_number,b.name as
 		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,l.`id` as appId,l.`status` as applieStatus,e.types
@@ -35,8 +46,8 @@
 		LEFT JOIN factories a ON c.factory_id=a.id
 		LEFT JOIN merchants m ON t.merchant_id=m.id
 		LEFT JOIN orders e ON t.order_id=e.id
-		LEFT JOIN opening_ap_id = t.id
-		WHERE t.id=#{id}plies l ON l.terminal
+		LEFT JOIN opening_applies l ON l.terminal_id = t.id
+		WHERE t.id=#{id}
 		AND
 		e.customer_id=t.customer_id
 	</select>
@@ -78,14 +89,20 @@
 		FROM pay_channels s
 	</select>
 
-	<select id="getMerchants" parameterType="int" resultType="map">
+	<select id="getMerchants" parameterType="map" resultType="map">
 		SELECT a.id,a.name FROM agents a LEFT JOIN
 		customer_agent_relations c ON a.id = c.agent_id
 		LEFT JOIN merchants m ON m.customer_id = c.customer_id
-		WHERE a.customer_id =
-		#{customerId}
+		WHERE a.customer_id = #{customerId}
+		LIMIT #{offSetPage},#{pageSize}
 	</select>
 
+	<select id="getMerchantSize" parameterType="map" resultType="int">
+		SELECT count(*) FROM agents a LEFT JOIN
+		customer_agent_relations c ON a.id = c.agent_id
+		LEFT JOIN merchants m ON m.customer_id = c.customer_id
+		WHERE a.customer_id = #{customerId}
+	</select>
 	<select id="getTerminalsNum" parameterType="string" resultType="object">
 		SELECT id FROM terminals
 		WHERE serial_num =#{terminalsNum}
@@ -107,8 +124,8 @@
 	</select>
 
 	<update id="Binding" parameterType="map">
-		UPDATE merchants SET customer_id = #{terchantsId}
-		WHERE id = #{merchantsId}
+		UPDATE terminals SET customer_id = #{userId}
+		WHERE serial_num = #{terminalsNum}
 	</update>
 
 	<select id="getTerminal" parameterType="int" resultType="map">
@@ -123,6 +140,14 @@
 		FROM customer_addresses
 		WHERE
 		customer_id=#{customerId}
+	</select>
+	
+	<select id="getTerminalArray" resultType="map" parameterType="string">
+		SELECT t.id,t.serial_num,g.retail_price from terminals t
+		LEFT JOIN goods g ON t.good_id = g.id
+		LEFT JOIN pay_channels p ON
+		t.pay_channel_id = p.id
+		WHERE serial_num = #{serialNum}
 	</select>
 
 	<select id="screeningTerminalNum" resultType="map" parameterType="map">
@@ -139,13 +164,13 @@
 		</if>
 		<choose>
 			<when test="minPrice != null and maxPrice != null">
-				AND g.retail_price BETWEEN #{minPrice} and #{maxPrice}
+				AND g.retail_price BETWEEN #{minPrice}*100 and #{maxPrice}*100
 			</when>
 			<when test="minPrice == null and maxPrice != null">
-				AND g.retail_price &lt; #{maxPrice}
+				AND g.retail_price &lt; #{maxPrice}*100
 			</when>
 			<when test="minPrice != null and maxPrice == null">
-				AND g.retail_price &gt; #{minPrice}
+				AND g.retail_price &gt; #{minPrice}*100
 			</when>
 		</choose>
 	</select>
@@ -167,5 +192,15 @@
 		t.good_id = g.id
 		WHERE t.customer_id = #{customerId} AND g.id is not NULL
 	</select>
-
+	
+	<select id="checkTerminalCode" parameterType="string" resultType="int">
+		SELECT count(*) FROM terminals
+		WHERE serial_num = #{serialNum}
+	</select>
+	
+	<select id="checkTerminalCodeOpen" parameterType="string" resultType="int">
+		SELECT count(*) FROM cs_cancels c LEFT JOIN terminals t ON c.terminal_id = t.id
+		WHERE t.serial_num = #{serialNum}
+	</select>
+	
 </mapper>

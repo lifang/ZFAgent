@@ -20,6 +20,7 @@ import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.user.service.OpeningApplyService;
+import com.comdosoft.financial.user.service.TerminalsService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
 /**
@@ -38,6 +39,9 @@ public class OpeningApplyController {
 	
 	@Resource
 	private OpeningApplyService openingApplyService;
+	
+	@Resource
+	private TerminalsService terminalsService;
 
 	/**
 	 * 根据代理商ID获得开通申请列表
@@ -54,9 +58,15 @@ public class OpeningApplyController {
 					(Integer)map.get("rows"));
 			
 			int offSetPage = PageRequest.getOffset();
-			return Response.getSuccess(openingApplyService.getApplyList(
+			
+			Map<Object, Object> resultMap = new HashMap<Object, Object>();
+			resultMap.put("applyList", openingApplyService.getApplyList(
 					(Integer)map.get("agentId"),
 					offSetPage, (Integer)map.get("rows")));
+			resultMap.put("total", openingApplyService.getApplyListSize(
+					(Integer)map.get("agentId"),
+					offSetPage, (Integer)map.get("rows")));
+			return Response.getSuccess(resultMap);
 		} catch (Exception e) {
 			logger.error("根据用户ID获得开通申请列表异常！",e);
 			return Response.getError("请求失败！");
@@ -79,10 +89,16 @@ public class OpeningApplyController {
 					(Integer)map.get("rows"));
 
 			int offSetPage = PageRequest.getOffset();
-			return Response.getSuccess(openingApplyService.searchApplyList(
+			Map<Object, Object> resultMap = new HashMap<Object, Object>();
+			resultMap.put("applyList", openingApplyService.searchApplyList(
 					(Integer)map.get("agentId"),
 					offSetPage, (Integer)map.get("rows"),
 					(String)map.get("serialNum")));
+			resultMap.put("total", openingApplyService.searchApplyListSize(
+					(Integer)map.get("agentId"),
+					offSetPage, (Integer)map.get("rows"),
+					(String)map.get("serialNum")));
+			return Response.getSuccess(resultMap);
 		} catch (Exception e) {
 			logger.error("根据终端号获得开通申请列表异常！",e);
 			return Response.getError("请求失败！");
@@ -100,25 +116,52 @@ public class OpeningApplyController {
 			Map<Object, Object> map = new HashMap<Object, Object>();
 			// 获得终端详情
 			map.put("applyDetails",
-					openingApplyService.getApplyDetails((Integer)maps.get("terminalsId")));
+					openingApplyService.getApplyDetails((Integer)maps.get("terminalId")));
 			// 获得所有商户
 			//map.put("merchants", openingApplyService.getMerchants((Integer)maps.get("customerId")));
 			// 数据回显(针对重新开通申请)
-			map.put("applyFor", openingApplyService.ReApplyFor((Integer)maps.get("terminalsId")));
+			map.put("applyFor", openingApplyService.ReApplyFor((Integer)maps.get("terminalId")));
 			// 材料名称
 			map.put("materialName",
-					openingApplyService.getMaterialName((Integer)maps.get("terminalsId"),
+					openingApplyService.getMaterialName((Integer)maps.get("terminalId"),
 							(Integer)maps.get("status")));
 			// 获得已有申请开通基本信息
 						map.put("openingInfos",
-								openingApplyService.getOppinfo((Integer)maps.get("terminalsId")));
+								openingApplyService.getOppinfo((Integer)maps.get("terminalId")));
 			return Response.getSuccess(map);
 		} catch (Exception e) {
 			logger.error("进入申请开通异常！",e);
 			return Response.getError("请求失败！");
 		}
 	}
-
+	
+	/**
+	 * 选择已有商户分页显示
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "getMerchants", method = RequestMethod.POST)
+	public Response getMerchants(@RequestBody Map<String, Object> map) {
+		try {
+			PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
+					(Integer)map.get("rows"));
+			int offSetPage = PageRequest.getOffset();
+			Map<Object,Object> resultMap = new HashMap<Object, Object>();
+			resultMap.put("merchaneList", openingApplyService.getMerchants(
+					(Integer)map.get("customerId"),
+					offSetPage,
+					(Integer)map.get("rows")));
+			resultMap.put("total", openingApplyService.getMerchantSize(
+					(Integer)map.get("customerId"),
+					offSetPage,
+					(Integer)map.get("rows")));
+			return Response.getSuccess(resultMap);
+		} catch (Exception e) {
+			logger.error("根据商户id获得商户详细信息异常！",e);
+			return Response.getError("请求失败！");
+		}
+	}
 	/**
 	 * 根据商户id获得商户详细信息
 	 * 
@@ -320,6 +363,35 @@ public class OpeningApplyController {
 		return Response.getSuccess("添加成功！");
 		} catch (Exception e) {
 			logger.error("添加申请信息异常！",e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 进入终端详情
+	 * 
+	 * @param id
+	 */
+	@RequestMapping(value = "getTernianlDetails", method = RequestMethod.POST)
+	public Response getTernianlDetails(@RequestBody Map<String, Object> maps) {
+		try {
+			Map<Object, Object> map = new HashMap<Object, Object>();
+			// 获得终端详情
+			map.put("applyDetails",
+					terminalsService.getApplyDetails((Integer)maps.get("terminalsId")));
+			// 终端交易类型
+			map.put("rates", terminalsService.getRate((Integer)maps.get("terminalsId")));
+			// 追踪记录
+			map.put("trackRecord", terminalsService.getTrackRecord((Integer)maps.get("terminalsId")));
+			// 开通详情
+			map.put("openingDetails",
+					terminalsService.getOpeningDetails((Integer)maps.get("terminalsId")));
+			// 获得已有申请开通基本信息
+			map.put("openingInfos",
+					openingApplyService.getOppinfo((Integer)maps.get("terminalsId")));
+			return Response.getSuccess(map);
+		} catch (Exception e) {
+			logger.error("进入终端详情失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}

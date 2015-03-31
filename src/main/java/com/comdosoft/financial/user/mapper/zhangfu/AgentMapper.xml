@@ -45,6 +45,7 @@
 		SELECT id, receiver, moblephone, address
 		  FROM customer_addresses
 		 WHERE customer_id = #{customerId}
+		 and status = 1
 	]]>
 	</select>
 
@@ -58,8 +59,8 @@
 
 	<insert id="insertAddress" useGeneratedKeys="true" keyProperty="id">
 	<![CDATA[
-		INSERT INTO customer_addresses (city_id, receiver, moblephone, zip_code, address, is_default, customer_id)
-		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{zipCode},  #{address},  #{isDefault},  #{customerId})
+		INSERT INTO customer_addresses (city_id, receiver, moblephone, zip_code, address, is_default, customer_id,status)
+		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{zipCode},  #{address},  #{isDefault},  #{customerId},1)
 	]]>
 	</insert>
 
@@ -69,16 +70,37 @@
 		 WHERE customer_id = #{customerId}
 	]]>
 	</update>
+	
+		<update id="setDefaultAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default = 1 ,updated_at = NOW()
+		 WHERE id = #{id}  and customer_id = #{customerId}
+	]]>
+	</update>
+	<update id="setNotDefaultAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default =2 ,updated_at = NOW()
+		 WHERE id != #{id} and customer_id = #{customerId}
+	]]>
+	</update>
 
 	<delete id="deleteAddress">
-	<![CDATA[
-		DELETE FROM customer_addresses WHERE id = #{id}
-	]]>
+ 
+	UPDATE customer_addresses SET status = 2
+		 WHERE id = #{id}
+		<!-- DELETE FROM customer_addresses WHERE id = #{id} -->
+ 
 	</delete>
 
 	<select id="queryAgent"  resultType="map" >
 	<![CDATA[
 		SELECT * FROM agents  WHERE id = #{id}
+	]]>
+	</select>
+	
+	<select id="findAgentByCustomerId"  resultType="map" >
+	<![CDATA[
+		SELECT * FROM customers  WHERE id = #{param1}
 	]]>
 	</select>
 </mapper>

@@ -34,6 +34,7 @@
 			<h2>终端信息</h2>
 			<div class="attributes_list clear">
 				<ul>
+					<li>POS机名称：{{info.good_name}}</li>
 					<li>品牌型号：{{info.brand_name}}{{info.brand_number}}</li>
 					<li>支付通道：{{info.zhifu_pingtai}}</li>
 					<li>终端号：{{info.terminal_num}}</li>
@@ -55,7 +56,7 @@
 		</div>
 		<div class="user_record" >
 			<h2>追踪记录</h2>
-			<div class="ur_item" ng-repeat="oc in info.comments.content">
+			<div class="ur_item" ng-repeat="oc in info.comments.list">
 				<div class="ur_item_text">{{oc.marks_content}}</div>
 				<div class="ur_item_name">
 					{{oc.marks_person}} <em>{{oc.marks_time}}</em>

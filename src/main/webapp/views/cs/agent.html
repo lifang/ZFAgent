@@ -1,15 +1,15 @@
 <script type="text/javascript" src="js/page.js"></script>
-<script type="text/javascript" src="js/controllers/cs_cencel.controller.js"></script>
-<div class="right" ng-controller="cs_cencelController">
+<script type="text/javascript" src="js/controllers/cs_agent.controller.js"></script>
+<div class="right" ng-controller="cs_agentController">
 	<div class="breadcrumb">
 		<ul>
 			<li><a href="#">售后记录</a></li>
-			<li><a href="#/cs_cencel">注销申请记录</a></li>
+			<li><a href="#/cs_cencel">代理商售后记录</a></li>
 		</ul>
 	</div>
 	<div class="content clear">
 		<div class="user_title">
-			<h1>注销申请记录列表</h1>
+			<h1>代理商售后记录列表</h1>
 		</div>
 		<div class="seenBox clear">
 			<ul>
@@ -35,7 +35,6 @@
 					<col />
 					<col />
 					<col />
-					<col width="200" />
 					<col />
 					<col />
 				</colgroup>
@@ -43,28 +42,24 @@
 					<tr>
 						<th>编号</th>
 						<th>申请日期</th>
-						<th>终端</th>
-						<th>商户</th>
+						<th>终端数量</th>
 						<th>状态</th>
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="o in list.content">
+					<tr ng-repeat="o in list.list">
 						<td>{{o.apply_num}}</td>
 						<td>{{o.create_time}}</td>
-						<td>{{o.terminal_num}}<br />{{o.brand_name}} {{o.brand_number}} {{o.zhifu_pingtai}}
-						</td>
-						<td>{{o.merchant_name}}<br />{{o.merchant_phone}}
-						</td>
+						<td>{{o.terminals_quantity}}	</td>
 						<td><strong ng-if="o.status==1" class="strong_status">待处理</strong>
 						 <strong ng-if="o.status==2" class="strong_status">处理中</strong> 
-						 <strong ng-if="o.status==4" class="strong_status">处理完成</strong> 
-						 <strong ng-if="o.status==5" class="strong_status">已取消</strong>
+						 <strong ng-if="o.status==3" class="strong_status">处理完成</strong> 
+						 <strong ng-if="o.status==4" class="strong_status">已取消</strong>
 						</td>
-						<td><a href="#/cs_cencelinfo?infoId={{o.id}}" class="a_btn">查看详情</a>
+						<td><a href="#/cs_agentinfo?infoId={{o.id}}" class="a_btn">查看详情</a>
 						 <a href="javascript:void(0)" ng-click="cancelApply(o)"    ng-if="o.status==1" class="a_btn">取消</a>
-						 <a href="javascript:void(0)" ng-click="resubmitCancel(o)"   ng-if="o.status==5" class="a_btn">重新提交</a></td>
+						 <a href="javascript:void(0)" ng-click="resubmitCancel(o)"   ng-if="o.status==4" class="a_btn">重新提交</a></td>
 					</tr>
 				</tbody>
 			</table>

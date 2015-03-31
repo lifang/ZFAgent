@@ -75,7 +75,11 @@ public class StockService {
 
     public int rename(StockReq req) {
         try {
-            stockMapper.rename(req);
+            if(stockMapper.renameCount(req)==0){
+                stockMapper.renameAdd(req);
+            }else{
+                stockMapper.rename(req);
+            }
             return 1;
         } catch (Exception e) {
             e.printStackTrace();

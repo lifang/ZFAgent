@@ -9,7 +9,7 @@ public interface CsUpdateInfoMapper {
 
     List<Map<String, Object>> findAll(MyOrderReq myOrderReq);
 
-    int cancelApply(MyOrderReq myOrderReq);
+    void cancelApply(MyOrderReq myOrderReq);
     
     Map<String, Object> findById(MyOrderReq myOrderReq);
 
@@ -20,4 +20,7 @@ public interface CsUpdateInfoMapper {
     List<Map<String, Object>> search(MyOrderReq myOrderReq);
 
     int countSearch(MyOrderReq myOrderReq);
+    
+    void changeStatus(MyOrderReq myOrderReq);
+
 }

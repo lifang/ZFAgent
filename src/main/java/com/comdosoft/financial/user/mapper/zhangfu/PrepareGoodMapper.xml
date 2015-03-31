@@ -30,6 +30,7 @@
 		<if test="sonAgentId!=0">
 			   <![CDATA[ and pgr.agent_id=#{sonAgentId} ]]>
 		</if>
+		order by pgr.created_at desc
 		LIMIT #{offset}, #{rows}
 	</select>
 	<select id="getPrepareGoodTotal" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">

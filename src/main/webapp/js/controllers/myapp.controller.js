@@ -4,6 +4,7 @@
 var myappModule = angular.module("myappModule",[]);
 
 var myappController = function ($scope, $http, LoginService) {
+	console.log("代理商id==》》》"+ LoginService.userid);
 	$("#leftRoute").show();
 	if(LoginService.userid == 0){
 		window.location.href = '#/login';
@@ -15,7 +16,8 @@ var myappController = function ($scope, $http, LoginService) {
 		$scope.req={customerId:LoginService.userid,rows:8};
 		$http.post("api/message/receiver/getAll", $scope.req).success(function (data) {   
             if (data != null && data != undefined) {
-                $scope.my_list = data.result.content;
+                $scope.my_list = data.result.list;
+                console.log("我的消息==>"+$scope.my_list);
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -25,7 +27,8 @@ var myappController = function ($scope, $http, LoginService) {
 		$scope.req={rows:8};
 		$http.post("api/web/message/getAll", $scope.req).success(function (data) {  
 			if (data != null && data != undefined) {
-				$scope.web_list = data.result.content;
+				$scope.web_list = data.result.list;
+				console.log("系统公告："+$scope.web_list );
 			}
 		}).error(function (data) {
 			$("#serverErrorModal").modal({show: true});
@@ -37,6 +40,7 @@ var myappController = function ($scope, $http, LoginService) {
 		$http.post("api/index/wxlist", $scope.req).success(function (data) {  
 			if (data != null && data != undefined) {
 				$scope.cp_list = data.result;
+				console.log("业务处理:==>>"+$scope.cp_list );
 			}
 		}).error(function (data) {
 			$("#serverErrorModal").modal({show: true});
@@ -58,7 +62,7 @@ var myappController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.trade_list = function(){
-		$scope.req={customerId:LoginService.userid};
+		$scope.req={customerId:LoginService.agentid};
 		$http.post("api/trade/record/getSevenDynamic", $scope.req).success(function (data) {   
 			if (data != null && data != undefined && data.code == 1) {
 				$scope.trade = data.result;

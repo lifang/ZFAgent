@@ -90,26 +90,24 @@ public class TradeRecordService {
         return null;
     }
 
-   
-
+//七日交易动态
     public Map<String, Object> getSevenDynamic(MyOrderReq myOrderReq) {
-        List<Map<String, Object>> o = tradeRecordMapper.getSevenDynamic(myOrderReq);
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (o.size() > 0) {
-            BigDecimal sum = new BigDecimal(0);
-            BigDecimal num = new BigDecimal(0);
-            for (int i = 0; i < o.size(); i++) {
-                String nn = o.get(i).get("tread_num").toString();
-                String ss = o.get(i).get("tread_sum").toString();
-                sum = sum.add(new BigDecimal(ss));
-                num = num.add(new BigDecimal(nn));
-            }
-            map.put("sum", sum);
-            map.put("num", num);
-            map.put("daylist", o);
-        }
-
-        return map;
+    	Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String, Object>> o = tradeRecordMapper.getSevenDynamic(myOrderReq);
+		if (o.size() > 0) {
+			BigDecimal sum = new BigDecimal(0);
+			BigDecimal num = new BigDecimal(0);
+			for (int i = 0; i < o.size(); i++) {
+				String nn = o.get(i).get("tread_num").toString();
+				String ss = o.get(i).get("tread_sum").toString();
+				sum = sum.add(new BigDecimal(ss));
+				num = num.add(new BigDecimal(nn));
+			}
+			map.put("sum", sum);
+			map.put("num", num);
+			map.put("daylist", o);
+		}
+    	return map;
     }
     
 

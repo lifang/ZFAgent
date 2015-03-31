@@ -81,4 +81,10 @@
 		SELECT * FROM agents  WHERE id = #{id}
 	]]>
 	</select>
+	
+	<select id="findAgentByCustomerId"  resultType="map" >
+	<![CDATA[
+		SELECT * FROM agents  WHERE customer_id = #{param1}
+	]]>
+	</select>
 </mapper>

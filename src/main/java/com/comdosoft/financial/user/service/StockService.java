@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,8 @@ public class StockService {
         Map<String, Object> map = new HashMap<String, Object>();
         int total = stockMapper.getStockTotal(req);
         map.put("total", total);
-        List<Map<String, Object>> list = stockMapper.getStockList(req);
+        List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+        list = stockMapper.getStockList(req);
         if (total > 0) {
             for (Map<String, Object> map2 : list) {
                 List<String> goodPics = goodMapper.getgoodPics(SysUtils.Object2int(map2.get("good_id")));

@@ -3,12 +3,14 @@ package com.comdosoft.financial.user.service;
 
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.user.domain.query.ExchangeGoodReq;
 import com.comdosoft.financial.user.mapper.zhangfu.ExchangeGoodMapper;
@@ -38,6 +40,7 @@ public class ExchangeGoodService {
         return exchangeGoodMapper.getInfo(req);
     }
 
+    @Transactional(value = "transactionManager-zhangfu")
     public int add(ExchangeGoodReq req) {
         try {
             if(null!=req.getSerialNums()&&req.getSerialNums().length>0){
@@ -71,7 +74,44 @@ public class ExchangeGoodService {
     }
 
     
-    
+    public Map<String, Object> checkTerminals(ExchangeGoodReq req) {
+        List<Map<String, Object>> errorTerminals = new ArrayList<Map<String, Object>>();
+        String[] ss = req.getSerialNum().split("\\s+|,|;");
+        List<String> list = new ArrayList<String>();
+        for (String string : ss) {
+            if (!"".equals(string.trim())) {
+                list.add(string.trim());
+            }
+        }
+        if (list.size() > 0) {
+            Map<String, Object> map = null;
+            for (String s : list) {
+                map = new HashMap<String, Object>();
+                map.put("serialNum", s);
+                if (s.length() == 12) {
+                    req.setSerialNum(s);
+                    int t1 = exchangeGoodMapper.isExit(req);
+                    if (t1 == 0) {
+                        map.put("error", "终端不存在");
+                        errorTerminals.add(map);
+                    } else {
+                        int t2 = exchangeGoodMapper.isUsed(req);
+                        if (t2 == 0) {
+                            map.put("error", "终端已使用");
+                            errorTerminals.add(map);
+                        } 
+                    }
+                } else {
+                    map.put("error", "终端不合法");
+                    errorTerminals.add(map);
+                }
+            }
+        }
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("errorCount", errorTerminals.size());
+        result.put("errorList", errorTerminals);
+        return result;
+    }
 
     
 

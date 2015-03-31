@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.RepairStatus;
+import com.comdosoft.financial.user.domain.zhangfu.ServiceStatus;
 import com.comdosoft.financial.user.mapper.zhangfu.CsAgentsMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.page.Page;
@@ -59,7 +60,7 @@ public class CsAgentsService {
      * @param myOrderReq
      */
     public Integer cancelApply(MyOrderReq myOrderReq) {
-        myOrderReq.setRepairStatus(RepairStatus.CANCEL);
+    	myOrderReq.setServiceStatus(ServiceStatus.CANCEL);
         int i = csAgentsMapper.changeStatus(myOrderReq);
         return i;
     }

@@ -22,6 +22,7 @@ public class MyOrderReq {
     private PayType payType;
     private OrderStatus orderStatus;
     private RepairStatus repairStatus;
+    private ServiceStatus serviceStatus;//售后状态;
     private UpdateStatus updateStatus;
     private Integer score;//分数
     private Integer good_id;
@@ -29,9 +30,13 @@ public class MyOrderReq {
     private String track_number;
     private List<CommentsJson> json;
     
-   
-    
-    public String getUserName() {
+    public ServiceStatus getServiceStatus() {
+		return serviceStatus;
+	}
+	public void setServiceStatus(ServiceStatus serviceStatus) {
+		this.serviceStatus = serviceStatus;
+	}
+	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userName) {

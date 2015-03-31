@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 
@@ -37,6 +38,23 @@ public class TerminalsService {
 		return terminalsMapper.getTerminalList(map);
 	}
 
+	/**
+	 * 获得终端列表总记录数
+	 * 
+	 * @param id
+	 * @param offSetPage
+	 * @param pageSize
+	 * @return
+	 */
+	public int getTerminalListSize(Integer id,
+			Integer offSetPage, Integer pageSize,Integer status) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
+		map.put("status", status);
+		return terminalsMapper.getTerminalListSize(map);
+	}
 	/**
 	 * 获得终端详情
 	 * @param id
@@ -87,10 +105,28 @@ public class TerminalsService {
 	 * @param customerId
 	 * @return
 	 */
-	public  List<Map<String, Object>> getMerchants(int customerId){
-		return terminalsMapper.getMerchants(customerId);
+	public List<Map<String, Object>> getMerchants(Integer customerId,
+				Integer offSetPage, Integer pageSize) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("customerId", customerId);
+			map.put("offSetPage", offSetPage);
+			map.put("pageSize", pageSize);
+		return terminalsMapper.getMerchants(map);
 	}
 	
+	/**
+	 * 获得代理商下面的商户总记录数
+	 * @param customerId
+	 * @return
+	 */
+	public int getMerchantSize(Integer customerId,
+			Integer offSetPage, Integer pageSize) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("customerId", customerId);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
+		return terminalsMapper.getMerchantSize(map);
+	}
 	/**
 	 * 查看该终端号是否存在
 	 * @param terminalsNum
@@ -162,6 +198,16 @@ public class TerminalsService {
 	}
 	
 	/**
+	 * 筛选终端
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> getTerminalArray(String serialNum){
+		return terminalsMapper.getTerminalArray(serialNum);
+	}
+	
+	
+	/**
 	 * 批量终端号筛选终端
 	 * @param map
 	 * @return
@@ -178,4 +224,22 @@ public class TerminalsService {
 	public  List<Map<String, Object>> screeningPosName(int customerId){
 		return terminalsMapper.screeningPosName(customerId);
 	}
+	
+	/**
+	 * 检查终端号是否存在
+	 * @param map
+	 */
+	public int checkTerminalCode(String str){
+		return  terminalsMapper.checkTerminalCode(str);
+	}
+	
+	/**
+	 * 检查终端号是否已有售后申请
+	 * @param map
+	 */
+	public int checkTerminalCodeOpen(String str){
+		return  terminalsMapper.checkTerminalCodeOpen(str);
+	}
+	
+	
 }

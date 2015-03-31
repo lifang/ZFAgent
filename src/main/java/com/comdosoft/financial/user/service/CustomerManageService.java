@@ -264,6 +264,7 @@ public class CustomerManageService {
 			resultInfo.append("不存在数据");
 		}
 		map.put("resultCode", resultCode);
+		map.put("resultInfo", resultInfo);
 		return map;	
 	}
 	

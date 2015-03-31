@@ -12,22 +12,6 @@ import com.comdosoft.financial.user.domain.zhangfu.CustomerRoleRelation;
 public interface CustomerMapper {
 
 	/**
-	 * 根据代理商id查询该代理商所有的用户
-	 * 
-	 * @param req
-	 * @return
-	 */
-	public List<CustomerAgentRelation> getAllAccountlist(MyAccountReq req);
-
-	/**
-	 * 根据代理商id计算该代理商下所有的用户的个数
-	 * 
-	 * @param req
-	 * @return
-	 */
-	public int countCustomes(Integer agentId);
-
-	/**
 	 * 检查用户名是否重复
 	 * 
 	 * @param req
@@ -90,23 +74,60 @@ public interface CustomerMapper {
 	 */
 	public Map<String, Object> getEmpInfoByUsername(String userName);
 
-	public List<Map<Object, Object>> getList(Map<Object, Object> query);
-
 	public void insertCustomer(Customer customer);
 
 	public void insertCustomerRights(CustomerRoleRelation cr);
 
-	public int resetPassword(int customer_id, String password);
+	/**
+	 * 重置用户密码
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public int resetPassword(Map<String, Object> map);
 
 	public List<Map<String, Object>> getDetailInfoById(int id);
 
+	/**
+	 * 编辑用户姓名以及密码信息
+	 * 
+	 * @param req
+	 * @return
+	 */
 	public int editCustomerInfo(EmpReq req);
 
 	public int editCustomerRights(int customer_id, int right_id);
 
-	public List<Map<String, Object>> getCustomerRights(int customer_id);
+	public List<Map<String, Object>> getCustomerRights(EmpReq req);
 
 	public int updateRights(int customer_id, int role_id);
 
 	public int countCustomerRightsByRoleId(int customer_id, int role_id);
+
+	/**
+	 * 根据agent_id查询代理商下所有的状态为2的用户
+	 * 
+	 * @param agent_id
+	 * @return
+	 */
+	public int count(int agent_id);
+
+	/**
+	 * 根据代理商ID查询代理商旗下的用户
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public List<Map<String, Object>> getAccountList(Map<Object, Object> query);
+
+	/**
+	 * 删除用户所有权限
+	 * 
+	 * @param req
+	 * @return
+	 */
+	public int deleteCustomerRights(EmpReq req);
+
+	public void batchInsertRights(EmpReq req);
+
 }

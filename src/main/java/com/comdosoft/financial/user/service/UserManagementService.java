@@ -49,8 +49,12 @@ public class UserManagementService {
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getTerminals(int customerId){
-		return userManagementMapper.getTerminals(customerId);
+	public List<Map<String, Object>> getTerminals(int customerId,Integer offSetPage, Integer pageSize) {
+		Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", customerId);
+			map.put("offSetPage", offSetPage);
+			map.put("pageSize", pageSize);
+		return userManagementMapper.getTerminals(map);
 	}
 	
 }

@@ -45,20 +45,18 @@ var accountEditController = function($scope, $http, $location, LoginService) {
 			return false;
 		}
 
-		if (typeof (password) == "undefined" || typeof (comfirmpwd) == "undefined") {
+		if (typeof (comfirmpwd) == "undefined") {
 			alert("密码不能为空！");
 			return false;
-		} else if (password.length < 6 || password.length > 20 || comfirmpwd.length < 6 || comfirmpwd.length > 20) {
+		} else if (comfirmpwd.length < 6 || comfirmpwd.length > 20) {
 			alert("密码由6-20位，英文字符组成！");
-			return false;
-		} else if (password != comfirmpwd) {
-			alert("输入的密码不一致！");
 			return false;
 		}
 
-		$scope.info.rights = getCheckboxValue();
-
-		if (typeof ($scope.info.rights) == "undefined" || $scope.info.rights == "") {
+		$scope.info.rightIds = [];
+		$scope.info.rightIds = getCheckboxValue();
+		// alert($scope.info.rightIds);
+		if (typeof ($scope.info.rightIds) == "undefined" || $scope.info.rightIds == "") {
 			alert("权限未填写");
 			return false;
 		}

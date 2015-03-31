@@ -39,6 +39,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			passwordOld : oldPassword,
 			password : newPassword,
 			id : 17
+		// id : LoginService.agentid
 		}).success(function(data) {
 			if(data.code==1){
 				$scope.passwordOld = "";
@@ -57,7 +58,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			}
 		});
 	};
-	
+
 	$scope.menuState = {
 		show : false
 	}

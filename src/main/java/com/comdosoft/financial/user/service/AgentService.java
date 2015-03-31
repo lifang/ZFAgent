@@ -74,7 +74,10 @@ public class AgentService {
         // 生成随机6位验证码
         String dentcode = SysUtils.getCode();
         result.put("dentcode", dentcode);
-
+        Customer c = new Customer();
+        c.setId(customerId);
+        c.setDentcode(dentcode);
+        agentMapper.updateCustomer(c);
         // 保存验证码入库
         Map<String, Object>  m = agentMapper.findAgentByCustomerId(customerId);
         if(null != m){
@@ -99,17 +102,30 @@ public class AgentService {
     }
 
     @Transactional(value = "transactionManager-zhangfu")
-    public void update(Customer customer) {
-
-        // 先更新agent
-        Agent agent = new Agent();
-        agent.setCustomerId(customer.getCustomerId());
-        agent.setPhone(customer.getPhone());
-        agent.setEmail(customer.getEmail());
-        agentMapper.update(agent);
-
-        // 再更新customer
-        agentMapper.updateCustomer(customer);
+    public void update(Customer customer, int i) {
+    	if(i==1){//更新密码
+    		// 再更新customer
+            agentMapper.updateCustomer(customer);
+    	}else if(i ==2){//email
+    		 // 先更新agent
+            Agent agent = new Agent();
+            agent.setCustomerId(customer.getCustomerId());
+            agent.setEmail(customer.getEmail());
+            agentMapper.update(agent);
+            
+         // 再更新customer
+            agentMapper.updateCustomer(customer);
+    	}else if(i==3){// 手机
+    		 // 先更新agent
+            Agent agent = new Agent();
+            agent.setCustomerId(customer.getCustomerId());
+            agent.setPhone(customer.getPhone());
+            agentMapper.update(agent);
+            
+         // 再更新customer
+            agentMapper.updateCustomer(customer);
+    	}
+       
     }
 
     public List<Map<Object, Object>> getAddressList(Customer param) {

@@ -72,7 +72,7 @@ public class AgentAPI {
             Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
-                    agentService.update(param);
+                    agentService.update(param,3);
                     sysResponse = Response.getSuccess();
                 } else {
                     sysResponse = Response.getError("修改代理商手机失败:验证码不正确");
@@ -106,7 +106,7 @@ public class AgentAPI {
             Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
-                    agentService.update(param);
+                    agentService.update(param,2);
                     sysResponse = Response.getSuccess();
                 } else {
                     sysResponse = Response.getError("修改代理商邮箱失败:验证码不正确");
@@ -128,7 +128,7 @@ public class AgentAPI {
             Customer customer = agentService.getOneCustomer(param);
             if (customer != null) {
                 if (param.getPasswordOld().equals(customer.getPassword())) {// 判断原密码
-                    agentService.update(param);
+                    agentService.update(param,1);//更新密码
                     sysResponse = Response.getSuccess();
                 } else {
                     sysResponse = Response.getError("修改代理商密码失败:原密码不正确");

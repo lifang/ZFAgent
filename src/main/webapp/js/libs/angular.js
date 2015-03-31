@@ -3014,7 +3014,7 @@ function annotate(fn) {
     if (!($inject = fn.$inject)) {
       $inject = [];
       if (fn.length) {
-    	console.warn("此函数没有注入注解，将导致编译后运行错误:",fn);
+//    	console.warn("此函数没有注入注解，将导致编译后运行错误:",fn);
         fnText = fn.toString().replace(STRIP_COMMENTS, '');
         argDecl = fnText.match(FN_ARGS);
         forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg){

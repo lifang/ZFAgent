@@ -203,7 +203,7 @@ public class LowerAgentService {
 		Map<String, Object> map=new HashMap<String, Object>();
         	//向customers表中插入记录
         	//调用加密方法
-        	req.setPwd(SysUtils.string2MD5(req.getPwd()));;
+        	req.setPwd(SysUtils.string2MD5(req.getPwd()));
         	//判断该登陆名是否已经存在
         	if(lowerAgentMapper.checkLoginId(req)>=1){
         		//已经存在
@@ -373,6 +373,7 @@ public class LowerAgentService {
 				if(result<1){
 					map.put("resultCode", -1);
 					map.put("resultInfo", "保存出错！");
+					break;
 				}
 			}
 			if(map==null || map.get("resultCode")==null){
@@ -383,7 +384,7 @@ public class LowerAgentService {
 				map.put("resultInfo", "保存成功！");
 			}
 			
-			String resultInfo="执行修改下级代理商分润操作,结果为："+map.get("errorInfo");
+			String resultInfo="执行修改下级代理商分润操作,结果为："+map.get("resultInfo");
 			sys.operateRecord(resultInfo,req.getAgentsId());
 		}
 		return map;

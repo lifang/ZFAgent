@@ -23,7 +23,7 @@ where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order 
 		(select sum(b.quantity) from prepare_goods_records b where b.agent_id=a.id) as allQty,
 		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id!=null and c.status=1) as openNum,
 		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id!=null) as soldNum,
-		a.created_at,a.types
+		date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.types
 		from agents a where a.parent_id=#{agentsId} order by a.updated_at desc) d
 		Limit #{offset},#{rows}
      </select>
@@ -58,9 +58,6 @@ where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order 
 		 where a.id=#{cityId}
     </select>
     
-    
-    
-    
     <select id="getProvinceList" resultType="map">
     	select a.name,a.id  from cities a where a.parent_id=0	
     </select>
@@ -85,22 +82,23 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 			default_profit,card_id_photo_path,license_no_pic_path,tax_no_pic_path,tax_registered_no) 
 		values(#{agentType},#{agentName},#{agentCardId},#{companyName},#{companyId},#{phoneNum},
 		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{agentsId},#{customerId},1,#{agentsId},
-		(select a.default_profit from agents a where a.id=#{agentsId}),#{cardPhotoPath},#{licensePhotoPath},#{taxPhotoPath},#{taxNumStr})
+		(select a.default_profit from agents a where a.id=#{agentsId}),#{cardPhotoPath},
+		#{licensePhotoPath},#{taxPhotoPath},#{taxNumStr})
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-   		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email)
-   		 values(#{loginId},#{pwd},now(),now(),#{cityId},1,#{phoneNum},#{emailStr})
+   		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email,name)
+   		 values(#{loginId},#{pwd},now(),now(),#{cityId},1,#{phoneNum},#{emailStr},#{agentName})
    </insert>
    
    <insert id="savePrecent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
    		insert into agent_profit_settings(agent_id,pay_channel_id,percent,created_at,updated_at,trade_type_id) value
-   		 (#{sonAgentsId},#{channelId},#{precent},now(),now(),#{tradeTypeId})
+   		 (#{sonAgentsId},#{payChannelId},#{precent},now(),now(),#{tradeTypeId})
    </insert>
    
    <update id="editPrecent" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		update agent_profit_settings set percent=#{precent},created_at=now(),updated_at=now() 
-		where agent_id=#{sonAgentsId} and pay_channel_id=#{channelId} and trade_type_id=#{tradeTypeId}  
+		where agent_id=#{sonAgentsId} and pay_channel_id=#{payChannelId} and trade_type_id=#{tradeTypeId}  
 	</update>
    
    <update id="saveAgents" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">

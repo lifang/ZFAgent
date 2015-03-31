@@ -9,7 +9,9 @@ public interface CsCencelsMapper {
 
     List<Map<String, Object>> findAll(MyOrderReq myOrderReq);
 
-    int changeStatus(MyOrderReq myOrderReq);
+    void changeStatus(MyOrderReq myOrderReq);
+    
+    void cancel(MyOrderReq myOrderReq);
 
     Map<String, Object> findById(MyOrderReq myOrderReq);
 
@@ -21,6 +23,6 @@ public interface CsCencelsMapper {
 
     int countSearch(MyOrderReq myOrderReq);
 
-	List<Map<String, Object>> findTemplete(MyOrderReq mo);
+    List<Map<String, Object>>  findTemplete(MyOrderReq myOrderReq);
 
 }

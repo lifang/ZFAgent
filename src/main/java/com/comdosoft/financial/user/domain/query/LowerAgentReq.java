@@ -58,7 +58,7 @@ public class LowerAgentReq {
     //分润比例设置   是修该还是新增    0为修改   1为新增
     private int sign;
     //支付通道 id channelId
-    private int channelId;
+    private int payChannelId;
     //tradeTypeId 
     private int tradeTypeId;
     //precent分润比例
@@ -213,12 +213,12 @@ public class LowerAgentReq {
 		this.sign = sign;
 	}
 
-	public int getChannelId() {
-		return channelId;
+	public int getPayChannelId() {
+		return payChannelId;
 	}
 
-	public void setChannelId(int channelId) {
-		this.channelId = channelId;
+	public void setPayChannelId(int payChannelId) {
+		this.payChannelId = payChannelId;
 	}
 
 	public String getProfitPercent() {

@@ -11,12 +11,41 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	};
 
 	$scope.info = function() {
+		var oldPassword = $scope.passwordOld;
+		var newPassword = $scope.password;
+		var newPasswordAgain = $scope.password2;
+		
+		if(oldPassword==null||oldPassword==''){
+			alert("原密码不能为空！");
+			return false;
+		}
+		
+		if(newPassword==null||newPassword==''){
+			alert("新密码不能为空！");
+			return false;
+		}
+		
+		if(newPasswordAgain==null||newPasswordAgain==''){
+			alert("确认新密码不能为空！");
+			return false;
+		}
+		
+		if(newPassword!=newPasswordAgain){
+			alert("新密码与确认新密码不相同！");
+			return false;
+		}
+		
 		$http.post("api/agent/modifyPassword", {
-			passwordOld : $scope.passwordOld,
-			password : $scope.password,
+			passwordOld : oldPassword,
+			password : newPassword,
 			id : 17
 		// id : LoginService.agentid
 		}).success(function(data) {
+			if(data.code==1){
+				$scope.passwordOld = "";
+				$scope.password = "";
+				$scope.password2 = "";
+			}
 			alert(data.message);
 		});
 	};

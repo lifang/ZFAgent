@@ -5,17 +5,17 @@ var myappModule = angular.module("myappModule",[]);
 
 var myappController = function ($scope, $http, LoginService) {
 	$("#leftRoute").show();
-	if(LoginService.agentid == 0){
+	if(LoginService.loginid == 0){
 		window.location.href = '#/login';
 	}else{
 		//显示用户登录部分
 		$scope.$emit('changeshow',false);
 	}
 	$scope.my_message_list = function(){
-		$scope.req={customerId:LoginService.agentid,rows:8};
+		$scope.req={customerId:LoginService.loginid,rows:8};
 		$http.post("api/message/receiver/getAll", $scope.req).success(function (data) {   
             if (data != null && data != undefined) {
-                $scope.my_list = data.result.content;
+                $scope.my_list = data.result.list;
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -25,7 +25,7 @@ var myappController = function ($scope, $http, LoginService) {
 		$scope.req={rows:8};
 		$http.post("api/web/message/getAll", $scope.req).success(function (data) {  
 			if (data != null && data != undefined) {
-				$scope.web_list = data.result.content;
+				$scope.web_list = data.result.list;
 			}
 		}).error(function (data) {
 			$("#serverErrorModal").modal({show: true});
@@ -33,7 +33,7 @@ var myappController = function ($scope, $http, LoginService) {
 	};
 	//业务处理
 	$scope.web_yw_list = function(){
-		$scope.req={customerId:LoginService.agentid};
+		$scope.req={customerId:LoginService.loginid};
 		$http.post("api/index/wxlist", $scope.req).success(function (data) {  
 			if (data != null && data != undefined) {
 				$scope.cp_list = data.result;

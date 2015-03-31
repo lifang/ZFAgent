@@ -20,11 +20,19 @@ public class ExchangeGoodReq {
     
     private int quantity;
     
-    
+    private int web;
     
     
 
     
+
+    public int getWeb() {
+        return web;
+    }
+
+    public void setWeb(int web) {
+        this.web = web;
+    }
 
     public int getId() {
         return id;

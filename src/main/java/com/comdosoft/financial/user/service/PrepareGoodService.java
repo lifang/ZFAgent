@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.user.domain.query.PrepareGoodReq;
 import com.comdosoft.financial.user.mapper.zhangfu.PrepareGoodMapper;
@@ -34,6 +35,7 @@ public class PrepareGoodService {
         return prepareGoodMapper.getInfo(req);
     }
 
+    @Transactional(value = "transactionManager-zhangfu")
     public int add(PrepareGoodReq req) {
         try {
             if (null != req.getSerialNums() && req.getSerialNums().length > 0) {

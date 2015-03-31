@@ -93,4 +93,11 @@ public interface AgentLoginMapper {
 	 * @param customer	
 	 */
 	int modifyPassword(Customer customer);
+
+	/**
+	 * 查找旧密码
+	 * @param id
+	 * @return
+	 */
+	String findCustomerPwdById(Integer id);
 }

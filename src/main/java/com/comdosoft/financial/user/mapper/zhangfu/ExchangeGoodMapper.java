@@ -25,6 +25,10 @@ public interface ExchangeGoodMapper {
 
     List<Map<String, Object>> getTerminalList(ExchangeGoodReq req);
 
+    int isExit(ExchangeGoodReq req);
+
+    int isUsed(ExchangeGoodReq req);
+
 
     
 

@@ -1,6 +1,7 @@
 package com.comdosoft.financial.user.controller.api;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 
 
@@ -49,6 +52,16 @@ public class PrepareGoodController {
     public Response add(@RequestBody  PrepareGoodReq req){
         Response response = new Response();
         response.setCode(Response.ERROR_CODE);
+        if(1==req.getWeb()){
+            String[] ss = req.getSerialNum().split("\\s+|,|;");
+            List<String> list = new ArrayList<String>();
+            for (String string : ss) {
+                if (!"".equals(string.trim())) {
+                    list.add(string.trim());
+                }
+            }
+            req.setSerialNums((String[])list.toArray(new String[list.size()]));
+        }
         int result= repareGoodService.add(req);
         if(result==1){
             response.setCode(Response.SUCCESS_CODE);

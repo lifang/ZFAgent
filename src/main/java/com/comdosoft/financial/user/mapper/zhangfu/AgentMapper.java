@@ -39,5 +39,11 @@ public interface AgentMapper {
      * @return
      */
     Map<Object, Object>  queryAgent( int id);
+    /**
+     * 根据customerid查询商户信息
+     * @param id
+     * @return
+     */
+    Map<String, Object>  findAgentByCustomerId( int customer_id);
 
 }

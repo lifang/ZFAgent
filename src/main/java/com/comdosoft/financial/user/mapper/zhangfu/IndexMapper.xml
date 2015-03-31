@@ -66,63 +66,27 @@
 	</update>
 	
 		<select id="wxlist" resultType="map">
-	SELECT
-		`status`,
-		updated_at
-	FROM
-		(
+	 
+			 
 			SELECT
 				CASE `status`
 			WHEN 2 THEN
-				'1条维修申请待发回'
+				'1条记录待发回'
 			WHEN 3 THEN
-				'1条维修申请维修中'
+				'1条记录维修中'
 			WHEN 4 THEN
-				'1条维修申请处理完成'
+				'1条记录处理完成'
 			WHEN 5 THEN
-				'1条维修申请已取消'
+				'1条记录已取消'
 			ELSE '其他' 
 			END AS `status`,
 			updated_at
 		FROM
-			cs_repairs
+			cs_agents 
 		WHERE
 			`status` != 1   and customer_id=#{customer_id}
-		UNION ALL
-			SELECT
-					CASE `status`
-			WHEN 2 THEN
-				'1条退货申请退货中'
-			WHEN 4 THEN
-				'1条退货申请处理完成'
-			WHEN 5 THEN
-				'1条退货申请已取消'
-				ELSE '其他'
-			END AS `status`,
-				updated_at
-			FROM
-				cs_returns
-			WHERE
-				`status` != 1  and customer_id=#{customer_id}
-			UNION ALL
-				SELECT
-						CASE `status`
-			WHEN 2 THEN
-				'1条换货申请换货中'
-			WHEN 4 THEN
-				'1条换货申请处理完成'
-			WHEN 5 THEN
-				'1条换货申请已取消'
-				ELSE '其他'
-			END AS `status`,
-					updated_at
-				FROM
-					cs_changes
-				WHERE
-					`status` != 1   and customer_id=#{customer_id}
-		) cs
-	ORDER BY
-		cs.updated_at DESC
+	 
+	ORDER BY	updated_at DESC
 	LIMIT 0, 7
 	</select>
 </mapper>

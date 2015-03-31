@@ -14,6 +14,7 @@ import com.comdosoft.financial.user.domain.query.TradeReq;
 import com.comdosoft.financial.user.domain.trades.TradeRecord;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.mapper.trades.record.TradeRecordMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.AgentMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.AgentTradeMapper;
 import com.comdosoft.financial.user.utils.SysUtils;
 
@@ -30,6 +31,9 @@ public class TradeRecordService {
     @Resource
     private TradeRecordMapper tradeRecordMapper;
 
+    @Resource
+    private AgentMapper agentMapper;
+    
     @Resource
     private  AgentTradeMapper agentTrade;
 
@@ -90,26 +94,29 @@ public class TradeRecordService {
         return null;
     }
 
-   
-
+//七日交易动态
     public Map<String, Object> getSevenDynamic(MyOrderReq myOrderReq) {
-        List<Map<String, Object>> o = tradeRecordMapper.getSevenDynamic(myOrderReq);
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (o.size() > 0) {
-            BigDecimal sum = new BigDecimal(0);
-            BigDecimal num = new BigDecimal(0);
-            for (int i = 0; i < o.size(); i++) {
-                String nn = o.get(i).get("tread_num").toString();
-                String ss = o.get(i).get("tread_sum").toString();
-                sum = sum.add(new BigDecimal(ss));
-                num = num.add(new BigDecimal(nn));
-            }
-            map.put("sum", sum);
-            map.put("num", num);
-            map.put("daylist", o);
-        }
-
-        return map;
+    	Map<String,Object> m = agentMapper.findAgentByCustomerId(myOrderReq.getCustomerId());
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	if(null != m){
+    		Integer id = (Integer) (m.get("id")==null?0:m.get("id"));
+    		myOrderReq.setId(id);
+    		List<Map<String, Object>> o = tradeRecordMapper.getSevenDynamic(myOrderReq);
+    		if (o.size() > 0) {
+    			BigDecimal sum = new BigDecimal(0);
+    			BigDecimal num = new BigDecimal(0);
+    			for (int i = 0; i < o.size(); i++) {
+    				String nn = o.get(i).get("tread_num").toString();
+    				String ss = o.get(i).get("tread_sum").toString();
+    				sum = sum.add(new BigDecimal(ss));
+    				num = num.add(new BigDecimal(nn));
+    			}
+    			map.put("sum", sum);
+    			map.put("num", num);
+    			map.put("daylist", o);
+    		}
+    	}
+    	return map;
     }
     
 

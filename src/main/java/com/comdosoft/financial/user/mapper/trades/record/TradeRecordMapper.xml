@@ -126,7 +126,7 @@
 			trade_records t
 		WHERE
 		  DATEDIFF(NOW(),t.created_at)<8 and DATEDIFF(NOW(),t.created_at)>0
-		and t.customer_id=  #{customerId}
+		and t.agent_id=  #{id}
 		GROUP BY riqi
 		ORDER BY riqi DESC
 	]]>

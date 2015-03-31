@@ -5,14 +5,14 @@ var myappModule = angular.module("myappModule",[]);
 
 var myappController = function ($scope, $http, LoginService) {
 	$("#leftRoute").show();
-	if(LoginService.userid == 0){
+	if(LoginService.agentid == 0){
 		window.location.href = '#/login';
 	}else{
 		//显示用户登录部分
 		$scope.$emit('changeshow',false);
 	}
 	$scope.my_message_list = function(){
-		$scope.req={customerId:LoginService.userid,rows:8};
+		$scope.req={customerId:LoginService.agentid,rows:8};
 		$http.post("api/message/receiver/getAll", $scope.req).success(function (data) {   
             if (data != null && data != undefined) {
                 $scope.my_list = data.result.content;
@@ -33,7 +33,7 @@ var myappController = function ($scope, $http, LoginService) {
 	};
 	//业务处理
 	$scope.web_yw_list = function(){
-		$scope.req={customerId:LoginService.userid};
+		$scope.req={customerId:LoginService.agentid};
 		$http.post("api/index/wxlist", $scope.req).success(function (data) {  
 			if (data != null && data != undefined) {
 				$scope.cp_list = data.result;
@@ -58,7 +58,7 @@ var myappController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.trade_list = function(){
-		$scope.req={customerId:LoginService.userid};
+		$scope.req={customerId:LoginService.agentid};
 		$http.post("api/trade/record/getSevenDynamic", $scope.req).success(function (data) {   
 			if (data != null && data != undefined && data.code == 1) {
 				$scope.trade = data.result;

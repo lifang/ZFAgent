@@ -25,7 +25,7 @@ public class MessageReceiverService {
 
     public Page<Object> findAll(MyOrderReq myOrderReq) {
     	//80 is lizhangfu id
-    	myOrderReq.setCustomerId(new Integer(80));
+    //	myOrderReq.setCustomerId(new Integer(80));
     	
         PageRequest request = new PageRequest(myOrderReq.getPage(),myOrderReq.getRows());
         int count = messageReceiverMapper.count(myOrderReq);

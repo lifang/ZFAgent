@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.CustomerManageReq;
 import com.comdosoft.financial.user.domain.query.LowerAgentReq;
-import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.mapper.zhangfu.CustomerManageMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.LowerAgentMapper;
 import com.comdosoft.financial.user.utils.SysUtils;
@@ -28,8 +27,7 @@ public class CustomerManageService {
 	private CustomerManageMapper customerManageMapper;
 	@Autowired
 	private LowerAgentMapper lowerAgentMapper;
-	@Autowired
-	private LowerAgentReq lowerAgentReq;
+	
 	@Autowired
 	private SystemSetService sys;
 	
@@ -49,6 +47,7 @@ public class CustomerManageService {
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> insert(CustomerManageReq req){
 		Map<String, Object> map=new HashMap<String, Object>();
+		LowerAgentReq lowerAgentReq=new LowerAgentReq();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
 		//校验格式等 名字，密码，登陆ID不存在可用

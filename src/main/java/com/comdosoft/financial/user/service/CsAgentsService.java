@@ -48,6 +48,7 @@ public class CsAgentsService {
                 map.put("terminal_num", "");
             }
             map.put("apply_num", m.get("apply_num"));//维修编号
+            map.put("terminals_quantity", m.get("terminals_quantity"));//终端数量
             list.add(map);
         }
         return new Page<List<Object>>(request, list,count);
@@ -79,6 +80,7 @@ public class CsAgentsService {
         map.put("terminals_quantity", o.get("terminals_quantity")+"");
         map.put("terminals_list", o.get("terminals_list")+"");
         map.put("address", o.get("address")+"");
+        map.put("apply_num", o.get("apply_num")+"");
         map.put("reason", o.get("reason")+"");
         myOrderReq.setId(Integer.parseInt(id));
         List<Map<String,Object>> list = csAgentsMapper.findTraceById(myOrderReq);

@@ -33,14 +33,12 @@ public class CsUpdateInfoController {
     @Resource
     private CsUpdateInfoService csUpdateInfoService;
     
+    //  gch  begin
     //维修记录
     @RequestMapping(value="getAll" ,method=RequestMethod.POST)
     public Response getAll(@RequestBody MyOrderReq myOrderReq) {
         try{
             Page<List<Object>> centers = csUpdateInfoService.findAll(myOrderReq);
-            if(centers.getTotal()<1){
-            	return Response.buildMisSuccess();
-            }
             return Response.getSuccess(centers);
         }catch(Exception e){
             logger.debug("出错"+e+"==>>"+myOrderReq);
@@ -66,9 +64,6 @@ public class CsUpdateInfoController {
     public Response getCanCelById(@RequestBody MyOrderReq myOrderReq){
         try{
             Map<String,Object>  centers = csUpdateInfoService.findById(myOrderReq);
-            if(centers.isEmpty()){
-            	return Response.buildMisSuccess();
-            }
             return Response.getSuccess(centers);
         }catch(Exception e){
             logger.debug("出错"+e+"==>>"+myOrderReq);
@@ -78,15 +73,27 @@ public class CsUpdateInfoController {
     @RequestMapping(value="cancelApply" ,method=RequestMethod.POST)
     public Response cancelRepair(@RequestBody MyOrderReq myOrderReq ) {
         try{
-           int i =  csUpdateInfoService.cancelApply(myOrderReq);
-            if(i==1){
-                return Response.buildSuccess("", "取消成功");
-            }else{
-            	return Response.buildMisSuccess();
-            }
+            csUpdateInfoService.cancelApply(myOrderReq);
+            return Response.buildSuccess(null, "取消成功");
         }catch(Exception e){
             logger.debug("出错"+e+"==>>"+myOrderReq);
             return Response.getError("取消失败");
+        }
+    } 
+    
+    /**
+     * 重新提交注销
+     * @param myOrderReq
+     * @return
+     */
+    @RequestMapping(value="resubmitCancel" ,method=RequestMethod.POST)
+    public Response resubmitCancel(@RequestBody MyOrderReq myOrderReq ) {
+        try{
+            csUpdateInfoService.resubmitCancel(myOrderReq);
+            return Response.buildSuccess(null, "提交成功");
+        }catch(Exception e){
+            logger.debug("出错"+e+"==>>"+myOrderReq);
+            return Response.getError("提交失败");
         }
     }  
 }

@@ -48,6 +48,7 @@ var cs_updateController = function ($scope, $http, LoginService) {
 		$http.post("api/update/info/search", $scope.req).success(function (data) {  //绑定
 			if (data != null && data != undefined) {
 				$scope.list = data.result;
+				  console.log("==>"+$scope.list);
 				calcSystemPage($scope, data.result.total);// 计算分页
 			}
 		}).error(function (data) {
@@ -63,6 +64,7 @@ var cs_updateController = function ($scope, $http, LoginService) {
         $http.post("api/update/info/getAll", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
                 $scope.list = data.result;
+                console.log("==>"+$scope.list);
                 calcSystemPage($scope, data.result.total);// 计算分页
             }
         }).error(function (data) {

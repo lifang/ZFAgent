@@ -74,6 +74,7 @@
 			o.`status` AS apply_status,
 			o.created_at AS apply_time,
 			o.terminals_quantity,o.terminals_list,
+			o.apply_num,
 			o.address,o.reason
 		FROM
 			cs_agents o

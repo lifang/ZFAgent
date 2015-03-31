@@ -75,6 +75,7 @@ var cs_cencelController = function ($scope, $http, LoginService) {
         $http.post("api/cs/cancels/getAll", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
                 $scope.list = data.result;
+                console.log("==>"+$scope.list);
                 calcSystemPage($scope, data.result.total);// 计算分页
             }
         }).error(function (data) {

@@ -66,8 +66,9 @@ var cs_agentController = function ($scope, $http, LoginService) {
 			$("#serverErrorModal").modal({show: true});
 		});
 	};
-	//订单列表
+	//
 	$scope.orderlist = function () {
+		console.log("进入列表...");
 		initSystemPage($scope);// 初始化分页参数
         $scope.req={customerId:LoginService.userid,
         		page:$scope.indexPage,
@@ -75,6 +76,7 @@ var cs_agentController = function ($scope, $http, LoginService) {
         $http.post("api/cs/agents/getAll", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
                 $scope.list = data.result;
+                console.log("==>"+$scope.list);
                 calcSystemPage($scope, data.result.total);// 计算分页
             }
         }).error(function (data) {

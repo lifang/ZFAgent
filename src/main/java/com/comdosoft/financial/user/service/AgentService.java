@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.mapper.zhangfu.AgentMapper;
 import com.comdosoft.financial.user.utils.CommUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  * 代理商 - 业务层<br>
@@ -45,7 +48,7 @@ public class AgentService {
         agentMapper.updateCustomer(param);
     }
 
-    public Map<Object, Object> getUpdatePhoneDentcode(int customerId, String phone) {
+	public Map<Object, Object> getUpdatePhoneDentcode(int customerId, String phone) {
         Map<Object, Object> result = new HashMap<Object, Object>();
 
         // 生成随机6位验证码
@@ -61,8 +64,7 @@ public class AgentService {
         
         //send the check code to the phone
         try{
-            CommUtils.sendPhoneCode("请输入6位验证码："+dentcode, phone);
-        	
+           Boolean b =  CommUtils.sendPhoneCode("感谢您使用华尔街金融，您的验证码为："+dentcode, phone);
         }catch (Exception e){
         	e.printStackTrace();
         }
@@ -137,4 +139,5 @@ public class AgentService {
     public  Map<Object, Object> queryAgent(int id) {
         return agentMapper.queryAgent(id);
     } 
+    
 }

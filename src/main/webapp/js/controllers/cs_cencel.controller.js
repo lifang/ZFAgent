@@ -5,7 +5,7 @@ var cs_cencelModule = angular.module("cs_cencelModule",[]);
 
 var cs_cencelController = function ($scope, $http, LoginService) {
 	$("#leftRoute").show();
-	if(LoginService.userid == 0){
+	if(LoginService.loginid == 0){
 		window.location.href = '#/login';
 	}else{
 		//显示用户登录部分
@@ -15,7 +15,7 @@ var cs_cencelController = function ($scope, $http, LoginService) {
 	$scope.submitSearch = function(){
 		initSystemPage($scope);// 初始化分页参数
 		$scope.req = {
-			customerId : LoginService.userid,
+			customerId : LoginService.loginid,
 			search : $scope.search,
 			page : $scope.indexPage,
 			rows : $scope.rows
@@ -33,7 +33,7 @@ var cs_cencelController = function ($scope, $http, LoginService) {
 	$scope.submitScreen = function(){
 		initSystemPage($scope);// 初始化分页参数
 		$scope.req = {
-			customerId : LoginService.userid,
+			customerId : LoginService.loginid,
 			search : $scope.search,
 			q : $scope.screen,
 			page : $scope.indexPage,
@@ -51,7 +51,7 @@ var cs_cencelController = function ($scope, $http, LoginService) {
 	
 	$scope.submitPage = function(){
 		$scope.req = {
-			customerId : LoginService.userid,
+			customerId : LoginService.loginid,
 			search : $scope.search,
 			q : $scope.screen,
 			page : $scope.indexPage,
@@ -69,7 +69,7 @@ var cs_cencelController = function ($scope, $http, LoginService) {
 	//订单列表
 	$scope.orderlist = function () {
 		initSystemPage($scope);// 初始化分页参数
-        $scope.req={customerId:LoginService.userid,
+        $scope.req={customerId:LoginService.loginid,
         		page:$scope.indexPage,
         		rows:$scope.rows};
         $http.post("api/cs/cancels/getAll", $scope.req).success(function (data) {  //绑定

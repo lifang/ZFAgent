@@ -1,16 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.CustomerManageMapper">
-	<select id="getTotal" parameterType="com.comdosoft.financial.user.mapper.zhangfu.CustomerManageMapper" resultType="int">
+	<select id="getTotal" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="int">
         select count(DISTINCT b.id) from customer_agent_relations a
 			left join customers b on a.customer_id=b.id
  			where 1=1 and a.types=2 and a.status=1 and a.agent_id=#{agentsId}
    </select>
    
-   <select id="getCustomerList" parameterType="com.comdosoft.financial.user.mapper.zhangfu.CustomerManageMapper" resultType="map">
+   <select id="getCustomerList" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="map">
         select b.username,b.id from customer_agent_relations a
 		left join customers b on a.customer_id=b.id
  		where 1=1 and a.types=2 and a.status=1 and a.agent_id=#{agentsId} 
  		order by a.updated_at desc Limit #{offset},#{rows}
-     </select>
+   </select>
+   
+   <select id="getCusAgentInfo" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="int">
+        select count(id) from customer_agent_relations where 1=1 and status =1 and  customer_id=#{customerId} and agent_id=#{agentsId}
+   </select>
+    
+   <insert id="creCusAgentRelation" useGeneratedKeys="true" keyProperty="id"  parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
+		insert into customer_agent_relations(customer_id,agent_id,types,status,created_at,updated_at) values
+		(#{customerId},#{agentsId},#{types},#{status},now(),now())
+   </insert>
+    
+   <select id="getCusRoleInfo" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="int">
+        select count(id) from customer_role_relations where 1=1 and role_id=#{roleId} and customer_id=#{customerId}
+   </select>
+    
+   <insert id="creCusRoleRelation" useGeneratedKeys="true" keyProperty="id"  parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
+		insert into customer_role_relations(role_id,customer_id,created_at,updated_at) values
+			(#{roleId},#{customersId},now(),now())
+   </insert> 
+   
+	<update id="delCustomer" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
+		update customers set status=3 and updated_at=now()
+		  WHERE 1=1 and id=#{customerId} and username like #{loginId}
+	</update>
+	
+	<update id="delCusAgentRel"  parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
+		update customer_agent_relations set status=2,updated_at=now()
+		where customer_id=#{customerId} and agent_id=#{agentsId}
+	</update>
+	
+	<delete id="delCusRoleRel"  parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
+		DELETE FROM customer_role_relations
+		 WHERE customer_id=#{customerId}
+	</delete> 
+    
+    
+    <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="map">
+        select a.username,a.name,c.role_id from customers a 
+left join customer_agent_relations b on a.id=b.customer_id
+left join customer_role_relations c on a.id=c.customer_id
+where 1=1 and a.id=#{customerId}  and b.agent_id=#{agentsId}
+   </select>
 </mapper>

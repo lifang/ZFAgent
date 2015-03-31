@@ -44,4 +44,8 @@ public interface StockMapper {
 
     Map<String, Object> getStock(StockReq req);
 
+    int renameCount(StockReq req);
+
+    void renameAdd(StockReq req);
+
 }

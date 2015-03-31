@@ -36,6 +36,14 @@
          and agent_id=#{agentId}
      </update>
      
+     <select id="renameCount" resultType="int">
+         SELECT count(*) from agent_good_names where agent_id=#{agentId} and good_id=#{goodId}
+     </select>
+     
+     <insert id="renameAdd">
+         INSERT into agent_good_names(good_id,name,agent_id,created_at,updated_at) VALUES (#{goodId},#{goodname},#{agentId},NOW(),NOW())
+     </insert>
+     
      <select id="getHoitoryCount" resultType="int" >
        SELECT  count(DISTINCT t.id) from terminals t 
 	   where  t.agent_id in 

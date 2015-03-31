@@ -5,7 +5,7 @@ var cs_updateModule = angular.module("cs_updateModule",[]);
 
 var cs_updateController = function ($scope, $http, LoginService) {
 	$("#leftRoute").show();
-	if(LoginService.agentid == 0){
+	if(LoginService.userid == 0){
 		window.location.href = '#/login';
 	}else{
 		//显示用户登录部分
@@ -14,7 +14,7 @@ var cs_updateController = function ($scope, $http, LoginService) {
 	//搜索
 	$scope.submitSearch = function(){
 		initSystemPage($scope);// 初始化分页参数
-		$scope.req={customerId:LoginService.agentid,search:$scope.search,
+		$scope.req={customerId:LoginService.userid,search:$scope.search,
 				page : $scope.indexPage,
 				rows : $scope.rows};
 		$http.post("api/update/info/search", $scope.req).success(function (data) {  //绑定
@@ -29,7 +29,7 @@ var cs_updateController = function ($scope, $http, LoginService) {
 	//筛选
 	$scope.submitScreen = function(){
 		initSystemPage($scope);// 初始化分页参数
-		$scope.req={customerId:LoginService.agentid,search:$scope.search,q:$scope.screen,
+		$scope.req={customerId:LoginService.userid,search:$scope.search,q:$scope.screen,
 				page : $scope.indexPage,
 				rows : $scope.rows};
 		$http.post("api/update/info/search", $scope.req).success(function (data) {  //绑定
@@ -42,7 +42,7 @@ var cs_updateController = function ($scope, $http, LoginService) {
         });
 	};
 	$scope.submitPage = function(){
-		$scope.req={customerId:LoginService.agentid,search:$scope.search,q:$scope.screen,
+		$scope.req={customerId:LoginService.userid,search:$scope.search,q:$scope.screen,
 				page : $scope.indexPage,
 				rows : $scope.rows};
 		$http.post("api/update/info/search", $scope.req).success(function (data) {  //绑定
@@ -57,7 +57,7 @@ var cs_updateController = function ($scope, $http, LoginService) {
 	//订单列表
 	$scope.orderlist = function () {
 		initSystemPage($scope);// 初始化分页参数
-        $scope.req={customerId:LoginService.agentid,
+        $scope.req={customerId:LoginService.userid,
 				page : $scope.indexPage,
 				rows : $scope.rows};
         $http.post("api/update/info/getAll", $scope.req).success(function (data) {  //绑定

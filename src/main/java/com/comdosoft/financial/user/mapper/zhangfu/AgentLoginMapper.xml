@@ -70,4 +70,9 @@
 		c.password=#{password},updated_at = NOW()
 		WHERE c.id = #{id} AND c.password = #{passwordOld}
 	</update>
+	
+	<select id="findCustomerPwdById" parameterType="int" resultType="string">
+		SELECT password from customers
+		WHERE id=#{id}
+	</select>
 </mapper>

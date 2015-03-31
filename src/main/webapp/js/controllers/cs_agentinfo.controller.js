@@ -5,7 +5,7 @@ var cs_agentinfoModule = angular.module("cs_agentinfoModule",[]);
 
 var cs_agentinfoController = function ($scope,$location, $http, LoginService) {
 	$("#leftRoute").show();
-	if(LoginService.agentid == 0){
+	if(LoginService.userid == 0){
 		window.location.href = '#/login';
 	}else{
 		//显示用户登录部分

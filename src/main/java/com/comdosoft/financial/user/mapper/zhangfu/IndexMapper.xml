@@ -62,12 +62,10 @@
 	UPDATE customers
 	SET phone = #{phone}
 	WHERE
-	id = #{customer_id}
+	id = #{customerId}
 	</update>
 	
 		<select id="wxlist" resultType="map">
-	 
-			 
 			SELECT
 				CASE `status`
 			WHEN 2 THEN
@@ -84,8 +82,7 @@
 		FROM
 			cs_agents 
 		WHERE
-			`status` != 1   and customer_id=#{customer_id}
-	 
+			`status` != 1   and customer_id=#{customerId}
 	ORDER BY	updated_at DESC
 	LIMIT 0, 7
 	</select>

@@ -91,7 +91,7 @@ public class Response {
     
     public static Response getErrorContext(Object result) {
         Response response = new Response();
-        response.code = ERROR_CODE;
+        response.code = 2;
         response.result = result;//错误数据
         return response;
     }

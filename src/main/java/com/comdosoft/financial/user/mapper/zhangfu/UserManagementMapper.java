@@ -29,6 +29,6 @@ public interface UserManagementMapper {
 	 * @param id
 	 * @return
 	 */
-	List<Map<String, Object>> getTerminals(int id);
+	List<Map<String, Object>> getTerminals(Map<String, Object> map);
 	
 }

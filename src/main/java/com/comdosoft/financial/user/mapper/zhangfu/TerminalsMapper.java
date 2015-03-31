@@ -24,6 +24,13 @@ public interface TerminalsMapper {
     List<Map<Object, Object>> getTerminalList(Map<String, Object> map);
 
     /**
+     * 根据用户id获得终端列表总记录数
+     * 
+     * @param map
+     * @return
+     */
+    int getTerminalListSize(Map<String, Object> map);
+    /**
      * 获得终端详情
      * 
      * @param id
@@ -67,7 +74,14 @@ public interface TerminalsMapper {
      * @param customerId
      * @return
      */
-    List<Map<String, Object>> getMerchants(int customerId);
+    List<Map<String, Object>> getMerchants(Map<String, Object> map);
+    
+    /**
+     * 获得代理商下面的用户总记录数
+     * @param customerId
+     * @return
+     */
+    int getMerchantSize(Map<String, Object> map);
     
     /**
      * 查看该终端号是否存在
@@ -123,6 +137,13 @@ public interface TerminalsMapper {
     List<Map<String, Object>> screeningTerminalNum(Map<Object, Object> map);
     
     /**
+     * 筛选终端
+     * @param map
+     * @return
+     */
+    Map<String, Object> getTerminalArray(String serialNum);
+    
+    /**
      * 批量终端号筛选终端
      * @param map
      * @return
@@ -135,4 +156,17 @@ public interface TerminalsMapper {
      * @return
      */
     List<Map<String, Object>> screeningPosName(int customerId);
+    
+    /**
+     * 检查终端号是否存在
+     * @param map
+     */
+    int checkTerminalCode(String str);
+    
+    /**
+     * 检查终端号是否已有申请售后
+     * @param map
+     */
+    int checkTerminalCodeOpen(String str);
+    
 }

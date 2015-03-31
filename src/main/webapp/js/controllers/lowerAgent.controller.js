@@ -295,7 +295,7 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	$scope.init=function(){
 		$scope.req={};
-		$scope.req.son_agents_id=$location.search()['id'];
+		$scope.req.sonAgentsId=$location.search()['id'];
 		$scope.list();
 		$scope.info();
 	};

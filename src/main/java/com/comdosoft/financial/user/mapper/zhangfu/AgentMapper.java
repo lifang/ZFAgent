@@ -3,6 +3,7 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 import java.util.List;
 import java.util.Map;
 
+import com.comdosoft.financial.user.domain.query.CommercialReq;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 
@@ -55,17 +56,17 @@ public interface AgentMapper {
 
     /**
      * 查询代理商下的商户总数
-     * @param param
+     * @param req
      * @return
      */
-	Map<String, Object> getCommercialTenantCount(Map<Object, Object> param);
+	int getCommercialTenantCount(CommercialReq req);
 
 	/**
 	 * 查询代理商下的商户列表
-	 * @param param
+	 * @param req
 	 * @return
 	 */
-	List<Map<String, Object>> getCommercialTenantList(Map<Object, Object> param);
+	List<Map<String, Object>> getCommercialTenantList(CommercialReq req);
 
 	/**
 	 * 删除单个商户(更新customers表)

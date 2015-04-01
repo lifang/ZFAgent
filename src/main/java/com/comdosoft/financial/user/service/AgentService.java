@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.comdosoft.financial.user.domain.query.CommercialReq;
 import com.comdosoft.financial.user.domain.query.MailReq;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
@@ -160,23 +161,16 @@ public class AgentService {
 	}
 
 	/**
-	 * 查询代理商下的商户总数
-	 * 
-	 * @param param
-	 * @return
-	 */
-	public Map<String, Object> getCommercialTenantCount(Map<Object, Object> param) {
-		return agentMapper.getCommercialTenantCount(param);
-	}
-
-	/**
 	 * 查询代理商下的商户列表
 	 * 
-	 * @param param
+	 * @param req
 	 * @return
 	 */
-	public List<Map<String, Object>> getCommercialTenantList(Map<Object, Object> param) {
-		return agentMapper.getCommercialTenantList(param);
+	public Map<String, Object> getCommercialTenantList(CommercialReq req) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("total", agentMapper.getCommercialTenantCount(req));
+		result.put("list", agentMapper.getCommercialTenantList(req));
+		return result;
 	}
 
 	/**

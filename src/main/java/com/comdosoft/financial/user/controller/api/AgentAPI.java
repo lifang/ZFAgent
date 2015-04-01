@@ -66,83 +66,83 @@ public class AgentAPI {
 		return sysResponse;
 	}
 
-	@RequestMapping(value = "updatePhone", method = RequestMethod.POST)
-	public Response updatePhone(@RequestBody Customer param) {
-		Response sysResponse = null;
-		try {
-			Customer customer = agentService.getOneCustomer(param);
-			if (customer != null) {
-				if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
-					agentService.update(param);
-					sysResponse = Response.getSuccess();
-				} else {
-					sysResponse = Response.getError("修改代理商手机失败:验证码不正确");
-				}
-			} else {
-				sysResponse = Response.getError("修改代理商手机失败:代理商不存在");
-			}
-		} catch (Exception e) {
-			logger.error("修改代理商手机失败", e);
-			sysResponse = Response.getError("修改代理商手机失败:系统异常");
-		}
-		return sysResponse;
-	}
+    @RequestMapping(value = "updatePhone", method = RequestMethod.POST)
+    public Response updatePhone(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            Customer customer = agentService.getOneCustomer(param);
+            if (customer != null) {
+                if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
+                    agentService.update(param,3);
+                    sysResponse = Response.getSuccess();
+                } else {
+                    sysResponse = Response.getError("修改代理商手机失败:验证码不正确");
+                }
+            } else {
+                sysResponse = Response.getError("修改代理商手机失败:代理商不存在");
+            }
+        } catch (Exception e) {
+            logger.error("修改代理商手机失败", e);
+            sysResponse = Response.getError("修改代理商手机失败:系统异常");
+        }
+        return sysResponse;
+    }
 
-	@RequestMapping(value = "getUpdateEmailDentcode", method = RequestMethod.POST)
-	public Response getUpdateEmailDentcode(@RequestBody Customer param, HttpServletRequest request) {
-		Response sysResponse = null;
-		try {
-			sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(request, param.getCustomerId(), param.getPhone()));
-		} catch (Exception e) {
-			logger.error("获取代理商修改邮箱验证码失败", e);
-			sysResponse = Response.getError("获取代理商修改邮箱验证码失败:系统异常");
-		}
-		return sysResponse;
-	}
+    @RequestMapping(value = "getUpdateEmailDentcode", method = RequestMethod.POST)
+    public Response getUpdateEmailDentcode(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            sysResponse = Response.getSuccess(agentService.getUpdateEmailDentcode(param.getCustomerId(),param.getEmail()));
+        } catch (Exception e) {
+            logger.error("获取代理商修改邮箱验证码失败", e);
+            sysResponse = Response.getError("获取代理商修改邮箱验证码失败:系统异常");
+        }
+        return sysResponse;
+    }
 
-	@RequestMapping(value = "updateEmail", method = RequestMethod.POST)
-	public Response updateEmail(@RequestBody Customer param) {
-		Response sysResponse = null;
-		try {
-			Customer customer = agentService.getOneCustomer(param);
-			if (customer != null) {
-				if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
-					agentService.update(param);
-					sysResponse = Response.getSuccess();
-				} else {
-					sysResponse = Response.getError("修改代理商邮箱失败:验证码不正确");
-				}
-			} else {
-				sysResponse = Response.getError("修改代理商邮箱失败:代理商不存在");
-			}
-		} catch (Exception e) {
-			logger.error("修改代理商邮箱失败", e);
-			sysResponse = Response.getError("修改代理商邮箱失败:系统异常");
-		}
-		return sysResponse;
-	}
+    @RequestMapping(value = "updateEmail", method = RequestMethod.POST)
+    public Response updateEmail(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            Customer customer = agentService.getOneCustomer(param);
+            if (customer != null) {
+                if (customer.getDentcode().equals(param.getDentcode())) {// 判断验证码
+                    agentService.update(param,2);
+                    sysResponse = Response.getSuccess();
+                } else {
+                    sysResponse = Response.getError("修改代理商邮箱失败:验证码不正确");
+                }
+            } else {
+                sysResponse = Response.getError("修改代理商邮箱失败:代理商不存在");
+            }
+        } catch (Exception e) {
+            logger.error("修改代理商邮箱失败", e);
+            sysResponse = Response.getError("修改代理商邮箱失败:系统异常");
+        }
+        return sysResponse;
+    }
 
-	@RequestMapping(value = "updatePassword", method = RequestMethod.POST)
-	public Response updatePassword(@RequestBody Customer param) {
-		Response sysResponse = null;
-		try {
-			Customer customer = agentService.getOneCustomer(param);
-			if (customer != null) {
-				if (param.getPasswordOld().equals(customer.getPassword())) {// 判断原密码
-					agentService.update(param);
-					sysResponse = Response.getSuccess();
-				} else {
-					sysResponse = Response.getError("修改代理商密码失败:原密码不正确");
-				}
-			} else {
-				sysResponse = Response.getError("修改代理商密码失败:代理商不存在");
-			}
-		} catch (Exception e) {
-			logger.error("修改代理商密码失败", e);
-			sysResponse = Response.getError("修改代理商密码失败:系统异常");
-		}
-		return sysResponse;
-	}
+    @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
+    public Response updatePassword(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            Customer customer = agentService.getOneCustomer(param);
+            if (customer != null) {
+                if (param.getPasswordOld().equals(customer.getPassword())) {// 判断原密码
+                    agentService.update(param,1);//更新密码
+                    sysResponse = Response.getSuccess();
+                } else {
+                    sysResponse = Response.getError("修改代理商密码失败:原密码不正确");
+                }
+            } else {
+                sysResponse = Response.getError("修改代理商密码失败:代理商不存在");
+            }
+        } catch (Exception e) {
+            logger.error("修改代理商密码失败", e);
+            sysResponse = Response.getError("修改代理商密码失败:系统异常");
+        }
+        return sysResponse;
+    }
 
 	@RequestMapping(value = "getAddressList", method = RequestMethod.POST)
 	public Response getAddressList(@RequestBody Customer param) {
@@ -165,34 +165,6 @@ public class AgentAPI {
 		} catch (Exception e) {
 			logger.error("新增代理商地址失败", e);
 			sysResponse = Response.getError("新增代理商地址失败:系统异常");
-		}
-		return sysResponse;
-	}
-
-	@RequestMapping(value = "deleteAddress", method = RequestMethod.POST)
-	public Response deleteAddress(@RequestBody Customer param) {
-		Response sysResponse = null;
-		try {
-			agentService.deleteAddress(param);
-			sysResponse = Response.getSuccess();
-		} catch (Exception e) {
-			logger.error("删除代理商地址失败", e);
-			sysResponse = Response.getError("删除代理商地址失败:系统异常");
-		}
-		return sysResponse;
-	}
-
-	@RequestMapping(value = "query/{customer_id}", method = RequestMethod.POST)
-	public Response queryAddress(@PathVariable int customer_id) {
-		Response sysResponse = new Response();
-
-		Map<Object, Object> result = agentService.queryAgent(customer_id);
-		if (result != null) {
-			sysResponse = Response.getSuccess();
-			sysResponse.setResult(result);
-		} else {
-			sysResponse.setMessage("系统异常");
-			// setisDefault
 		}
 		return sysResponse;
 	}
@@ -255,5 +227,62 @@ public class AgentAPI {
 
 		return response;
 	}
+
+
+    @RequestMapping(value = "deleteAddress", method = RequestMethod.POST)
+    public Response deleteAddress(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            agentService.deleteAddress(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("删除代理商地址失败", e);
+            sysResponse = Response.getError("删除代理商地址失败:系统异常");
+        }
+        return sysResponse;
+    }
+    
+    @RequestMapping(value = "query/{customer_id}", method = RequestMethod.POST)
+    public Response queryAddress(@PathVariable int customer_id) {
+        Response sysResponse = new Response();
+      
+        Map<Object, Object> result= agentService.queryAgent(customer_id);
+        	  if(result!=null)
+        	  {
+        		   sysResponse = Response.getSuccess();
+                   sysResponse.setResult(result);
+        	  }
+        	  else{
+        		  sysResponse.setMessage("系统异常");
+        		  //setisDefault
+        	  }
+        return sysResponse;
+    }
+    
+    @RequestMapping(value = "updatePhoneNumber", method = RequestMethod.POST)
+    public Response updatePhoneNumber(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            agentService.updatePhoneNumber(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("更新代理商电话失败", e);
+            sysResponse = Response.getError("更新代理商电话失败:系统异常");
+        }
+        return sysResponse;
+    }
+    
+    @RequestMapping(value = "updateEmailAddr", method = RequestMethod.POST)
+    public Response updateEmailAddr(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            agentService.updateEmailAddr(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("更新代理商邮件失败", e);
+            sysResponse = Response.getError("更新代理商邮件失败:系统异常");
+        }
+        return sysResponse;
+    }
 
 }

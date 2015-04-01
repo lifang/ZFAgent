@@ -25,11 +25,26 @@ public interface OpeningApplyMapper {
 	List<Map<Object, Object>> getApplyList(Map<String, Object> map);
 	
 	/**
+	 * 根据用户id得到所有申请总记录数
+	 * @param map
+	 * @return
+	 */
+	int getApplyListSize(Map<String, Object> map);
+	
+	
+	/**
 	 * 根据终端号模糊查询相关终端
 	 * @param map
 	 * @return
 	 */
 	List<Map<Object, Object>> searchApplyList(Map<String, Object> map);
+	
+	/**
+	 * 根据终端号模糊查询相关终端总记录数
+	 * @param map
+	 * @return
+	 */
+	int searchApplyListSize(Map<String, Object> map);
 	
 	/**
 	 * 获得已有开通申请基本申请信息
@@ -61,8 +76,13 @@ public interface OpeningApplyMapper {
 	 * 获得所有商户
 	 * @return
 	 */
-	List<Merchant> getMerchants(Integer customerId);
+	List<Merchant> getMerchants(Map<String, Object> map);
 	
+	/**
+	 * 获得所有商户
+	 * @return
+	 */
+	int getMerchantSize(Map<String, Object> map);
 	/**
 	 * 添加商户
 	 * @return
@@ -93,7 +113,7 @@ public interface OpeningApplyMapper {
 	 * @param id
 	 * @return
 	 */
-	Map<Object, Object> getMerchant(Integer id);
+	Map<Object, Object> getMerchant(int id);
 	
 	/**
 	 * 添加开通信息

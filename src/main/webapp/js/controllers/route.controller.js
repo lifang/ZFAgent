@@ -94,6 +94,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/terminals/terminalCancellation.html'
 	}).when('/terminalToUpdate', {
 		templateUrl : 'views/terminals/terminalToUpdate.html'
+	}).when('/terminalOpening', {
+		templateUrl : 'views/terminals/terminalOpening.html'
 	}).when('/stock', {
 		templateUrl : 'views/agent/stock.html'
 	}).when('/stockinfo', {
@@ -106,6 +108,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/systemset/modifypassword.html'
 	}).when('/manageuser', {
 		templateUrl : 'views/agent/manageuser.html'
+	}).when('/changeemail', {
+		templateUrl : 'views/systemset/changeemail.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

@@ -13,7 +13,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
-import com.comdosoft.financial.user.domain.zhangfu.RepairStatus;
 import com.comdosoft.financial.user.domain.zhangfu.ServiceStatus;
 import com.comdosoft.financial.user.mapper.zhangfu.CsAgentsMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
@@ -119,6 +118,7 @@ public class CsAgentsService {
 	                map.put("terminal_num", "");
 	            }
 	            map.put("apply_num", m.get("apply_num"));//维修编号
+	            map.put("terminals_quantity", m.get("terminals_quantity"));//终端数量
 	            list.add(map);
 	        }
 	        return new Page<List<Object>>(request, list,count);

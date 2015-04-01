@@ -141,22 +141,59 @@ public class IndexService {
     }
 
 	public String update_email(MyOrderReq myOrderReq) {
-	        MailReq req = new MailReq();
-	        req.setUserName(myOrderReq.getUserName());//姓名
-	        req.setAddress(myOrderReq.getEmail());//邮箱
-	        try {
-	        	String code = SysUtils.getCode() ;
-//	            MailService.sendMail_phone(req,code);
-	            return code;
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	        return "";
-	}
+        MailReq req = new MailReq();
+        req.setUserName(myOrderReq.getUserName());//姓名
+        req.setAddress(myOrderReq.getEmail());//邮箱
+        try {
+        	String code = SysUtils.getCode() ;
+            MailService.sendMail_phone(req,code);
+            return code;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+}
 
 	   public List<Map<String, Object>> wxlist(MyOrderReq myOrderReq) {
 	        return indexMapper.wxlist(myOrderReq);
 	    }
+
+	public String getPhoneCodeAgent(MyOrderReq req) {
+		  String phone = req.getPhone();
+	        String code = SysUtils.getCode();
+	        if(SysUtils.isMobileNO(phone)){
+	            try {
+	                Boolean b = SysUtils.sendPhoneCode("[ebank007]验证码为:"+code+",您正在修改账号预留手机号码,请勿将验证码告诉他人,验证码有效时间为30分钟,客服热线400-090-876。", phone);
+	                if(!b) return "-1";
+	            } catch (JsonParseException e) {
+	                e.printStackTrace();
+	            } catch (JsonMappingException e) {
+	                e.printStackTrace();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        return code;
+	}
+
+	public void change_email_check(HttpServletRequest request, MyOrderReq myOrderReq) {
+		   String   url  = request.getScheme()+"://";  
+	        String name = myOrderReq.getQ();
+	        String id = myOrderReq.getId().toString();
+	        url+=request.getHeader("host");   
+	        url+=request.getContextPath();      
+	        MailReq req = new MailReq();
+	        req.setUserName(myOrderReq.getQ());//姓名
+	        req.setAddress(myOrderReq.getContent());//邮箱
+	        String data;
+	        try {
+	             data = SysUtils.string2MD5(name+"zf_vc");  ///#/myinfobase
+	            req.setUrl("<a href='"+url+"/#/changeemail?id="+id+"&q="+data+"'>点击修改</a>");
+	            MailService.sendMail(req);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	}
 
 
 }

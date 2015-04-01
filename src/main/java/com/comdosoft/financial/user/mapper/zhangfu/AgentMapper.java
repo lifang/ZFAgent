@@ -18,7 +18,7 @@ public interface AgentMapper {
 
     Customer getOneCustomer(Customer param);
 
-    void updateCustomer(Customer param);
+    int updateCustomer(Customer param);
 
     void update(Agent param);
 
@@ -44,7 +44,14 @@ public interface AgentMapper {
      * @param id
      * @return
      */
-    Map<String, Object>  findAgentByCustomerId( int customer_id);
+    Map<String, Object>   findAgentByCustomerId( int customer_id);
+    
+    void setDefaultAddress(Map<Object, Object> param);
+    void setNotDefaultAddress(Map<Object, Object> param);
+
+	void updatePhoneNumber(Customer param);
+
+	void updateEmailAddr(Customer param);
 
     /**
      * 查询代理商下的商户总数

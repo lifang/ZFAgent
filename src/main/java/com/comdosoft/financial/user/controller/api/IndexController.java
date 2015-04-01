@@ -75,6 +75,20 @@ public class IndexController {
         return Response.buildSuccess(code, "发送成功");
     }
     
+    /**
+     * 根据手机号发送验证码
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "getPhoneCodeAgent", method = RequestMethod.POST)
+    public Response getPhoneCodeAgent(@RequestBody MyOrderReq req){
+        String code = indexService.getPhoneCodeAgent(req);
+        if(code.equals("-1")){
+            return Response.getError("发送失败，请重新再试");
+        }
+        return Response.buildSuccess(code, "发送成功");
+    }
+    
     //更新手机号  根据用户id查询，更新 新手机号
     @RequestMapping(value = "changePhone", method = RequestMethod.POST)
     public Response changePhone(@RequestBody MyOrderReq req){
@@ -86,6 +100,13 @@ public class IndexController {
     @RequestMapping(value = "change_email", method = RequestMethod.POST)
     public Response change_email(@RequestBody MyOrderReq req,HttpServletRequest request){
         indexService.change_email(request,req);
+        return Response.getSuccess();
+    }
+    
+    //更新手机号  根据用户id查询，更新 新手机号
+    @RequestMapping(value = "change_email_check", method = RequestMethod.POST)
+    public Response change_email_check(@RequestBody MyOrderReq req,HttpServletRequest request){
+        indexService.change_email_check(request,req);
         return Response.getSuccess();
     }
     

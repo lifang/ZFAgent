@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +54,13 @@ public class AgentService {
 		// 生成随机6位验证码
 		String dentcode = SysUtils.getCode();
 		result.put("dentcode", dentcode);
+        
+        //send the check code to the phone
+        try{
+           CommUtils.sendPhoneCode("感谢您使用华尔街金融，您的验证码为："+dentcode, phone);
+        }catch (Exception e){
+        	e.printStackTrace();
+        }
 
 		// 保存验证码入库
 		Customer customer = new Customer();
@@ -73,46 +79,63 @@ public class AgentService {
 		return result;
 	}
 
-	public Object getUpdateEmailDentcode(HttpServletRequest request, int customerId, String email) {
-		Map<Object, Object> result = new HashMap<Object, Object>();
-		String url = request.getScheme() + "://"; // 请求协议 http 或 https
-		url += request.getHeader("host"); // 请求服务器
-		url += request.getContextPath();
-		System.err.println("===>>>" + url);
-		// 生成随机6位验证码
-		String dentcode = SysUtils.getCode();
-		result.put("dentcode", dentcode);
+	public Object getUpdateEmailDentcode( int customerId, String email) {
+    	System.err.println("customerid==>"+customerId+" ==>"+email);
+        Map<Object, Object> result = new HashMap<Object, Object>();
+        // 生成随机6位验证码
+        String dentcode = SysUtils.getCode();
+        result.put("dentcode", dentcode);
+        Customer c = new Customer();
+        c.setCustomerId(customerId);
+        c.setDentcode(dentcode);
+       agentMapper.updateCustomer(c);
+        // 保存验证码入库
+        Map<String, Object>  m = agentMapper.findAgentByCustomerId(customerId);
+        if(null != m){
+        	 MailReq req = new MailReq();
+             req.setUserName(m.get("username")+"");//姓名
+             req.setAddress(email);//邮箱
+             try {
+                 MailService.sendMail_phone(req,dentcode);
+                 return result;
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
+        }
+//        Customer customer = new Customer();
+//        customer.setCustomerId(customerId);
+//        customer.setDentcode(dentcode);
+//        agentMapper.updateCustomer(customer);
 
-		// 保存验证码入库
-		Customer customer = new Customer();
-		customer.setCustomerId(customerId);
-		customer.setDentcode(dentcode);
-		agentMapper.updateCustomer(customer);
+        return result;
+    }
 
-		// email
-		MailReq req = new MailReq();
-		req.setAddress(email);
-		req.setUrl("<a href='" + url + "/#/findpassEmail'>激活账号</a>");
-		req.setUserName(String.valueOf(customer.getCustomerId()));
-
-		MailService.sendMail(req);
-
-		return result;
-	}
-
-	@Transactional(value = "transactionManager-zhangfu")
-	public void update(Customer customer) {
-
-		// 先更新agent
-		Agent agent = new Agent();
-		agent.setCustomerId(customer.getCustomerId());
-		agent.setPhone(customer.getPhone());
-		agent.setEmail(customer.getEmail());
-		agentMapper.update(agent);
-
-		// 再更新customer
-		agentMapper.updateCustomer(customer);
-	}
+    @Transactional(value = "transactionManager-zhangfu")
+    public void update(Customer customer, int i) {
+    	if(i==1){//更新密码
+    		// 再更新customer
+            agentMapper.updateCustomer(customer);
+    	}else if(i ==2){//email
+    		 // 先更新agent
+            Agent agent = new Agent();
+            agent.setCustomerId(customer.getCustomerId());
+            agent.setEmail(customer.getEmail());
+            agentMapper.update(agent);
+            
+         // 再更新customer
+            agentMapper.updateCustomer(customer);
+    	}else if(i==3){// 手机
+    		 // 先更新agent
+            Agent agent = new Agent();
+            agent.setCustomerId(customer.getCustomerId());
+            agent.setPhone(customer.getPhone());
+            agentMapper.update(agent);
+            
+         // 再更新customer
+            agentMapper.updateCustomer(customer);
+    	}
+       
+    }
 
 	public List<Map<Object, Object>> getAddressList(Customer param) {
 		return agentMapper.getAddressList(param);
@@ -134,10 +157,6 @@ public class AgentService {
 
 	public void deleteAddress(Customer param) {
 		agentMapper.deleteAddress(param);
-	}
-
-	public Map<Object, Object> queryAgent(int id) {
-		return agentMapper.queryAgent(id);
 	}
 
 	/**
@@ -184,4 +203,18 @@ public class AgentService {
 		}
 		return 0;
 	}
+
+    public  Map<Object, Object> queryAgent(int id) {
+        return agentMapper.queryAgent(id);
+    }
+
+	public void updatePhoneNumber(Customer param) {
+		 agentMapper.updatePhoneNumber(param);
+	}
+
+	public void updateEmailAddr(Customer param) {
+		agentMapper.updateEmailAddr(param);
+	} 
+    
+
 }

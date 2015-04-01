@@ -1,0 +1,65 @@
+<div class="right" ng-controller="userManageListController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="javascript:void(0);">管理用户</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>用户列表</h1>
+		</div>
+		<div class="uesr_table">
+			<!-- <div class="ut_f">
+				<span class="checkboxRadio_span"><input name="" type="checkbox" value="" />全选</span> 
+				<a href="#" class="a_btn">删除所选</a>
+			</div> -->
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="b_table">
+				<colgroup>
+					<!-- <col width="50" /> -->
+					<col />
+					<col />
+					<col />
+					<col />
+				</colgroup>
+				<thead>
+					<tr>
+						<!-- <th></th> -->
+						<th>用户姓名</th>
+						<th>手机号码</th>
+						<th>邮箱</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="one in commercialList">
+						<!-- <td><input name="" type="checkbox" value="" /></td> -->
+						<td>{{one.name}}</td>
+						<td>{{one.phone}}</td>
+						<td>{{one.email}}</td>
+						<td>
+							<a href="#/commercialOne?id={{one.id}}" class="a_btn">查看详情</a>
+							<a href="javascript:void(0)"class="a_btn" ng-click="commercialDelete(one)">删除</a>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		<div class="pageTurn">
+			<div class="p_num" ng-show="req.totalPage>1">
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> 
+				<a ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="next()">下一页</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
+			</div>
+			<div class="p_skip">
+				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;
+				<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页</span>
+				<button ng-click="getPage()">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,95 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.IndexMapper">
-<!--首页 收单机构 -->
-	<select id="getFactoryList" resultType="map" >
-	SELECT
+	<!--首页 收单机构 -->
+	<select id="getFactoryList" resultType="map">
+		SELECT
 		f.logo_file_path,
 		f.`name`,
 		f.description,
 		f.website_url,f.created_at
-	FROM
+		FROM
 		factories f
-	WHERE
+		WHERE
 		f.types = 1 and f.`status`=5
-	ORDER BY
-			f.created_at DESC
-			limit 0,12
+		ORDER BY
+		f.created_at DESC
+		limit 0,12
 	</select>
 	<!-- 热卖pos -->
-	<select id="getPosList" resultType="map" >
-	SELECT
+	<select id="getPosList" resultType="map">
+		SELECT
 		g.id,
-		g.model_number AS brand_number,
+		g.model_number AS
+		brand_number,
 		g.volume_number,
 		g.title,
-		gb. NAME AS brand_name,
+		gb. NAME
+		AS brand_name,
 		gp.url_path
-	FROM
-		goods g
-	LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
-	LEFT JOIN (select * from goods_pictures   LIMIT 1) as gp ON g.id = gp.good_id
-	ORDER BY
-		g.volume_number DESC
-	limit 0,6
-	</select>
-	
-	<select id="getParentCitiesList" resultType="map" >
-	SELECT
-		c.`name`,
-		c.id
-	FROM
-		cities c
-	WHERE
-		c.parent_id = 0
-	ORDER BY
-		c.sort_index
-	</select>
-	
-	<select id="getChildrenCitiesList" resultType="map" >
-	SELECT
-		c.`name`,
-		c.id
-	FROM
-		cities c
-	WHERE
-		c.parent_id = #{param1}
-	ORDER BY
-		c.sort_index
-	</select>
-	
-	<update id="changePhone" flushCache="true">
-	UPDATE customers
-	SET phone = #{phone}
-	WHERE
-	id = #{customerId}
-	</update>
-	
-		<select id="wxlist" resultType="map">
-			SELECT
-				CASE `status`
-			WHEN 2 THEN
-				'1条记录待发回'
-			WHEN 3 THEN
-				'1条记录维修中'
-			WHEN 4 THEN
-				'1条记录处理完成'
-			WHEN 5 THEN
-				'1条记录已取消'
-			ELSE '其他' 
-			END AS `status`,
-			updated_at
 		FROM
-			cs_agents 
-		WHERE
-			`status` != 1   and customer_id=#{customerId}
-	ORDER BY	updated_at DESC
-	LIMIT 0, 7
+		goods g
+		LEFT JOIN good_brands gb ON g.good_brands_id =
+		gb.id
+		LEFT JOIN (select * from goods_pictures LIMIT 1) as gp ON g.id =
+		gp.good_id
+		ORDER BY
+		g.volume_number DESC
+		limit 0,6
 	</select>
-	
 	<select id="getRoleByAgentId" parameterType="int" resultType="map">
        select a.role_id as roleId from customer_role_relations a where a.customer_id=(select b.customer_id from agents b where b.id=#{agentId})
    </select>
-	
-	
+
+	<select id="getParentCitiesList" resultType="map">
+		SELECT
+		c.`name`,
+		c.id
+		FROM
+		cities c
+		WHERE
+		c.parent_id = 0
+		ORDER BY
+		c.sort_index
+	</select>
+
+	<select id="findCityById" resultType="map">
+		SELECT * FROM cities WHERE
+		id = #{id}
+	</select>
+
+	<select id="getChildrenCitiesList" resultType="map">
+		SELECT
+		c.`name`,
+		c.id
+		FROM
+		cities c
+		WHERE
+		c.parent_id = #{param1}
+		ORDER BY
+		c.sort_index
+	</select>
+
+	<update id="changePhone" flushCache="true">
+		UPDATE customers
+		SET phone =
+		#{phone}
+		WHERE
+		id = #{customerId}
+	</update>
+
+	<select id="wxlist" resultType="map">
+		SELECT
+		CASE `status`
+		WHEN 2 THEN
+		'1条记录待发回'
+		WHEN 3 THEN
+		'1条记录维修中'
+		WHEN 4 THEN
+		'1条记录处理完成'
+		WHEN 5 THEN
+		'1条记录已取消'
+		ELSE '其他'
+		END AS `status`,
+		updated_at
+		FROM
+		cs_agents
+		WHERE
+		`status` != 1 and customer_id=#{customerId}
+		ORDER BY updated_at DESC
+		LIMIT 0, 7
+	</select>
+
+	<select id="getCustomerMarks" resultType="map">
+		SELECT m.content as
+		content,m.created_at as create_time,a.name as name FROM
+		customer_agent_relation_marks m
+		LEFT JOIN agents a ON
+		m.customer_agent_relation_id = a.id
+		WHERE
+		m.customer_id = #{id}
+		ORDER BY
+		m.created_at desc
+	</select>
+
+	<insert id="saveViewCustomerViews" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.MyOrderReq">
+		insert into
+		customer_agent_relation_marks(customer_agent_relation_id,customer_id,content,created_at)
+		values(#{agentId},#{customerId},#{content},now())
+	</insert>
+
 </mapper>

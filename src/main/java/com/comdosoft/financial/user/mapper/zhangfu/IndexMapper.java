@@ -20,4 +20,11 @@ public interface IndexMapper {
 	List<Map<String, Object>> wxlist(MyOrderReq myOrderReq);
 	
 	List<Map<String, Object>> getRoleByAgentId(int agentId);
+
+	Map<String, Object> findCityById(String id);
+
+	List<Map<String, Object>> getCustomerMarks(String id);
+
+	void saveViewCustomerViews(MyOrderReq req);
+
 }

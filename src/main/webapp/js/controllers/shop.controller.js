@@ -808,7 +808,7 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
 	$scope.req={};
 	$scope.req.type=1;
 	$scope.creq={};
-	$scope.quantity=1;
+	
 	$scope.req.goodId=$location.search()['goodId'];
 	$scope.creq.goodId=$scope.req.goodId;
 	$scope.req.cityId=LoginService.city;
@@ -818,12 +818,15 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
 		//$("#leftRoute").hide();
 		$scope.getGoodInfo();
 		
+		
     };
     $scope.getGoodInfo = function () {
     	$http.post("api/good/goodinfo", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.good=data.result;
             	$scope.paychannel=data.result.paychannelinfo;
+            	$scope.minquantity=$scope.good.goodinfo.floor_purchase_quantity;
+            	$scope.quantity=$scope.minquantity;
             }
         });
     };
@@ -835,7 +838,7 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
         });
     };
     $scope.count = function(type) {
-		if ($scope.quantity != 1 || type != -1) {
+		if ($scope.quantity != $scope.minquantity || type != -1) {
 			$scope.quantity += type;
 		}
 	}
@@ -888,26 +891,35 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
 
 
 var shopmakeorderController = function($scope,$http ,$location , LoginService) {
-	$scope.order={invoice_type:1};
-	//$scope.order.customerId=LoginService.userid;
-	//$scope.order.addressId=1;
+	
 	$scope.init = function() {
+		$scope.order={invoice_type:1};
+		//$scope.order.customerId=LoginService.userid;
+		//$scope.order.addressId=1;
 		$scope.order.goodId=$location.search()['goodId'];
-		$scope.order.type=parseInt($location.search()['type']);
+		$scope.order.orderType=parseInt($location.search()['type']);
 		//$scope.order.quantity=$location.search()['quantity'];
 		$scope.order.paychannelId=$location.search()['paychannelId'];
 		$scope.getGood();
+		$scope.min=1;
 	};
 	$scope.getGood = function() {
-		$http.post("api/makeorder/shop", $scope.order).success(function(data) {
+		$http.post("api/shop/getShop", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				$scope.shop = data.result;
 				$scope.order.quantity=parseInt($location.search()['quantity']);
+				if($scope.order.orderType==5){
+					$scope.min=data.result.floor_purchase_quantity;
+					if($scope.order.quantity<$scope.min){
+						$scope.order.quantity=$scope.min;
+					}
+				}
+				
 			}
 		});
 	};
 	$scope.upadteCart = function(type) {
-			if ($scope.order.quantity != 1 || type != -1) {
+			if ($scope.order.quantity != $scope.min || type != -1) {
 				$scope.order.quantity += type;
 			}
 	};
@@ -917,23 +929,21 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		}else{
 			$scope.order.is_need_invoice=0;
 		}
-		if(2==$scope.order.type){
-			$http.post("api/order/lease", $scope.order).success(function(data) {
-				if (data.code == 1) {
+		$scope.order.agentId=LoginService.agentid;
+		$scope.order.customerId=80;
+		$scope.order.addressId=1;
+		$http.post("api/order/agent", $scope.order).success(function(data) {
+			if (data.code == 1) {
+				if($scope.order.orderType==5){
+					window.location.href = '#/wholesaleOrder';
+				}else{
 					window.location.href = '#/pay?id='+data.result;
-				}else if(data.code == -2){
-					window.location.href = '#/lowstocks';
 				}
-			});
-		}else{
-			$http.post("api/order/shop", $scope.order).success(function(data) {
-				if (data.code == 1) {
-					window.location.href = '#/pay?id='+data.result;
-				}else if(data.code == -2){
-					window.location.href = '#/lowstocks';
-				}
-			});
-		}
+			}else if(data.code == -2){
+				window.location.href = '#/lowstocks';
+			}
+		});
+		
 	};
 	$scope.ctype=function(v){
 		$scope.order.invoice_type=v;
@@ -943,14 +953,23 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 };
 
 
-var addressController=function($scope,$http , $location, LoginService){
-	$scope.list = function() {
+var orderUserController=function($scope,$http , $location, LoginService){
+	$scope.init = function() {
+		$scope.req = {};
+		$scope.clist();
+	};
+	$scope.clist = function() {
+		$scope.req.customerId=LoginService.loginid;
+		$http.post("api/user/getUser",$scope.req).success(function(data) {
+			if (data.code == 1) {
+				$scope.cuslist = data.result;
+			}
+		});
+	};
+	$scope.alist = function(cid) {
 		$http.post("api/customers/getAddressList/"+LoginService.userid).success(function(data) {
 			if (data.code == 1) {
 				$scope.addressList = data.result;
-			} else {
-				// 提示错误信息
-				alert(data.message);
 			}
 		});
 	};
@@ -975,12 +994,7 @@ var addressController=function($scope,$http , $location, LoginService){
 			}
 		});
 	};
-	$scope.init = function() {
-		$scope.address = {};
-		$scope.ad = {};
-		$scope.address.isDefault = "2";
-		$scope.list();
-	};
+	
 	
 	$scope.city_list = function(){
 		$http.post("api/index/getCity").success(function (data) {   
@@ -993,6 +1007,75 @@ var addressController=function($scope,$http , $location, LoginService){
 	$scope.init();
 }
 
+
+var payController = function($scope, $http,$location,LoginService) {
+	$scope.pay=true;
+	$scope.req={};
+	$scope.order={};
+	$scope.payway=1;
+	$scope.req.id=$location.search()['id'];
+	$scope.init = function() {
+		if(LoginService.userid == 0){
+			window.location.href = '#/login';
+		}
+		$scope.getOrder();
+	};
+	$scope.getOrder = function() {
+		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.order=data.result;
+            	if(data.result.paytype>0){
+            		$scope.pay=false;
+            		$scope.payway=data.result.paytype;
+            	}
+            	
+            }
+        });
+	};
+	$scope.pay= function(){
+		$('#payTab').show();
+		if(1==$scope.payway){
+			//alert("支付宝");
+			$scope.order.title="";
+        	var count=0;
+        	 angular.forEach($scope.order.good, function (one) {
+                 if(count<2){
+                	 $scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
+                 }
+                 count++;
+             });
+        	 if(count>2){
+        		 $scope.order.title+="..";
+        	 }
+			window.open("alipayapi.jsp?WIDtotal_fee="+
+					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+					+"&WIDout_trade_no="+$scope.order.order_number);  
+		}else{
+			//alert("银行");
+			window.open("http://www.taobao.com");  
+		}
+	}
+	$scope.finish= function(){
+		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.order=data.result;
+            	if(data.result.paytype>0){
+            		$scope.pay=false;
+            		$scope.payway=data.result.paytype;
+            		$('#payTab').hide();
+            		$('.mask').hide();
+            	}else{
+            		alert("尚未支付,如有疑问请联系888-88888");
+            	}
+            	
+            }
+        });
+	};
+	$scope.init();
+};
+
+
+
 shopController.$inject = ['$scope','$http','LoginService'];
 shopModule.controller("shopController", shopController);
 purchaseshopController.$inject = ['$scope','$http','LoginService'];
@@ -1003,5 +1086,7 @@ purchaseshopinfoController.$inject = ['$scope','$http','$location','LoginService
 shopModule.controller("purchaseshopinfoController", purchaseshopinfoController);
 shopmakeorderController.$inject = ['$scope','$http','$location','LoginService'];
 shopModule.controller("shopmakeorderController", shopmakeorderController);
-addressController.$inject = ['$scope','$http','$location','LoginService'];
-shopModule.controller("addressController", addressController);
+orderUserController.$inject = ['$scope','$http','$location','LoginService'];
+shopModule.controller("orderUserController", orderUserController);
+payController.$inject = ['$scope','$http','$location','LoginService'];
+shopModule.controller("payController", payController);

@@ -1,7 +1,6 @@
 package com.comdosoft.financial.user.controller.api;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.EmpReq;
+import com.comdosoft.financial.user.domain.query.MyAccountReq;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerRoleRelation;
@@ -47,7 +47,7 @@ public class SystemSetController {
 
 		String username = req.getUsername().trim();
 		Map<String, Object> map = systemSetService.getEmpInfoByUsername(username);
-		if (map != null) {
+		if (map != null && !map.isEmpty()) {
 			response.setCode(Response.ERROR_CODE);
 			response.setMessage("用户名重复");
 		} else {
@@ -57,7 +57,7 @@ public class SystemSetController {
 			c.setUsername(username);
 			c.setPassword(SysUtils.string2MD5(req.getPassword()));
 			c.setStatus(Customer.STATUS_NORMAL);// 正常
-			c.setAccountType(1);// 1 普通用户/商户
+			c.setTypes(Customer.TYPE_AGENT_STAFF);
 			c.setCreatedAt(d);
 			systemSetService.insertCustomer(c);
 
@@ -69,7 +69,7 @@ public class SystemSetController {
 				int customerId = Integer.parseInt(map.get("id").toString());
 				ca.setCustomerId(customerId);
 				ca.setStatus(CustomerAgentRelation.STATUS_2);
-				ca.setTypes(1);
+				ca.setTypes(6);
 				ca.setCreatedAt(d);
 				systemSetService.insertCustomerAgentRelations(ca);
 
@@ -149,32 +149,6 @@ public class SystemSetController {
 	}
 
 	/**
-	 * 获取用户列表
-	 * 
-	 * @param customerId
-	 * @param page
-	 * @param rows
-	 * @return
-	 */
-	@RequestMapping(value = "getList/{customerId}/{page}/{rows}", method = RequestMethod.POST)
-	public Response getList(@PathVariable int customerId, @PathVariable int page, @PathVariable int rows) {
-		Response response = null;
-		try {
-			response = new Response();
-			Map<Object, Object> result = new HashMap<Object, Object>();
-			result.put("total", systemSetService.getListCount(customerId));
-			result.put("list", systemSetService.getList(customerId, page, rows));
-			logger.debug(result);
-			response.setResult(result);
-			response.setCode(Response.SUCCESS_CODE);
-		} catch (Exception e) {
-			logger.error("获取商户信息列表失败", e);
-			response.setMessage("获取商户信息列表失败:系统异常");
-		}
-		return response;
-	}
-
-	/**
 	 * 重置用户密码
 	 * 
 	 * @param map
@@ -231,6 +205,21 @@ public class SystemSetController {
 			response.setCode(Response.ERROR_CODE);
 			response.setMessage("更新用户信息失败");
 		}
+		return response;
+	}
+
+	/**
+	 * 账户列表
+	 * 
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "getAccountList", method = RequestMethod.POST)
+	public Response getAccountList(@RequestBody MyAccountReq req) {
+		Response response = new Response();
+		Map<String, Object> result = systemSetService.getAccountList(req);
+		response.setCode(Response.SUCCESS_CODE);
+		response.setResult(result);
 		return response;
 	}
 }

@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="js/libs/angular-cookies.js"></script>
 		<script type="text/javascript" src="js/libs/angular-sanitize.js"></script>
 		<script type="text/javascript" src="js/libs/ng-csv.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/controllers/index.controller.js"></script>
 		<!-- 系统分页 -->
 		<script type="text/javascript" src="js/page.js"></script>
 		<script src="js/main.js"></script>
@@ -29,7 +29,6 @@
 		<script type="text/javascript" src="js/directives/fileupload.directive.js"></script>
 		<!-- Controllers -->
 		<script type="text/javascript" src="js/controllers/route.controller.js"></script>
-		<script type="text/javascript" src="js/controllers/index.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/login/register.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/login/login.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/login/findPass.controller.js"></script>
@@ -48,7 +47,7 @@
 		<script type="text/javascript" src="js/controllers/stock.controller.js"></script>	
 		<script type="text/javascript" src="js/controllers/agent.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/adderss.controller.js"></script>
-
+		<script type="text/javascript" src="js/controllers/usermanage/userManage.js"></script>
 		<!--柱形图表-->
 		<script src="js/Chart.min.js"></script>
 		<!--[if lte IE 8]>
@@ -83,6 +82,7 @@
 					<li ng-if="menu6"><a href="#/trade">交易流水</a></li>
 					<li ng-if="menu7"><a href="#">POS销售分润</a></li>
 					<li ng-if="menu8" class="second"><a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
+
 						<ol>
 							<li><a href="#/lowerAgent">下级代理商</a></li>
 							<li><a href="#/prepare">管理配货</a></li>
@@ -94,9 +94,10 @@
 							<li><a href="#/cs_update">更新资料记录</a></li>
 							<li><a href="#/cs_agent">代理商售后记录</a></li>
 						</ol></li>
+
 					<li ng-if="menu10"><a href="#">管理用户</a></li>
 					<li ng-if="menu11" class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
-						<ol>
+<ol>
 							<li><a href="#/agentinform">代理商资料</a></li>
 							<li><a href="#/accountList">员工帐号</a></li>
 							<li><a href="#/modifypassword">修改密码</a></li>

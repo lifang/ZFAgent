@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.comdosoft.financial.user.domain.Paging;
 import com.comdosoft.financial.user.domain.query.EmpReq;
 import com.comdosoft.financial.user.domain.query.MyAccountReq;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
@@ -26,28 +25,17 @@ public class SystemSetService {
 	private SysconfigMapper sysConfigMapper;
 
 	/**
-	 * 代理商创建用户
-	 * 
-	 * @param empReq
+	 * 插入用户信息(customers表)
+	 * @param customer
 	 */
-	public void addCustomer(EmpReq empReq) {
-		customerMapper.addCustomer(empReq);
-	}
-
 	public void insertCustomer(Customer customer) {
 		customerMapper.insertCustomer(customer);
 	}
 
 	/**
-	 * 验证用户名是否重复
-	 * 
+	 * 插入用户信息(customer_agent_relations表)
 	 * @param empReq
-	 * @return
 	 */
-	public Map<String, Object> checkAccount(EmpReq empReq) {
-		return customerMapper.checkAccount(empReq);
-	}
-
 	public void insertCustomerAgentRelations(CustomerAgentRelation empReq) {
 		customerMapper.insertCustomerAgentRelations(empReq);
 	}
@@ -73,16 +61,6 @@ public class SystemSetService {
 	}
 
 	/**
-	 * 根据ID查询代理商所有权限
-	 * 
-	 * @param req
-	 * @return
-	 */
-	public List<Object> getWholeRightsByAgentId(MyAccountReq req) {
-		return customerMapper.getWholeRightsByAgentId(req);
-	}
-
-	/**
 	 * 根据ID删除用户信息(逻辑删除)
 	 * 
 	 * @param req
@@ -92,30 +70,13 @@ public class SystemSetService {
 		return customerMapper.deleteEmpInfoFromAgent(id);
 	}
 
-	public int updateCustomerStatus(int id) {
-		return customerMapper.updateStatus(id);
-	}
-
-	public int getListCount(int customerId) {
-		return customerMapper.count(customerId);
-	}
-
 	/**
-	 * 获取代理商旗下的用户
-	 * 
-	 * @param customerId
-	 * @param page
-	 * @param rows
+	 * 更新用户状态为不可用
+	 * @param id
 	 * @return
 	 */
-	public List<Map<String, Object>> getList(int customerId, int page, int rows) {
-		Map<Object, Object> query = new HashMap<Object, Object>();
-		query.put("customerId", customerId);
-		Paging paging = new Paging(page, rows);
-		query.put("offset", paging.getOffset());
-		query.put("rows", paging.getRows());
-
-		return customerMapper.getAccountList(query);
+	public int updateCustomerStatus(int id) {
+		return customerMapper.updateStatus(id);
 	}
 
 	public void insertCustomerRights(CustomerRoleRelation cr) {
@@ -125,10 +86,8 @@ public class SystemSetService {
 	/**
 	 * 记录操作记录
 	 * 
-	 * @param content
-	 *            操作内容
-	 * @param operateUserId
-	 *            操作人ID
+	 * @param content 操作内容<br/>
+	 * @param operateUserId 操作人ID<br/>
 	 */
 	public int operateRecord(String content, int operateUserId) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -137,10 +96,20 @@ public class SystemSetService {
 		return sysConfigMapper.operateRecord(map);
 	}
 
+	/**
+	 * 重置密码
+	 * @param map
+	 * @return
+	 */
 	public int resetPassword(Map<String, Object> map) {
 		return customerMapper.resetPassword(map);
 	}
 
+	/**
+	 * 获得代理商员工信息
+	 * @param customerId
+	 * @return
+	 */
 	public Map<String, Object> getEmpInfoFromAgent(int customerId) {
 		Map<String, Object> result = null;
 		List<Map<String, Object>> list = customerMapper.getDetailInfoById(customerId);
@@ -212,24 +181,13 @@ public class SystemSetService {
 		return role_name;
 	}
 
+	/**
+	 * 编辑用户信息
+	 * @param req
+	 * @return
+	 */
 	public int editCustomerInfo(EmpReq req) {
 		return customerMapper.editCustomerInfo(req);
-	}
-
-	public int editCustomerRights(int customer_id, int right_id) {
-		return customerMapper.editCustomerRights(customer_id, right_id);
-	}
-
-	public List<Map<String, Object>> getCustomerRights(EmpReq req) {
-		return customerMapper.getCustomerRights(req);
-	}
-
-	public int updateRights(int customer_id, int role_id) {
-		return customerMapper.updateRights(customer_id, role_id);
-	}
-
-	public int countCustomerRightsByRoleId(int customer_id, int role_id) {
-		return customerMapper.countCustomerRightsByRoleId(customer_id, role_id);
 	}
 
 	/**
@@ -242,8 +200,26 @@ public class SystemSetService {
 		return customerMapper.deleteCustomerRights(req);
 	}
 
+	/**
+	 * 插入员工权限
+	 * @param req
+	 */
 	public void insertRights(EmpReq req) {
 		customerMapper.batchInsertRights(req);
+	}
+
+	/**
+	 * 账户列表
+	 * @param req
+	 * @return
+	 */
+	public Map<String, Object> getAccountList(MyAccountReq req) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		int total = customerMapper.count(req);
+		List<Map<String, Object>> list = customerMapper.getAccountList(req);
+		result.put("total", total);
+		result.put("list", list);
+		return result;
 	}
 
 }

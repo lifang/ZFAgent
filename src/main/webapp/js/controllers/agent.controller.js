@@ -6,6 +6,10 @@ var modifypasswordModule = angular.module("modifypasswordModule", []);
 
 var modifypasswordController = function($scope, $http, LoginService) {
 
+	var v1;//倒计时1
+	var v2;//倒计时2
+	var v3;//邮箱
+	
 	$scope.save = function() {
 		// agents_id : LoginService.agentid,
 	};
@@ -49,8 +53,10 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			alert(data.message);
 		});
 	};
+	
 	$scope.query = function() {
 		var id = 15;
+		$scope.intDiff=0;
 		$http.post("api/agents/query/" + id).success(function(data) {
 			if (data.result != null) {
 				$scope.one = data.result;
@@ -66,6 +72,229 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		$scope.menuState.show = !$scope.menuState.show;
 	}
 
+	$scope.getEmail = function() {
+		$http.post("api/agent/getEmail").success(function(data) {
+			if (data != null || data == 0) {
+				alert(data.message);
+			} else {
+				$scope.show();
+			}
+		});
+
+	}
+	
+	//修改邮箱
+	$scope.up_save = function(){
+		var mail = $scope.email;
+		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+		if(!reg.test(mail)){
+			alert("请输入合法的邮箱地址");
+			return false;
+		}
+		//id暂定15
+		$scope.req = {id:15,
+					  email:mail};
+		$http.post("api/agents/updateEmailAddr",$scope.req).success(function (data) {   
+			if (data != null && data != undefined) {
+				alert("修改成功");
+				window.location.href = '#/agentinform';
+				location.reload();
+			}
+		});
+	};
+	
+	//根据手机号发送验证码
+	$scope.sendPhoneCode = function(){
+		var sMobile = $scope.i_phone_new; 
+		if($scope.intDiff == 0){
+			console.log("第二个  获取 验证码  开始");
+			$scope.getPhoneCode(sMobile);
+			$scope.intDiff = 120;
+			clearInterval(v2);
+			v2 = window.setInterval(function(){
+				$('#show_phone_input_my_o_btn').html();
+		    	if($scope.intDiff == 0){
+		    		$('#show_phone_input_my_o_btn').html("发送验证码");
+		    		clearInterval(v2);
+		    	}else{
+		    		$('#show_phone_input_my_o_btn').html("重新发送验证码（"+$scope.intDiff+"秒）");
+		    	    $scope.intDiff--;
+		    	}
+		    }, 1000);
+		}else{
+			console.log("第二个  获取 验证码   时间未到");
+		}
+	};
+
+	//根据手机号发送并获取验证码
+	$scope.getPhoneCode = function(sMobile){
+		$scope.req ={phone:sMobile};
+		$http.post("api/index/getPhoneCodeAgent",$scope.req).success(function (data) {   
+			if (data != null && data != undefined) {
+//				alert(data.result);
+				$scope.phone_code = data.result;
+				console.log("code ==>"+$scope.phone_code);
+			}
+		});
+	}
+	//确认验证码，（第一次）
+	$scope.yz_phone_code = function(){
+		var p_code = $scope.phone_code;
+		var i_code = $scope.phone_code_i_o;//输入的验证码
+		if(p_code == i_code){
+			var sMobile = $scope.i_phone_new; 
+		    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))){ 
+		        alert("不是完整的11位手机号或者正确的手机号前七位"); 
+		        $("#i_phone_new").focus(); 
+		        return false; 
+		    }else{
+				$("#show_phone_input_my_o").css('display','none');
+				$(".mask").css('display','none');
+				
+				var doc_height = $(document).height();
+				var doc_width = $(document).width();
+				var win_height = $(window).height();
+				var win_width = $(window).width();
+				
+				var layer_height = $("#show_phone_input_my_t").height();
+				var layer_width = $("#show_phone_input_my_t").width();
+				
+				var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+					
+			    $(".mask").css({display:'block',height:doc_height});
+				$("#show_phone_input_my_t").css('top',(win_height-layer_height)/2);
+				$("#show_phone_input_my_t").css('left',(win_width-layer_width)/2);
+				$("#show_phone_input_my_t").css('display','block');
+				
+				
+				//第二个验证框显示
+				$('#show_phone_input_my_o_btn').html("发送验证码");
+				clearInterval(v1);
+				$scope.getPhoneCode(sMobile);
+				$scope.intDiff = 120;
+				console.log("确认获取验证码  开始倒计时" + $scope.intDiff);
+				v2 = window.setInterval(function(){
+					$('#show_phone_input_my_o_btn').html();
+			    	if($scope.intDiff == 0){
+			    		$('#show_phone_input_my_o_btn').html("发送验证码");
+			    		clearInterval(v2);
+			    	}else{
+			    		$('#show_phone_input_my_o_btn').html("重新发送验证码（"+$scope.intDiff+"秒）");
+			    	    $scope.intDiff--;
+			    	}
+			    }, 1000);
+		    }
+		}else{
+			alert("验证码错误");
+		}
+	};
+	
+	//确认验证码，更新手机号
+	$scope.change_phone_btn = function(){
+		var p_code = $scope.phone_code;
+		var i_code = $scope.i_phone_code;//输入的验证码
+		if(p_code == i_code){
+			var sMobile = $scope.i_phone_new; 
+			//id暂定15
+			$scope.req ={phone:sMobile,id:15};
+			$http.post("api/agents/updatePhoneNumber",$scope.req).success(function (data) {   
+				if (data != null && data != undefined) {
+					//重新刷新
+					$("#show_phone_input_my_t").css('display','none');
+					$(".mask").css('display','none');
+					$scope.query();
+					alert("修改成功");
+				}
+			});
+		}else{
+			alert("验证码错误");
+		}
+	};
+	
+	//第一次发送验证码   //
+	$scope.send_code_one = function(t){
+		if(t==1){
+			$('#send_code_one').html("发送验证码");
+			$scope.phone_code_i_o = "";
+			$scope.i_phone_new = "";
+			$scope.i_phone_code = "";
+		}else if(t=2){//再次点击获取
+			if($scope.intDiff == 0){
+				$scope.intDiff =120;
+				console.log(t+"再次点击获取发送验证码");
+				v1= window.setInterval(function(){
+					$('#send_code_one').html();
+			    	if($scope.intDiff == 0){
+			    		$('#send_code_one').html("发送验证码");
+			    		clearInterval(v1);
+			    	}else{
+			    		$('#send_code_one').html("重新发送验证码（"+$scope.intDiff+"秒）");
+			    	    $scope.intDiff--;
+			    	}
+			    }, 1000);
+				var sMobile = $scope.one.phone; 
+				$scope.getPhoneCode(sMobile);
+			}else{
+				console.log(t+"再次点击获取发送验证码时间未到");
+			}
+		}
+	};
+	
+	//修改邮箱
+	$scope.up_email = function(){
+		console.log("修改邮箱 start==》》"+$scope.intDiff);
+//		email_send_btn
+		if($scope.intDiff == 0){
+    		$scope.intDiff =120;
+			 v3 = window.setInterval(function(){
+				$('#email_send_btn').html();
+		    	if($scope.intDiff == 0){
+		    		$('#email_send_btn').html("修改邮箱");
+		    		clearInterval(v3);
+		    	}else{
+		    		$('#email_send_btn').html("等待（"+$scope.intDiff+"秒）");
+		    	    $scope.intDiff--;
+		    	}
+		    }, 1000);
+				var email = $scope.one.email;
+				//id=15 
+				$scope.req ={id:15,content:email,q:$scope.one.company_name};
+				$http.post("api/index/change_email_check",$scope.req).success(function (data) {   
+					if (data != null && data != undefined) {
+//						alert("发送成功,请注意查收!");
+					}
+				});
+				
+				//显示提示
+				var doc_height = $(document).height();
+				var doc_width = $(document).width();
+				var win_height = $(window).height();
+				var win_width = $(window).width();
+				
+				var layer_height = $("#email_send_tab").height();
+				var layer_width = $("#email_send_tab").width();
+				
+				var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+				
+			    $(".mask").css({display:'block',height:doc_height});
+				$("#email_send_tab").css('top',(win_height-layer_height)/2);
+				$("#email_send_tab").css('left',(win_width-layer_width)/2);
+				$("#email_send_tab").css('display','block');
+		}else{
+			return false;
+		}
+	};
+	
+	$scope.colose_email = function(){
+		$("#email_send_tab").css('display','none');
+		$(".mask").css('display','none');
+	};
+	
+	$scope.close_show_two = function(){
+		$("#show_phone_input_my_t").css('display','none');
+		$(".mask").css('display','none');
+	};
+	
 	$scope.getEmail = function() {
 		$http.post("api/agent/getEmail").success(function(data) {
 			if (data != null || data == 0) {

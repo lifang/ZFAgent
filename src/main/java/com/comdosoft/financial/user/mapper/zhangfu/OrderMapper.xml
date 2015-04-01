@@ -126,18 +126,31 @@
 	    <collection property="csOutStorageList" ofType="com.comdosoft.financial.user.domain.zhangfu.CsOutStorage" resultMap="csOutStorageMap" />  
 	    <collection property="orderMarkList" ofType="com.comdosoft.financial.user.domain.zhangfu.OrderMark" resultMap="orderMarksMap" />  
 	</resultMap>
-
+<!-- 批购 -->
 	<select id="countWholesaleOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.customer_id = #{param1} and o.types = 5
+		where o.customer_id = #{customerId} and o.types = 5
+		<if test="search !=null and search!=''">
+		and   o.order_number like "%"#{search}"%" 
+		</if>
+		<if test="q !=null and q!=''">
+		and o.status = #{q}
+		</if>
 	</select>
+	<!-- 代购 -->
 	<select id="countProxyOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.customer_id = #{param1}  and ( o.types = 3 or o.types = 4)
+		where o.customer_id = #{customerId}  and ( o.types = 3 or o.types = 4)
+		<if test="search !=null and search!=''">
+		and   o.order_number like "%"#{search}"%" 
+		</if>
+		<if test="q !=null and q!=''">
+		and o.status = #{q}
+		</if>
 	</select>
-
+	
 	<!-- 批购 -->
 	<select id="getWholesaleOrder" resultMap="orderMap" >
 		SELECT
@@ -168,8 +181,37 @@
 		WHERE
 		o.customer_id = #{customerId}
 		and o.types = 5
+		<if test="search !=null and search!=''">
+		and   o.order_number like "%"#{search}"%" 
+		</if>
+		<if test="q !=null and q!=''">
+		and o.status = #{q}
+		</if>
+		group by o.id
 		order by o.created_at desc
+		
 		LIMIT #{offset},#{rows}
+	</select>
+	<select id="findGoodsByWOrderId" resultMap="orderGoodsMap" >
+		SELECT
+			os.id as cs_out_id,
+			og.id AS order_good_id,
+			g.id AS good_id,
+			g.title,g.price,g.purchase_price,
+			gb. NAME,
+			gb.id AS good_brands_id,
+			pc. NAME AS channel_name,
+			og.price,
+			os.quantity,os.status as os_status
+		FROM
+		 order_goods og
+		LEFT JOIN goods g ON og.good_id = g.id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
+		LEFT JOIN cs_out_storages os ON  os.order_id =#{param1}
+		WHERE
+		   og.order_id =#{param1}
+		order by og.created_at desc
 	</select>
 	
 	<!-- 代购 -->
@@ -178,7 +220,7 @@
 		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,g.retail_price,
 		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,
 		pc.name as channel_name,og.price ,	og.quantity , c.name,o.belongs_user_id,
-		o.actual_price ,total_price,o.total_quantity as total_num
+		o.actual_price ,o.total_price,o.total_quantity as total_num
 		FROM	
 		orders o
 		LEFT JOIN order_goods og ON o.id = og.order_id
@@ -189,8 +231,32 @@
 		WHERE
 		o.customer_id = #{customerId}
 		and ( o.types = 3 or o.types = 4)
+		<if test="search !=null and search!=''">
+		and   o.order_number like "%"#{search}"%" 
+		</if>
+		<if test="q !=null and q!=''">
+		and o.status = #{q}
+		</if>
+			group by o.id
 		order by o.created_at desc
 		LIMIT #{offset},#{rows}
+	</select>
+	
+	<select id="findGoodsByPOrderId" resultMap="orderGoodsMap" >
+		SELECT
+		og.id as order_good_id,
+		g.id as good_id, 
+		g.retail_price,
+		g.title,gb.name , gb.id as good_brands_id,
+		pc.name as channel_name,og.price ,	og.quantity 
+		FROM	
+	      order_goods og
+		LEFT JOIN goods g ON og.good_id = g.id
+		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
+		WHERE
+		   og.order_id =#{param1}
+		order by og.created_at desc
 	</select>
 	
 	<select id="findCustomerById" resultMap="customerMap" >
@@ -212,7 +278,7 @@
 		 gp.good_id = #{param1}
 		order by gp.id desc
 	</select>
-	  <!--  批购订单 -->
+	  <!--  批购 详情 -->
 	<select id="getWholesaleById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.price,g.purchase_price,
@@ -240,7 +306,7 @@
 		o.id = #{param1}
 		and o.types = 5
 	</select>
-	<!-- 代购 -->
+	<!-- 代购  详情 -->
 	<select id="getProxyById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,
@@ -303,7 +369,7 @@
 		customer_address_id,need_invoice,invoice_type,
 		invoice_info,actual_price,created_at,updated_at,
 		comment,total_quantity)
-		VALUES(#{ordernumber},#{customerId},#{totalprice},0,#{orderType},
+		VALUES(#{ordernumber},#{customerId},#{totalprice},1,#{orderType},
 		#{addressId},#{isNeedInvoice},#{invoiceType},#{invoiceInfo},
 		#{totalprice},NOW(),NOW(),#{comment},#{totalcount})
   </insert>

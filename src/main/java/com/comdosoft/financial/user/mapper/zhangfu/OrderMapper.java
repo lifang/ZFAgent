@@ -8,6 +8,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.Order;
+import com.comdosoft.financial.user.domain.zhangfu.OrderGood;
 import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 
 public interface OrderMapper {
@@ -20,13 +21,16 @@ public interface OrderMapper {
     Map<String, Object> getGoodInfo(OrderReq orderreq);
 
 // ----gch start --------------
-    int countWholesaleOrder(Integer pid);
-    int countProxyOrder(Integer pid);
+    int countWholesaleOrder(MyOrderReq myOrderReq);//批购查询
+    
+    int countProxyOrder(MyOrderReq myOrderReq);//代购查询
 
-    List<Order> getWholesaleOrder(MyOrderReq myOrderReq);
-    List<Order> getProxyOrder(MyOrderReq myOrderReq);
-
+    List<Order> getWholesaleOrder(MyOrderReq myOrderReq);//批购
+    
+    List<Order> getProxyOrder(MyOrderReq myOrderReq);//代购
+    
     Order getWholesaleById(Integer id);
+    
     Order getProxyById(Integer id);
 
     int cancelMyOrder(MyOrderReq myOrderReq);
@@ -38,6 +42,9 @@ public interface OrderMapper {
     List<Map<String, Object>> findTraceById(MyOrderReq myOrderReq);
     
     Customer findCustomerById(Customer person);
+    
+    List<OrderGood> findGoodsByPOrderId(Integer id);
+    List<OrderGood> findGoodsByWOrderId(Integer id);
 // ------gch end ---------------------
 
 //根据订单id获取终端号

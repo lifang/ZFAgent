@@ -48,8 +48,8 @@
                                 	<div class="text"><input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}"/></div></li>
                                 <li ng-if="$index == 0"><span class="labelSpan">性别：</span>
                                 	<div class="text">
-                                    	<span class="checkboxRadio_span"><input name="radio" checked type="radio" value="" ng-click="butSex(1)"/> 男</span>
-                                        <span class="checkboxRadio_span"><input name="radio" type="radio" value="" ng-click="butSex(0)"/> 女</span>
+                                    	<span class="checkboxRadio_span"><input name="radio" ng-checked="sex == 1" type="radio" value="" ng-click="butSex(1)"/> 男</span>
+                                        <span class="checkboxRadio_span"><input name="radio" ng-checked="sex == 0" type="radio" value="" ng-click="butSex(0)"/> 女</span>
                                     </div>
                                 	<!-- <div class="text">
                                     	<span class="checkboxRadio_span"><input name="radio" type="radio" value="" ng-click="butSex(1)"/> 男</span>
@@ -82,9 +82,6 @@
                                 <li ng-if="$index == 0"><span class="labelSpan">电话：</span>
                                 	<div class="text"><input name="" type="text" id="phoneValue" value="{{openingInfos.phone}}"/></div>
                                 </li>
-                                 <li ng-if="$index == 0"><span class="labelSpan">邮箱：</span>
-                                	<div class="text"><input name="" type="text" id="emailValue" value="{{openingInfos.email}}"/></div>
-                                </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">地址：</span>
                                 	<div class="text">
                                 		<select  ng-model="selected" ng-options="s.name for s in cities">
@@ -94,6 +91,9 @@
 			               					<option value="">{{addressShi}}</option>
 			          					</select>
                                      </div>
+                                </li>
+                                 <li ng-if="$index == 0"><span class="labelSpan">邮箱：</span>
+                                	<div class="text"><input name="" type="text" id="emailValue" value="{{openingInfos.email}}"/></div>
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">支付通道：</span>
                                 	<div class="text">
@@ -105,7 +105,7 @@
 			          					</select>
                                 	</div>
                                 </li>
-                                <li class="overflow" ng-if="$index == 0"><span class="labelSpan">结算银行名称：</span>
+                                <li ng-if="$index == 0"><span class="labelSpan">结算银行名称：</span>
                                 	<div class="text"><input name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">结算银行代码：</span>
@@ -118,13 +118,13 @@
                                 	<div class="text"><input name="" type="text" id="organizationNoValue" value="{{merchant.organization_code_no}}"/></div></li>
                                 	
                                 	
-                                <li ng-repeat="r in result" ng-if="r.info_type == 3 && r.opening_requirements_id == ma.id">
+                                <li class="overflow" ng-repeat="r in result" ng-if="r.info_type == 3 && r.opening_requirements_id == ma.id">
                                 <span class="labelSpan" id="key_{{ma.level+'_'+$index}}">{{r.name}}：</span>
                                 	<div class="text">
                                 	<input type="hidden" id="id_{{ma.level+'_'+$index}}" value="{{r.id}}"/>
                                 	<input name="" type="text" ng-keyup="bank(ma.level+'_'+$index)">
                                 	</div>
-                                	<div ng-class="{true:'suggest'}[1 == 2]" id="div_{{ma.level+'_'+$index}}">
+                                	<div class="suggest" id="div_{{ma.level+'_'+$index}}">
                                     	<input name="" type="hidden"  id="value_{{ma.level+'_'+$index}}" value="{{r.value}}">
                                     	<a href="javascript:void(0)" id="but_{{ma.level+'_'+$index}}" ng-repeat="codes in bankCode" ng-click="bankNum('but_'+ma.level+'_'+$index,codes.code,codes.name)">{{codes.name}}</a>
                                     </div>
@@ -144,7 +144,7 @@
                                 <div class="text" >
                                 <form method="post" action="api/comment/upload/tempImage" enctype="multipart/form-data">  
                                 	<img src="images/zp.jpg" class="covers" />
-                                	<a href="javascript:void(0);" class="informImg_a" >
+                                	<a href="javascript:void(0);" class="informImg_a" style="float: right;">
                                     <span ng-if="r.value == null" >上传</span>
                                     <span ng-if="r.value != null" >重新上传</span>
                                     <input type="text" id="value_{{ma.level+'_'+$index}}" value="{{r.value}}"/>

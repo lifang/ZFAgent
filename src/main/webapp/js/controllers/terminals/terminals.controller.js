@@ -647,6 +647,12 @@ var terminalToUpdateController = function ($scope, $http,$location, LoginService
 };
 
 var terminalOpenController = function ($scope, $http,$location, LoginService) {
+	//检验邮箱格式
+	var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+	//手机格式
+	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+	//英文数字校验
+	var numCh = /[^a-zA-Z0-9]/g;
 	$scope.customerId = 80;
 	$scope.terminalId = 1;
 	$scope.chan={};//通道对象封装
@@ -816,7 +822,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		      }).error(function (data){
 		    	  alert("银行加载失败！");
 		      });
-			 
+			  $("#div_"+obj).show();
 		  }
 		//动态显示银行代码号
 		  $scope.bankNum = function(obj,number,backName){
@@ -870,7 +876,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 				                     cardId:$("#cirdValue").val(),
 				                     phone:$("#phoneValue").val(),
 				                     email:$("#emailValue").val(),
-				                     cityId:123,
+				                     cityId:$scope.cityId,
 				                     name:$("#valueName").val(),
 				                     channel:$scope.channel,
 				                     billingId:$scope.billingId,
@@ -987,14 +993,14 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 				  return false;
 			  }
 			  else{
-				  if($scope.MaterialLevel.length>0){
-					  for(var i=0;i<$scope.MaterialLevel.length;i++){
+				  if($scope.materialLevel.length>0){
+					  for(var i=0;i<$scope.materialLevel.length;i++){
 						  if(i==0){
 							  for(var y=0;y<$scope.result.length;y++){
-								  if($scope.result[y].opening_requirements_id == $scope.MaterialLevel[i].id){
-									  var id =($('#id_'+$scope.MaterialLevel[i].level+'_'+y).val());
-									  			  var keys =($('#key_'+$scope.MaterialLevel[i].level+'_'+y).html()).replace(":","");
-									  			  var values =($('#value_'+$scope.MaterialLevel[i].level+'_'+y).val());
+								  if($scope.result[y].opening_requirements_id == $scope.materialLevel[i].id){
+									  var id =($('#id_'+$scope.materialLevel[i].level+'_'+y).val());
+									  			  var keys =($('#key_'+$scope.materialLevel[i].level+'_'+y).html()).replace(":","");
+									  			  var values =($('#value_'+$scope.materialLevel[i].level+'_'+y).val());
 									  			  if(values == null || values == ""){
 									  				if($scope.result[y].info_type != 2){
 									  					 alert("请输入"+keys+"!");
@@ -1019,6 +1025,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalDetail();
 
 };
+$(".suggest").hide();
 
 
 terminalModule.$inject = ['$scope', '$http', '$cookieStore'];

@@ -86,4 +86,10 @@
 	ORDER BY	updated_at DESC
 	LIMIT 0, 7
 	</select>
+	
+	<select id="getRoleByAgentId" parameterType="int" resultType="map">
+       select a.role_id as roleId from customer_role_relations a where a.customer_id=(select b.customer_id from agents b where b.id=#{agentId})
+   </select>
+	
+	
 </mapper>

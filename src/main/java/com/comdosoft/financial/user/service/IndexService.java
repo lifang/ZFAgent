@@ -158,5 +158,20 @@ public class IndexService {
 	        return indexMapper.wxlist(myOrderReq);
 	    }
 
-
+    public String getRoleByAgentId(int agentId){
+    	StringBuilder rolesStr=new StringBuilder();
+    	List<Map<String,Object>> list=indexMapper.getRoleByAgentId(agentId);
+    	if(null!=list && list.size()>0){
+    		for(int i=0;i<list.size();i++){
+    			int roleId=(Integer)list.get(i).get("roleId");
+    			if(rolesStr.length()==0){
+    				rolesStr.append(roleId);
+    			}else{
+    				rolesStr.append(","+roleId);
+    			}
+    		}
+    	}
+    	return rolesStr.toString();
+    	
+    }
 }

@@ -8,11 +8,18 @@ public class ShopReq {
      private int quantity;
      private int paychannelId;
      private int orderType;
+     private int agentId;
      
      //{"id":1,"goodId":2,"customerId":2,"quantity":2,"paychannelId":2}
      
     public int getId() {
         return id;
+    }
+    public int getAgentId() {
+        return agentId;
+    }
+    public void setAgentId(int agentId) {
+        this.agentId = agentId;
     }
     public void setId(int id) {
         this.id = id;

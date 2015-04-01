@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.comdosoft.financial.user.domain.query.ShopReq;
 import com.comdosoft.financial.user.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.ShopMapper;
+import com.comdosoft.financial.user.utils.SysUtils;
 
 @Service
 public class ShopService {
@@ -20,6 +21,8 @@ public class ShopService {
     @Autowired
     private GoodMapper goodMapper;
     
+    @Autowired
+    private GoodService goodService ;
     
 
     public Map<String, Object> getShop(ShopReq shopReq) {
@@ -29,7 +32,10 @@ public class ShopService {
         }else if(3==shopReq.getOrderType()){
             map=shopMapper.getShopOne(shopReq);
         }else if(5==shopReq.getOrderType()){
-            map=shopMapper.getShopOne(shopReq);
+            map=shopMapper.getPurchaseOne(shopReq);
+            map.put("price", goodService.setPurchasePrice(
+                    shopReq.getAgentId(),SysUtils.Object2int(map.get("price")),
+                    SysUtils.Object2int(map.get("floor_price"))));
         }
         if(map==null){
             return map;

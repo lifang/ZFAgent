@@ -32,7 +32,8 @@ var indexController = function($scope, $location, $http, LoginService,
 	
 	var check = function(str) {
 		// alert(str + "====index.controller");
-		var arry = [ "shop", "shopinfo", "purchaseShop", "purchaseShopinfo",'login','register','findpass','findpassEmail'];
+		var arry = [ "shop", "shopinfo", "purchaseShop", "purchaseShopinfo",'login','register','findpass','findpassEmail',
+		             "shopmakeorder","leasemakeorder","purchasemakeorder", "pay", "lowstocks" ];
 		for (var i = 0; i < arry.length; i++) {
 			if (str == arry[i]) {
 				return true;

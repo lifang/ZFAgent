@@ -20,6 +20,7 @@ public class ShopController {
     @Autowired
     private ShopService shopService ;
     
+   
     
     @RequestMapping(value = "getShop", method = RequestMethod.POST)
     public Response getShopOne(@RequestBody ShopReq shopReq){

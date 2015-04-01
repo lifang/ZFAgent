@@ -106,6 +106,16 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/systemset/adderss.html'
 	}).when('/modifypassword', {
 		templateUrl : 'views/systemset/modifypassword.html'
+	}).when('/shopmakeorder', {
+		templateUrl : 'views/shop/shopmakeorder.html'
+	}).when('/leasemakeorder', {
+		templateUrl : 'views/shop/leasemakeorder.html'
+	}).when('/purchasemakeorder', {
+		templateUrl : 'views/shop/purchasemakeorder.html'
+	}).when('/pay', {
+		templateUrl : 'views/shop/pay.html'
+	}).when('/lowstocks', {
+		templateUrl : 'views/shop/lowstocks.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

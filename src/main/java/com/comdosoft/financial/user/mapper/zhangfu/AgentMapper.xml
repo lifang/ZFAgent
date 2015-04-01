@@ -103,4 +103,16 @@
 		SELECT * FROM customers  WHERE id = #{param1}
 	]]>
 	</select>
+	
+	<update id="updatePhoneNumber">
+	<![CDATA[
+		UPDATE agents SET phone =#{phone} WHERE id = #{id}
+	]]>
+	</update>
+	
+	<update id="updateEmailAddr">
+	<![CDATA[
+		UPDATE agents SET email =#{email} WHERE id = #{id}
+	]]>
+	</update>
 </mapper>

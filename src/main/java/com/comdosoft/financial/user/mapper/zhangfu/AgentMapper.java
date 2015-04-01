@@ -49,4 +49,8 @@ public interface AgentMapper {
     void setDefaultAddress(Map<Object, Object> param);
     void setNotDefaultAddress(Map<Object, Object> param);
 
+	void updatePhoneNumber(Customer param);
+
+	void updateEmailAddr(Customer param);
+
 }

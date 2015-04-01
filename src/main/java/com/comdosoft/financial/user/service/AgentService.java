@@ -152,6 +152,14 @@ public class AgentService {
 
     public  Map<Object, Object> queryAgent(int id) {
         return agentMapper.queryAgent(id);
-    } 
+    }
+
+	public void updatePhoneNumber(Customer param) {
+		 agentMapper.updatePhoneNumber(param);
+	}
+
+	public void updateEmailAddr(Customer param) {
+		agentMapper.updateEmailAddr(param);
+	} 
     
 }

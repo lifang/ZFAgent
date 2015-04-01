@@ -197,5 +197,30 @@ public class AgentAPI {
         	  }
         return sysResponse;
     }
-
+    
+    @RequestMapping(value = "updatePhoneNumber", method = RequestMethod.POST)
+    public Response updatePhoneNumber(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            agentService.updatePhoneNumber(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("更新代理商电话失败", e);
+            sysResponse = Response.getError("更新代理商电话失败:系统异常");
+        }
+        return sysResponse;
+    }
+    
+    @RequestMapping(value = "updateEmailAddr", method = RequestMethod.POST)
+    public Response updateEmailAddr(@RequestBody Customer param) {
+        Response sysResponse = null;
+        try {
+            agentService.updateEmailAddr(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("更新代理商邮件失败", e);
+            sysResponse = Response.getError("更新代理商邮件失败:系统异常");
+        }
+        return sysResponse;
+    }
 }

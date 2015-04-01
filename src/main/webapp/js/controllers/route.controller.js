@@ -108,6 +108,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/systemset/modifypassword.html'
 	}).when('/changeemail', {
 		templateUrl : 'views/systemset/changeemail.html'
+	}).when('/commercialOne', {
+		templateUrl : 'views/customer/viewCustomer.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

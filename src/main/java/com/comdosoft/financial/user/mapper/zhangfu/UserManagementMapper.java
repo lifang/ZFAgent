@@ -30,5 +30,11 @@ public interface UserManagementMapper {
 	 * @return
 	 */
 	List<Map<String, Object>> getTerminals(Map<String, Object> map);
+
+	Map<Object, Object> queryCustomer(int id);
+
+	int getTerminalListTotalCount(int id);
+
+	List<Map<String, Object>> getTerminalList(Map<Object, Object> query);
 	
 }

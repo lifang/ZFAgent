@@ -2,9 +2,7 @@
 
 var userManageModule = angular.module("userManageModule", []);
 var userManageListController = function($scope, $http, LoginService) {
-	// $scope.rows = 5;
-	// alert($scope.rows);
-	initSystemPage($scope);// 初始化分页参数
+
 	$scope.init = function() {
 		// 判断是否已登录
 		if (LoginService.userid == 0) {
@@ -13,17 +11,17 @@ var userManageListController = function($scope, $http, LoginService) {
 			$scope.$emit('changeshow', false);
 		}
 
+		$scope.req = {};
+		$scope.req.agentId = 5;
+		initSystemPage($scope.req);// 初始化分页参数
+		$scope.req.rows = 5;
 		$scope.list();
 	};
 
 	// 商户列表显示
 	$scope.list = function() {
-		$http.post("api/agents/queryCommercials", {
-			// agent_id:LoginService.userid
-			agent_id : 5,
-			offset : $scope.indexPage,
-			rows : $scope.rows
-		}).success(function(data) {
+		$scope.req.page = $scope.req.indexPage;
+		$http.post("api/agents/queryCommercials", $scope.req).success(function(data) {
 			if (data.code == 1) {
 				$scope.commercialList = data.result.list;
 				calcSystemPage($scope, data.result.total);// 计算分页
@@ -61,32 +59,31 @@ var userManageListController = function($scope, $http, LoginService) {
 	}
 	// 上一页
 	$scope.prev = function() {
-		if ($scope.indexPage > 1) {
-			$scope.indexPage--;
+		if ($scope.req.indexPage > 1) {
+			$scope.req.indexPage--;
 			$scope.list();
 		}
 	};
 
 	// 当前页
 	$scope.loadPage = function(currentPage) {
-		$scope.indexPage = currentPage;
+		$scope.req.indexPage = currentPage;
 		$scope.list();
 	};
 
 	// 下一页
 	$scope.next = function() {
-		if ($scope.indexPage < $scope.totalPage) {
-			$scope.indexPage++;
+		if ($scope.req.indexPage < $scope.req.totalPage) {
+			$scope.req.indexPage++;
 			$scope.list();
 		}
 	};
 
 	// 跳转到XX页
 	$scope.getPage = function() {
-		$scope.indexPage = Math.ceil($scope.gotoPage);
+		$scope.req.indexPage = Math.ceil($scope.req.gotoPage);
 		$scope.list();
 	};
-
 	$scope.init();
 
 };

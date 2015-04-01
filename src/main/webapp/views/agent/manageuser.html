@@ -47,15 +47,16 @@
 			</table>
 		</div>
 		<div class="pageTurn">
-			<div class="p_num" ng-show="totalPage>1">
-				<a ng-class="{true:'disabled'}[indexPage==1]" href="javascript:void(0)" ng-click="indexPage=1;list()">首页</a>
-				<a ng-class="{true:'disabled'}[indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a>
-				<a ng-class="{true:'current'}[indexPage==currentPage]" ng-repeat="currentPage in pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a>
-				<a ng-class="{true:'disabled'}[indexPage==totalPage]" href="javascript:void(0)" ng-click="next()">下一页</a>
-				<a ng-class="{true:'disabled'}[indexPage==totalPage]" href="javascript:void(0)" ng-click="indexPage=totalPage;list()">末页</a>
+			<div class="p_num" ng-show="req.totalPage>1">
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> 
+				<a ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="next()">下一页</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
 			</div>
 			<div class="p_skip">
-				<span>共&nbsp;{{totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="gotoPage">&nbsp;页</span>
+				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;
+				<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页</span>
 				<button ng-click="getPage()">确定</button>
 			</div>
 		</div>

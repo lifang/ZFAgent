@@ -137,6 +137,21 @@ public class OrderController {
             return Response.getError("取消失败");
         }
     }   
+    
+    // 订单搜索筛选
+    @RequestMapping(value = "orderSearch", method = RequestMethod.POST)
+    public Response orderSearch(@RequestBody MyOrderReq myOrderReq) {
+//        try {
+            Page<Object> centers = orderService.orderSearch(myOrderReq);
+            return Response.getSuccess(centers);
+//        } catch (NullPointerException e) {
+//            return Response.buildErrorWithMissing();
+//        } catch (Exception e) {
+//            logger.debug("获取我的订单列表出错" + e);
+//            return Response.getError("请求失败");
+//        }
+    }
+
    //  gch  end
   
     @RequestMapping(value = "agent", method = RequestMethod.POST)

@@ -192,6 +192,14 @@
 		t.good_id = g.id
 		WHERE t.customer_id = #{customerId} AND g.id is not NULL
 	</select>
+
+	<!-- 查询单个商户的终端信息 -->
+	<select id="getOneCommercialTerminalList" parameterType="map" resultType="map">
+	<![CDATA[
+		SELECT id, serial_num, status FROM terminals t
+		WHERE t.customer_id = #{customer_id} AND t.status != 4
+	]]>
+	</select>
 	
 	<select id="checkTerminalCode" parameterType="string" resultType="int">
 		SELECT count(*) FROM terminals

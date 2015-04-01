@@ -26,10 +26,10 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/trade/tradeinfo.html'
 	}).when('/tradestatistics', {
 		templateUrl : 'views/trade/tradestatistics.html'
-	}).when('/purchaseOrder', {
-		templateUrl : 'views/order/purchaseOrder.html'
-	}).when('/othersOrder', {
-		templateUrl : 'views/order/othersOrder.html'
+	}).when('/wholesaleOrder', {
+		templateUrl : 'views/order/wholesaleOrder.html'
+	}).when('/proxyOrder', {
+		templateUrl : 'views/order/proxyOrder.html'
 	}).when('/email_up', {
 		templateUrl : 'views/customer/up_email.html'
 	}).when('/shop', {
@@ -116,6 +116,10 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/shop/pay.html'
 	}).when('/lowstocks', {
 		templateUrl : 'views/shop/lowstocks.html'
+	}).when('/manageuser', {
+		templateUrl : 'views/agent/manageuser.html'
+	}).when('/changeemail', {
+		templateUrl : 'views/systemset/changeemail.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

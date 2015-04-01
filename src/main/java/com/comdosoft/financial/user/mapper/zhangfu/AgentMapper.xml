@@ -12,7 +12,8 @@
 	]]>
 	</select>
 
-	<select id="getOneCustomer" resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+	<select id="getOneCustomer"
+		resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 	<![CDATA[
 		SELECT phone, email, dentcode, password
 		  FROM customers
@@ -59,8 +60,8 @@
 
 	<insert id="insertAddress" useGeneratedKeys="true" keyProperty="id">
 	<![CDATA[
-		INSERT INTO customer_addresses (city_id, receiver, moblephone, zip_code, address, is_default, customer_id,status)
-		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{zipCode},  #{address},  #{isDefault},  #{customerId},1)
+		INSERT INTO customer_addresses (city_id, receiver, moblephone, zip_code, address, is_default, customer_id,status,created_at)
+		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{zipCode},  #{address},  #{isDefault},  #{customerId},1,NOW())
 	]]>
 	</insert>
 
@@ -92,17 +93,49 @@
  
 	</delete>
 
-	<select id="queryAgent"  resultType="map" >
+	<select id="queryAgent" resultType="map">
 	<![CDATA[
 		SELECT * FROM agents  WHERE id = #{id}
 	]]>
 	</select>
-	
-	<select id="findAgentByCustomerId"  resultType="map" >
+
+	<select id="findAgentByCustomerId" resultType="map">
 	<![CDATA[
 		SELECT * FROM customers  WHERE id = #{param1}
 	]]>
 	</select>
+
+	<!-- 查询代理商下的商户数 -->
+	<select id="getCommercialTenantCount" resultType="map">
+	<![CDATA[
+		SELECT count(c.id) as total FROM customers c 
+		LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
+		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agent_id}; 
+	]]>
+	</select>
+
+	<!-- 查询代理商下的商户列表 -->
+	<select id="getCommercialTenantList" resultType="map">
+	<![CDATA[
+		SELECT c.id, c.name, c.username, c.password, c.email, c.phone, c.types, car.customer_id 
+		FROM customers c LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
+		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agent_id} ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
+	]]>
+	</select>
+	
+	<!-- 删除单个商户(更新customers表) -->
+	<update id="deleteCommercial" flushCache="true">
+	<![CDATA[
+		UPDATE customers SET status = 1, updated_at = NOW() WHERE id = #{customer_id}
+	]]>
+	</update>
+	
+	<!-- 删除单个商户(更新customer_agent_relations表) -->
+	<update id="updateCommercialStatus" flushCache="true">
+	<![CDATA[
+		UPDATE customer_agent_relations SET status = 1, updated_at = NOW() WHERE customer_id = #{customer_id}
+	]]>
+	</update>
 	
 	<update id="updatePhoneNumber">
 	<![CDATA[
@@ -115,4 +148,5 @@
 		UPDATE agents SET email =#{email} WHERE id = #{id}
 	]]>
 	</update>
+
 </mapper>

@@ -57,7 +57,7 @@ public class SystemSetController {
 			c.setUsername(username);
 			c.setPassword(SysUtils.string2MD5(req.getPassword()));
 			c.setStatus(Customer.STATUS_NORMAL);// 正常
-			c.setAccountType(1);// 1 普通用户/商户
+			c.setTypes(Customer.TYPE_AGENT_STAFF);
 			c.setCreatedAt(d);
 			systemSetService.insertCustomer(c);
 
@@ -69,7 +69,7 @@ public class SystemSetController {
 				int customerId = Integer.parseInt(map.get("id").toString());
 				ca.setCustomerId(customerId);
 				ca.setStatus(CustomerAgentRelation.STATUS_2);
-				ca.setTypes(1);
+				ca.setTypes(6);
 				ca.setCreatedAt(d);
 				systemSetService.insertCustomerAgentRelations(ca);
 

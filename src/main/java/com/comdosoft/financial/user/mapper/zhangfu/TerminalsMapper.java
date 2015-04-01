@@ -135,4 +135,12 @@ public interface TerminalsMapper {
      * @return
      */
     List<Map<String, Object>> screeningPosName(int customerId);
+
+    /**
+     * 获取单个商户的终端信息
+     * @param param
+     * @return
+     */
+	List<Map<String, Object>> getOneCommercialTerminalList(Map<Object, Object> param);
+	
 }

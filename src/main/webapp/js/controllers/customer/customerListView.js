@@ -3,11 +3,13 @@
 var customerListViewModule = angular.module("customerListViewModule", []);
 var customerListViewController = function($scope, $location, $http,
 		LoginService) {
+	var customerId =  $location.search()['id'];
+	$scope.customerId=customerId;
 	initSystemPage($scope);// 初始化分页参数
 	$scope.list = function() {
 
 		// var customerId = LoginService.userid;
-		var customerId = 80;
+//		var customerId = 80;
 		var page = $scope.indexPage;
 		$scope.rows = 5;
 		var rows = $scope.rows;
@@ -27,7 +29,6 @@ var customerListViewController = function($scope, $location, $http,
 
 	$scope.init = function() {
 		// var agentId = LoginService.userid;
-		var customerId = 80;
 		$http.post("api/user/query/" + customerId).success(function(data) {
 			if (data.result != null) {
 				$scope.test = data.result;
@@ -60,7 +61,7 @@ var customerListViewController = function($scope, $location, $http,
 		if (marksContent == null || marksContent == '') {
 			return false;
 		}
-		$scope.req ={content : marksContent,customerId : 80,agentId : 17};
+		$scope.req ={content : marksContent,customerId : customerId,agentId : 17};
 		$http.post("api/index/saveViewCustomerViews",$scope.req).success(function (data) {   
 			if (data != null && data != undefined) {
 				alert("添加备注成功！");

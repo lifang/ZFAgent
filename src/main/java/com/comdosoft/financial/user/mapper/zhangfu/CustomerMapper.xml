@@ -137,7 +137,7 @@
 		<![CDATA[
 			SELECT c.id, c.name, c.username, c.status, car.agent_id, car.customer_id FROM customers c 
 			LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-			WHERE car.agent_id = #{customerId} AND c.status = 2 ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
+			WHERE car.agent_id = #{customerId} AND c.status = 2 AND c.types = 6 ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
 		]]>
 	</select>
 	

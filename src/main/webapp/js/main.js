@@ -86,12 +86,17 @@ function popup(t,b){
 	var layer_width = $(t).width();
 	
 	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-	$(".mask").css({display:'block',height:doc_height});
-	$(t).css('top',(win_height-layer_height)/2);
-	$(t).css('left',(win_width-layer_width)/2);
-	$(t).css('display','block');
 	
-	$(".close").bind('click',function(){
+	//tab
+	$(b).bind('click',function(){
+		    $(".mask").css({display:'block',height:doc_height});
+			$(t).css('top',(win_height-layer_height)/2);
+			$(t).css('left',(win_width-layer_width)/2);
+			$(t).css('display','block');
+			return false;
+		}
+	)
+	$(".close").click(function(){
 		$(t).css('display','none');
 		$(".mask").css('display','none');
 	})
@@ -99,6 +104,7 @@ function popup(t,b){
 $(function(){
 	popup(".rename_tab",".rename_a");//我的库存 商品更名
 	popup(".leaseExplain_tab",".leaseExplain_a");//管理终端  查看说明
+	popup("#show_phone_input_my_o","#show_phone_input_my_btn");//我的信息 根据原来手机号发送验证码
 })
 
 

@@ -102,9 +102,20 @@ public class OrderService {
 //获取批购订单
     public Page<Object> getWholesaleOrder(MyOrderReq myOrderReq) {
         PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
-        int count = orderMapper.countWholesaleOrder(myOrderReq.getCustomerId());
+        int count = orderMapper.countWholesaleOrder(myOrderReq);
         List<Order> centers = orderMapper.getWholesaleOrder(myOrderReq);
-        List<Object> obj_list = new ArrayList<Object>();
+        List<Object> obj_list = putWholesaleData(centers);
+        return new Page<Object>(request, obj_list, count);
+    }
+
+
+/**
+ * 批购
+ * @param centers
+ * @return
+ */
+	private List<Object> putWholesaleData(List<Order> centers) {
+		List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         for(Order o : centers){
@@ -137,9 +148,12 @@ public class OrderService {
             map.put("shengyu_price", shengyu_price+"");//
             map.put("actual_price", bd_act+"");//
             map.put("quantity", quantity+"");//已发货数量
+            map.put("total_quantity", o.getTotalQuantity()==null?"":o.getTotalQuantity());//已发货数量
             
-            List<OrderGood> olist = o.getOrderGoodsList();
+            List<OrderGood> olist = orderMapper.findGoodsByWOrderId(o.getId());
+//            List<OrderGood> olist = o.getOrderGoodsList();
             List<Object> newObjList = new ArrayList<Object>();
+            map.put("order_goods_size", olist.size());// 
             Map<String, Object> omap = null;
             if (olist.size() > 0) {
                 for (OrderGood od : olist) {
@@ -168,14 +182,21 @@ public class OrderService {
             }
             obj_list.add(map);
         }
-        return new Page<Object>(request, obj_list, count);
-    }
+		return obj_list;
+	}
 //    获取代购订单
     public Page<Object> getProxyOrder(MyOrderReq myOrderReq) {
         PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
-        int count = orderMapper.countProxyOrder(myOrderReq.getCustomerId());
+        int count = orderMapper.countProxyOrder(myOrderReq);
         List<Order> centers = orderMapper.getProxyOrder(myOrderReq);
-        List<Object> obj_list = new ArrayList<Object>();
+        List<Object> obj_list = putProxyData(centers);
+        return new Page<Object>(request, obj_list, count);
+    }
+
+
+
+	private List<Object> putProxyData(List<Order> centers) {
+		List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         for(Order o : centers){
@@ -197,8 +218,11 @@ public class OrderService {
             }else{
             	map.put("guishu_user", customer.getName()==null?"": customer.getName()); 
             }
-            List<OrderGood> olist = o.getOrderGoodsList();
+            
+            List<OrderGood> olist = orderMapper.findGoodsByPOrderId(o.getId());//
+//         List<OrderGood> olist = o.getOrderGoodsList();
             List<Object> newObjList = new ArrayList<Object>();
+            map.put("order_goods_size", olist.size());// 
             Map<String, Object> omap = null;
             if (olist.size() > 0) {
                 for (OrderGood od : olist) {
@@ -226,8 +250,8 @@ public class OrderService {
             }
             obj_list.add(map);
         }
-        return new Page<Object>(request, obj_list, count);
-    }
+		return obj_list;
+	}
 
     /**
      * 批购订单详情
@@ -408,6 +432,25 @@ public class OrderService {
         int i = orderMapper.cancelMyOrder(myOrderReq);
         return i;
     }
+    
+    public Page<Object> orderSearch(MyOrderReq myOrderReq) {
+        PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
+        int count =0;
+        List<Order> centers = null;
+        List<Object> obj_list = null;
+        String type = myOrderReq.getP(); 
+        if(null !=type && type.equals("1")){//  批购
+        	count = orderMapper.countWholesaleOrder(myOrderReq);//批购查询
+            centers = orderMapper.getWholesaleOrder(myOrderReq);
+            obj_list = putWholesaleData(centers);//批购
+        }else  if(null !=type && type.equals("2")){//  代购
+        	count = orderMapper.countProxyOrder(myOrderReq);//代购查询
+        	centers = orderMapper.getProxyOrder(myOrderReq);
+        	obj_list = putProxyData(centers);//代购
+        }
+        return new Page<Object>(request, obj_list, count);
+    }
+
 
     public void comment(MyOrderReq myOrderReq) {
         myOrderReq.setOrderStatus(OrderStatus.EVALUATED);

@@ -195,5 +195,17 @@ public class IndexService {
 	        }
 	}
 
+	public Map<String, Object> findCityById(String city_id) {
+		return indexMapper.findCityById(city_id);
+	}
+
+	public List<Map<String, Object>> getCustomerMarks(String customerId) {
+		return indexMapper.getCustomerMarks(customerId);
+	}
+
+	public void saveViewCustomerViews(MyOrderReq req) {
+	    indexMapper.saveViewCustomerViews(req);
+	}
+
 
 }

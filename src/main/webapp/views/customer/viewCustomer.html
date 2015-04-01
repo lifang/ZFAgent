@@ -1,0 +1,99 @@
+<script type="text/javascript"
+	src="js/controllers/customer/customerListView.js"></script>
+<div class="right" ng-controller="customerListViewController">
+
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#/myinfobase">管理用户</a></li>
+			<li><a href="#/myinfobase">用户详细</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>用户详细</h1>
+		</div>
+		<div class="attributes_box">
+			<h2>基础信息</h2>
+			<div class="attributes_list_s clear">
+				<ul>
+					<li>用户姓名：{{test.username}}</li>
+					<li>所在地区：{{test.address}}</li>
+					<li>手机：{{test.phone}}</li>
+					<li>邮箱：{{test.email}}</li>
+				</ul>
+			</div>
+		</div>
+		<div class="uesr_table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="b_table">
+				<colgroup>
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+					<col />
+					<col />
+					<col width="180" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>终端号</th>
+						<th>品牌型号</th>
+						<th>收单机构</th>
+						<th>商户名称</th>
+						<th>商户电话</th>
+						<th>开通状态</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="one in accountList">
+						<td>{{one.serial_num}}</td>
+						<td>{{one.good_id}}</td>
+						<td>{{one.p_name}}</td>
+						<td>{{one.m_name}}</td>
+						<td>{{one.m_phone}}</td>
+						<td ng-if="one.status == 1"><strong class="strong_status">已开通</strong></td>
+						<td ng-if="one.status == 2"><strong class="strong_status">部分开通</strong></td>
+						<td ng-if="one.status == 3"><strong class="strong_status">未开通</strong></td>
+						<td ng-if="one.status == 4"><strong class="strong_status">已注销</strong></td>
+						<td ng-if="one.status == 5"><strong class="strong_status">已停用</strong></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pageTurn">
+			<div class="p_num" ng-show="totalPage>1">
+				<a ng-class="{true:'disabled'}[indexPage==1]"
+					href="javascript:void(0)" ng-click="indexPage=1;list()">首页</a> <a
+					ng-class="{true:'disabled'}[indexPage==1]"
+					href="javascript:void(0)" ng-click="prev()">上一页</a> <a
+					ng-class="{true:'current'}[indexPage==currentPage]"
+					ng-repeat="currentPage in pages" href="javascript:void(0)"
+					ng-click="loadPage(currentPage)">{{currentPage}}</a> <a
+					ng-class="{true:'disabled'}[indexPage==totalPage]"
+					href="javascript:void(0)" ng-click="next()">下一页</a> <a
+					ng-class="{true:'disabled'}[indexPage==totalPage]"
+					href="javascript:void(0)" ng-click="indexPage=totalPage;list()">末页</a>
+			</div>
+			<div class="p_skip">
+				<span>共&nbsp;{{totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input
+					type="text" ng-model="gotoPage">&nbsp;页
+				</span>
+				<button ng-click="getPage()">确定</button>
+			</div>
+		</div>
+		<div class="user_remark">
+			<textarea name="marks_content" ng-model="marks_content" cols="" rows=""></textarea>
+			<button class="whiteBtn" ng_click="marksSave()">备注</button>
+		</div>
+		<div class="user_record">
+			<h2>追踪记录</h2>
+			<div class="ur_item" ng-repeat="oc in markList">
+				<div class="ur_item_text">{{oc.content}}</div>
+				<div class="ur_item_name">
+					{{oc.name}} <em>{{oc.createTime}}</em>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mask"></div>

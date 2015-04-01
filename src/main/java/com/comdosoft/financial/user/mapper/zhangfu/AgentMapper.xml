@@ -59,8 +59,8 @@
 
 	<insert id="insertAddress" useGeneratedKeys="true" keyProperty="id">
 	<![CDATA[
-		INSERT INTO customer_addresses (city_id, receiver, moblephone, zip_code, address, is_default, customer_id,status)
-		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{zipCode},  #{address},  #{isDefault},  #{customerId},1)
+		INSERT INTO customer_addresses (city_id, receiver, moblephone, zip_code, address, is_default, customer_id,status,created_at)
+		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{zipCode},  #{address},  #{isDefault},  #{customerId},1,NOW())
 	]]>
 	</insert>
 

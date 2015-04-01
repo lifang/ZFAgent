@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.service.UserManagementService;
+import com.comdosoft.financial.user.utils.page.PageRequest;
 
 /**
  * 
@@ -56,10 +58,15 @@ public class UserManagementController {
 	@RequestMapping(value = "delectAgentUser")
 	public Response delectAgentUser(@RequestBody Map<String, Object> map) {
 		try {
-			userManagementService.delectAgentUser(
-					(Integer)map.get("agentId"),
-					(Integer)map.get("customerId"),
-					CustomerAgentRelation.STATUS_2);
+			@SuppressWarnings("unchecked")
+			List<Object> list = (List<Object>) map.get("customerArrayId");
+			for(int i=0;i<list.size();i++){
+				
+				userManagementService.delectAgentUser(
+						(Integer)map.get("agentId"),
+						(Integer)list.get(i),
+						CustomerAgentRelation.STATUS_2);
+			}
 			return Response.getSuccess("删除成功！");
 		} catch (Exception e) {
 			logger.error("根据ID删除与该代理商的关联异常！",e);
@@ -75,7 +82,15 @@ public class UserManagementController {
 	@RequestMapping(value="getTerminals")
 	public Response getTerminals(@RequestBody Map<String, Object> map){
 		try {
-			return Response.getSuccess(userManagementService.getTerminals((Integer)map.get("customerId")));
+			PageRequest PageRequest = new PageRequest(
+					(Integer)map.get("page"),
+					(Integer)map.get("rows"));
+			int offSetPage = PageRequest.getOffset();
+			
+			return Response.getSuccess(userManagementService.getTerminals(
+					(Integer)map.get("customerId"),
+					offSetPage,
+					(Integer)map.get("rows")));
 		} catch (Exception e) {
 			logger.error("获得该代理商下面某个用户的相关终端列表异常！",e);
 			return Response.getError("请求失败！");

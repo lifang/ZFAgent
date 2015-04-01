@@ -32,6 +32,8 @@ var resetPasswordController = function($scope, $http, $location, LoginService) {
 	$scope.update = function(customerId) {
 		var password = $scope.password;
 		var comfirmpwd = $scope.comfirmpwd;
+		var originalpassword = $scope.info.password;
+		// alert(originalpassword);
 		var customerId = $location.search()['id'];
 		if (typeof ($scope.password) == "undefined" || typeof ($scope.comfirmpwd) == "undefined") {
 			alert("密码不能为空！");
@@ -45,7 +47,8 @@ var resetPasswordController = function($scope, $http, $location, LoginService) {
 		}
 		$http.post("api/account/resetPassword", {
 			customer_id : customerId,
-			password : password
+			password : password,
+			originalpassword : originalpassword
 		}).success(function(data) {
 			if (data.code == 1) {
 				alert(data.message);

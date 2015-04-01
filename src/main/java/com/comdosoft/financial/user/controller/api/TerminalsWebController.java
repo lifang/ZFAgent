@@ -152,7 +152,7 @@ public class TerminalsWebController {
 				Customer customer = new Customer();
 				customer.setUsername((String)map.get("username"));
 				customer.setName((String)map.get("name"));
-				customer.setPassword((String)map.get("pass1"));
+				customer.setPassword((String)map.get("password"));
 				customer.setCityId((Integer)map.get("cityid"));
 				customer.setTypes(Customer.TYPE_CUSTOMER);
 				customer.setStatus(Customer.STATUS_NORMAL);

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.service.UserManagementService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -93,6 +94,35 @@ public class UserManagementController {
 					(Integer)map.get("rows")));
 		} catch (Exception e) {
 			logger.error("获得该代理商下面某个用户的相关终端列表异常！",e);
+			return Response.getError("请求失败！");
+		}
+	}
+	
+	/**
+	 * 新创建用户
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="addCustomer",method=RequestMethod.POST)
+	public Response addCustomer(@RequestBody Map<Object, Object> map){
+		try {
+			if(userManagementService.findUname(map)>0){
+				return Response.getError("用户已存在！");
+			}else{
+				//添加新用户
+				Customer customer = new Customer();
+				customer.setUsername((String)map.get("username"));
+				customer.setName((String)map.get("name"));
+				customer.setPassword((String)map.get("pass1"));
+				customer.setCityId((Integer)map.get("cityid"));
+				customer.setTypes(Customer.TYPE_CUSTOMER);
+				customer.setStatus(Customer.STATUS_NORMAL);
+				customer.setIntegral(0);
+				userManagementService.addUser(customer);
+				return Response.getSuccess(customer);
+			}
+		} catch (Exception e) {
+			logger.error("为用户绑定失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}

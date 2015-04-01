@@ -1,4 +1,5 @@
 <script type="text/javascript" src="js/dateSelector.js"></script>
+<script src="js/jquery.form.min.js"></script>
 <div class="right" ng-controller="terminalOpenController">
             	<div class="breadcrumb">
                     <ul>
@@ -14,177 +15,160 @@
                     	<h2>终端信息</h2>
                         <div class="attributes_list_s clear">
                             <ul>
-                                <li>品牌型号：掌富ZF300</li>
-                                <li>支付通道：收账宝</li>
-                                <li>终端号：AC12698547</li>
+                                <li>品牌型号：{{applyDetails.brandName + applyDetails.model_number}}</li>
+                                <li>支付通道：{{applyDetails.channelName}}</li>
+                                <li>终端号：{{applyDetails.serial_num}}</li>
                             </ul>
                         </div> 
                     </div>
                     <div class="attributes_box">
-                    	<div class="ab_h"><a href="#" class="toPublic hover">对公</a><a href="#" class="toPrivate">对私</a></div>
+                    	<div class="ab_h">
+                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
+                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
+                    	</div>
                         <div class="ab_b">
                         	<dl>
                             	<dt>已有商户：</dt>
-                                <dd><a href="#" class="hover">商户001</a><a href="#">商户002</a><a href="#">商户003</a><a href="#">商户004</a></dd>
+                                <dd>
+                                <a href="javascript:void(0)" ng-repeat="merchan in merchantList" ng-class="{true:'hover'}[$index == merbut]" ng-click="angu(merchan.title,merchan.id,$index)" >{{merchan.title}}</a>
+                                </dd>
                             </dl>
                             <dl>
                             	<dt>商户名称：</dt>
-                                <dd><input name="" type="text" /></dd>
+                                <dd><input name="" type="text" ng-model="merchantName"/></dd>
                             </dl>
                         </div>
                     </div>
-                    <div class="attributes_box">
-                    	<h2>基本开通<em>消费限额5000元</em></h2>
+                    <div class="attributes_box" ng-repeat="ma in materialLevel">
+                    	<h2 ng-if="$index == 0">基本开通<em>消费限额5000元</em></h2>
+                    	<h2 ng-if="$index == 1">完全开通<em>消费无限额</em></h2>
                         <div class="item_list clear">
                             <ul>
-                                <li><span class="labelSpan">姓名：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">性别：</span>
+                                <li ng-if="$index == 0"><span class="labelSpan" >姓名：</span>
+                                	<div class="text"><input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}"/></div></li>
+                                <li ng-if="$index == 0"><span class="labelSpan">性别：</span>
                                 	<div class="text">
-                                    	<span class="checkboxRadio_span"><input name="" type="radio" value="" /> 男</span>
-                                        <span class="checkboxRadio_span"><input name="" type="radio" value="" /> 女</span>
+                                    	<span class="checkboxRadio_span"><input name="radio" checked type="radio" value="" ng-click="butSex(1)"/> 男</span>
+                                        <span class="checkboxRadio_span"><input name="radio" type="radio" value="" ng-click="butSex(0)"/> 女</span>
+                                    </div>
+                                	<!-- <div class="text">
+                                    	<span class="checkboxRadio_span"><input name="radio" type="radio" value="" ng-click="butSex(1)"/> 男</span>
+                                        <span class="checkboxRadio_span"><input name="radio" checked type="radio" value="" ng-click="butSex(0)"/> 女</span>
+                                    </div> -->
+                                </li>
+                                <li ng-if="$index == 0"><span class="labelSpan">生日：</span>
+                                    <div class="text">
+                                	<select id="selYear" ng-model="nian">
+                                	</select> 
+                                	<select id="selMonth" ng-model="yue">
+                                	</select>
+                                	<select id="selDay" ng-model="day">
+                                	</select>
+							<script type="text/javascript">
+								var selYear = window.document
+										.getElementById("selYear");
+								var selMonth = window.document
+										.getElementById("selMonth");
+								var selDay = window.document
+										.getElementById("selDay");
+								// 新建一个DateSelector类的实例，将三个select对象传进去
+								new DateSelector(selYear, selMonth, selDay,
+										null,null, null);
+							</script>
                                     </div>
                                 </li>
-                                <li><span class="labelSpan">生日：</span>
+                                <li ng-if="$index == 0"><span class="labelSpan">身份证：</span>
+                                	<div class="text"><input name="" type="text" id="cirdValue" value="{{merchant.legal_person_card_id}}"/></div></li>
+                                <li ng-if="$index == 0"><span class="labelSpan">电话：</span>
+                                	<div class="text"><input name="" type="text" id="phoneValue" value="{{openingInfos.phone}}"/></div>
+                                </li>
+                                 <li ng-if="$index == 0"><span class="labelSpan">邮箱：</span>
+                                	<div class="text"><input name="" type="text" id="emailValue" value="{{openingInfos.email}}"/></div>
+                                </li>
+                                <li ng-if="$index == 0"><span class="labelSpan">地址：</span>
                                 	<div class="text">
-                                    <select name="">
-                                	  <option>111</option>
-                                	</select>
-                                    <select name="">
-                                	  <option>222</option>
-                                	</select>
-                                    <select name="">
-                                	  <option>333</option>
-                                	</select>
+                                		<select  ng-model="selected" ng-options="s.name for s in cities">
+		             		 				<option value="">{{addressShen}}</option>
+		          						</select>
+						 				<select ng-model="req.shiList" ng-options="x.name for x in selected.childrens">
+			               					<option value="">{{addressShi}}</option>
+			          					</select>
+                                     </div>
+                                </li>
+                                <li ng-if="$index == 0"><span class="labelSpan">支付通道：</span>
+                                	<div class="text">
+                                	<select  ng-model="chan.chanList" ng-options="s.name for s in channels">
+		             		 				<option value="">{{channelName}}</option>
+		          						</select>
+						 				<select ng-model="tln.chanTs" ng-options="x.name for x in chan.chanList.billings">
+			               					<option value="">{{channelTsName}}</option>
+			          					</select>
+                                	</div>
+                                </li>
+                                <li class="overflow" ng-if="$index == 0"><span class="labelSpan">结算银行名称：</span>
+                                	<div class="text"><input name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
+                                </li>
+                                <li ng-if="$index == 0"><span class="labelSpan">结算银行代码：</span>
+                                	<div class="text"><input name="" type="text" id="bankCodeValue" value="{{openingInfos.account_bank_code}}"/></div></li>
+                                <li ng-if="$index == 0"><span class="labelSpan">结算银行账户：</span>
+                                	<div class="text"><input name="" type="text" id="bankNumValue" value="{{merchant.account_bank_num}}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div></li>
+                                <li ng-if="$index == 0"><span class="labelSpan">税务机构号：</span>
+                                	<div class="text"><input name="" type="text" id="registeredNoValue" value="{{merchant.tax_registered_no}}"/></div></li>
+                                <li ng-if="$index == 0"><span class="labelSpan">组织机构号：</span>
+                                	<div class="text"><input name="" type="text" id="organizationNoValue" value="{{merchant.organization_code_no}}"/></div></li>
+                                	
+                                	
+                                <li ng-repeat="r in result" ng-if="r.info_type == 3 && r.opening_requirements_id == ma.id">
+                                <span class="labelSpan" id="key_{{ma.level+'_'+$index}}">{{r.name}}：</span>
+                                	<div class="text">
+                                	<input type="hidden" id="id_{{ma.level+'_'+$index}}" value="{{r.id}}"/>
+                                	<input name="" type="text" ng-keyup="bank(ma.level+'_'+$index)">
+                                	</div>
+                                	<div ng-class="{true:'suggest'}[1 == 2]" id="div_{{ma.level+'_'+$index}}">
+                                    	<input name="" type="hidden"  id="value_{{ma.level+'_'+$index}}" value="{{r.value}}">
+                                    	<a href="javascript:void(0)" id="but_{{ma.level+'_'+$index}}" ng-repeat="codes in bankCode" ng-click="bankNum('but_'+ma.level+'_'+$index,codes.code,codes.name)">{{codes.name}}</a>
                                     </div>
                                 </li>
-                                <li><span class="labelSpan">身份证：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li class="overflow"><span class="labelSpan">结算银行名称：</span>
-                                	<div class="text"><input name="" type="text" /></div>
-                                    <div class="suggest">
-                                    	<a href="#">支付通道01</a>
-                                        <a href="#">支付通道02</a>
-                                        <a href="#">支付通道03</a>
-                                    </div>
+                                	
+                                <li ng-repeat="r in result " ng-if="r.info_type == 1 && r.opening_requirements_id == ma.id">
+                                <input type="hidden" id="id_{{ma.level+'_'+$index}}" value="{{r.id}}"/>
+                                <span id="key_{{ma.level+'_'+$index}}" class="labelSpan">{{r.name}}：</span>
+                               	<div class="text">
+                                <input id="value_{{ma.level+'_'+$index}}" value="{{r.value}}" name="" type="text"/>
+                                </div>
                                 </li>
-                                <li><span class="labelSpan">结算银行代码：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">结算银行账户：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">税务机构号：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">组织机构号：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">组织机构号：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">支付通道：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">结算银行：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">结算银行：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li class="clear"><span class="labelSpan">营业执照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">组织机构照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">对公银行卡照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">税务登记照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">对私银行卡照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">法人身份证正面照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">法人身份证正面照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">个人半身照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">个人签名照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">其他照片：</span>
-                                	<div class="text"><a href="javascript:void(0);" class="informImg_a">
-                                        <span>重新上传</span><input name="" multiple type="file">
-                                    </a></div></li>
+                                
+                                <li  ng-repeat="r in result" ng-if="r.info_type == 2 && r.opening_requirements_id == ma.id">
+                                <input type="hidden" id="id_{{ma.level+'_'+$index}}" value="{{r.id}}"/>
+                                <span class="labelSpan" id="key_{{ma.level+'_'+$index}}">{{r.name}}：</span>
+                                <div class="text" >
+                                <form method="post" action="api/comment/upload/tempImage" enctype="multipart/form-data">  
+                                	<img src="images/zp.jpg" class="covers" />
+                                	<a href="javascript:void(0);" class="informImg_a" >
+                                    <span ng-if="r.value == null" >上传</span>
+                                    <span ng-if="r.value != null" >重新上传</span>
+                                    <input type="text" id="value_{{ma.level+'_'+$index}}" value="{{r.value}}"/>
+                                    <input  name="img" multiple type="file" onchange="showImage(this)">
+                                    </a>
+                                </form>
+                                </div>
+                                </li>
                             </ul>
                             <div class="img_info"><img src="images/ewm.jpg" /></div>
                         </div>
                     </div>
-                    
-                    <div class="attributes_box">
-                    	<h2>完全开通<em>消费无限额</em></h2>
-                        <div class="item_list clear">
-                            <ul>
-                                <li><span class="labelSpan">姓名：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">性别：</span>
-                                	<div class="text">
-                                    	<span class="checkboxRadio_span"><input name="" type="radio" value="" /> 男</span>
-                                        <span class="checkboxRadio_span"><input name="" type="radio" value="" /> 女</span>
-                                    </div>
-                                </li>
-                                <li><span class="labelSpan">生日：</span>
-                                	<div class="text">
-                                    <select name="">
-                                	  <option>111</option>
-                                	</select>
-                                    <select name="">
-                                	  <option>222</option>
-                                	</select>
-                                    <select name="">
-                                	  <option>333</option>
-                                	</select>
-                                    </div>
-                                </li>
-                                <li><span class="labelSpan">身份证：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">结算银行名称：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">结算银行代码：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">结算银行账户：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">税务机构号：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">组织机构号：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">组织机构号：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">支付通道：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">结算银行：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li><span class="labelSpan">结算银行：</span>
-                                	<div class="text"><input name="" type="text" /></div></li>
-                                <li class="clear"><span class="labelSpan">营业执照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">组织机构照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">对公银行卡照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">税务登记照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">对私银行卡照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">法人身份证正面照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">法人身份证正面照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">个人半身照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">个人签名照：</span>
-                                	<div class="text"><img src="images/zp.jpg" class="cover" /></div></li>
-                                <li><span class="labelSpan">其他照片：</span>
-                                	<div class="text">
-                                    <img src="images/zp.jpg" class="cover" />
-                                    <a href="javascript:void(0);" class="informImg_a">
-                                        <span>重新上传</span><input name="" multiple type="file">
-                                    </a></div></li>
-                            </ul>
-                            <div class="img_info"><img src="images/c.jpg" /></div>
-                        </div>
-                        <div class="btnBottom"><button class="orangeBtn">保存</button></div>
-                    </div>
-                    
+                    <div class="btnBottom"><button class="orangeBtn" ng-click="addApply()">保存</button></div>
             	</div>
             </div>
+            <script type="text/javascript">
+            function showImage(obj) { 
+            	$(obj).parent("a").children("span").html("重新上传")
+            	$(obj).parent("a").parent("form").ajaxSubmit({
+            		success : function(data) {
+            			$(obj).siblings("input").val(data.result);
+            			//$(obj).parent("a").siblings("img").attr("data-src",data.result);
+            			//alert($(obj).parent("a").siblings("img").attr("data-src"));
+            		}
+            	});
+            }
+            </script>

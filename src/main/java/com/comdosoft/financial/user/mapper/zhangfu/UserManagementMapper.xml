@@ -20,5 +20,18 @@
 		WHERE customer_id=#{id}
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
+	
+	<select id="findUname" parameterType="map" resultType="int">
+		SELECT COUNT(*) from customers 
+		WHERE username=#{username}
+	</select>
+	
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		<!-- INSERT  into customers(username,password,city_id,account_type,types,phone,email,created_at,status,name,integral,updated_at)
+		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{status},#{name},#{integral},now()) -->
+		
+		INSERT  into customers(username,password,city_id,types,created_at,status,name,integral,updated_at)
+		VALUES(#{username},#{password},#{cityId},#{types},now(),#{status},#{name},#{integral},now())
+	</insert>
 
 </mapper>

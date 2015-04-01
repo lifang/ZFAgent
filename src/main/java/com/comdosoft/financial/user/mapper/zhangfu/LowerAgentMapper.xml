@@ -41,7 +41,7 @@ where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order 
    </select>
      
     <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="map">
-        select c.*,c.name as cityName,if(e.name is null," ",e.name) as provinceName from 
+        select c.*,d.name as cityName,if(e.name is null," ",e.name) as provinceName from 
 		(select a.types,a.name,a.card_id,a.company_name,a.business_license,a.phone,a.email,a.address,a.is_have_profit,
          b.username as loginId,b.city_id as cityId,if(a.tax_registered_no is null, " ",a.tax_registered_no) as tax_registered_no,a.created_at,
          (select if(sum(f.quantity) is null,0,sum(f.quantity)) from prepare_goods_records f where f.agent_id=a.id) as allQty,
@@ -132,7 +132,7 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 	</delete>
 	
 	<select id="checkChannelById"  parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
-    	select count(a.id) from agent_profit_settings a where a.agent_id=#{sonAgentsId} and a.pay_channel_id = #{payChannelId}
+    	select count(a.id) from agent_profit_settings a where a.agent_id=#{sonAgentsId} and a.pay_channel_id = #{payChannelId} and a.trade_type_id=#{tradeTypeId}
     </select> 
 	
 </mapper>

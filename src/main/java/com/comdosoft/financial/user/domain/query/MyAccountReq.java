@@ -11,8 +11,8 @@ public class MyAccountReq {
 	private String phone;
 	private String email;
 
-	private int page = 0;
-	private int rows = 20;
+	private int page;
+	private int rows;
 	private int offset;
 
 	private int city_id;
@@ -88,6 +88,9 @@ public class MyAccountReq {
 	}
 
 	public int getRows() {
+		if (rows <= 0) {
+			rows = 10;
+		}
 		return rows;
 	}
 
@@ -96,6 +99,11 @@ public class MyAccountReq {
 	}
 
 	public int getOffset() {
+		if (page > 0 && rows > 0) {
+			offset = (page - 1) * rows;
+		} else {
+			offset = 0;
+		}
 		return offset;
 	}
 

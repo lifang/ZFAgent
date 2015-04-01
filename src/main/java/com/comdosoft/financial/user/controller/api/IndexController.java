@@ -2,6 +2,9 @@ package com.comdosoft.financial.user.controller.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -62,6 +65,40 @@ public class IndexController {
     }
     
     /**
+     * 获取城市列表
+     * @return
+     */
+    @RequestMapping(value = "getIdCity/{city_id}", method = RequestMethod.POST)
+    public Response getIdCity(@PathVariable String city_id){
+        Map<String,Object> citys = indexService.findCityById(city_id);
+        String  result = citys.get("name").toString();
+        while(!"0".equals(citys.get("parent_id").toString())){
+        	citys = indexService.findCityById(citys.get("parent_id").toString());
+        	result = citys.get("name").toString()+result;
+        }
+        return Response.buildSuccess(result, "");
+    }
+    
+    /**
+     * 获取用户详情页备注
+     * @return
+     */
+    @RequestMapping(value = "getCustomerMarks/{customerId}", method = RequestMethod.POST)
+    public Response getCustomerMarks(@PathVariable String customerId){
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        List<Map<String,Object>> results = indexService.getCustomerMarks(customerId);
+        for (Map<String, Object> map : results) {
+			Date date = (Date) map.get("create_time");
+			map.put("createTime", format.format(date));
+		}
+        Map<Object, Object> result = new HashMap<Object, Object>();
+        result.put("list", results);
+        Response response = new Response();
+        response.setResult(result);
+        return response;
+    }
+    
+    /**
      * 根据手机号发送验证码
      * @param req
      * @return
@@ -75,6 +112,27 @@ public class IndexController {
         return Response.buildSuccess(code, "发送成功");
     }
     
+    /**
+     * 根据手机号发送验证码
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "getPhoneCodeAgent", method = RequestMethod.POST)
+    public Response getPhoneCodeAgent(@RequestBody MyOrderReq req){
+        String code = indexService.getPhoneCodeAgent(req);
+        if(code.equals("-1")){
+            return Response.getError("发送失败，请重新再试");
+        }
+        return Response.buildSuccess(code, "发送成功");
+    }
+    
+    //新增用户详情备注
+    @RequestMapping(value = "saveViewCustomerViews", method = RequestMethod.POST)
+    public Response saveViewCustomerViews(@RequestBody MyOrderReq req){
+    		indexService.saveViewCustomerViews(req);
+    		return Response.getSuccess("保存备注成功！");
+    }
+    
     //更新手机号  根据用户id查询，更新 新手机号
     @RequestMapping(value = "changePhone", method = RequestMethod.POST)
     public Response changePhone(@RequestBody MyOrderReq req){
@@ -86,6 +144,13 @@ public class IndexController {
     @RequestMapping(value = "change_email", method = RequestMethod.POST)
     public Response change_email(@RequestBody MyOrderReq req,HttpServletRequest request){
         indexService.change_email(request,req);
+        return Response.getSuccess();
+    }
+    
+    //更新手机号  根据用户id查询，更新 新手机号
+    @RequestMapping(value = "change_email_check", method = RequestMethod.POST)
+    public Response change_email_check(@RequestBody MyOrderReq req,HttpServletRequest request){
+        indexService.change_email_check(request,req);
         return Response.getSuccess();
     }
     

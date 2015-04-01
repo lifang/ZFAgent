@@ -12,34 +12,11 @@ import com.comdosoft.financial.user.domain.zhangfu.CustomerRoleRelation;
 public interface CustomerMapper {
 
 	/**
-	 * 检查用户名是否重复
-	 * 
-	 * @param req
-	 * @return
-	 */
-	public Map<String, Object> checkAccount(EmpReq req);
-
-	/**
-	 * 创建用户
-	 * 
-	 * @param empReq
-	 */
-	public void addCustomer(EmpReq empReq);
-
-	/**
 	 * 添加用户权限
 	 * 
 	 * @param empReq
 	 */
 	public void addCustomerRights(EmpReq empReq);
-
-	/**
-	 * 根据ID查询代理商所有权限
-	 * 
-	 * @param req
-	 * @return
-	 */
-	public List<Object> getWholeRightsByAgentId(MyAccountReq req);
 
 	/**
 	 * 根据ID删除用户信息
@@ -49,6 +26,11 @@ public interface CustomerMapper {
 	 */
 	public int deleteEmpInfoFromAgent(int id);
 
+	/**
+	 * 更新用户状态为不可用
+	 * @param id
+	 * @return
+	 */
 	public int updateStatus(int id);
 
 	/**
@@ -100,25 +82,21 @@ public interface CustomerMapper {
 
 	public List<Map<String, Object>> getCustomerRights(EmpReq req);
 
-	public int updateRights(int customer_id, int role_id);
-
-	public int countCustomerRightsByRoleId(int customer_id, int role_id);
-
 	/**
 	 * 根据agent_id查询代理商下所有的状态为2的用户
 	 * 
-	 * @param agent_id
+	 * @param req
 	 * @return
 	 */
-	public int count(int agent_id);
+	public int count(MyAccountReq req);
 
 	/**
 	 * 根据代理商ID查询代理商旗下的用户
 	 * 
-	 * @param query
+	 * @param req
 	 * @return
 	 */
-	public List<Map<String, Object>> getAccountList(Map<Object, Object> query);
+	public List<Map<String, Object>> getAccountList(MyAccountReq req);
 
 	/**
 	 * 删除用户所有权限
@@ -128,6 +106,10 @@ public interface CustomerMapper {
 	 */
 	public int deleteCustomerRights(EmpReq req);
 
+	/**
+	 * 插入用户权限
+	 * @param req
+	 */
 	public void batchInsertRights(EmpReq req);
 
 }

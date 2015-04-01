@@ -1,0 +1,30 @@
+<div class="right" ng-controller="modifypasswordController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#/myinfobase">系统设定</a></li>
+			<li><a href="#/myinfobase">代理商资料</a></li>
+			<li><a href="#/myinfobase">修改邮箱地址</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="myInfoNav">
+			<ul>
+				<li><a href="#/agentinform" class="" ng-click="list()">基本信息</a></li>
+				<li><a href="#/adderss">地址管理</a></li>
+				<li><a href="#/changeemail">修改邮箱地址</a></li>
+			</ul>
+		</div>
+		<div class="user_title">
+			<h1>修改邮箱地址</h1>
+		</div>
+		<div class="myInfoBox" id="base_box">
+			<ul>
+				<li><label>邮箱：</label><input name="emailAddress" type="text"
+						ng-model="email" value="请输入新邮箱地址" maxlength="30" title="请输入新邮箱地址" /></li>
+			</ul>
+		</div>
+		<button class="blueBtn" ng-click="up_save()">保存</button> 
+	</div>
+</div>
+
+<div class="mask"></div>

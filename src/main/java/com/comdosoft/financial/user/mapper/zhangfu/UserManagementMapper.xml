@@ -34,4 +34,26 @@
 		VALUES(#{username},#{password},#{cityId},#{types},now(),#{status},#{name},#{integral},now())
 	</insert>
 
+	<select id="getTerminalListTotalCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(c.id) AS count FROM terminals c 
+			WHERE customer_id=#{id}
+		]]>
+	</select>
+
+	<select id="getTerminalList" parameterType="map" resultType="map">
+		SELECT t.serial_num as serial_num,g.title as good_id,p.name as p_name,m.legal_person_name as m_name,m.phone as m_phone,t.status as status
+		FROM terminals t
+		LEFT JOIN pay_channels p on p.id=t.pay_channel_id
+		LEFT JOIN merchants m on m.id=t.merchant_id
+		LEFT JOIN goods g on g.id=t.good_id
+		WHERE t.customer_id=#{id}
+		LIMIT #{offSetPage},#{pageSize}
+	</select>
+
+	<select id="queryCustomer"  resultType="map" >
+	<![CDATA[
+		SELECT * FROM customers  WHERE id = #{id}
+	]]>
+	</select>
 </mapper>

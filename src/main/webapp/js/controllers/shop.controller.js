@@ -956,7 +956,9 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 var orderUserController=function($scope,$http , $location, LoginService){
 	$scope.init = function() {
 		$scope.req = {};
+		$scope.user = {};
 		$scope.clist();
+		$scope.city_list();
 	};
 	$scope.clist = function() {
 		$scope.req.customerId=LoginService.loginid;
@@ -1000,6 +1002,17 @@ var orderUserController=function($scope,$http , $location, LoginService){
 		$http.post("api/index/getCity").success(function (data) {   
 			if (data != null && data != undefined) {
 				$scope.city_list = data.result;
+			}
+		});
+	};
+	
+	$scope.addUser = function(){
+		if($scope.user.pass1!=$scope.user.pass2){
+			alert("密码不一致");
+		}
+		$http.post("api/user/addCustomer",$scope.user).success(function (data) {   
+			if (data.code == 1) {
+				$scope.clist();
 			}
 		});
 	};

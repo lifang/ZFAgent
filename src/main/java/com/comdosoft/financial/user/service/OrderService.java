@@ -226,6 +226,8 @@ public class OrderService {
             map.put("order_goods_size", olist.size());// 
             Map<String, Object> omap = null;
             if (olist.size() > 0) {
+            	   OrderGood og = olist.get(0);
+                   map.put("good_merchant", og.getGood() == null ? "" : og.getGood().getFactory() == null ? "" : og.getGood().getFactory().getName() == null ? "" : og.getGood().getFactory().getName());// 供货商
                 for (OrderGood od : olist) {
                     omap = new HashMap<String, Object>();
                     omap.put("good_id",  od.getGood() == null ? "" : od.getGood().getId()== null ? "" : od.getGood().getId()+"");
@@ -319,6 +321,8 @@ public class OrderService {
         List<Object> newObjList = new ArrayList<Object>();
         Map<String, Object> omap = null;
         if (olist.size() > 0) {
+        	   OrderGood og = olist.get(0);
+               map.put("good_merchant", og.getGood() == null ? "" : og.getGood().getFactory() == null ? "" : og.getGood().getFactory().getName() == null ? "" : og.getGood().getFactory().getName());// 供货商
             for (OrderGood od : olist) {
                 omap = new HashMap<String, Object>();
                 omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId()==null?"":od.getGood().getId().toString());
@@ -396,6 +400,8 @@ public class OrderService {
         map.put("order_goods_size", olist.size());// 
         Map<String, Object> omap = null;
         if (olist.size() > 0) {
+        	OrderGood og = olist.get(0);
+            map.put("good_merchant", og.getGood() == null ? "" : og.getGood().getFactory() == null ? "" : og.getGood().getFactory().getName() == null ? "" : og.getGood().getFactory().getName());// 供货商
             for (OrderGood od : olist) {
                 omap = new HashMap<String, Object>();
                 omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId().toString());

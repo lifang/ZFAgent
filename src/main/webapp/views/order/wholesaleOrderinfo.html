@@ -67,11 +67,7 @@
 				</dl>
 				<dl>
 					<dt>订单类型：</dt>
-					<dd ng-if="orderInfo.order_type==1">用户订购</dd> 
-						<dd ng-if="orderInfo.order_type==2">用户租赁</dd> 
-						<dd ng-if="orderInfo.order_type==3">代理商代购</dd> 
-						<dd ng-if="orderInfo.order_type==4">代理商代租赁</dd> 
-						<dd ng-if="orderInfo.order_type==5">代理商批购 </dd> 
+						<dd  >代理商批购 </dd> 
 					<dt>订单编号：</dt>
 					<dd>{{orderInfo.order_number}}</dd>
 				</dl>
@@ -89,10 +85,18 @@
 				</dl>
 				<dl>
 					<dt>订单原金额：</dt>
-					<dd class="line_through">{{orderInfo.order_oldprice/100 |currency : "￥"}}</dd>
+					<dd class="line_through">{{orderInfo.order_oldPrice/100 |currency : "￥"}}</dd>
 					<dt>订单金额：</dt>
 					<dd>
-						<strong>{{orderInfo.order_totalprice/100 |currency : "￥"}}</strong>
+						<strong>{{orderInfo.order_totalPrice/100 |currency : "￥"}}</strong>
+					</dd>
+				</dl>
+				<dl>
+					<dt>定金金额：</dt>
+					<dd class="line_through">{{orderInfo.total_dingjin/100 |currency : "￥"}}</dd>
+					<dt>已付金额：</dt>
+					<dd>
+						<strong>{{orderInfo.zhifu_dingjin/100 |currency : "￥"}}</strong>
 					</dd>
 				</dl>
 			</div>
@@ -140,11 +144,11 @@
 						<td ng-if="$index==0" rowspan="{{orderInfo.order_goods_size}}" class="left_border">{{orderInfo.total_quantity}}</td>
 						<td ng-if="$index==0" rowspan="{{orderInfo.order_goods_size}}"  ><strong>{{orderInfo.order_totalPrice/100 |currency : "￥"}} </strong></td>
 						<td ng-if="$index==0" rowspan="{{orderInfo.order_goods_size}}"><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="o.order_status==1">付款</a> 
-						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"  ng-if="orderInfo.order_status==1" class="a_btn">取消</a>
+						<a href="javascript:void(0)" ng-click="cancelApply(orderInfo.order_id)"  ng-if="orderInfo.order_status==1" class="a_btn">取消</a>
 					<!-- 	 <a class="a_btn starGrade_a" ng-if="o.order_status==3" href="#/ordermark?orderId={{o.order_id}}">评价</a> -->
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="orderInfo.order_status==2" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="orderInfo.order_status==3" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="orderInfo.order_status==4" class="a_btn">查看终端号</a>
+						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==2" class="a_btn">查看终端号</a>
+						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==3" class="a_btn">查看终端号</a>
+						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==4" class="a_btn">查看终端号</a>
 						 </td>
 						 
 					</tr>
@@ -173,12 +177,12 @@
 						<td><strong>{{g.good_batch_price/100 |currency : "￥"}} </strong><p class="original">零售价：{{g.good_price/100 |currency : "￥"}} </p></td>
 						<td>{{orderInfo.total_quantity}}</td>
 						<td  ><strong>{{orderInfo.order_totalPrice/100 |currency : "￥"}} </strong></td>
-						<td  ><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="orderInfo.order_status==1">付款</a> 
-						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"  ng-if="orderInfo.order_status==1" class="a_btn">取消</a>
+						<td  ><a href="javascript:void(0);" ng-click="topay(orderInfo)" class="a_btn" ng-if="orderInfo.order_status==1">付款</a> 
+						<a href="javascript:void(0)" ng-click="cancelApply(orderInfo.order_id)"  ng-if="orderInfo.order_status==1" class="a_btn">取消</a>
 				<!-- 		 <a class="a_btn starGrade_a" ng-if="o.order_status==3"  href="#/ordermark?orderId={{o.order_id}}">评价</a> -->
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="orderInfo.order_status==2" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="orderInfo.order_status==3" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="orderInfo.order_status==4" class="a_btn">查看终端号</a>
+						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==2" class="a_btn">查看终端号</a>
+						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==3" class="a_btn">查看终端号</a>
+						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==4" class="a_btn">查看终端号</a>
 						 </td>
 					</tr>
 				</tbody>

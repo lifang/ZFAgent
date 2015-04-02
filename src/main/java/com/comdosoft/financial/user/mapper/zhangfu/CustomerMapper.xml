@@ -78,10 +78,13 @@
 	<!-- 编辑用户信息 -->
 	<update id="editCustomerInfo" parameterType="com.comdosoft.financial.user.domain.query.EmpReq"
 		flushCache="true">
-		<![CDATA[
-			UPDATE customers c SET c.name = #{name}, c.password = #{comfirmpwd}, c.updated_at = NOW() 
-			WHERE c.id = #{customer_id} AND c.password = #{password}
-		]]>
+		
+		UPDATE customers 
+		<trim prefix="SET" suffixOverrides=",">
+			updated_at = NOW(),
+			<if test="name != null and name != ''">name = #{name}</if>
+		</trim>
+		WHERE id = #{customer_id} AND password = #{password}
 	</update>
 
 	<!-- 查询用户所有权限 -->

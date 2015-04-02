@@ -49,7 +49,7 @@ public class SystemSetController {
 		Map<String, Object> map = systemSetService.getEmpInfoByUsername(username);
 		if (map != null && !map.isEmpty()) {
 			response.setCode(Response.ERROR_CODE);
-			response.setMessage("用户名重复");
+			response.setMessage("登陆ID不能重复");
 		} else {
 			Date d = new Date();
 			Customer c = new Customer();
@@ -186,7 +186,6 @@ public class SystemSetController {
 		Response response = new Response();
 		String[] roleIds = req.getRightIds();
 
-		req.setComfirmpwd((SysUtils.string2MD5(req.getComfirmpwd())));
 		if (systemSetService.editCustomerInfo(req) > 0) {
 			systemSetService.deleteCustomerRights(req);
 			if (roleIds != null) {

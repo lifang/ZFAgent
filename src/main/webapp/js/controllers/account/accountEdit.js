@@ -38,25 +38,16 @@ var accountEditController = function($scope, $http, $location, LoginService) {
 	$scope.accountEdit = function() {
 		var name = $scope.info.name;
 		var password = $scope.info.password;
-		var comfirmpwd = $scope.info.comfirmpwd;
 
-		if (typeof (name) == "undefined") {
+		if (typeof (name) == "undefined" || name == null) {
 			alert("姓名不能为空");
-			return false;
-		}
-
-		if (typeof (comfirmpwd) == "undefined") {
-			alert("密码不能为空！");
-			return false;
-		} else if (comfirmpwd.length < 6 || comfirmpwd.length > 20) {
-			alert("密码由6-20位，英文字符组成！");
 			return false;
 		}
 
 		$scope.info.rightIds = [];
 		$scope.info.rightIds = getCheckboxValue();
 		// alert($scope.info.rightIds);
-		if (typeof ($scope.info.rightIds) == "undefined" || $scope.info.rightIds == "") {
+		if (typeof ($scope.info.rightIds) == "undefined" || $scope.info.rightIds == null) {
 			alert("权限未填写");
 			return false;
 		}

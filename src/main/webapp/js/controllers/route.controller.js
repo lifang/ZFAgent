@@ -30,6 +30,10 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/order/wholesaleOrder.html'
 	}).when('/proxyOrder', {
 		templateUrl : 'views/order/proxyOrder.html'
+	}).when('/wholesaleOrderinfo', {
+		templateUrl : 'views/order/wholesaleOrderinfo.html'
+	}).when('/proxyOrderinfo', {
+		templateUrl : 'views/order/proxyOrderinfo.html'
 	}).when('/email_up', {
 		templateUrl : 'views/customer/up_email.html'
 	}).when('/shop', {
@@ -102,8 +106,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/agent/stockinfo.html'
 	}).when('/agentinform', {
 		templateUrl : 'views/systemset/agentinform.html'
-	}).when('/adderss', {
-		templateUrl : 'views/systemset/adderss.html'
+	}).when('/address', {
+		templateUrl : 'views/systemset/address.html'
 	}).when('/modifypassword', {
 		templateUrl : 'views/systemset/modifypassword.html'
 	}).when('/shopmakeorder', {

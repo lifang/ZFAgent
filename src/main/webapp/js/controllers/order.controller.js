@@ -157,7 +157,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 			customerId : LoginService.agentid,
 			search : $scope.search,
 			q : $scope.screen,
-			p : "1",//  1 批购 2 代购
+			p : "2",//  1 批购 2 代购
 			page : $scope.indexPage,
 			rows : $scope.rows
 		};
@@ -178,7 +178,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 			customerId : LoginService.agentid,
 			search : $scope.search,
 			q : $scope.screen,
-			p : "1",//  1 批购 2 代购
+			p : "2",//  1 批购 2 代购
 			page : $scope.indexPage,
 			rows : $scope.rows
 		};
@@ -193,7 +193,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.submitPage = function(){
-		$scope.req={customerId:LoginService.agentid,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"1",
+		$scope.req={customerId:LoginService.agentid,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"2",
 				rows:$scope.rows};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
 			if (data != null && data != undefined) {
@@ -211,7 +211,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
         $scope.req={customerId:LoginService.agentid,
         		page:$scope.indexPage,
         		rows:$scope.rows};
-        $http.post("api/order/getWholesaleOrder", $scope.req).success(function (data) {  //绑定
+        $http.post("api/order/getProxyOrder", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
                 $scope.list = data.result;
                 calcSystemPage($scope, data.result.total);// 计算分页

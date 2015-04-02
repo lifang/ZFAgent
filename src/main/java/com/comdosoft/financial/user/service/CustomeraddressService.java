@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.mapper.zhangfu.CustomeraddressMapper;
 
@@ -21,8 +23,15 @@ public class CustomeraddressService {
 	 * @param req
 	 * @return
 	 */
-	public int insertaddress(CustomerAddress req) {
-		return customer_addressesMapper.insertadderss(req);
+	@Transactional(value = "transactionManager-zhangfu")
+	public void insertAddress(Map<Object, Object> param) {
+		int isDefault = Integer.parseInt(param.get("isDefault").toString());
+		if (isDefault == CustomerAddress.ISDEFAULT_1) {
+			param.put("is_default", CustomerAddress.ISDEFAULT_2);
+			customer_addressesMapper.updateDefaultAddress(param);
+		}
+		customer_addressesMapper.insertAddress(param);
+
 	}
 
 	/**
@@ -30,26 +39,50 @@ public class CustomeraddressService {
 	 * 
 	 * @param CustomerAddress
 	 */
-	public int deletetaddress(int param) {
-		return customer_addressesMapper.deleteadderss(param);
+	public int deleteAddress(int param) {
+		return customer_addressesMapper.deleteAddress(param);
 	}
 
 	public Map<String, Object> queryaddress(int id) {
 		return customer_addressesMapper.queryaddress(id);
 	}
 
-	public void updateadderss(CustomerAddress req, int id) {
-		customer_addressesMapper.upadderss(req, id);
+	/**
+	 * 修改收获地址
+	 * 
+	 * @param param
+	 */
+//	@Transactional(value = "transactionManager-zhangfu")
+	public void updateAddress(Map<Object, Object> param) {
+		int isDefault = Integer.parseInt(param.get("isDefault").toString());
+		if (isDefault == CustomerAddress.ISDEFAULT_1) {
+			param.put("is_default", CustomerAddress.ISDEFAULT_2);
+			customer_addressesMapper.updateDefaultAddress(param);
+		}
+		customer_addressesMapper.updateAddress(param);
 	}
 
-	public List<Map<String, Object>> queryadderss(int id) {
-		return customer_addressesMapper.queryadderss(id);
+	/**
+	 * 查询代理商收获地址
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<Map<String, Object>> queryAddress(int id) {
+		return customer_addressesMapper.queryAddress(id);
 	}
 
-	public int setisDefault(CustomerAddress cus) {
-		// param.put("is_default", CustomerAddress.ISDEFAULT_2);
-
-		return customer_addressesMapper.setisDefault(cus);
+	/**
+	 * 设置默认地址
+	 * 
+	 * @param param
+	 */
+	@Transactional(value = "transactionManager-zhangfu")
+	public void setDefaultAddress(Map<Object, Object> param) {
+		param.put("is_default", CustomerAddress.ISDEFAULT_2); // 其它设置为非默认
+		customer_addressesMapper.updateDefaultAddress(param);
+		customer_addressesMapper.setNotDefaultAddress(param);
+		customer_addressesMapper.setDefaultAddress(param);
 	}
 
 	public void updeteDefault(int oidDefault, int Default) {

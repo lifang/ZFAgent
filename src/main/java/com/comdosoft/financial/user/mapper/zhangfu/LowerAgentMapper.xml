@@ -46,7 +46,8 @@ where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order 
          b.username as loginId,b.city_id as cityId,if(a.tax_registered_no is null, " ",a.tax_registered_no) as tax_registered_no,a.created_at,
          (select if(sum(f.quantity) is null,0,sum(f.quantity)) from prepare_goods_records f where f.agent_id=a.id) as allQty,
 		(select count(g.id) from terminals g where g.agent_id=a.id and g.customer_id!=null and g.status=1) as openNum,
-		(select count(h.id) from terminals h where h.agent_id=a.id and h.customer_id!=null) as soldNum
+		(select count(h.id) from terminals h where h.agent_id=a.id and h.customer_id!=null) as soldNum,
+		a.card_id_photo_path as cardPath,a.license_no_pic_path as licensePath,a.tax_no_pic_path as taxPath
 		from agents a 
 		left join customers b on b.id=a.customer_id
 		where a.id=#{sonAgentsId}) c left join cities d on c.cityId=d.id

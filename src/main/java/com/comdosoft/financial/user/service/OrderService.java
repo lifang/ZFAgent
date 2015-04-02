@@ -380,7 +380,8 @@ public class OrderService {
         map.put("order_createTime", d);//订单日期
         map.put("order_status", o.getStatus()==null?"":o.getStatus()+"");
         map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
-        map.put("order_totalPrice", o.getActualPrice()==null?"":o.getActualPrice()+"");
+        map.put("order_totalPrice", o.getActualPrice()==null?"":o.getActualPrice()+"");//实际
+        map.put("order_oldPrice", o.getTotalPrice()==null?"":o.getTotalPrice()+"");//原价
         map.put("order_psf", "0");//配送费
         map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver()==null ?"":o.getCustomerAddress().getReceiver());
         map.put("order_address", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getAddress()==null ?"":o.getCustomerAddress().getAddress());
@@ -395,6 +396,17 @@ public class OrderService {
         }
         map.put("order_invoce_type", invoce_name);//发票类型
         map.put("order_invoce_info", o.getInvoiceInfo()==null?"":o.getInvoiceInfo());//发票抬头
+        map.put("order_type", o.getTypes()==null?"":o.getTypes());//订单类型
+        
+        Integer guishu_user = o.getBelongsUserId();
+        Customer customer = new Customer();
+        customer.setId(guishu_user);
+        customer = orderMapper.findCustomerById(customer);
+        if(customer ==null){
+            map.put("guishu_user", ""); 
+        }else{
+        	map.put("guishu_user", customer.getName()==null?"": customer.getName()); 
+        }
         List<OrderGood> olist = o.getOrderGoodsList();
         List<Object> newObjList = new ArrayList<Object>();
         map.put("order_goods_size", olist.size());// 

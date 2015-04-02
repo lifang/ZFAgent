@@ -67,11 +67,8 @@
 				</dl>
 				<dl>
 					<dt>订单类型：</dt>
-					<dd ng-if="o.order_type==1">用户订购</dd> 
-						<dd ng-if="o.order_type==2">用户租赁</dd> 
 						<dd ng-if="o.order_type==3">代理商代购</dd> 
 						<dd ng-if="o.order_type==4">代理商代租赁</dd> 
-						<dd ng-if="o.order_type==5">代理商批购 </dd> 
 					<dt>订单编号：</dt>
 					<dd>{{o.order_number}}</dd>
 				</dl>
@@ -81,7 +78,7 @@
 				</dl>
 				<dl>
 					<dt>代购用户：</dt>
-					<dd>{{o.order_createTime}}</dd>
+					<dd>{{o.guishu_user}}</dd>
 				</dl>
 				<dl>
 					<dt>支付类型：</dt>
@@ -93,10 +90,10 @@
 				</dl>
 				<dl>
 					<dt>订单原金额：</dt>
-					<dd class="line_through">{{o.order_oldprice/100 |currency : "￥"}}</dd>
+					<dd class="line_through">{{o.order_oldPrice/100 |currency : "￥"}}</dd>
 					<dt>订单金额：</dt>
 					<dd>
-						<strong>{{o.order_totalprice/100 |currency : "￥"}}</strong>
+						<strong>{{o.order_totalPrice/100 |currency : "￥"}}</strong>
 					</dd>
 				</dl>
 			</div>

@@ -8,6 +8,11 @@
          <result property="orderId" column="order_id" /> 
 	</resultMap>
 	
+		<resultMap id="factoryResultMap" type="com.comdosoft.financial.user.domain.zhangfu.Factory">
+		 <id property="id" column="id" />  
+            <result property="name" column="factory_name" /> 
+	</resultMap>
+	
 	<resultMap id="picsResultMap" type="com.comdosoft.financial.user.domain.zhangfu.GoodsPicture">
 		 <id property="id" column="pic_id" />  
          <result property="urlPath" column="url_path" /> 
@@ -41,6 +46,7 @@
             <result property="price" column="price" /> 
             <result property="purchasePrice" column="purchase_price" /> 
             <result property="retailPrice" column="retail_price" /> 
+              <association property="factory" javaType="com.comdosoft.financial.user.domain.zhangfu.Factory" resultMap="factoryResultMap" />  
             <association property="goodsBrand" javaType="com.comdosoft.financial.user.domain.zhangfu.GoodBrand" resultMap="goodBrandResultMap" />  
             <collection property="picsList" ofType="com.comdosoft.financial.user.domain.zhangfu.GoodsPicture" resultMap="picsResultMap" />  
 	</resultMap>
@@ -284,7 +290,7 @@
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.price,g.purchase_price,
 		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
 		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment,
-		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,
+		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,f.name,
 		o.actual_price ,total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name ,
 			 os.status as os_status,
@@ -294,6 +300,7 @@
 		orders o
 		LEFT JOIN order_goods og ON o.id = og.order_id
 		LEFT JOIN goods g ON og.good_id = g.id
+		LEFT JOIN factories f ON g.factory_id = f.id
 		LEFT JOIN goods_pictures gp ON g.id = gp.good_id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
@@ -311,7 +318,7 @@
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,
 		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
-		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment,
+		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment,f.name,
 		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,op.pay_type,
 		o.actual_price ,total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name 
@@ -319,6 +326,7 @@
 		orders o
 		LEFT JOIN order_goods og ON o.id = og.order_id
 		LEFT JOIN goods g ON og.good_id = g.id
+		LEFT JOIN factories f ON g.factory_id = f.id
 		LEFT JOIN goods_pictures gp ON g.id = gp.good_id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id

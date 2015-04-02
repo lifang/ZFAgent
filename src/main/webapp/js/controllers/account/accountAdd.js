@@ -4,7 +4,7 @@
 var empAddModule = angular.module("empAddModule", []);
 var empAddController = function($scope, $http, $location, LoginService) {
 
-	$scope.customer = {};
+	// $scope.customer = {};
 
 	$scope.accountAdd = function() {
 		var name = $scope.customer.name;
@@ -12,13 +12,16 @@ var empAddController = function($scope, $http, $location, LoginService) {
 		var password = $scope.customer.password;
 		var comfirmpwd = $scope.customer.comfirmpwd;
 
-		if (typeof ($scope.customer.name) == "undefined") {
+		if (typeof ($scope.customer.name) == "undefined" || $scope.customer.name == "") {
 			alert("姓名不能为空");
 			return false;
 		}
 
-		if (typeof ($scope.customer.username) == "undefined") {
-			alert("用户名不能为空");
+		if (typeof ($scope.customer.username) == "undefined" || $scope.customer.username == "") {
+			alert("登陆ID不能为空");
+			return false;
+		} else if($scope.customer.username.length > 40){
+			alert("登陆ID最多填写40个字符或20 个汉字");
 			return false;
 		}
 

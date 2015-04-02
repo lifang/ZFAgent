@@ -9,6 +9,5 @@
 /bin/
 /build/
 build.gradle
-.gitignore
 .gradle/
 

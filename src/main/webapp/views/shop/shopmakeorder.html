@@ -24,23 +24,28 @@
 								<button>搜索</button>
 							</div>
 							<div class="su_s_box">
-								<a href="#" class="hover">张三</a> <a href="#">张三01</a> <a href="#">张三02</a> <a href="#">张03三</a>
+								<span ng-repeat="one in cuslist"> <a href="javascript:void(0);" ng-click="alist(one.customersId)">{{one.name}}</a>&nbsp;&nbsp;
+								</span>
 							</div>
 						</div>
 						<div>
 							<div class="suc_selectInput">
-								<select name="">
-									<option>省</option>
-								</select> <select name="">
-									<option>市/地区</option>
+								<select style="width: 90px;" ng-model="selected" ng-options="s.name for s in city_list">
+									<option value="">请选择</option>
+								</select> <select style="width: 90px;" ng-model="user.cityid" ng-options="x.id as x.name for x in selected.childrens">
+									<option value="">请选择</option>
 								</select>
 							</div>
 							<div class="suc_selectInput">
-								<input name="" type="text" value="手机号 / 邮箱" /> <input name="" type="text" value="用户姓名（可选）" /> <input name="" type="text" value="密码" /> <input name="" type="text" value="确认密码" />
-								<button>创建</button>
+								<input ng-model="user.username" type="text" placeholder="手机号 / 邮箱" /> 
+								<input ng-model="user.name" type="text" placeholder="用户姓名（可选）" /> 
+								<input ng-model="user.pass1" type="text" placeholder="密码" /> 
+								<input ng-model="user.pass2" type="text" placeholder="确认密码" />
+								<button ng-click="addUser()">创建</button>
 							</div>
 							<div class="su_s_box">
-								<a href="#" class="hover">张三</a>
+								<span ng-repeat="one in cuslist"> <a href="javascript:void(0);" ng-click="alist(one.customersId)">{{one.name}}</a>&nbsp;&nbsp;
+								</span>
 							</div>
 						</div>
 					</div>

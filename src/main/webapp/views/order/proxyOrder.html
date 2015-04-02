@@ -82,10 +82,9 @@
 							</div>
                             
                              <td><strong>{{g.good_price/100 |currency : "￥"}} </strong></td>
-							<td>{{o.order_totalNum}}</td>
-	
-							<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" class="left_border"><strong>{{o.order_totalPrice/100 |currency : "￥"}} </strong></td>
-							<td >{{o.guishu_user}}</td>
+							<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" class="left_border">{{o.order_totalNum}}</td>
+							<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}"  ><strong>{{o.order_totalPrice/100 |currency : "￥"}} </strong></td>
+							<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" >{{o.guishu_user}}</td>
 							<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" >
 								<strong ng-if="o.order_status==1" class="strong_status">未付款</strong>
 								<strong ng-if="o.order_status==2" class="strong_status">已付款</strong> 
@@ -96,7 +95,7 @@
 							</td>
 							<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" ><a href="javascript:void(0);" ng-click="topay(o)" ng-if="o.order_status==1" class="a_btn">支付定金</a> 
 							<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"   ng-if="o.order_status==1" class="a_btn">取消</a>
-							<a href="#/orderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
+							<a href="#/proxyOrderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
                           </tr>
                           <tr  ng-if="o.order_goods_size==1" ng-repeat="g in  o.order_goodsList ">
                             <td>
@@ -117,9 +116,8 @@
 							</div>
                             
                              <td><strong>{{g.good_price/100 |currency : "￥"}} </strong></td>
-							<td>{{o.order_totalNum}}</td>
-	
-							<td  ><strong>{{o.order_totalPrice/100 |currency : "￥"}} </strong></td>
+							<td>{{o.order_totalNum}}</td><!-- 数量 -->
+							<td  ><strong>{{o.order_totalPrice/100 |currency : "￥"}} </strong></td><!-- 金额 -->
 							<td >{{o.guishu_user}}</td>
 							<td  >
 								<strong ng-if="o.order_status==1" class="strong_status">未付款</strong>
@@ -131,7 +129,7 @@
 							</td>
 							<td ><a href="javascript:void(0);" ng-click="topay(o)" ng-if="o.order_status==1" class="a_btn">支付定金</a> 
 							<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"   ng-if="o.order_status==1" class="a_btn">取消</a>
-							<a href="#/orderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
+							<a href="#/proxyOrderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
                           </tr>
                           </tbody>
                         </table>

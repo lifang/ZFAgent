@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
-import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.service.CustomeraddressService;
 
 @RestController
@@ -20,44 +20,16 @@ public class CustomerAddressContorller {
 	@Autowired
 	private CustomeraddressService customer_addresser_server;
 
-	@RequestMapping(value = "insert", method = RequestMethod.POST)
-	public Response add(@RequestBody CustomerAddress param) {
-		Response response = new Response();
-		response.setCode(Response.ERROR_CODE);
-		System.out.println(param.getIsDefault());
-		if (customer_addresser_server.insertaddress(param) > 0) {
-			response.setCode(Response.SUCCESS_CODE);
-		} else {
-			response.setCode(Response.ERROR_CODE);
-		}
-		return response;
-	}
-
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
-	public Response delete(@PathVariable int id) {
-		Response response = new Response();
-		response.setCode(Response.ERROR_CODE);
-		int result = customer_addresser_server.deletetaddress(id);
-		if (result > 0) {
-			response.setCode(Response.SUCCESS_CODE);
-		}
-
-		return response;
-	}
-
-	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public Response update(@RequestBody CustomerAddress req, @PathVariable int id) {
-		Response response = new Response();
-		response.setCode(Response.ERROR_CODE);
-		customer_addresser_server.updateadderss(req, id);
-		return response;
-	}
-
+	/**
+	 * 查询代理商收获地址
+	 * 
+	 * @param customer_id
+	 * @return
+	 */
 	@RequestMapping(value = "query/{customer_id}", method = RequestMethod.POST)
 	public Response query(@PathVariable int customer_id) {
 		Response response = new Response();
-
-		List<Map<String, Object>> result = customer_addresser_server.queryadderss(customer_id);
+		List<Map<String, Object>> result = customer_addresser_server.queryAddress(customer_id);
 		if (result != null) {
 			response.setResult(result);
 			response.setCode(Response.SUCCESS_CODE);
@@ -66,20 +38,78 @@ public class CustomerAddressContorller {
 		return response;
 	}
 
-	@RequestMapping(value = "setisDefault", method = RequestMethod.POST)
-	public Response setisDefault(@RequestBody CustomerAddress param) {
-		Response sysResponse = new Response();
+	/**
+	 * 插入收获地址
+	 * 
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "insert", method = RequestMethod.POST)
+	public Response add(@RequestBody Map<Object, Object> param) {
+		Response sysResponse = null;
 		try {
-			int oidDefault = 1;
-			int Default = 2;
-			customer_addresser_server.updeteDefault(oidDefault, Default);
-			if (customer_addresser_server.setisDefault(param) == 1) {
-				sysResponse.setCode(Response.SUCCESS_CODE);
-				sysResponse = Response.getSuccess();
-				return sysResponse;
-			}
+			customer_addresser_server.insertAddress(param);
+			sysResponse = Response.getSuccess();
 		} catch (Exception e) {
-			sysResponse = Response.getError("设置默认地址失败:系统异常");
+			sysResponse = Response.getError("新增地址失败:系统异常");
+		}
+		return sysResponse;
+	}
+
+	/**
+	 * 删除收获地址
+	 * 
+	 * @param param
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	public Response delete(@RequestBody Map<Object, Object> param) {
+		Response sysResponse = null;
+		try {
+			List<Integer> ids = (ArrayList<Integer>) param.get("ids");
+			for (int id : ids) {
+				customer_addresser_server.deleteAddress(id);
+			}
+			sysResponse = Response.getSuccess();
+		} catch (Exception e) {
+			sysResponse = Response.getError("删除地址失败:系统异常");
+		}
+		return sysResponse;
+	}
+
+	/**
+	 * 修改收获地址
+	 * 
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "updateAddress", method = RequestMethod.POST)
+	public Response update(@RequestBody Map<Object, Object> param) {
+		Response sysResponse = null;
+		try {
+			customer_addresser_server.updateAddress(param);
+			sysResponse = Response.getSuccess();
+		} catch (Exception e) {
+			sysResponse = Response.getError("修改地址失败:系统异常");
+		}
+		return sysResponse;
+	}
+
+	/**
+	 * 设置默认地址
+	 * 
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "setDefaultAddress", method = RequestMethod.POST)
+	public Response setisDefault(@RequestBody Map<Object, Object> param) {
+		Response sysResponse = null;
+		try {
+			customer_addresser_server.setDefaultAddress(param);
+			sysResponse = Response.getSuccess();
+		} catch (Exception e) {
+			sysResponse = Response.getError("设置为默认地址失败:系统异常");
 		}
 		return sysResponse;
 	}

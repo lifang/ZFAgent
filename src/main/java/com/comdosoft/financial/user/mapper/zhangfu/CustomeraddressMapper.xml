@@ -11,16 +11,7 @@
 		VALUES(#{cityId},#{receiver},#{address},#{moblephone},#{zipCode},#{isDefault},NOW(),NOW(),#{telphone})
 	</insert>
 
-	<delete id="deleteadderss"
-		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
-		DELETE FROM customer_addresses
-		WHERE id = #{id}
-	</delete>
 
-	<select id="queryadderss" resultType="map"
-		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
-		SELECT * FROM customer_addresses WHERE customer_id=#{id}
-	</select>
 
 	<update id="updateadderss"
 		parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
@@ -45,5 +36,74 @@
 		isDefault=#{Default},updated_at =
 		NOW()
 		WHERE isDefault=#{oidDefault}
+	</update>
+
+	<!-- 查询代理商收获地址 -->
+	<select id="queryAddress" resultType="map">
+	<![CDATA[
+		SELECT ca.id, c2.id as city_parent_id, c.name as city_name, c2.name as city_parent_name, city_id cityId, 
+		concat(IFNULL(c2.name, ''), IFNULL(c.name, '')) as city, address, zip_code zipCode, receiver, moblephone, 
+		telphone, is_default isDefault, customer_id customerId
+		FROM customer_addresses ca 
+  		LEFT JOIN cities c on ca.city_id = c.id
+   		LEFT JOIN cities c2 on c.parent_id = c2.id
+		WHERE ca.customer_id = #{id} and ca.status = 1
+	  	ORDER BY ca.created_at DESC
+	]]>
+	</select>
+
+	<!-- 修改默认地址 -->
+	<update id="updateDefaultAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default = #{is_default}, updated_at = NOW()
+		WHERE customer_id = #{customerId}
+	]]>
+	</update>
+
+	<!-- 插入地址 -->
+	<insert id="insertAddress" useGeneratedKeys="true" keyProperty="id">
+	<![CDATA[
+		INSERT INTO customer_addresses (city_id, receiver, moblephone, telphone, zip_code, address, is_default, customer_id, created_at, status)
+		VALUES (#{cityId}, #{receiver}, #{moblephone}, #{telphone}, #{zipCode}, #{address}, #{isDefault}, #{customerId}, NOW(), 1)
+	]]>
+	</insert>
+
+	<!-- 修改地址信息 -->
+	<update id="updateAddress">
+		UPDATE customer_addresses
+		<trim prefix="SET" suffixOverrides=",">
+			updated_at = NOW(),
+			<if test="cityId != null">city_id = #{cityId},</if>
+			<if test="zipCode != null and zipCode !=''">zip_code = #{zipCode},</if>
+			<if test="address != null and address !=''">address = #{address},</if>
+			<if test="receiver != null and receiver !=''">receiver = #{receiver},</if>
+			<if test="telphone != null and telphone !=''">telphone = #{telphone},</if>
+			<if test="moblephone != null and moblephone !=''">moblephone = #{moblephone},</if>
+			<if test="isDefault != null">is_default = #{isDefault}</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 删除地址 -->
+	<delete id="deleteAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET status = 2 WHERE id = #{param}
+	]]>
+	</delete>
+
+	<!-- 取消默认地址 -->
+	<update id="setNotDefaultAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default =2 ,updated_at = NOW()
+		 WHERE id != #{id} and customer_id = #{customerId}
+	]]>
+	</update>
+
+	<!-- 设置默认地址 -->
+	<update id="setDefaultAddress">
+	<![CDATA[
+		UPDATE customer_addresses SET is_default = 1 ,updated_at = NOW()
+		 WHERE id = #{id}  and customer_id = #{customerId}
+	]]>
 	</update>
 </mapper>

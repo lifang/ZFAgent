@@ -24,9 +24,6 @@
 		<script type="text/javascript" src="js/services/loginService.js"></script>
 		
 		<script type="text/javascript" src="js/util.js"></script>
-		<!-- Directives -->
-		<script type="text/javascript" src="js/directives/datepicker.directive.js"></script>
-		<script type="text/javascript" src="js/directives/fileupload.directive.js"></script>
 		<!-- Controllers -->
 		<script type="text/javascript" src="js/controllers/route.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/login/register.controller.js"></script>
@@ -46,7 +43,7 @@
 		<script type="text/javascript" src="js/controllers/lowerAgent.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/stock.controller.js"></script>	
 		<script type="text/javascript" src="js/controllers/agent.controller.js"></script>
-		<script type="text/javascript" src="js/controllers/adderss.controller.js"></script>
+		<script type="text/javascript" src="js/controllers/address.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/usermanage/userManage.js"></script>
 		<!--柱形图表-->
 		<script src="js/Chart.min.js"></script>
@@ -76,8 +73,8 @@
 				<ul>
 					<li ng-if="menu1"><a href="#/myapp">我的掌富</a></li>
 					<li ng-if="menu2"><a href="#/stock">我的库存</a></li>
-					<li ng-if="menu3"><a href="#/purchaseOrder">批购</a></li>
-					<li ng-if="menu4"><a href="#/othersOrder">代购</a></li>
+					<li ng-if="menu3"><a href="#/wholesaleOrder">批购</a></li>
+					<li ng-if="menu4"><a href="#/proxyOrder">代购</a></li>
 					<li ng-if="menu5"><a href="#/terminals">管理终端</a></li>
 					<li ng-if="menu6"><a href="#/trade">交易流水</a></li>
 					<li ng-if="menu7"><a href="#">POS销售分润</a></li>
@@ -95,7 +92,7 @@
 							<li><a href="#/cs_agent">代理商售后记录</a></li>
 						</ol></li>
 
-					<li ng-if="menu10"><a href="#">管理用户</a></li>
+					<li ng-if="menu10"><a href="#/manageuser">管理用户</a></li>
 					<li ng-if="menu11" class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
 <ol>
 							<li><a href="#/agentinform">代理商资料</a></li>

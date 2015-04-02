@@ -85,7 +85,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	
 	//修改邮箱
 	$scope.up_save = function(){
-		var mail = $scope.email;
+		var mail = document.getElementById("emailValue").value;
 		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
 		if(!reg.test(mail)){
 			alert("请输入合法的邮箱地址");

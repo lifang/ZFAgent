@@ -5,10 +5,8 @@ import java.util.Map;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
-import com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
-import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 
 /**
@@ -187,44 +185,7 @@ public interface TerminalsWebMapper {
      * @return
      */
     int JudgeUpdateStatus(Map<String, Object> map);
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-	
-	
-	
-	
-	
-	
-	
-    
-	
-	
-	
-	
-	
-	
 
-   
-
-    /**
-     * <!-- 查询交易流水用 -->
-     * 
-     * @param customerId
-     * @return
-     */
-    List<Map<Object, Object>> getTerminals(int customerId);
     
     /**
      * <!--用户收货地址 -->
@@ -235,50 +196,12 @@ public interface TerminalsWebMapper {
     List<Map<Object, Object>> getCustomerAddress(int customerId);
     
     /**
-     * <!-城市级联(省) -->
-     * 
-     * @param 
-     * @return
-     */
-    List<Map<Object, Object>> getCities();
-    
-    /**
-     * <!-城市级联(市) -->
-     * 
-     * @param 
-     * @return
-     */
-    List<Map<Object, Object>> getShiCities(int parentId);
-    
-    
-    
-    /**
-     * 根据通道id获得周期
-     * 
-     * @param map
-     * @return
-     */
-    List<Map<Object, Object>> channelsT(int id);
-    
-    /**
-     * 判断该终端是否开通
-     * 
-     * @param map
-     * @return
-     */
-    int judgeOpen(int terminalId);
-    
-    
-    
-    /**
      * 获得终端状态
      * 
      * @param map
      * @return
      */
     List<Map<Object, Object>> getTerminStatus();
-    
-    
     
     /**
      * 查看换货申请是否有未处理中
@@ -287,86 +210,6 @@ public interface TerminalsWebMapper {
      * @return
      */
     int JudgeChangStatus(Map<String, Object> map);
-    
-    
-    
-    
-    
-    /**
-     * 查看维修申请是否有未处理中
-     * 
-     * @param map
-     * @return
-     */
-    int JudgeRepair(Map<String, Object> map);
-    
-    /**
-     * 查看退货申请是否有未处理中
-     * 
-     * @param map
-     * @return
-     */
-    int JudgeReturn(Map<String, Object> map);
-    
-    /**
-     * 查看租赁退还申请是否有未处理中
-     * 
-     * @param map
-     * @return
-     */
-    int JudgeLeaseReturn(Map<String, Object> map);
-    
-    /**
-     * 申请维修添加地址
-     * 
-     * @param map
-     * @return
-     */
-   //void subRepairAddress(CsReceiverAddress csReceiverAddress);
-    
-    /**
-     * 申请维修添加
-     * 
-     * @param map
-     * @return
-     */
-    void subRepair(Map<Object, Object> map);
-    
-   
-    
-    /**
-     * 申请退货添加
-     * 
-     * @param map
-     * @return
-     */
-    void subReturn(Map<Object, Object> map);
-    
-    /**
-     * 申请换货添加
-     * 
-     * @param map
-     * @return
-     */
-    void subChange(Map<Object, Object> map);
-    
-    
-    
-    
-    
-    /**
-     * 提交注销
-     * 
-     * @param map
-     * @return
-     */
-    void subLeaseReturn(Map<Object, Object> map);
-    
-    
-    
-    
-    
-   
 
     /**
      * 获得追踪记录
@@ -392,36 +235,6 @@ public interface TerminalsWebMapper {
     List<Map<Object, Object>> channels();
 
     /**
-     * 判断该终端号是否存在
-     * 
-     * @param id
-     * @return
-     */
-    int isExistence(String serialNum);
-
-    /**
-     * 判断商户名是否存在
-     * 
-     * @param id
-     * @return
-     */
-    Map<Object, Object> isMerchantName(String title);
-
-    /**
-     * 添加商户
-     * 
-     * @param merchant
-     */
-    void addMerchants(Merchant merchant);
-
-    /**
-     * 添加终端
-     * 
-     * @param map
-     */
-    void addTerminal(Map<String, String> map);
-
-    /**
      * POS找回密码
      * 
      * @param id
@@ -429,22 +242,4 @@ public interface TerminalsWebMapper {
      */
     String findPassword(Integer id);
 
-    /**
-     * author jwb
-     * 根据手机获取终端
-     * @param paramMap
-     * @return
-     */
-    List<Map<String, Object>> getTerminalListByPhone(Map<String, Object> paramMap);
-
-    /**
-     * author jwb
-     * 根据终端获取终端业务开通信息
-     * @param id
-     * @return
-     */
-    List<Map<String, Object>> getTerminalOpenStatus(int id);
-    
-   
-    
 }

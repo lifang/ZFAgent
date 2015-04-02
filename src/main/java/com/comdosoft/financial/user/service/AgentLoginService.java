@@ -17,7 +17,7 @@ public class AgentLoginService {
 	private AgentLoginMapper agentLoginMapper;
 	
 	/**
-	 * 用户登陆
+	 * 代理商登陆
 	 * @param customer
 	 * @return
 	 */
@@ -25,6 +25,22 @@ public class AgentLoginService {
 		return agentLoginMapper.doLogin(customer);
 	}
 	
+	/**
+	 * 员工登陆
+	 * @param customer
+	 * @return
+	 */
+	public Map<Object, Object> doLoginPersn(Customer customer){
+		return agentLoginMapper.doLoginPersn(customer);
+	}
+	/**
+	 * 判断是代理商还是代理商下面员工
+	 * @param username
+	 * @return
+	 */
+	public Map<Object, Object> isAgentOrPerson(String username){
+		return agentLoginMapper.isAgentOrPerson(username);
+	}
 	/**
 	 * 找回密码
 	 * @param customer

@@ -31,7 +31,7 @@ var customerListViewController = function($scope, $location, $http,
 		// var agentId = LoginService.userid;
 		$http.post("api/user/query/" + customerId).success(function(data) {
 			if (data.result != null) {
-				$scope.test = data.result;
+				$scope.customer = data.result;
 				$scope.queryCity();
 				// alert($scope.one.name);
 			}
@@ -51,7 +51,7 @@ var customerListViewController = function($scope, $location, $http,
 		var city_id = $scope.test.city_id;
 		$http.post("api/index/getIdCity/" + city_id).success(function(data) {
 			if (data != null && data != undefined) {
-				$scope.test.address = data.result;
+				$scope.customer.address = data.result;
 			}
 		});
 	};
@@ -61,7 +61,7 @@ var customerListViewController = function($scope, $location, $http,
 		if (marksContent == null || marksContent == '') {
 			return false;
 		}
-		$scope.req ={content : marksContent,customerId : customerId,agentId : 17};
+		$scope.req ={content : marksContent,customerId : customerId,agentId : 22};
 		$http.post("api/index/saveViewCustomerViews",$scope.req).success(function (data) {   
 			if (data != null && data != undefined) {
 				alert("添加备注成功！");

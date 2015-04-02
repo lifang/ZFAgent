@@ -91,7 +91,7 @@
 						</td>
 						<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" ><a href="javascript:void(0);" ng-click="topay(o)" ng-if="o.order_status==1" class="a_btn">付款</a> 
 						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"   ng-if="o.order_status==1" class="a_btn">取消</a>
-						<a href="#/orderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
+						<a href="#/wholesaleOrderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
 					</tr>
 					
 					<tr  ng-if="o.order_goods_size==1" ng-repeat="g in  o.order_goodsList ">
@@ -127,7 +127,7 @@
 						</td>
 						<td  ><a href="javascript:void(0);" ng-click="topay(o)" ng-if="o.order_status==1" class="a_btn">付款</a> 
 						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"   ng-if="o.order_status==1" class="a_btn">取消</a>
-						<a href="#/orderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
+						<a href="#/wholesaleOrderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
 					</tr>
 				</tbody>
 			</table>

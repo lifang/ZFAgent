@@ -4,7 +4,7 @@
 		<ul>
 			<li><a href="#">系统设定</a></li>
 			<li><a href="#/accountList">员工帐号</a></li>
-			<li><a href="#/">编辑</a></li>
+			<li><a href="javascript:void(0);">编辑</a></li>
 		</ul>
 	</div>
 	<div class="content clear">
@@ -15,10 +15,10 @@
 		<form name="addAccountForm" ng-submit="accountEdit()">
 		<div class="myInfoBox clear">
 			<ul>
-				<li><label>姓名：</label><input name="" ng-model="info.name" type="text" /></li>
+				<li><label>姓名：</label><input name="" ng-model="info.name" type="text" required="required"/></li>
 				<li><label>登录ID：</label><input ng-model="info.username" disabled="disabled" type="text" /></li>
-				<li><label>原密码：</label><input name="" type="password" ng-model="info.password" readonly="readonly" /></li>
-				<li><label>新密码：</label><input name="" type="text" ng-model="info.comfirmpwd" required="required"/></li>
+				<li><label>密码：</label><input name="" type="password" ng-model="info.password" readonly="readonly" /></li>
+				<!-- <li><label>新密码：</label><input name="" type="text" ng-model="info.comfirmpwd" required="required" /></li> -->
 				<li><label>权限：</label>
 					<div class="authority_con">
 						<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="1" />批购</span>

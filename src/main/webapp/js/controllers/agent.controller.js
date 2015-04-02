@@ -85,7 +85,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	
 	//修改邮箱
 	$scope.up_save = function(){
-		var mail = $scope.email;
+		var mail = document.getElementById("emailValue").value;
 		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
 		if(!reg.test(mail)){
 			alert("请输入合法的邮箱地址");
@@ -122,6 +122,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		    	}
 		    }, 1000);
 		}else{
+			alert("再次点击获取发送验证码时间未到");
 			console.log("第二个  获取 验证码   时间未到");
 		}
 	};
@@ -218,6 +219,21 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			$scope.phone_code_i_o = "";
 			$scope.i_phone_new = "";
 			$scope.i_phone_code = "";
+			//显示提示
+			var doc_height = $(document).height();
+			var doc_width = $(document).width();
+			var win_height = $(window).height();
+			var win_width = $(window).width();
+			
+			var layer_height = $("#show_phone_input_my_o").height();
+			var layer_width = $("#show_phone_input_my_o").width();
+			
+			var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+			
+		    $(".mask").css({display:'block',height:doc_height});
+			$("#show_phone_input_my_o").css('top',(win_height-layer_height)/2);
+			$("#show_phone_input_my_o").css('left',(win_width-layer_width)/2);
+			$("#show_phone_input_my_o").css('display','block');
 		}else if(t=2){//再次点击获取
 			if($scope.intDiff == 0){
 				$scope.intDiff =120;
@@ -235,6 +251,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 				var sMobile = $scope.one.phone; 
 				$scope.getPhoneCode(sMobile);
 			}else{
+				alert("再次点击获取发送验证码时间未到");
 				console.log(t+"再次点击获取发送验证码时间未到");
 			}
 		}
@@ -281,6 +298,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 				$("#email_send_tab").css('left',(win_width-layer_width)/2);
 				$("#email_send_tab").css('display','block');
 		}else{
+			alert("再次点击获取发送验证码时间未到");
 			return false;
 		}
 	};
@@ -291,6 +309,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	};
 	
 	$scope.close_show_two = function(){
+		$("#show_phone_input_my_o").css('display','none');
 		$("#show_phone_input_my_t").css('display','none');
 		$(".mask").css('display','none');
 	};
@@ -317,6 +336,35 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	};
 	$scope.query();
 };
+//弹出层
+function popup(t,b){
+	var doc_height = $(document).height();
+	var doc_width = $(document).width();
+	var win_height = $(window).height();
+	var win_width = $(window).width();
+	
+	var layer_height = $(t).height();
+	var layer_width = $(t).width();
+	
+	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	
+	//tab
+	$(b).bind('click',function(){
+		    $(".mask").css({display:'block',height:doc_height});
+			$(t).css('top',(win_height-layer_height)/2);
+			$(t).css('left',(win_width-layer_width)/2);
+			$(t).css('display','block');
+			return false;
+		}
+	)
+	$(".close").click(function(){
+		$(t).css('display','none');
+		$(".mask").css('display','none');
+	})
+}
+$(function(){
+	popup("#show_phone_input_my_o","#show_phone_input_my_btn");//我的信息 根据原来手机号发送验证码
+})
 
 modifypasswordController.$inject = [ '$scope', '$http', 'LoginService' ];
 modifypasswordModule.controller("modifypasswordController", modifypasswordController);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.domain.query.CommercialReq;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.service.AgentService;
 
@@ -175,17 +176,11 @@ public class AgentAPI {
 	 * @return
 	 */
 	@RequestMapping(value = "queryCommercials", method = RequestMethod.POST)
-	public Response queryCommercials(@RequestBody Map<Object, Object> param) {
-		Response response = null;
-		try {
-			Map<String, Object> result = agentService.getCommercialTenantCount(param);
-			result.put("list", agentService.getCommercialTenantList(param));
-			response = Response.getSuccess();
-			response.setResult(result);
-		} catch (Exception e) {
-			response = Response.getError("获取商户列表失败:系统异常");
-		}
-
+	public Response queryCommercials(@RequestBody CommercialReq req) {
+		Response response = new Response();
+		Map<String, Object> result = agentService.getCommercialTenantList(req);
+		response.setCode(Response.SUCCESS_CODE);
+		response.setResult(result);
 		return response;
 	}
 

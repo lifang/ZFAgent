@@ -1,0 +1,133 @@
+<div class="main" ng-controller="shopmakeorderController">
+	<div class="box">
+		<div class="breadcrumb">
+			<ul>
+				<li><a href="#">代购</a></li>
+				<li><a href="#">确认您的订单信息</a></li>
+			</ul>
+		</div>
+
+		<div class="inner">
+			<div class="myAddress">
+				<h3>确认收货地址</h3>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+					<colgroup>
+						<col width="30" />
+						<col width="90" />
+						<col width="250" />
+						<col width="320" />
+						<col width="90" />
+						<col width="90" />
+						<col />
+					</colgroup>
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<th>收货人</th>
+							<th>所在地区</th>
+							<th>详细地址</th>
+							<th>邮编</th>
+							<th>电话</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tr ng-repeat="one in addressList">
+						<td><input type="radio" value="{{one.id}}" ng-model="order.addressId" ng-checked="one.isDefault==1" /></td>
+
+						<td>{{one.receiver}}</td>
+						<td>{{one.city}}</td>
+						<td>{{one.address}}</td>
+						<td>{{one.zipCode}}</td>
+						<td>{{one.moblephone}}</td>
+						<td><span ng-show="one.isDefault==1" class="defaultAddr">默认地址</span> <a ng-show="one.isDefault==2" href="javascript:void(0);" ng-click="setDefaultAddress(one)" class="set_defaultAddr">设为默认地址</a></td>
+					</tr>
+
+					<tr class="addAddr_box" ng-show="addadd">
+						<td>&nbsp;</td>
+						<td><input ng-model="ad.receiver" type="text" placeholder="收件人姓名" /></td>
+						<td><select style="width: 90px;" ng-model="selected" ng-options="s.name for s in city_list">
+								<option value="">请选择</option>
+						</select> <select style="width: 90px;" ng-model="city" ng-options=" x.name for x in selected.childrens">
+								<option value="">请选择</option>
+						</select></td>
+						<td><input ng-model="ad.address" type="text" class="w" placeholder="详细地址" /></td>
+						<td><input ng-model="ad.zipCode" type="text" placeholder="邮编" /></td>
+						<td><input ng-model="ad.moblephone" type="text" placeholder="手机号码" /></td>
+						<td><a href="javascript:void(0);" class="a_btn" ng-click="addad()">确定</a></td>
+						<td>&nbsp;</td>
+					</tr>
+				</table>
+				<div class="addAddr_btn" ng-click="addadd=true;city_list();">
+					<button>使用新地址</button>
+				</div>
+			</div>
+
+
+
+			<div class="myShopOrder">
+				<h3>您的订单信息</h3>
+				<table width="100%" cellspacing="0" cellpadding="0" class="b_table">
+					<colgroup>
+						<col width="640" />
+						<col />
+						<col />
+						<col />
+					</colgroup>
+					<thead>
+						<tr>
+							<th>商品</th>
+							<th>单价</th>
+							<th>数量</th>
+							<th>金额</th>
+						</tr>
+					</thead>
+					<tr>
+						<td>
+							<div class="td_proBox">
+								<a href="#/shopinfo?goodId={{shop.goodId}}" class="cn_img"><img src="{{shop.url_path}}" /></a>
+								<div class="td_proBox_info">
+									<h1>
+										<a href="#/shopinfo?goodId={{shop.goodId}}">{{shop.title}}</a>
+									</h1>
+									<h3>{{shop.second_title}}</h3>
+									<ul>
+										<li><span>品牌型号：</span>
+											<div class="c_text">{{shop.good_brands}}{{shop.Model_number}}</div></li>
+										<li><span>支付通道：</span>
+											<div class="c_text">{{shop.name}}</div></li>
+									</ul>
+								</div>
+							</div>
+						</td>
+						<td><a href="javascript:void(0);"><strong>{{(shop.opening_cost+shop.price)/100|currency : "￥"}}</strong></a></td>
+						<td><div class="choose_amount">
+								<a href="javascript:void(0);" ng-click="upadteCart(-1)">-</a><input type="text" ng-model="order.quantity" /><a href="javascript:void(0);" ng-click="upadteCart(1)">+</a>
+							</div></td>
+						<td><a href="javascript:void(0);"><strong>{{(shop.opening_cost+shop.price)/100*order.quantity|currency : "￥"}}</strong></a></td>
+					</tr>
+
+				</table>
+			</div>
+			<div class="total_info">
+				含配送费合计<strong>{{(shop.opening_cost+shop.price)/100*order.quantity|currency : "￥"}}</strong>（配送费 ￥0.00）
+			</div>
+			<div class="other_info">
+				<div class="oi_left">
+					<div class="oi_title">留言</div>
+					<div class="oi_area">
+						<textarea maxlength="100" ng-model="order.comment" cols="" rows=""></textarea>
+						<p>留言最多{{100-order.comment.length}}个字</p>
+					</div>
+				</div>
+			</div>
+			<div class="settleAccount">
+				<p>
+					实付：<strong>{{(shop.opening_cost+shop.price)/100*order.quantity|currency : "￥"}}</strong>
+				</p>
+				<button class="blueBtn" ng-click="submit()">结算</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="js/main.js"></script>

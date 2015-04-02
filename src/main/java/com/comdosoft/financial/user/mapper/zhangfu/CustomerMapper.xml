@@ -2,22 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.CustomerMapper">
 
-	<select id="checkAccount" parameterType="com.comdosoft.financial.user.domain.query.EmpReq"
-		resultType="map">
-		SELECT c.id,c.username,c.name,c.phone,c.email
-		FROM customers
-		c WHERE
-		c.username = #{username}
-	</select>
-
-	<insert id="addCustomer" useGeneratedKeys="true" keyProperty="id"
-		parameterType="com.comdosoft.financial.user.domain.query.EmpReq">
-		INSERT INTO customers(name, username,
-		password,created_at,status)
-		VALUES(#{name}, #{username},
-		#{password},now(),2)
-	</insert>
-
+	<!-- 插入用户信息(customer_agent_relations) -->
 	<insert id="insertCustomerAgentRelations" useGeneratedKeys="true"
 		keyProperty="id">
 		<![CDATA[
@@ -27,6 +12,7 @@
 		]]>
 	</insert>
 
+	<!-- 插入用户信息(customers) -->
 	<insert id="insertCustomer" useGeneratedKeys="true" keyProperty="id">
 	<![CDATA[
 		INSERT INTO customers(name,username,password,status,types,created_at) 
@@ -34,6 +20,7 @@
 	]]>
 	</insert>
 
+	<!-- 插入用户权限 -->
 	<insert id="insertCustomerRights" useGeneratedKeys="true"
 		keyProperty="id">
 		<![CDATA[
@@ -41,43 +28,38 @@
 			VALUES(#{roleId},#{customerId},#{createdAt})
 		]]>
 	</insert>
+	
+	<!-- 根据用户ID获取用户信息 -->
 	<select id="getEmpInfoById" parameterType="com.comdosoft.financial.user.domain.query.EmpReq"
 		resultType="map">
-		SELECT c.id,c.name,c.username,c.account_type
-		FROM customers
-		c WHERE c.id =
-		#{id}
-	</select>
-
-	<select id="getEmpInfoByUsername" resultType="map">
-		SELECT * FROM
-		customers c WHERE c.username = #{userName}
-	</select>
-
-	<update id="deleteEmpInfoFromAgent">
-		UPDATE customers c SET
-		c.status = 1,c.updated_at =
-		now() WHERE id = #{id}
-	</update>
-
-	<update id="updateStatus">
-		UPDATE customer_agent_relations c SET
-		c.status = 1,
-		c.updated_at = now() WHERE c.customer_id = #{id}
-	</update>
-
-	<select id="getList" resultType="map">
 	<![CDATA[
-		 SELECT * FROM
-		customer_agent_relations c WHERE
-		c.agent_id = #{customerId} AND c.status =
-		2 ORDER BY
-		c.created_at
-		DESC LIMIT
-		#{offset}, #{rows}
+		SELECT c.id, c.name, c.username, c.account_type FROM customers c WHERE c.id = #{id}
 	]]>
 	</select>
 
+	<!-- 根据用户名获取用户信息 -->
+	<select id="getEmpInfoByUsername" resultType="map">
+	<![CDATA[
+		SELECT * FROM customers c WHERE c.username = #{userName}
+	]]>
+	</select>
+
+	<!-- 根据ID删除用户信息(逻辑删除,customers表) -->
+	<update id="deleteEmpInfoFromAgent">
+	<![CDATA[
+		UPDATE customers c SET c.status = 1,c.updated_at = now() WHERE id = #{id}
+	]]>
+	</update>
+
+	<!-- 根据ID删除用户信息(逻辑删除,customer_agent_relations表) -->
+	<update id="updateStatus">
+	<![CDATA[
+		UPDATE customer_agent_relations c SET c.status = 1,
+		c.updated_at = now() WHERE c.customer_id = #{id}
+	]]>
+	</update>
+
+	<!-- 根据用户ID查找用户信息 -->
 	<select id="getDetailInfoById" resultType="map">
 		<![CDATA[
 			SELECT c.id, c.name, c.username, c.password, crr.role_id FROM customers c 
@@ -93,18 +75,12 @@
 		]]>
 	</update>
 
+	<!-- 编辑用户信息 -->
 	<update id="editCustomerInfo" parameterType="com.comdosoft.financial.user.domain.query.EmpReq"
 		flushCache="true">
 		<![CDATA[
 			UPDATE customers c SET c.name = #{name}, c.password = #{comfirmpwd}, c.updated_at = NOW() 
 			WHERE c.id = #{customer_id} AND c.password = #{password}
-		]]>
-	</update>
-
-	<update id="updateRights" flushCache="true">
-		<![CDATA[
-			UPDATE customer_role_relations c SET c.updated_at = NOW() 
-			WHERE c.customer_id = #{0} AND c.role_id = #{1}
 		]]>
 	</update>
 
@@ -116,28 +92,21 @@
 		]]>
 	</select>
 
-	<select id="countCustomerRightsByRoleId" resultType="int">
-		<![CDATA[
-			SELECT count(c.id) as count FROM customer_role_relations c 
-			WHERE c.customer_id = #{0} AND c.role_id = #{1}
-		]]>
-	</select>
-
 	<!-- 查找代理商拥有用户总数 -->
-	<select id="count" resultType="int">
+	<select id="count" resultType="int" parameterType="com.comdosoft.financial.user.domain.query.MyAccountReq">
 		<![CDATA[
 			SELECT COUNT(c.id) AS count FROM customers c 
 			LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-			WHERE car.agent_id = #{param1} AND c.status = 2
+			WHERE car.agent_id = #{agentId} AND c.status = 2 AND c.types = 6
 		]]>
 	</select>
 
 	<!-- 查询代理商旗下的用户 -->
-	<select id="getAccountList" resultType="map">
+	<select id="getAccountList" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.MyAccountReq">
 		<![CDATA[
 			SELECT c.id, c.name, c.username, c.status, car.agent_id, car.customer_id FROM customers c 
 			LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-			WHERE car.agent_id = #{customerId} AND c.status = 2 AND c.types = 6 ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
+			WHERE car.agent_id = #{agentId} AND c.status = 2 AND c.types = 6 ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
 		]]>
 	</select>
 	
@@ -148,6 +117,7 @@
 		]]>
 	</delete>
 	
+	<!-- 插入用户权限 -->
 	<insert id="batchInsertRights" useGeneratedKeys="true" keyProperty="id"
 		parameterType="com.comdosoft.financial.user.domain.query.EmpReq">
 		<![CDATA[

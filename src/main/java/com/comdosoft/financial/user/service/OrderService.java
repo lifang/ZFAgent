@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.domain.query.PosReq;
@@ -41,7 +42,7 @@ public class OrderService {
     @Autowired
     private  GoodMapper goodMapper;
 
-    
+    @Transactional(value = "transactionManager-zhangfu")
     public int createOrderFromAgent(OrderReq orderreq) throws LowstocksException {
             Map<String, Object> goodMap = orderMapper.getGoodInfo(orderreq);
             int quantity = orderreq.getQuantity();

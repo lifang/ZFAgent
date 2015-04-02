@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.Paging;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.UserManagementMapper;
@@ -55,6 +57,39 @@ public class UserManagementService {
 			map.put("offSetPage", offSetPage);
 			map.put("pageSize", pageSize);
 		return userManagementMapper.getTerminals(map);
+	}
+
+	public Map<Object, Object> queryCustomer(int id) {
+		 return userManagementMapper.queryCustomer(id);
+	}
+
+	public int getTerminalListTotalCount(int customerId) {
+		return userManagementMapper.getTerminalListTotalCount(customerId);
+	}
+
+	public List<Map<String, Object>> getTerminalList(int customerId, int page, int rows) {
+		Map<Object, Object> query = new HashMap<Object, Object>();
+		query.put("id", customerId);
+		Paging paging = new Paging(page, rows);
+		query.put("offSetPage", paging.getOffset());
+		query.put("pageSize", paging.getRows());
+		return userManagementMapper.getTerminalList(query);
+	}
+	
+	/**
+	 * 判断用户是否存在
+	 * @param map
+	 */
+	public int findUname(Map<Object, Object> map){
+		return userManagementMapper.findUname(map);
+	}
+	
+	/**
+	 * 添加新用户
+	 * @param map
+	 */
+	public void addUser(Customer customer){
+		userManagementMapper.addUser(customer);
 	}
 	
 }

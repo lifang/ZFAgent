@@ -63,7 +63,7 @@
 						</ul>
 					</div>
 					<div class="buy_action">
-						<a href="#/shopmakeorder?goodId={{good.goodinfo.id}}&type=1&quantity={{quantity}}&paychannelId={{paychannel.id}}" class="buy_btn">批购</a>
+						<a href="#/purchasemakeorder?goodId={{good.goodinfo.id}}&type=5&quantity={{quantity}}&paychannelId={{paychannel.id}}" class="buy_btn">批购</a>
 					</div>
 				</div>
 			</div>
@@ -128,7 +128,7 @@
 								</thead>
 								<tr ng-repeat="one in paychannel.standard_rates">
 									<td>{{one.name}}</td>
-									<td>{{one.standard_rate/1000}}%</td>
+									<td>{{one.standard_rate}}‰</td>
 									<td><p>{{one.description}}</p></td>
 								</tr>
 
@@ -152,7 +152,7 @@
 								</thead>
 								<tr ng-repeat="one in paychannel.tDates">
 									<td>{{one.name}}</td>
-									<td>{{one.service_rate/1000}}%</td>
+									<td>{{one.service_rate}}‰</td>
 									<td><p>{{one.description}}</p></td>
 								</tr>
 							</table>
@@ -174,7 +174,7 @@
 								</thead>
 								<tr ng-repeat="one in paychannel.other_rate">
 									<td>{{one.trade_value}}</td>
-									<td>{{one.terminal_rate/1000}}%</td>
+									<td>{{one.terminal_rate}}‰</td>
 									<td><p>{{one.description}}</p></td>
 								</tr>
 
@@ -205,7 +205,7 @@
 								</thead>
 								<tr ng-repeat="one in paychannel.tDates">
 									<td>{{one.name}}</td>
-									<td>{{one.service_rate/1000}}%</td>
+									<td>{{one.service_rate}}‰</td>
 									<td><p>{{one.description}}</p></td>
 								</tr>
 							</table>

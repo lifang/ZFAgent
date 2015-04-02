@@ -29,7 +29,7 @@
     
    <insert id="creCusRoleRelation" useGeneratedKeys="true" keyProperty="id"  parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
 		insert into customer_role_relations(role_id,customer_id,created_at,updated_at) values
-			(#{roleId},#{customersId},now(),now())
+			(#{roleId},#{customerId},now(),now())
    </insert> 
    
 	<update id="delCustomer" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">

@@ -14,7 +14,9 @@ public class Response {
     public static final Integer ERROR_CODE = -1;
     
     public static final Integer MISSING_CODE = -2;
-
+    
+    public static final String TOKEN="123321";
+    
     private Integer code;
 
     private String message = "处理成功";

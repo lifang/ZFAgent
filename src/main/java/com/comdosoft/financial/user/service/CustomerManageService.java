@@ -43,9 +43,10 @@ public class CustomerManageService {
 	 * 新增
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> insert(CustomerManageReq req){
+	public Map<String, Object> insert(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		LowerAgentReq lowerAgentReq=new LowerAgentReq();
 		int resultCode=Response.ERROR_CODE;
@@ -84,9 +85,10 @@ public class CustomerManageService {
 							req.setCustomerId(customerId);
 							//检查是否已经存在
 							int temp2=customerManageMapper.getCusAgentInfo(req);
-							if(temp2<1){
+							if(temp2>0){
 								resultInfo.setLength(0);
 								resultInfo.append("已存在该用户与代理商的关联关系");
+								throw new Exception("save_error");
 							}else{
 								req.setTypes(2);
 								req.setStatus(1);

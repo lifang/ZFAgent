@@ -14,6 +14,7 @@ import com.comdosoft.financial.user.domain.query.MailReq;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.mapper.zhangfu.AgentMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 import com.comdosoft.financial.user.utils.CommUtils;
@@ -69,19 +70,10 @@ public class AgentService {
 		customer.setDentcode(dentcode);
 		agentMapper.updateCustomer(customer);
 
-		// send the check code to the phone
-		try {
-			CommUtils.sendPhoneCode("请输入6位验证码：" + dentcode, phone);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		return result;
 	}
 
 	public Object getUpdateEmailDentcode( int customerId, String email) {
-    	System.err.println("customerid==>"+customerId+" ==>"+email);
         Map<Object, Object> result = new HashMap<Object, Object>();
         // 生成随机6位验证码
         String dentcode = SysUtils.getCode();
@@ -208,6 +200,14 @@ public class AgentService {
 
 	public void updateEmailAddr(Customer param) {
 		agentMapper.updateEmailAddr(param);
+	}
+
+	public void batchDeleteAddress(MyOrderReq req) {
+		agentMapper.batchDeleteAddress(req);
+	}
+
+	public void updateAddress(Map<Object, Object> param) {
+		agentMapper.update_Address(param);
 	} 
     
 

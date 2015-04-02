@@ -72,6 +72,21 @@
 	]]>
 	</update>
 	
+	<update id="update_Address">
+	UPDATE customer_addresses
+		<trim prefix="SET" suffixOverrides=",">
+		updated_at = NOW(),
+			<if test="cityId != null">city_id = #{cityId},</if>
+			<if test="zipCode != null and zipCode !=''">zip_code = #{zipCode},</if>
+			<if test="address != null and address !=''">address = #{address},</if>
+			<if test="receiver != null and receiver !=''">receiver = #{receiver},</if>
+			<if test="telphone != null and telphone !=''">telphone = #{telphone},</if>
+			<if test="moblephone != null and moblephone !=''">moblephone = #{moblephone},</if>
+			<if test="isDefault != null">is_default = #{isDefault}</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
 		<update id="setDefaultAddress">
 	<![CDATA[
 		UPDATE customer_addresses SET is_default = 1 ,updated_at = NOW()
@@ -85,13 +100,23 @@
 	]]>
 	</update>
 
-	<delete id="deleteAddress">
+	<update id="deleteAddress">
  
 	UPDATE customer_addresses SET status = 2
 		 WHERE id = #{id}
 		<!-- DELETE FROM customer_addresses WHERE id = #{id} -->
+	</update>
+
+<!-- 批量删除 地址 -->
+	<update id="batchDeleteAddress">
  
-	</delete>
+	UPDATE customer_addresses SET status = 2
+		 WHERE id in
+		<foreach item="ids" collection="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+	
 
 	<select id="queryAgent" resultType="map">
 	<![CDATA[

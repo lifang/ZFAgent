@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.CommercialReq;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.service.AgentService;
 
 /**
@@ -232,6 +233,37 @@ public class AgentAPI {
         } catch (Exception e) {
             logger.error("删除代理商地址失败", e);
             sysResponse = Response.getError("删除代理商地址失败:系统异常");
+        }
+        return sysResponse;
+    }
+    
+    //批量删除地址
+    @RequestMapping(value = "batchDeleteAddress", method = RequestMethod.POST)
+    public Response batchDeleteAddress(@RequestBody MyOrderReq req) {
+        Response sysResponse = null;
+        try {
+            agentService.batchDeleteAddress(req);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("删除代理商地址失败", e);
+            sysResponse = Response.getError("删除代理商地址失败:系统异常");
+        }
+        return sysResponse;
+    }
+    
+    /**
+     * 修改地址
+     * 
+     */
+    @RequestMapping(value = "updateAddress", method = RequestMethod.POST)
+    public Response updateAddress(@RequestBody Map<Object, Object> param) {
+        Response sysResponse = null;
+        try {
+        	agentService.updateAddress(param);
+            sysResponse = Response.getSuccess();
+        } catch (Exception e) {
+            logger.error("修改地址失败", e);
+            sysResponse = Response.getError("修改地址失败:系统异常");
         }
         return sysResponse;
     }

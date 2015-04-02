@@ -6,6 +6,7 @@ import java.util.Map;
 import com.comdosoft.financial.user.domain.query.CommercialReq;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 
 /**
  * 代理商 - 数据层
@@ -81,5 +82,14 @@ public interface AgentMapper {
 	 * @return
 	 */
 	int updateCommercialStatus(Map<Object, Object> param);
+
+	/**
+	 * 批量删除地址 app user
+	 * @param req
+	 */
+	void batchDeleteAddress(MyOrderReq req);
+
+	//修改编辑地址
+	void update_Address(Map<Object, Object> param);
 
 }

@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.Paging;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
@@ -73,6 +74,22 @@ public class UserManagementService {
 		query.put("offSetPage", paging.getOffset());
 		query.put("pageSize", paging.getRows());
 		return userManagementMapper.getTerminalList(query);
+	}
+	
+	/**
+	 * 判断用户是否存在
+	 * @param map
+	 */
+	public int findUname(Map<Object, Object> map){
+		return userManagementMapper.findUname(map);
+	}
+	
+	/**
+	 * 添加新用户
+	 * @param map
+	 */
+	public void addUser(Customer customer){
+		userManagementMapper.addUser(customer);
 	}
 	
 }

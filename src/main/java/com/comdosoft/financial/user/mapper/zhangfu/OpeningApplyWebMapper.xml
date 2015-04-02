@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyWebMapper">
+
+	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.OpeningRequirement" id="op_Map">
+		<id property="id" column="id"/>
+		<result property="level_title" column="levelTitle"/>
+		<result property="level_description" column="levelDescription"/>
+		<result property="pay_channel_id" column="payChannelId"/>
+		<result property="has_video_verify" column="hasVideoVerify"/>
+		<result property="level" column="level"/>
+		<result property="video_verify_status" column="videoVerifyStatus"/>
+	</resultMap>
  	
  	<insert id="addOpeningApply" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
-		INSERT INTO `opening_applies` (`apply_customer_id`,`preliminary_verify_user_id`,`terminal_id`,`created_at`,`updated_at`,`status`,`types`) 
-		VALUES (#{applyCustomerId},#{terminalId},#{terminalId},now(),now(),#{status},#{types});
+		INSERT INTO `opening_applies` (`apply_customer_id`,`terminal_id`,`status`,`created_at`,
+		`updated_at`,`types`,`merchant_id`,`merchant_name`,`sex`,`birthday`,`card_id`,`phone`,
+		`email`,`city_id`,`name`,`pay_channel_id`,`account_bank_num`,`account_bank_name`,
+		`account_bank_code`,`tax_registered_no`,`organization_code_no`,`billing_cyde_id`) 
+		VALUES (#{applyCustomerId},#{terminalId},#{status},now(),now(),#{types},#{merchantId},
+		#{merchantName},#{sex},#{birthday},#{cardId},#{phone},#{email},#{cityId},#{name},
+		#{payChannelId},#{accountBankNum},#{accountBankName},#{accountBankCode},#{taxRegisteredNo},
+		#{organizationCodeNo},#{billingCydeId});
  	</insert>
  	
  	<insert id="addMerchan" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
@@ -86,11 +102,12 @@
  	</update>
  	
  	<select id="getApplyDetails" parameterType="int" resultType="map">
- 		SELECT t.serial_num,g.model_number,b.name as brandName,c.name as channelName,l.`id` as appId
+ 		SELECT t.serial_num,g.model_number,b.name as brandName,c.name as channelName,l.id as appId
 		FROM terminals t LEFT JOIN goods g on t.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id 
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
-		WHERE t.id=#{terminalsId}
+		LEFT JOIN opening_applies l ON l.terminal_id = t.id
+		WHERE t.id=1
  	</select>
  	
  	<select id="getMerchantsIsNo" resultType="map"  parameterType="map">
@@ -105,10 +122,20 @@
 		WHERE  terminal_id = #{terminalId}
  	</select>
  	
- 	<select id="getMerchants" resultType="map" parameterType="map">
+ 	<select id="getMerchants" resultType="map" parameterType="int">
  		SELECT id,title FROM merchants WHERE customer_id = #{customerId}
- 		LIMIT #{offSetPage},#{pageSize}
  	</select>
+ 	
+ 	<select id="getMaterialLevel" resultMap="op_Map" parameterType="int">
+ 		select o.*
+		from terminals t 
+		LEFT JOIN opening_requirements o on t.pay_channel_id = o.pay_channel_id 
+		where t.id=#{terminalsId} 
+ 	</select>
+ 	
+ 	<select id="getCities"  resultType="map">
+		SELECT * FROM cities 
+	</select>
  	
  	<select id="getMerchantSize" resultType="int" parameterType="map">
  		SELECT count(*) FROM merchants WHERE customer_id = #{customerId}

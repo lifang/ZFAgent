@@ -24,5 +24,4 @@
 		<property name="exceptionAttribute" value="exception"></property>
 		<property name="warnLogCategory" value="ExceptionResolver"></property>
 	</bean>
-
 </beans>

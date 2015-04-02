@@ -18,6 +18,8 @@ public interface IndexMapper {
     void changePhone(MyOrderReq req);
 
 	List<Map<String, Object>> wxlist(MyOrderReq myOrderReq);
+	
+	List<Map<String, Object>> getRoleByAgentId(int agentId);
 
 	Map<String, Object> findCityById(String id);
 

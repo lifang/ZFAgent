@@ -935,7 +935,7 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		$http.post("api/order/agent", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				if($scope.order.orderType==5){
-					window.location.href = '#/purchaseOrder';
+					window.location.href = '#/wholesaleOrder';
 				}else{
 					window.location.href = '#/pay?id='+data.result;
 				}

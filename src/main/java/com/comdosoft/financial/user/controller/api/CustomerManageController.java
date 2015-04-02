@@ -45,9 +45,10 @@ public class CustomerManageController {
 	 * 新增用户
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "insert", method = RequestMethod.POST)
-	public Response insert(@RequestBody CustomerManageReq req){
+	public Response insert(@RequestBody CustomerManageReq req) throws Exception{
 		Response response=new Response();
 		Map<String,Object> result= customerManageService.insert(req);
 		response.setCode(Integer.parseInt(result.get("resultCode").toString()));

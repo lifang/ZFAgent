@@ -3,6 +3,8 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 import java.util.List;
 import java.util.Map;
 
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
+
 /**
  * 用户终端管理
  * 
@@ -36,5 +38,17 @@ public interface UserManagementMapper {
 	int getTerminalListTotalCount(int id);
 
 	List<Map<String, Object>> getTerminalList(Map<Object, Object> query);
+	
+	 /**
+     * 判断用户是否存在
+     * @param map
+     */
+    int findUname(Map<Object, Object> map);
+    
+    /**
+     * 添加新用户
+     * @param map
+     */
+    void addUser(Customer customer);
 	
 }

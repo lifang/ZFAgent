@@ -230,4 +230,18 @@ public class IndexController {
         }
     }
     
+    @RequestMapping(value="getRoles" ,method=RequestMethod.POST)
+    public Response getRoleByAgentId(@RequestBody int agentId){
+    	Response response = new Response();
+    	String rolesStr=indexService.getRoleByAgentId(agentId);
+    	if(null!=rolesStr && rolesStr.length()>0){
+    		response.setCode(Response.SUCCESS_CODE);
+    		response.setMessage("获取权限列表成功");
+    		response.setResult(rolesStr);
+    	}else{
+    		response.setCode(Response.ERROR_CODE);
+    		response.setMessage("获取权限列表失败");
+    	}
+    	return response;
+    }
 }

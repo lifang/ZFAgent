@@ -369,7 +369,7 @@
 		customer_address_id,need_invoice,invoice_type,
 		invoice_info,actual_price,created_at,updated_at,
 		comment,total_quantity)
-		VALUES(#{ordernumber},#{customerId},#{totalprice},0,#{orderType},
+		VALUES(#{ordernumber},#{customerId},#{totalprice},1,#{orderType},
 		#{addressId},#{isNeedInvoice},#{invoiceType},#{invoiceInfo},
 		#{totalprice},NOW(),NOW(),#{comment},#{totalcount})
   </insert>

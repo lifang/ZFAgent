@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="js/libs/angular-cookies.js"></script>
 		<script type="text/javascript" src="js/libs/angular-sanitize.js"></script>
 		<script type="text/javascript" src="js/libs/ng-csv.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/controllers/index.controller.js"></script>
 		<!-- 系统分页 -->
 		<script type="text/javascript" src="js/page.js"></script>
 		<script src="js/main.js"></script>
@@ -29,7 +29,6 @@
 		<script type="text/javascript" src="js/directives/fileupload.directive.js"></script>
 		<!-- Controllers -->
 		<script type="text/javascript" src="js/controllers/route.controller.js"></script>
-		<script type="text/javascript" src="js/controllers/index.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/login/register.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/login/login.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/login/findPass.controller.js"></script>
@@ -75,33 +74,35 @@
 		<div class="box">
 			<div class="left">
 				<ul>
-					<li><a href="#/myapp">我的掌富</a></li>
-					<li><a href="#/stock">我的库存</a></li>
-					<li><a href="#/wholesaleOrder">批购</a></li>
-					<li><a href="#/proxyOrder">代购</a></li>
-					<li><a href="#/terminals">管理终端</a></li>
-					<li><a href="#/trade">交易流水</a></li>
-					<li><a href="#">POS销售分润</a></li>
-					<li class="second"><a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
+					<li ng-if="menu1"><a href="#/myapp">我的掌富</a></li>
+					<li ng-if="menu2"><a href="#/stock">我的库存</a></li>
+					<li ng-if="menu3"><a href="#/purchaseOrder">批购</a></li>
+					<li ng-if="menu4"><a href="#/othersOrder">代购</a></li>
+					<li ng-if="menu5"><a href="#/terminals">管理终端</a></li>
+					<li ng-if="menu6"><a href="#/trade">交易流水</a></li>
+					<li ng-if="menu7"><a href="#">POS销售分润</a></li>
+					<li ng-if="menu8" class="second"><a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
+
 						<ol>
 							<li><a href="#/lowerAgent">下级代理商</a></li>
 							<li><a href="#/prepare">管理配货</a></li>
 							<li><a href="#/exchange">管理调货</a></li>
 						</ol></li>
-					<li class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
+					<li ng-if="menu9" class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
 						<ol>
 						    <li><a href="#/cs_cencel">注销记录</a></li>
 							<li><a href="#/cs_update">更新资料记录</a></li>
 							<li><a href="#/cs_agent">代理商售后记录</a></li>
 						</ol></li>
-					<li><a href="#/manageuser">管理用户</a></li>
-					<li class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
-						<ol>
+
+					<li ng-if="menu10"><a href="#">管理用户</a></li>
+					<li ng-if="menu11" class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
+<ol>
 							<li><a href="#/agentinform">代理商资料</a></li>
 							<li><a href="#/accountList">员工帐号</a></li>
 							<li><a href="#/modifypassword">修改密码</a></li>
 						</ol></li>
-					<li><a href="#/myMessage">查看消息</a></li>
+					<li ng-if="menu12"><a href="#/myMessage">查看消息</a></li>
 				</ul>
 			</div>
 			<div ng-view></div>

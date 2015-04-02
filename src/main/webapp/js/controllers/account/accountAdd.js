@@ -17,8 +17,11 @@ var empAddController = function($scope, $http, $location, LoginService) {
 			return false;
 		}
 
-		if (typeof ($scope.customer.username) == "undefined") {
+		if (typeof ($scope.customer.username) == "undefined" || $scope.customer.username == "") {
 			alert("登陆ID不能为空");
+			return false;
+		} else if($scope.customer.username.length > 40){
+			alert("登陆ID最多填写40个字符或20 个汉字");
 			return false;
 		}
 

@@ -68,7 +68,7 @@ public class UserManagementController {
 	public Response getUser(@RequestBody Map<String, Object> map) {
 		try {
 			return Response.getSuccess(userManagementService
-					.getUser((Integer) map.get("customerId")));
+					.getUser((Integer) map.get("customerId"),CustomerAgentRelation.STATUS_1));
 		} catch (Exception e) {
 			logger.error("获得该代理商有关联的所有用户异常！", e);
 			return Response.getError("请求失败！");

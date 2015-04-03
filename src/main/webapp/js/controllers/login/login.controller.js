@@ -1,5 +1,8 @@
 
 var agentLoginController = function($scope, $location, $http, LoginService){
+	if(LoginService.agentid>0){
+		window.location.href = '#/';
+	}
 	//定义代理商对象
 	$scope.agent = {};
 	//勾选记住密码

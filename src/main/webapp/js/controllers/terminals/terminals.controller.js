@@ -5,7 +5,7 @@ var terminalModule = angular.module("agentTerminalModule",['loginServiceModule']
 
 var agentTerminalController = function ($scope, $http, LoginService) {
 	  initSystemPage($scope);// 初始化分页参数
-	  $scope.customersId = Math.ceil(LoginService.loginid);
+	  $scope.customersId = Math.ceil(LoginService.agentUserId);
 	  $scope.total = 0;
 	  //付款筛选状态
 	  $scope.frontStatus = null;
@@ -89,7 +89,7 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 var terminalDetailController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalId=Math.ceil($location.search()['terminalId']);
 	//$scope.terminalId=1;
-	$scope.customerId = Math.ceil(LoginService.loginid);
+	$scope.customerId = Math.ceil(LoginService.agentUserId);
 	//$scope.customerId = 80;
 	$(".leaseExplain_tab").hide();
 	$("#pass").hide();
@@ -296,7 +296,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 };
 
 var agentBinTerminalController = function ($scope, $http, LoginService) {
-	 $scope.customersId = Math.ceil(LoginService.loginid);
+	 $scope.customersId = Math.ceil(LoginService.agentUserId);
 	 // $scope.customersId = 80;
 	 $scope.butshow = true;//按钮切换
 	 $scope.binobject = {};//数据封装
@@ -380,7 +380,7 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 var terminalCancellationController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalId=Math.ceil($location.search()['terminalId']);
 	//$scope.terminalId = 1;
-	$scope.customerId = Math.ceil(LoginService.loginid);
+	$scope.customerId = Math.ceil(LoginService.agentUserId);
 	//$scope.customerId = 80;
 	//查看终端详情
 	$scope.terminalDetail = function () {
@@ -437,7 +437,7 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
 var terminalToUpdateController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalId=Math.ceil($location.search()['terminalId']);
 	//$scope.terminalId = 1;
-	$scope.customerId = Math.ceil(LoginService.loginid);
+	$scope.customerId = Math.ceil(LoginService.agentUserId);
 	//$scope.customerId = 80;
 	//$(".leaseExplain_tab").hide();
 	//查看终端详情
@@ -499,7 +499,6 @@ var terminalToUpdateController = function ($scope, $http,$location, LoginService
   
 };
   $scope.terminalDetail();
-
 };
 
 var terminalOpenController = function ($scope, $http,$location, LoginService) {
@@ -510,7 +509,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	//英文数字校验
 	var numCh = /[^a-zA-Z0-9]/g;
 
-	$scope.customerId = Math.ceil(LoginService.loginid);
+	$scope.customerId = Math.ceil(LoginService.agentUserId);
 	$scope.terminalId = Math.ceil($location.search()['terminalId']);
 	$scope.chan={};//通道对象封装
 	$scope.tln={};//通道周期对象封装

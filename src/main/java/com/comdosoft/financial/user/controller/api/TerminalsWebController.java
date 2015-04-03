@@ -177,6 +177,9 @@ public class TerminalsWebController {
 		try {
 			String pass = SysUtils.Decrypt(
 					terminalsWebService.findPassword((Integer)map.get("terminalid")),passPath);
+			if("".equals(pass)){
+				return Response.getSuccess("未设置密码！");
+			}
 			return Response.getSuccess(pass);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,7 +195,6 @@ public class TerminalsWebController {
 	@RequestMapping(value="getAddressee",method=RequestMethod.POST)
 	public Response getAddressee(@RequestBody Map<String, Object> map){
 		try{
-			System.out.println("查看地址："+(Integer)map.get("customerId"));
 			return Response.getSuccess(terminalsWebService.getAddressee((Integer)map.get("customerId")));
 		}catch(Exception e){
 			logger.error("收件人信息异常！", e);
@@ -331,7 +333,7 @@ public class TerminalsWebController {
 				Customer customer = new Customer();
 				customer.setUsername((String)map.get("username"));
 				customer.setName((String)map.get("name"));
-				customer.setPassword((String)map.get("password"));
+				customer.setPassword((String)map.get("pass1"));
 				customer.setCityId((Integer)map.get("cityid"));
 				customer.setTypes(Customer.TYPE_CUSTOMER);
 				customer.setStatus(Customer.STATUS_NORMAL);

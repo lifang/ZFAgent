@@ -20,7 +20,7 @@
 		<div class="myInfoBox" id="base_box">
 			<ul>
 				<li><label>邮箱：</label>
-			    <input id="emailValue" onclick="onEmailClick()" type="text" value="请输入新邮箱地址"/></li>
+			    <input id="emailValue" name="emailValue" ng-model="email"  placeholder="请输入新邮箱地址" type="text"/></li>
 			</ul>
 		</div>
 		<button class="blueBtn" ng-click="up_save()">保存</button> 
@@ -28,9 +28,3 @@
 </div>
 
 <div class="mask"></div>
-<script>
-function onEmailClick(){
-	document.getElementById("emailValue").value="";
-	document.getElementById("emailValue").style.color="#000000";
-}
-</script>

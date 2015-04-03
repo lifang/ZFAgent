@@ -75,30 +75,30 @@
 			<div class="left">
 				<ul>
 					<li><a href="#/myapp">我的掌富</a></li>
-					<li ng-if="menu9"><a href="#/stock">我的库存</a></li>
-					<li ng-if="menu1"><a href="#/wholesaleOrder">批购</a></li>
-					<li ng-if="menu2"><a href="#/proxyOrder">代购</a></li>
-					<li ng-if="menu3"><a href="#/terminals">管理终端</a></li>
-					<li ng-if="menu4"><a href="#/trade">交易流水</a></li>
-					<li ng-if="menu4"><a href="#">POS销售分润</a></li>
-					<li ng-if="menu5" class="second">
+					<li ng-show="menu9"><a href="#/stock">我的库存</a></li>
+					<li ng-show="menu1"><a href="#/wholesaleOrder">批购</a></li>
+					<li ng-show="menu2"><a href="#/proxyOrder">代购</a></li>
+					<li ng-show="menu3"><a href="#/terminals">管理终端</a></li>
+					<li ng-show="menu4"><a href="#/trade">交易流水</a></li>
+					<li ng-show="menu4"><a href="#">POS销售分润</a></li>
+					<li ng-show="menu5" class="second">
 					<a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
 						<ol>
 							<li><a href="#/lowerAgent">下级代理商</a></li>
 							<li><a href="#/prepare">管理配货</a></li>
 							<li><a href="#/exchange">管理调货</a></li>
 						</ol></li>
-					<li ng-if="menu3" class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
+					<li ng-show="menu3" class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
 						<ol>
 						    <li><a href="#/cs_cencel">注销记录</a></li>
 							<li><a href="#/cs_update">更新资料记录</a></li>
 							<li><a href="#/cs_agent">代理商售后记录</a></li>
 						</ol></li>
-					<li ng-if="menu6"><a href="#/manageuser">管理用户</a></li>
+					<li ng-show="menu6"><a href="#/manageuser">管理用户</a></li>
 					<li  class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
 <ol>
-							<li><a ng-if="menu8" href="#/agentinform">代理商资料</a></li>
-							<li><a ng-if="menu7" href="#/accountList">员工帐号</a></li>
+							<li><a ng-show="menu8" href="#/agentinform">代理商资料</a></li>
+							<li><a ng-show="menu7" href="#/accountList">员工帐号</a></li>
 							<li><a href="#/modifypassword">修改密码</a></li>
 						</ol></li>
 					<li ><a href="#/myMessage">查看消息</a></li>

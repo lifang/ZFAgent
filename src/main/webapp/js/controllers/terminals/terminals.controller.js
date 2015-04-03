@@ -173,7 +173,7 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
   }
   
 //租借說明弹出层
-  /*$scope.popup = function(t,b){
+  $scope.popup = function(t,b){
 	  $(".mask").show();
 	  $(".leaseExplain_tab").show();
 	  var doc_height = $(document).height();
@@ -199,7 +199,7 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
 			$(t).css('display','none');
 			$(".mask").css('display','none');
 		})
-  }*/
+  }
   
  
 //同步
@@ -380,7 +380,8 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 var terminalCancellationController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalId=Math.ceil($location.search()['terminalId']);
 	//$scope.terminalId = 1;
-	$scope.customerId = Math.ceil(LoginService.agentUserId);
+	//$scope.customerId = Math.ceil(LoginService.agentUserId);//代理商对应用户id
+	$scope.customerId = Math.ceil(LoginService.loginid);//用户登陆id
 	//$scope.customerId = 80;
 	//查看终端详情
 	$scope.terminalDetail = function () {
@@ -437,7 +438,8 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
 var terminalToUpdateController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalId=Math.ceil($location.search()['terminalId']);
 	//$scope.terminalId = 1;
-	$scope.customerId = Math.ceil(LoginService.agentUserId);
+	//$scope.customerId = Math.ceil(LoginService.agentUserId);//代理商对应用户id
+	$scope.customerId = Math.ceil(LoginService.loginid);//用户登陆id
 	//$scope.customerId = 80;
 	//$(".leaseExplain_tab").hide();
 	//查看终端详情
@@ -459,12 +461,6 @@ var terminalToUpdateController = function ($scope, $http,$location, LoginService
       });
       
   };
-  
-/*//弹出层
-  $scope.popup = function(t,b){
-	  $(".mask").show();
-	  $(".leaseExplain_tab").show();
-  }*/
   
 //提交
 	$scope.subToUpdate = function () {

@@ -91,7 +91,7 @@ public interface AgentLoginMapper {
 	 * @param customer
 	 * @return
 	 */
-	List<Map<Object, Object>> Toestemming(Customer customer);
+	List<Object> Toestemming(Customer customer);
 	
 	/**
 	 * 获取验证码

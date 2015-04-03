@@ -139,6 +139,10 @@ var indexController = function($scope, $location, $http, LoginService,
 	$scope.index = function() {
 		window.location.href = '#/';
 	};
+	
+	$scope.loginout = function(){
+		LoginService.logout();
+	}
 
 };
 

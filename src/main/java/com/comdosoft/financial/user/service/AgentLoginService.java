@@ -112,7 +112,7 @@ public class AgentLoginService {
 	 * @param customer
 	 * @return
 	 */
-	public List<Map<Object, Object>> Toestemming(Customer customer){
+	public List<Object> Toestemming(Customer customer){
 		return agentLoginMapper.Toestemming(customer);
 	}
 	

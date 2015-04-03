@@ -67,6 +67,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $cookieStore.put("cityId",data.result.agentCityId);//代理商用户对应城市
       			        	   $cookieStore.put("machtigingen",data.result.machtigingen);//权限
       			        	   //刷新
+      			        	 location.reload();
       			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   window.location.href = '#/';
       			           }
@@ -78,22 +79,22 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			 $scope.message = "获取验证码失败！"
       		 });
    		 	}
-        	
-
         },
 
         //用户登出功能
         logout: function () {
-            $cookieStore.remove("loginInfo");
-            $cookieStore.remove("loginUserName");
-            $cookieStore.remove("loginSmsPauseFlag");
-            $cookieStore.remove("shopLogo");
-            $cookieStore.remove("shopName");
-            $cookieStore.remove("userCoverPicCD");
-            this.isAuthorized = false;
-            $("#loginModal").modal({keyboard:false,backdrop:'static'}); //登出之后，则显示登陆界面，并隐藏主页面
-            $("#resetPwd-success-msg").hide();
-            $("#indexDiv").hide();
+            $cookieStore.remove("loginAgentName");
+            $cookieStore.remove("loginId");
+            $cookieStore.remove("agentIsHaveProfit");
+            $cookieStore.remove("agentTypes");
+            $cookieStore.remove("agentParentId");
+            $cookieStore.remove("identity");
+            $cookieStore.remove("agentId");
+            $cookieStore.remove("agentUserId");
+            $cookieStore.remove("cityId");
+            $cookieStore.remove("machtigingen");
+            location.reload();
+            window.location.href = '#/';
         },
         
         //检验当前是否为已登录状态，或Cookie中仍存在登陆记录

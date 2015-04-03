@@ -52,6 +52,16 @@
 	]]>
 	</select>
 
+	<select id="countValidAddress" resultType="int">
+	<![CDATA[
+		SELECT COUNT(ca.id) AS total
+		FROM customer_addresses ca 
+  		LEFT JOIN cities c on ca.city_id = c.id
+   		LEFT JOIN cities c2 on c.parent_id = c2.id
+		WHERE ca.customer_id = #{id} and ca.status = 1
+	  	ORDER BY ca.created_at DESC
+	]]>
+	</select>
 	<!-- 修改默认地址 -->
 	<update id="updateDefaultAddress">
 	<![CDATA[

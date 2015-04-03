@@ -98,17 +98,31 @@ var indexController = function($scope, $location, $http, LoginService,
 
 		if (strs.length == 2) {
 			strs = strs[1].split("?");
-				if (check(strs[0])) {
-					// alert("check(strs[0]) == " + check(strs[0]));
-					$scope.right = false;
+			    if(checkLogin(strs[0])){
+			    	$scope.right = false;
 					$scope.shop = true;
-				} else {
+			    }else{
+			    	if(LoginService.loginid>0&&LoginService.agentid>0){
+			    		if (check(strs[0])) {
+							// alert("check(strs[0]) == " + check(strs[0]));
+							$scope.right = false;
+							$scope.shop = true;
+						} else {
+							$scope.right = true;
+							$scope.shop = false;
+						}
+					}else{
+						window.location.href="#/login";
+					}
+			    }
+			} else {
+				if(LoginService.loginid>0&&LoginService.agentid>0){
 					$scope.right = true;
 					$scope.shop = false;
+				}else{
+					window.location.href="#/login";
 				}
-			} else {
-				$scope.right = true;
-				$scope.shop = false;
+				
 			}
     });
 	
@@ -116,6 +130,17 @@ var indexController = function($scope, $location, $http, LoginService,
 		// alert(str + "====index.controller");
 		var arry = [ "shop", "shopinfo", "purchaseShop", "purchaseShopinfo",'login','register','findpass','findpassEmail',
 		             "shopmakeorder","leasemakeorder","purchasemakeorder", "pay", "lowstocks" ];
+		for (var i = 0; i < arry.length; i++) {
+			if (str == arry[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	var checkLogin = function(str) {
+		// alert(str + "====index.controller");
+		var arry = [ "login" ];
 		for (var i = 0; i < arry.length; i++) {
 			if (str == arry[i]) {
 				return true;

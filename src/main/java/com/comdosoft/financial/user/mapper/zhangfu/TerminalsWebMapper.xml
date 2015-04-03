@@ -125,7 +125,7 @@
 		u.`name` as userName ,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
 		FROM terminals t 
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
-		LEFT JOIN goods g on o.good_id=g.id
+		LEFT JOIN goods g on t.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
 		LEFT JOIN factories a ON c.factory_id=a.id
@@ -135,8 +135,8 @@
 		LEFT JOIN customers u ON u.id = t.customer_id
 		LEFT JOIN agents q on q.id = t.agent_id
 		WHERE t.id=#{id}
-		AND
-		e.customer_id=t.customer_id
+		<!-- AND
+		e.customer_id=t.customer_id -->
 	</select>
 	
 	<select id="getRate" parameterType="int" resultType="map">
@@ -146,8 +146,8 @@
 		support_trade_types s ON t.pay_channel_id = s.pay_channel_id
 		LEFT JOIN dictionary_trade_types d ON d.id = s.trade_type_id
 		LEFT JOIN dictionary_billing_cycles y ON y.id = t.billing_cycles_id
-		LEFT JOIN terminal_trade_type_infos l ON l.trade_type_id = s.trade_type_id
-		WHERE t.id=#{id} and l.terminal_id = #{id}
+		LEFT JOIN terminal_trade_type_infos l ON l.trade_type_id = s.trade_type_id and l.terminal_id = #{id}
+		WHERE t.id=#{id} 
 	</select>
 	
 	<select id="getTenancy" parameterType="int" resultType="map">
@@ -198,29 +198,30 @@
 		WHERE terminal_id = #{terminalId}
 		AND `status` in (#{statusa},#{statusb})
 	</select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
+	<select id="getCustomerAddress"  resultType="map" parameterType="int">
+		SELECT * from customer_addresses
+		WHERE customer_id = #{customerId}
+	</select>
+	
+	<select id="JudgeChangStatus"  resultType="int" parameterType="map">
+		SELECT count(*) from cs_changes
+		WHERE terminal_id = #{terminalId}
+		AND `status` in (#{statusa},#{statusb})
+	</select>
+	
+	<select id="getTrackRecord" parameterType="int" resultType="map">
+		SELECT s.created_at,s.content,c.`name`
+		FROM terminals t LEFT
+		JOIN opening_applies i ON t.id=i.terminal_id
+		LEFT JOIN
+		opening_apply_marks s ON i.id=s.opening_apply_id
+		LEFT JOIN customers c ON
+		s.custom_id=c.id
+		where t.id=#{id}
+	</select>
+
+
 	<insert id="addMerchants" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
 		INSERT into
 		merchants(title,customer_id,created_at)
@@ -233,20 +234,10 @@
 		VALUES(0,#{serialNum},#{merchantId},#{customerId},#{payChannelId},#{status},#{isReturnCsDepots},now(),#{type})
 	</insert>
 	
-	
-	
 	<insert id="subLeaseReturn" useGeneratedKeys="true" keyProperty="id" parameterType="map">
 		INSERT INTO cs_lease_returns(status,terminal_id,created_at,updated_at,apply_num,order_types,contact,phone,return_address_id,customer_id,cs_cencel_id)
 		VALUES(#{status},#{terminalId},now(),now(),unix_timestamp(now()),#{orderTypes},#{contact},#{phone},1,#{customerId},#{csCencelId})
 	</insert>
-	
-	<!-- <insert id="subRepairAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress">
-		INSERT into cs_receiver_addresses(address,phone,zip_code,receiver,created_at)
-		VALUES(#{address},#{phone},#{zipCode},#{receiver},now())
-	</insert> -->
-	
-	
-	
 	
 	<insert id="subRepair" useGeneratedKeys="true" keyProperty="id" parameterType="map">
 		INSERT into cs_repairs(terminal_id,status,description,receive_address_id,customer_id,created_at,updated_at,apply_num,return_address_id,cs_repair_marks_id)
@@ -263,8 +254,6 @@
 		VALUES(#{terminalsId},#{status},#{returnPrice},#{reason},1,#{csCencelId},#{customerId},now(),now(),unix_timestamp(now()),1)
 	</insert>
 	
-	
-	
 	<!-- 查询交易流水用 -->
 	<select id="getTerminals" resultType="map">
 	<![CDATA[
@@ -277,13 +266,6 @@
 	]]>
 	</select>
 
-	
-	
-	
-	
-	
-	
-	
 	<select id="getTerminalListByPhone" parameterType="map" resultType="map">
 		SELECT  t.id,t.serial_num
 		FROM terminals t
@@ -298,70 +280,6 @@
      	where ttti.terminal_id=#{id}
 	</select>
 	
-	<select id="getCustomerAddress"  resultType="map" parameterType="int">
-		SELECT * from customer_addresses
-		WHERE customer_id = #{customerId}
-	</select>
-	
-	<select id="JudgeChangStatus"  resultType="int" parameterType="map">
-		SELECT count(*) from cs_changes
-		WHERE terminal_id = #{terminalId}
-		AND `status` in (#{statusa},#{statusb})
-	</select>
-	
-	
-	
-	
-	
-	<select id="JudgeRepair"  resultType="int" parameterType="map">
-		SELECT count(*) from cs_repairs
-		WHERE terminal_id = #{terminalId}
-		AND `status` in (#{statusa},#{statusb})
-	</select>
-	
-	<select id="JudgeReturn"  resultType="int" parameterType="map">
-		SELECT count(*) from cs_returns
-		WHERE terminal_id = #{terminalId}
-		AND `status` in (#{statusa},#{statusb})
-	</select>
-	
-	<select id="JudgeLeaseReturn"  resultType="int" parameterType="map">
-		SELECT count(*) from cs_lease_returns
-		WHERE terminal_id = #{terminalId}
-		AND `status` in (#{statusa},#{statusb})
-	</select>
-	
-	<select id="judgeOpen"  resultType="int" parameterType="int">
-		select count(*) from opening_applies
-		where terminal_id = #{terminalId}
-	</select>
-	
-	
-	
-	<select id="getCities"  resultType="map">
-		SELECT * FROM cities 
-	</select>
-	
-	<select id="getShiCities"  resultType="map" parameterType="int">
-		SELECT * FROM cities 
-		WHERE parent_id = #{parentId}
-	</select>
-
-	
-
-	
-
-	<select id="getTrackRecord" parameterType="int" resultType="map">
-		SELECT s.created_at,s.content,c.`name`
-		FROM terminals t LEFT
-		JOIN opening_applies i ON t.id=i.terminal_id
-		LEFT JOIN
-		opening_apply_marks s ON i.id=s.opening_apply_id
-		LEFT JOIN customers c ON
-		s.custom_id=c.id
-		where t.id=#{id}
-	</select>
-
 	<select id="getOpeningDetails" parameterType="int" resultType="map">
 		SELECT s.`key`,s.`value`,s.types
 		FROM terminals t LEFT JOIN
@@ -371,8 +289,6 @@
 		where t.id=#{id}
 	</select>
 	
-	
-
 	<select id="channels" resultType="map">
 		SELECT s.id,s.`name`
 		FROM pay_channels s
@@ -385,20 +301,11 @@
 		LEFT JOIN dictionary_billing_cycles d ON d.id = p.billing_cycles_id
 		WHERE s.id = #{id}
 	</select>
-
-	<select id="isExistence" resultType="int" parameterType="String">
-		SELECT count(*) FROM terminals
-		WHERE serial_num=#{serialNum}
-	</select>
-
-	<select id="isMerchantName" parameterType="string" resultType="map">
-		SELECT id from merchants
-		WHERE title=#{title}
-	</select>
-
+	
 	<select id="findPassword" parameterType="int" resultType="string">
 		SELECT password
 		FROM terminals
 		WHERE id=#{id}
 	</select>
+	
 </mapper>

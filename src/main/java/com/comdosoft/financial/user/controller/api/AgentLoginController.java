@@ -2,6 +2,7 @@ package com.comdosoft.financial.user.controller.api;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -62,22 +63,33 @@ public class AgentLoginController {
 			customer.setTypes(Customer.TYPE_AGENT);
 			customer.setStatus(Customer.STATUS_NORMAL);
 			customer.setStatusEnd(Customer.TYPE_AGENT_STAFF);
-			Map<Object, Object> customerMes = agentLoginService
-					.doLogin(customer);
-			if (customerMes != null) {
-				agentLoginService.updateLastLoginedAt(customer);
-				// Map<String, Object> map = new HashMap<String, Object>();
-				customer.setId((Integer) customerMes.get("id"));
-				// map.put("customerMes", tomer);
-				// 登陆成功并且获得权限
-				customerMes.put("Machtigingen",
-						agentLoginService.Toestemming(customer) == null ? ""
-								: agentLoginService.Toestemming(customer));
-				// map.put("Machtigingen",
-				// agentLoginService.Toestemming(customer));
-				return Response.getSuccess(customerMes);
-			} else {
-				return Response.getError("用户名或密码错误！");
+			Map<Object, Object> customerMes = new HashMap<Object, Object>();
+			//先判断是代理商还是员工
+			Map<Object, Object> obj = agentLoginService.isAgentOrPerson(customer.getUsername());
+			if(obj == null){
+				return Response.getError("用户名不存在！");
+			}else{
+				
+				if(obj.get("types") == Customer.TYPE_AGENT_STAFF){//员工
+					 customerMes = agentLoginService
+					.doLoginPersn(customer);
+					 System.out.println("员工");
+				}
+				if(obj.get("types") == Customer.TYPE_AGENT){//代理商
+					customerMes = agentLoginService
+							.doLogin(customer);
+				}
+				if (customerMes != null) {
+					agentLoginService.updateLastLoginedAt(customer);
+					// 登陆成功并且获得权限
+					customer.setId((Integer) customerMes.get("id"));
+					customerMes.put("machtigingen",
+							agentLoginService.Toestemming(customer) == null ? ""
+									: agentLoginService.Toestemming(customer));
+					return Response.getSuccess(customerMes);
+				} else {
+					return Response.getError("用户名/密码错误！账号不可用！");
+				}
 			}
 		} catch (Exception e) {
 			logger.error("代理商登陆异常！", e);
@@ -328,18 +340,33 @@ public class AgentLoginController {
 			customer.setStatus(Customer.STATUS_NORMAL);
 			customer.setStatusEnd(Customer.TYPE_AGENT_STAFF);
 			customer.setPassword(SysUtils.string2MD5(customer.getPassword()));
-			Map<Object, Object> customerMes = agentLoginService
-					.doLogin(customer);
-			if (customerMes != null) {
-				agentLoginService.updateLastLoginedAt(customer);
-				// 登陆成功并且获得权限
-				customer.setId((Integer) customerMes.get("id"));
-				customerMes.put("Machtigingen",
-						agentLoginService.Toestemming(customer) == null ? ""
-								: agentLoginService.Toestemming(customer));
-				return Response.getSuccess(customerMes);
-			} else {
-				return Response.getError("用户名/密码错误！账号不可用！");
+			
+			Map<Object, Object> customerMes = new HashMap<Object, Object>();
+			//先判断是代理商还是员工
+			Map<Object, Object> obj = agentLoginService.isAgentOrPerson(customer.getUsername());
+			if(obj == null){
+				return Response.getError("用户名不存在！");
+			}else{
+				
+				if(obj.get("types") == Customer.TYPE_AGENT_STAFF){//员工
+					 customerMes = agentLoginService
+					.doLoginPersn(customer);
+				}
+				if(obj.get("types") == Customer.TYPE_AGENT){//代理商
+					customerMes = agentLoginService
+							.doLogin(customer);
+				}
+				if (customerMes != null) {
+					agentLoginService.updateLastLoginedAt(customer);
+					// 登陆成功并且获得权限
+					customer.setId((Integer) customerMes.get("id"));
+					customerMes.put("machtigingen",
+							agentLoginService.Toestemming(customer) == null ? ""
+									: agentLoginService.Toestemming(customer));
+					return Response.getSuccess(customerMes);
+				} else {
+					return Response.getError("用户名/密码错误！账号不可用！");
+				}
 			}
 		} catch (Exception e) {
 			logger.error("代理商登陆异常！", e);

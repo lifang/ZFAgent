@@ -14,6 +14,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
         loginAgentName: typeof($cookieStore.get("loginAgentName")) == 'undefined' ? "" : $cookieStore.get("loginAgentName"),
         agentid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
         loginid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
+        agentUserId:1,//代理商所对应用户Id
         identity:0,//身份 0一级代理商   1二级代理商 2普通用户  by yyb
         city:1,
         goods: [],
@@ -43,15 +44,17 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        		   $cookieStore.remove("agentPass");
       			        	   }
       			        	   $cookieStore.put("loginAgentName",data.result.username);//用户名
-      			        	   $cookieStore.put("loginAgentId",data.result.id);//用户id
+      			        	   $cookieStore.put("loginAgentId",data.result.id);//登陆用户id
       			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit);//是否有分润
       			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
       			        	   $cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
       			        	   $cookieStore.put("agentId",data.result.agentId);//代理商Id
+      			        	   $cookieStore.put("agentUserId",data.result.agentUserId);//代理商用户ID
+      			        	   $cookieStore.put("agentCityId",data.result.agentCityId);//代理商用户对应城市
+      			        	   $cookieStore.put("machtigingen",data.result.machtigingen);//权限
       			        	   //刷新
       			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   window.location.href = '#/';
-      			        	//location.reload();
       			           }
       			        }).error(function (data) {
       			        	$scope.message = "登陆异常！"

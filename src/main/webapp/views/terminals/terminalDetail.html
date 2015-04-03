@@ -85,7 +85,7 @@
                             </ul>
                         </div> 
                     </div>
-                     <div class="attributes_box">
+                     <div class="attributes_box" ng-if="openingInfos == ''">
                     	<h2>开通详情<a href="#" class="a_btn">下载开通资料</a></h2>
                         <div class="attributes_list_s clear">
                             <ul>
@@ -125,7 +125,7 @@
                             <div class="img_info"><img src="images/mt_big.jpg" /></div>
                         </div> 
                     </div>
-                     <div class="user_record">
+                     <div class="user_record" ng-if="trackRecord == NULL">
                     	<h2>追踪记录</h2>
                         <div class="ur_item" ng-repeat="track in trackRecord">
                         	<div class="ur_item_text">{{track.content}}</div>

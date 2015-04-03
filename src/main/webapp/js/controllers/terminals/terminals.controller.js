@@ -5,23 +5,15 @@ var terminalModule = angular.module("agentTerminalModule",['loginServiceModule']
 
 var agentTerminalController = function ($scope, $http, LoginService) {
 	  initSystemPage($scope);// 初始化分页参数
-	  //$scope.customersId = LoginService.userid;
-	  $scope.customersId = 80;
+	  $scope.customersId = Math.ceil(LoginService.loginid);
 	  $scope.total = 0;
 	  //付款筛选状态
 	  $scope.frontStatus = null;
-	  //根据终端号筛选
+	  //根据终端号
 	  $scope.serialNum = null;
 	
 	//获得终端列表
 	$scope.getInfo = function () {
-		
-		/*if(LoginService.userid == 0){
-			window.location.href = '#/login';
-		}else{
-			//显示用户登录部分
-			$scope.$emit('changeshow',false);
-		} */
       $scope.req={
     		  customersId:$scope.customersId,
     		  page:$scope.indexPage,
@@ -35,8 +27,6 @@ var agentTerminalController = function ($scope, $http, LoginService) {
               $scope.list = data.result.list;
               $scope.total = data.result.total;
               $scope.appstatus = data.result.frontPayStatus;
-              //所有通道
-              //$scope.channels = data.result.channels;
           }
           $scope.pages = [];
           calcSystemPage($scope, $scope.total);// 计算分页
@@ -45,50 +35,6 @@ var agentTerminalController = function ($scope, $http, LoginService) {
       });
 	}  
 	
-	/*$scope.payChannelId = null;
-	//添加終端是通道Id
-	$scope.channelId = function(){
-		//$scope.payChannelId = Math.ceil(chanId);
-	}*/
-	//添加終端$scope.channels
-	/*$scope.addChannel = function() {
-		if ($scope.payChannelId == null) {
-			alert("请选择通道！");
-		} else if ($scope.title == undefined) {
-			alert("请填写商户名！");
-		} else if ($scope.serialNums == undefined) {
-			alert("请填写终端号！");
-		} else {
-			$scope.addChan = {
-				customerId : $scope.customersId,
-				title : $scope.title,
-				payChannelId : $scope.payChannelId,
-				serialNum : $scope.serialNums
-			};
-			$http.post("api/terminal/addTerminal", $scope.addChan).success(
-					function(data) { // 绑定
-						if (data != null && data != undefined) {
-							if (data.code == 1) {
-								// location.reload();
-								$("#closeWin").css('display', 'none');
-								$(".mask").css('display', 'none');
-
-								$scope.serialNum = null;
-								$scope.list = [];
-								$scope.total = null;
-								$scope.getInfo();
-								location.reload();
-
-							} else {
-								alert(data.message);
-							}
-						}
-					}).error(function(data) {
-				alert("获取列表失败");
-			});
-		}
-	}
-	*/
 	// 筛选状态
 	$scope.screening = function(){
 		$scope.indexPage = 1;
@@ -141,24 +87,16 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 };
 
 var terminalDetailController = function ($scope, $http,$location, LoginService) {
-	//$scope.terminalId=Math.ceil($location.search()['terminalId']);
-	$scope.terminalId=1;
-	//$scope.customerId = LoginService.userid;;
-	$scope.customerId = 80;
+	$scope.terminalId=Math.ceil($location.search()['terminalId']);
+	//$scope.terminalId=1;
+	$scope.customerId = Math.ceil(LoginService.loginid);
+	//$scope.customerId = 80;
 	$(".leaseExplain_tab").hide();
 	$("#pass").hide();
 	//查看终端详情
 	$scope.terminalDetail = function () {
-		/*if(LoginService.userid == 0){
-			window.location.href = '#/login';
-		}else{
-			//显示用户登录部分
-			$scope.$emit('changeshow',false);
-		}*/
-		//0 注销， 1 更新
-		  //$scope.types = 0;
 	//获取终端详情
-      $http.post("api/webTerminal/getWebApplyDetail", {types:$scope.types,terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
+      $http.post("api/webTerminal/getWebApplyDetail", {terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == 1){
         		  //终端信息
@@ -177,7 +115,6 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
           }
       }).error(function (data) {
     	  alert("获取列表失败");
-          /*$("#serverErrorModal").modal({show: true});*/
       });
   };
   
@@ -276,82 +213,13 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
       });
   }*/
   
-  
-  
-  //申请换货判断
-  /*$scope.judgeChang = function(){
-	  $http.post("api/terminal/judgeChang", {terminalid:$scope.terminalId}).success(function (data) {  //绑定
-          if (data != null && data != undefined) {
-        	  if(data.code == -1){
-        		  alert("已有该终端换货申请！");
-        	  }else if(data.code == 1){
-        		  window.location.href = "#/terminalExchangeGoods?terminalId="+$scope.terminalId;
-        		  
-        	  }
-          }
-      }).error(function (data) {
-    	  alert("操作失败！");
-      });
-  }*/
-  
-  
-  
-
-  
-  /*//申请维修判断
-  $scope.judgeRepair = function(){
-	  $http.post("api/terminal/judgeRepair", {terminalid:$scope.terminalId}).success(function (data) {  //绑定
-          if (data != null && data != undefined) {
-        	  if(data.code == -1){
-        		  alert("已有该终端维修申请！");
-        	  }else if(data.code == 1){
-        		  window.location.href = "#/terminalRepair?terminalId="+$scope.terminalId;
-        		  
-        	  }
-          }
-      }).error(function (data) {
-    	  alert("操作失败！");
-      });
-  }*/
-  
-  //申请退货判断
-  /*$scope.judgeReturn = function(){
-	  $http.post("api/terminal/judgeReturn", {terminalid:$scope.terminalId}).success(function (data) {  //绑定
-          if (data != null && data != undefined) {
-        	  if(data.code == -1){
-        		  alert("已有该终端退货申请！");
-        	  }else if(data.code == 1){
-        		  window.location.href = "#/terminalReturnGood?terminalId="+$scope.terminalId;
-        		  
-        	  }
-          }
-      }).error(function (data) {
-    	  alert("操作失败！");
-      });
-  }*/
-  
-//申请租赁退还
- /* $scope.terminalsRentalReturn = function(){
-	  $http.post("api/terminal/JudgeLeaseReturn", {terminalid:$scope.terminalId}).success(function (data) {  //绑定
-          if (data != null && data != undefined) {
-        	  if(data.code == -1){
-        		  alert("已有该终端租赁退还申请！");
-        	  }else if(data.code == 1){
-        		  window.location.href = "#/terminalRentalReturn?terminalId="+$scope.terminalId;
-        		  
-        	  }
-          }
-      }).error(function (data) {
-    	  alert("操作失败！");
-      });
-  }*/
   $scope.terminalDetail();
 
 };
 
 var agentServiceTerminalController = function ($scope, $http, LoginService) {
-	//$scope.customersId = LoginService.userid;
-	  $scope.customersId = 80;
+	  $scope.customersId = Math.ceil(LoginService.loginid);
+	  //$scope.customersId = 80;
 	  $scope.butshow = false;//添加新地址显示
 	  $scope.serviceObject = {};//数据封装
 	  $scope.addressObject = {};//数据封装
@@ -428,8 +296,8 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 };
 
 var agentBinTerminalController = function ($scope, $http, LoginService) {
-	//$scope.customersId = LoginService.userid;
-	  $scope.customersId = 80;
+	 $scope.customersId = Math.ceil(LoginService.loginid);
+	 // $scope.customersId = 80;
 	 $scope.butshow = true;//按钮切换
 	 $scope.binobject = {};//数据封装
 	 
@@ -510,18 +378,12 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 };
 
 var terminalCancellationController = function ($scope, $http,$location, LoginService) {
-	//$scope.terminalId=Math.ceil($location.search()['terminalId']);
-	$scope.terminalId = 1;
-	//$scope.customerId = LoginService.userid;
-	$scope.customerId = 80;
+	$scope.terminalId=Math.ceil($location.search()['terminalId']);
+	//$scope.terminalId = 1;
+	$scope.customerId = Math.ceil(LoginService.loginid);
+	//$scope.customerId = 80;
 	//查看终端详情
 	$scope.terminalDetail = function () {
-		/*if(LoginService.userid == 0){
-			window.location.href = '#/login';
-		}else{
-			//显示用户登录部分
-			$scope.$emit('changeshow',false);
-		}*/
 		//0 注销， 1 更新
 	  $scope.types = 0;
       $http.post("api/webTerminal/getWebApplyCancellation", {types:$scope.types,terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
@@ -573,19 +435,13 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
 };
 
 var terminalToUpdateController = function ($scope, $http,$location, LoginService) {
-	//$scope.terminalId=Math.ceil($location.search()['terminalId']);
-	$scope.terminalId = 1;
-	//$scope.customerId = LoginService.userid;
-	$scope.customerId = 80;
+	$scope.terminalId=Math.ceil($location.search()['terminalId']);
+	//$scope.terminalId = 1;
+	$scope.customerId = Math.ceil(LoginService.loginid);
+	//$scope.customerId = 80;
 	//$(".leaseExplain_tab").hide();
 	//查看终端详情
 	$scope.terminalDetail = function () {
-		/*if(LoginService.userid == 0){
-			window.location.href = '#/login';
-		}else{
-			//显示用户登录部分
-			$scope.$emit('changeshow',false);
-		}*/
 		//0 注销， 1 更新
 	  $scope.types = 1;
       $http.post("api/webTerminal/getWebApplyCancellation", {types:$scope.types,terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
@@ -653,8 +509,9 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
 	//英文数字校验
 	var numCh = /[^a-zA-Z0-9]/g;
-	$scope.customerId = 80;
-	$scope.terminalId = 1;
+
+	$scope.customerId = Math.ceil(LoginService.loginid);
+	$scope.terminalId = Math.ceil($location.search()['terminalId']);
 	$scope.chan={};//通道对象封装
 	$scope.tln={};//通道周期对象封装
 	$scope.req={};//城市对象封装
@@ -662,12 +519,6 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	$scope.materialLevel = [];//等级集合
 	$scope.sex = 1;//默认性别为男
 	$scope.terminalDetail = function () {
-		/*if(LoginService.userid == 0){
-			window.location.href = '#/login';
-		}else{
-			//显示用户登录部分
-			$scope.$emit('changeshow',false);
-		}*/
 		   $http.post("api/applyWeb/getApplyDetails", {customerId:$scope.customerId,terminalId:$scope.terminalId}).success(function (data) {//绑定  
 			  if(data.code == 1){
 				  //终端信息
@@ -690,14 +541,6 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	              if($scope.openingInfos != null && $scope.openingInfos!= undefined){
 	              	//数据替换
 	                    $scope.status = $scope.openingInfos.types;//对公对私
-	                  /*//根据对公对私状态显示按钮
-	                    if($scope.status == 1){
-	                  	  $scope.siClass = "toPrivate";
-	                  	  $scope.gongClass = "toPublic hover";
-	                    }else if($scope.status == 2){
-	                  	  $scope.siClass = "toPublic hover";
-	                  	  $scope.gongClass = "toPrivate";
-	                    }*/
 	                    $scope.merchantName = $scope.openingInfos.merchant_name
 	                    $scope.merchantId  = $scope.openingInfos.merchant_id;
 	                    $scope.sex = $scope.openingInfos.sex;

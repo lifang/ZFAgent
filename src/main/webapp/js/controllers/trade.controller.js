@@ -13,7 +13,7 @@ var tradelistController = function ($scope, $http, LoginService) {
 		}else{
 			$scope.req.tradeTypeId=LoginService.tradeTypeId;
 		}
-		$scope.req.is_have_profit=LoginService.is_have_profit;
+		$scope.req.isHaveProfit=LoginService.isHaveProfit;
 		$scope.getTradeType();
 		$scope.sonlist();
 		$scope.list();
@@ -61,7 +61,7 @@ var tradelistController = function ($scope, $http, LoginService) {
 		$scope.req.agentId=LoginService.agentid;
 		$scope.req.tradeTypeId=one.id;
 		LoginService.tradeTypeId=one.id;
-		$scope.req.is_have_profit=LoginService.is_have_profit;
+		$scope.req.isHaveProfit=LoginService.isHaveProfit;
 		initSystemPage($scope.req);// 初始化分页参数
 		$scope.req.typeName=one.value;
 		$scope.list();
@@ -128,7 +128,7 @@ var tradeinfoController = function ($scope, $http,$location, LoginService) {
 		$scope.req={};
 		$scope.req.id=$location.search()['id'];
 		$scope.req.agentId=LoginService.agentid;
-		$scope.req.is_have_profit=LoginService.is_have_profit;
+		$scope.req.isHaveProfit=LoginService.isHaveProfit;
 		$scope.info();
 	};
 	$scope.info=function(){

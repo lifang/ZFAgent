@@ -30,8 +30,8 @@
 				<li ng-show="info.account_name!=undefined">账户号码：{{info.account_name}}</li>
 				<li ng-show="info.account_number!=undefined">账户名：{{info.account_number}}</li>
 				<li>支付通道：{{info.paychannel}}</li>
-				<li ng-show="req.is_have_profit==2">产出分润：{{info.get/100|currency : "￥"}}</li>
-				<li ng-show="req.is_have_profit==2">需支付分润：{{info.pay/100|currency : "￥"}}</li>
+				<li ng-show="req.isHaveProfit==2">产出分润：{{info.get/100|currency : "￥"}}</li>
+				<li ng-show="req.isHaveProfit==2">需支付分润：{{info.pay/100|currency : "￥"}}</li>
 				<li>交易批次号：{{info.batchNumber}}</li>
 				<li>交易流水号：{{info.tradeNumber}}</li>
 			</ul>

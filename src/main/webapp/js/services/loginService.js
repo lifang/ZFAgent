@@ -67,9 +67,10 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $cookieStore.put("cityId",data.result.agentCityId);//代理商用户对应城市
       			        	   $cookieStore.put("machtigingen",data.result.machtigingen);//权限
       			        	   //刷新
-      			        	 location.reload();
+      			        	  location.reload();
       			        	   $scope.message = data.message; //登陆成功，跳转页面
-      			        	   window.location.href = '#/';
+      			        	  
+      			        	 //location.replace('#/');
       			           }
       			        }).error(function (data) {
       			        	$scope.message = "登陆异常！"

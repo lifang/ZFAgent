@@ -18,12 +18,24 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
 public interface AgentLoginMapper {
 	
 	/**
-	 * 用户登陆
+	 * 代理商登陆
 	 * @param customer
 	 * @return
 	 */
 	Map<Object, Object> doLogin(Customer customer);
 	
+	/**
+	 * 员工登陆
+	 * @param customer
+	 * @return
+	 */
+	Map<Object, Object> doLoginPersn(Customer customer);
+	/**
+	 * 判断是代理商还是代理商下面员工
+	 * @param username
+	 * @return
+	 */
+	Map<Object, Object> isAgentOrPerson(String username);
 	/**
 	 * 找回密码
 	 * @param customer

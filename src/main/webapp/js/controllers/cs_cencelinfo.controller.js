@@ -5,7 +5,7 @@ var cs_cencelinfoModule = angular.module("cs_cencelinfoModule",[]);
 
 var cs_cencelinfoController = function ($scope,$location, $http, LoginService) {
 	$("#leftRoute").show();
-	if(LoginService.loginid == 0){
+	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';
 	}else{
 		//显示用户登录部分

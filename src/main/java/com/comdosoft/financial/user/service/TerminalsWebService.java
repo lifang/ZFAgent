@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
-import com.comdosoft.financial.user.domain.zhangfu.CsReceiverAddress;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
-import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsWebMapper;
@@ -279,43 +277,6 @@ public class TerminalsWebService {
 		return terminalsWebMapper.JudgeUpdateStatus(map);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-     * 判断该终端是否开通
-     * 
-     * @param map
-     * @return
-     */
-    public int judgeOpen(int terminalId){
-    	return terminalsWebMapper.judgeOpen(terminalId);
-    }
 	/**
 	 * 获得该用户收获地址
 	 * 
@@ -349,76 +310,6 @@ public class TerminalsWebService {
 		return terminalsWebMapper.JudgeChangStatus(map);
 	}
 	
-	
-	
-	
-	
-	/**
-	 * 维修申请判断
-	 * 
-	 * @param terminalId
-	 * @param statusa
-	 * @param statusb
-	 * @return
-	 */
-	public int JudgeRepair(Integer terminalId,Integer statusa,Integer statusb) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("terminalId", terminalId);
-		map.put("statusa", statusa);
-		map.put("statusb", statusb);
-		return terminalsWebMapper.JudgeRepair(map);
-	}
-	
-	/**
-	 * 维修申请判断
-	 * @param terminalId
-	 * @param statusa
-	 * @param statusb
-	 * @return
-	 */
-	public int JudgeReturn(Integer terminalId,Integer statusa,Integer statusb) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("terminalId", terminalId);
-		map.put("statusa", statusa);
-		map.put("statusb", statusb);
-		return terminalsWebMapper.JudgeReturn(map);
-	}
-	
-	/**
-	 * 租赁申请判断
-	 * @param terminalId
-	 * @param statusa
-	 * @param statusb
-	 * @return
-	 */
-	public int JudgeLeaseReturn(Integer terminalId,Integer statusa,Integer statusb) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("terminalId", terminalId);
-		map.put("statusa", statusa);
-		map.put("statusb", statusb);
-		return terminalsWebMapper.JudgeLeaseReturn(map);
-	}
-	
-	/**
-	 * 城市级联
-	 * 
-	 * @param id
-	 * @param offSetPage
-	 * @param pageSize
-	 * @return
-	 */
-	public List<Map<Object, Object>> getCities() {
-		return terminalsWebMapper.getCities();
-	}
-	 /**
-     * <!-城市级联(市) -->
-     * 
-     * @param 
-     * @return
-     */
-	public List<Map<Object, Object>> getShiCities(int parentId) {
-		return terminalsWebMapper.getShiCities(parentId);
-	}
 	/**
 	 * 获得终端状态
 	 * @param id
@@ -428,69 +319,6 @@ public class TerminalsWebService {
 		return terminalsWebMapper.getTerminStatus();
 	}
 	
-	/**
-	 *申请维修添加地址
-	 * 
-	 * @param id
-	 * @param offSetPage
-	 * @param pageSize
-	 * @return
-	 */
-	/*public CsReceiverAddress subRepairAddress(Map<Object, Object> map) {
-		CsReceiverAddress csReceiverAddress = new CsReceiverAddress();
-		//csReceiverAddress.setAddress((String)map.get("address"));
-		csReceiverAddress.setPhone((String)map.get("phone"));
-		csReceiverAddress.setZipCode((String)map.get("zipCode"));
-		csReceiverAddress.setReceiver((String)map.get("receiver"));
-		terminalsWebMapper.subRepairAddress(csReceiverAddress);
-		return csReceiverAddress;
-	}
-	*/
-	/**
-	 *添加申请维修
-	 * 
-	 * @param id
-	 * @param offSetPage
-	 * @param pageSize
-	 * @return
-	 */
-	public void subRepair(Map<Object, Object> map) {
-		terminalsWebMapper.subRepair(map);
-	}
-	
-	/**
-	 *添加退货
-	 * 
-	 * @param id
-	 * @param offSetPage
-	 * @param pageSize
-	 * @return
-	 */
-	public void subReturn(Map<Object, Object> map) {
-		terminalsWebMapper.subReturn(map);
-	}
-	
-	/**
-	 *添加申请维修
-	 * 
-	 * @param id
-	 * @param offSetPage
-	 * @param pageSize
-	 * @return
-	 */
-	public void subChange(Map<Object, Object> map) {
-		terminalsWebMapper.subChange(map);
-	}
-	
-	
-
-	
-	
-	
-	
-	
-	
-
 	/**
 	 * 获得追踪记录
 	 * @param id
@@ -518,67 +346,6 @@ public class TerminalsWebService {
 	}
 	
 	/**
-	 * 支付通道周期
-	 * @return
-	 */
-	public  List<Map<Object, Object>> channelsT(int id){
-		return terminalsWebMapper.channelsT(id);
-	}
-	
-	
-	/**
-	 * 判断该终端号是否存在
-	 * @param id
-	 * @return
-	 */
-	public int isExistence(String serialNum){
-		return terminalsWebMapper.isExistence(serialNum);
-	}
-	
-
-	
-	
-	/**
-	 * 判断商户名是否存在
-	 * @param id
-	 * @return
-	 */
-	public Map<Object, Object> isMerchantName(String title){
-		return terminalsWebMapper.isMerchantName(title);
-	}
-	
-	/**
-	 * 添加商户
-	 * @param merchant
-	 */
-	public void addMerchants(Merchant merchant){
-		terminalsWebMapper.addMerchants(merchant);
-	}
-	
-	/**
-	 * 添加终端
-	 * @param map
-	 */
-	public void addTerminal(Map<String, String> map){
-		terminalsWebMapper.addTerminal(map);
-	}
-	
-	
-	
-
-	/**
-	 * 提交退还申请
-	 * @param map
-	 */
-	public void subLeaseReturn(Map<Object, Object> map){
-		terminalsWebMapper.subLeaseReturn(map);
-	}
-	
-	
-	
-	
-	
-	/**
 	 * POS找回密码
 	 * @param id
 	 * @return
@@ -586,28 +353,4 @@ public class TerminalsWebService {
 	public String findPassword(Integer id){
 		return terminalsWebMapper.findPassword(id);
 	}
-
-	/**
-     * author jwb
-     * 查询终端开通情况
-     * @param paramMap
-     * @return
-     *//*
-    public List<Map<String,Object>> openStatus(Map<String, Object> paramMap) {
-        List<Map<String,Object>> listmap=terminalsWebMapper.getTerminalListByPhone(paramMap);
-        if(null!=listmap&&listmap.size()>0){
-            //int a=SysUtils.String2int(paramMap.get("type")+"");
-            List<Map<String,Object>> listmap2=null;
-            int id=0;
-            for (Map<String, Object> map : listmap) {
-                if(a!=0){
-                    map.put("serial_num",SysUtils.toPro(map.get("serial_num").toString()));
-                }
-                id=SysUtils.String2int(""+map.get("id"));
-                listmap2=terminalsMapper.getTerminalOpenStatus(id);
-                map.put("openStatus", listmap2);
-            }
-        }
-        return listmap;
-    }*/
 }

@@ -6,16 +6,22 @@ var loginServiceModule = angular.module("loginServiceModule", []);
 
 var loginService = function ($http, $rootScope, $cookieStore) {
     return {
-        //定义当前用户是否被授权
-        //isAuthorized: typeof($cookieStore.get("loginInfo")) == 'undefined' ? false : true,
-    	isAuthorized:true,
-    	
     	//当前登陆的用户名
         loginAgentName: typeof($cookieStore.get("loginAgentName")) == 'undefined' ? "" : $cookieStore.get("loginAgentName"),
-        agentid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
-        loginid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
-        identity:0,//身份 0一级代理商   1二级代理商 2普通用户  by yyb
-        city:1,
+        //代理商id
+        agentid: typeof($cookieStore.get("agentId")) == 'undefined' ? 0 : $cookieStore.get("agentId"),
+        //登录用户id
+		loginid: typeof($cookieStore.get("loginId")) == 'undefined' ? 0 : $cookieStore.get("loginId"),
+		//身份 1一级代理商   2二级代理商 3普通用户  by yyb
+		identity:typeof($cookieStore.get("identity")) == 'undefined' ? 0 : $cookieStore.get("identity"),
+        //代理商用户id
+        agentUserId:typeof($cookieStore.get("agentUserId")) == 'undefined' ? 0 : $cookieStore.get("agentUserId"),//
+		//城市
+        city:typeof($cookieStore.get("cityId")) == 'undefined' ? 0 : $cookieStore.get("cityId"),
+		//是否有分润
+		isHaveProfit:typeof($cookieStore.get("agentIsHaveProfit")) == 'undefined' ? 0 : $cookieStore.get("agentIsHaveProfit"),
+		//权限
+		machtigingen:typeof($cookieStore.get("machtigingen")) == 'undefined' ? 0 : $cookieStore.get("machtigingen"),
         goods: [],
         tradeTypeId: 0,
       //代理商登陆功能
@@ -43,15 +49,26 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        		   $cookieStore.remove("agentPass");
       			        	   }
       			        	   $cookieStore.put("loginAgentName",data.result.username);//用户名
-      			        	   $cookieStore.put("loginAgentId",data.result.id);//用户id
+      			        	   $cookieStore.put("loginId",data.result.id);//登陆用户id
       			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit);//是否有分润
       			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
       			        	   $cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
+      			        	   if(data.result.types=6){
+      			        		 $cookieStore.put("identity",3);
+      			        	   }else{
+      			        		 if(data.result.parent_id==0){
+      			        			 $cookieStore.put("identity",1);
+      			        		 }else{
+      			        			 $cookieStore.put("identity",2);
+      			        		 }
+      			        	   }
       			        	   $cookieStore.put("agentId",data.result.agentId);//代理商Id
+      			        	   $cookieStore.put("agentUserId",data.result.agentUserId);//代理商用户ID
+      			        	   $cookieStore.put("cityId",data.result.agentCityId);//代理商用户对应城市
+      			        	   $cookieStore.put("machtigingen",data.result.machtigingen);//权限
       			        	   //刷新
       			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   window.location.href = '#/';
-      			        	//location.reload();
       			           }
       			        }).error(function (data) {
       			        	$scope.message = "登陆异常！"
@@ -78,28 +95,6 @@ var loginService = function ($http, $rootScope, $cookieStore) {
             $("#resetPwd-success-msg").hide();
             $("#indexDiv").hide();
         },
-        
-        //创建订单传值
-        tomakeorder: function (val) {
-            var self = this;
-            self.goods=val;
-        },
-        //隐藏所有
-        hideAll: function () {
-        	$('#login').hide();
-    		$('#findPassOne').hide();
-    		$('#findPassTwo').hide();
-    		$('#findPassThree').hide();
-    		$('#retrieveHtml').hide();
-    		$('#emailRetrieveHtml').hide();
-    		$('#maintop').hide();
-    		$('#maintopTwo').hide();
-    		$('#headClear').hide();
-    		$('#shopmain').hide();
-    		$('#mainuser').hide();
-    		$('#mainindex').hide();
-        },
-       
         
         //检验当前是否为已登录状态，或Cookie中仍存在登陆记录
         checkAuthorization: function () {

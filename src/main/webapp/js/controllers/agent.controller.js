@@ -57,6 +57,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	$scope.query = function() {
 		var id = 15;
 		$scope.intDiff=0;
+		$scope.intMailDiff=0;
 		$http.post("api/agents/query/" + id).success(function(data) {
 			if (data.result != null) {
 				$scope.one = data.result;
@@ -85,7 +86,8 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	
 	//修改邮箱
 	$scope.up_save = function(){
-		var mail = document.getElementById("emailValue").value;
+//		var mail = document.getElementById("emailValue").value;
+		var mail=$scope.email;
 		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
 		if(!reg.test(mail)){
 			alert("请输入合法的邮箱地址");
@@ -259,18 +261,18 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	
 	//修改邮箱
 	$scope.up_email = function(){
-		console.log("修改邮箱 start==》》"+$scope.intDiff);
+		console.log("修改邮箱 start==》》"+$scope.intMailDiff);
 //		email_send_btn
-		if($scope.intDiff == 0){
-    		$scope.intDiff =120;
+		if($scope.intMailDiff == 0){
+			$scope.intMailDiff =120;
 			 v3 = window.setInterval(function(){
 				$('#email_send_btn').html();
-		    	if($scope.intDiff == 0){
+		    	if($scope.intMailDiff == 0){
 		    		$('#email_send_btn').html("修改邮箱");
 		    		clearInterval(v3);
 		    	}else{
-		    		$('#email_send_btn').html("等待（"+$scope.intDiff+"秒）");
-		    	    $scope.intDiff--;
+		    		$('#email_send_btn').html("等待（"+$scope.intMailDiff+"秒）");
+		    		$scope.intMailDiff--;
 		    	}
 		    }, 1000);
 				var email = $scope.one.email;

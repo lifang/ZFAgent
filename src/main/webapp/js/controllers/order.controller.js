@@ -19,7 +19,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 			customerId : LoginService.agentUserId,
 			search : $scope.search,
 			q : $scope.screen,
-			p : "1",//  1 批购 2 代购
+			p : "5",//  5 批购 3,4代购
 			page : $scope.indexPage,
 			rows : $scope.rows
 		};
@@ -40,7 +40,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 			customerId : LoginService.agentUserId,
 			search : $scope.search,
 			q : $scope.screen,
-			p : "1",//  1 批购 2 代购
+			p : "5",//   
 			page : $scope.indexPage,
 			rows : $scope.rows
 		};
@@ -55,7 +55,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.submitPage = function(){
-		$scope.req={customerId:LoginService.agentUserId,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"1",
+		$scope.req={customerId:LoginService.agentUserId,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"5",
 				rows:$scope.rows};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
 			if (data != null && data != undefined) {
@@ -157,7 +157,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 			customerId : LoginService.agentUserId,
 			search : $scope.search,
 			q : $scope.screen,
-			p : "2",//  1 批购 2 代购
+			p : "",//  默认 代购
 			page : $scope.indexPage,
 			rows : $scope.rows
 		};
@@ -178,7 +178,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 			customerId : LoginService.agentUserId,
 			search : $scope.search,
 			q : $scope.screen,
-			p : "2",//  1 批购 2 代购
+			p : "",//   
 			page : $scope.indexPage,
 			rows : $scope.rows
 		};
@@ -193,7 +193,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.submitPage = function(){
-		$scope.req={customerId:LoginService.agentUserId,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"2",
+		$scope.req={customerId:LoginService.agentUserId,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"",
 				rows:$scope.rows};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
 			if (data != null && data != undefined) {

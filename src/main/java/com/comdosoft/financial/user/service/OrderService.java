@@ -471,11 +471,19 @@ public class OrderService {
         List<Order> centers = null;
         List<Object> obj_list = null;
         String type = myOrderReq.getP(); 
-        if(null !=type && type.equals("1")){//  批购
+        if(null !=type && type.equals("5")){//  批购
         	count = orderMapper.countWholesaleOrder(myOrderReq);//批购查询
             centers = orderMapper.getWholesaleOrder(myOrderReq);
             obj_list = putWholesaleData(centers);//批购
-        }else  if(null !=type && type.equals("2")){//  代购
+        }else  if(null !=type && type.equals("4")){//  代理商代租赁
+        	count = orderMapper.countProxyOrder(myOrderReq);//代购查询
+        	centers = orderMapper.getProxyOrder(myOrderReq);
+        	obj_list = putProxyData(centers);//代购
+        }else  if(null !=type && type.equals("3")){//  代理商代购
+        	count = orderMapper.countProxyOrder(myOrderReq);//代购查询
+        	centers = orderMapper.getProxyOrder(myOrderReq);
+        	obj_list = putProxyData(centers);//代购
+        }else {//   
         	count = orderMapper.countProxyOrder(myOrderReq);//代购查询
         	centers = orderMapper.getProxyOrder(myOrderReq);
         	obj_list = putProxyData(centers);//代购

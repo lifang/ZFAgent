@@ -55,5 +55,8 @@ public interface LowerAgentMapper {
 	
 	int checkChannelById(LowerAgentReq req);
 	
+	String getParentAgentCode(LowerAgentReq req);
+	
+	List<Map<String,Object>> getChildAgentCode(LowerAgentReq req);
 	
 }

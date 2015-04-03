@@ -107,7 +107,7 @@
 		LEFT JOIN good_brands b on g.good_brands_id=b.id 
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
 		LEFT JOIN opening_applies l ON l.terminal_id = t.id
-		WHERE t.id=1
+		WHERE t.id=#{id}
  	</select>
  	
  	<select id="getMerchantsIsNo" resultType="map"  parameterType="map">

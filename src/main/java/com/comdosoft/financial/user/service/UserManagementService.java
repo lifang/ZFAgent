@@ -30,8 +30,11 @@ public class UserManagementService {
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getUser(int customerId){
-		return userManagementMapper.getUser(customerId);
+	public List<Map<String, Object>> getUser(int customerId,int status){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("customerId", customerId);
+		map.put("status", status);
+		return userManagementMapper.getUser(map);
 	}
 
 	/**

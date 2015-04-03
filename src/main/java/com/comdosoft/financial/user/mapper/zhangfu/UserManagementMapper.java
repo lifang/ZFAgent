@@ -18,7 +18,7 @@ public interface UserManagementMapper {
 	 * @param customerId
 	 * @return
 	 */
-	List<Map<String, Object>> getUser(int customerId);
+	List<Map<String, Object>> getUser(Map<Object, Object> map);
 	
 	/**
 	 * 删除用户与代理商之间的关联

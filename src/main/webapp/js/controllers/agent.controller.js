@@ -29,8 +29,18 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			return false;
 		}
 		
+		if (newPassword.length < 6){
+			alert("新密码长度至少为6位！");
+			return false;
+		}
+		
 		if(newPasswordAgain==null||newPasswordAgain==''){
 			alert("确认新密码不能为空！");
+			return false;
+		}
+		
+		if (newPasswordAgain.length < 6){
+			alert("确认新密码长度至少为6位！");
 			return false;
 		}
 		
@@ -69,6 +79,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	$scope.menuState = {
 		show : false
 	}
+	
 	$scope.toggleMenu = function() {
 		$scope.menuState.show = !$scope.menuState.show;
 	}

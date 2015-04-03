@@ -14,6 +14,7 @@ var addressController = function ($scope, $http, LoginService) {
 		}
 		// var agent_id = LoginService.userid;
 		$(".myInfoBox").hide();// 隐藏编辑区域
+		$("#addCheck").html("");
 		$scope.addressList();
 		
 		$http.post("api/index/getCity").success(function (data) {   
@@ -25,7 +26,20 @@ var addressController = function ($scope, $http, LoginService) {
 	
 	// 显示编辑区域
 	$scope.useNewAddr = function(){
-		$(".myInfoBox").show();
+		// var customer_id = LoginService.userid;
+		var customer_id = 1;
+		$http.post("api/address/countValidAddress/" + customer_id).success(function(data){
+			if(data.code == 1){
+				$(".myInfoBox").show();
+				$scope.selected = "";// 省份置空
+				$scope.selected_city = "";// 城市置空
+
+			} else {
+				$("#addCheck").html("每个账号最多拥有10条有效地址信息，请删除或修改原地址");
+			}
+		}).error(function(data){
+			
+		}); 
 	}
 	
 	// 清空选中
@@ -78,8 +92,8 @@ var addressController = function ($scope, $http, LoginService) {
 		$scope.selected_city = {
 			id : one.cityId,
 			name : one.city_name
-		}
-	}
+		};
+	};
 	
 	// 保存
 	$scope.save = function(){
@@ -88,6 +102,12 @@ var addressController = function ($scope, $http, LoginService) {
 			return false;
 		} else if (typeof($scope.selected_city) == "undefined"  || ($scope.selected_city) == ""  || ($scope.selected_city) == null){
 			alert("请选择城市");
+			return false;
+		} else if ($scope.address.address.length > 100){
+			alert("请填写正确的地址，最多50个汉字");
+			return false;
+		} else if ($scope.address.receiver.length > 16){
+			alert("最多支持8个汉字或16个字母");
 			return false;
 		} else {
 			if ($scope.address.id == undefined) {

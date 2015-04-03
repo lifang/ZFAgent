@@ -37,6 +37,7 @@ public class MessageReceiverController {
     @RequestMapping(value="getAll",method=RequestMethod.POST)
     public Response getAll(@RequestBody MyOrderReq myOrderReq){
 //        try{
+    		myOrderReq.setCustomerId(80);
             Page<Object> mrs= messageReceiverService.findAll(myOrderReq);
             return Response.getSuccess(mrs);
 //        }catch(NullPointerException e){

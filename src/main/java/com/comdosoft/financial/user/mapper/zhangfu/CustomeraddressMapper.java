@@ -3,8 +3,6 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 import java.util.List;
 import java.util.Map;
 
-import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
-
 /***
  * 收货地址
  * 
@@ -13,14 +11,6 @@ import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
  */
 
 public interface CustomeraddressMapper {
-
-	int insertadderss(CustomerAddress req);
-
-	Map<String, Object> queryaddress(int id);
-
-	int setisDefault(CustomerAddress cus);
-
-	void updateDefault(int oidDefault, int Default);
 
 	/**
 	 * 查询代理商收获地址
@@ -72,5 +62,13 @@ public interface CustomeraddressMapper {
 	 * @param param
 	 */
 	void setDefaultAddress(Map<Object, Object> param);
+
+	/**
+	 * 获得代理商所有有效的收获地址总数
+	 * 
+	 * @param id
+	 * @return
+	 */
+	int countValidAddress(int id);
 
 }

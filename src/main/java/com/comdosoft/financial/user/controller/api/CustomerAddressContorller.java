@@ -39,6 +39,26 @@ public class CustomerAddressContorller {
 	}
 
 	/**
+	 * 获取代理商有效收获地址总数
+	 * 
+	 * @param customer_id
+	 * @return
+	 */
+	@RequestMapping(value = "countValidAddress/{customer_id}", method = RequestMethod.POST)
+	public Response countValidAddress(@PathVariable int customer_id) {
+		Response response = new Response();
+		int total = customer_addresser_server.countValidAddress(customer_id);
+		if (total >= 10) {
+			response.setCode(Response.ERROR_CODE);
+			response.setResult(total);
+		} else {
+			response.setCode(Response.SUCCESS_CODE);
+			response.setResult(total);
+		}
+		return response;
+	}
+
+	/**
 	 * 插入收获地址
 	 * 
 	 * @param param

@@ -43,16 +43,12 @@ public class CustomeraddressService {
 		return customer_addressesMapper.deleteAddress(param);
 	}
 
-	public Map<String, Object> queryaddress(int id) {
-		return customer_addressesMapper.queryaddress(id);
-	}
-
 	/**
 	 * 修改收获地址
 	 * 
 	 * @param param
 	 */
-//	@Transactional(value = "transactionManager-zhangfu")
+	@Transactional(value = "transactionManager-zhangfu")
 	public void updateAddress(Map<Object, Object> param) {
 		int isDefault = Integer.parseInt(param.get("isDefault").toString());
 		if (isDefault == CustomerAddress.ISDEFAULT_1) {
@@ -73,6 +69,16 @@ public class CustomeraddressService {
 	}
 
 	/**
+	 * 获得代理商所有有用的收获地址
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public int countValidAddress(int id) {
+		return customer_addressesMapper.countValidAddress(id);
+	}
+
+	/**
 	 * 设置默认地址
 	 * 
 	 * @param param
@@ -85,8 +91,4 @@ public class CustomeraddressService {
 		customer_addressesMapper.setDefaultAddress(param);
 	}
 
-	public void updeteDefault(int oidDefault, int Default) {
-		// param.put("is_default", CustomerAddress.ISDEFAULT_2);
-		customer_addressesMapper.updateDefault(oidDefault, Default);
-	}
 }

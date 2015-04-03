@@ -24,9 +24,9 @@ var messageController = function($scope,$location, $http, LoginService) {
 	};
 	$scope.getlist=function(){
 		$scope.req.page=$scope.req.indexPage;
-		$http.post("api/message/receiver/getAll",$scop.req).success(function(data){
+		$http.post("api/message/receiver/getAll",$scope.req).success(function(data){
 			if (data.code == 1){
-				$scope.list=data.result.content;
+				$scope.list=data.result.list;
 				calcSystemPage($scope.req,data.result.total);
 			}
 		});

@@ -14,6 +14,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
         loginAgentName: typeof($cookieStore.get("loginAgentName")) == 'undefined' ? "" : $cookieStore.get("loginAgentName"),
         agentid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
         loginid:1,// typeof($cookieStore.get("loginAgentId")) == 'undefined' ? 0 : $cookieStore.get("loginAgentId"),
+        agentUserId:1,//代理商所对应用户Id
         identity:0,//身份 0一级代理商   1二级代理商 2普通用户  by yyb
         city:1,
         goods: [],

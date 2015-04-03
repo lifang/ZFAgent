@@ -296,7 +296,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 };
 
 var agentBinTerminalController = function ($scope, $http, LoginService) {
-	 $scope.customersId = Math.ceil(LoginService.loginid);
+	 $scope.customersId = Math.ceil(LoginService.agentUserId);
 	 // $scope.customersId = 80;
 	 $scope.butshow = true;//按钮切换
 	 $scope.binobject = {};//数据封装

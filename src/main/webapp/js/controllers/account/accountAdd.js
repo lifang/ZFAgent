@@ -15,15 +15,15 @@ var empAddController = function($scope, $http, $location, LoginService) {
 		if (typeof ($scope.customer.name) == "undefined" || $scope.customer.name == "") {
 			alert("姓名不能为空");
 			return false;
-		} else if($scope.customer.name.length > 20){
+		} else if(strlen($scope.customer.name) > 16){
 			alert("最多支持8个汉字或16个字母");
 			return false;
 		}
-
+		
 		if (typeof ($scope.customer.username) == "undefined" || $scope.customer.username == "") {
 			alert("登陆ID不能为空");
 			return false;
-		} else if($scope.customer.username.length > 40){
+		} else if(strlen($scope.customer.username) > 40){
 			alert("登陆ID最多填写40个字符或20 个汉字");
 			return false;
 		}

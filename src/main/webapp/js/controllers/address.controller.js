@@ -30,10 +30,14 @@ var addressController = function ($scope, $http, LoginService) {
 		var customer_id = 1;
 		$http.post("api/address/countValidAddress/" + customer_id).success(function(data){
 			if(data.code == 1){
-				$(".myInfoBox").show();
 				$scope.selected = "";// 省份置空
 				$scope.selected_city = "";// 城市置空
-
+				$("#address").val("");
+				$("#zipCode").val("");
+				$("#receiver").val("");
+				$("#moblephone").val("");
+				$("#telphone").val("");
+				$(".myInfoBox").show();
 			} else {
 				$("#addCheck").html("每个账号最多拥有10条有效地址信息，请删除或修改原地址");
 			}
@@ -97,19 +101,47 @@ var addressController = function ($scope, $http, LoginService) {
 	
 	// 保存
 	$scope.save = function(){
+		var zipCodeReg = /^[1-9][0-9]{5}$/;// 校验邮政编码
+		var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;// 校验手机号码
+		var phoneReg = /^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/;// 校验电话号码
 		if (typeof($scope.selected) == "undefined" || ($scope.selected) == "" || ($scope.selected) == null) { 
 			alert("请选择省份");
 			return false;
 		} else if (typeof($scope.selected_city) == "undefined"  || ($scope.selected_city) == ""  || ($scope.selected_city) == null){
 			alert("请选择城市");
 			return false;
-		} else if ($scope.address.address.length > 100){
+		} else if (typeof($scope.address.address) == "undefined" || $scope.address.address == "" || $scope.address.address == null){
+			alert("收获地址不能为空");
+			return false;
+		} else if (strlen($scope.address.address) > 100){
 			alert("请填写正确的地址，最多50个汉字");
 			return false;
-		} else if ($scope.address.receiver.length > 16){
+		} 
+		
+		if(typeof($scope.address.zipCode) != "undefined" && $scope.address.zipCode != "" && $scope.address.zipCode != null){
+			
+			if(!zipCodeReg.test($scope.address.zipCode)){
+				alert("请填写正确的邮政编码");
+				return false;
+			}
+		}
+		if (typeof($scope.address.receiver) == "undefined" || $scope.address.receiver == "" || $scope.address.receiver == null){
+			alert("收货人不能为空");
+			return false;
+		} else if (strlen($scope.address.receiver) > 16){
 			alert("最多支持8个汉字或16个字母");
 			return false;
-		} else {
+		} else if(!reg.test($scope.address.moblephone)) {
+			alert("请填写正确的手机号码");
+			return false;
+		} 
+		
+		if(typeof($scope.address.telphone) != "undefined" && $scope.address.telphone != "" && $scope.address.telphone != null) {
+			if($scope.address.telphone.length > 15) {
+				alert("最多支持15个数字");
+				return false;
+			}
+		}
 			if ($scope.address.id == undefined) {
 				$scope.address.cityId = $scope.selected_city.id;
 				// $scope.address.customerId = LoginService.userid;
@@ -140,7 +172,7 @@ var addressController = function ($scope, $http, LoginService) {
 
 				});
 			}
-		}
+		
 	}
 	
 	// 设置默认地址

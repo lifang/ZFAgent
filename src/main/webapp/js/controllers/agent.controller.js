@@ -120,7 +120,6 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	$scope.sendPhoneCode = function(){
 		var sMobile = $scope.i_phone_new; 
 		if($scope.intDiff == 0){
-			console.log("第二个  获取 验证码  开始");
 			$scope.getPhoneCode(sMobile);
 			$scope.intDiff = 120;
 			clearInterval(v2);
@@ -136,7 +135,6 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		    }, 1000);
 		}else{
 			alert("再次点击获取发送验证码时间未到");
-			console.log("第二个  获取 验证码   时间未到");
 		}
 	};
 
@@ -147,7 +145,6 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			if (data != null && data != undefined) {
 //				alert(data.result);
 				$scope.phone_code = data.result;
-				console.log("code ==>"+$scope.phone_code);
 			}
 		});
 	}
@@ -186,7 +183,6 @@ var modifypasswordController = function($scope, $http, LoginService) {
 				clearInterval(v1);
 				$scope.getPhoneCode(sMobile);
 				$scope.intDiff = 120;
-				console.log("确认获取验证码  开始倒计时" + $scope.intDiff);
 				v2 = window.setInterval(function(){
 					$('#show_phone_input_my_o_btn').html();
 			    	if($scope.intDiff == 0){
@@ -250,7 +246,6 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		}else if(t=2){//再次点击获取
 			if($scope.intDiff == 0){
 				$scope.intDiff =120;
-				console.log(t+"再次点击获取发送验证码");
 				v1= window.setInterval(function(){
 					$('#send_code_one').html();
 			    	if($scope.intDiff == 0){
@@ -265,14 +260,12 @@ var modifypasswordController = function($scope, $http, LoginService) {
 				$scope.getPhoneCode(sMobile);
 			}else{
 				alert("再次点击获取发送验证码时间未到");
-				console.log(t+"再次点击获取发送验证码时间未到");
 			}
 		}
 	};
 	
 	//修改邮箱
 	$scope.up_email = function(){
-		console.log("修改邮箱 start==》》"+$scope.intMailDiff);
 //		email_send_btn
 		if($scope.intMailDiff == 0){
 			$scope.intMailDiff =120;

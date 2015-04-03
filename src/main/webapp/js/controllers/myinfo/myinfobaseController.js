@@ -28,7 +28,6 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 		 $scope.selected_city={};
 		 $http.post("api/customers/findCustById", $scope.req).success(function (data) {
 			if (data.code == 1) {
-				console.log("根据id获取用户信息"+data.result.parent_id);
 				$scope.customer = data.result;
 				$scope.customer.i_phone =data.result.phone;
 				$scope.customer.i_email =data.result.email;
@@ -85,7 +84,6 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 	$scope.sendPhoneCode = function(){
 		var sMobile = $scope.i_phone_new; 
 		if($scope.intDiff == 0){
-			console.log("第二个  获取 验证码  开始");
 			$scope.getPhoneCode(sMobile);
 			$scope.intDiff = 120;
 			clearInterval(v2);
@@ -100,7 +98,6 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 		    	}
 		    }, 1000);
 		}else{
-			console.log("第二个  获取 验证码   时间未到");
 		}
 	};
  
@@ -112,7 +109,6 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 			$scope.phone_code_i_o = "";
 			$scope.i_phone_new = "";
 			$scope.i_phone_code = "";
-//			console.log(t+"第一次发送验证码");
 //			 v1= window.setInterval(function(){
 //				$('#send_code_one').html();
 //		    	if($scope.intDiff == 0){
@@ -128,7 +124,6 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 		}else if(t=2){//再次点击获取
 			if($scope.intDiff == 0){
 				$scope.intDiff =120;
-				console.log(t+"再次点击获取发送验证码");
 				v1= window.setInterval(function(){
 					$('#send_code_one').html();
 			    	if($scope.intDiff == 0){
@@ -153,7 +148,6 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 		$http.post("api/index/getPhoneCode",$scope.req).success(function (data) {   
 			if (data != null && data != undefined) {
 				$scope.phone_code = data.result;
-				console.log("code ==>"+$scope.phone_code);
 			}
 		});
 	}
@@ -192,7 +186,6 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 				clearInterval(v1);
 				$scope.getPhoneCode(sMobile);
 				$scope.intDiff = 120;
-				console.log("确认获取验证码  开始倒计时" + $scope.intDiff);
 				v2 = window.setInterval(function(){
 					$('#show_phone_input_my_o_btn').html();
 			    	if($scope.intDiff == 0){
@@ -232,7 +225,6 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 	
 	//修改邮箱
 	$scope.up_email = function(){
-		console.log("修改邮箱 start==》》"+$scope.intDiff);
 //		email_send_btn
 		if($scope.intDiff == 0){
     		$scope.intDiff =120;

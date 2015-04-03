@@ -28,7 +28,7 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
  *
  */
 @RestController
-@RequestMapping(value = "ZFAgent")
+@RequestMapping(value = "api/user")
 public class UserManagementController {
 	private static final Logger logger = Logger
 			.getLogger(UserManagementController.class);

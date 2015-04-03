@@ -67,11 +67,8 @@
 				</dl>
 				<dl>
 					<dt>订单类型：</dt>
-					<dd ng-if="o.order_type==1">用户订购</dd> 
-						<dd ng-if="o.order_type==2">用户租赁</dd> 
 						<dd ng-if="o.order_type==3">代理商代购</dd> 
 						<dd ng-if="o.order_type==4">代理商代租赁</dd> 
-						<dd ng-if="o.order_type==5">代理商批购 </dd> 
 					<dt>订单编号：</dt>
 					<dd>{{o.order_number}}</dd>
 				</dl>
@@ -81,7 +78,7 @@
 				</dl>
 				<dl>
 					<dt>代购用户：</dt>
-					<dd>{{o.order_createTime}}</dd>
+					<dd>{{o.guishu_user}}</dd>
 				</dl>
 				<dl>
 					<dt>支付类型：</dt>
@@ -93,10 +90,10 @@
 				</dl>
 				<dl>
 					<dt>订单原金额：</dt>
-					<dd class="line_through">{{o.order_oldprice/100 |currency : "￥"}}</dd>
+					<dd class="line_through">{{o.order_oldPrice/100 |currency : "￥"}}</dd>
 					<dt>订单金额：</dt>
 					<dd>
-						<strong>{{o.order_totalprice/100 |currency : "￥"}}</strong>
+						<strong>{{o.order_totalPrice/100 |currency : "￥"}}</strong>
 					</dd>
 				</dl>
 			</div>
@@ -104,25 +101,28 @@
 		<div class="uesr_table">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
 				<colgroup>
-					<col width="300" />
 					<col />
-					<col />
-					<col />
-					<col />
+                     <col width="70" />
+                     <col width="60" />
+                     <col width="70" />
+                     <col width="130" />
+                     <col width="160" />
+                     <col width="180" />
+                     <col />
 				</colgroup>
 				<thead>
 					<tr>
-						<th>商品</th>
-						<th>单价</th>
-						<th>数量</th>
-						<th>总金额</th>
-						<th>操作</th>
+					 <th>商品</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                            <th>金额</th>
+                            <th>已发货数量</th>
+                            <th>操作</th>
 					</tr>
 				</thead>
 				<tbody ng-if="o.order_goods_size>1">
 
 					<tr ng-repeat="g in  o.order_goodsList ">
-					<input type="hidden" value="{{g.good_name}}" name="g_name" ng-model="g_name" id="g_name">
 						<td>
 							<div class="td_proBox clear">
 								<a href="#/shopinfo?goodId={{g.good_id}}" class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
@@ -143,6 +143,7 @@
 						<td><strong>{{g.good_price/100 |currency : "￥"}} </strong></td>
 						<td>{{g.good_num}}</td>
 						<td ng-if="$index==0" rowspan="{{o.order_goods_size}}" class="left_border"><strong>{{o.order_totalPrice/100 |currency : "￥"}} </strong></td>
+						<td>{{o.shipped_quantity}}</td>
 						<td ng-if="$index==0" rowspan="{{o.order_goods_size}}"><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="o.order_status==1">付款</a> 
 						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"  ng-if="o.order_status==1" class="a_btn">取消</a>
 					<!-- 	 <a class="a_btn starGrade_a" ng-if="o.order_status==3" href="#/ordermark?orderId={{o.order_id}}">评价</a> -->
@@ -156,7 +157,6 @@
 				<tbody ng-if="o.order_goods_size==1">
 
 					<tr ng-repeat="g in  o.order_goodsList ">
-					<input type="hidden" value="{{g.good_name}}" name="g_name" ng-model="g_name" id="g_name">
 						<td>
 							<div class="td_proBox clear">
 								<a href="#/shopinfo?goodId={{g.good_id}}" class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
@@ -176,8 +176,8 @@
 						</td>
 						<td><strong>{{g.good_price/100 | currency : "￥"}} </strong></td>
 						<td>{{g.good_num}}</td>
-					
 						<td  ><strong>{{o.order_totalPrice/100 | currency : "￥"}} </strong></td>
+						<td>{{o.shipped_quantity}}</td>
 						<td  ><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="o.order_status==1">付款</a> 
 						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"  ng-if="o.order_status==1" class="a_btn">取消</a>
 				<!-- 		 <a class="a_btn starGrade_a" ng-if="o.order_status==3"  href="#/ordermark?orderId={{o.order_id}}">评价</a> -->

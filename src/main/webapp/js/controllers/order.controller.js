@@ -5,7 +5,7 @@ var wholesaleOrderModule = angular.module("wholesaleOrderModule",[]);
 
 var wholesaleOrderController = function ($scope, $http, LoginService) {
 //	$("#leftRoute").show();
-//	if(LoginService.agentid == 0){
+//	if(LoginService.agentUserId == 0){
 //		window.location.href = '#/login';
 //	}else{
 //		//显示用户登录部分
@@ -16,7 +16,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	$scope.submitSearch = function(){
 //		initSystemPage($scope);// 初始化分页参数
 		$scope.req = {
-			customerId : LoginService.agentid,
+			customerId : LoginService.agentUserId,
 			search : $scope.search,
 			q : $scope.screen,
 			p : "1",//  1 批购 2 代购
@@ -37,7 +37,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	$scope.submitScreen = function(){
 		initSystemPage($scope);// 初始化分页参数
 		$scope.req = {
-			customerId : LoginService.agentid,
+			customerId : LoginService.agentUserId,
 			search : $scope.search,
 			q : $scope.screen,
 			p : "1",//  1 批购 2 代购
@@ -55,7 +55,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.submitPage = function(){
-		$scope.req={customerId:LoginService.agentid,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"1",
+		$scope.req={customerId:LoginService.agentUserId,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"1",
 				rows:$scope.rows};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
 			if (data != null && data != undefined) {
@@ -70,7 +70,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	//订单列表
 	$scope.orderlist = function () {
 		initSystemPage($scope);// 初始化分页参数
-        $scope.req={customerId:LoginService.agentid,
+        $scope.req={customerId:LoginService.agentUserId,
         		page:$scope.indexPage,
         		rows:$scope.rows};
         $http.post("api/order/getWholesaleOrder", $scope.req).success(function (data) {  //绑定
@@ -143,7 +143,7 @@ var proxyOrderModule = angular.module("proxyOrderModule",[]);
 
 var proxyOrderController = function ($scope, $http, LoginService) {
 	$("#leftRoute").show();
-	if(LoginService.agentid == 0){
+	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';
 	}else{
 		//显示用户登录部分
@@ -154,7 +154,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 	$scope.submitSearch = function(){
 		initSystemPage($scope);// 初始化分页参数
 		$scope.req = {
-			customerId : LoginService.agentid,
+			customerId : LoginService.agentUserId,
 			search : $scope.search,
 			q : $scope.screen,
 			p : "2",//  1 批购 2 代购
@@ -175,7 +175,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 	$scope.submitScreen = function(){
 //		initSystemPage($scope);// 初始化分页参数
 		$scope.req = {
-			customerId : LoginService.agentid,
+			customerId : LoginService.agentUserId,
 			search : $scope.search,
 			q : $scope.screen,
 			p : "2",//  1 批购 2 代购
@@ -193,7 +193,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.submitPage = function(){
-		$scope.req={customerId:LoginService.agentid,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"2",
+		$scope.req={customerId:LoginService.agentUserId,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"2",
 				rows:$scope.rows};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
 			if (data != null && data != undefined) {
@@ -208,7 +208,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 	//订单列表
 	$scope.orderlist = function () {
 		initSystemPage($scope);// 初始化分页参数
-        $scope.req={customerId:LoginService.agentid,
+        $scope.req={customerId:LoginService.agentUserId,
         		page:$scope.indexPage,
         		rows:$scope.rows};
         $http.post("api/order/getProxyOrder", $scope.req).success(function (data) {  //绑定

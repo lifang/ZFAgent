@@ -7,12 +7,12 @@
 				<p>我们向您原登记的手机发送了短信验证码，请输入您收到的验证码与需要更换的新手机号码。如原登记手机己无法收取短信，可通过拨打客服热线400-009-876进行变更手机号码的操作</p>
 				<ul>
 					<li><input name="phone_code_i_o" type="text"
-						ng-model="phone_code_i_o" value="验证码" maxlength="6" title="请输入验证码" /><a
-						href="javascript:void(0)" ng-click="send_code_one(2)"
-						id="send_code_one"></a></li>
+						ng-model="phone_code_i_o" placeholder="验证码" maxlength="6"
+						title="请输入验证码" /><a href="javascript:void(0)"
+						ng-click="send_code_one(2)" id="send_code_one"></a></li>
 					<li><input name="i_phone_new" id="i_phone_new"
-						ng-model="i_phone_new" type="text" maxlength="11" value="新手机号码"
-						title="请输入新手机号" /></li>
+						ng-model="i_phone_new" placeholder="新手机号" type="text"
+						maxlength="11" value="新手机号码" title="请输入新手机号" /></li>
 				</ul>
 			</div>
 		</div>
@@ -30,7 +30,7 @@
 				<p>我们已向您的新手机号码发送了短信验证码，请输入收到的验证码，完成最后一步操作。</p>
 				<ul>
 					<li><input name="i_phone_code" type="text"
-						ng-model="i_phone_code" maxlength="6" /><a
+						ng-model="i_phone_code" placeholder="验证码" maxlength="6" /><a
 						href="javascript:void(0)" id="show_phone_input_my_o_btn"
 						ng-click="sendPhoneCode()"> </a></li>
 				</ul>
@@ -41,7 +41,6 @@
 				ng-click="change_phone_btn()">确定</button>
 		</div>
 	</div>
-	<script src="js/main.js"></script>
 	<div class="tab" id="email_send_tab">
 		<a href="javascript:void(0);" class="close" ng-click="colose_email()">关闭</a>
 		<div class="tabBody">
@@ -57,7 +56,7 @@
 		<ul>
 			<li><a href="#/myinfobase">系统设定</a></li>
 			<li><a href="#/myinfobase">代理商资料</a></li>
-			<li><a href="#/myinfobase">基本信息</a></li>
+			<li><a href="javascript:void(0);">基本信息</a></li>
 		</ul>
 	</div>
 	<div class="content clear">

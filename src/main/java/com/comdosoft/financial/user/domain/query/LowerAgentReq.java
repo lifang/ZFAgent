@@ -81,8 +81,18 @@ public class LowerAgentReq {
     private String taxPhotoPath;
     //公司税务登记证号
     private String taxNumStr;
+    private String code;
     
-    public int getAgentsId() {
+    
+    public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public int getAgentsId() {
 		return agentsId;
 	}
 

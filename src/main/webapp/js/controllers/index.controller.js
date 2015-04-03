@@ -13,81 +13,68 @@ var indexController = function($scope, $location, $http, LoginService,
 	$scope.init=function(){
 		var identity=$scope.identity;
 		//var identity=2;
-		if(identity==0){
+		$scope.menu1=true;
+		$scope.menu2=true;
+		$scope.menu3=true;
+		$scope.menu4=true;
+		$scope.menu5=true;
+		$scope.menu6=true;
+		$scope.menu7=true;
+		$scope.menu8=true;
+		$scope.menu9=true;
+		if(identity==1){
 			//一级代理商权限菜单
-			$scope.menu1=true;
-			$scope.menu2=true;
-			$scope.menu3=true;
-			$scope.menu4=true;
-			$scope.menu5=true;
-			$scope.menu6=true;
-			$scope.menu7=true;
-			$scope.menu8=true;
-			$scope.menu9=true;
-			$scope.menu10=true;
-			$scope.menu11=true;
-			$scope.menu12=true;
-		}else if(identity==1){
-			//二级代理商权限菜单
-			$scope.menu1=true;
-			$scope.menu2=true;
-			$scope.menu3=false;//代购
-			$scope.menu4=false;//批购
-			$scope.menu5=true;
-			$scope.menu6=true;
-			$scope.menu7=true;
-			$scope.menu8=true;
-			$scope.menu9=true;
-			$scope.menu10=true;
-			$scope.menu11=true;
-			$scope.menu12=true;
 		}else if(identity==2){
+			//二级代理商权限菜单
+			$scope.menu1=false;//代购
+			$scope.menu2=false;//批购
+		}else if(identity==3){
+			$scope.menu1=false;
+			$scope.menu2=false;
+			$scope.menu3=false;
+			$scope.menu4=false;
+			$scope.menu5=false;
+			$scope.menu6=false;
+			$scope.menu7=false;
+			$scope.menu8=false;
+			$scope.menu9=false;
+			$scope.machtigingen=LoginService.machtigingen;
+			if($scope.machtigingen.length>0){
+				for(var i=0;i<$scope.machtigingen.length;i++){
+            		if($scope.machtigingen[i]=="1"){
+            			$scope.menu1=true;
+            		}else if($scope.machtigingen[i]=="2"){
+            			$scope.menu2=true;
+            		}else if($scope.machtigingen[i]=="3"){
+            			$scope.menu3=true;
+            		}else if($scope.machtigingen[i]=="4"){
+            			$scope.menu4=true;
+            		}else if($scope.machtigingen[i]=="5"){
+            			$scope.menu5=true;
+            		}else if($scope.machtigingen[i]=="6"){
+            			$scope.menu6=true;
+            		}else if($scope.machtigingen[i]=="7"){
+            			$scope.menu7=true;
+            		}else if($scope.machtigingen[i]=="8"){
+            			$scope.menu8=true;
+            		}else if($scope.machtigingen[i]=="9"){
+            			$scope.menu9=true;
+            		}
+            	}
+			}
+			
 			//普通用户
-			$http.post("api/index/getRoles", $scope.agentId).success(function (data) {  //绑定
-	            if (data.code==1) {
-	            	var rolesStr=data.result;
-	            	var roles=rolesStr.split(",");
-	            	$scope.menu1=false;
-	    			$scope.menu2=false;
-	    			$scope.menu3=false;
-	    			$scope.menu4=false;
-	    			$scope.menu5=false;
-	    			$scope.menu6=false;
-	    			$scope.menu7=false;
-	    			$scope.menu8=false;
-	    			$scope.menu9=false;
-	    			$scope.menu10=false;
-	    			$scope.menu11=false;
-	    			$scope.menu12=false;
-	            	for(var i=0;i<roles.length;i++){
-	            		if(roles[i]=="1"){
-	            			$scope.menu1=true;
-	            		}else if(roles[i]=="2"){
-	            			$scope.menu2=true;
-	            		}else if(roles[i]=="3"){
-	            			$scope.menu3=true;
-	            		}else if(roles[i]=="4"){
-	            			$scope.menu4=true;
-	            		}else if(roles[i]=="5"){
-	            			$scope.menu5=true;
-	            		}else if(roles[i]=="6"){
-	            			$scope.menu6=true;
-	            		}else if(roles[i]=="7"){
-	            			$scope.menu7=true;
-	            		}else if(roles[i]=="8"){
-	            			$scope.menu8=true;
-	            		}else if(roles[i]=="9"){
-	            			$scope.menu9=true;
-	            		}else if(roles[i]=="10"){
-	            			$scope.menu10=true;
-	            		}else if(roles[i]=="11"){
-	            			$scope.menu11=true;
-	            		}else if(roles[i]=="12"){
-	            			$scope.menu12=true;
-	            		}
-	            	}
-	            }
-	        });
+				/**
+				 * {"code":1,"message":"处理成功","result":
+				 * {"phone":"12347829384","cityId":383,"status":2,
+				 * "machtigingen":[{"role_id":1},{"role_id":2},{"role_id":3},{"role_id":4},{"role_id":5},{"role_id":6},{"role_id":7}],
+				 * "agentUserId":1,"agentId":1,"integral":0,"id":1,"updatedAt":"2015-3-16","username":"admin","lastLoginedAt":"2015-4-03",
+				 * "email":"1242@qq.com","agentCityId":383,"createdAt":"2015-2-03","name":"zhangsan","accountType":0,
+				 * "is_have_profit":true,"types":2,"parent_id":0}}
+				 * 
+				 * 
+				 * 
+				 */
 		}
 	}
 	$scope.init();
@@ -98,17 +85,31 @@ var indexController = function($scope, $location, $http, LoginService,
 
 		if (strs.length == 2) {
 			strs = strs[1].split("?");
-				if (check(strs[0])) {
-					// alert("check(strs[0]) == " + check(strs[0]));
-					$scope.right = false;
+			    if(checkLogin(strs[0])){
+			    	$scope.right = false;
 					$scope.shop = true;
-				} else {
+			    }else{
+			    	if(LoginService.loginid>0&&LoginService.agentid>0){
+			    		if (check(strs[0])) {
+							// alert("check(strs[0]) == " + check(strs[0]));
+							$scope.right = false;
+							$scope.shop = true;
+						} else {
+							$scope.right = true;
+							$scope.shop = false;
+						}
+					}else{
+						window.location.href="#/login";
+					}
+			    }
+			} else {
+				if(LoginService.loginid>0&&LoginService.agentid>0){
 					$scope.right = true;
 					$scope.shop = false;
+				}else{
+					window.location.href="#/login";
 				}
-			} else {
-				$scope.right = true;
-				$scope.shop = false;
+				
 			}
     });
 	
@@ -116,6 +117,17 @@ var indexController = function($scope, $location, $http, LoginService,
 		// alert(str + "====index.controller");
 		var arry = [ "shop", "shopinfo", "purchaseShop", "purchaseShopinfo",'login','register','findpass','findpassEmail',
 		             "shopmakeorder","leasemakeorder","purchasemakeorder", "pay", "lowstocks" ];
+		for (var i = 0; i < arry.length; i++) {
+			if (str == arry[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	var checkLogin = function(str) {
+		// alert(str + "====index.controller");
+		var arry = [ "login" ];
 		for (var i = 0; i < arry.length; i++) {
 			if (str == arry[i]) {
 				return true;

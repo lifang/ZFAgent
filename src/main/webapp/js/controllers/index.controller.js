@@ -13,7 +13,7 @@ var indexController = function($scope, $location, $http, LoginService,
 	$scope.init=function(){
 		var identity=$scope.identity;
 		//var identity=2;
-		if(identity==0){
+		if(identity==1){
 			//一级代理商权限菜单
 			$scope.menu1=true;
 			$scope.menu2=true;
@@ -27,7 +27,7 @@ var indexController = function($scope, $location, $http, LoginService,
 			$scope.menu10=true;
 			$scope.menu11=true;
 			$scope.menu12=true;
-		}else if(identity==1){
+		}else if(identity==2){
 			//二级代理商权限菜单
 			$scope.menu1=true;
 			$scope.menu2=true;
@@ -41,7 +41,7 @@ var indexController = function($scope, $location, $http, LoginService,
 			$scope.menu10=true;
 			$scope.menu11=true;
 			$scope.menu12=true;
-		}else if(identity==2){
+		}else if(identity==3){
 			//普通用户
 			$http.post("api/index/getRoles", $scope.agentId).success(function (data) {  //绑定
 	            if (data.code==1) {

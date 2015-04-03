@@ -70,6 +70,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	 location.reload();
       			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   window.location.href = '#/';
+      			        	 location.reload();
       			           }
       			        }).error(function (data) {
       			        	$scope.message = "登陆异常！"

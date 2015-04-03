@@ -21,7 +21,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
 		//是否有分润
 		isHaveProfit:typeof($cookieStore.get("agentIsHaveProfit")) == 'undefined' ? 0 : $cookieStore.get("agentIsHaveProfit"),
 		//权限
-		machtigingen:typeof($cookieStore.get("machtigingen")) == 'undefined' ? 0 : $cookieStore.get("machtigingen"),
+		machtigingen:typeof($cookieStore.get("machtigingen")) == 'undefined' ? [] : $cookieStore.get("machtigingen"),
         goods: [],
         tradeTypeId: 0,
       //代理商登陆功能

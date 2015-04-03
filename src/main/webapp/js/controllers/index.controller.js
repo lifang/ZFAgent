@@ -24,32 +24,45 @@ var indexController = function($scope, $location, $http, LoginService,
 		$scope.menu9=true;
 		if(identity==1){
 			//一级代理商权限菜单
-			$scope.menu1=true;
-			$scope.menu2=true;
-			$scope.menu3=true;
-			$scope.menu4=true;
-			$scope.menu5=true;
-			$scope.menu6=true;
-			$scope.menu7=true;
-			$scope.menu8=true;
-			$scope.menu9=true;
-			$scope.menu10=true;
-			$scope.menu11=true;
-			$scope.menu12=true;
 		}else if(identity==2){
 			//二级代理商权限菜单
-			$scope.menu3=false;//代购
-			$scope.menu4=false;//批购
-			$scope.menu5=true;
-			$scope.menu6=true;
-			$scope.menu7=true;
-			$scope.menu8=true;
-			$scope.menu9=true;
-			$scope.menu10=true;
-			$scope.menu11=true;
-			$scope.menu12=true;
+			$scope.menu1=false;//代购
+			$scope.menu2=false;//批购
 		}else if(identity==3){
-		}else if(identity==2){
+			$scope.menu1=false;
+			$scope.menu2=false;
+			$scope.menu3=false;
+			$scope.menu4=false;
+			$scope.menu5=false;
+			$scope.menu6=false;
+			$scope.menu7=false;
+			$scope.menu8=false;
+			$scope.menu9=false;
+			$scope.machtigingen=LoginService.machtigingen;
+			if($scope.machtigingen.length>0){
+				for(var i=0;i<$scope.machtigingen.length;i++){
+            		if($scope.machtigingen[i]=="1"){
+            			$scope.menu1=true;
+            		}else if($scope.machtigingen[i]=="2"){
+            			$scope.menu2=true;
+            		}else if($scope.machtigingen[i]=="3"){
+            			$scope.menu3=true;
+            		}else if($scope.machtigingen[i]=="4"){
+            			$scope.menu4=true;
+            		}else if($scope.machtigingen[i]=="5"){
+            			$scope.menu5=true;
+            		}else if($scope.machtigingen[i]=="6"){
+            			$scope.menu6=true;
+            		}else if($scope.machtigingen[i]=="7"){
+            			$scope.menu7=true;
+            		}else if($scope.machtigingen[i]=="8"){
+            			$scope.menu8=true;
+            		}else if($scope.machtigingen[i]=="9"){
+            			$scope.menu9=true;
+            		}
+            	}
+			}
+			
 			//普通用户
 				/**
 				 * {"code":1,"message":"处理成功","result":

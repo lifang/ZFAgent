@@ -69,8 +69,6 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   //刷新
       			        	  location.reload();
       			        	   $scope.message = data.message; //登陆成功，跳转页面
-      			        	  
-      			        	 //location.replace('#/');
       			           }
       			        }).error(function (data) {
       			        	$scope.message = "登陆异常！"

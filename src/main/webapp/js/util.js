@@ -47,6 +47,6 @@ function strlen(str) {
 			len += 2;
 		}
 	}
-	alert(len);
+	// alert(len);
 	return len;
 }

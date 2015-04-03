@@ -41,23 +41,23 @@ var indexController = function($scope, $location, $http, LoginService,
 			$scope.machtigingen=LoginService.machtigingen;
 			if($scope.machtigingen.length>0){
 				for(var i=0;i<$scope.machtigingen.length;i++){
-            		if($scope.machtigingen[i]=="1"){
+            		if($scope.machtigingen[i].role_id=="1"){
             			$scope.menu1=true;
-            		}else if($scope.machtigingen[i]=="2"){
+            		}else if($scope.machtigingen[i].role_id=="2"){
             			$scope.menu2=true;
-            		}else if($scope.machtigingen[i]=="3"){
+            		}else if($scope.machtigingen[i].role_id=="3"){
             			$scope.menu3=true;
-            		}else if($scope.machtigingen[i]=="4"){
+            		}else if($scope.machtigingen[i].role_id=="4"){
             			$scope.menu4=true;
-            		}else if($scope.machtigingen[i]=="5"){
+            		}else if($scope.machtigingen[i].role_id=="5"){
             			$scope.menu5=true;
-            		}else if($scope.machtigingen[i]=="6"){
+            		}else if($scope.machtigingen[i].role_id=="6"){
             			$scope.menu6=true;
-            		}else if($scope.machtigingen[i]=="7"){
+            		}else if($scope.machtigingen[i].role_id=="7"){
             			$scope.menu7=true;
-            		}else if($scope.machtigingen[i]=="8"){
+            		}else if($scope.machtigingen[i].role_id=="8"){
             			$scope.menu8=true;
-            		}else if($scope.machtigingen[i]=="9"){
+            		}else if($scope.machtigingen[i].role_id=="9"){
             			$scope.menu9=true;
             		}
             	}

@@ -20,9 +20,10 @@
 			c.city_id as cityId,c.types,date_format(c.last_logined_at,'%Y-%c-%d') as lastLoginedAt,
  			c.integral as integral,c.status,c.device_code as deviceCode,
 			date_format(c.created_at,'%Y-%c-%d') as createdAt,date_format(c.updated_at,'%Y-%c-%d') as updatedAt,
-			c.phone,c.email ,c.types,a.id as agentId,a.parent_id,a.is_have_profit
+			c.phone,c.email ,c.types,a.id as agentId,a.parent_id,a.is_have_profit,a.customer_id as agentUserId,u.city_id as agentCityId
  		FROM customers c 
 		LEFT JOIN agents a ON a.customer_id = c.id
+		LEFT JOIN customers u ON u.id = a.customer_id
  		WHERE c.username=#{username} and c.password=#{password} and c.types in (#{types},#{statusEnd}) and c.status=#{status}
  	</select>
  	
@@ -31,10 +32,11 @@
 			c.city_id as cityId,c.types,date_format(c.last_logined_at,'%Y-%c-%d') as lastLoginedAt,
  			c.integral as integral,c.status,c.device_code as deviceCode,
 			date_format(c.created_at,'%Y-%c-%d') as createdAt,date_format(c.updated_at,'%Y-%c-%d') as updatedAt,
-			c.phone,c.email ,c.types,a.id as agentId,a.parent_id,a.is_have_profit
+			c.phone,c.email ,c.types,a.id as agentId,a.parent_id,a.is_have_profit,a.customer_id as agentUserId,u.city_id as agentCityId
  		FROM customers c 
 		LEFT JOIN customer_agent_relations r ON r.customer_id = c.id
 		LEFT JOIN agents a ON a.id = r.agent_id
+		LEFT JOIN customers u ON u.id = a.customer_id
  		WHERE c.username=#{username} and c.password=#{password} and c.types in (#{types},#{statusEnd}) and c.status=#{status}
  	</select>
  	<select id="isAgentOrPerson"  parameterType="string" resultType="map">

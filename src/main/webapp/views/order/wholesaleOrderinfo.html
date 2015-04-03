@@ -116,13 +116,11 @@
 						<th>单价</th>
 						<th>数量</th>
 						<th>总金额</th>
-						<th>操作</th>
+						<th>已发货数量</th>
 					</tr>
 				</thead>
 				<tbody ng-if="orderInfo.order_goods_size>1">
-
 					<tr ng-repeat="g in  orderInfo.order_goodsList ">
-					<input type="hidden" value="{{g.good_name}}" name="g_name" ng-model="g_name" id="g_name">
 						<td>
 							<div class="td_proBox clear">
 								<a href="#/shopinfo?goodId={{g.good_id}}" class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
@@ -143,20 +141,11 @@
 						<td><strong>{{g.good_batch_price/100 |currency : "￥"}} </strong><p class="original">零售价：{{g.good_price/100 |currency : "￥"}} </p></td>
 						<td ng-if="$index==0" rowspan="{{orderInfo.order_goods_size}}" class="left_border">{{orderInfo.total_quantity}}</td>
 						<td ng-if="$index==0" rowspan="{{orderInfo.order_goods_size}}"  ><strong>{{orderInfo.order_totalPrice/100 |currency : "￥"}} </strong></td>
-						<td ng-if="$index==0" rowspan="{{orderInfo.order_goods_size}}"><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="o.order_status==1">付款</a> 
-						<a href="javascript:void(0)" ng-click="cancelApply(orderInfo.order_id)"  ng-if="orderInfo.order_status==1" class="a_btn">取消</a>
-					<!-- 	 <a class="a_btn starGrade_a" ng-if="o.order_status==3" href="#/ordermark?orderId={{o.order_id}}">评价</a> -->
-						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==2" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==3" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==4" class="a_btn">查看终端号</a>
-						 </td>
-						 
+						<td ng-if="$index==0" rowspan="{{orderInfo.order_goods_size}}"> {{orderInfo.shipped_quantity}} </td>
 					</tr>
 				</tbody>
 				<tbody ng-if="orderInfo.order_goods_size==1">
-
 					<tr ng-repeat="g in  orderInfo.order_goodsList ">
-					<input type="hidden" value="{{g.good_name}}" name="g_name" ng-model="g_name" id="g_name">
 						<td>
 							<div class="td_proBox clear">
 								<a href="#/shopinfo?goodId={{g.good_id}}" class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
@@ -177,13 +166,7 @@
 						<td><strong>{{g.good_batch_price/100 |currency : "￥"}} </strong><p class="original">零售价：{{g.good_price/100 |currency : "￥"}} </p></td>
 						<td>{{orderInfo.total_quantity}}</td>
 						<td  ><strong>{{orderInfo.order_totalPrice/100 |currency : "￥"}} </strong></td>
-						<td  ><a href="javascript:void(0);" ng-click="topay(orderInfo)" class="a_btn" ng-if="orderInfo.order_status==1">付款</a> 
-						<a href="javascript:void(0)" ng-click="cancelApply(orderInfo.order_id)"  ng-if="orderInfo.order_status==1" class="a_btn">取消</a>
-				<!-- 		 <a class="a_btn starGrade_a" ng-if="o.order_status==3"  href="#/ordermark?orderId={{o.order_id}}">评价</a> -->
-						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==2" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==3" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(orderInfo)" ng-if="orderInfo.order_status==4" class="a_btn">查看终端号</a>
-						 </td>
+						<td  > {{orderInfo.shipped_quantity}} </td>
 					</tr>
 				</tbody>
 			</table>

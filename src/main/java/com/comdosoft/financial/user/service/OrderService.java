@@ -285,13 +285,13 @@ public class OrderService {
                 quantity = quantity+q;
             }
         }
+        map.put("shipped_quantity", quantity+"");//已发货数量
         map.put("pay_status", pay_status+"");
         map.put("order_totalPrice", o.getActualPrice()==null?"":o.getActualPrice()+"");//总共金额
         map.put("order_oldPrice", o.getTotalPrice()==null?"":o.getTotalPrice()+"");//总共金额
         map.put("total_dingjin", o.getFrontMoney()==null?"":o.getFrontMoney()+"");//定金总额
         map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
 //        map.put("shengyu_price", shengyu_price);//剩余金额
-        map.put("shipped_quantity", quantity+"");//已发货数量
         map.put("total_quantity", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数  
         
         map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver()==null ?"":o.getCustomerAddress().getReceiver());
@@ -397,6 +397,16 @@ public class OrderService {
         map.put("order_invoce_type", invoce_name);//发票类型
         map.put("order_invoce_info", o.getInvoiceInfo()==null?"":o.getInvoiceInfo());//发票抬头
         map.put("order_type", o.getTypes()==null?"":o.getTypes());//订单类型
+        
+        List<CsOutStorage> csOutList = o.getCsOutStorageList();
+        Integer quantity = 0;
+        for(CsOutStorage cs_out:csOutList){
+            if(null !=cs_out.getStatus() && cs_out.getStatus()==1){
+                Integer q = cs_out.getQuantity();
+                quantity = quantity+q;
+            }
+        }
+        map.put("shipped_quantity", quantity+"");//已发货数量
         
         Integer guishu_user = o.getBelongsUserId();
         Customer customer = new Customer();

@@ -216,6 +216,25 @@ public class LowerAgentService {
 	                //获取新的agents表ID
 	        		int customer_id=lowerAgentMapper.getCustomerId(req);
 	            	req.setCustomerId(customer_id);
+	            	//agengCode
+	            	String parentAgentCode=lowerAgentMapper.getParentAgentCode(req);
+	            	int lengthTemp=parentAgentCode.length();
+	            	List<Map<String, Object>> list=lowerAgentMapper.getChildAgentCode(req);
+	            	int temp=0;
+	            	
+	            	if(list.size()>0){
+		            	for(int i=0;i<list.size();i++){
+		            		int tempCode=Integer.parseInt(list.get(i).get("code").toString().substring(lengthTemp));
+		            		if(tempCode>=temp){
+		            			temp=tempCode;
+		            		}
+		            	}
+	            	}
+	            	temp++;
+	            	StringBuilder tempCode=new StringBuilder();
+	            	tempCode.append(temp/100);
+	            	tempCode.append(temp%100);
+	            	req.setCode(tempCode.toString());
 	            	//向agents表中插入记录
 	            	int affect_series=lowerAgentMapper.addNewAgent(req);
 	            	if(affect_series >=1){

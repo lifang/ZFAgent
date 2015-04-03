@@ -318,7 +318,7 @@
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,
 		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
-		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,
+		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity,os.status as os_status,
 		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,op.pay_type,o.belongs_user_id,f.`name` as factory_name,
 		o.actual_price ,o.total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name 
@@ -333,6 +333,7 @@
 		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
 		LEFT JOIN order_marks om on o.id = om.order_id 
 		LEFT JOIN customers c on om.customer_id = c.id
+	    LEFT JOIN cs_out_storages os ON o.id = os.order_id
 		LEFT JOIN order_payments op on o.id = op.order_id
 		WHERE
 		o.id = #{param1}

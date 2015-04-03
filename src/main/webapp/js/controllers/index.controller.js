@@ -5,7 +5,7 @@ var indexModule = angular.module("indexModule", ['loginServiceModule','routeModu
 
 var indexController = function($scope, $location, $http, LoginService,
 		$cookieStore) {
-	$scope.loginUserName = LoginService.loginUserName;
+	$scope.loginAgentName = LoginService.loginAgentName;
 	$scope.identity=LoginService.identity;//0为一级，1为二级 ,2为普通用户   by yyb
 	$scope.agentId=LoginService.agentid;
 	$scope.right = true;

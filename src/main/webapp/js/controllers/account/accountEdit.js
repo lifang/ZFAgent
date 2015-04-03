@@ -47,10 +47,6 @@ var accountEditController = function($scope, $http, $location, LoginService) {
 		$scope.info.rightIds = [];
 		$scope.info.rightIds = getCheckboxValue();
 		// alert($scope.info.rightIds);
-		if (typeof ($scope.info.rightIds) == "undefined" || $scope.info.rightIds == null) {
-			alert("权限未填写");
-			return false;
-		}
 
 		// $scope.info.agent_Id = LoginService.userid;
 		$scope.info.agent_id = 5;

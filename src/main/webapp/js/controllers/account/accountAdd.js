@@ -15,6 +15,9 @@ var empAddController = function($scope, $http, $location, LoginService) {
 		if (typeof ($scope.customer.name) == "undefined" || $scope.customer.name == "") {
 			alert("姓名不能为空");
 			return false;
+		} else if($scope.customer.name.length > 20){
+			alert("最多支持8个汉字或16个字母");
+			return false;
 		}
 
 		if (typeof ($scope.customer.username) == "undefined" || $scope.customer.username == "") {
@@ -39,10 +42,7 @@ var empAddController = function($scope, $http, $location, LoginService) {
 		$scope.customer.rightIds = getCheckboxValue();
 
 		// alert($scope.customer.rights);
-		if (typeof ($scope.customer.rightIds) == "undefined" || $scope.customer.rightIds == "") {
-			alert("权限不能为空");
-			return false;
-		}
+		
 		// $scope.customer.agent_Id = LoginService.userid;
 		$scope.customer.agent_id = 5;
 

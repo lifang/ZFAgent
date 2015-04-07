@@ -5,13 +5,6 @@ var resetPasswordModule = angular.module("resetPasswordModule", []);
 var resetPasswordController = function($scope, $http, $location, LoginService) {
 
 	$scope.init = function() {
-		// 判断是否已登录
-		if (LoginService.userid == 0) {
-			window.location.href = '#/login';
-		} else {
-			$scope.$emit('changeshow', false);
-		}
-
 		var customerId = $location.search()['id'];
 		$scope.info(customerId);
 	};

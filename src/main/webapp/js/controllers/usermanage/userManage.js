@@ -4,17 +4,9 @@ var userManageModule = angular.module("userManageModule", []);
 var userManageListController = function($scope, $http, LoginService) {
 
 	$scope.init = function() {
-		// 判断是否已登录
-		if (LoginService.userid == 0) {
-			window.location.href = '#/login';
-		} else {
-			$scope.$emit('changeshow', false);
-		}
-
 		$scope.req = {};
-		$scope.req.agentId = 5;
+		$scope.req.agentId = LoginService.agentid;
 		initSystemPage($scope.req);// 初始化分页参数
-		$scope.req.rows = 5;
 		$scope.list();
 	};
 

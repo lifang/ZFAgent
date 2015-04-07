@@ -127,7 +127,7 @@ var indexController = function($scope, $location, $http, LoginService,
 	
 	var checkLogin = function(str) {
 		// alert(str + "====index.controller");
-		var arry = [ "login" ];
+		var arry = [ "login",'register','findpass','findpassEmail' ];
 		for (var i = 0; i < arry.length; i++) {
 			if (str == arry[i]) {
 				return true;

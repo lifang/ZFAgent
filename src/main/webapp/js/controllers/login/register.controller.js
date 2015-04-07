@@ -4,6 +4,8 @@ var registerAgentController = function($scope, $location, $http, LoginService){
 	var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
 	//手机格式
 	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+	//英文数字校验
+	var numCh = /[^a-zA-Z0-9]/g;
 	//初始化代理商对象
 	$scope.agent = {};
 	//单选按钮初始化（1.公司 2.个人）
@@ -52,10 +54,14 @@ var registerAgentController = function($scope, $location, $http, LoginService){
 		alert("请输入负责人姓名！");
 	}else if($scope.agent.card == undefined){
 		alert("请输入负责人身份证！");
+	}else if(numCh.test($scope.agent.card)){
+		  alert("身份证含有非法字符！");
 	}else if($scope.agent.companyName == undefined){
 		alert("请输入公司名称！");
 	}else if($scope.agent.licenseCode == undefined){
 		alert("请输入执照登记号！");
+	}else if(numCh.test($scope.agent.licenseCode)){
+		  alert("执照登记号含有非法字符！");
 	}else if($scope.agent.phone == undefined){
 		alert("请输入手机号码！");
 	}else if(!reg.test($scope.agent.phone)){
@@ -76,6 +82,8 @@ var registerAgentController = function($scope, $location, $http, LoginService){
 		alert("请输入密码！");
 	}else if($scope.agent.passwordb == undefined){
 		alert("请输入密码！");
+	}else if ($scope.agent.passworda.length<6||$scope.agent.passworda.length>20||$scope.agent.passwordb.length<6||$scope.agent.passwordb.length>20) {
+		alert("密码由6-20位，英文字符组成！");
 	}else if($scope.agent.passworda != $scope.agent.passwordb){
 		alert("密码不一致！");
 	}else if($scope.agent.imgCode == undefined){

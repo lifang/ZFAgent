@@ -1,6 +1,6 @@
 'user strict';
 
-//代购
+//批购
 var wholesaleOrderinfoModule = angular.module("wholesaleOrderinfoModule",[]);
 
 var wholesaleOrderinfoController = function ($scope,$location, $http, LoginService) {
@@ -16,7 +16,7 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
     $scope.getOrderInfo = function () {
     	$http.post("api/order/getWholesaleById", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.o=data.result;
+            	$scope.orderInfo=data.result;
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -67,7 +67,7 @@ var proxyOrderinfoController = function ($scope,$location, $http, LoginService) 
 	$scope.getOrderInfo = function () {
 		$http.post("api/order/getProxyById", $scope.req).success(function (data) {  //绑定
 			if (data.code==1) {
-				$scope.orderInfo=data.result;
+				$scope.o=data.result;
 			}
 		}).error(function (data) {
 			$("#serverErrorModal").modal({show: true});

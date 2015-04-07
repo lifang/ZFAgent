@@ -404,6 +404,7 @@ public class AgentLoginController {
 	@RequestMapping(value = "webFicationCode", method = RequestMethod.POST)
 	public Response webFicationCode(@RequestBody Customer customer) {
 		try {
+			customer.setStatus(Customer.STATUS_NORMAL);
 			if (customer.getCode().equals(agentLoginService.findCode(customer))) {
 				return Response.getSuccess("验证码正确！");
 			} else {

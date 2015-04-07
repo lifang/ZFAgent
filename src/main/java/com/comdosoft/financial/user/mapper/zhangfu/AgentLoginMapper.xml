@@ -52,7 +52,7 @@
 	
 	<update id="updatePassword" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		UPDATE customers set `password`=#{password},updated_at=now()
-		WHERE username=#{username} and ststus=#{status}
+		WHERE username=#{username} and status=#{status}
 	</update>
 	
 	<update id="updateDentcode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">

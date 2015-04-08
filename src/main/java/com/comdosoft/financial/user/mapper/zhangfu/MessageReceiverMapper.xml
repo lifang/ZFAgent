@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.MessageReceiverMapper">
+<mapper
+	namespace="com.comdosoft.financial.user.mapper.zhangfu.MessageReceiverMapper">
 
-	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.SysMessage" id="sysMessage">
+	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.SysMessage"
+		id="sysMessage">
 		<id property="id" column="sid" />
 		<result property="title" column="title" />
 		<result property="createdAt" column="created_at" />
 		<result property="content" column="content" />
 	</resultMap>
 
-	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.MessageReceiver" id="messageReciver">
+	<resultMap
+		type="com.comdosoft.financial.user.domain.zhangfu.MessageReceiver" id="messageReciver">
 		<id property="id" column="id" />
 		<result property="customerId" column="customer_id" />
 		<result property="status" column="status" />
-		<association property="sysMessage" javaType="com.comdosoft.financial.user.domain.zhangfu.SysMessage" resultMap="sysMessage" />
+		<association property="sysMessage"
+			javaType="com.comdosoft.financial.user.domain.zhangfu.SysMessage"
+			resultMap="sysMessage" />
 	</resultMap>
 
 	<select id="count" resultType="int">
 		SELECT count(s.id) as count
-		FROM message_receivers m left join sys_messages s on m.sys_message_id = s.id
-		where m.customer_id = #{customerId}
-		<if test="q ==0">
-			and IFNULL(m.`status`, 0) = 0
+		FROM message_receivers m left join
+		sys_messages s on m.sys_message_id = s.id
+		where m.customer_id =
+		#{customerId}
+		<if test="q ==2">
+			and IFNULL(m.`status`, 2) = 2
 		</if>
 		<if test="q ==1">
 			and m.`status` = 1
@@ -29,11 +36,14 @@
 	</select>
 
 	<select id="findAll" resultMap="messageReciver">
-		SELECT m.id,m.customer_id,m.status,s.id as sid,s.title,s.content,s.created_at
-		FROM  message_receivers m left join sys_messages s  on m.sys_message_id = s.id
-		where m.customer_id = #{customerId}
+		SELECT m.id,m.customer_id,m.status,s.id as
+		sid,s.title,s.content,s.created_at
+		FROM message_receivers m left join
+		sys_messages s on m.sys_message_id = s.id
+		where m.customer_id =
+		#{customerId}
 		<if test="q ==0">
-			and IFNULL(m.`status`, 0) = 0
+			and IFNULL(m.`status`, 2) = 2
 		</if>
 		<if test="q ==1">
 			and m.`status` = 1
@@ -41,44 +51,55 @@
 		order by s.created_at desc
 		LIMIT #{offset},#{rows}
 	</select>
-	
+
 	<select id="getServerDynamic" resultType="map">
-		SELECT m.id,m.customer_id,m.status,s.id as sid,s.title,s.content,s.created_at
-		FROM  message_receivers m left join sys_messages s  on m.sys_message_id = s.id
+		SELECT
+		m.id,m.customer_id,m.status,s.id as sid,s.title,s.content,s.created_at
+		FROM message_receivers m left join sys_messages s on m.sys_message_id
+		= s.id
 		where m.customer_id = #{customerId}
 		order by s.created_at desc
 	</select>
 
-<select id="findById" resultMap="sysMessage">
-		SELECT s.id,s.title,s.content,s.created_at
+	<select id="findById" resultMap="sysMessage">
+		SELECT
+		s.id,s.title,s.content,s.created_at
 		FROM sys_messages s
-		left join message_receivers m on s.id = m.sys_message_id
-		where m.sys_message_id = #{id} and m.customer_id = #{customerId}
-	</select>
+		left join
+		message_receivers m on s.id = m.sys_message_id
+		where m.sys_message_id =
+		#{id} and m.customer_id = #{customerId}
+	</select> 
 
 	<delete id="delete">
-		DELETE FROM message_receivers  where sys_message_id = #{id} and customer_id = #{customerId}
-	</delete>
-	
-	<delete id="deleteAll">
-		DELETE FROM message_receivers  where  customer_id = #{customerId}
+		DELETE FROM message_receivers where sys_message_id =
+		#{id} and customer_id = #{customerId}
 	</delete>
 
-	<delete id="batchDelete" parameterType="com.comdosoft.financial.user.domain.zhangfu.MyOrderReq">
-		DELETE FROM message_receivers where customer_id = #{customerId} and sys_message_id in
-		<foreach item="ids" collection="ids" open="(" separator="," close=")">
+	<delete id="deleteAll">
+		DELETE FROM message_receivers where customer_id =
+		#{customerId}
+	</delete>
+
+	<delete id="batchDelete"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.MyOrderReq">
+		DELETE FROM message_receivers where customer_id = #{customerId} and
+		sys_message_id in
+		<foreach item="ids" collection="ids" open="(" separator=","
+			close=")">
 			#{ids}
 		</foreach>
-		
+
 	</delete>
 
-	<update id="batchUpdate" >
+	<update id="batchUpdate">
 		update message_receivers
 		<set>
 			status=1
 		</set>
 		where customer_id = #{customerId} and sys_message_id in
-		<foreach item="ids" collection="ids" open="(" separator="," close=")">
+		<foreach item="ids" collection="ids" open="(" separator=","
+			close=")">
 			#{ids}
 		</foreach>
 	</update>
@@ -86,7 +107,8 @@
 	<update id="isRead">
 		update message_receivers
 		set status=1
-		where sys_message_id = #{id} and customer_id = #{customerId}
+		where
+		sys_message_id = #{id} and customer_id = #{customerId}
 	</update>
 
 </mapper>

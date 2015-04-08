@@ -59,6 +59,7 @@ public class MessageReceiverService {
         messageReceiverMapper.isRead(myOrderReq);
         return sysMessage;
     }
+     
     
     public int delete(MyOrderReq myOrderReq){
        return messageReceiverMapper.delete(myOrderReq);

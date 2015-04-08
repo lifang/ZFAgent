@@ -1,0 +1,24 @@
+<script type="text/javascript" src="js/controllers/myMessage/messageDetails.js"></script>
+<div class="right" ng-controller="messageDetailsController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#/myMessage">查看消息</a></li>
+			<li><a href="javascript:void(0)">详细</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="message_con">
+			<div class="mail_article">
+				<div class="mail_article_title">
+					<h1>{{title}}</h1>
+					<p>
+						{{create_at}} <a href="javascript:void(0)" ng-click="deleteMsg()">删除</a>
+					</p>
+				</div>
+				<div class="mail_article_text">
+					{{content}}	 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

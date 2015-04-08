@@ -128,6 +128,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/customer/viewCustomer.html'
 	}).when('/posprofit', {
 		templateUrl : 'views/posprofit/posprofit.html'
+	}).when('/messageinfo', {
+		templateUrl : 'views/management/messageDetails.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

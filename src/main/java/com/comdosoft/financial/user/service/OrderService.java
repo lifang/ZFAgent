@@ -370,7 +370,7 @@ public class OrderService {
         if(null == o){
             return "-1";
         }
-        List<Object> obj_list = new ArrayList<Object>();
+//        List<Object> obj_list = new ArrayList<Object>();
         Map<String,Object> map = new LinkedHashMap<String, Object>();
         map.put("order_id", o.getId()==null ?"":o.getId().toString());
         map.put("order_number", o.getOrderNumber());//订单编号
@@ -455,8 +455,8 @@ public class OrderService {
         myOrderReq.setId(id);
         List<Map<String,Object>> list = orderMapper.findTraceById(myOrderReq);
         map.put("comments", OrderUtils.getTraceByVoId(myOrderReq, list));
-        obj_list.add(map);
-        return obj_list;
+//        obj_list.add(map);
+        return map;
     }
 
     public int cancelMyOrder(MyOrderReq myOrderReq) {

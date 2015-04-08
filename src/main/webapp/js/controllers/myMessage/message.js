@@ -2,66 +2,67 @@
 
 var messageModule = angular.module("messageModule", []);
 
-var messageController = function($scope,$location, $http, LoginService) {
-	$scope.req={};
-	$scope.req.ids=[];
-	$scope.req.q=2;
-	$scope.isSelectAll=false;
-	$scope.req.customer_id=LoginService.userid;
+var messageController = function($scope, $location, $http, LoginService) {
+	$scope.req = {};
+	$scope.req.ids = [];
+	$scope.req.q = 2;
+	$scope.isSelectAll = false;
+	$scope.req.customerId = LoginService.agentid;
 	$scope.init = function() {
-		if(LoginService.userid == 0){
+		if (LoginService.agentid == 0) {
 			window.location.href = '#/login';
-		}else{
-			$scope.$emit('changeshow',false);
+		} else {
+			$scope.$emit('changeshow', false);
 		}
 		initSystemPage($scope.req);
-		$scope.req.id=$location.search()['id'];
-		if($scope.req.id>0){
+		$scope.req.rows = 10;
+		$scope.req.id = $location.search()['id'];
+		if ($scope.req.id > 0) {
 			$scope.getinfo();
-		}else{
+		} else {
 			$scope.getlist();
 		}
 	};
-	$scope.getlist=function(){
-		$scope.req.page=$scope.req.indexPage;
-		$http.post("api/message/receiver/getAll",$scope.req).success(function(data){
-			if (data.code == 1){
-				$scope.list=data.result.list;
-				calcSystemPage($scope.req,data.result.total);
+	$scope.getlist = function() {
+		$scope.req.page = $scope.req.indexPage;
+		$http.post("api/message/receiver/getAll", $scope.req).success(function(data) {
+			if (data.code == 1) {
+				$scope.list = data.result.list;
+				calcSystemPage($scope.req, data.result.total);
 			}
 		});
 	};
-	$scope.getinfo=function(){
-		$http.post("api/message/receiver/getById",$scope.req).success(function(data){
-			if (data.code == 1){
-				$scope.message=data.result;
+	$scope.getinfo = function() {
+		$http.post("api/message/receiver/getById", $scope.req).success(function(data) {
+			if (data.code == 1) {
+				$scope.message = data.result;
 			}
 		});
 	};
-	$scope.delone= function(id) {
-		$scope.req.id=id;
-		$http.post("api/message/receiver/deleteById",$scope.req).success(function(data) {
+	$scope.delone = function(id) {
+		$scope.req.id = id;
+		$http.post("api/message/receiver/deleteById", $scope.req).success(function(data) {
 			if (data.code == 1) {
 				window.location.href = '#/myMessage';
-			} 
+			}
 		});
 	};
-	$scope.delmore= function() {
-		$http.post("api/message/receiver/batchDelete",$scope.req).success(function(data) {
+	$scope.delmore = function() {
+		$http.post("api/message/receiver/batchDelete", $scope.req).success(function(data) {
 			if (data.code == 1) {
 				window.location.reload();
-			} 
+			}
 		});
-		
+
 	};
-	$scope.delall= function() {
-		$http.post("api/message/receiver/deleteAll",$scope.req).success(function(data) {
+	$scope.delall = function() {
+		$http.post("api/message/receiver/deleteAll", $scope.req).success(function(data) {
 			if (data.code == 1) {
 				window.location.reload();
-			} 
+			}
 		});
 	};
-	
+
 	$scope.checkAll = function() {
 		$scope.isSelectAll = !$scope.isSelectAll;
 		if ($scope.isSelectAll) {
@@ -81,7 +82,7 @@ var messageController = function($scope,$location, $http, LoginService) {
 		$scope.setCheck();
 	};
 	$scope.setCheck = function() {
-		$scope.req.ids=[];
+		$scope.req.ids = [];
 		angular.forEach($scope.list, function(one) {
 			if (one.checked) {
 				$scope.req.ids.push(one.id);
@@ -89,17 +90,17 @@ var messageController = function($scope,$location, $http, LoginService) {
 		});
 	};
 	$scope.unread = function() {
-		$scope.req.indexPage=1;
-		$scope.req.q=0;
+		$scope.req.indexPage = 1;
+		$scope.req.q = 0;
 		$scope.getlist();
 	};
 	$scope.read = function() {
-		$scope.req.indexPage=1;
-		$scope.req.q=2;
+		$scope.req.indexPage = 1;
+		$scope.req.q = 2;
 		$scope.getlist();
-	};	
+	};
 	$scope.init();
-	 // 上一页
+	// 上一页
 	$scope.prev = function() {
 		if ($scope.req.indexPage > 1) {
 			$scope.req.indexPage--;
@@ -126,8 +127,8 @@ var messageController = function($scope,$location, $http, LoginService) {
 		$scope.req.indexPage = Math.ceil($scope.req.gotoPage);
 		$scope.getlist();
 	};
-	
+
 };
 
-messageController.$inject = ['$scope','$location','$http','LoginService'];
+messageController.$inject = [ '$scope', '$location', '$http', 'LoginService' ];
 messageModule.controller("messageController", messageController);

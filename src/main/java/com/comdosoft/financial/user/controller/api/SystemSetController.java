@@ -64,7 +64,6 @@ public class SystemSetController {
 			map = systemSetService.getEmpInfoByUsername(username);
 			if (map != null) {
 				CustomerAgentRelation ca = new CustomerAgentRelation();
-				logger.debug(req.getAgent_id());
 				ca.setAgentId(req.getAgent_id());
 				int customerId = Integer.parseInt(map.get("id").toString());
 				ca.setCustomerId(customerId);

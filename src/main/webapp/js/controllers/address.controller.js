@@ -7,6 +7,7 @@ var addressController = function ($scope, $http, LoginService) {
 	
 	$scope.init = function() {
 		// var agent_id = LoginService.userid;
+		// alert(LoginService.agentid);
 		$(".myInfoBox").hide();// 隐藏编辑区域
 		$("#addCheck").html("");
 		$scope.addressList();
@@ -20,8 +21,8 @@ var addressController = function ($scope, $http, LoginService) {
 	
 	// 显示编辑区域
 	$scope.useNewAddr = function(){
-		// var customer_id = LoginService.userid;
-		var customer_id = 1;
+		var customer_id = LoginService.agentid;
+		// var customer_id = 1;
 		$http.post("api/address/countValidAddress/" + customer_id).success(function(data){
 			if(data.code == 1){
 				$scope.selected = "";// 省份置空
@@ -47,8 +48,8 @@ var addressController = function ($scope, $http, LoginService) {
 	
 	// 显示代理商收获地址信息
 	$scope.addressList = function(){
-		// var customer_id = LoginService.userid;
-		var customer_id = 1;
+		var customer_id = LoginService.agentid;
+		// var customer_id = 1;
 		$http.post("api/address/query/" + customer_id).success(function(data){
 			if(data.code == 1){
 				$scope.list = data.result;
@@ -138,8 +139,8 @@ var addressController = function ($scope, $http, LoginService) {
 		}
 			if ($scope.address.id == undefined) {
 				$scope.address.cityId = $scope.selected_city.id;
-				// $scope.address.customerId = LoginService.userid;
-				$scope.address.customerId = 1;
+				$scope.address.customerId = LoginService.agentid;
+				// $scope.address.customerId = 1;
 				// alert($scope.address.isDefault);
 				if($scope.address.isDefault == undefined){
 					$scope.address.isDefault = 2;

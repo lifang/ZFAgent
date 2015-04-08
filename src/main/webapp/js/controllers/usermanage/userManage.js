@@ -7,6 +7,7 @@ var userManageListController = function($scope, $http, LoginService) {
 		$scope.req = {};
 		$scope.req.agentId = LoginService.agentid;
 		initSystemPage($scope.req);// 初始化分页参数
+		$scope.req.rows = 5;
 		$scope.list();
 	};
 

@@ -104,7 +104,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			return false;
 		}
 		//id暂定15
-		$scope.req = {id:15,
+		$scope.req = {id:LoginService.agentid,
 					  email:mail};
 		$http.post("api/agents/updateEmailAddr",$scope.req).success(function (data) {   
 			if (data != null && data != undefined) {
@@ -205,7 +205,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		if(p_code == i_code){
 			var sMobile = $scope.i_phone_new; 
 			//id暂定15
-			$scope.req ={phone:sMobile,id:15};
+			$scope.req ={phone:sMobile,id:LoginService.agentid};
 			$http.post("api/agents/updatePhoneNumber",$scope.req).success(function (data) {   
 				if (data != null && data != undefined) {
 					//重新刷新
@@ -280,7 +280,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		    }, 1000);
 				var email = $scope.one.email;
 				//id=15 
-				$scope.req ={id:15,content:email,q:$scope.one.company_name};
+				$scope.req ={id:LoginService.agentid,content:email,q:$scope.one.company_name};
 				$http.post("api/index/change_email_check",$scope.req).success(function (data) {   
 					if (data != null && data != undefined) {
 //						alert("发送成功,请注意查收!");

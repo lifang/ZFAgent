@@ -94,5 +94,15 @@ public class UserManagementService {
 	public void addUser(Customer customer){
 		userManagementMapper.addUser(customer);
 	}
+
+	/**
+	 * 根据商户ID查找商户信息
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public Map<String, Object> queryMerchantInfo(int customerId) {
+		return userManagementMapper.queryMerchantInfo(customerId);
+	}
 	
 }

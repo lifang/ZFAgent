@@ -51,9 +51,8 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		
 		$http.post("api/agent/modifyPassword", {
 			passwordOld : oldPassword,
-			password : newPassword,
-			id : 17
-		// id : LoginService.agentid
+			password : newPassword, 
+			id : LoginService.agentid
 		}).success(function(data) {
 			if(data.code==1){
 				$scope.passwordOld = "";
@@ -65,7 +64,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	};
 	
 	$scope.query = function() {
-		var id = 15;
+		var id = LoginService.agentid; 
 		$scope.intDiff=0;
 		$scope.intMailDiff=0;
 		$http.post("api/agents/query/" + id).success(function(data) {

@@ -1,0 +1,113 @@
+<script>
+	$(function() {
+		$(".user_date input").datepicker();
+	});
+	jQuery(function($) {
+		$.datepicker.regional['zh-CN'] = {
+			closeText : '关闭',
+			prevText : '<上月',  
+                    nextText: '下月>',
+			currentText : '今天',
+			monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+			monthNamesShort : [ '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二' ],
+			dayNames : [ '星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ],
+			dayNamesShort : [ '周日', '周一', '周二', '周三', '周四', '周五', '周六' ],
+			dayNamesMin : [ '日', '一', '二', '三', '四', '五', '六' ],
+			weekHeader : '周',
+			dateFormat : 'yy-mm-dd',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : true,
+			yearSuffix : '年'
+		};
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+	});
+</script>
+
+<div class="right" ng-controller="posprofitController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="javascript:void(0);">POS销售分润</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>在线销售POS机分润</h1>
+		</div>
+		<div class="seenBox clear">
+			<ul>
+				<li><div class="user_date">
+						<label>选择日期</label> <input name="" ng-model="req.startTime" type="text" /> - <input name="" ng-model="req.endTime" type="text" />
+					</div>
+				</li>
+				<li><button class="ghostBtn" ng-click="update()">更新</button></li>
+			</ul>
+		</div>
+		<div class="user_statistics">
+			从{{startTime}}到{{endTime}} 总计分润<strong>￥{{totalProfit}}</strong>
+		</div>
+		<div class="uesr_table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="b_table">
+				<colgroup>
+					<col />
+					<col width="200" />
+					<col width="120" />
+					<col width="100" />
+					<col width="100" />
+					<col width="100" />
+					<col width="100" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>销售日期</th>
+						<th>POS机名称</th>
+						<th>终端号</th>
+						<th>类型</th>
+						<th>销售价格</th>
+						<th>批购价格</th>
+						<th>租金</th>
+						<th>分润金额</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="one in posProfitList">
+						<td>{{one.createdAt}}</td>
+						<td>{{one.title}}</td>
+						<td>{{one.modelNumber}}</td>
+						<td ng-if="one.types == 1">用户代购</td>
+						<td ng-if="one.types == 2">用户租赁</td>
+						<td ng-if="one.types == 3">代理商代购</td>
+						<td ng-if="one.types == 4">代理商租赁</td>
+						<td ng-if="one.types == 5">代理商批购</td>
+						<!-- 销售价格 -->
+						<td ng-if="one.types == 1 || one.types == 3 || one.types == 5"><strong>￥{{one.salesPrice}}</strong></td>
+						<td ng-if="one.types == 2 || one.types == 4">-</td>
+						<!-- 批购价格 -->
+						<td ng-if="one.types == 1 || one.types == 3 || one.types == 5"><strong>￥{{one.purchasePrice}}</strong></td>
+						<td ng-if="one.types == 2 || one.types == 4">-</td>
+						<!-- 租金 -->
+						<td ng-if="one.types == 1 || one.types == 3 || one.types == 5"><strong>-</strong></td>
+						<td ng-if="one.types == 2 || one.types == 4"><strong>￥{{one.leasePrice}}</strong></td>
+						<td><strong>￥{{one.profit}}</strong></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		<div class="pageTurn">
+			<div class="p_num" ng-show="req.totalPage>1">
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> 
+				<a ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="next()">下一页</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
+			</div>
+			<div class="p_skip">
+				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;
+				<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页</span>
+				<button ng-click="getPage()">确定</button>
+			</div>
+		</div>
+	</div>
+</div>

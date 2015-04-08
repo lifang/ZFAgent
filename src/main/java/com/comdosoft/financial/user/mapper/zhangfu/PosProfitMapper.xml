@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.PosProfitMapper">
+
+	<select id="getPosProfitList" parameterType="com.comdosoft.financial.user.domain.query.PosProfitReq" resultType="map">
+		SELECT og.id, og.good_id, g.title, g.model_number, g.retail_price, g.purchase_price, g.lease_price, g.return_time,
+		og.quantity, og.price, og.actual_price, og.order_id, o.types, DATE_FORMAT(og.created_at,'%Y-%m-%d %H:%i:%s') AS created_at 
+		FROM order_goods og 
+		LEFT JOIN orders o ON og.order_id = o.id
+		LEFT JOIN goods g ON og.good_id = g.id 
+		LEFT JOIN order_payments op ON o.id = op.order_id WHERE o.customer_id = #{agent_id}
+		<if test="startTime != null and startTime != ''">
+			<![CDATA[ and og.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="endTime != null and endTime != ''">
+			<![CDATA[ and og.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+		</if>
+		ORDER BY og.created_at DESC LIMIT #{offset}, #{rows}
+	
+	</select>
+
+	<select id="getPosProfitCount" parameterType="com.comdosoft.financial.user.domain.query.PosProfitReq" resultType="int">
+		SELECT count(og.id) AS count FROM order_goods og 
+		LEFT JOIN orders o ON og.order_id = o.id
+		LEFT JOIN goods g ON og.good_id = g.id 
+		LEFT JOIN order_payments op ON o.id = op.order_id WHERE o.customer_id = #{agent_id}
+		<if test="startTime != null and startTime != ''">
+			<![CDATA[ and og.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="endTime != null and endTime != ''">
+			<![CDATA[ and og.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+		</if> 
+	</select>
+</mapper>

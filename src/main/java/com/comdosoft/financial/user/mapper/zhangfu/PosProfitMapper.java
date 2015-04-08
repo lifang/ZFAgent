@@ -1,0 +1,14 @@
+package com.comdosoft.financial.user.mapper.zhangfu;
+
+import java.util.List;
+import java.util.Map;
+
+import com.comdosoft.financial.user.domain.query.PosProfitReq;
+
+public interface PosProfitMapper {
+
+	int getPosProfitCount(PosProfitReq req);
+
+	List<Map<String, Object>> getPosProfitList(PosProfitReq req);
+
+}

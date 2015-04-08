@@ -38,8 +38,9 @@ var accountListController = function($scope, $location, $http, LoginService) {
 	$scope.init = function() {
 		$scope.req = {};
 		$scope.req.agentId = LoginService.agentid;
-		
+
 		initSystemPage($scope.req);// 初始化分页参数
+		$scope.req.rows = 20;// 每页记录数
 		$scope.list();
 	};
 

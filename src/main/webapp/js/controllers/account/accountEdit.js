@@ -5,7 +5,7 @@ var accountEditModule = angular.module("accountEditModule", []);
 
 var accountEditController = function($scope, $http, $location, LoginService) {
 	$scope.init = function() {
-
+		// alert(LoginService.agentid);
 		var customerId = $location.search()['id'];
 		$scope.info(customerId);
 	};
@@ -42,8 +42,8 @@ var accountEditController = function($scope, $http, $location, LoginService) {
 		$scope.info.rightIds = getCheckboxValue();
 		// alert($scope.info.rightIds);
 
-		// $scope.info.agent_Id = LoginService.userid;
-		$scope.info.agent_id = 5;
+		$scope.info.agent_id = LoginService.agentid;
+		// $scope.info.agent_id = 5;
 		$scope.info.customer_id = $location.search()['id'];
 
 		$http.post("api/account/editCustomer", $scope.info).success(function(data) {

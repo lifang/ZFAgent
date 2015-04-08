@@ -18,7 +18,7 @@
                     	<div class="cu_title">公告板</div>
                     	<div class="user_news_con" >
                         	<ul>
-                            	<li ng-repeat="m in web_list"><a href="#/webmessageinfo?infoId={{m.id}}">[公告] {{m.title}}</a></li>
+                            	<li ng-repeat="m in web_list"><a href="#/web?id={{m.id}}">[公告] {{m.title}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                     	<div class="cu_title">消息栏</div>
                         <div class="user_news_con" >
                         	<ul>
-                            	<li  ng-repeat="m in my_list"><a href="#/messageinfo?id={{m.id}}">[消息] {{m.title}}</a></li>
+                            	<li  ng-repeat="m in my_list"><a href="#/msg?id={{m.id}}">[消息] {{m.title}}</a></li>
                             </ul>
                         </div>
                     </div>

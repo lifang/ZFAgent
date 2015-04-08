@@ -3,7 +3,7 @@
 //我的掌富
 var myappModule = angular.module("myappModule",[]);
 
-var myappController = function ($scope, $http, LoginService) {
+var myappController = function ($scope, $http,$location, LoginService) {
 	$("#leftRoute").show();
 	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';
@@ -11,6 +11,7 @@ var myappController = function ($scope, $http, LoginService) {
 		//显示用户登录部分
 		$scope.$emit('changeshow',false);
 	}
+
 	$scope.my_message_list = function(){
 		$scope.req={customerId:LoginService.agentUserId,rows:8};
 		$http.post("api/message/receiver/getAll", $scope.req).success(function (data) {   
@@ -41,20 +42,6 @@ var myappController = function ($scope, $http, LoginService) {
 		}).error(function (data) {
 			$("#serverErrorModal").modal({show: true});
 		});
-//		$http.post("api/cs/change/wxlist", $scope.req).success(function (data) {  
-//			if (data != null && data != undefined) {
-//				$scope.cc_list = data.result;
-//			}
-//		}).error(function (data) {
-//			$("#serverErrorModal").modal({show: true});
-//		});
-//		$http.post("api/return/wxlist", $scope.req).success(function (data) {  
-//			if (data != null && data != undefined) {
-//				$scope.cr_list = data.result;
-//			}
-//		}).error(function (data) {
-//			$("#serverErrorModal").modal({show: true});
-//		});
 	};
 	
 	$scope.trade_list = function(){
@@ -129,13 +116,46 @@ var myappController = function ($scope, $http, LoginService) {
 			$("#serverErrorModal").modal({show: true});
 		});
 	};
-	
+ 
 	$scope.my_message_list();
 	$scope.web_message_list();
 	$scope.trade_list();
 	$scope.web_yw_list();
 };
 
+
+var messageInfoModule = angular.module("messageInfoModule",[]);
+var messageInfoController = function ($scope, $http,$location, LoginService) {
+
+	var mid = $location.search()['id'];
+  if(typeof(mid) !=undefined){
+		$scope.req={
+				id:mid,
+				customerId:LoginService.agentUserId
+		};
+	 	$http.post("api/message/receiver/getById",$scope.req).success(function(data) {
+			if (data.code == 1) {
+				$scope.message=data.result;
+			} 
+		});
+	} 
+};
+
+var webInfoModule = angular.module("webInfoModule",[]);
+var webInfoController = function ($scope, $http,$location, LoginService) {
+	var wid = $location.search()['id'];
+	if(typeof(wid) !=undefined){
+		$scope.req={};
+		$scope.req.id=wid;
+		$http.post("api/web/message/getById", $scope.req).success(function (data) { 
+			if (data.code==1) {
+				$scope.info=data.result;
+			}
+		}).error(function (data) {
+		});
+	} 
+};
 myappModule.$inject = ['$scope', '$http', '$cookieStore'];
 myappModule.controller("myappController", myappController);
-
+messageInfoModule.controller("messageInfoController", messageInfoController);
+webInfoModule.controller("webInfoController", webInfoController);

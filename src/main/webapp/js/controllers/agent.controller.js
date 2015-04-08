@@ -64,7 +64,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	};
 	
 	$scope.query = function() {
-		var id = LoginService.agentid; 
+		var id = LoginService.agentid;
 		$scope.intDiff=0;
 		$scope.intMailDiff=0;
 		$http.post("api/agents/query/" + id).success(function(data) {

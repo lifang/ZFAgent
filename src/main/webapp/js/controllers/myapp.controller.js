@@ -135,7 +135,6 @@ var messageInfoController = function ($scope, $http,$location, LoginService) {
 		};
 	 	$http.post("api/message/receiver/getById",$scope.req).success(function(data) {
 			if (data.code == 1) {
-				console.log("chenggong");
 				$scope.message=data.result;
 			} 
 		});

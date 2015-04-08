@@ -1,11 +1,10 @@
-<script type="text/javascript"
-	src="js/controllers/customer/customerListView.js"></script>
+<script type="text/javascript" src="js/controllers/customer/customerListView.js"></script>
 <div class="right" ng-controller="customerListViewController">
 
 	<div class="breadcrumb">
 		<ul>
 			<li><a href="#/manageuser">管理用户</a></li>
-			<li><a href="#/commercialOne?id={{customerId}}" >用户详细</a></li>
+			<li><a href="javascript:void(0);" >用户详细</a></li>
 		</ul>
 	</div>
 	<div class="content clear">
@@ -17,7 +16,7 @@
 			<div class="attributes_list_s clear">
 				<ul>
 					<li>用户姓名：{{customer.name}}</li>
-					<li>所在地区：{{customer.address}}</li>
+					<li>所在地区：{{customer.cityname}}</li>
 					<li>手机：{{customer.phone}}</li>
 					<li>邮箱：{{customer.email}}</li>
 				</ul>
@@ -97,3 +96,4 @@
 	</div>
 
 	<div class="mask"></div>
+</div>

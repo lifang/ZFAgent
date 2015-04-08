@@ -1,15 +1,12 @@
 'user strict';
 
 var customerListViewModule = angular.module("customerListViewModule", []);
-var customerListViewController = function($scope, $location, $http,
-		LoginService) {
-	var customerId =  $location.search()['id'];
-	$scope.customerId=customerId;
+var customerListViewController = function($scope, $location, $http, LoginService) {
+	var customerId = $location.search()['id'];
+	$scope.customerId = customerId;
 	initSystemPage($scope);// 初始化分页参数
 	$scope.list = function() {
 
-		// var customerId = LoginService.userid;
-//		var customerId = 80;
 		var page = $scope.indexPage;
 		$scope.rows = 5;
 		var rows = $scope.rows;
@@ -28,56 +25,45 @@ var customerListViewController = function($scope, $location, $http,
 	};
 
 	$scope.init = function() {
-		// var agentId = LoginService.userid;
-		$http.post("api/user/query/" + customerId).success(function(data) {
-			if (data.result != null) {
+	
+		// 获取商户信息
+		$http.post("api/user/queryMerchantInfo/" + customerId).success(function(data) {
+			if (data.code == 1) {
 				$scope.customer = data.result;
-				$scope.queryCity();
-				// alert($scope.one.name);
+			} else {
+				alert(data.message);
 			}
 		});
-		$http.post("api/index/getCustomerMarks/" + customerId).success(
-				function(data) {
-					if (data != null && data != undefined) {
-						$scope.markList = data.result.list;
-					}
-				});
+		
+		$http.post("api/index/getCustomerMarks/" + customerId).success(function(data) {
+			if (data != null && data != undefined) {
+				$scope.markList = data.result.list;
+			}
+		});
+
 		$scope.list();
 	};
 
 	$scope.init();
-
-	$scope.queryCity = function() {
-		var city_id = $scope.test.city_id;
-		$http.post("api/index/getIdCity/" + city_id).success(function(data) {
-			if (data != null && data != undefined) {
-				$scope.customer.address = data.result;
-			}
-		});
-	};
 
 	$scope.marksSave = function() {
 		var marksContent = $scope.marks_content;
 		if (marksContent == null || marksContent == '') {
 			return false;
 		}
-		$scope.req ={content : marksContent,customerId : customerId,agentId : 22};
-		$http.post("api/index/saveViewCustomerViews",$scope.req).success(function (data) {   
+		$scope.req = {
+			content : marksContent,
+			customerId : customerId,
+			agentId : 22
+		};
+		$http.post("api/index/saveViewCustomerViews", $scope.req).success(function(data) {
 			if (data != null && data != undefined) {
 				alert("添加备注成功！");
 				$scope.init();
 				$scope.marks_content = "";
 			}
 		});
-//		$scope.req = {
-//			content : marksContent,
-//			customerId : customerId,
-//			agentId : 17
-//		};
-//		$http.post("api/index/getIdCity" + city_id).success(
-//				function(data) {
-//					$scope.marks_content = "";
-//				});
+		
 	};
 
 	// 上一页
@@ -109,5 +95,4 @@ var customerListViewController = function($scope, $location, $http,
 	};
 
 };
-customerListViewModule.controller("customerListViewController",
-		customerListViewController);
+customerListViewModule.controller("customerListViewController", customerListViewController);

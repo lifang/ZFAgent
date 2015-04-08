@@ -30,8 +30,7 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
 @RestController
 @RequestMapping(value = "api/user")
 public class UserManagementController {
-	private static final Logger logger = Logger
-			.getLogger(UserManagementController.class);
+	private static final Logger logger = Logger.getLogger(UserManagementController.class);
 
 	@Resource
 	private UserManagementService userManagementService;
@@ -46,8 +45,7 @@ public class UserManagementController {
 	public Response queryCustomer(@PathVariable int customerId) {
 		Response sysResponse = new Response();
 
-		Map<Object, Object> result = userManagementService
-				.queryCustomer(customerId);
+		Map<Object, Object> result = userManagementService.queryCustomer(customerId);
 		if (result != null) {
 			sysResponse = Response.getSuccess();
 			sysResponse.setResult(result);
@@ -67,8 +65,7 @@ public class UserManagementController {
 	@RequestMapping(value = "getUser", method = RequestMethod.POST)
 	public Response getUser(@RequestBody Map<String, Object> map) {
 		try {
-			return Response.getSuccess(userManagementService
-					.getUser((Integer) map.get("customerId"),CustomerAgentRelation.STATUS_1));
+			return Response.getSuccess(userManagementService.getUser((Integer) map.get("customerId"), CustomerAgentRelation.STATUS_1));
 		} catch (Exception e) {
 			logger.error("获得该代理商有关联的所有用户异常！", e);
 			return Response.getError("请求失败！");
@@ -88,9 +85,7 @@ public class UserManagementController {
 			List<Object> list = (List<Object>) map.get("customerArrayId");
 			for (int i = 0; i < list.size(); i++) {
 
-				userManagementService.delectAgentUser(
-						(Integer) map.get("agentId"), (Integer) list.get(i),
-						CustomerAgentRelation.STATUS_2);
+				userManagementService.delectAgentUser((Integer) map.get("agentId"), (Integer) list.get(i), CustomerAgentRelation.STATUS_2);
 			}
 			return Response.getSuccess("删除成功！");
 		} catch (Exception e) {
@@ -98,7 +93,7 @@ public class UserManagementController {
 			return Response.getError("请求失败！");
 		}
 	}
-	
+
 	/**
 	 * 获取用户列表
 	 * 
@@ -134,36 +129,34 @@ public class UserManagementController {
 	@RequestMapping(value = "getTerminals")
 	public Response getTerminals(@RequestBody Map<String, Object> map) {
 		try {
-			PageRequest PageRequest = new PageRequest(
-					(Integer) map.get("page"), (Integer) map.get("rows"));
+			PageRequest PageRequest = new PageRequest((Integer) map.get("page"), (Integer) map.get("rows"));
 			int offSetPage = PageRequest.getOffset();
 
-			return Response.getSuccess(userManagementService.getTerminals(
-					(Integer) map.get("customerId"), offSetPage,
-					(Integer) map.get("rows")));
+			return Response.getSuccess(userManagementService.getTerminals((Integer) map.get("customerId"), offSetPage, (Integer) map.get("rows")));
 		} catch (Exception e) {
 			logger.error("获得该代理商下面某个用户的相关终端列表异常！", e);
 			return Response.getError("请求失败！");
 		}
 	}
-	
+
 	/**
 	 * 新创建用户
+	 * 
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping(value="addCustomer",method=RequestMethod.POST)
-	public Response addCustomer(@RequestBody Map<Object, Object> map){
+	@RequestMapping(value = "addCustomer", method = RequestMethod.POST)
+	public Response addCustomer(@RequestBody Map<Object, Object> map) {
 		try {
-			if(userManagementService.findUname(map)>0){
+			if (userManagementService.findUname(map) > 0) {
 				return Response.getError("用户已存在！");
-			}else{
-				//添加新用户
+			} else {
+				// 添加新用户
 				Customer customer = new Customer();
-				customer.setUsername((String)map.get("username"));
-				customer.setName((String)map.get("name"));
-				customer.setPassword((String)map.get("pass1"));
-				customer.setCityId((Integer)map.get("cityid"));
+				customer.setUsername((String) map.get("username"));
+				customer.setName((String) map.get("name"));
+				customer.setPassword((String) map.get("pass1"));
+				customer.setCityId((Integer) map.get("cityid"));
 				customer.setTypes(Customer.TYPE_CUSTOMER);
 				customer.setStatus(Customer.STATUS_NORMAL);
 				customer.setIntegral(0);
@@ -175,4 +168,21 @@ public class UserManagementController {
 			return Response.getError("请求失败！");
 		}
 	}
+
+	/**
+	 * 根据商户ID查找商户信息
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value = "queryMerchantInfo/{customerId}", method = RequestMethod.POST)
+	public Response queryMerchantInfo(@PathVariable int customerId) {
+		Response response = new Response();
+		Map<String, Object> result = userManagementService.queryMerchantInfo(customerId);
+		response.setResult(result);
+		response.setCode(Response.SUCCESS_CODE);
+
+		return response;
+	}
+
 }

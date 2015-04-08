@@ -50,5 +50,13 @@ public interface UserManagementMapper {
      * @param map
      */
     void addUser(Customer customer);
+
+    /**
+	 * 根据商户ID查找商户信息
+	 * 
+	 * @param map
+	 * @return
+	 */
+	Map<String, Object> queryMerchantInfo(int customerId);
 	
 }

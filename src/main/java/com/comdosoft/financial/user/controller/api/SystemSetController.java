@@ -57,7 +57,7 @@ public class SystemSetController {
 			c.setUsername(username);
 			c.setPassword(SysUtils.string2MD5(req.getPassword()));
 			c.setStatus(Customer.STATUS_NORMAL);// 正常
-			c.setTypes(Customer.TYPE_AGENT_STAFF);
+			c.setTypes(Customer.TYPE_AGENT_STAFF);// 代理商员工
 			c.setCreatedAt(d);
 			systemSetService.insertCustomer(c);
 
@@ -65,10 +65,10 @@ public class SystemSetController {
 			if (map != null) {
 				CustomerAgentRelation ca = new CustomerAgentRelation();
 				ca.setAgentId(req.getAgent_id());
-				int customerId = Integer.parseInt(map.get("id").toString());
+				int customerId = map.get("id") == null ? 0 : Integer.parseInt(map.get("id").toString());
 				ca.setCustomerId(customerId);
-				ca.setStatus(CustomerAgentRelation.STATUS_2);
-				ca.setTypes(6);
+				ca.setStatus(CustomerAgentRelation.STATUS_1);// 状态正常
+				ca.setTypes(CustomerAgentRelation.TYPES_EMPLOYEE_TO_AGENT);// 员工与代理商关系
 				ca.setCreatedAt(d);
 				systemSetService.insertCustomerAgentRelations(ca);
 
@@ -125,16 +125,11 @@ public class SystemSetController {
 	public Response deleteEmpInfoFromAgent(@RequestBody Map<Object, Object> param) {
 		Response response = new Response();
 
-		if (param.get("ids") != null) {
-			int id = Integer.parseInt(param.get("ids").toString());
-			if (systemSetService.updateCustomerStatus(id) > 0) {
-				if (systemSetService.deleteEmpInfoFromAgent(id) > 0) {
-					response.setCode(Response.SUCCESS_CODE);
-					response.setMessage("删除成功!!!!");
-				} else {
-					response.setCode(Response.ERROR_CODE);
-					response.setMessage("删除失败!!!!");
-				}
+		int id = param.get("ids") == null ? 0 : Integer.parseInt(param.get("ids").toString());
+		if (systemSetService.updateCustomerStatus(id) > 0) {
+			if (systemSetService.deleteEmpInfoFromAgent(id) > 0) {
+				response.setCode(Response.SUCCESS_CODE);
+				response.setMessage("删除成功!!!!");
 			} else {
 				response.setCode(Response.ERROR_CODE);
 				response.setMessage("删除失败!!!!");

@@ -23,15 +23,29 @@
 		ORDER BY created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
+ 	
+ 	<select id="getNewTerminalList" parameterType="map" resultType="map">
+		SELECT id,serial_num,status
+		FROM terminals
+		WHERE
+		agent_id=#{id}
+		<if test="status != -1 and status != null">
+			AND status = #{status}
+		</if>
+		<if test="serialNum != null and serialNum != ''">AND serial_num like '%${serialNum}%'</if>
+		ORDER BY created_at DESC
+		LIMIT #{offSetPage},#{pageSize}
+	</select>
 
 	<select id="getTerminalListSize" parameterType="map" resultType="int">
 		SELECT count(*)
 		FROM terminals
 		WHERE
 		agent_id=#{id}
-		<if test="status != -1">
+		<if test="status != -1 and status != null">
 			AND status = #{status}
 		</if>
+		<if test="serialNum != null and serialNum != ''">AND serial_num like '%${serialNum}%'</if>
 		ORDER BY created_at DESC
 	</select>
 	

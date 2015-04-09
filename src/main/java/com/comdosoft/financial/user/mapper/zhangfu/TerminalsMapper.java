@@ -24,6 +24,14 @@ public interface TerminalsMapper {
     List<Map<Object, Object>> getTerminalList(Map<String, Object> map);
 
     /**
+     * 根据用户id获得终端列表
+     * 
+     * @param map
+     * @return
+     */
+    List<Map<Object, Object>> getNewTerminalList(Map<String, Object> map);
+    
+    /**
      * 根据用户id获得终端列表总记录数
      * 
      * @param map

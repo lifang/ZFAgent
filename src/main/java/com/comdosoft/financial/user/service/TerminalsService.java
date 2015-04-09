@@ -38,6 +38,24 @@ public class TerminalsService {
 	}
 
 	/**
+	 * 获得终端列表
+	 * 
+	 * @param id
+	 * @param offSetPage
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Map<Object, Object>> getNewTerminalList(Integer id,
+			Integer offSetPage, Integer pageSize,Integer status,String serialNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
+		map.put("status", status);
+		map.put("serialNum", serialNum);
+		return terminalsMapper.getNewTerminalList(map);
+	}
+	/**
 	 * 获得终端列表总记录数
 	 * 
 	 * @param id
@@ -46,12 +64,13 @@ public class TerminalsService {
 	 * @return
 	 */
 	public int getTerminalListSize(Integer id,
-			Integer offSetPage, Integer pageSize,Integer status) {
+			Integer offSetPage, Integer pageSize,Integer status,String serialNum) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("offSetPage", offSetPage);
 		map.put("pageSize", pageSize);
 		map.put("status", status);
+		map.put("serialNum", serialNum);
 		return terminalsMapper.getTerminalListSize(map);
 	}
 	/**

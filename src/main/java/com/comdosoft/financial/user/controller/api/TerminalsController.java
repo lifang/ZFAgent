@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsService;
+import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
 /**
@@ -67,7 +70,7 @@ public class TerminalsController {
 					(Integer)map.get("agentId"),
 					offSetPage,
 					(Integer)map.get("rows"),
-					status));
+					status,null));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
 			logger.error("根据用户ID获得终端列表异常！", e);
@@ -76,7 +79,7 @@ public class TerminalsController {
 	}
 	
 	/**
-	 * 根据状态选择查询
+	 * 根据状态/终端号选择查询
 	 * @param status
 	 * @param customersId
 	 * @param page
@@ -92,16 +95,18 @@ public class TerminalsController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
 			
-			applyMap.put("applyList", terminalsService.getTerminalList(
+			applyMap.put("applyList", terminalsService.getNewTerminalList(
 					(Integer)map.get("agentId"),
 					offSetPage,
 					(Integer)map.get("rows"),
-					(Integer)map.get("status")));
+					(Integer)map.get("status"),
+					(String)map.get("serialNum")));
 			applyMap.put("total", terminalsService.getTerminalListSize(
 					(Integer)map.get("agentId"),
 					offSetPage,
 					(Integer)map.get("rows"),
-					(Integer)map.get("status")));
+					(Integer)map.get("status"),
+					(String)map.get("serialNum")));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
 			logger.error("根据状态选择查询异常！", e);
@@ -109,38 +114,6 @@ public class TerminalsController {
 		}
 	}
 	
-	/**
-	 * 根据终端号模糊查询相关终端
-	 * 
-	 * @param page
-	 * @param rows
-	 * @param customerId
-	 * @param serialNum
-	 * @return
-	 */
-	@RequestMapping(value = "searchApplyList", method = RequestMethod.POST)
-	public Response searchApplyList(@RequestBody Map<String, Object> map) {
-		try {
-			PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
-					(Integer)map.get("rows"));
-
-			int offSetPage = PageRequest.getOffset();
-			Map<Object, Object> applyMap = new HashMap<Object, Object>();
-			applyMap.put("applyList", openingApplyService.searchApplyList(
-					(Integer)map.get("agentId"),
-					offSetPage, (Integer)map.get("rows"),
-					(String)map.get("serialNum")));
-			applyMap.put("total", openingApplyService.searchApplyListSize(
-					(Integer)map.get("agentId"),
-					offSetPage, (Integer)map.get("rows"),
-					(String)map.get("serialNum")));
-			return Response.getSuccess(applyMap);
-		} catch (Exception e) {
-			logger.error("根据终端号获得开通申请列表异常！",e);
-			return Response.getError("请求失败！");
-		}
-	}
-
 	/**
 	 * 进入终端详情
 	 * 

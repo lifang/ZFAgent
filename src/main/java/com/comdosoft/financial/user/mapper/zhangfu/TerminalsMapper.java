@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 
 /**
  * 用户终端管理
@@ -117,6 +118,31 @@ public interface TerminalsMapper {
      * @param map
      */
     void Binding(Map<Object, Object> map);
+    
+    /**
+	 * 查找用户
+	 * @param customer
+	 * @return
+	 */
+	int findUname(Customer customer);
+	
+	/**
+	 * 添加用户
+	 * @param customer
+	 */
+	void addUser(Customer customer);
+	
+	/**
+	 * 查找假注册状态
+	 * @param customer
+	 * @return
+	 */
+	int findUnameAndStatus(Customer customer);
+	
+	/**
+	 * 修改验证码
+	 */
+	void updateCode(Customer customer);
     
     /**
      * 该用户所有终端

@@ -4,6 +4,10 @@ import java.util.Date;
 
 public class Customer {
 
+	/**
+	 * 已验证未激活
+	 */
+	public static final Integer STATUS_NON_END = 101;
     /**
      * 未激活
      */

@@ -11,6 +11,16 @@
 		VALUES(#{customerId},#{terminalsQuantity},#{status},#{address},#{reason},
 		now(),now(),#{applyNum},#{terminalsList},#{reciver},#{phone})
 	</insert>
+	
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		INSERT  into customers(username,password,city_id,account_type,types,phone,email,created_at,dentcode,status)
+		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{dentcode},#{status})
+	</insert>
+	
+	<update id="updateCode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		UPDATE customers set dentcode=#{dentcode}
+		WHERE username=#{username}
+	</update>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
 		SELECT id,serial_num,status
@@ -224,5 +234,18 @@
 		SELECT count(*) FROM cs_cancels c LEFT JOIN terminals t ON c.terminal_id = t.id
 		WHERE t.serial_num = #{serialNum}
 	</select>
+	
+	<select id="findUname" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
+		SELECT COUNT(*) from customers 
+		WHERE username=#{username}
+	</select>
+	
+	<select id="findUnameAndStatus" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
+		SELECT COUNT(*) from customers 
+		WHERE username=#{username} AND status=#{status}
+	</select>
+	
+	
+	
 	
 </mapper>

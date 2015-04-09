@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 
@@ -178,6 +179,40 @@ public class TerminalsService {
 	 */
 	public void Binding(Map<Object, Object> map){
 		terminalsMapper.Binding(map);
+	}
+	
+	/**
+	 * 查找用户
+	 * @param customer
+	 * @return
+	 */
+	public int findUname(Customer customer){
+		return terminalsMapper.findUname(customer);
+	}
+	
+	/**
+	 * 添加用户
+	 * @param customer
+	 */
+	public void addUser(Customer customer){
+		terminalsMapper.addUser(customer);
+	}
+	
+	/**
+	 * 查找假注册状态
+	 * @param customer
+	 * @return
+	 */
+	public int findUnameAndStatus(Customer customer){
+		return terminalsMapper.findUnameAndStatus(customer);
+	}
+	
+	/**
+	 * 修改验证码
+	 * @param customer
+	 */
+	public void updateCode(Customer customer){
+		terminalsMapper.updateCode(customer);
 	}
 	
 	/**

@@ -14,7 +14,7 @@ public interface MessageReceiverMapper {
     int count(MyOrderReq myOrderReq);
 
     SysMessage findById(MyOrderReq myOrderReq);
-    
+     
     int delete(MyOrderReq myOrderReq);
     
     int batchDelete(MyOrderReq myOrderReq);

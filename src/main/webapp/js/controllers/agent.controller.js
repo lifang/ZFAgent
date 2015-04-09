@@ -47,12 +47,11 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		if(newPassword!=newPasswordAgain){
 			alert("新密码与确认新密码不相同！");
 			return false;
-		}
-		
+		} 
 		$http.post("api/agent/modifyPassword", {
 			passwordOld : oldPassword,
 			password : newPassword, 
-			id : LoginService.agentid
+			customerId : LoginService.agentUserId
 		}).success(function(data) {
 			if(data.code==1){
 				$scope.passwordOld = "";

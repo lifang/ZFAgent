@@ -127,7 +127,9 @@ function routeConfig($routeProvider) {
 	}).when('/commercialOne', {
 		templateUrl : 'views/customer/viewCustomer.html'
 	}).when('/posprofit', {
-		templateUrl : 'views/posprofit/posprofit.html'
+		templateUrl : 'views/posprofit/posprofit.html' 
+	}).when('/messageinfo', {
+		templateUrl : 'views/management/messageDetails.html'
 	}).when('/web', {
 		templateUrl : 'views/index/webinfo.html'
 	}).when('/msg', {

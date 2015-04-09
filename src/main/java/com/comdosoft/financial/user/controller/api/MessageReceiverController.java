@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.mail.Message;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,8 @@ public class MessageReceiverController {
 			logger.debug("获取我的消息详情出错" + e);
 			return Response.getError("请求失败");
 		}
-	}
+	} 
+	
 
 	@RequestMapping(value = "deleteById", method = RequestMethod.POST)
 	public Response deleteById(@RequestBody MyOrderReq myOrderReq) {

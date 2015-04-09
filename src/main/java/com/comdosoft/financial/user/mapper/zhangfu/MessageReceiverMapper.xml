@@ -30,9 +30,9 @@
 		<if test="q ==2">
 			and IFNULL(m.`status`, 2) = 2
 		</if>
-		<if test="q ==1">
-			and m.`status` = 1
-		</if>
+<!-- 		<if test="q ==1"> -->
+<!-- 			and m.`status` = 1 -->
+<!-- 		</if> -->
 	</select>
 
 	<select id="findAll" resultMap="messageReciver">
@@ -42,12 +42,12 @@
 		sys_messages s on m.sys_message_id = s.id
 		where m.customer_id =
 		#{customerId}
-		<if test="q ==0">
+		<if test="q ==2">
 			and IFNULL(m.`status`, 2) = 2
 		</if>
-		<if test="q ==1">
-			and m.`status` = 1
-		</if>
+<!-- 		<if test="q ==1"> -->
+<!-- 			and m.`status` = 1 -->
+<!-- 		</if> -->
 		order by s.created_at desc
 		LIMIT #{offset},#{rows}
 	</select>

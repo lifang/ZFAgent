@@ -558,7 +558,7 @@ public class AgentLoginController {
 
 		Response response = new Response();
 		String oldPassword = agentLoginService.findCustomerPwdById(customer
-				.getId());
+				.getCustomerId());
 		customer.setPasswordOld(SysUtils.string2MD5(customer.getPasswordOld()));
 		if (!customer.getPasswordOld().equals(oldPassword)) {
 			response.setMessage("修改密码失败，原密码错误！");

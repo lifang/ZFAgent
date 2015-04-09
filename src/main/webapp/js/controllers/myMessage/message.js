@@ -8,7 +8,7 @@ var messageController = function($scope, $location, $http, LoginService) {
 	//初始查询所有消息。 状态2为已读，其他都是未读。
 	$scope.req.q = 0;
 	$scope.isSelectAll = false;
-	$scope.req.customerId = LoginService.agentid;
+	$scope.req.customerId = LoginService.agentUserId;
 	$scope.init = function() {
 		if (LoginService.agentid == 0) {
 			window.location.href = '#/login';

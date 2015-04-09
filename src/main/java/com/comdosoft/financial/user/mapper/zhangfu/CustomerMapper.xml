@@ -33,7 +33,7 @@
 	<select id="getEmpInfoById" parameterType="com.comdosoft.financial.user.domain.query.EmpReq"
 		resultType="map">
 	<![CDATA[
-		SELECT c.id, c.name, c.username, c.account_type FROM customers c WHERE c.id = #{id}
+		SELECT * FROM customers c WHERE c.id = #{id}
 	]]>
 	</select>
 
@@ -44,17 +44,17 @@
 	]]>
 	</select>
 
-	<!-- 根据ID删除用户信息(逻辑删除,customers表) -->
+	<!-- 根据ID删除用户信息(逻辑删除,customers表将status设为3(停用状态)) -->
 	<update id="deleteEmpInfoFromAgent">
 	<![CDATA[
-		UPDATE customers c SET c.status = 1,c.updated_at = now() WHERE id = #{id}
+		UPDATE customers c SET c.status = 3, c.updated_at = now() WHERE id = #{id}
 	]]>
 	</update>
 
-	<!-- 根据ID删除用户信息(逻辑删除,customer_agent_relations表) -->
+	<!-- 根据ID删除用户信息(逻辑删除,customer_agent_relations表将status设为2(删除状态)) -->
 	<update id="updateStatus">
 	<![CDATA[
-		UPDATE customer_agent_relations c SET c.status = 1,
+		UPDATE customer_agent_relations c SET c.status = 2,
 		c.updated_at = now() WHERE c.customer_id = #{id}
 	]]>
 	</update>
@@ -100,16 +100,18 @@
 		<![CDATA[
 			SELECT COUNT(c.id) AS count FROM customers c 
 			LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-			WHERE car.agent_id = #{agentId} AND c.status = 2 AND c.types = 6
+			WHERE car.agent_id = #{agentId} AND c.status = 2 AND c.types = 6 AND car.status = 1 AND car.types = 2
 		]]>
 	</select>
 
 	<!-- 查询代理商旗下的用户 -->
 	<select id="getAccountList" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.MyAccountReq">
 		<![CDATA[
-			SELECT c.id, c.name, c.username, c.status, car.agent_id, car.customer_id FROM customers c 
+			SELECT c.id, c.name, c.username, c.status, car.status AS cstatus, c.types, car.types AS ctypes, car.agent_id, car.customer_id, c.phone, c.email 
+			FROM customers c 
 			LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-			WHERE car.agent_id = #{agentId} AND c.status = 2 AND c.types = 6 ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
+			WHERE car.agent_id = #{agentId} AND c.status = 2 AND c.types = 6 AND car.status = 1 AND car.types = 2 ORDER BY c.created_at DESC
+		    LIMIT #{offset}, #{rows};
 		]]>
 	</select>
 	

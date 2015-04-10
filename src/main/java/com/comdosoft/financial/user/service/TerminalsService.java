@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 
@@ -38,6 +39,24 @@ public class TerminalsService {
 	}
 
 	/**
+	 * 获得终端列表
+	 * 
+	 * @param id
+	 * @param offSetPage
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Map<Object, Object>> getNewTerminalList(Integer id,
+			Integer offSetPage, Integer pageSize,Integer status,String serialNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
+		map.put("status", status);
+		map.put("serialNum", serialNum);
+		return terminalsMapper.getNewTerminalList(map);
+	}
+	/**
 	 * 获得终端列表总记录数
 	 * 
 	 * @param id
@@ -46,12 +65,13 @@ public class TerminalsService {
 	 * @return
 	 */
 	public int getTerminalListSize(Integer id,
-			Integer offSetPage, Integer pageSize,Integer status) {
+			Integer offSetPage, Integer pageSize,Integer status,String serialNum) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("offSetPage", offSetPage);
 		map.put("pageSize", pageSize);
 		map.put("status", status);
+		map.put("serialNum", serialNum);
 		return terminalsMapper.getTerminalListSize(map);
 	}
 	/**
@@ -159,6 +179,40 @@ public class TerminalsService {
 	 */
 	public void Binding(Map<Object, Object> map){
 		terminalsMapper.Binding(map);
+	}
+	
+	/**
+	 * 查找用户
+	 * @param customer
+	 * @return
+	 */
+	public int findUname(Customer customer){
+		return terminalsMapper.findUname(customer);
+	}
+	
+	/**
+	 * 添加用户
+	 * @param customer
+	 */
+	public void addUser(Customer customer){
+		terminalsMapper.addUser(customer);
+	}
+	
+	/**
+	 * 查找假注册状态
+	 * @param customer
+	 * @return
+	 */
+	public int findUnameAndStatus(Customer customer){
+		return terminalsMapper.findUnameAndStatus(customer);
+	}
+	
+	/**
+	 * 修改验证码
+	 * @param customer
+	 */
+	public void updateCode(Customer customer){
+		terminalsMapper.updateCode(customer);
 	}
 	
 	/**

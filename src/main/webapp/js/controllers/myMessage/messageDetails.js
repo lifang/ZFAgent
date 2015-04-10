@@ -6,8 +6,8 @@ var messageDetailsController = function($scope, $location, $http, LoginService){
 		if (LoginService.agentid == 0) {
 			window.location.href = '#/login';
 		}
-		$scope.req.id = $location.search()['id'];
-		$scope.req.customerId = LoginService.agentid; 
+		$scope.req.id = $location.search()['id']; 
+		$scope.req.customerId = LoginService.agentUserId; 
 		$http.post("api/message/receiver/getById", $scope.req).success(function(data) {
 			if (data.code == 1) {
 				$scope.content = data.result.content;

@@ -5,9 +5,10 @@ var messageModule = angular.module("messageModule", []);
 var messageController = function($scope, $location, $http, LoginService) {
 	$scope.req = {};
 	$scope.req.ids = [];
-	$scope.req.q = 2;
+	//初始查询所有消息。 状态2为已读，其他都是未读。
+	$scope.req.q = 0;
 	$scope.isSelectAll = false;
-	$scope.req.customerId = LoginService.agentid;
+	$scope.req.customerId = LoginService.agentUserId;
 	$scope.init = function() {
 		if (LoginService.agentid == 0) {
 			window.location.href = '#/login';
@@ -93,12 +94,14 @@ var messageController = function($scope, $location, $http, LoginService) {
 	};
 	$scope.unread = function() {
 		$scope.req.indexPage = 1;
-		$scope.req.q = 0;
+		//查看未读 。  1：已读   2：未读
+		$scope.req.q = 2;
 		$scope.getlist();
 	};
 	$scope.read = function() {
 		$scope.req.indexPage = 1;
-		$scope.req.q = 2;
+		//查看所有
+		$scope.req.q = 0;
 		$scope.getlist();
 	};
 	$scope.init();

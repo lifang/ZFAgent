@@ -87,7 +87,7 @@
 	<update id="modifyPassword">
 		UPDATE customers c SET
 		c.password=#{password},updated_at = NOW()
-		WHERE c.id = #{id} AND c.password = #{passwordOld}
+		WHERE c.id = #{customerId} AND c.password = #{passwordOld}
 	</update>
 	
 	<select id="findCustomerPwdById" parameterType="int" resultType="string">

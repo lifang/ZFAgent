@@ -59,7 +59,7 @@
 	</select>
 
 	<select id="getSonAgent" resultType="map">
-		SELECT id,company_name from agents where parent_id=#{agentId} and status=2
+		SELECT id,company_name from agents where parent_id=#{agentId} and status=5
 	</select>
 
 	<select id="getGoodList" resultType="map">

@@ -39,34 +39,52 @@
 		LEFT JOIN customers u ON u.id = a.customer_id
  		WHERE c.username=#{username} and c.password=#{password} and c.types in (#{types},#{statusEnd}) and c.status=#{status}
  	</select>
- 	<select id="isAgentOrPerson"  parameterType="string" resultType="map">
+ 	<select id="isAgentOrPerson"  resultType="map">
  		SELECT types
  		FROM customers 
- 		WHERE username=#{username}
+ 		WHERE username=#{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
  	</select>
  	
-	<update id="updateLastLoginedAt" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+	<update id="updateLastLoginedAt">
 		UPDATE customers set last_logined_at=now()
-		WHERE username=#{username}
+		WHERE username=#{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
 	</update>
 	
-	<update id="updatePassword" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+	<update id="updatePassword">
 		UPDATE customers set `password`=#{password},updated_at=now()
-		WHERE username=#{username} and status=#{status}
+		WHERE phone=#{username} and status=#{status} and types IN (#{agent},#{agentPer})
+	</update>
+	
+	<update id="updateEmailPassword">
+		UPDATE customers set `password`=#{password},updated_at=now()
+		WHERE email=#{username} and status=#{status} and types IN (#{agent},#{agentPer})
 	</update>
 	
 	<update id="updateDentcode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		UPDATE customers set dentcode=#{dentcode}
-		WHERE username=#{username}
+		WHERE phone=#{username} and status=#{status}
 	</update>
 	
-	<select id="findUname" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
+	<select id="findUname"  resultType="int">
 		SELECT COUNT(*) from customers 
-		WHERE username=#{username}
+		WHERE phone=#{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
+	</select>
+	
+	<select id="findEmail"  resultType="int">
+		SELECT COUNT(*) from customers 
+		WHERE email = #{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
 	</select>
 	
 	<select id="judgeCityId" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
-		SELECT count(*) FROM customers WHERE  city_id=#{cityId} and status = #{status}
+		SELECT count(*) FROM customers WHERE  city_id=#{cityId} and status = #{status} and types = #{types}
+	</select>
+	
+	<select id="judgePhone"  resultType="int">
+		SELECT count(*) FROM customers WHERE  phone = #{phone}  and status = #{status} and types = #{types}
+	</select>
+	
+	<select id="judgeEmail"  resultType="int">
+		SELECT count(*) FROM customers WHERE  email = #{email}  and status = #{status} and types = #{types}
 	</select>
 	
 	<select id="getAgentCode" resultType="object">
@@ -81,7 +99,7 @@
 	
 	<select id="findCode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="string">
 		SELECT dentcode from customers
-		WHERE username=#{username} and status = #{status}
+		WHERE phone=#{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
 	</select>
 	
 	<update id="modifyPassword">

@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,15 +39,37 @@ public class AgentLoginService {
 	 * @param username
 	 * @return
 	 */
-	public Map<Object, Object> isAgentOrPerson(String username){
-		return agentLoginMapper.isAgentOrPerson(username);
+	public Map<Object, Object> isAgentOrPerson(String username,String ststus,String agent,String agentPer){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", username);
+		map.put("ststus", ststus);
+		map.put("agent", agent);
+		map.put("agentPer", agentPer);
+		return agentLoginMapper.isAgentOrPerson(map);
 	}
 	/**
 	 * 找回密码
 	 * @param customer
 	 */
-	public void updatePassword(Customer customer){
-		agentLoginMapper.updatePassword(customer);
+	public void updatePassword(String password,String username,String ststus,String agent,String agentPer){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", username);
+		map.put("ststus", ststus);
+		map.put("agent", agent);
+		map.put("agentPer", agentPer);
+		agentLoginMapper.updatePassword(map);
+	}
+	/**
+	 * 找回密码email
+	 * @param customer
+	 */
+	public void updateEmailPassword(String password,String username,String ststus,String agent,String agentPer){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", username);
+		map.put("ststus", ststus);
+		map.put("agent", agent);
+		map.put("agentPer", agentPer);
+		agentLoginMapper.updateEmailPassword(map);
 	}
 	
 	/**
@@ -62,8 +85,29 @@ public class AgentLoginService {
 	 * @param customer
 	 * @return
 	 */
-	public int findUname(Customer customer){
-		return agentLoginMapper.findUname(customer);
+	public int findUname(String username,String ststus,String agent,String agentPer){
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", username);
+		map.put("ststus", ststus);
+		map.put("agent", agent);
+		map.put("agentPer", agentPer);
+		return agentLoginMapper.findUname(map);
+	}
+	
+	/**
+	 * 查找用户
+	 * @param customer
+	 * @return
+	 */
+	public int findEmail(String username,String ststus,String agent,String agentPer){
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", username);
+		map.put("ststus", ststus);
+		map.put("agent", agent);
+		map.put("agentPer", agentPer);
+		return agentLoginMapper.findEmail(map);
 	}
 	
 	/**
@@ -78,8 +122,14 @@ public class AgentLoginService {
 	 * 修改登陆时间
 	 * @param customer
 	 */
-	public void updateLastLoginedAt(Customer customer){
-		agentLoginMapper.updateLastLoginedAt(customer);
+	public void updateLastLoginedAt(String username,String ststus,String agent,String agentPer){
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", username);
+		map.put("ststus", ststus);
+		map.put("agent", agent);
+		map.put("agentPer", agentPer);
+		agentLoginMapper.updateLastLoginedAt(map);
 	}
 	
 	/**
@@ -89,6 +139,23 @@ public class AgentLoginService {
 	 */
 	public int judgeCityId(Customer customer){
 		return agentLoginMapper.judgeCityId(customer);
+	}
+	
+	/**
+	 * 判断手机号是否可用
+	 * @param customer
+	 * @return
+	 */
+	public int judgePhone(Customer customer){
+		return agentLoginMapper.judgePhone(customer);
+	}
+	/**
+	 * 判断邮箱是否可用
+	 * @param customer
+	 * @return
+	 */
+	public int judgeEmail(Customer customer){
+		return agentLoginMapper.judgeEmail(customer);
 	}
 	
 	/**
@@ -121,8 +188,13 @@ public class AgentLoginService {
 	 * @param customer
 	 * @return
 	 */
-	public String findCode(Customer customer){
-		return agentLoginMapper.findCode(customer);
+	public String findCode(String username,String ststus,String agent,String agentPer){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", username);
+		map.put("ststus", ststus);
+		map.put("agent", agent);
+		map.put("agentPer", agentPer);
+		return agentLoginMapper.findCode(map);
 	}
 	
 	/**

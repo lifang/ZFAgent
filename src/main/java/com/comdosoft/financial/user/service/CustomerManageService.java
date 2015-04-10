@@ -65,7 +65,11 @@ public class CustomerManageService {
 					resultInfo.append("两次输入的密码不一致");
 				}else{
 					lowerAgentReq.setLoginId(req.getLoginId());
-					int temp=lowerAgentMapper.checkLoginId(lowerAgentReq);
+					Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(lowerAgentReq);
+					int temp=0;
+					if(null!=mapTemp.get("num")){
+						temp=Integer.parseInt(mapTemp.get("num").toString());
+					}
 					if(temp>=1){
 						resultInfo.setLength(0);
 						resultInfo.append("该登陆ID已经存在");

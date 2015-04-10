@@ -15,7 +15,9 @@ import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.service.OrderService;
+import com.comdosoft.financial.user.utils.Exception.LessException;
 import com.comdosoft.financial.user.utils.Exception.LowstocksException;
+import com.comdosoft.financial.user.utils.Exception.NoneException;
 import com.comdosoft.financial.user.utils.page.Page;
 
 /**
@@ -164,8 +166,15 @@ public class OrderController {
         } catch (LowstocksException e) {
             resp.setCode(-2);
             resp.setMessage("库存不足");
-        } catch (Exception e) {
+        } catch (LessException e) {
+            resp.setCode(-3);
+            resp.setMessage("批购少于最少批购数量");
+        } catch (NoneException e) {
+            resp.setCode(-4);
+            resp.setMessage("订单类型不存在");
+        }catch (Exception e) {
             resp.setCode(Response.ERROR_CODE);
+            resp.setMessage("系统错误");
             e.printStackTrace();
         }
         return resp;

@@ -98,6 +98,38 @@ public class IndexService {
         }
         return newlist;
     }
+    
+	public List<Map<String, Object>> findAllCities() {
+        List<Map<String, Object>> parent_list = indexMapper.getAllCitiesList(); 
+        Map<String,Object> map = null; 
+        List<Map<String, Object>> newlist = new ArrayList<Map<String,Object>>(); 
+        List<Map<String, Object>> new_children_list =null; 
+        Map<String,Object>  cmap = null; 
+        Map<String,Object> mm = new HashMap<String,Object>(); 
+        for(Map<String,Object> m: parent_list){
+        	String pid =  m.get("pid")==null?"":m.get("pid").toString();
+        	if(!mm.containsKey(pid)){
+	        	map = new HashMap<String,Object>();
+	            map.put("id", pid);
+	            map.put("name", m.get("pname")==null?"":m.get("pname"));
+	            new_children_list = new ArrayList<Map<String,Object>>(); 
+	            for(Map<String,Object> n: parent_list){
+	            	cmap = new HashMap<String,Object>();
+	            	String p_id = n.get("pid")==null?"":n.get("pid").toString();
+	            	if(p_id.equals(pid)){
+	            		  String cid =  n.get("cid")==null?"":n.get("cid").toString();
+	                      cmap.put("id", cid);
+	                      cmap.put("name", n.get("cname")==null?"":n.get("cname"));
+	                      new_children_list.add(cmap);
+	            	}
+	            }
+	            map.put("childrens",new_children_list );
+	            newlist.add(map);
+	            mm.put(pid, pid);
+        	}
+        }
+        return newlist;
+    }
 
     public String  getPhoneCode(MyOrderReq req) {
         String phone = req.getPhone();

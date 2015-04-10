@@ -23,4 +23,12 @@
    		insert into operate_records(operate_user_id,content,created_at,updated_at) values(
    		#{operateUserId},#{content},now(),now())
    	</insert>
+   	
+   	<select id="value" resultType="String">
+	<![CDATA[
+		SELECT param_value as value
+		  FROM sys_config
+		 WHERE param_name = #{key}
+	]]>
+	</select>
 </mapper>

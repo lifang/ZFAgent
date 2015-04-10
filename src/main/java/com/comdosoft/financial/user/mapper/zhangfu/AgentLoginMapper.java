@@ -35,13 +35,18 @@ public interface AgentLoginMapper {
 	 * @param username
 	 * @return
 	 */
-	Map<Object, Object> isAgentOrPerson(String username);
+	Map<Object, Object> isAgentOrPerson(Map<Object, Object> map);
 	/**
 	 * 找回密码
 	 * @param customer
 	 */
-	void updatePassword(Customer customer);
+	void updatePassword(Map<Object, Object> map);
 	
+	/**
+	 * 找回密码email
+	 * @param customer
+	 */
+	void updateEmailPassword(Map<Object, Object> map);
 	/**
 	 * 添加用户
 	 * @param customer
@@ -53,8 +58,14 @@ public interface AgentLoginMapper {
 	 * @param customer
 	 * @return
 	 */
-	int findUname(Customer customer);
+	int findUname(Map<Object, Object> map);
 	
+	/**
+	 * 查找用户
+	 * @param customer
+	 * @return
+	 */
+	int findEmail(Map<Object, Object> map);
 	/**
 	 * 修改验证码
 	 * @param customer
@@ -65,7 +76,7 @@ public interface AgentLoginMapper {
 	 * 修改登录时间
 	 * @param customer
 	 */
-	void updateLastLoginedAt(Customer customer);
+	void updateLastLoginedAt(Map<Object, Object> map);
 	
 	/**
 	 * 判断该城市是否有代理商
@@ -73,6 +84,20 @@ public interface AgentLoginMapper {
 	 * @return
 	 */
 	int judgeCityId(Customer customer);
+	
+	/**
+	 * 判断手机号是否可用
+	 * @param customer
+	 * @return
+	 */
+	int judgePhone(Customer customer);
+	
+	/**
+	 * 判断邮箱是否可用
+	 * @param customer
+	 * @return
+	 */
+	int judgeEmail(Customer customer);
 	
 	/**
 	 * 获取代理商编号
@@ -98,7 +123,7 @@ public interface AgentLoginMapper {
 	 * @param customer
 	 * @return
 	 */
-	String findCode(Customer customer);
+	String findCode(Map<Object, Object> map);
 	
 	/**
 	 * 修改密码

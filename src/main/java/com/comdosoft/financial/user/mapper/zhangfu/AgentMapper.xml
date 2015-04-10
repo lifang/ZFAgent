@@ -43,10 +43,12 @@
 
 	<select id="getAddressList" resultType="map">
 	<![CDATA[
-		SELECT id, receiver, moblephone, address
-		  FROM customer_addresses
-		 WHERE customer_id = #{customerId}
-		 and status = 1
+		     SELECT ca.id,c2.id as city_parent_id,c.name as city_name,c2.name as city_parent_name, city_id cityId,concat(IFNULL(c2.name,''),IFNULL(c.name,'')) as city, address, zip_code zipCode, receiver, moblephone, telphone, is_default isDefault, customer_id customerId
+		 FROM customer_addresses ca 
+  		 LEFT JOIN cities c on ca.city_id=c.id
+   		 LEFT JOIN cities c2 on c.parent_id=c2.id
+		 WHERE ca.customer_id = #{customerId} and ca.status = 1
+	  	 ORDER BY ca.created_at DESC
 	]]>
 	</select>
 
@@ -134,17 +136,22 @@
 	<select id="getCommercialTenantCount" resultType="int">
 	<![CDATA[
 		SELECT count(c.id) FROM customers c 
-		LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId}; 
+		LEFT JOIN customer_agent_relations car ON c.id = car.customer_id
+		LEFT JOIN cities ct ON ct.id = c.city_id 
+		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId} AND car.types = 1 AND car.status = 1 
 	]]>
 	</select>
 
 	<!-- 查询代理商下的商户列表 -->
 	<select id="getCommercialTenantList" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.CommercialReq">
 	<![CDATA[
-		SELECT c.id, c.name, c.username, c.email, c.phone, c.types, car.customer_id 
-		FROM customers c LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId} ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
+		SELECT c.id, c.name, c.username, c.email, c.phone, c.types, c.status, c.city_id,
+		car.agent_id, car.customer_id, car.`status` AS cstatus, car.types AS ctypes,
+		ct.name AS cityname, ct.id AS cityid   
+		FROM customers c LEFT JOIN customer_agent_relations car ON c.id = car.customer_id
+		LEFT JOIN cities ct ON ct.id = c.city_id 
+		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId} AND car.types = 1 AND car.status = 1 
+		ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
 	]]>
 	</select>
 	

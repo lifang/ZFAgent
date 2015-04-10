@@ -11,4 +11,12 @@ public interface PosProfitMapper {
 
 	List<Map<String, Object>> getPosProfitList(PosProfitReq req);
 
+	/**
+	 * 根据订单ID查询订单明细
+	 * 
+	 * @param req
+	 * @return
+	 */
+	public List<Map<String, Object>> getOrderListByOrderIds(PosProfitReq req);
+
 }

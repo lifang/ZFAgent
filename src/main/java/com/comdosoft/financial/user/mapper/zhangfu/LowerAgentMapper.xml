@@ -4,11 +4,11 @@
 
 
 	<select id="getProfitList" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="map">
-        select b.name as channelName,c.trade_value as tradeTypeName,a.percent,a.pay_channel_id,a.trade_type_id as tradeTypeId
+        select ifnull(b.name,"") as channelName,c.trade_value as tradeTypeName,a.percent,a.pay_channel_id,a.trade_type_id as tradeTypeId
  from agent_profit_settings a 
 left join pay_channels b on a.pay_channel_id=b.id 
 left join dictionary_trade_types c on a.trade_type_id=c.id 
-where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order by c.id,a.updated_at desc
+where a.agent_id=#{sonAgentsId} and b.name is not null group by a.trade_type_id,a.pay_channel_id order by c.id,a.updated_at desc
      </select>
 
 
@@ -28,8 +28,8 @@ where a.agent_id=#{sonAgentsId} group by a.trade_type_id,a.pay_channel_id order 
 		Limit #{offset},#{rows}
      </select>
      
-   <select id="checkLoginId" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
-        select count(a.id) from customers a where a.username like #{loginId}
+   <select id="checkLoginId" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="hashmap">
+        select count(a.id) as num from customers a where a.username like #{loginId}
    </select>
      
    <select id="getLowerAgentTotal" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
@@ -89,7 +89,7 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
    		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email,name)
-   		 values(#{loginId},#{pwd},now(),now(),#{cityId},1,#{phoneNum},#{emailStr},#{agentName})
+   		 values(#{loginId},#{pwd},now(),now(),#{cityId},2,#{phoneNum},#{emailStr},#{agentName})
    </insert>
    
    <insert id="savePrecent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
@@ -140,7 +140,7 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
     	select code from agents where id=#{agentsId}
     </select>
     
-    <select id="getChileAgentCode" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="String">
+    <select id="getChildAgentCode" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="hashmap">
     	select code from agents where parent_id=#{agentsId}
     </select>
 	

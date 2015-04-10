@@ -56,5 +56,7 @@ public interface GoodMapper {
 
     List<Map<String, Object>> getWebCategorys();
 
+    int getAdId(int customerId);
+
 
 }

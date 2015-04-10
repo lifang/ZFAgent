@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
+import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsService;
+import com.comdosoft.financial.user.service.UserManagementService;
+import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
 /**
@@ -39,6 +43,9 @@ public class TerminalsController {
 	
 	@Resource
 	private OpeningApplyService openingApplyService;
+	
+	@Resource
+	private UserManagementService userManagementService;
 
 	@Value("${passPath}")
 	private String passPath;
@@ -67,7 +74,7 @@ public class TerminalsController {
 					(Integer)map.get("agentId"),
 					offSetPage,
 					(Integer)map.get("rows"),
-					status));
+					status,null));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
 			logger.error("根据用户ID获得终端列表异常！", e);
@@ -76,7 +83,7 @@ public class TerminalsController {
 	}
 	
 	/**
-	 * 根据状态选择查询
+	 * 根据状态/终端号选择查询
 	 * @param status
 	 * @param customersId
 	 * @param page
@@ -92,16 +99,18 @@ public class TerminalsController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
 			
-			applyMap.put("applyList", terminalsService.getTerminalList(
+			applyMap.put("applyList", terminalsService.getNewTerminalList(
 					(Integer)map.get("agentId"),
 					offSetPage,
 					(Integer)map.get("rows"),
-					(Integer)map.get("status")));
+					(Integer)map.get("status"),
+					(String)map.get("serialNum")));
 			applyMap.put("total", terminalsService.getTerminalListSize(
 					(Integer)map.get("agentId"),
 					offSetPage,
 					(Integer)map.get("rows"),
-					(Integer)map.get("status")));
+					(Integer)map.get("status"),
+					(String)map.get("serialNum")));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
 			logger.error("根据状态选择查询异常！", e);
@@ -109,38 +118,6 @@ public class TerminalsController {
 		}
 	}
 	
-	/**
-	 * 根据终端号模糊查询相关终端
-	 * 
-	 * @param page
-	 * @param rows
-	 * @param customerId
-	 * @param serialNum
-	 * @return
-	 */
-	@RequestMapping(value = "searchApplyList", method = RequestMethod.POST)
-	public Response searchApplyList(@RequestBody Map<String, Object> map) {
-		try {
-			PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
-					(Integer)map.get("rows"));
-
-			int offSetPage = PageRequest.getOffset();
-			Map<Object, Object> applyMap = new HashMap<Object, Object>();
-			applyMap.put("applyList", openingApplyService.searchApplyList(
-					(Integer)map.get("agentId"),
-					offSetPage, (Integer)map.get("rows"),
-					(String)map.get("serialNum")));
-			applyMap.put("total", openingApplyService.searchApplyListSize(
-					(Integer)map.get("agentId"),
-					offSetPage, (Integer)map.get("rows"),
-					(String)map.get("serialNum")));
-			return Response.getSuccess(applyMap);
-		} catch (Exception e) {
-			logger.error("根据终端号获得开通申请列表异常！",e);
-			return Response.getError("请求失败！");
-		}
-	}
-
 	/**
 	 * 进入终端详情
 	 * 
@@ -211,14 +188,8 @@ public class TerminalsController {
 				if(terminalsService.numIsBinding((String)map.get("terminalsNum"))==0){
 					return Response.getError("该终端已绑定！");
 				}else{
-					/*if(terminalsService.merchantsIsBinding((Integer)map.get("merchantsId"))!=null){
-						return Response.getError("该商户已绑定终端！");
-					}else{*/
-						//String terId =(String)terminalsService.getTerminalsNum((String)map.get("terminalsNum"));
-						//map.put("terchantsId", terId);
 						terminalsService.Binding(map);
 						return Response.getSuccess("绑定成功！");
-					/*}*/
 				}
 			}
 		} catch (Exception e) {
@@ -226,6 +197,82 @@ public class TerminalsController {
 			return Response.getError("请求失败！");
 		}
 	}
+	
+	 /**
+     * 发送手机验证码(添加用户)
+     * 
+     * @param number
+     */
+    @RequestMapping(value = "sendPhoneVerificationCodeReg", method = RequestMethod.POST)
+    public Response sendPhoneVerificationCodeReg(@RequestBody Map<String, Object> map) {
+        try {
+            Customer customer = new Customer();
+            customer.setUsername((String)map.get("codeNumber") );
+            String str = SysUtils.getCode();
+            customer.setPassword("000000");
+            customer.setCityId(0);
+            customer.setDentcode(str);
+            customer.setStatus(Customer.STATUS_NON_END);
+            String phone = (String)map.get("codeNumber");//手机号
+            if (terminalsService.findUname(customer) == 0) {
+            try {
+                Boolean is_sucess = SysUtils.sendPhoneCode("感谢您注册华尔街金融，您的验证码为："+str, phone);
+                if(!is_sucess){
+                	return Response.getError("获取验证码失败！");
+                }else{
+                	// 添加假状态
+                	terminalsService.addUser(customer);
+                    return Response.getSuccess(str);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return Response.getError("系统异常！");
+            }
+            } else {
+                if (terminalsService.findUnameAndStatus(customer) == 0) {
+                    return Response.getError("该用户已注册！");
+                } else {
+                	terminalsService.updateCode(customer);
+                    return Response.getSuccess(str);
+                }
+            }
+        } catch (Exception e) {
+        	e.printStackTrace();
+            return Response.getError("系统异常！");
+        }
+    }
+    
+    /**
+	 * 新创建用户
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value = "addCustomer", method = RequestMethod.POST)
+	public Response addCustomer(@RequestBody Map<Object, Object> map) {
+		try {
+			 Customer customer = new Customer();
+			 customer.setUsername((String)map.get("codeNumber"));
+			if (terminalsService.findUnameAndStatus(customer) > 0) {
+				return Response.getError("用户已存在！");
+			} else {
+				// 添加新用户
+				customer.setName((String) map.get("name"));
+				customer.setPassword((String) map.get("password"));
+				customer.setCityId((Integer) map.get("cityId"));
+				customer.setTypes(Customer.TYPE_CUSTOMER);
+				customer.setStatus(Customer.STATUS_NORMAL);
+				customer.setIntegral(0);
+				userManagementService.addUser(customer);
+				return Response.getSuccess(customer);
+			}
+		} catch (Exception e) {
+			logger.error("为用户绑定失败！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+
+
 	
 	/**
 	 * 选择终端号

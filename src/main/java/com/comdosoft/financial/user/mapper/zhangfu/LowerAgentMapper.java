@@ -42,7 +42,7 @@ public interface LowerAgentMapper {
 	
 	int delChannel(LowerAgentReq req);
 	
-	int checkLoginId(LowerAgentReq req);
+	Map<String, Object> checkLoginId(LowerAgentReq req);
 	
 	int getCustomerId(LowerAgentReq req);
 	

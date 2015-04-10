@@ -1,5 +1,6 @@
 
 var agentLoginController = function($scope, $location, $http, LoginService){
+	 
 	if(LoginService.agentid>0){
 		window.location.href = '#/';
 	}
@@ -21,10 +22,20 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 	
 	// 初始化图片验证码
 	$scope.reGetRandCodeImg = function() {
+			$scope.agent.agentName = getCookie("agentName");
+		    $scope.agent.agentPass = getCookie("agentPass");  
 		$(".loginRandCodeImg").attr("src", "api/agent/getRandCodeImg?id=" + Math.random());
 	};
 	
 	$scope.reGetRandCodeImg();
 }
 
+
+//读取cookies
+function getCookie(name)
+{
+var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+if(arr=document.cookie.match(reg)) return unescape(arr[2]);
+else return null;
+}
 indexModule.controller("agentLoginController", agentLoginController);

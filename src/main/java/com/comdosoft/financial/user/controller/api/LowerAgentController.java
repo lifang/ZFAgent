@@ -178,20 +178,13 @@ public class LowerAgentController {
 				response.setCode(Response.ERROR_CODE);
 				response.setMessage("两次输入的密码不一致");
 			}else{
-				req.setLoginId(req.getLoginId().trim());
-				int temp=lowerAgentService.checkLoginId(req);
-				if(temp>=1){
+	        	Map<String,Object> map=lowerAgentService.addNewAgent(req);
+				if(map.get("resultCode").toString().equals("-1")){
 					response.setCode(Response.ERROR_CODE);
-		        	response.setMessage("输入登陆ID已经存在！");
+		        	response.setMessage(map.get("resultInfo").toString());
 		        }else{
-		        	Map<String,Object> map=lowerAgentService.addNewAgent(req);
-					if(map.get("resultCode").toString().equals("-1")){
-						response.setCode(Response.ERROR_CODE);
-			        	response.setMessage(map.get("resultInfo").toString());
-			        }else{
-			        	response.setCode(Response.SUCCESS_CODE);
-			        	response.setMessage(map.get("resultInfo").toString());
-			        }
+		        	response.setCode(Response.SUCCESS_CODE);
+		        	response.setMessage(map.get("resultInfo").toString());
 		        }
 			}
 		}

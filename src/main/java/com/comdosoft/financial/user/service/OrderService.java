@@ -26,9 +26,12 @@ import com.comdosoft.financial.user.domain.zhangfu.OrderStatus;
 import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.OrderMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.SysconfigMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
+import com.comdosoft.financial.user.utils.Exception.LessException;
 import com.comdosoft.financial.user.utils.Exception.LowstocksException;
+import com.comdosoft.financial.user.utils.Exception.NoneException;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -41,9 +44,15 @@ public class OrderService {
     
     @Autowired
     private  GoodMapper goodMapper;
+    
+    @Autowired
+    private SysconfigMapper sysconfigmapper;
 
     @Transactional(value = "transactionManager-zhangfu")
-    public int createOrderFromAgent(OrderReq orderreq) throws LowstocksException {
+    public int createOrderFromAgent(OrderReq orderreq)  {
+        if (0 == orderreq.getAddressId()) {
+            orderreq.setAddressId(goodMapper.getAdId(orderreq.getCustomerId()));
+        }
             Map<String, Object> goodMap = orderMapper.getGoodInfo(orderreq);
             int quantity = orderreq.getQuantity();
             int opening_cost = SysUtils.Object2int(goodMap.get("opening_cost"));
@@ -57,7 +66,7 @@ public class OrderService {
                 PosReq posreq = new PosReq();
                 posreq.setGoodId(goodId);
                 posreq.setCityId(count-quantity);
-                //goodMapper.upQuantity(posreq);
+                goodMapper.upQuantity(posreq);
             }
             //3 代理商代购 4 代理商代租赁 5 代理商批购
             if(3==orderreq.getOrderType()){
@@ -73,13 +82,21 @@ public class OrderService {
                 int floor_price = SysUtils.Object2int(goodMap.get("floor_price"));
                 int floor_purchase_quantity = SysUtils.Object2int(goodMap.get("floor_purchase_quantity"));
                 if(quantity<floor_purchase_quantity){
-                    return 0; 
+                    throw new LessException("批购少于最少批购数量");
                 }
                 int factprice=goodService.setPurchasePrice(orderreq.getAgentId(), purchase_price, floor_price);
                 payprice=factprice+opening_cost;
                 price=SysUtils.Object2int(goodMap.get("price"))+opening_cost;
+                int pp;
+                try {
+                    pp = Integer.valueOf(sysconfigmapper.value("purchaseOrderRatio"));
+                } catch (NumberFormatException e) {
+                    pp=20;
+                }
+                int front_money=price*quantity*pp/100;
+                orderreq.setFront_money(front_money);
             }else{
-                return 0;
+                throw new NoneException("订单类型不存在");
             }
             orderreq.setTotalprice(payprice*quantity);
             orderreq.setTotalcount(quantity);
@@ -131,7 +148,7 @@ public class OrderService {
             int pay_status = o.getFrontPayStatus()==null?0:o.getFrontPayStatus(); //1 已支付  0 未支付
             Integer zhifu_dingjin = 0;
             Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
-            if(pay_status==1){
+            if(pay_status==2){
                 zhifu_dingjin = dj_price;
             }
             BigDecimal bd_act = new BigDecimal(actual_price);
@@ -148,7 +165,8 @@ public class OrderService {
             map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
             map.put("shengyu_price", shengyu_price+"");//
             map.put("actual_price", bd_act+"");//
-            map.put("quantity", quantity+"");//已发货数量
+            map.put("shipped_quantity", quantity+"");//已发货数量
+            map.put("pay_status", pay_status+"");   //如果状态为2 页面就显示 已付定金  ，未付清  就显示 付款按钮
             map.put("total_quantity", o.getTotalQuantity()==null?"":o.getTotalQuantity());//已发货数量
             
             List<OrderGood> olist = orderMapper.findGoodsByWOrderId(o.getId());
@@ -273,7 +291,7 @@ public class OrderService {
         String pay_status = o.getFrontPayStatus()==null?"":o.getFrontPayStatus().toString(); //1 已支付  0 未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
-        if(pay_status.equals("1")){
+        if(pay_status.equals("2")){
             zhifu_dingjin = dj_price;
         }
 //        Integer shengyu_price = actual_price-zhifu_dingjin;

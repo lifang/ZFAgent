@@ -205,7 +205,8 @@ public class LowerAgentService {
         	//调用加密方法
         	req.setPwd(SysUtils.string2MD5(req.getPwd()));
         	//判断该登陆名是否已经存在
-        	if(lowerAgentMapper.checkLoginId(req)>=1){
+        	Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(req);
+        	if(Integer.parseInt(mapTemp.get("num").toString())>=1){
         		//已经存在
         		map.put("resultCode", -1);
         		map.put("resultInfo", "当前登录名已经存在！");
@@ -224,9 +225,17 @@ public class LowerAgentService {
 	            	
 	            	if(list.size()>0){
 		            	for(int i=0;i<list.size();i++){
-		            		int tempCode=Integer.parseInt(list.get(i).get("code").toString().substring(lengthTemp));
-		            		if(tempCode>=temp){
-		            			temp=tempCode;
+		            		String tempStr1=list.get(i).get("code").toString();
+		            		if(tempStr1.length()>3 && tempStr1.length()<=6){
+		            			String tempStr=list.get(i).get("code").toString().substring(lengthTemp, lengthTemp+3);
+			            		if(tempStr.trim().equals("")){
+			            			
+			            		}else{
+				            		int tempCode=Integer.parseInt(tempStr.trim());
+				            		if(tempCode>=temp){
+				            			temp=tempCode;
+				            		}
+			            		}
 		            		}
 		            	}
 	            	}
@@ -327,7 +336,8 @@ public class LowerAgentService {
 	
 	
 	public int checkLoginId(LowerAgentReq req) {
-        return lowerAgentMapper.checkLoginId(req);
+		Map<String, Object> map=lowerAgentMapper.checkLoginId(req);
+        return Integer.parseInt(map.get("num").toString());
     }
 	
 	/**

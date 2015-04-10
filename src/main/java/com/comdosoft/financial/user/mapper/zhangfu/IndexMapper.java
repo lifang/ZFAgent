@@ -12,6 +12,8 @@ public interface IndexMapper {
     List<Map<String, Object>> getPosList();
 
     List<Map<String, Object>> getParentCitiesList();
+    
+    List<Map<String, Object>> getAllCitiesList();
 
     List<Map<String, Object>> getChildrenCitiesList(String id);
 

@@ -36,7 +36,7 @@ public class PosProfitController {
 	public Response getPosProfitList(@RequestBody PosProfitReq req) {
 		Response response = new Response();
 		try {
-			Map<String, Object> result = posProfitService.getPosProfitList(req);
+			Map<String, Object> result = posProfitService.getProfitResult(req);
 			response.setResult(result);
 			response.setCode(Response.SUCCESS_CODE);
 		} catch (Exception e) {

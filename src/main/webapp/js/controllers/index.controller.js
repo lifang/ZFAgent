@@ -39,7 +39,7 @@ var indexController = function($scope, $location, $http, LoginService,
 			$scope.menu8=false;
 			$scope.menu9=false;
 			$scope.machtigingen=LoginService.machtigingen;
-			if($scope.machtigingen.length>0){
+			if($scope.machtigingen.length>0 && $scope.machtigingen != ""){
 				for(var i=0;i<$scope.machtigingen.length;i++){
             		if($scope.machtigingen[i].role_id=="1"){
             			$scope.menu1=true;

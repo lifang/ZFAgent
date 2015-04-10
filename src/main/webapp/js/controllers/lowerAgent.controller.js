@@ -499,7 +499,7 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
             	}
             	
             	$scope.req.profitPercent=editVal;
-            	$scope.req.channelId=$scope.curChannel;
+            	$scope.req.payChannelId=$scope.curChannel;
             	$scope.req.sign=1;
             	
             	$http.post("api/lowerAgent/saveOrEdit", $scope.req).success(function (data) {  //绑定

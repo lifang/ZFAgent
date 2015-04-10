@@ -42,7 +42,7 @@
  	<select id="isAgentOrPerson"  parameterType="string" resultType="map">
  		SELECT types
  		FROM customers 
- 		WHERE username=#{username}
+ 		WHERE username=#{username} and `status` = #{ststus}
  	</select>
  	
 	<update id="updateLastLoginedAt" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">

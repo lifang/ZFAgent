@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +39,11 @@ public class AgentLoginService {
 	 * @param username
 	 * @return
 	 */
-	public Map<Object, Object> isAgentOrPerson(String username){
-		return agentLoginMapper.isAgentOrPerson(username);
+	public Map<Object, Object> isAgentOrPerson(String username,String ststus){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", username);
+		map.put("ststus", ststus);
+		return agentLoginMapper.isAgentOrPerson(map);
 	}
 	/**
 	 * 找回密码

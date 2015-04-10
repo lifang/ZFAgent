@@ -35,7 +35,7 @@ public interface AgentLoginMapper {
 	 * @param username
 	 * @return
 	 */
-	Map<Object, Object> isAgentOrPerson(String username);
+	Map<Object, Object> isAgentOrPerson(Map<Object, Object> map);
 	/**
 	 * 找回密码
 	 * @param customer

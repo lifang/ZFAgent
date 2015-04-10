@@ -44,7 +44,7 @@
 			</ul>
 		</div>
 		<div class="user_statistics">
-			从{{startTime}}到{{endTime}} 总计分润<strong>￥{{totalProfit}}</strong>
+			从{{startTime}}到{{endTime}}总计分润<strong>￥{{totalProfit}}</strong>
 		</div>
 		<div class="uesr_table">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
@@ -81,14 +81,14 @@
 						<td ng-if="one.types == 4">代理商租赁</td>
 						<td ng-if="one.types == 5">代理商批购</td>
 						<!-- 销售价格 -->
-						<td ng-if="one.types == 1 || one.types == 3 || one.types == 5"><strong>￥{{one.salesPrice}}</strong></td>
+						<td ng-if="one.types == 1 || one.types == 3 || one.types == 5"><strong>￥{{one.actual_price}}</strong></td>
 						<td ng-if="one.types == 2 || one.types == 4">-</td>
 						<!-- 批购价格 -->
-						<td ng-if="one.types == 1 || one.types == 3 || one.types == 5"><strong>￥{{one.purchasePrice}}</strong></td>
+						<td ng-if="one.types == 1 || one.types == 3 || one.types == 5"><strong>￥{{one.lease_price}}</strong></td>
 						<td ng-if="one.types == 2 || one.types == 4">-</td>
 						<!-- 租金 -->
 						<td ng-if="one.types == 1 || one.types == 3 || one.types == 5"><strong>-</strong></td>
-						<td ng-if="one.types == 2 || one.types == 4"><strong>￥{{one.leasePrice}}</strong></td>
+						<td ng-if="one.types == 2 || one.types == 4"><strong>￥{{one.rental}}</strong></td>
 						<td><strong>￥{{one.profit}}</strong></td>
 					</tr>
 					

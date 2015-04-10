@@ -38,6 +38,21 @@
 		limit 0,6
 	</select>
 	
+	<select id="getAllCitiesList" resultType="map">
+		SELECT
+			c.`name` AS pname,
+			c.id AS pid,
+			cc.`name` AS cname,
+			cc.id AS cid
+		FROM
+			cities c
+		LEFT JOIN cities cc ON cc.parent_id = c.id
+		WHERE
+			c.parent_id = 0
+		ORDER BY
+			c.sort_index
+	</select>
+	
 	<select id="getParentCitiesList" resultType="map">
 		SELECT
 		c.`name`,

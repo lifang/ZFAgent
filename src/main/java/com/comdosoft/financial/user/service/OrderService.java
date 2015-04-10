@@ -131,7 +131,7 @@ public class OrderService {
             int pay_status = o.getFrontPayStatus()==null?0:o.getFrontPayStatus(); //1 已支付  0 未支付
             Integer zhifu_dingjin = 0;
             Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
-            if(pay_status==1){
+            if(pay_status==2){
                 zhifu_dingjin = dj_price;
             }
             BigDecimal bd_act = new BigDecimal(actual_price);
@@ -273,7 +273,7 @@ public class OrderService {
         String pay_status = o.getFrontPayStatus()==null?"":o.getFrontPayStatus().toString(); //1 已支付  0 未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
-        if(pay_status.equals("1")){
+        if(pay_status.equals("2")){
             zhifu_dingjin = dj_price;
         }
 //        Integer shengyu_price = actual_price-zhifu_dingjin;

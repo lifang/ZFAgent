@@ -3,19 +3,21 @@ package com.comdosoft.financial.user.domain.query;
 import java.util.Date;
 
 public class PosProfitReq {
-
+	private String[] ids;
 	private int agent_id;// 代理商ID
 	private Date saleTime;// 销售日期
 	private String posName;// POS机名称
 	private String modelNumber;// 终端号
 	private String types;// 订单类型
-
+	private int order_id;// 订单ID
+	private int good_id;// 商品ID
 	private int page;
 	private int rows;
 	private int offset;
 
 	private String startTime;
 	private String endTime;
+
 	public int getAgent_id() {
 		return agent_id;
 	}
@@ -103,5 +105,29 @@ public class PosProfitReq {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
+
+	public int getOrder_id() {
+		return order_id;
+	}
+
+	public void setOrder_id(int order_id) {
+		this.order_id = order_id;
+	}
+
+	public int getGood_id() {
+		return good_id;
+	}
+
+	public void setGood_id(int good_id) {
+		this.good_id = good_id;
+	}
+
+	public String[] getIds() {
+		return ids;
+	}
+
+	public void setIds(String[] ids) {
+		this.ids = ids;
+	}
+
 }

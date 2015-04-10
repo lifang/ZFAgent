@@ -58,10 +58,5 @@ var empAddController = function($scope, $http, $location, LoginService) {
 		});
 	};
 
-	// $scope.init = function(){
-	// alert(LoginService.agentUserId);
-	// }
-	//	
-	// $scope.init();
 };
 empAddModule.controller("empAddController", empAddController);

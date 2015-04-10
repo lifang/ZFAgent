@@ -54,7 +54,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   }
       			        	   $cookieStore.put("loginAgentName",data.result.username);//用户名
       			        	   $cookieStore.put("loginId",data.result.id);//登陆用户id
-      			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit);//是否有分润
+      			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit?2:1);//是否有分润
       			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
       			        	   //$cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
       			        	   if(data.result.types=6){

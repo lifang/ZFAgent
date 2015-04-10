@@ -26,9 +26,11 @@ var loginService = function ($http, $rootScope, $cookieStore) {
         tradeTypeId: 0,
       //代理商登陆功能
         agentLogin: function ($scope,$http) {
-   		 	if($scope.agent.agentName == undefined){
+        	$scope.agent.agentName = $("#cookieName").val();
+        	$scope.agent.agentPass = $("#cookiePass").val();
+   		 	if($scope.agent.agentName == undefined || $scope.agent.agentName == ""){
    		 		$scope.agentNameClass = true;
-   		 	}else if($scope.agent.agentPass == undefined){
+   		 	}else if($scope.agent.agentPass == undefined || $scope.agent.agentPass == ""){
    		 		$scope.agentPassClass = true;
    		 	}else{
    		 	$http.post("api/agent/sizeUpImgCode", {imgnum:$scope.agent.agentCode}).success(function(data){
@@ -44,9 +46,11 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $scope.code = "";
       			        	   //记住密码
       			        	   if($scope.agentRememberPass == true){
-      			        		   $cookieStore.put("agentPass",data.result.password);
+      			        		 setCookie("agentPass",$scope.agent.agentPass);
+      			        		 setCookie("agentName",$scope.agent.agentName);
       			        	   }else{
-      			        		   $cookieStore.remove("agentPass");
+      			        		 delCookie("agentPass");
+      			        		 delCookie("agentName");
       			        	   }
       			        	   $cookieStore.put("loginAgentName",data.result.username);//用户名
       			        	   $cookieStore.put("loginId",data.result.id);//登陆用户id
@@ -119,5 +123,22 @@ var loginService = function ($http, $rootScope, $cookieStore) {
     };
 };
 
+//写cookies
+function setCookie(name,value)
+{
+var Days = 30;
+var exp = new Date(); 
+exp.setTime(exp.getTime() + 30*60*1000);
+document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+//删除cookies
+function delCookie(name)
+{
+var exp = new Date();
+exp.setTime(exp.getTime() - 1);
+var cval=getCookie(name);
+if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+}
 loginServiceModule.$inject = ['$http', '$rootScope', '$cookieStore'];
 loginServiceModule.service("LoginService", loginService);

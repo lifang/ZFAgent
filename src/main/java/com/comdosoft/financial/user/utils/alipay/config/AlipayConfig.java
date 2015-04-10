@@ -24,11 +24,11 @@ public class AlipayConfig {
 	
 	//↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 	// 合作身份者ID，以2088开头由16位纯数字组成的字符串
-	public static String partner = "2088002153002681";
-	// 商户的私钥
-	public static String key = "y8wpddg38lpu0ks66uluaj8506sw7tks";
-	
-	public static String  seller_email="ye.sen@outlook.com";
+    public static String partner = "2088811347108355";
+    // 商户的私钥
+    public static String key = "eajasqmp230hyjsjkce5gl8t7c1evl2k";
+    
+    public static String  seller_email="ebank007@epalmpay.cn";
 	
 	public static String  backurl="http://121.40.84.2:8080/";
 

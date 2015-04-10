@@ -52,7 +52,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $cookieStore.put("loginId",data.result.id);//登陆用户id
       			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit);//是否有分润
       			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
-      			        	   $cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
+      			        	   //$cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
       			        	   if(data.result.types=6){
       			        		 $cookieStore.put("identity",3);
       			        	   }else{
@@ -87,7 +87,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
             $cookieStore.remove("loginId");
             $cookieStore.remove("agentIsHaveProfit");
             $cookieStore.remove("agentTypes");
-            $cookieStore.remove("agentParentId");
+          //  $cookieStore.remove("agentParentId");
             $cookieStore.remove("identity");
             $cookieStore.remove("agentId");
             $cookieStore.remove("agentUserId");

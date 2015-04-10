@@ -134,17 +134,22 @@
 	<select id="getCommercialTenantCount" resultType="int">
 	<![CDATA[
 		SELECT count(c.id) FROM customers c 
-		LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId}; 
+		LEFT JOIN customer_agent_relations car ON c.id = car.customer_id
+		LEFT JOIN cities ct ON ct.id = c.city_id 
+		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId} AND car.types = 1 AND car.status = 1 
 	]]>
 	</select>
 
 	<!-- 查询代理商下的商户列表 -->
 	<select id="getCommercialTenantList" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.CommercialReq">
 	<![CDATA[
-		SELECT c.id, c.name, c.username, c.email, c.phone, c.types, car.customer_id 
-		FROM customers c LEFT JOIN customer_agent_relations car ON c.id = car.customer_id 
-		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId} ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
+		SELECT c.id, c.name, c.username, c.email, c.phone, c.types, c.status, c.city_id,
+		car.agent_id, car.customer_id, car.`status` AS cstatus, car.types AS ctypes,
+		ct.name AS cityname, ct.id AS cityid   
+		FROM customers c LEFT JOIN customer_agent_relations car ON c.id = car.customer_id
+		LEFT JOIN cities ct ON ct.id = c.city_id 
+		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId} AND car.types = 1 AND car.status = 1 
+		ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
 	]]>
 	</select>
 	

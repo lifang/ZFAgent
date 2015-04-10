@@ -67,16 +67,17 @@ public class AgentLoginController {
 			//先判断是代理商还是员工
 			Map<Object, Object> obj = agentLoginService.isAgentOrPerson(customer.getUsername(),customer.getStatus().toString());
 			if(obj == null){
-				return Response.getError("用户名不存在！");
+				return Response.getError("用户名不存在,或者未激活！");
 			}else{
 				
 				if(obj.get("types") == Customer.TYPE_AGENT_STAFF){//员工
 					 customerMes = agentLoginService
 					.doLoginPersn(customer);
-				}
-				if(obj.get("types") == Customer.TYPE_AGENT){//代理商
+				}else if(obj.get("types") == Customer.TYPE_AGENT){//代理商
 					customerMes = agentLoginService
 							.doLogin(customer);
+				}else{
+					customerMes = null;
 				}
 				if (customerMes != null) {
 					agentLoginService.updateLastLoginedAt(customer);
@@ -350,10 +351,11 @@ public class AgentLoginController {
 				if(obj.get("types") == Customer.TYPE_AGENT_STAFF){//员工
 					 customerMes = agentLoginService
 					.doLoginPersn(customer);
-				}
-				if(obj.get("types") == Customer.TYPE_AGENT){//代理商
+				}else if(obj.get("types") == Customer.TYPE_AGENT){//代理商
 					customerMes = agentLoginService
 							.doLogin(customer);
+				}else{
+					customerMes = null;
 				}
 				if (customerMes != null) {
 					agentLoginService.updateLastLoginedAt(customer);

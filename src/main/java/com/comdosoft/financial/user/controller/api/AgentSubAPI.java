@@ -87,7 +87,8 @@ public class AgentSubAPI {
         try {
             Customer customer = new Customer();
             customer.setUsername(agent.getUsername());
-            if (agentLoginService.findUname(customer) > 0) {
+            customer.setStatus(Customer.STATUS_NORMAL);
+            if (agentLoginService.findUname(customer.getUsername(),customer.getStatus().toString(),Customer.TYPE_AGENT.toString(),Customer.TYPE_AGENT_STAFF.toString()) > 0) {
                 return Response.getError("创建下级代理商信息失败:已注册");
             } else {
                 // 查找该城市中是否有状态为正常的代理商

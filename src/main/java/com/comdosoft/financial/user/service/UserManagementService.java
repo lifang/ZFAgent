@@ -18,19 +18,20 @@ import com.comdosoft.financial.user.mapper.zhangfu.UserManagementMapper;
 public class UserManagementService {
 	@Resource
 	private UserManagementMapper userManagementMapper;
-	
+
 	@Resource
 	private OpeningApplyMapper openingApplyMapper;
-	
+
 	@Resource
 	private TerminalsMapper terminalsMapper;
-	
+
 	/**
 	 * 获得该代理商所有相关用户
+	 * 
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getUser(int customerId,int status){
+	public List<Map<String, Object>> getUser(int customerId, int status) {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("customerId", customerId);
 		map.put("status", status);
@@ -39,31 +40,33 @@ public class UserManagementService {
 
 	/**
 	 * 删除用户与代理商之间的关联
+	 * 
 	 * @param id
 	 */
-	public void delectAgentUser(int id,int customerId,int status){
+	public void delectAgentUser(int id, int customerId, int status) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("customerId", customerId);
 		map.put("status", status);
 		userManagementMapper.delectAgentUser(map);
 	}
-	
+
 	/**
 	 * 获得该用户所用终端
+	 * 
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getTerminals(int customerId,Integer offSetPage, Integer pageSize) {
+	public List<Map<String, Object>> getTerminals(int customerId, Integer offSetPage, Integer pageSize) {
 		Map<String, Object> map = new HashMap<String, Object>();
-			map.put("id", customerId);
-			map.put("offSetPage", offSetPage);
-			map.put("pageSize", pageSize);
+		map.put("id", customerId);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
 		return userManagementMapper.getTerminals(map);
 	}
 
 	public Map<Object, Object> queryCustomer(int id) {
-		 return userManagementMapper.queryCustomer(id);
+		return userManagementMapper.queryCustomer(id);
 	}
 
 	public int getTerminalListTotalCount(int customerId) {
@@ -78,20 +81,22 @@ public class UserManagementService {
 		query.put("pageSize", paging.getRows());
 		return userManagementMapper.getTerminalList(query);
 	}
-	
+
 	/**
 	 * 判断用户是否存在
+	 * 
 	 * @param map
 	 */
-	public int findUname(Map<Object, Object> map){
+	public int findUname(Map<Object, Object> map) {
 		return userManagementMapper.findUname(map);
 	}
-	
+
 	/**
 	 * 添加新用户
+	 * 
 	 * @param map
 	 */
-	public void addUser(Customer customer){
+	public void addUser(Customer customer) {
 		userManagementMapper.addUser(customer);
 	}
 
@@ -102,7 +107,11 @@ public class UserManagementService {
 	 * @return
 	 */
 	public Map<String, Object> queryMerchantInfo(int customerId) {
-		return userManagementMapper.queryMerchantInfo(customerId);
+		List<Map<String, Object>> result = userManagementMapper.queryMerchantInfo(customerId);
+		if (result != null && !result.isEmpty()) {
+			return result.get(0);
+		}
+		return null;
 	}
-	
+
 }

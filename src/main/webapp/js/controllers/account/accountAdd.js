@@ -43,8 +43,7 @@ var empAddController = function($scope, $http, $location, LoginService) {
 
 		// alert($scope.customer.rights);
 
-		$scope.customer.agent_id = LoginService.agentUserId;
-		// alert(LoginService.agentUserId);
+		$scope.customer.agent_id = LoginService.agentid;
 		// $scope.customer.agent_id = 5;
 
 		$http.post("api/account/addCustomer", $scope.customer).success(function(data) {
@@ -57,6 +56,13 @@ var empAddController = function($scope, $http, $location, LoginService) {
 
 		});
 	};
+
+	// $scope.init = function() {
+	// alert(LoginService.agentid);
+	// // alert(LoginService.agentId);
+	// };
+	//
+	// $scope.init();
 
 };
 empAddModule.controller("empAddController", empAddController);

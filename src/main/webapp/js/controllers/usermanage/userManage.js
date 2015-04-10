@@ -41,7 +41,6 @@ var userManageListController = function($scope, $http, LoginService) {
 							$scope.init();
 						}
 
-					}).error(function(data) {
 					});
 				}
 			} else {

@@ -32,8 +32,8 @@
 					<li><label>&nbsp;邮政编码：</label><input id="zipCode" ng-model="address.zipCode" type="text" onblur="numModify(this)" /></li>
 					<li><label><span class="red">*</span>收货人姓名：</label><input id="receiver" ng-model="address.receiver" type="text" required="required" /></li>
 					<li><label><span class="red">*</span>手机号码：</label><input id="moblephone" ng-model="address.moblephone" type="text" required="required" onblur="numModify(this)" /></li>
-					<li><label>&nbsp;电话号码：</label><input id="telphone" ng-model="address.telphone" type="text" onblur="numModify(this)"/></li>
-					<li><label></label><span class="checkboxRadio_span"><input name="defaultAddr" ng-model="address.isDefault" type="radio" value="1" />设置为默认地址</span></li>
+					<li><label>&nbsp;电话号码：</label><input class="JPhoneText" id="telphone" ng-model="address.telphone" type="text" onblur="numModify(this)"/></li>
+					<li><label></label><span class="checkboxRadio_span"><input id="setDefault" name="defaultAddr" ng-model="address.isDefault" type="radio" value="1" />设置为默认地址</span></li>
 				</ul>
 				<div class="myInfoBox_btn">
 					<input type="submit" class="orangeBtn" value="保存">

@@ -57,6 +57,6 @@ public interface UserManagementMapper {
 	 * @param map
 	 * @return
 	 */
-	Map<String, Object> queryMerchantInfo(int customerId);
+	List<Map<String, Object>> queryMerchantInfo(int customerId);
 	
 }

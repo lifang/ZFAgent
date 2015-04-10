@@ -32,6 +32,7 @@ var addressController = function ($scope, $http, LoginService) {
 				$("#receiver").val("");
 				$("#moblephone").val("");
 				$("#telphone").val("");
+				$("#setDefault").removeAttr("checked");// 移除radio的选中属性
 				$(".myInfoBox").show();
 			} else {
 				$("#addCheck").html("每个账号最多拥有10条有效地址信息，请删除或修改原地址");

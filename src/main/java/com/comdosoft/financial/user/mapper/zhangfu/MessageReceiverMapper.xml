@@ -28,7 +28,7 @@
 		where m.customer_id =
 		#{customerId}
 		<if test="q ==2">
-			and IFNULL(m.`status`, 2) = 2
+			and IFNULL(m.`status`, 1) != 1
 		</if>
 <!-- 		<if test="q ==1"> -->
 <!-- 			and m.`status` = 1 -->
@@ -42,8 +42,9 @@
 		sys_messages s on m.sys_message_id = s.id
 		where m.customer_id =
 		#{customerId}
+<!-- 	q==2.查看未读消息, status为1是已读，其他都是未读。 -->
 		<if test="q ==2">
-			and IFNULL(m.`status`, 2) = 2
+			and IFNULL(m.`status`, 1) != 1
 		</if>
 <!-- 		<if test="q ==1"> -->
 <!-- 			and m.`status` = 1 -->

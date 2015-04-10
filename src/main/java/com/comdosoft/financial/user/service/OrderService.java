@@ -26,9 +26,12 @@ import com.comdosoft.financial.user.domain.zhangfu.OrderStatus;
 import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.mapper.zhangfu.GoodMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.OrderMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.SysconfigMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
+import com.comdosoft.financial.user.utils.Exception.LessException;
 import com.comdosoft.financial.user.utils.Exception.LowstocksException;
+import com.comdosoft.financial.user.utils.Exception.NoneException;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -41,9 +44,15 @@ public class OrderService {
     
     @Autowired
     private  GoodMapper goodMapper;
+    
+    @Autowired
+    private SysconfigMapper sysconfigmapper;
 
     @Transactional(value = "transactionManager-zhangfu")
-    public int createOrderFromAgent(OrderReq orderreq) throws LowstocksException {
+    public int createOrderFromAgent(OrderReq orderreq)  {
+        if (0 == orderreq.getAddressId()) {
+            orderreq.setAddressId(goodMapper.getAdId(orderreq.getCustomerId()));
+        }
             Map<String, Object> goodMap = orderMapper.getGoodInfo(orderreq);
             int quantity = orderreq.getQuantity();
             int opening_cost = SysUtils.Object2int(goodMap.get("opening_cost"));
@@ -57,7 +66,7 @@ public class OrderService {
                 PosReq posreq = new PosReq();
                 posreq.setGoodId(goodId);
                 posreq.setCityId(count-quantity);
-                //goodMapper.upQuantity(posreq);
+                goodMapper.upQuantity(posreq);
             }
             //3 代理商代购 4 代理商代租赁 5 代理商批购
             if(3==orderreq.getOrderType()){
@@ -73,13 +82,21 @@ public class OrderService {
                 int floor_price = SysUtils.Object2int(goodMap.get("floor_price"));
                 int floor_purchase_quantity = SysUtils.Object2int(goodMap.get("floor_purchase_quantity"));
                 if(quantity<floor_purchase_quantity){
-                    return 0; 
+                    throw new LessException("批购少于最少批购数量");
                 }
                 int factprice=goodService.setPurchasePrice(orderreq.getAgentId(), purchase_price, floor_price);
                 payprice=factprice+opening_cost;
                 price=SysUtils.Object2int(goodMap.get("price"))+opening_cost;
+                int pp;
+                try {
+                    pp = Integer.valueOf(sysconfigmapper.value("purchaseOrderRatio"));
+                } catch (NumberFormatException e) {
+                    pp=20;
+                }
+                int front_money=price*quantity*pp/100;
+                orderreq.setFront_money(front_money);
             }else{
-                return 0;
+                throw new NoneException("订单类型不存在");
             }
             orderreq.setTotalprice(payprice*quantity);
             orderreq.setTotalcount(quantity);

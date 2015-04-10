@@ -22,6 +22,8 @@ public class OrderReq {
     private int isNeedInvoice;
     private int invoiceType;
     private String invoiceInfo;
+    
+    private int front_money=0;
     /**
     {"quantity":2,"customerId":1,"addressId":1,"comment":"nihao",
     "is_need_invoice":0,"cartid":[1,2,3],"goodId":2,"paychannelId":2,"":}
@@ -134,6 +136,12 @@ public class OrderReq {
     }
     public void setInvoiceInfo(String invoiceInfo) {
         this.invoiceInfo = invoiceInfo;
+    }
+    public int getFront_money() {
+        return front_money;
+    }
+    public void setFront_money(int front_money) {
+        this.front_money = front_money;
     }
    
     

@@ -75,7 +75,7 @@
 							</tr>
 						</thead>
 						<tr ng-repeat="one in addressList">
-							<td><input type="radio" value="{{one.id}}" ng-model="order.addressId" ng-checked="one.isDefault==1" /></td>
+							<td><input type="radio" value="{{one.id}}" ng-model="order.addressId" /></td>
 
 							<td>{{one.receiver}}</td>
 							<td>{{one.city}}</td>

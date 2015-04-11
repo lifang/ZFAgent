@@ -90,11 +90,13 @@
 							<strong ng-if="o.order_status==5" class="strong_status">已取消</strong> 
 							<strong ng-if="o.order_status==6" class="strong_status">交易关闭</strong>
 						</td>
-						<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" ><a href="javascript:void(0);" ng-click="depositpay(o)" ng-if="o.order_status==1 && o.pay_status!=2"" class="a_btn">支付定金</a> 
-						<a href="javascript:void(0);" ng-click="topay(o)" ng-if="o.order_status==1 && o.pay_status==2"" class="a_btn">支付</a>
+						<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" ><a href="javascript:void(0);" ng-click="depositpay(o)" ng-if="o.order_status==1 && o.pay_status!=2"  class="a_btn">支付定金</a> 
+						<a href="javascript:void(0);" ng-if="o.order_status==1 && o.pay_status==2" class="a_btn pay_a" ng-click="showPay(o.order_id)">支付</a>
 						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"   ng-if="o.order_status==1" class="a_btn">取消</a>
 						<a href="#/wholesaleOrderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
 					</tr>
+					
+					<a href="#" class="a_btn pay_a">支付</a>
 					
 					<tr  ng-if="o.order_goods_size==1" ng-repeat="g in  o.order_goodsList ">
 						<td>
@@ -127,7 +129,9 @@
 							<strong ng-if="o.order_status==5" class="strong_status">已取消</strong> 
 							<strong ng-if="o.order_status==6" class="strong_status">交易关闭</strong>
 						</td>
-						<td  ><a href="javascript:void(0);" ng-click="topay(o)" ng-if="o.order_status==1" class="a_btn">付款</a> 
+						<td  >
+						<a href="javascript:void(0);" ng-click="depositpay(o)" ng-if="o.order_status==1 && o.pay_status!=2" class="a_btn">支付定金</a> 
+						<a href="javascript:void(0);" ng-if="o.order_status==1 && o.pay_status==2" class="a_btn pay_a"  ng-click="showPay(o.order_id)">支付</a>
 						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"   ng-if="o.order_status==1" class="a_btn">取消</a>
 						<a href="#/wholesaleOrderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
 					</tr>
@@ -148,5 +152,20 @@
 			</div>
 		</div>
 	</div>
-	
+	<div class="mask"></div>
+	   <div class="tab pay_tab">
+    	<a href="javascript:void(0);" class="close" ng-clock="close()">关闭</a>
+    	<div class="tabHead">支付</div>
+        <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">支付金额：</span>
+                	<div class="text"><input name="" type="text" placeholder="元"   id="pay_price" /></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <input type="hidden" name="o_id" id="o_id" value=""> 
+    <div class="tabFoot"><button class="blueBtn"  ng-click="orderpay()" >确定</button></div>
+    </div>
 </div>

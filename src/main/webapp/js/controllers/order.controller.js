@@ -93,6 +93,27 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
             $("#serverErrorModal").modal({show: true});
         });
 	};
+	//显示支付
+	$scope.showPay = function(id){
+//		$scope.req={id:id};
+    	$("#o_id").val(id);
+//		popup(".pay_tab",".pay_a");//代理商批购
+		var doc_height = $(document).height();
+		var doc_width = $(document).width();
+		var win_height = $(window).height();
+		var win_width = $(window).width();
+		
+		var layer_height = $(".pay_tab").height();
+		var layer_width = $(".pay_tab").width();
+		
+		var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		 
+	    $(".mask").css({display:'block',height:doc_height});
+		$(".pay_tab").css('top',(win_height-layer_height)/2);
+		$(".pay_tab").css('left',(win_width-layer_width)/2);
+		$(".pay_tab").css('display','block');
+		
+	};
     //详情
     $scope.orderinfo=function (p) {
     	LoginService.poscd=p.id;
@@ -100,10 +121,16 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
     	window.location.href = '#/orderinfo';
     };
     
+    $scope.close = function(){
+    	$(".pay_tab").css('display','none');
+		$(".mask").css('display','none');
+    }
     //支付 金额
-    $scope.topay = function(o) {
-//    	var g_name = $("#g_name").val();
-    	window.open("#/order_pay?id="+o.order_id) ;  
+    $scope.orderpay = function(o) {
+    	$scope.close();
+    	var o_id = $("#o_id").val();
+    	var pay_price = $("#pay_price").val();
+    	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  
 //    	window.open("alipayapi.jsp?WIDtotal_fee="+o.order_totalPrice/100+"&WIDsubject="+g_name+"&WIDout_trade_no="+o.order_number);  
 	};
 	
@@ -289,10 +316,12 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.order={};
 	$scope.payway=1;
 	$scope.req.id=$location.search()['id'];
+	var price =$location.search()['p'];
 	$scope.getOrder = function() {
 		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.order=data.result;
+            	$scope.p=price;
             	if(data.result.paytype>0){
             		$scope.pay=false;
             		$scope.payway=data.result.paytype;
@@ -302,7 +331,6 @@ var orderpayController = function($scope, $http,$location,LoginService) {
         });
 	};
 	$scope.depositpay= function(){
-		console.log("==>>定金支付");
 		$('#payTab').show();
 		if(1==$scope.payway){
 			//alert("支付宝");
@@ -326,7 +354,6 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		}
 	}
 	$scope.orderpay= function(){
-		console.log("==>>定金支付");
 		$('#payTab').show();
 		if(1==$scope.payway){
 			//alert("支付宝");
@@ -342,7 +369,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 				$scope.order.title+="..";
 			}
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
-					$scope.order.front_money/100+"&WIDsubject="+$scope.order.title
+					$scope.p+"&WIDsubject="+$scope.order.title
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");

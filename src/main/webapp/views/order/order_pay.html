@@ -10,10 +10,9 @@
         <div class="inner">
 			<div class="payBox">
             	<div class="pay_info">
-                	<p>维修编号：<strong>{{order.apply_num}}</strong></p>
-					<p>付款金额：<strong>{{order.repair_price/100|currency : "￥"}}</strong></p>
-					<p>寄送地址：{{order.receiver_addr}} {{order.receiver_person}}</p>
-					<p>描述：<span >  {{order.miaoshu}} </span></p>
+                	<p>订单编号：<strong>{{order.order_number}}</strong></p>
+					<p>付款金额：<strong>{{p |currency : "￥"}}</strong></p>
+			 
                 </div>
                 <div class="payTitle">选择支付方式</div>
                 <div class="payCon">
@@ -41,9 +40,9 @@
                 </div>
                 <div class="pay_ok_info">
                 	<div class="pay_ok_info_left">
-                    	<p>维修编号：{{order.apply_num}}</p>
+				     	<p>订单编号：<strong>{{order.order_number}}</strong></p>
 						<p>支付方式：<strong>{{order.paytype==1?"支付宝":"银联"}}</strong></p>
-						<p>支付金额：<strong>{{order.repair_price/100|currency : "￥"}}</strong></p>
+					   <p>付款金额：<strong>{{order.p |currency : "￥"}}</strong></p>
 						<p>如交易出现问题请联系021-37494756</p>
                     </div>
                     <div class="pay_ok_info_right">

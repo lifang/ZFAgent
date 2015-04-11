@@ -11,8 +11,8 @@
 			<div class="payBox">
             	<div class="pay_info">
                 	<p>订单编号：<strong>{{order.order_number}}</strong></p>
-					<p>付款金额：<strong>{{order.price_dingjin/100|currency : "￥"}}</strong></p>
-					<p>购买商品：<span ng-repeat="one in order.good">{{one.title}} {{one.pcname}}（<strong>{{one.quantity}}件</strong>）</span></p>
+					<p>定金金额：<strong>{{order.price_dingjin/100|currency : "￥"}}</strong></p>
+					<p>购买商品支付定金：<span ng-repeat="one in order.good">{{one.title}} {{one.pcname}}（<strong>{{one.quantity}}件</strong>）</span></p>
                 </div>
                 <div class="payTitle">选择支付方式</div>
                 <div class="payCon">

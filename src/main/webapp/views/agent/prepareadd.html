@@ -26,7 +26,7 @@
 										<button>搜索</button>
 									</div>
 									<div class="ac_area">
-										<a href="javascript:void(0);" ng-repeat="one in son" ng-click="checkson(one.id)">{{one.company_name}}</a>
+										<a href="javascript:void(0);" ng-repeat="one in son" on-finish-render-filters ng-click="checkson(one.id)">{{one.company_name}}</a>
 									</div>
 								</div>
 							</div></li>

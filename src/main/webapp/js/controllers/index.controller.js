@@ -77,7 +77,7 @@ var indexController = function($scope, $location, $http, LoginService,
 				 */
 		}
 	}
-	$scope.init();
+	
 	$scope.$on('$locationChangeStart', function(scope, next, current) {
 
 		var strs = new Array(); // 定义一数组
@@ -143,6 +143,7 @@ var indexController = function($scope, $location, $http, LoginService,
 	$scope.loginout = function(){
 		LoginService.logout();
 	}
+	$scope.init();
 
 };
 

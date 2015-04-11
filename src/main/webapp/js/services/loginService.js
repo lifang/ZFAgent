@@ -57,7 +57,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit?2:1);//是否有分润
       			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
       			        	   //$cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
-      			        	   if(data.result.types=6){
+      			        	   if(data.result.types==6){
       			        		 $cookieStore.put("identity",3);
       			        	   }else{
       			        		 if(data.result.parent_id==0){
@@ -71,8 +71,8 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $cookieStore.put("cityId",data.result.agentCityId);//代理商用户对应城市
       			        	   $cookieStore.put("machtigingen",data.result.machtigingen);//权限
       			        	   //刷新
-      			        	   window.location.href = '#/';
-      			        	   $scope.message = data.message; //登陆成功，跳转页面
+//    			        	   window.location.href = '#/';
+//      			        	   $scope.message = data.message; //登陆成功，跳转页面
       			        	   location.reload();
       			           }
       			        }).error(function (data) {

@@ -43,6 +43,19 @@ public class UserManagementService {
 		map.put("pageSize", rows);
 		return userManagementMapper.getUser(map);
 	}
+	/**
+	 * 获得该代理商所有相关用户
+	 * 
+	 * @param customerId
+	 * @return
+	 */
+	public List<Map<String, Object>> getWebUser(int customerId, int status,int types) {
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("customerId", customerId);
+		map.put("status", status);
+		map.put("types", types);
+		return userManagementMapper.getWebUser(map);
+	}
 
 	/**
 	 * 删除用户与代理商之间的关联

@@ -20,6 +20,12 @@ public interface UserManagementMapper {
 	 * @return
 	 */
 	List<Map<String, Object>> getUser(Map<Object, Object> map);
+	/**
+	 * 获得该代理商所有相关用户
+	 * @param customerId
+	 * @return
+	 */
+	List<Map<String, Object>> getWebUser(Map<Object, Object> map);
 	
 	/**
 	 * 删除用户与代理商之间的关联

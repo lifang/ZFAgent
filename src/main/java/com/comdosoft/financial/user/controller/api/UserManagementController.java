@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
-import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.service.UserManagementService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -72,6 +71,23 @@ public class UserManagementController {
 					CustomerAgentRelation.STATUS_1,
 					CustomerAgentRelation.TYPES_USER_TO_AGENT,
 					offSetPage,(Integer)map.get("rows")));
+		} catch (Exception e) {
+			logger.error("获得该代理商有关联的所有用户异常！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	/**
+	 * 获得该代理商有关联的所有用户(Web)
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "getWbeUser", method = RequestMethod.POST)
+	public Response getWbeUser(@RequestBody Map<String, Object> map) {
+		try {//代理商对应用户id
+			return Response.getSuccess(userManagementService.getWebUser((Integer) map.get("customerId"),
+					CustomerAgentRelation.STATUS_1,
+					CustomerAgentRelation.TYPES_USER_TO_AGENT));
 		} catch (Exception e) {
 			logger.error("获得该代理商有关联的所有用户异常！", e);
 			return Response.getError("请求失败！");

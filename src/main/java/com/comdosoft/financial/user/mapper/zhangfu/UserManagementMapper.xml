@@ -35,6 +35,11 @@
 		INSERT  into customers(username,password,city_id,types,created_at,status,name,integral,updated_at)
 		VALUES(#{username},#{password},#{cityId},#{types},now(),#{status},#{name},#{integral},now())
 	</insert>
+	
+	<insert id="addCustomerOrAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		insert into customer_agent_relations(customer_id,agent_id,types,status,created_at,updated_at)
+		VALUES(#{customerId},#{agentId},#{types},#{status},now(),now())
+	</insert>
 
 	<select id="getTerminalListTotalCount" resultType="int">
 		<![CDATA[

@@ -893,6 +893,8 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
 var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 	
 	$scope.init = function() {
+		$scope.user = {};
+		$scope.req={};
 		$scope.order={invoice_type:1};
 		//$scope.order.customerId=LoginService.userid;
 		//$scope.order.addressId=1;
@@ -901,7 +903,13 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		//$scope.order.quantity=$location.search()['quantity'];
 		$scope.order.paychannelId=$location.search()['paychannelId'];
 		$scope.getGood();
+		if($scope.order.orderType!=5){
+			$scope.clist();
+		}
+		$scope.city_list();
 		$scope.min=1;
+		$scope.order.customerId=LoginService.agentUserId;
+		$scope.adlist();
 	};
 	$scope.getGood = function() {
 		$http.post("api/shop/getShop", $scope.order).success(function(data) {
@@ -930,8 +938,6 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 			$scope.order.is_need_invoice=0;
 		}
 		$scope.order.agentId=LoginService.agentid;
-		$scope.order.customerId=80;
-		$scope.order.addressId=1;
 		$http.post("api/order/agent", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				if($scope.order.orderType==5){
@@ -948,17 +954,36 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 	$scope.ctype=function(v){
 		$scope.order.invoice_type=v;
 	}
-	
-	$scope.init();
-};
-
-
-var orderUserController=function($scope,$http , $location, LoginService){
-	$scope.init = function() {
-		$scope.req = {};
-		$scope.user = {};
-		$scope.clist();
-		$scope.city_list();
+	$scope.adlist = function() {
+		$http.post("api/agents/getAddressList",{customerId:$scope.order.customerId}).success(function(data) {
+			if (data.code == 1) {
+				$scope.addressList = data.result;
+			} else {
+				// 提示错误信息
+				alert(data.message);
+			}
+		});
+	};
+	$scope.addad = function(id) {
+		$scope.ad.customerId=$scope.order.customerId;
+		$scope.ad.isDefault=2;
+		$scope.ad.cityId=$scope.city.id;
+		$http.post("api/agents/insertAddress", $scope.ad).success(function(data) {
+			if (data.code == 1) {
+				$scope.adlist();
+			} else {
+				alert(data.message);
+			}
+		});
+	};
+	$scope.setDefaultAddress = function(e) {
+		$http.post("api/agents/setDefaultAddress", e).success(function(data) {
+			if (data.code == 1) {
+				$scope.init();
+			} else {
+				alert(data.message);
+			}
+		});
 	};
 	$scope.clist = function() {
 		$scope.req.customerId=LoginService.loginid;
@@ -968,34 +993,7 @@ var orderUserController=function($scope,$http , $location, LoginService){
 			}
 		});
 	};
-	$scope.alist = function(cid) {
-		$http.post("api/customers/getAddressList/"+LoginService.userid).success(function(data) {
-			if (data.code == 1) {
-				$scope.addressList = data.result;
-			}
-		});
-	};
-	$scope.addad = function(id) {
-		$scope.ad.customerId=LoginService.userid;
-		$scope.ad.isDefault=2;
-		$scope.ad.cityId=$scope.city.id;
-		$http.post("api/customers/insertAddress", $scope.ad).success(function(data) {
-			if (data.code == 1) {
-				$scope.init();
-			} else {
-				alert(data.message);
-			}
-		});
-	};
-	$scope.setDefaultAddress = function(e) {
-		$http.post("api/customers/setDefaultAddress/", e).success(function(data) {
-			if (data.code == 1) {
-				$scope.init();
-			} else {
-				alert(data.message);
-			}
-		});
-	};
+
 	
 	
 	$scope.city_list = function(){
@@ -1016,9 +1014,11 @@ var orderUserController=function($scope,$http , $location, LoginService){
 			}
 		});
 	};
-	
 	$scope.init();
-}
+};
+
+
+
 
 
 var payController = function($scope, $http,$location,LoginService) {
@@ -1099,7 +1099,5 @@ purchaseshopinfoController.$inject = ['$scope','$http','$location','LoginService
 shopModule.controller("purchaseshopinfoController", purchaseshopinfoController);
 shopmakeorderController.$inject = ['$scope','$http','$location','LoginService'];
 shopModule.controller("shopmakeorderController", shopmakeorderController);
-orderUserController.$inject = ['$scope','$http','$location','LoginService'];
-shopModule.controller("orderUserController", orderUserController);
 payController.$inject = ['$scope','$http','$location','LoginService'];
 shopModule.controller("payController", payController);

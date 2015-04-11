@@ -106,12 +106,20 @@
  	</select>
  	
  	<select id="getMerchants" resultType="map" parameterType="map">
- 		SELECT id,title FROM merchants WHERE customer_id = #{customerId}
+ 		SELECT id,title FROM merchants 
+ 		WHERE customer_id = #{customerId}
+ 		<if test="title != null and title != ''">
+ 		title like '%${title}%'
+ 		</if>
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
  	
  	<select id="getMerchantSize" resultType="int" parameterType="map">
- 		SELECT count(*) FROM merchants WHERE customer_id = #{customerId}
+ 		SELECT count(*) FROM merchants 
+ 		WHERE customer_id = #{customerId}
+ 		<if test="title != null and title != ''">
+ 		title like '%${title}%'
+ 		</if>
  	</select>
  	
  	<select id="channelsT" resultType="map">

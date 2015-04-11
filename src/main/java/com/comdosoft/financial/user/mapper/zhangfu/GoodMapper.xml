@@ -203,5 +203,9 @@
      <update id="upQuantity">
      	UPDATE goods set quantity=#{cityId} WHERE id=#{goodId}
      </update>
+     
+     <select id="getAdId" resultType="int" >
+        SELECT id from customer_addresses WHERE customer_id=#{customerId} and is_default=1 LIMIT 0,1
+     </select>
 	
 </mapper>

@@ -161,7 +161,7 @@ var findpassController=function($scope, $location, $http, LoginService,$timeout)
 		}
 	};
 	
-	// 开始找回
+	// 开始找回(手机)
 	$scope.findPassEnd = function() {
 		if($scope.password1==''||$scope.password1==null||$scope.password2==''||$scope.password2==null){
 			alert("密码不能为空！");
@@ -177,6 +177,28 @@ var findpassController=function($scope, $location, $http, LoginService,$timeout)
 				if (data.code == 1) {
 					//$('#login').show();
 					 window.location.href = '#/login';
+				} else if (data.code == -1) {
+					alert(data.message);
+				}
+			})
+		}
+	};
+	// 开始找回(邮箱)
+	$scope.findPassEmailEnd = function() {
+		if($scope.password1==''||$scope.password1==null||$scope.password2==''||$scope.password2==null){
+			alert("密码不能为空！");
+		}else if ($scope.password1.length<6||$scope.password1.length>20||$scope.password2.length<6||$scope.password2.length>20) {
+			alert("密码由6-20位，英文字符组成！");
+		}else if ($scope.password1 != $scope.password2) {
+			alert("密码不一致！");
+		} else {
+			$http.post("api/agent/webUpdateEmailPass", {
+				password : $scope.password1,
+				username : $scope.phone_email
+			}).success(function(data) {
+				if (data.code == 1) {
+					//$('#login').show();
+					window.location.href = '#/login';
 				} else if (data.code == -1) {
 					alert(data.message);
 				}

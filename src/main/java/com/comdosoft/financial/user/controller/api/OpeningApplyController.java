@@ -149,13 +149,15 @@ public class OpeningApplyController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object,Object> resultMap = new HashMap<Object, Object>();
 			resultMap.put("merchaneList", openingApplyService.getMerchants(
-					(Integer)map.get("customerId"),
+					(Integer)map.get("customerId"),//代理商用户id
 					offSetPage,
-					(Integer)map.get("rows")));
+					(Integer)map.get("rows"),
+					(String)map.get("title")));
 			resultMap.put("total", openingApplyService.getMerchantSize(
-					(Integer)map.get("customerId"),
+					(Integer)map.get("customerId"),//代理商用户id
 					offSetPage,
-					(Integer)map.get("rows")));
+					(Integer)map.get("rows"),
+					(String)map.get("title")));
 			return Response.getSuccess(resultMap);
 		} catch (Exception e) {
 			logger.error("根据商户id获得商户详细信息异常！",e);
@@ -275,8 +277,8 @@ public class OpeningApplyController {
 						.get("status"));
 				openingApplie.setTypes((Integer) map
 						.get("publicPrivateStatus"));
-				openingApplie.setMerchantId((Integer) map
-						.get("merchantId"));
+				/*openingApplie.setMerchantId((Integer) map
+						.get("merchantId"));*/
 				openingApplie.setMerchantName((String) map
 						.get("merchantName"));
 				openingApplie.setSex((Integer) map
@@ -324,7 +326,7 @@ public class OpeningApplyController {
 					merchant.setAccountBankNum((String) map
 							.get("bankNum"));
 					merchant.setCustomerId((Integer) map
-							.get("applyCustomerId"));
+							.get("applyCustomerId"));//代理商对应用户id
 					merchant.setPhone((String) map
 							.get("phone"));
 					merchant.setCityId((Integer)map.get("cityId"));

@@ -64,8 +64,14 @@ public class UserManagementController {
 	 */
 	@RequestMapping(value = "getUser", method = RequestMethod.POST)
 	public Response getUser(@RequestBody Map<String, Object> map) {
-		try {
-			return Response.getSuccess(userManagementService.getUser((Integer) map.get("customerId"), CustomerAgentRelation.STATUS_1));
+		try {//代理商对应用户id
+			PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
+					(Integer)map.get("rows"));
+			int offSetPage = PageRequest.getOffset();
+			return Response.getSuccess(userManagementService.getUser((Integer) map.get("customerId"),
+					CustomerAgentRelation.STATUS_1,
+					CustomerAgentRelation.TYPES_USER_TO_AGENT,
+					offSetPage,(Integer)map.get("rows")));
 		} catch (Exception e) {
 			logger.error("获得该代理商有关联的所有用户异常！", e);
 			return Response.getError("请求失败！");
@@ -148,6 +154,7 @@ public class UserManagementController {
 	@RequestMapping(value = "addCustomer", method = RequestMethod.POST)
 	public Response addCustomer(@RequestBody Map<Object, Object> map) {
 		try {
+			CustomerAgentRelation customerAgentRelation = new CustomerAgentRelation();
 			if (userManagementService.findUname(map) > 0) {
 				return Response.getError("用户已存在！");
 			} else {
@@ -161,6 +168,12 @@ public class UserManagementController {
 				customer.setStatus(Customer.STATUS_NORMAL);
 				customer.setIntegral(0);
 				userManagementService.addUser(customer);
+				//对该代理商已改用户绑定关系
+				customerAgentRelation.setCustomerId(customer.getId());
+				customerAgentRelation.setAgentId((Integer)map.get("agentId"));
+				customerAgentRelation.setTypes(CustomerAgentRelation.TYPES_USER_TO_AGENT);
+				customerAgentRelation.setStatus(CustomerAgentRelation.STATUS_1);
+				userManagementService.addCustomerOrAgent(customerAgentRelation);
 				return Response.getSuccess(customer);
 			}
 		} catch (Exception e) {
@@ -168,7 +181,7 @@ public class UserManagementController {
 			return Response.getError("请求失败！");
 		}
 	}
-
+	
 	/**
 	 * 根据商户ID查找商户信息
 	 * 

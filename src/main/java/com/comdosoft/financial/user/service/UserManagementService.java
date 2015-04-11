@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.domain.Paging;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
@@ -31,10 +32,13 @@ public class UserManagementService {
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getUser(int customerId, int status) {
+	public List<Map<String, Object>> getUser(int customerId, int status,int types,int offSetPage,int rows) {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("customerId", customerId);
 		map.put("status", status);
+		map.put("types", types);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", rows);
 		return userManagementMapper.getUser(map);
 	}
 
@@ -98,6 +102,15 @@ public class UserManagementService {
 	 */
 	public void addUser(Customer customer) {
 		userManagementMapper.addUser(customer);
+	}
+	/**
+	 * 为新添加用户绑定关系
+	 * 
+	 * @param map
+	 * @return 
+	 */
+	public void addCustomerOrAgent(CustomerAgentRelation customerAgentRelation) {
+		userManagementMapper.addCustomerOrAgent(customerAgentRelation);
 	}
 
 	/**

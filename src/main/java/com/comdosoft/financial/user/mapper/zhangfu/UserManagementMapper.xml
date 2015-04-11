@@ -4,10 +4,12 @@
 
 
 	<select id="getUser" resultType="map" parameterType="int">
-		SELECT m.id as customersId,m.`name`,m.phone,m.email,m.created_at as createdAt,a.id as agentId from agents a 
-		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status}
+		SELECT m.id as customersId,m.`name`,m.phone,m.email,m.created_at as createdAt,a.id as agentId 
+		from agents a 
+		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status} and c.types = #{types}
 		LEFT JOIN customers m ON c.customer_id=m.id
-		WHERE a.customer_id = #{customerId}
+		WHERE a.id = #{customerId}
+		LIMIT #{offSetPage},#{pageSize}
 	</select>
 
 	<update id="delectAgentUser" parameterType="map">

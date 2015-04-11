@@ -159,11 +159,12 @@ public class OpeningApplyService {
 	 * 
 	 * @return
 	 */
-	public List<Merchant> getMerchants(Integer customerId,Integer offSetPage,Integer pageSize) {
+	public List<Merchant> getMerchants(Integer customerId,Integer offSetPage,Integer pageSize,String title) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("customerId", customerId);
 			map.put("offSetPage", offSetPage);
 			map.put("pageSize", pageSize);
+			map.put("title", title);
 		return openingApplyMapper.getMerchants(map);
 	}
 	
@@ -172,11 +173,12 @@ public class OpeningApplyService {
 	 * 
 	 * @return
 	 */
-	public int getMerchantSize(Integer customerId,Integer offSetPage,Integer pageSize) {
+	public int getMerchantSize(Integer customerId,Integer offSetPage,Integer pageSize,String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("customerId", customerId);
 		map.put("offSetPage", offSetPage);
 		map.put("pageSize", pageSize);
+		map.put("title", title);
 		return openingApplyMapper.getMerchantSize(map);
 	}
 	/**

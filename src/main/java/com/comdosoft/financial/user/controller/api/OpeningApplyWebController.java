@@ -184,8 +184,8 @@ public class OpeningApplyWebController {
 				openingApplie.setStatus(OpeningApplie.STATUS_1);
 				openingApplie.setTypes((Integer) map
 						.get("publicPrivateStatus"));
-				openingApplie.setMerchantId((Integer) map
-						.get("merchantId"));
+				/*openingApplie.setMerchantId((Integer) map
+						.get("merchantId"));*/
 				openingApplie.setMerchantName((String) map
 						.get("merchantName"));
 				openingApplie.setSex((Integer) map
@@ -233,7 +233,7 @@ public class OpeningApplyWebController {
 					merchant.setAccountBankNum((String) map
 							.get("bankNum"));
 					merchant.setCustomerId((Integer) map
-							.get("applyCustomerId"));
+							.get("applyCustomerId"));//代理商用户id
 					merchant.setPhone((String) map
 							.get("phone"));
 					merchant.setCityId((Integer)map.get("cityId"));
@@ -254,12 +254,10 @@ public class OpeningApplyWebController {
 					//修改申请表中的基本资料
 					openingApplie.setId(Integer.parseInt(openingAppliesId));
 					openingApplyWebService.updateApply(openingApplie);
-					System.out.println("从新开通");
 				} else {
 					openingApplyWebService.addOpeningApply(openingApplie);
 					openingAppliesId = String
 							.valueOf(openingApplie.getId());
-					System.out.println("申请开通");
 				}
 			} else {
 					key = (String) map.get("key");

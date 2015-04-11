@@ -13,11 +13,11 @@
 	</select>
 	
 	<select id="getWebUser" resultType="map" parameterType="int">
-		SELECT m.id as customersId,m.`name`,m.phone,m.email,m.created_at as createdAt,a.id as agentId 
+		SELECT m.id as customersId,m.`name`
 		from agents a 
 		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status} and c.types = #{types}
 		LEFT JOIN customers m ON c.customer_id=m.id
-		WHERE a.id = #{customerId}
+		WHERE a.id = #{agentId}
 	</select>
 
 	<update id="delectAgentUser" parameterType="map">

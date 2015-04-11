@@ -49,9 +49,9 @@ public class UserManagementService {
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getWebUser(int customerId, int status,int types) {
+	public List<Map<String, Object>> getWebUser(int agentId, int status,int types) {
 		Map<Object, Object> map = new HashMap<Object, Object>();
-		map.put("customerId", customerId);
+		map.put("agentId", agentId);
 		map.put("status", status);
 		map.put("types", types);
 		return userManagementMapper.getWebUser(map);

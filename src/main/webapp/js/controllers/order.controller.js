@@ -99,14 +99,17 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
     	$scope.poscd=p.id;
     	window.location.href = '#/orderinfo';
     };
+    
+    //支付 金额
     $scope.topay = function(o) {
 //    	var g_name = $("#g_name").val();
-    	window.open("#/pay?id="+o.order_id) ;  
+    	window.open("#/order_pay?id="+o.order_id) ;  
 //    	window.open("alipayapi.jsp?WIDtotal_fee="+o.order_totalPrice/100+"&WIDsubject="+g_name+"&WIDout_trade_no="+o.order_number);  
 	};
 	
+	//定金支付
 	 $scope.depositpay = function(o) {
-	    	window.open("#/order_pay?id="+o.order_id) ;  
+	    	window.open("#/deposit_pay?id="+o.order_id) ;  
 		};
 	
 	// 上一页
@@ -279,19 +282,13 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 //    $scope.submitSearch();
 //    $scope.orderinfo();
 };
-
+var orderpayModule = angular.module("orderpayModule",[]);
 var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.pay=true;
 	$scope.req={};
 	$scope.order={};
 	$scope.payway=1;
 	$scope.req.id=$location.search()['id'];
-	$scope.init = function() {
-		if(LoginService.userid == 0){
-			window.location.href = '#/login';
-		}
-		$scope.getOrder();
-	};
 	$scope.getOrder = function() {
 		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
@@ -304,7 +301,8 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             }
         });
 	};
-	$scope.pay= function(){
+	$scope.depositpay= function(){
+		console.log("==>>定金支付");
 		$('#payTab').show();
 		if(1==$scope.payway){
 			//alert("支付宝");
@@ -319,6 +317,30 @@ var orderpayController = function($scope, $http,$location,LoginService) {
         	 if(count>2){
         		 $scope.order.title+="..";
         	 }
+			window.open("depositalipayapi.jsp?WIDtotal_fee="+
+					$scope.order.front_money/100+"&WIDsubject="+$scope.order.title
+					+"&WIDout_trade_no="+$scope.order.order_number);  
+		}else{
+			//alert("银行");
+			window.open("http://www.taobao.com");  
+		}
+	}
+	$scope.orderpay= function(){
+		console.log("==>>定金支付");
+		$('#payTab').show();
+		if(1==$scope.payway){
+			//alert("支付宝");
+			$scope.order.title="";
+			var count=0;
+			angular.forEach($scope.order.good, function (one) {
+				if(count<2){
+					$scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
+				}
+				count++;
+			});
+			if(count>2){
+				$scope.order.title+="..";
+			}
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
 					$scope.order.front_money/100+"&WIDsubject="+$scope.order.title
 					+"&WIDout_trade_no="+$scope.order.order_number);  
@@ -343,7 +365,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             }
         });
 	};
-	$scope.init();
+	$scope.getOrder();
 };
 
 
@@ -352,4 +374,4 @@ proxyOrderModule.$inject = ['$scope', '$http', '$cookieStore'];
 wholesaleOrderModule.controller("wholesaleOrderController", wholesaleOrderController); //批购
 proxyOrderModule.controller("proxyOrderController", proxyOrderController); //代购
 orderpayController.$inject = ['$scope','$http','$location','LoginService'];
-wholesaleOrderModule.controller("orderpayController", orderpayController);
+orderpayModule.controller("orderpayController", orderpayController);

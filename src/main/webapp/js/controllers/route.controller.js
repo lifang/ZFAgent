@@ -119,7 +119,9 @@ function routeConfig($routeProvider) {
 	}).when('/pay', {
 		templateUrl : 'views/shop/pay.html'
 	}).when('/order_pay', {
-		templateUrl : 'views/order/orderpay.html'
+		templateUrl : 'views/order/order_pay.html'
+	}).when('/deposit_pay', {
+		templateUrl : 'views/order/deposit_pay.html'
 	}).when('/lowstocks', {
 		templateUrl : 'views/shop/lowstocks.html'
 	}).when('/manageuser', {

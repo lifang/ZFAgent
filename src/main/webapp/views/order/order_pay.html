@@ -1,0 +1,69 @@
+<script type="text/javascript" src="js/controllers/order.controller.js"></script>
+<div ng-controller="orderpayController">
+<div class="main"  ng-show="pay">
+	<div class="box">
+    	<div class="breadcrumb">
+        	<ul>
+                <li><a href="#">选择支付方式</a></li>
+            </ul>
+        </div>
+        <div class="inner">
+			<div class="payBox">
+            	<div class="pay_info">
+                	<p>维修编号：<strong>{{order.apply_num}}</strong></p>
+					<p>付款金额：<strong>{{order.repair_price/100|currency : "￥"}}</strong></p>
+					<p>寄送地址：{{order.receiver_addr}} {{order.receiver_person}}</p>
+					<p>描述：<span >  {{order.miaoshu}} </span></p>
+                </div>
+                <div class="payTitle">选择支付方式</div>
+                <div class="payCon">
+                	<ul>
+                    	<li><input ng-model="payway" type="radio" ng-value="1" name="payway" /><label><span><img src="images/zfb.jpg" /></span></label></li>
+                        <li><input ng-model="payway" type="radio" ng-value="2" name="payway"/><label><span><img src="images/wy.jpg" /></span></label></li>
+                    </ul>
+                </div>
+                <div class="btnBottom"><button class="orangeBtn goPay" ng-click="orderpay()">立即支付</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main"  ng-show="!pay">
+	<div class="box">
+    	<div class="breadcrumb">
+        	<ul>
+                <li><a href="#">选择支付方式</a></li>
+            </ul>
+        </div>
+        <div class="inner">
+			<div class="payBox">
+            	<div class="pay_ok">
+                	<div class="payWarning"><i class="yes"></i>恭喜！支付成功！</div>
+                </div>
+                <div class="pay_ok_info">
+                	<div class="pay_ok_info_left">
+                    	<p>维修编号：{{order.apply_num}}</p>
+						<p>支付方式：<strong>{{order.paytype==1?"支付宝":"银联"}}</strong></p>
+						<p>支付金额：<strong>{{order.repair_price/100|currency : "￥"}}</strong></p>
+						<p>如交易出现问题请联系021-37494756</p>
+                    </div>
+                    <div class="pay_ok_info_right">
+                    	<button class="orangeBtn">开通申请认证</button>
+                        <p>POS机必须完成开通认证方能使用</p>
+                    </div>
+                </div>
+                <div class="payAD"><img src="images/anios.jpg" /></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tab payTab"  id="payTab">
+	<a href="javascript:void(0);" class="close">关闭</a>
+	<div class="tabBody">
+    	<h2>您是否已经完成支付？</h2>
+    </div>
+    <div class="tabFoot">
+    	<button class="greenBtn" ng-click="finish()">支付成功</button><button class="whiteBtn">遇到问题</button>
+    </div>
+	</div>
+</div>
+<script type="text/javascript" src="js/main.js"></script>

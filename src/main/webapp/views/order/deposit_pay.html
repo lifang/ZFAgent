@@ -1,3 +1,4 @@
+<script type="text/javascript" src="js/controllers/order.controller.js"></script>
 <div ng-controller="orderpayController">
 <div class="main"  ng-show="pay">
 	<div class="box">
@@ -10,8 +11,7 @@
 			<div class="payBox">
             	<div class="pay_info">
                 	<p>订单编号：<strong>{{order.order_number}}</strong></p>
-					<p>付款金额：<strong>{{order.front/100|currency : "￥"}}</strong></p>
-					<p>寄送地址：{{order.address}} {{order.receiver}}</p>
+					<p>付款金额：<strong>{{order.price_dingjin/100|currency : "￥"}}</strong></p>
 					<p>购买商品：<span ng-repeat="one in order.good">{{one.title}} {{one.pcname}}（<strong>{{one.quantity}}件</strong>）</span></p>
                 </div>
                 <div class="payTitle">选择支付方式</div>
@@ -21,7 +21,7 @@
                         <li><input ng-model="payway" type="radio" ng-value="2" /><label><span><img src="images/wy.jpg" /></span></label></li>
                     </ul>
                 </div>
-                <div class="btnBottom"><button class="orangeBtn goPay" ng-click="pay()">立即支付</button></div>
+                <div class="btnBottom"><button class="orangeBtn goPay" ng-click="depositpay()">立即支付</button></div>
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
                 	<div class="pay_ok_info_left">
                     	<p>订单号：{{order.order_number}}</p>
 						<p>支付方式：<strong>{{order.paytype==1?"支付宝":"银联"}}</strong></p>
-						<p>支付金额：<strong>{{order.total_price/100|currency : "￥"}}</strong></p>
+						<p>支付金额：<strong>{{order.price_dingjin/100|currency : "￥"}}</strong></p>
 						<p>如交易出现问题请联系021-37494756</p>
                     </div>
                     <div class="pay_ok_info_right">

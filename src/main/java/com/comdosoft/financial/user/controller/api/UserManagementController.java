@@ -154,28 +154,7 @@ public class UserManagementController {
 	@RequestMapping(value = "addCustomer", method = RequestMethod.POST)
 	public Response addCustomer(@RequestBody Map<Object, Object> map) {
 		try {
-			CustomerAgentRelation customerAgentRelation = new CustomerAgentRelation();
-			if (userManagementService.findUname(map) > 0) {
-				return Response.getError("用户已存在！");
-			} else {
-				// 添加新用户
-				Customer customer = new Customer();
-				customer.setUsername((String) map.get("username"));
-				customer.setName((String) map.get("name"));
-				customer.setPassword((String) map.get("pass1"));
-				customer.setCityId((Integer) map.get("cityid"));
-				customer.setTypes(Customer.TYPE_CUSTOMER);
-				customer.setStatus(Customer.STATUS_NORMAL);
-				customer.setIntegral(0);
-				userManagementService.addUser(customer);
-				//对该代理商已改用户绑定关系
-				customerAgentRelation.setCustomerId(customer.getId());
-				customerAgentRelation.setAgentId((Integer)map.get("agentId"));
-				customerAgentRelation.setTypes(CustomerAgentRelation.TYPES_USER_TO_AGENT);
-				customerAgentRelation.setStatus(CustomerAgentRelation.STATUS_1);
-				userManagementService.addCustomerOrAgent(customerAgentRelation);
-				return Response.getSuccess(customer);
-			}
+			return userManagementService.addCustomerOrAgents(map);
 		} catch (Exception e) {
 			logger.error("为用户绑定失败！", e);
 			return Response.getError("请求失败！");

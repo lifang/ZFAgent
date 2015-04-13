@@ -4,10 +4,23 @@
 
 
 	<select id="getUser" resultType="map" parameterType="int">
-		SELECT m.id as customersId,m.`name`,m.phone,m.email,m.created_at as createdAt,a.id as agentId from agents a 
-		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status}
+		SELECT m.id as customersId,m.`name`,m.phone,m.email,m.created_at as createdAt,a.id as agentId 
+		from agents a 
+		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status} and c.types = #{types}
 		LEFT JOIN customers m ON c.customer_id=m.id
-		WHERE a.customer_id = #{customerId}
+		WHERE a.id = #{customerId}
+		LIMIT #{offSetPage},#{pageSize}
+	</select>
+	
+	<select id="getWebUser" resultType="map" parameterType="int">
+		SELECT m.id as customersId,m.name
+		from agents a 
+		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status} and c.types = #{types}
+		LEFT JOIN customers m ON c.customer_id=m.id
+		WHERE a.id = #{agentId} 
+		<if test="keys!=''">
+		    <![CDATA[ AND m.name like '%${keys}%' ]]>
+		</if>
 	</select>
 
 	<update id="delectAgentUser" parameterType="map">
@@ -32,6 +45,11 @@
 		
 		INSERT  into customers(username,password,city_id,types,created_at,status,name,integral,updated_at)
 		VALUES(#{username},#{password},#{cityId},#{types},now(),#{status},#{name},#{integral},now())
+	</insert>
+	
+	<insert id="addCustomerOrAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		insert into customer_agent_relations(customer_id,agent_id,types,status,created_at,updated_at)
+		VALUES(#{customerId},#{agentId},#{types},#{status},now(),now())
 	</insert>
 
 	<select id="getTerminalListTotalCount" resultType="int">

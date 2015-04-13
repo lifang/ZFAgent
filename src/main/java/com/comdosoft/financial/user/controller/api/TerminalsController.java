@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsService;
 import com.comdosoft.financial.user.service.UserManagementService;
@@ -160,13 +161,15 @@ public class TerminalsController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
 			applyMap.put("terminalList", terminalsService.getMerchants(
-					(Integer)map.get("customerId"),
+					(Integer)map.get("customerId"),//代理商对应用户id
 					offSetPage,
-					(Integer)map.get("rows")));
+					(Integer)map.get("rows"),
+					CustomerAgentRelation.STATUS_1));
 			applyMap.put("total", terminalsService.getMerchantSize(
-					(Integer)map.get("customerId"),
+					(Integer)map.get("customerId"),//代理商对应用户id
 					offSetPage,
-					(Integer)map.get("rows")));
+					(Integer)map.get("rows"),
+					CustomerAgentRelation.STATUS_1));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
 			logger.error("获得代理商下面的用户失败！", e);
@@ -251,10 +254,11 @@ public class TerminalsController {
 	@RequestMapping(value = "addCustomer", method = RequestMethod.POST)
 	public Response addCustomer(@RequestBody Map<Object, Object> map) {
 		try {
+			CustomerAgentRelation customerAgentRelation = new CustomerAgentRelation();
 			 Customer customer = new Customer();
 			 customer.setUsername((String)map.get("codeNumber"));
 			if (terminalsService.findUnameAndStatus(customer) > 0) {
-				return Response.getError("用户已存在！");
+				return Response.getError("用户已存在,未激活！");
 			} else {
 				// 添加新用户
 				customer.setName((String) map.get("name"));
@@ -264,6 +268,12 @@ public class TerminalsController {
 				customer.setStatus(Customer.STATUS_NORMAL);
 				customer.setIntegral(0);
 				userManagementService.addUser(customer);
+				//对该代理商已改用户绑定关系
+				customerAgentRelation.setCustomerId(customer.getId());
+				customerAgentRelation.setAgentId((Integer)map.get("agentId"));
+				customerAgentRelation.setTypes(CustomerAgentRelation.TYPES_USER_TO_AGENT);
+				customerAgentRelation.setStatus(CustomerAgentRelation.STATUS_1);
+				userManagementService.addCustomerOrAgent(customerAgentRelation);
 				return Response.getSuccess(customer);
 			}
 		} catch (Exception e) {
@@ -330,19 +340,19 @@ public class TerminalsController {
 						successlist.add(arr.get(i));
 					}
 				}
-				if(errorlist.size() == 0){
+				//if(errorlist.size() == 0){
 					List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-					for(int i=0;i<arr.size();i++){
+					for(int i=0;i<successlist.size();i++){
 						list.add(terminalsService.getTerminalArray(arr.get(i).toString()));
 					}
 					return Response.getSuccess(list);
-				}else{
+				/*}else{
 					//返回错误终端号数组
 					Map<Object, Object> listMap = new HashMap<Object, Object>();
 					listMap.put("errorlist", errorlist);
 					listMap.put("successlist", successlist);
 					return Response.getErrorContext(listMap);
-				}
+				}*/
 			}catch(Exception e){
 				logger.error("提交申请售后失败！", e);
 				return Response.getError("请求失败！");
@@ -362,7 +372,7 @@ public class TerminalsController {
 	@RequestMapping(value="getAddressee",method=RequestMethod.POST)
 	public Response getAddressee(@RequestBody Map<String, Object> map){
 		try{
-			return Response.getSuccess(terminalsService.getAddressee((Integer)map.get("customerId")));
+			return Response.getSuccess(terminalsService.getAddressee((Integer)map.get("customerId")));//代理商对应用户id
 		}catch(Exception e){
 			logger.error("收件人信息异常！", e);
 			return Response.getError("请求失败！");
@@ -394,7 +404,7 @@ public class TerminalsController {
 	 */
 	@RequestMapping(value="screeningPosName",method=RequestMethod.POST)
 	public Response screeningPosName(@RequestBody Map<String, Object> map){
-		try{
+		try{//代理商对应用户id
 			return Response.getSuccess(terminalsService.screeningPosName((Integer)map.get("customerId")));
 		}catch(Exception e){
 			logger.error("POS机选择失败！", e);

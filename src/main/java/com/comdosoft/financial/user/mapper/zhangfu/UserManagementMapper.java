@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 
 /**
  * 用户终端管理
@@ -19,6 +20,12 @@ public interface UserManagementMapper {
 	 * @return
 	 */
 	List<Map<String, Object>> getUser(Map<Object, Object> map);
+	/**
+	 * 获得该代理商所有相关用户
+	 * @param customerId
+	 * @return
+	 */
+	List<Map<String, Object>> getWebUser(Map<Object, Object> map);
 	
 	/**
 	 * 删除用户与代理商之间的关联
@@ -51,6 +58,11 @@ public interface UserManagementMapper {
      */
     void addUser(Customer customer);
 
+    /**
+     * 为新添加用户与代理商绑定关系
+     * @param map
+     */
+    void addCustomerOrAgent(CustomerAgentRelation customerAgentRelation);
     /**
 	 * 根据商户ID查找商户信息
 	 * 

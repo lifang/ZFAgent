@@ -370,9 +370,15 @@ public class TerminalsWebService {
 		return terminalsWebMapper.findPassword(id);
 	}
 	
-	
+	/**
+	 * 申请资料下载
+	 * @param request
+	 * @param id
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
     public String downloadPdf(HttpServletRequest request, String id, HttpServletResponse response) throws IOException {
-        // String rootDir =dirRoot+uploadNoticeMaterial;// "E:/通知材料/";
 		// 保存上传的实体文件
         String rootDir = request.getServletContext().getRealPath(uploadPictureTempsPath);
         List<String> fileName = new ArrayList<String>();
@@ -381,7 +387,6 @@ public class TerminalsWebService {
                 if (aFile.exists()) {
                     fileName.add(rootDir + File.separator + id);
                 } 
-        // String zipPath = dirRoot+uploadNoticeMaterial+"zipFile/";//"E:/通知材料/zipFile/";
         String zipPath = rootDir + "zipFile" + File.separator;
         File fileExists = new File(zipPath);
         fileExists.mkdirs();

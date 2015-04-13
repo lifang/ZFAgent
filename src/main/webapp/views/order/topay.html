@@ -1,5 +1,5 @@
 <script type="text/javascript" src="js/controllers/order.controller.js"></script>
-<div ng-controller="orderpayController">
+<div ng-controller="payController">
 <div class="main"  ng-show="pay">
 	<div class="box">
     	<div class="breadcrumb">
@@ -22,7 +22,7 @@
                         <li><input ng-model="payway" type="radio" ng-value="2" /><label><span><img src="images/wy.jpg" /></span></label></li>
                     </ul>
                 </div>
-                <div class="btnBottom"><button class="orangeBtn goPay" ng-click="to_pay()">立即支付</button></div>
+                <div class="btnBottom"><button class="orangeBtn goPay" ng-click="pay()">立即支付</button></div>
             </div>
         </div>
     </div>

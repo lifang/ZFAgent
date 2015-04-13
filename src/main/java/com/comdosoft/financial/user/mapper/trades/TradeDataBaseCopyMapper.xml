@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.trades.TradeDataBaseCopyMapper">
+	<insert id="tradeRecordsInit">
+		insert into trade_records (trade_number,batch_number,terminal_number,order_number,agent_id,merchant_number,
+		merchant_name,pay_channel_id,profit_price,amount,poundage,traded_at,sys_order_id,account_name,account_number,
+		actual_payment_price,paid_result,paid_code,paid_error_description,trade_type_id,traded_status,attach_status,
+		customer_id,types,city_id,integral_status,pay_from_account)
+		values(#{tradeNumber},#{batchNumber},#{terminalNumber},#{orderNumber},#{agentId},#{merchantNumber},
+		#{merchantName},#{payChannelId},#{profitPrice},#{amount},#{poundage},#{tradedAt},#{sysOrderId},#{accountName},
+		#{accountNumber},#{actualPaymentPrice},#{paidResult},#{paidCode},#{paidErrorDescription},#{tradeTypeId},
+		#{tradedStatus},#{attachStatus},#{customerId},#{types},#{cityId},#{integralStatus},#{payFromAccount})
+	</insert>
+
+</mapper>

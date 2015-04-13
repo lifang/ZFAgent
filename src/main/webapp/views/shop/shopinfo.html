@@ -112,7 +112,7 @@
 							<ul>
 								<li><span>{{paychannel.support_type==0?"不":""}}支持区域：</span>
 									<div class="text">
-										<span ng-show="paychannel.supportArea.length==0">无</span><span ng-show="paychannel.supportArea.length>0" ng-repeat="one in paychannel.supportArea">{{one}}&nbsp</span>
+										<span ng-show="paychannel.supportArea.length==0">无</span><span ng-show="paychannel.supportArea.length>0" ng-repeat="one in paychannel.supportArea track by $index">{{one}}&nbsp</span>
 									</div></li>
 								<li><span>是否支持注销：</span>
 									<div class="text">{{paychannel.support_cancel_flag?'支持':'不支持'}}</div></li>

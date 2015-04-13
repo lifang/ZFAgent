@@ -17,6 +17,11 @@
 		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{dentcode},#{status})
 	</insert>
 	
+	<insert id="addCustomerOrAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		insert into customer_agent_relations(customer_id,agent_id,types,status,created_at,updated_at)
+		VALUES(#{customerId},#{agentId},#{types},#{status},now(),now())
+	</insert>
+	
 	<update id="updateCode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		UPDATE customers set dentcode=#{dentcode}
 		WHERE username=#{username}
@@ -114,18 +119,17 @@
 	</select>
 
 	<select id="getMerchants" parameterType="map" resultType="map">
-		SELECT a.id,a.name FROM agents a LEFT JOIN
-		customer_agent_relations c ON a.id = c.agent_id
-		LEFT JOIN merchants m ON m.customer_id = c.customer_id
-		WHERE a.customer_id = #{customerId}
+		SELECT a.id,a.name FROM customers a LEFT JOIN
+		customer_agent_relations c ON a.id = c.customer_id and a.`status` = #{status}
+		WHERE c.agent_id = #{customerId} 
 		LIMIT #{offSetPage},#{pageSize}
+		
 	</select>
 
 	<select id="getMerchantSize" parameterType="map" resultType="int">
-		SELECT count(*) FROM agents a LEFT JOIN
-		customer_agent_relations c ON a.id = c.agent_id
-		LEFT JOIN merchants m ON m.customer_id = c.customer_id
-		WHERE a.customer_id = #{customerId}
+		SELECT a.id,a.name FROM customers a LEFT JOIN
+		customer_agent_relations c ON a.id = c.customer_id  and a.`status` = #{status}
+		WHERE c.agent_id = #{customerId} 
 	</select>
 	<select id="getTerminalsNum" parameterType="string" resultType="object">
 		SELECT id FROM terminals
@@ -179,7 +183,8 @@
 		LEFT JOIN goods g ON t.good_id = g.id
 		LEFT JOIN pay_channels p ON
 		t.pay_channel_id = p.id
-		WHERE 1 = 1
+		WHERE
+		agent_id=#{agentId}
 		<if test="title != null">
 			AND g.title LIKE '%${title}%' 
 		</if>

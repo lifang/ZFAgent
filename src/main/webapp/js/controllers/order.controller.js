@@ -93,21 +93,66 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
             $("#serverErrorModal").modal({show: true});
         });
 	};
+	//显示支付
+	$scope.showPay = function(id,i){
+//		$scope.req={id:id};
+    	$("#o_id").val(id);
+    	$("#o_index").val(i);
+//		popup(".pay_tab",".pay_a");//代理商批购
+		var doc_height = $(document).height();
+		var doc_width = $(document).width();
+		var win_height = $(window).height();
+		var win_width = $(window).width();
+		
+		var layer_height = $(".pay_tab").height();
+		var layer_width = $(".pay_tab").width();
+		
+		var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		 
+	    $(".mask").css({display:'block',height:doc_height});
+		$(".pay_tab").css('top',(win_height-layer_height)/2);
+		$(".pay_tab").css('left',(win_width-layer_width)/2);
+		$(".pay_tab").css('display','block');
+		
+	};
     //详情
     $scope.orderinfo=function (p) {
     	LoginService.poscd=p.id;
     	$scope.poscd=p.id;
     	window.location.href = '#/orderinfo';
     };
-    $scope.topay = function(o) {
-//    	var g_name = $("#g_name").val();
-    	window.open("#/pay?id="+o.order_id) ;  
+    
+    $scope.close = function(){
+    	$(".pay_tab").css('display','none');
+		$(".mask").css('display','none');
+    }
+    //支付 金额
+    $scope.orderpay = function(o) {
+    	$("#zf_yz").hide();
+   		var pay_price = $("#pay_price").val();
+    	var o_id = $("#o_id").val();
+    	var o_index = $("#o_index").val();
+    	var sy_price = $("#shenyu_price_"+o_index).val();
+    	if(pay_price<0 || pay_price==''){
+    		alert("请输入金额");
+//    		$("#zf_yz").show();
+    		return false;
+    	}else if(parseInt(pay_price) > parseInt(sy_price)){
+        		alert("最多只需支付"+sy_price);
+        		return false;
+    	}else{
+    		$scope.close();
+    	 	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  
+    	}
 //    	window.open("alipayapi.jsp?WIDtotal_fee="+o.order_totalPrice/100+"&WIDsubject="+g_name+"&WIDout_trade_no="+o.order_number);  
 	};
 	
+	//定金支付
 	 $scope.depositpay = function(o) {
-	    	window.open("#/order_pay?id="+o.order_id) ;  
-		};
+		 var dj = o.price_dingjin;
+		 console.log("dj===>>"+dj);
+	    window.open("#/deposit_pay?id="+o.order_id) ;  
+	};
 	
 	// 上一页
 	$scope.prev = function() {
@@ -196,6 +241,11 @@ var proxyOrderController = function ($scope, $http, LoginService) {
         });
 	};
 	
+    $scope.close = function(){
+    	$(".pay_tab").css('display','none');
+		$(".mask").css('display','none');
+    }
+    
 	$scope.submitPage = function(){
 		$scope.req={customerId:LoginService.agentUserId,search:$scope.search,q:$scope.screen,page:$scope.indexPage,p:"",
 				rows:$scope.rows};
@@ -279,23 +329,20 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 //    $scope.submitSearch();
 //    $scope.orderinfo();
 };
-
+var orderpayModule = angular.module("orderpayModule",[]);
 var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.pay=true;
 	$scope.req={};
 	$scope.order={};
 	$scope.payway=1;
 	$scope.req.id=$location.search()['id'];
-	$scope.init = function() {
-		if(LoginService.userid == 0){
-			window.location.href = '#/login';
-		}
-		$scope.getOrder();
-	};
+	var price =$location.search()['p'];//
 	$scope.getOrder = function() {
-		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
+		console.log("pay order  get order==>>"+ $scope.req.id);
+		$http.post("api/order/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.order=data.result;
+            	$scope.p=price;
             	if(data.result.paytype>0){
             		$scope.pay=false;
             		$scope.payway=data.result.paytype;
@@ -304,7 +351,8 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             }
         });
 	};
-	$scope.pay= function(){
+	//定金支付
+	$scope.depositpay= function(){
 		$('#payTab').show();
 		if(1==$scope.payway){
 			//alert("支付宝");
@@ -327,6 +375,30 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 			window.open("http://www.taobao.com");  
 		}
 	}
+	//订单支付
+	$scope.orderpay= function(){
+		$('#payTab').show();
+		if(1==$scope.payway){
+			//alert("支付宝");
+			$scope.order.title="";
+			var count=0;
+			angular.forEach($scope.order.good, function (one) {
+				if(count<2){
+					$scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
+				}
+				count++;
+			});
+			if(count>2){
+				$scope.order.title+="..";
+			}
+			window.open("depositalipayapi.jsp?WIDtotal_fee="+
+					$scope.p+"&WIDsubject="+$scope.order.title
+					+"&WIDout_trade_no="+$scope.order.order_number);  
+		}else{
+			//alert("银行");
+			window.open("http://www.taobao.com");  
+		}
+	}
 	$scope.finish= function(){
 		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
@@ -343,7 +415,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             }
         });
 	};
-	$scope.init();
+	$scope.getOrder();
 };
 
 
@@ -352,4 +424,4 @@ proxyOrderModule.$inject = ['$scope', '$http', '$cookieStore'];
 wholesaleOrderModule.controller("wholesaleOrderController", wholesaleOrderController); //批购
 proxyOrderModule.controller("proxyOrderController", proxyOrderController); //代购
 orderpayController.$inject = ['$scope','$http','$location','LoginService'];
-wholesaleOrderModule.controller("orderpayController", orderpayController);
+orderpayModule.controller("orderpayController", orderpayController);

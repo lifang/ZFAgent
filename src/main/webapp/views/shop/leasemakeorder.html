@@ -21,13 +21,10 @@
 					<div class="su_con">
 						<div>
 							<div class="su_search">
-								<input name="" type="text" />
-								<button>搜索</button>
+								<input ng-model="cc.keys" type="text" />
+								<button ng-click="clist()">搜索</button>
 							</div>
-							<div class="su_s_box">
-								<span ng-repeat="one in cuslist"> <a href="javascript:void(0);" ng-click="alist(one.customersId)">{{one.name}}</a>&nbsp;&nbsp;
-								</span>
-							</div>
+							
 						</div>
 						<div>
 							<div class="suc_selectInput">
@@ -44,13 +41,14 @@
 								<input ng-model="user.pass2" type="text" placeholder="确认密码" />
 								<button ng-click="addUser()">创建</button>
 							</div>
-							<div class="su_s_box">
-								<span ng-repeat="one in cuslist"> <a href="javascript:void(0);" ng-click="alist(one.customersId)">{{one.name}}</a>&nbsp;&nbsp;
-								</span>
-							</div>
 						</div>
 					</div>
+				    <div class="su_s_box">
+						<a ng-repeat="one in cuslist" on-finish-render-filters href="javascript:void(0);"  ng-click="alist(one.customersId)">{{one.name}}</a>
+					</div>
 				</div>
+				
+				
 				<div class="myAddress">
 					<h3>确认收货地址</h3>
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
@@ -75,7 +73,7 @@
 							</tr>
 						</thead>
 						<tr ng-repeat="one in addressList">
-							<td><input type="radio" value="{{one.id}}" ng-model="order.addressId" ng-checked="one.isDefault==1" /></td>
+							<td><input type="radio" value="{{one.id}}" ng-model="order.addressId" /></td>
 
 							<td>{{one.receiver}}</td>
 							<td>{{one.city}}</td>
@@ -172,7 +170,7 @@
 							</td>
 							<td><a href="javascript:void(0);"><strong>{{(shop.opening_cost+shop.price)/100|currency : "￥"}}</strong></a></td>
 							<td><div class="choose_amount">
-									<a href="javascript:void(0);" ng-click="upadteCart(-1)">-</a><input type="text" ng-model="order.quantity" /><a href="javascript:void(0);" ng-click="upadteCart(1)">+</a>
+									<a href="javascript:void(0);" ng-click="upadteCart(-1)">-</a><input type="text" ng-model="order.quantity" ng-blur="checkQ()"/><a href="javascript:void(0);" ng-click="upadteCart(1)">+</a>
 								</div></td>
 							<td><a href="javascript:void(0);"><strong>{{(shop.opening_cost+shop.price)/100*order.quantity|currency : "￥"}}</strong></a></td>
 						</tr>

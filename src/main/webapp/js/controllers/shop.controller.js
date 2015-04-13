@@ -375,6 +375,13 @@ var shopinfoController = function ($scope, $http,$location, LoginService) {
 		$scope.getGoodInfo();
 		
     };
+    $scope.checkQ=function () {
+    	if($scope.quantity>0){
+    		$scope.quantity=parseInt($scope.quantity);
+    	}else{
+    		$scope.quantity=1;
+    	}
+    };
     $scope.getGoodInfo = function () {
     	$http.post("api/good/goodinfo", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
@@ -820,6 +827,13 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
 		
 		
     };
+    $scope.checkQ=function () {
+    	if($scope.quantity>$scope.minquantity){
+    		$scope.quantity=parseInt($scope.quantity);
+    	}else{
+    		$scope.quantity=$scope.minquantity;
+    	}
+    };
     $scope.getGoodInfo = function () {
     	$http.post("api/good/goodinfo", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
@@ -895,7 +909,7 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 	$scope.init = function() {
 		$scope.user = {};
 		$scope.req={};
-		$scope.order={invoice_type:1};
+		$scope.order={invoice_type:1,addressId:0};
 		//$scope.order.customerId=LoginService.userid;
 		//$scope.order.addressId=1;
 		$scope.order.goodId=$location.search()['goodId'];
@@ -904,6 +918,7 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		$scope.order.paychannelId=$location.search()['paychannelId'];
 		$scope.getGood();
 		if($scope.order.orderType!=5){
+			$scope.cc={};
 			$scope.clist();
 		}
 		$scope.city_list();
@@ -926,12 +941,23 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 			}
 		});
 	};
+	$scope.checkQ=function () {
+    	if($scope.order.quantity>$scope.min){
+    		$scope.order.quantity=parseInt($scope.order.quantity);
+    	}else{
+    		$scope.order.quantity=$scope.min;
+    	}
+    };
 	$scope.upadteCart = function(type) {
 			if ($scope.order.quantity != $scope.min || type != -1) {
 				$scope.order.quantity += type;
 			}
 	};
 	$scope.submit = function() {
+		if($scope.order.addressId==0){
+			alert("请选择收货地址");
+			return;
+		}
 		if($scope.order.is_need_invoice){
 			$scope.order.is_need_invoice=1;
 		}else{
@@ -958,11 +984,20 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		$http.post("api/agents/getAddressList",{customerId:$scope.order.customerId}).success(function(data) {
 			if (data.code == 1) {
 				$scope.addressList = data.result;
+				angular.forEach($scope.addressList, function (one) {
+					if(one.isDefault==1){
+						$scope.order.addressId=one.id;
+					}
+		        });
 			} else {
 				// 提示错误信息
 				alert(data.message);
 			}
 		});
+	};
+	$scope.alist = function(id) {
+		$scope.order.customerId=id;
+		$scope.adlist();
 	};
 	$scope.addad = function(id) {
 		$scope.ad.customerId=$scope.order.customerId;
@@ -986,8 +1021,9 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		});
 	};
 	$scope.clist = function() {
-		$scope.req.customerId=LoginService.loginid;
-		$http.post("api/user/getUser",$scope.req).success(function(data) {
+		
+		$scope.cc.agentId=LoginService.agentid;
+		$http.post("api/user/getWbeUser",$scope.cc).success(function(data) {
 			if (data.code == 1) {
 				$scope.cuslist = data.result;
 			}
@@ -1008,6 +1044,8 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		if($scope.user.pass1!=$scope.user.pass2){
 			alert("密码不一致");
 		}
+		$scope.user.agentId=LoginService.agentid;
+		$scope.user.cityid=Math.ceil($scope.user.cityid);
 		$http.post("api/user/addCustomer",$scope.user).success(function (data) {   
 			if (data.code == 1) {
 				$scope.clist();

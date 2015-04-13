@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
-import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.service.UserManagementService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -64,8 +63,38 @@ public class UserManagementController {
 	 */
 	@RequestMapping(value = "getUser", method = RequestMethod.POST)
 	public Response getUser(@RequestBody Map<String, Object> map) {
-		try {
-			return Response.getSuccess(userManagementService.getUser((Integer) map.get("customerId"), CustomerAgentRelation.STATUS_1));
+		try {//代理商对应用户id
+			PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
+					(Integer)map.get("rows"));
+			int offSetPage = PageRequest.getOffset();
+			return Response.getSuccess(userManagementService.getUser((Integer) map.get("customerId"),
+					CustomerAgentRelation.STATUS_1,
+					CustomerAgentRelation.TYPES_USER_TO_AGENT,
+					offSetPage,(Integer)map.get("rows")));
+		} catch (Exception e) {
+			logger.error("获得该代理商有关联的所有用户异常！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	/**
+	 * 获得该代理商有关联的所有用户(Web)
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "getWbeUser", method = RequestMethod.POST)
+	public Response getWbeUser(@RequestBody Map<String, Object> map) {
+		try {//代理商对应用户id
+		    String keys;
+            try {
+                keys = map.get("keys").toString();
+            } catch (Exception e) {
+                keys="";
+            }
+			return Response.getSuccess(userManagementService.getWebUser(
+			        (Integer) map.get("agentId"),
+					CustomerAgentRelation.STATUS_1,
+					CustomerAgentRelation.TYPES_USER_TO_AGENT,keys));
 		} catch (Exception e) {
 			logger.error("获得该代理商有关联的所有用户异常！", e);
 			return Response.getError("请求失败！");
@@ -148,27 +177,13 @@ public class UserManagementController {
 	@RequestMapping(value = "addCustomer", method = RequestMethod.POST)
 	public Response addCustomer(@RequestBody Map<Object, Object> map) {
 		try {
-			if (userManagementService.findUname(map) > 0) {
-				return Response.getError("用户已存在！");
-			} else {
-				// 添加新用户
-				Customer customer = new Customer();
-				customer.setUsername((String) map.get("username"));
-				customer.setName((String) map.get("name"));
-				customer.setPassword((String) map.get("pass1"));
-				customer.setCityId((Integer) map.get("cityid"));
-				customer.setTypes(Customer.TYPE_CUSTOMER);
-				customer.setStatus(Customer.STATUS_NORMAL);
-				customer.setIntegral(0);
-				userManagementService.addUser(customer);
-				return Response.getSuccess(customer);
-			}
+			return userManagementService.addCustomerOrAgents(map);
 		} catch (Exception e) {
 			logger.error("为用户绑定失败！", e);
 			return Response.getError("请求失败！");
 		}
 	}
-
+	
 	/**
 	 * 根据商户ID查找商户信息
 	 * 

@@ -153,6 +153,12 @@ public class OrderController {
 //            return Response.getError("请求失败");
 //        }
     }
+    
+    @RequestMapping(value = "payOrder", method = RequestMethod.POST)
+    public Response orderPay(@RequestBody MyOrderReq myOrderReq) {
+    	Map<String,Object> centers = orderService.orderPay(myOrderReq);
+    	return Response.getSuccess(centers);
+    }
 
    //  gch  end
   

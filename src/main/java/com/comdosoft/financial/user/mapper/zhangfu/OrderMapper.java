@@ -29,7 +29,7 @@ public interface OrderMapper {
     
     List<Order> getProxyOrder(MyOrderReq myOrderReq);//代购
     
-    Order getWholesaleById(Integer id);
+    List<Order> getWholesaleById(Integer id);
     
     Order getProxyById(Integer id);
 

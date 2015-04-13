@@ -77,7 +77,7 @@ var indexController = function($scope, $location, $http, LoginService,
 				 */
 		}
 	}
-	$scope.init();
+	
 	$scope.$on('$locationChangeStart', function(scope, next, current) {
 
 		var strs = new Array(); // 定义一数组
@@ -116,7 +116,7 @@ var indexController = function($scope, $location, $http, LoginService,
 	var check = function(str) {
 		// alert(str + "====index.controller");
 		var arry = [ "shop", "shopinfo", "purchaseShop", "purchaseShopinfo",'login','register','findpass','findpassEmail',
-		             "shopmakeorder","leasemakeorder","purchasemakeorder", "pay", "lowstocks" ];
+		             "shopmakeorder","leasemakeorder","purchasemakeorder", "pay", "lowstocks","deposit_pay","order_pay" ];
 		for (var i = 0; i < arry.length; i++) {
 			if (str == arry[i]) {
 				return true;
@@ -143,7 +143,22 @@ var indexController = function($scope, $location, $http, LoginService,
 	$scope.loginout = function(){
 		LoginService.logout();
 	}
+	$scope.init();
 
 };
+
+
+indexModule.directive('onFinishRenderFilters', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                	$.getScript('js/zinish.js');
+                });
+            }
+        }
+    };
+});
 
 indexModule.controller("indexController", indexController);

@@ -25,6 +25,7 @@
 		LEFT JOIN agents a ON a.customer_id = c.id
 		LEFT JOIN customers u ON u.id = a.customer_id
  		WHERE c.username=#{username} and c.password=#{password} and c.types in (#{types},#{statusEnd}) and c.status=#{status}
+ 		GROUP BY c.id
  	</select>
  	
 	<select id="doLoginPersn" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="map">

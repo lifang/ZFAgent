@@ -67,14 +67,27 @@ var exchangeaddController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
 		$scope.req={};
 		$scope.req.agentId=LoginService.agentid;
-		$scope.sonlist();
+		$scope.sonlist(0);
 	};
 	
 	
-	$scope.sonlist=function(){
+	$scope.sonlist=function(type){
+		if(type==1){
+			$scope.req.keys=$scope.keys1;
+		}else if(type==2){
+			$scope.req.keys=$scope.keys2;
+    	}
 		$http.post("api/preparegood/getsonagent", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.son=data.result;
+            	if(type==0){
+            		$scope.son1=data.result;
+            		$scope.son2=data.result;
+            	}else if(type==1){
+            		$scope.son1=data.result;
+            	}else if(type==2){
+            		$scope.son2=data.result;
+            	}
+            	
             }
         });
 	};

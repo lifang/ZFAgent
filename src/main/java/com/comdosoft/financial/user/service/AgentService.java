@@ -208,7 +208,14 @@ public class AgentService {
 
 	public void updateAddress(Map<Object, Object> param) {
 		agentMapper.update_Address(param);
-	} 
-    
+	}
+
+    @Transactional(value = "transactionManager-zhangfu")
+    public void setDefaultAddress(Map<Object, Object> param) {
+        param.put("is_default", CustomerAddress.ISDEFAULT_2); // 其它设置为非默认
+//        customerMapper.updateDefaultAddress(param);
+        agentMapper.setNotDefaultAddress(param);
+        agentMapper.setDefaultAddress(param);
+    }
 
 }

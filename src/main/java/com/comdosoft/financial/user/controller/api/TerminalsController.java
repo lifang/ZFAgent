@@ -164,12 +164,14 @@ public class TerminalsController {
 					(Integer)map.get("customerId"),//代理商对应用户id
 					offSetPage,
 					(Integer)map.get("rows"),
-					CustomerAgentRelation.STATUS_1));
+					CustomerAgentRelation.STATUS_1,
+					CustomerAgentRelation.TYPES_USER_TO_AGENT));
 			applyMap.put("total", terminalsService.getMerchantSize(
 					(Integer)map.get("customerId"),//代理商对应用户id
 					offSetPage,
 					(Integer)map.get("rows"),
-					CustomerAgentRelation.STATUS_1));
+					CustomerAgentRelation.STATUS_1,
+					CustomerAgentRelation.TYPES_USER_TO_AGENT));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
 			logger.error("获得代理商下面的用户失败！", e);
@@ -232,7 +234,8 @@ public class TerminalsController {
                 return Response.getError("系统异常！");
             }
             } else {
-                if (terminalsService.findUnameAndStatus(customer) == 0) {
+            	 Map<Object, Object> m = terminalsService.findUnameAndStatus(customer);
+                if ((Integer)m.get("count") == 0) {
                     return Response.getError("该用户已注册！");
                 } else {
                 	terminalsService.updateCode(customer);
@@ -257,24 +260,26 @@ public class TerminalsController {
 			CustomerAgentRelation customerAgentRelation = new CustomerAgentRelation();
 			 Customer customer = new Customer();
 			 customer.setUsername((String)map.get("codeNumber"));
-			if (terminalsService.findUnameAndStatus(customer) > 0) {
-				return Response.getError("用户已存在,未激活！");
-			} else {
-				// 添加新用户
+			 customer.setStatus(Customer.STATUS_NON_END);
+			 Map<Object, Object> m = terminalsService.findUnameAndStatus(customer);
+			if ((Long)m.get("count") > 0) {
+				// 修改添加新用户
 				customer.setName((String) map.get("name"));
 				customer.setPassword((String) map.get("password"));
 				customer.setCityId((Integer) map.get("cityId"));
 				customer.setTypes(Customer.TYPE_CUSTOMER);
 				customer.setStatus(Customer.STATUS_NORMAL);
 				customer.setIntegral(0);
-				userManagementService.addUser(customer);
+				userManagementService.updateCustomer(customer);
 				//对该代理商已改用户绑定关系
-				customerAgentRelation.setCustomerId(customer.getId());
+				customerAgentRelation.setCustomerId((Integer)m.get("id"));
 				customerAgentRelation.setAgentId((Integer)map.get("agentId"));
 				customerAgentRelation.setTypes(CustomerAgentRelation.TYPES_USER_TO_AGENT);
 				customerAgentRelation.setStatus(CustomerAgentRelation.STATUS_1);
 				userManagementService.addCustomerOrAgent(customerAgentRelation);
 				return Response.getSuccess(customer);
+			} else {
+				return Response.getError("手机号不匹配！");
 			}
 		} catch (Exception e) {
 			logger.error("为用户绑定失败！", e);

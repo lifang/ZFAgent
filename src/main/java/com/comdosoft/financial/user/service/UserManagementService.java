@@ -63,12 +63,27 @@ public class UserManagementService {
 	 * 
 	 * @param id
 	 */
-	public void delectAgentUser(int id, int customerId, int status) {
+	public void delectAgentUser(int id, int customerId, int status,int types) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("customerId", customerId);
 		map.put("status", status);
+		map.put("types", types);
 		userManagementMapper.delectAgentUser(map);
+	}
+	
+	/**
+	 * 判断用户下面所有终端是否全部注销或者已取消
+	 * 
+	 * @param id
+	 * @return 
+	 */
+	public int TerminalStatus(int customerId, int status1,int status2) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("customerId", customerId);
+		map.put("status1", status1);
+		map.put("status2", status2);
+		return userManagementMapper.TerminalStatus(map);
 	}
 
 	/**
@@ -119,6 +134,16 @@ public class UserManagementService {
 	@Transactional(value = "transactionManager-zhangfu")
 	public void addUser(Customer customer) {
 		userManagementMapper.addUser(customer);
+	}
+	
+	/**
+	 * 添加-修改新用户
+	 * 
+	 * @param map
+	 */
+	@Transactional(value = "transactionManager-zhangfu")
+	public void updateCustomer(Customer customer) {
+		userManagementMapper.updateCustomer(customer);
 	}
 	/**
 	 * 为新添加用户绑定关系

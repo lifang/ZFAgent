@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
+import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.service.UserManagementService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -113,8 +114,17 @@ public class UserManagementController {
 			@SuppressWarnings("unchecked")
 			List<Object> list = (List<Object>) map.get("customerArrayId");
 			for (int i = 0; i < list.size(); i++) {
-
-				userManagementService.delectAgentUser((Integer) map.get("agentId"), (Integer) list.get(i), CustomerAgentRelation.STATUS_2);
+				//先判断该用户下面有关终端是否全部已经注销或者停用
+				int count = userManagementService.TerminalStatus((Integer) list.get(i),
+						Terminal.TerminalTYPEID_4,
+						Terminal.TerminalTYPEID_5);
+				if(count == 0){
+					return Response.getError("该用户终端未注销或取消,不能删除！");
+				}
+				userManagementService.delectAgentUser((Integer) map.get("agentId")
+						, (Integer) list.get(i)
+						, CustomerAgentRelation.STATUS_2
+						,CustomerAgentRelation.TYPES_USER_TO_AGENT);
 			}
 			return Response.getSuccess("删除成功！");
 		} catch (Exception e) {

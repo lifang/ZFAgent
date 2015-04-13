@@ -125,12 +125,13 @@ public class TerminalsService {
 	 * @return
 	 */
 	public List<Map<String, Object>> getMerchants(Integer customerId,
-				Integer offSetPage, Integer pageSize,Integer status) {
+				Integer offSetPage, Integer pageSize,Integer status,Integer types) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("customerId", customerId);
 			map.put("offSetPage", offSetPage);
 			map.put("pageSize", pageSize);
 			map.put("status", status);
+			map.put("types", types);
 		return terminalsMapper.getMerchants(map);
 	}
 	
@@ -140,12 +141,13 @@ public class TerminalsService {
 	 * @return
 	 */
 	public int getMerchantSize(Integer customerId,
-			Integer offSetPage, Integer pageSize,Integer status) {
+			Integer offSetPage, Integer pageSize,Integer status,Integer types) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("customerId", customerId);
 		map.put("offSetPage", offSetPage);
 		map.put("pageSize", pageSize);
 		map.put("status", status);
+		map.put("types", types);
 		return terminalsMapper.getMerchantSize(map);
 	}
 	/**
@@ -205,7 +207,7 @@ public class TerminalsService {
 	 * @param customer
 	 * @return
 	 */
-	public int findUnameAndStatus(Customer customer){
+	public Map<Object, Object> findUnameAndStatus(Customer customer){
 		return terminalsMapper.findUnameAndStatus(customer);
 	}
 	

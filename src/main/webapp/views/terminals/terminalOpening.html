@@ -150,6 +150,7 @@
                                     <input type="text" id="value_{{ma.level+'_'+$index}}" value="{{r.value}}"/>
                                     <input  name="img" multiple type="file" onchange="showImage(this)">
                                     </a>
+                                    <input  id="terid" type="hidden" value="{{applyDetails.id}}">
                                 </form>
                                 </div>
                                 </li>
@@ -162,7 +163,8 @@
             </div>
             <script type="text/javascript">
             function showImage(obj) { 
-            	$(obj).parent("a").children("span").html("重新上传")
+            	$(obj).parent("a").children("span").html("重新上传");
+            	$(obj).parent("a").parent("form").attr("action","api/comment/upload/tempImage/"+$("#terid").val());
             	$(obj).parent("a").parent("form").ajaxSubmit({
             		success : function(data) {
             			$(obj).siblings("input").val(data.result);

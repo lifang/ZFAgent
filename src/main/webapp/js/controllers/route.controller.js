@@ -118,6 +118,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/shop/purchasemakeorder.html'
 	}).when('/pay', {
 		templateUrl : 'views/shop/pay.html'
+	}).when('/topay', {
+		templateUrl : 'views/order/topay.html'
 	}).when('/order_pay', {
 		templateUrl : 'views/order/order_pay.html'
 	}).when('/deposit_pay', {

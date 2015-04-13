@@ -121,8 +121,8 @@
 						<td ><strong>{{o.actual_price/100 |currency : "￥"}} </strong></td>
 
 						<td >
-							<strong ng-if="o.order_status==1 && o.pay_status!=2"  >未付款</strong>
-							<strong ng-if="o.order_status==1 && o.pay_status==2" >已付定金</strong>
+							<strong ng-if="o.order_status==1 && o.pay_status!=2"  class="strong_status">未付款</strong>
+							<strong ng-if="o.order_status==1 && o.pay_status==2" class="strong_status">已付定金</strong>
 							<strong ng-if="o.order_status==2" class="strong_status">已付款</strong> 
 							<strong ng-if="o.order_status==3" class="strong_status">已发货</strong> 
 							<strong ng-if="o.order_status==4" class="strong_status">已评价</strong> 

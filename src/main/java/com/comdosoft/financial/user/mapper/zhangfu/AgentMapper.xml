@@ -44,7 +44,7 @@
 	<select id="getAddressList" resultType="map">
 	<![CDATA[
 			SELECT
-				IFNULL(ca.id,0),
+				IFNULL(ca.id,0) id,
 				IFNULL(c2.id,0) AS city_parent_id,
 				IFNULL(c. NAME,'') AS city_name,
 				IFNULL(c2. NAME,'') AS city_parent_name,

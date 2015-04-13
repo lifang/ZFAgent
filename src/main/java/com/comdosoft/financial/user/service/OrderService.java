@@ -164,11 +164,11 @@ public class OrderService {
                 }
             }
             map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
-            map.put("price_dingjin", dj_price+"");//定金金额
             map.put("shengyu_price", shengyu_price+"");//
             logger.debug("剩余金额："+shengyu_price);
             map.put("actual_price", bd_act+"");//
             map.put("shipped_quantity", quantity);//已发货数量
+            map.put("price_dingjin", dj_price+"");//定金金额
             map.put("pay_status", pay_status+"");   //如果状态为2 页面就显示 已付定金  ，未付清  就显示 付款按钮
             map.put("total_quantity", o.getTotalQuantity()==null?"":o.getTotalQuantity());//已发货数量
             

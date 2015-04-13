@@ -93,6 +93,14 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
             $("#serverErrorModal").modal({show: true});
         });
 	};
+	
+    //详情
+    $scope.orderinfo=function (p) {
+    	LoginService.poscd=p.id;
+    	$scope.poscd=p.id;
+    	window.location.href = '#/orderinfo';
+    };
+    
 	//显示支付
 	$scope.showPay = function(id,i){
 //		$scope.req={id:id};
@@ -115,12 +123,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 		$(".pay_tab").css('display','block');
 		
 	};
-    //详情
-    $scope.orderinfo=function (p) {
-    	LoginService.poscd=p.id;
-    	$scope.poscd=p.id;
-    	window.location.href = '#/orderinfo';
-    };
+
     
     $scope.close = function(){
     	$(".pay_tab").css('display','none');
@@ -291,9 +294,10 @@ var proxyOrderController = function ($scope, $http, LoginService) {
     	$scope.poscd=p.id;
     	window.location.href = '#/orderinfo';
     };
+
     $scope.topay = function(o) {
 //    	var g_name = $("#g_name").val();
-    	window.open("#/pay?id="+o.order_id) ;  
+    	window.open("#/topay?id="+o.order_id) ;  
 //    	window.open("alipayapi.jsp?WIDtotal_fee="+o.order_totalPrice/100+"&WIDsubject="+g_name+"&WIDout_trade_no="+o.order_number);  
 	};
 	
@@ -350,6 +354,31 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             }
         });
 	};
+	
+	$scope.to_pay= function(){
+		$('#payTab').show();
+		if(1==$scope.payway){
+			//alert("支付宝");
+			$scope.order.title="";
+        	var count=0;
+        	 angular.forEach($scope.order.good, function (one) {
+                 if(count<2){
+                	 $scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
+                 }
+                 count++;
+             });
+        	 if(count>2){
+        		 $scope.order.title+="..";
+        	 }
+			window.open("alipayapi.jsp?WIDtotal_fee="+
+					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+					+"&WIDout_trade_no="+$scope.order.order_number);  
+		}else{
+			//alert("银行");
+			window.open("http://www.taobao.com");  
+		}
+	}
+	
 	//定金支付
 	$scope.depositpay= function(){
 		$('#payTab').show();
@@ -388,7 +417,6 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             	}else{
             		alert("尚未支付,如有疑问请联系888-88888");
             	}
-            	
             }
         });
 	};

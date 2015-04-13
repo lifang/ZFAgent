@@ -85,9 +85,16 @@ public class UserManagementController {
 	@RequestMapping(value = "getWbeUser", method = RequestMethod.POST)
 	public Response getWbeUser(@RequestBody Map<String, Object> map) {
 		try {//代理商对应用户id
-			return Response.getSuccess(userManagementService.getWebUser((Integer) map.get("agentId"),
+		    String keys;
+            try {
+                keys = map.get("keys").toString();
+            } catch (Exception e) {
+                keys="";
+            }
+			return Response.getSuccess(userManagementService.getWebUser(
+			        (Integer) map.get("agentId"),
 					CustomerAgentRelation.STATUS_1,
-					CustomerAgentRelation.TYPES_USER_TO_AGENT));
+					CustomerAgentRelation.TYPES_USER_TO_AGENT,keys));
 		} catch (Exception e) {
 			logger.error("获得该代理商有关联的所有用户异常！", e);
 			return Response.getError("请求失败！");

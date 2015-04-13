@@ -918,6 +918,7 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		$scope.order.paychannelId=$location.search()['paychannelId'];
 		$scope.getGood();
 		if($scope.order.orderType!=5){
+			$scope.cc={};
 			$scope.clist();
 		}
 		$scope.city_list();
@@ -1020,7 +1021,9 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		});
 	};
 	$scope.clist = function() {
-		$http.post("api/user/getWbeUser",{agentId:LoginService.agentid}).success(function(data) {
+		
+		$scope.cc.agentId=LoginService.agentid;
+		$http.post("api/user/getWbeUser",$scope.cc).success(function(data) {
 			if (data.code == 1) {
 				$scope.cuslist = data.result;
 			}

@@ -13,11 +13,14 @@
 	</select>
 	
 	<select id="getWebUser" resultType="map" parameterType="int">
-		SELECT m.id as customersId,m.`name`
+		SELECT m.id as customersId,m.name
 		from agents a 
 		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status} and c.types = #{types}
 		LEFT JOIN customers m ON c.customer_id=m.id
-		WHERE a.id = #{agentId}
+		WHERE a.id = #{agentId} 
+		<if test="keys!=''">
+		    <![CDATA[ AND m.name like '%${keys}%' ]]>
+		</if>
 	</select>
 
 	<update id="delectAgentUser" parameterType="map">

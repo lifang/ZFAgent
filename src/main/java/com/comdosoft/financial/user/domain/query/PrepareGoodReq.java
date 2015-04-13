@@ -29,9 +29,17 @@ public class PrepareGoodReq {
     
     private int web;
     
+    private String keys="";
     
     
-    
+    public String getKeys() {
+        return keys;
+    }
+
+    public void setKeys(String keys) {
+        this.keys = keys;
+    }
+
     public int getWeb() {
         return web;
     }

@@ -24,21 +24,21 @@
 							<p>从</p>
 							<div class="allocationCargo">
 								<div class="su_search">
-									<input name="" type="text" />
-									<button>搜索</button>
+									<input ng-model="keys1" type="text" />
+									<button ng-click="sonlist(1)">搜索</button>
 								</div>
 								<div class="ac_area">
-									<a href="javascript:void(0);" ng-repeat="one in son" on-finish-render-filters ng-click="checkson1(one.id)">{{one.company_name}}</a>
+									<a href="javascript:void(0);" ng-repeat="one in son1" on-finish-render-filters ng-click="checkson1(one.id)">{{one.company_name}}</a>
 								</div>
 							</div>
 							<p>到</p>
 							<div class="allocationCargo">
 								<div class="su_search">
-									<input name="" type="text" />
-									<button>搜索</button>
+									<input ng-model="keys2" type="text" />
+									<button ng-click="sonlist(2)">搜索</button>
 								</div>
 								<div class="ac_area">
-									<a href="javascript:void(0);" ng-repeat="one in son"  ng-click="checkson2(one.id)">{{one.company_name}}</a>
+									<a href="javascript:void(0);" ng-repeat="one in son2"  ng-click="checkson2(one.id)">{{one.company_name}}</a>
 								</div>
 							</div>
 						</div></li>

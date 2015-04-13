@@ -34,10 +34,10 @@
 		String payment_type = "1";
 		//必填，不能修改
 		//服务器异步通知页面路径
-		String notify_url = AlipayConfig.backurl+"ZFMerchant/notify_url.jsp";
+		String notify_url = AlipayConfig.backurl+"ZFAgent/deposit_notify_url.jsp";
 		//需http://格式的完整路径，不能加?id=123这类自定义参数
 		//页面跳转同步通知页面路径
-		String return_url = AlipayConfig.backurl+"ZFMerchant/return_url.jsp";
+		String return_url = AlipayConfig.backurl+"ZFAgent/deposit_return_url.jsp";
 		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 		
 
@@ -51,7 +51,7 @@
 		String total_fee =new String(request.getParameter("WIDtotal_fee").getBytes("ISO-8859-1"),"UTF-8");
 		//必填
 		//订单描述
-		String body ="掌富订单"; //new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
+		String body ="支付定金"; //new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
 		//商品展示地址
 		//String show_url ="http://www.商户网址.com/myorder.html"; //new String(request.getParameter("WIDshow_url").getBytes("ISO-8859-1"),"UTF-8");
 		//需以http://开头的完整路径，例如：http://www.商户网址.com/myorder.html

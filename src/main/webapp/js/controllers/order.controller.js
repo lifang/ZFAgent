@@ -338,7 +338,6 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.req.id=$location.search()['id'];
 	var price =$location.search()['p'];//
 	$scope.getOrder = function() {
-		console.log("pay order  get order==>>"+ $scope.req.id);
 		$http.post("api/order/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.order=data.result;
@@ -355,20 +354,8 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.depositpay= function(){
 		$('#payTab').show();
 		if(1==$scope.payway){
-			//alert("支付宝");
-			$scope.order.title="";
-        	var count=0;
-        	 angular.forEach($scope.order.good, function (one) {
-                 if(count<2){
-                	 $scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
-                 }
-                 count++;
-             });
-        	 if(count>2){
-        		 $scope.order.title+="..";
-        	 }
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
-					$scope.order.front_money/100+"&WIDsubject="+$scope.order.title
+					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
@@ -380,17 +367,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		$('#payTab').show();
 		if(1==$scope.payway){
 			//alert("支付宝");
-			$scope.order.title="";
-			var count=0;
-			angular.forEach($scope.order.good, function (one) {
-				if(count<2){
-					$scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
-				}
-				count++;
-			});
-			if(count>2){
-				$scope.order.title+="..";
-			}
+			$scope.order.title="订单付款";
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
 					$scope.p+"&WIDsubject="+$scope.order.title
 					+"&WIDout_trade_no="+$scope.order.order_number);  

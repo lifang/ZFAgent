@@ -865,6 +865,16 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
             }
         });
 	}
+    $scope.pigou = function() {
+		if ($scope.quantity<$scope.good.goodinfo.quantity) {
+			window.location.href="#/purchasemakeorder?goodId=" +$scope.good.goodinfo.id+
+					"&type=5&quantity=" +$scope.quantity+"&paychannelId=" +$scope.paychannel.id;
+		}else{
+			window.location.href = '#/lowstocks';
+		}
+	}
+    
+    
     $scope.init();
 
     
@@ -909,6 +919,7 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 	$scope.init = function() {
 		$scope.user = {};
 		$scope.req={};
+		$scope.ad={};
 		$scope.order={invoice_type:1,addressId:0};
 		//$scope.order.customerId=LoginService.userid;
 		//$scope.order.addressId=1;
@@ -999,11 +1010,54 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		$scope.order.customerId=id;
 		$scope.adlist();
 	};
-	$scope.addad = function(id) {
+	
+	$scope.addad = function() {
+		if($scope.ad.receiver==undefined||$scope.ad.receiver.trim()==""){
+			alert("请输入收件人!");
+			return;
+		}
+		if($scope.city==undefined){
+			alert("请选择城市!");
+			return;
+		}
+		if($scope.ad.address==undefined||$scope.ad.address.trim()==""){
+			alert("请输入地址!");
+			return;
+		}
+		if($scope.ad.zipCode==undefined||$scope.ad.zipCode.trim()==""){
+			alert("请输入邮编!");
+			return;
+		}else{
+			var reg=/[1-9]\d{5}(?!\d)/;
+			if(!reg.test($scope.ad.zipCode)){
+				alert("邮编不正确!");
+				return;
+			}
+		}
+		if($scope.ad.moblephone==undefined||$scope.ad.moblephone.trim()==""){
+			alert("请输入手机号码!");
+			return;
+		}else{
+			var reg=/^(13[0-9]|14(5|7)|15(0|1|2|3|5|6|7|8|9)|18[0-9])\d{8}$/;
+			if(!reg.test($scope.ad.moblephone)){
+				alert("手机不正确!");
+				return;
+			}
+		}
 		$scope.ad.customerId=$scope.order.customerId;
 		$scope.ad.isDefault=2;
 		$scope.ad.cityId=$scope.city.id;
 		$http.post("api/agents/insertAddress", $scope.ad).success(function(data) {
+			if (data.code == 1) {
+				$scope.adlist();
+				$scope.addadd=false;
+			} else {
+				alert(data.message);
+			}
+		});
+	};
+	$scope.setDefaultAddress = function(e) {
+		$http.post("api/agents/setDefaultAddress",{id:e.id,customerId:$scope.order.customerId}).success(function(data) {
 			if (data.code == 1) {
 				$scope.adlist();
 			} else {
@@ -1011,17 +1065,7 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 			}
 		});
 	};
-	$scope.setDefaultAddress = function(e) {
-		$http.post("api/agents/setDefaultAddress", e).success(function(data) {
-			if (data.code == 1) {
-				$scope.init();
-			} else {
-				alert(data.message);
-			}
-		});
-	};
 	$scope.clist = function() {
-		
 		$scope.cc.agentId=LoginService.agentid;
 		$http.post("api/user/getWbeUser",$scope.cc).success(function(data) {
 			if (data.code == 1) {

@@ -293,14 +293,17 @@ public class OrderService {
         	return map;
         }
         map.put("order_id", id+"");
-//        Integer actual_price = o.getActualPrice();//这个单子的总额
+        Integer actual_price = o.getActualPrice();//这个单子的总额
         String pay_status = o.getFrontPayStatus()==null?"":o.getFrontPayStatus().toString(); //1 已支付  0 未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
         if(pay_status.equals("2")){
             zhifu_dingjin = dj_price;
         }
-//        Integer shengyu_price = actual_price-zhifu_dingjin;
+        BigDecimal bd_act = new BigDecimal(actual_price);    //真实金额
+        BigDecimal bd_dj = new BigDecimal(zhifu_dingjin);  
+        BigDecimal shengyu_price =     bd_act.subtract(bd_dj) ;    //actual_price-zhifu_dingjin;
+        
         List<CsOutStorage> csOutList = o.getCsOutStorageList();
         Integer quantity = 0;
         for(CsOutStorage cs_out:csOutList){
@@ -315,7 +318,7 @@ public class OrderService {
         map.put("order_oldPrice", o.getTotalPrice()==null?"":o.getTotalPrice()+"");//总共金额
         map.put("total_dingjin", o.getFrontMoney()==null?"":o.getFrontMoney()+"");//定金总额
         map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
-//        map.put("shengyu_price", shengyu_price);//剩余金额
+        map.put("shengyu_price", shengyu_price);//剩余金额
         map.put("total_quantity", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数  
         
         map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver()==null ?"":o.getCustomerAddress().getReceiver());

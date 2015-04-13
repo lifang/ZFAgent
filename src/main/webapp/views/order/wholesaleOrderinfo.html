@@ -77,7 +77,9 @@
 				</dl>
 				<dl>
 					<dt>支付类型：</dt>
-					<dd>{{orderInfo.order_payment_type}}</dd>
+					<dd  ng-if="orderInfo.order_payment_type==1">支付宝</dd>
+					<dd  ng-if="orderInfo.order_payment_type==2">银联</dd>
+					<dd  ng-if="orderInfo.order_payment_type==3">现金</dd>
 				</dl>
 				<dl>
 					<dt>供货商：</dt>

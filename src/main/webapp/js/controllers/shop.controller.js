@@ -375,6 +375,13 @@ var shopinfoController = function ($scope, $http,$location, LoginService) {
 		$scope.getGoodInfo();
 		
     };
+    $scope.checkQ=function () {
+    	if($scope.quantity>0){
+    		$scope.quantity=parseInt($scope.quantity);
+    	}else{
+    		$scope.quantity=1;
+    	}
+    };
     $scope.getGoodInfo = function () {
     	$http.post("api/good/goodinfo", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
@@ -820,6 +827,13 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
 		
 		
     };
+    $scope.checkQ=function () {
+    	if($scope.quantity>$scope.minquantity){
+    		$scope.quantity=parseInt($scope.quantity);
+    	}else{
+    		$scope.quantity=$scope.minquantity;
+    	}
+    };
     $scope.getGoodInfo = function () {
     	$http.post("api/good/goodinfo", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
@@ -926,6 +940,13 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 			}
 		});
 	};
+	$scope.checkQ=function () {
+    	if($scope.order.quantity>$scope.min){
+    		$scope.order.quantity=parseInt($scope.order.quantity);
+    	}else{
+    		$scope.order.quantity=$scope.min;
+    	}
+    };
 	$scope.upadteCart = function(type) {
 			if ($scope.order.quantity != $scope.min || type != -1) {
 				$scope.order.quantity += type;

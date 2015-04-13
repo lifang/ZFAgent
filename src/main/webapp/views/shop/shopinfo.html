@@ -62,7 +62,7 @@
 							<li><span>购买数量</span>
 								<div class="text">
 									<div class="buy_numb">
-										<a href="javascript:void(0);" ng-click="count(-1)">-</a><input type="text" ng-model="quantity" /><a href="javascript:void(0);" ng-click="count(1)">+</a>&nbsp;&nbsp;件
+										<a href="javascript:void(0);" ng-click="count(-1)">-</a><input type="text" ng-model="quantity" ng-blur="checkQ()"/><a href="javascript:void(0);" ng-click="count(1)">+</a>&nbsp;&nbsp;件
 									</div>
 									<em class="buy_stock">库存{{good.goodinfo.quantity}}件</em>
 								</div></li>
@@ -312,7 +312,7 @@
 					</div>
 				</div>
 				<div class="manufacturer">
-					<h2>收单机构</h2>
+					<h2>支付通道</h2>
 					<div class="mf_title">
 						<div class="mf_logo">
 							<img src="{{paychannel.pcfactory.logo_file_path}}" />

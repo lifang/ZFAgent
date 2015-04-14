@@ -33,6 +33,18 @@ public class CsAgentsController {
     @Resource
     private CsAgentsService csAgentsService;
     
+    @RequestMapping(value="addMark" ,method=RequestMethod.POST)
+    public Response addMark(@RequestBody MyOrderReq myOrderReq ) {
+        try{
+            String content = myOrderReq.getComputer_name()+myOrderReq.getTrack_number();
+            myOrderReq.setContent(content);
+            csAgentsService.addMark(myOrderReq);
+            return Response.getSuccess();
+        }catch(Exception e){
+            return Response.getError("保存失败");
+        }
+    }  
+    
     @RequestMapping(value="getAll" ,method=RequestMethod.POST)
     public Response getAll(@RequestBody MyOrderReq myOrderReq) {
         try{

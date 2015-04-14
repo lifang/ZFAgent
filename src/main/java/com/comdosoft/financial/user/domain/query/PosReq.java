@@ -7,6 +7,7 @@ public class PosReq {
 
     
     private int cityId;
+    private int shengId;
     
     private int agentId;
     
@@ -234,6 +235,14 @@ public class PosReq {
 
  
   
+
+    public int getShengId() {
+        return shengId;
+    }
+
+    public void setShengId(int shengId) {
+        this.shengId = shengId;
+    }
 
     public int getAgentId() {
         return agentId;

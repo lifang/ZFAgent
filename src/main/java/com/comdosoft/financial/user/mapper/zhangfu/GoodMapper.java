@@ -58,5 +58,7 @@ public interface GoodMapper {
 
     int getAdId(int customerId);
 
+    int getShengId(int cityId);
+
 
 }

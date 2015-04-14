@@ -61,7 +61,7 @@ public class StockService {
         List<Map<String, Object>> list = stockMapper.getSonAgent(req);
         if (null != list && list.size() > 0) {
             for (Map<String, Object> map : list) {
-                req.setAgentId(SysUtils.Object2int(map.get("id")));
+                req.setAgentId(SysUtils.Object2int(map.get("agent_id")));
                 req.setCode(stockMapper.getAgentCode(req.getAgentId()));
                 // map.put("hoitoryCount", stockMapper.getHoitoryCount(req));
                 map.put("openCount", stockMapper.getOpenCount(req));

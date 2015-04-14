@@ -25,14 +25,16 @@ var addressController = function ($scope, $http, LoginService) {
 		// var customer_id = 1;
 		$http.post("api/address/countValidAddress/" + customer_id).success(function(data){
 			if(data.code == 1){
+				$scope.address = {};
 				$scope.selected = "";// 省份置空
 				$scope.selected_city = "";// 城市置空
 				$("#address").val("");
 				$("#zipCode").val("");
 				$("#receiver").val("");
 				$("#moblephone").val("");
-				$("#telphone").val("");
+				$("#telphone1").val("");
 				$("#setDefault").removeAttr("checked");// 移除radio的选中属性
+				$scope.address.isDefault = 2;
 				$(".myInfoBox").show();
 			} else {
 				$("#addCheck").html("每个账号最多拥有10条有效地址信息，请删除或修改原地址");
@@ -121,6 +123,7 @@ var addressController = function ($scope, $http, LoginService) {
 				return false;
 			}
 		}
+		
 		if (typeof($scope.address.receiver) == "undefined" || $scope.address.receiver == "" || $scope.address.receiver == null){
 			alert("收货人不能为空");
 			return false;
@@ -132,42 +135,40 @@ var addressController = function ($scope, $http, LoginService) {
 			return false;
 		} 
 		
-		if(typeof($scope.address.telphone) != "undefined" && $scope.address.telphone != "" && $scope.address.telphone != null) {
-			if($scope.address.telphone.length > 15) {
-				alert("最多支持15个数字");
+		$scope.address.telphone = $scope.address.telphone1 + "-" + $scope.address.telphone2 + "-"+ $scope.address.telphone3;
+		if($scope.address.telphone != null && $scope.address.telphone != "" && typeof($scope.address.telphone) != "undefined") {
+			if(!phoneReg.test($scope.address.telphone)) {
+				$("#phoneCheck").html("*电话号码不合乎规范,请重新输入");
 				return false;
 			}
 		}
-			if ($scope.address.id == undefined) {
-				$scope.address.cityId = $scope.selected_city.id;
-				$scope.address.customerId = LoginService.agentid;
-				// $scope.address.customerId = 1;
-				// alert($scope.address.isDefault);
-				if($scope.address.isDefault == undefined){
-					$scope.address.isDefault = 2;
-				}
-				$http.post("api/address/insert", $scope.address).success(function(data) {
-					if (data.code == 1) {
-						alert("保存成功");
-						$scope.init();
-					} else {
-						alert("请填写正确的数据");
-					}
-				}).error(function(data) {
-
-				});
-			} else {
-				$scope.address.cityId = $scope.selected_city.id;
-				$http.post("api/address/updateAddress", $scope.address).success(function(data) {
-					if (data.code == 1) {
-						$scope.init();
-					} else {
-						alert(data.message);
-					}
-				}).error(function(data) {
-
-				});
+		
+		if ($scope.address.id == undefined) {// 插入新地址信息
+			$scope.address.cityId = $scope.selected_city.id;
+			$scope.address.customerId = LoginService.agentid;
+			// $scope.address.customerId = 1;
+			// alert($scope.address.isDefault);
+			if($scope.address.isDefault == undefined){
+				$scope.address.isDefault = 2;
 			}
+			$http.post("api/address/insert", $scope.address).success(function(data) {
+				if (data.code == 1) {
+					alert("保存成功");
+					$scope.init();
+				} else {
+					alert("请填写正确的数据");
+				}
+			});
+		} else {// 修改地址信息
+			$scope.address.cityId = $scope.selected_city.id;
+			$http.post("api/address/updateAddress", $scope.address).success(function(data) {
+				if (data.code == 1) {
+					$scope.init();
+				} else {
+					alert(data.message);
+				}
+			});
+		}
 		
 	}
 	

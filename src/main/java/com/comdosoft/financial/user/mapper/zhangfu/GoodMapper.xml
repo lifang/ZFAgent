@@ -1,211 +1,215 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.GoodMapper">
-  
-  
-     <select id="getGoodById" resultType="map" >
-       SELECT g.id,g.Title,g.second_title,gb.name as good_brand,g.Model_number,pc.name as category,
-       g.volume_number,g.retail_price,g.price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,
-       g.has_lease,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,g.lease_deposit,
-       g.shell_material,g.battery_info,dsow.sign_order_way,decw.encrypt_card_way,
-       g.factory_id,g.description,g.quantity,g.total_score
-	   from goods g 
-	   LEFT JOIN good_brands gb on g.good_brands_id=gb.id
-	   left JOIN pos_categories pc on g.pos_category_id=pc.id
-	   LEFT JOIN dictionary_sign_order_ways dsow on dsow.id=g.sign_order_way_id
-	   LEFT JOIN dictionary_encrypt_card_ways decw on decw.id=g.encrypt_card_way_id
-	   where  g.status=5 and g.is_published=1 and g.id=#{goodId}
-     </select>
-     
-  
-    <select id="getGoodsList" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
-         SELECT DISTINCT g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.lease_deposit,
-	     g.retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title
-		 from goods g 
-    	 LEFT JOIN good_brands b on g.good_brands_id=b.id
-         LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
-         LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
-    	 where g.status=5 and is_published=1 and 
-    	 ((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
-      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )))
-    	 <if test="type==1">
-    	     and g.has_purchase=1
-    	 </if>
-    	 <if test="hasLease==1">
-    	     and g.has_lease=1
-    	 </if>
-    	 <if test="keys!=null">
-		   and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
-		 </if>
-    	 <if test="minPricei!=0">
+
+
+	<select id="getGoodById" resultType="map">
+		SELECT g.id,g.Title,g.second_title,gb.name as good_brand,g.Model_number,pc.name as category,
+		g.volume_number,g.retail_price,g.price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,
+		g.has_lease,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,g.lease_deposit,
+		g.shell_material,g.battery_info,dsow.sign_order_way,decw.encrypt_card_way,
+		g.factory_id,g.description,g.quantity,g.total_score
+		from goods g
+		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
+		left JOIN pos_categories pc on g.pos_category_id=pc.id
+		LEFT JOIN dictionary_sign_order_ways dsow on dsow.id=g.sign_order_way_id
+		LEFT JOIN dictionary_encrypt_card_ways decw on decw.id=g.encrypt_card_way_id
+		where g.status=5 and g.is_published=1 and g.id=#{goodId}
+	</select>
+
+
+	<select id="getGoodsList" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
+		SELECT DISTINCT g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.lease_deposit,
+		g.retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title
+		from goods g
+		LEFT JOIN good_brands b on g.good_brands_id=b.id
+		LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
+		LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5
+		where g.status=5 and is_published=1 and pc.id is not null and
+		((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+		or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0)))
+		<if test="type==1">
+			and g.has_purchase=1
+		</if>
+		<if test="hasLease==1">
+			and g.has_lease=1
+		</if>
+		<if test="keys!=null">
+			and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
+		</if>
+		<if test="minPricei!=0">
     	    <![CDATA[ and g.retail_price >= #{minPricei}]]>
-    	 </if>
-    	 <if test="maxPricei!=0">
+		</if>
+		<if test="maxPricei!=0">
     	     <![CDATA[ and g.retail_price <= #{maxPricei}]]>
-    	 </if>
-    	 <if test="brandsIds!=null">
-		   and g.good_brands_id in ${brandsIds}
-		 </if>
-		 <if test="categorys!=null">
-		   and g.pos_category_id in ${categorys}
-		 </if>
-		 <if test="payChannelIds!=null">
-		   and pc.id in ${payChannelIds}
-		 </if>
-		 <if test="payCardIds!=null">
-		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${payCardIds})
-		 </if>
-		 <if test="tradeTypeIds!=null">
-		    and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${tradeTypeIds})
-		 </if>
-		 <if test="saleSlipIds!=null">
-		   and g.sign_order_way_id in ${saleSlipIds}
-		 </if>
-		 <if test="tDates!=null">
-		   and pc.id in (SELECT pcbc.pay_channel_id from  pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
-		 </if>
+		</if>
+		<if test="brandsIds!=null">
+			and g.good_brands_id in ${brandsIds}
+		</if>
+		<if test="categorys!=null">
+			and g.pos_category_id in ${categorys}
+		</if>
+		<if test="payChannelIds!=null">
+			and pc.id in ${payChannelIds}
+		</if>
+		<if test="payCardIds!=null">
+			and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${payCardIds})
+		</if>
+		<if test="tradeTypeIds!=null">
+			and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${tradeTypeIds})
+		</if>
+		<if test="saleSlipIds!=null">
+			and g.sign_order_way_id in ${saleSlipIds}
+		</if>
+		<if test="tDates!=null">
+			and pc.id in (SELECT pcbc.pay_channel_id from pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
+		</if>
 		<if test="orderType==0">
-		   order by g.published_at desc
+			order by g.published_at desc
 		</if>
 		<if test="orderType==1">
-		   order by g.volume_number desc
+			order by g.volume_number desc
 		</if>
 		<if test="orderType==2">
-		   order by g.retail_price desc
+			order by g.retail_price desc
 		</if>
 		<if test="orderType==3">
-		   order by g.retail_price 
+			order by g.retail_price
 		</if>
 		<if test="orderType==4">
-		   order by g.total_score desc
+			order by g.total_score desc
 		</if>
 		LIMIT #{offset}, #{rows}
-    </select>
-    
-    <select id="getGoodsTotal" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="int">
-         SELECT  count(DISTINCT g.id)
-		 from goods g 
-    	 LEFT JOIN good_brands b on g.good_brands_id=b.id
-         LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
-         LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5    
-    	 where g.status=5 and is_published=1 and 
-    	 ((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
-      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )))
-    	 <if test="type==1">
-    	     and g.has_purchase=1
-    	 </if>
-    	 <if test="hasLease==1">
-    	     and g.has_lease=1
-    	 </if>
-    	 <if test="keys!=null">
-		   and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
-		 </if>
-    	 <if test="minPricei!=0">
+	</select>
+
+	<select id="getGoodsTotal" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="int">
+		SELECT count(DISTINCT g.id)
+		from goods g
+		LEFT JOIN good_brands b on g.good_brands_id=b.id
+		LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
+		LEFT JOIN pay_channels pc ON pc.id=gpc.pay_channel_id and pc.status=5
+		where g.status=5 and is_published=1 and pc.id is not null and
+		((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+		or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0)))
+		<if test="type==1">
+			and g.has_purchase=1
+		</if>
+		<if test="hasLease==1">
+			and g.has_lease=1
+		</if>
+		<if test="keys!=null">
+			and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
+		</if>
+		<if test="minPricei!=0">
     	    <![CDATA[ and g.retail_price >= #{minPricei}]]>
-    	 </if>
-    	 <if test="maxPricei!=0">
+		</if>
+		<if test="maxPricei!=0">
     	     <![CDATA[ and g.retail_price <= #{maxPricei}]]>
-    	 </if>
-    	 <if test="brandsIds!=null">
-		   and g.good_brands_id in ${brandsIds}
-		 </if>
-		 <if test="categorys!=null">
-		   and g.pos_category_id in ${categorys}
-		 </if>
-		 <if test="payChannelIds!=null">
-		   and pc.id in ${payChannelIds}
-		 </if>
-		 <if test="payCardIds!=null">
-		   and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${payCardIds})
-		 </if>
-		 <if test="tradeTypeIds!=null">
-		    and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${tradeTypeIds})
-		 </if>
-		 <if test="saleSlipIds!=null">
-		   and g.sign_order_way_id in ${saleSlipIds}
-		 </if>
-		 <if test="tDates!=null">
-		   and pc.id in (SELECT pcbc.pay_channel_id from  pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
-		 </if>
-    </select>
-    
-    
-     <select id="getPayChannelListByGoodId" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
-        SELECT pc.id,pc.name
- 		from pay_channels pc 
- 		LEFT JOIN goods_pay_channels gpc on gpc.pay_channel_id=pc.id
- 		where gpc.good_id=#{goodId} and pc.status=5 and 
- 		((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
-      or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )))
-     </select>
-     
-     <select id="getgoodPics" resultType="String">
-        SELECT url_path from goods_pictures where good_id=#{id} order by id desc
-     </select>
-     
-     
-     <select id="getBrands_ids" resultType="map">
-        SELECT id,name as value from good_brands
-     </select>
-     <select id="getFartherCategorys" resultType="map">
-        SELECT id,name as value from pos_categories where parent_id is null or parent_id=0
-     </select>
-     <select id="getSonCategorys" resultType="map">
-        SELECT id,name as value from pos_categories where parent_id =#{id}
-     </select>
-     <select id="getPay_channel_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
-		SELECT id,name as value from pay_channels pc where 
-		(pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
-       or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} ))
-     </select>
-     <select id="getPay_card_ids" resultType="map">
-        SELECT id,card_type as value from dictionary_card_types
-     </select>
-     <select id="getTrade_type_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
-        SELECT DISTINCT dtt.id,dtt.trade_value as value from 
-	    support_trade_types stt
-	    LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id 
-	    LEFT JOIN pay_channels pc on pc.id=stt.pay_channel_id 
-	     where  dtt.id is not null and 
-	    (pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
-       or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} ))
-     </select>
-     <select id="getSale_slip_ids" resultType="map">
-        SELECT id,sign_order_way as value from dictionary_sign_order_ways
-     </select>
-     <select id="getTDatesByCityId" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
-        SELECT DISTINCT dbc.id,dbc.name as value from 
-	    pay_channel_billing_cycles pcbc  
-	    LEFT JOIN dictionary_billing_cycles dbc on pcbc.billing_cycles_id=dbc.id 
-	    LEFT JOIN pay_channels pc on pc.id=pcbc.pay_channel_id
-	    where  dbc.id is not null and
-	    (pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} )) 
-        or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} ))
-     </select>
-     
-     <select id="getWebCategorys" resultType="map">
-        SELECT id,name as value from pos_categories where parent_id is not null and parent_id!=0
-     </select>
-     
-       <select id="getFactoryById" resultType="map" >
-       SELECT * from factories where id=#{factoryId}
-     </select>
-     
-     
-      <select id="getHasBuyCount" resultType="int" >
-         select IFNULL( (
-    	SELECT SUM(o.total_quantity)  from orders o 
+		</if>
+		<if test="brandsIds!=null">
+			and g.good_brands_id in ${brandsIds}
+		</if>
+		<if test="categorys!=null">
+			and g.pos_category_id in ${categorys}
+		</if>
+		<if test="payChannelIds!=null">
+			and pc.id in ${payChannelIds}
+		</if>
+		<if test="payCardIds!=null">
+			and g.id in (SELECT gct.good_id from good_card_types gct WHERE gct.card_type_id in ${payCardIds})
+		</if>
+		<if test="tradeTypeIds!=null">
+			and pc.id in(SELECT stt.pay_channel_id from support_trade_types stt where stt.trade_type_id in ${tradeTypeIds})
+		</if>
+		<if test="saleSlipIds!=null">
+			and g.sign_order_way_id in ${saleSlipIds}
+		</if>
+		<if test="tDates!=null">
+			and pc.id in (SELECT pcbc.pay_channel_id from pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
+		</if>
+	</select>
+
+
+	<select id="getPayChannelListByGoodId" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
+		SELECT pc.id,pc.name
+		from pay_channels pc
+		LEFT JOIN goods_pay_channels gpc on gpc.pay_channel_id=pc.id
+		where gpc.good_id=#{goodId} and pc.status=5 and
+		((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+		or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0)))
+	</select>
+
+	<select id="getgoodPics" resultType="String">
+		SELECT url_path from goods_pictures where good_id=#{id} order by id desc
+	</select>
+
+
+	<select id="getBrands_ids" resultType="map">
+		SELECT id,name as value from good_brands
+	</select>
+	<select id="getFartherCategorys" resultType="map">
+		SELECT id,name as value from pos_categories where parent_id is null or parent_id=0
+	</select>
+	<select id="getSonCategorys" resultType="map">
+		SELECT id,name as value from pos_categories where parent_id =#{id}
+	</select>
+	<select id="getPay_channel_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
+		SELECT id,name as value from pay_channels pc where
+		(pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+		or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+	</select>
+	<select id="getPay_card_ids" resultType="map">
+		SELECT id,card_type as value from dictionary_card_types
+	</select>
+	<select id="getTrade_type_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
+		SELECT DISTINCT dtt.id,dtt.trade_value as value from
+		support_trade_types stt
+		LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id
+		LEFT JOIN pay_channels pc on pc.id=stt.pay_channel_id
+		where dtt.id is not null and
+		(pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+		or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+	</select>
+	<select id="getSale_slip_ids" resultType="map">
+		SELECT id,sign_order_way as value from dictionary_sign_order_ways
+	</select>
+	<select id="getTDatesByCityId" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
+		SELECT DISTINCT dbc.id,dbc.name as value from
+		pay_channel_billing_cycles pcbc
+		LEFT JOIN dictionary_billing_cycles dbc on pcbc.billing_cycles_id=dbc.id
+		LEFT JOIN pay_channels pc on pc.id=pcbc.pay_channel_id
+		where dbc.id is not null and
+		(pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+		or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
+	</select>
+
+	<select id="getWebCategorys" resultType="map">
+		SELECT id,name as value from pos_categories where parent_id is not null and parent_id!=0
+	</select>
+
+	<select id="getFactoryById" resultType="map">
+		SELECT * from factories where id=#{factoryId}
+	</select>
+
+
+	<select id="getHasBuyCount" resultType="int">
+		select IFNULL( (
+		SELECT SUM(o.total_quantity) from orders o
 		where o.types=5 and o.status=1 and ( o.customer_id=(SELECT customer_id from agents WHERE id=#{agentId})
-		 or o.customer_id in (SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}))
-   		 ),0)as quantity
-     </select>
-     
-     <update id="upQuantity">
-     	UPDATE goods set quantity=#{cityId} WHERE id=#{goodId}
-     </update>
-     
-     <select id="getAdId" resultType="int" >
-        SELECT id from customer_addresses WHERE customer_id=#{customerId} and is_default=1 LIMIT 0,1
-     </select>
-	
+		or o.customer_id in (SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}))
+		),0)as quantity
+	</select>
+
+	<update id="upQuantity">
+		UPDATE goods set quantity=#{cityId} WHERE id=#{goodId}
+	</update>
+
+	<select id="getAdId" resultType="int">
+		SELECT id from customer_addresses WHERE customer_id=#{customerId} and is_default=1 LIMIT 0,1
+	</select>
+
+	<select id="getShengId" resultType="int">
+		SELECT parent_id from cities WHERE id=#{cityId} LIMIT 0,1
+	</select>
+
 </mapper>

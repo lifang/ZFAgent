@@ -86,14 +86,12 @@
 	]]>
 	</select>
 	
+	<!-- 查询商户详情信息 -->
 	<select id="queryMerchantInfo" resultType="map" parameterType="int">
 	<![CDATA[
-		SELECT c.id, c.name AS cityname, c.parent_id, c.sort_index, m.city_id, m.customer_id, m.id as mid,
-		cu.name, cu.username, cu.email, cu.phone, cu.id as customerid
-		FROM merchants m 
-		LEFT JOIN cities c ON c.id = m.city_id
-		LEFT JOIN customers cu ON cu.id = m.customer_id 
-		WHERE m.customer_id = #{customerId};
+		SELECT cy.id, c.city_id, cy.parent_id, c.name, c.username, c.email, c.phone,  cy2.`name` AS provincename, cy.`name` AS cityname
+		FROM customers c LEFT JOIN cities cy ON cy.id = c.city_id LEFT JOIN cities cy2 ON cy.parent_id = cy2.id WHERE c.id = #{customerId};
 	]]>
 	</select>
+	
 </mapper>

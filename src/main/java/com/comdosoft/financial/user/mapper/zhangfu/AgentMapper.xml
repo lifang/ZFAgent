@@ -155,36 +155,33 @@
 	<select id="getCommercialTenantCount" resultType="int">
 	<![CDATA[
 		SELECT count(c.id) FROM customers c 
-		LEFT JOIN customer_agent_relations car ON c.id = car.customer_id
-		LEFT JOIN cities ct ON ct.id = c.city_id 
-		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId} AND car.types = 1 AND car.status = 1 
+		LEFT JOIN customer_agent_relations car ON car.customer_id = c.id 
+		WHERE agent_id = #{agentId} AND car.status = #{status} AND car.types = #{types} AND c.status = 2 AND c.types = 1 
 	]]>
 	</select>
 
 	<!-- 查询代理商下的商户列表 -->
 	<select id="getCommercialTenantList" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.CommercialReq">
 	<![CDATA[
-		SELECT c.id, c.name, c.username, c.email, c.phone, c.types, c.status, c.city_id,
-		car.agent_id, car.customer_id, car.`status` AS cstatus, car.types AS ctypes,
-		ct.name AS cityname, ct.id AS cityid   
-		FROM customers c LEFT JOIN customer_agent_relations car ON c.id = car.customer_id
-		LEFT JOIN cities ct ON ct.id = c.city_id 
-		WHERE c.types = 1 AND c.status = 2 AND car.agent_id = #{agentId} AND car.types = 1 AND car.status = 1 
-		ORDER BY c.created_at DESC LIMIT #{offset}, #{rows};
+		SELECT c.id, c.name, c.username, c.phone, c.email, car.customer_id, c.status, c.types, car.status AS cstatus,
+		car.types AS ctypes FROM customers c 
+		LEFT JOIN customer_agent_relations car ON car.customer_id = c.id 
+		WHERE agent_id = #{agentId} AND car.status = #{status} AND car.types = #{types} AND c.status = 2 AND c.types = 1
+		ORDER BY c.created_at DESC LIMIT #{offset}, #{rows}
 	]]>
 	</select>
 	
-	<!-- 删除单个商户(更新customers表) -->
+	<!-- 删除单个商户(更新customers表,将status置为停用状态) -->
 	<update id="deleteCommercial" flushCache="true">
 	<![CDATA[
-		UPDATE customers SET status = 1, updated_at = NOW() WHERE id = #{customer_id}
+		UPDATE customers SET status = 3, updated_at = NOW() WHERE id = #{customer_id}
 	]]>
 	</update>
 	
-	<!-- 删除单个商户(更新customer_agent_relations表) -->
+	<!-- 删除单个商户(更新customer_agent_relations表,将status置为删除状态) -->
 	<update id="updateCommercialStatus" flushCache="true">
 	<![CDATA[
-		UPDATE customer_agent_relations SET status = 1, updated_at = NOW() WHERE customer_id = #{customer_id}
+		UPDATE customer_agent_relations SET status = 2, updated_at = NOW() WHERE customer_id = #{customer_id}
 	]]>
 	</update>
 	

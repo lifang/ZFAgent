@@ -32,7 +32,10 @@
 					<li><label>&nbsp;邮政编码：</label><input id="zipCode" ng-model="address.zipCode" type="text" onblur="numModify(this)" /></li>
 					<li><label><span class="red">*</span>收货人姓名：</label><input id="receiver" ng-model="address.receiver" type="text" required="required" /></li>
 					<li><label><span class="red">*</span>手机号码：</label><input id="moblephone" ng-model="address.moblephone" type="text" required="required" onblur="numModify(this)" /></li>
-					<li><label>&nbsp;电话号码：</label><input class="JPhoneText" id="telphone" ng-model="address.telphone" type="text" onblur="numModify(this)"/></li>
+					<li><label>&nbsp;电话号码：</label><input style="width: 78px;" id="telphone1" ng-model="address.telphone1" type="text" onblur="numModify(this)" placeholder="区号" />
+						&nbsp;<label style="width:12px;text-align:center;">-</label><input style="width: 78px;" id="telphone2" ng-model="address.telphone2" type="text" onblur="numModify(this)" placeholder="电话号码" />
+						&nbsp;<label style="width:12px;text-align:center;">-</label><input style="width: 78px;" id="telphone3" ng-model="address.telphone3" type="text" onblur="numModify(this)" placeholder="分机" />
+						&nbsp;<font color="red"><span id="phoneCheck"></span></font></li>
 					<li><label></label><span class="checkboxRadio_span"><input id="setDefault" name="defaultAddr" ng-model="address.isDefault" type="radio" value="1" />设置为默认地址</span></li>
 				</ul>
 				<div class="myInfoBox_btn">
@@ -59,7 +62,7 @@
 						<th>所在地区</th>
 						<th>详细地址</th>
 						<th>邮编</th>
-						<th>电话</th>
+						<th>手机号码</th>
 						<th>操作</th>
 						<th>&nbsp;</th>
 					</tr>
@@ -93,9 +96,8 @@
 <script type="text/javascript">
 	function numModify(obj){
 		  var reg = new RegExp("^[0-9]*\.[0-9]{0,1}$");
-		  if(!reg.test(obj.value)){
-			 obj.value="";
+		  if (!reg.test(obj.value)) {
+			 obj.value = "";
 		  } 
 	}
-	 
 </script>

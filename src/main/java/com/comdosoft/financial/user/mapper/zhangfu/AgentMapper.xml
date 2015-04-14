@@ -171,17 +171,17 @@
 	]]>
 	</select>
 	
-	<!-- 删除单个商户(更新customers表) -->
+	<!-- 删除单个商户(更新customers表,将status置为停用状态) -->
 	<update id="deleteCommercial" flushCache="true">
 	<![CDATA[
-		UPDATE customers SET status = 1, updated_at = NOW() WHERE id = #{customer_id}
+		UPDATE customers SET status = 3, updated_at = NOW() WHERE id = #{customer_id}
 	]]>
 	</update>
 	
-	<!-- 删除单个商户(更新customer_agent_relations表) -->
+	<!-- 删除单个商户(更新customer_agent_relations表,将status置为删除状态) -->
 	<update id="updateCommercialStatus" flushCache="true">
 	<![CDATA[
-		UPDATE customer_agent_relations SET status = 1, updated_at = NOW() WHERE customer_id = #{customer_id}
+		UPDATE customer_agent_relations SET status = 2, updated_at = NOW() WHERE customer_id = #{customer_id}
 	]]>
 	</update>
 	

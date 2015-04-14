@@ -35,7 +35,7 @@ function routeConfig($routeProvider) {
 	}).when('/proxyOrderinfo', {
 		templateUrl : 'views/order/proxyOrderinfo.html'
 	}).when('/email_up', {
-		templateUrl : 'views/customer/up_email.html'
+		templateUrl : 'views/systemset/up_email.html'
 	}).when('/shop', {
 		templateUrl : 'views/shop/shop.html'
 	}).when('/shopinfo', {
@@ -127,7 +127,7 @@ function routeConfig($routeProvider) {
 	}).when('/lowstocks', {
 		templateUrl : 'views/shop/lowstocks.html'
 	}).when('/manageuser', {
-		templateUrl : 'views/agent/manageuser.html'
+		templateUrl : 'views/customer/manageuser.html'
 	}).when('/changeemail', {
 		templateUrl : 'views/systemset/changeemail.html'
 	}).when('/commercialOne', {

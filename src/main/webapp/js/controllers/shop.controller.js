@@ -1085,14 +1085,29 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 	};
 	
 	$scope.addUser = function(){
+		if($scope.user.pass1==undefined){
+			alert("请输入密码");
+			return;
+		}
+		if($scope.user.pass2==undefined){
+			alert("请输入确认密码");
+			return;
+		}
+		if($scope.user.pass1.length<6||$scope.user.pass2.length<6){
+			alert("密码最少6位");
+			return;
+		}
 		if($scope.user.pass1!=$scope.user.pass2){
 			alert("密码不一致");
+			return;
 		}
 		$scope.user.agentId=LoginService.agentid;
 		$scope.user.cityid=Math.ceil($scope.user.cityid);
 		$http.post("api/user/addCustomer",$scope.user).success(function (data) {   
 			if (data.code == 1) {
 				$scope.clist();
+			}else if(data.code == -1){
+				alert(data.message);
 			}
 		});
 	};

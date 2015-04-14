@@ -28,6 +28,12 @@
 			o.created_at DESC
 	</select>
 	
+		<!-- 提交物流信息 -->
+	<insert id="addMark" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgentMark">
+       INSERT INTO cs_agent_marks (cs_agent_id,customer_id,content,created_at)
+       VALUES(#{id},#{customerId},#{content},NOW())
+    </insert>
+	
 	<select id="findAll" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgent">
 		SELECT
 			o.id,

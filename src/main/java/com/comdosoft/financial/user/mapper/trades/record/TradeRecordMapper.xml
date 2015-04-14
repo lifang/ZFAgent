@@ -23,7 +23,7 @@
 
 	<select id="getTradeRecords12" resultType="map">
 		SELECT DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
-		r.amount,
+		r.amount,r.id,
 		r.terminal_number terminalNumber,
 		r.traded_status tradedStatus,
 		t.pay_from_account payFromAccount,
@@ -49,7 +49,7 @@
 
 	<select id="getTradeRecords3" resultType="map">
 		SELECT DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
-		r.amount,
+		r.amount,r.id,
 		r.terminal_number terminalNumber,
 		r.traded_status tradedStatus,
 		t.phone
@@ -73,7 +73,7 @@
 
 	<select id="getTradeRecords45" resultType="map">
 		SELECT DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
-		r.amount,
+		r.amount,r.id,
 		r.terminal_number terminalNumber,
 		r.traded_status tradedStatus,
 		t.phone

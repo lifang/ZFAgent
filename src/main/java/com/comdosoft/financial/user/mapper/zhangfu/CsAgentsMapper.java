@@ -20,5 +20,7 @@ public interface CsAgentsMapper {
 	int countSearch(MyOrderReq myOrderReq);
 
 	List<Map<String, Object>> search(MyOrderReq myOrderReq);
+	
+    void addMark(MyOrderReq myOrderReq);
 
 }

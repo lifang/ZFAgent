@@ -116,18 +116,18 @@ public class OpeningApplyController {
 			Map<Object, Object> map = new HashMap<Object, Object>();
 			// 获得终端详情
 			map.put("applyDetails",
-					openingApplyService.getApplyDetails((Integer)maps.get("terminalId")));
+					openingApplyService.getApplyDetails((Integer)maps.get("terminalsId")));
 			// 获得所有商户
 			//map.put("merchants", openingApplyService.getMerchants((Integer)maps.get("customerId")));
 			// 数据回显(针对重新开通申请)
-			map.put("applyFor", openingApplyService.ReApplyFor((Integer)maps.get("terminalId")));
+			map.put("applyFor", openingApplyService.ReApplyFor((Integer)maps.get("terminalsId")));
 			// 材料名称
 			map.put("materialName",
-					openingApplyService.getMaterialName((Integer)maps.get("terminalId"),
+					openingApplyService.getMaterialName((Integer)maps.get("terminalsId"),
 							(Integer)maps.get("status")));
 			// 获得已有申请开通基本信息
 						map.put("openingInfos",
-								openingApplyService.getOppinfo((Integer)maps.get("terminalId")));
+								openingApplyService.getOppinfo((Integer)maps.get("terminalsId")));
 			return Response.getSuccess(map);
 		} catch (Exception e) {
 			logger.error("进入申请开通异常！",e);

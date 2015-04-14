@@ -11,7 +11,7 @@
         name,account_no as accountNo,psam,serial_type as serialType,product_type as productType,union_bankno as bankNo from zh_user
 	</select>
 	
-	<select id="getUserPsam" resultType="hashmap">
+	<select id="getUserPsam1" resultType="hashmap">
         select userId from userpsam where psam=#{psam}
 	</select>
 	

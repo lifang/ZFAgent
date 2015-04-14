@@ -3,6 +3,12 @@
 //系统设置模块
 var lowerAgentModule = angular.module("lowerAgentModule",[]);
 
+var dataBaseCopyController = function ($scope, $http, LoginService){
+	$http.post("api/dataBase/init",null).success(function (data) { 
+        
+    });
+};
+
 //下级代理商列表
 var lowerAgentlistController = function ($scope, $http, LoginService){
 	//首页
@@ -79,6 +85,12 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 			alert("输入密码不能为空");
 			return;
 		}
+		//校验密码位数大于6
+		 if(pwd1.length<6){
+		 	alert("请至少输入6位数密码");
+		 	return;
+		 }
+		
 		if(pwd1!=pwd2){
 			alert("输入的两次密码不一致");
 			return;
@@ -251,11 +263,17 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 		}
 		
 		//校验手机号码
-		checkPhone($scope.phoneNum);
+		if(!checkPhone($scope.phoneNum)){
+			return;
+		};
 		//校验邮箱
-		checkEmail($scope.emailStr);
+		if(!checkEmail($scope.emailStr)){
+			return;
+		};
 		//校验身份证号
-		checkCardId($scope.agentCardId);
+		if(!checkCardId($scope.agentCardId)){
+			return;
+		};
 		 //校验密码位数大于6
 		 if($scope.pwd.length<6){
 		 	alert("请至少输入6位数密码");
@@ -298,23 +316,29 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 	
 	
 };
+function clearDefault(){
+	$("#addDetail").val("");
+}
 
 //校验邮箱
 function checkEmail(str){
    var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
    if(re.test(str)){
+	   return true;
    }else{
-       alert("邮箱错误");
+	   alert("输入的【邮箱】一栏格式不正确，请重新输入");
        return false;
    }
 }
+
 
 //校验手机号
 function checkPhone(phone){
 	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
 	 if (reg.test(phone)) {
+		 return true;
 	 }else{
-	      alert("号码有误~");
+	      alert("输入的【手机】一栏格式不正确，请重新输入");
 	      return false;
 	 };
 }
@@ -453,7 +477,6 @@ function checkCardId(socialNo){
 
 
 //修改编辑下级代理商
-
 var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	$scope.init=function(){
 		$scope.req={};
@@ -557,6 +580,25 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 			return;
 		}
 		
+		//校验手机号码
+		if(!checkPhone($scope.phoneNum)){
+			return;
+		};
+		//校验邮箱
+		if(!checkEmail($scope.emailStr)){
+			return;
+		};
+		//校验身份证号
+		if(!checkCardId($scope.agentCardId)){
+			return;
+		};
+		 //校验密码位数大于6
+		 if($scope.pwd.length<6){
+		 	alert("请至少输入6位数密码");
+		 	return;
+		 }
+		
+		
 		$scope.req.agentType=$scope.agentType;
 		$scope.req.agentName=$scope.agentName;
 		$scope.req.agentCardId=$scope.agentCardId;
@@ -653,10 +695,21 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
             	var editVal="";
             	for(var i=0;i<list.length;i++){
             		var modelTemp=list[i].id+"_model";
-            		if(editVal==""){
-            			editVal=$("#"+modelTemp).val()+"_"+list[i].id;
-            		}else{
-            			editVal=editVal+"|"+ $("#"+modelTemp).val()+"_"+list[i].id;
+            		var tempVal=$("#"+modelTemp).val();
+            		if(!tempVal.match( /^\d+$/)){
+            			alert("输入的分润数值不正确，请输入0~100之间的数字");
+            			break;
+            		}
+            		if(tempVal<0 || tempVal>100){
+            			alert("输入的分润数值不正确，请输入0~100之间的数字");
+            			break;
+            		}
+            		else{
+	            		if(editVal==""){
+	            			editVal=tempVal+"_"+list[i].id;
+	            		}else{
+	            			editVal=editVal+"|"+tempVal+"_"+list[i].id;
+	            		}
             		}
             	}
             	
@@ -688,14 +741,25 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
             	var editVal="";
             	for(var i=0;i<list.length;i++){
             		var modelTemp=list[i].id+"_model";
-            		if(editVal==""){
-            			editVal=$("#"+modelTemp).val()+"_"+list[i].id;
-            		}else{
-            			editVal=editVal+"|"+ $("#"+modelTemp).val()+"_"+list[i].id;
+            		var tempVal=$("#"+modelTemp).val();
+            		if(!tempVal.match( /^\d+$/)){
+            			alert("输入的分润数值不正确，请输入0~100之间的数字");
+            			return false;
+            		}
+            		if(tempVal<0 || tempVal>100){
+            			alert("输入的分润数值不正确，请输入0~100之间的数字");
+            			return false;
+            		}
+            		else{
+	            		if(editVal==""){
+	            			editVal=tempVal+"_"+list[i].id;
+	            		}else{
+	            			editVal=editVal+"|"+tempVal+"_"+list[i].id;
+	            		}
             		}
             	}
             	$scope.req.profitPercent=editVal;
-            	$scope.req.channelId=$scope.payChannelId;
+            	$scope.req.payChannelId=$scope.channelId;
             	$scope.req.sign=0;
             	$http.post("api/lowerAgent/saveOrEdit", $scope.req).success(function (data) {  //绑定
     	            if (data.code==1) {
@@ -737,3 +801,6 @@ lowerAgentModule.controller("lowerAgentEditController", lowerAgentEditController
 
 lowerAgentSetController.$inject = ['$scope','$http','$location','LoginService'];
 lowerAgentModule.controller("lowerAgentSetController", lowerAgentSetController);
+
+dataBaseCopyController.$inject = ['$scope','$http','LoginService'];
+lowerAgentModule.controller("dataBaseCopyController", dataBaseCopyController);

@@ -54,6 +54,10 @@ public class CsAgentsService {
         return new Page<List<Object>>(request, list,count);
     }
 
+    public void addMark(MyOrderReq myOrderReq) {
+    	csAgentsMapper.addMark(myOrderReq);
+    }
+    
     /**
      * 取消申请
      * @param myOrderReq

@@ -10,6 +10,9 @@ public class CommercialReq {
 	private int rows;
 	private int offset;
 
+	private int status;// 1正常2删除
+	private int types;// 1用户与代理商关系2员工与代理商关系
+
 	public int getAgentId() {
 		return agentId;
 	}
@@ -80,6 +83,22 @@ public class CommercialReq {
 
 	public void setOffset(int offset) {
 		this.offset = offset;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getTypes() {
+		return types;
+	}
+
+	public void setTypes(int types) {
+		this.types = types;
 	}
 
 }

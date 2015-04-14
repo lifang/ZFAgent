@@ -25,6 +25,7 @@ var addressController = function ($scope, $http, LoginService) {
 		// var customer_id = 1;
 		$http.post("api/address/countValidAddress/" + customer_id).success(function(data){
 			if(data.code == 1){
+				$scope.address = {};
 				$scope.selected = "";// 省份置空
 				$scope.selected_city = "";// 城市置空
 				$("#address").val("");
@@ -33,6 +34,7 @@ var addressController = function ($scope, $http, LoginService) {
 				$("#moblephone").val("");
 				$("#telphone").val("");
 				$("#setDefault").removeAttr("checked");// 移除radio的选中属性
+				$scope.address.isDefault = 2;
 				$(".myInfoBox").show();
 			} else {
 				$("#addCheck").html("每个账号最多拥有10条有效地址信息，请删除或修改原地址");

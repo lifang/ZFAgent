@@ -34,7 +34,7 @@ public class UserManagementService {
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getUser(int customerId, int status,int types,int offSetPage,int rows) {
+	public List<Map<String, Object>> getUser(int customerId, int status, int types, int offSetPage, int rows) {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("customerId", customerId);
 		map.put("status", status);
@@ -43,13 +43,14 @@ public class UserManagementService {
 		map.put("pageSize", rows);
 		return userManagementMapper.getUser(map);
 	}
+
 	/**
 	 * 获得该代理商所有相关用户
 	 * 
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getWebUser(int agentId, int status,int types,String keys) {
+	public List<Map<String, Object>> getWebUser(int agentId, int status, int types, String keys) {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("agentId", agentId);
 		map.put("status", status);
@@ -120,20 +121,22 @@ public class UserManagementService {
 	public void addUser(Customer customer) {
 		userManagementMapper.addUser(customer);
 	}
+
 	/**
 	 * 为新添加用户绑定关系
 	 * 
 	 * @param map
-	 * @return 
+	 * @return
 	 */
 	public void addCustomerOrAgent(CustomerAgentRelation customerAgentRelation) {
 		userManagementMapper.addCustomerOrAgent(customerAgentRelation);
 	}
+
 	/**
 	 * 为新添加用户绑定关系
 	 * 
 	 * @param map
-	 * @return 
+	 * @return
 	 */
 	public Response addCustomerOrAgents(Map<Object, Object> map) {
 		CustomerAgentRelation customerAgentRelation = new CustomerAgentRelation();
@@ -150,9 +153,9 @@ public class UserManagementService {
 			customer.setStatus(Customer.STATUS_NORMAL);
 			customer.setIntegral(0);
 			userManagementMapper.addUser(customer);
-			//对该代理商已改用户绑定关系
+			// 对该代理商已改用户绑定关系
 			customerAgentRelation.setCustomerId(customer.getId());
-			customerAgentRelation.setAgentId((Integer)map.get("agentId"));
+			customerAgentRelation.setAgentId((Integer) map.get("agentId"));
 			customerAgentRelation.setTypes(CustomerAgentRelation.TYPES_USER_TO_AGENT);
 			customerAgentRelation.setStatus(CustomerAgentRelation.STATUS_1);
 			userManagementMapper.addCustomerOrAgent(customerAgentRelation);
@@ -167,9 +170,12 @@ public class UserManagementService {
 	 * @return
 	 */
 	public Map<String, Object> queryMerchantInfo(int customerId) {
-		List<Map<String, Object>> result = userManagementMapper.queryMerchantInfo(customerId);
+		Map<String, Object> result = userManagementMapper.queryMerchantInfo(customerId);
 		if (result != null && !result.isEmpty()) {
-			return result.get(0);
+			String province = result.get("provincename") == null ? "" : result.get("provincename").toString();
+			String cityname = result.get("cityname") == null ? "" : result.get("cityname").toString();
+			result.put("address", province + cityname);
+			return result;
 		}
 		return null;
 	}

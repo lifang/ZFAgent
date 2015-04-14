@@ -42,7 +42,7 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 		initSystemPage($scope);
 		$scope.frontStatus = Math.ceil($scope.screeningStatus);
 		//取消终端号的筛选
-		$scope.serialNum = null;
+		//$scope.serialNum = null;
 		$scope.getInfo();
 	}
 	
@@ -50,7 +50,7 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 	$scope.screeningSerialNum = function(){
 		 $scope.indexPage = 1;
 		//取消终端状态的筛选
-		$scope.frontStatus = null;
+		//$scope.frontStatus = null;
 		$scope.getInfo();
 	}
 
@@ -93,11 +93,13 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
 	//$scope.customerId = 80;
 	$(".leaseExplain_tab").hide();
 	$("#pass").hide();
+	//显示终端详情
+	$scope.terminalShow = false;
 	//查看终端详情
 	$scope.terminalDetail = function () {
 	//获取终端详情
       $http.post("api/webTerminal/getWebApplyDetail", {terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
-          if (data != null && data != undefined) {
+    	  if (data != null && data != undefined) {
         	  if(data.code == 1){
         		  //终端信息
                   $scope.applyDetails = data.result.applyDetails;
@@ -105,12 +107,15 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
                   $scope.rateList = data.result.rates;
                   //租赁
                   $scope.tenancy  = data.result.tenancy;
-                  //租赁
+                  //开通基本资料
                   $scope.openingInfos  = data.result.openingInfos;
                   //资料
                   $scope.openingDetails = data.result.openingDetails;
                   //追踪记录
                   $scope.trackRecord = data.result.trackRecord;
+                  if($scope.openingInfos != null){
+                	  $scope.terminalShow = true;
+                  }
         	  }
           }
       }).error(function (data) {
@@ -255,6 +260,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		 })
 	 }
 	 
+	 $scope.radioStauts = false;
 	 $scope.radioId = function(obj){
 		 for(var i=0;i< $scope.addressList.length;i++){
 			 if(obj == i){
@@ -265,19 +271,33 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 				 //$scope.serviceObject.cityId = $scope.addressList[i].cityId;
 			 }
 		 }
+		 $scope.radioStauts = true;
 	 };
 	 
 	 $scope.terminalSub = function(){
+		if($scope.serviceObject.terminalsList == undefined || $scope.serviceObject.terminalsList == ""){
+			alert("请填写终端号！");
+		}else if($scope.serviceObject.reason == undefined || $scope.serviceObject.reason == ""){
+			alert("请填写售后原因！");
+		}else if(!$scope.radioStauts){
+			alert("请选择收货地址！");
+		}else if($scope.coms == undefined || $scope.coms == ""){
+			alert("请填写物流公司！");
+		}else if($scope.order == undefined || $scope.order == ""){
+			alert("请填写物流单号！");
+		}else{
 		 $scope.serviceObject.customerId = $scope.customersId;
 		 $scope.serviceObject.content = $("#comsName").html()+$scope.coms+","+$("#orderName").html()+$scope.order;
 		 $http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
 			 if(data.code == 1){
-				 alert(data.code);
-			 }else if(data.code == -1){
-				 alert(data.code);
 				 alert(data.result);
+			 }else if(data.code == 2){
+				 alert("终端号错误:"+data.result);
+			 }else if(data.code == -1){
+				 alert(data.message);
 			 }
 		 })
+	 }
 	 }
 	 //获得省市
 	 $scope.cityList = function(){
@@ -519,6 +539,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  if(data.code == 1){
 				  //终端信息
 	              $scope.applyDetails = data.result.applyDetails;
+	              
 	              //获得商户集合
 	              $scope.merchantList = data.result.merchants;
 	              //城市级联
@@ -533,6 +554,8 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	              $scope.openingInfos = data.result.openingInfos;
 	              //所有省
 	              $scope.CitieChen= data.result.CitieChen;
+	              
+	             // $("#terid").val($scope.applyDetails.id);
 	              
 	              if($scope.openingInfos != null && $scope.openingInfos!= undefined){
 	              	//数据替换

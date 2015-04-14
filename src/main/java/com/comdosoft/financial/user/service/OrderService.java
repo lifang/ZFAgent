@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,7 @@ import com.comdosoft.financial.user.utils.page.PageRequest;
 
 @Service
 public class OrderService {
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(OrderService.class);
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
@@ -144,14 +146,14 @@ public class OrderService {
             map.put("order_status", o.getStatus()==null?"":o.getStatus()+"");
             
             Integer actual_price = o.getActualPrice()==null?0:o.getActualPrice();//这个单子的总额
-            int pay_status = o.getFrontPayStatus()==null?0:o.getFrontPayStatus(); //1 已支付  0 未支付
+            int pay_status = o.getFrontPayStatus()==null?0:o.getFrontPayStatus(); //2已支付  1 未支付
             Integer zhifu_dingjin = 0;
             Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
             if(pay_status==2){
                 zhifu_dingjin = dj_price;
             }
-            BigDecimal bd_act = new BigDecimal(actual_price);
-            BigDecimal bd_dj = new BigDecimal(zhifu_dingjin);
+            BigDecimal bd_act = new BigDecimal(actual_price);    //真实金额
+            BigDecimal bd_dj = new BigDecimal(zhifu_dingjin);  
             BigDecimal shengyu_price =     bd_act.subtract(bd_dj) ;    //actual_price-zhifu_dingjin;
             List<CsOutStorage> csOutList = o.getCsOutStorageList();
             Integer quantity = 0;
@@ -162,10 +164,11 @@ public class OrderService {
                 }
             }
             map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
-            map.put("price_dingjin", dj_price+"");//定金金额
             map.put("shengyu_price", shengyu_price+"");//
+            logger.debug("剩余金额："+shengyu_price);
             map.put("actual_price", bd_act+"");//
-            map.put("shipped_quantity", quantity+"");//已发货数量
+            map.put("shipped_quantity", quantity);//已发货数量
+            map.put("price_dingjin", dj_price+"");//定金金额
             map.put("pay_status", pay_status+"");   //如果状态为2 页面就显示 已付定金  ，未付清  就显示 付款按钮
             map.put("total_quantity", o.getTotalQuantity()==null?"":o.getTotalQuantity());//已发货数量
             
@@ -281,20 +284,26 @@ public class OrderService {
      * @throws ParseException 
      */
     public Map<String,Object> getWholesaleById(Integer id)  {
-        Order o = orderMapper.getWholesaleById(id);
+        List<Order> oo = orderMapper.getWholesaleById(id);
         Map<String,Object> map = new LinkedHashMap<String, Object>();
-        if(null == o){
+        Order  o = new Order();
+        if(oo.size()>0){
+        	o = oo.get(0);
+        }else{
         	return map;
         }
         map.put("order_id", id+"");
-//        Integer actual_price = o.getActualPrice();//这个单子的总额
+        Integer actual_price = o.getActualPrice();//这个单子的总额
         String pay_status = o.getFrontPayStatus()==null?"":o.getFrontPayStatus().toString(); //1 已支付  0 未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
         if(pay_status.equals("2")){
             zhifu_dingjin = dj_price;
         }
-//        Integer shengyu_price = actual_price-zhifu_dingjin;
+        BigDecimal bd_act = new BigDecimal(actual_price);    //真实金额
+        BigDecimal bd_dj = new BigDecimal(zhifu_dingjin);  
+        BigDecimal shengyu_price =     bd_act.subtract(bd_dj) ;    //actual_price-zhifu_dingjin;
+        
         List<CsOutStorage> csOutList = o.getCsOutStorageList();
         Integer quantity = 0;
         for(CsOutStorage cs_out:csOutList){
@@ -309,7 +318,7 @@ public class OrderService {
         map.put("order_oldPrice", o.getTotalPrice()==null?"":o.getTotalPrice()+"");//总共金额
         map.put("total_dingjin", o.getFrontMoney()==null?"":o.getFrontMoney()+"");//定金总额
         map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
-//        map.put("shengyu_price", shengyu_price);//剩余金额
+        map.put("shengyu_price", shengyu_price);//剩余金额
         map.put("total_quantity", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数  
         
         map.put("order_receiver", o.getCustomerAddress()==null ?"":o.getCustomerAddress().getReceiver()==null ?"":o.getCustomerAddress().getReceiver());
@@ -328,7 +337,7 @@ public class OrderService {
         map.put("order_invoce_info", o.getInvoiceInfo()==null?"":o.getInvoiceInfo());//发票抬头
         
         map.put("order_number", o.getOrderNumber());//订单编号
-        map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType()==null ?"":o.getOrderPayment().getPayType().getName()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
+        map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType()==null ?"":o.getOrderPayment().getPayType());//支付方式
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         String d = sdf.format(o.getCreatedAt());
         map.put("order_createTime", d);//订单日期
@@ -392,7 +401,7 @@ public class OrderService {
         Map<String,Object> map = new LinkedHashMap<String, Object>();
         map.put("order_id", o.getId()==null ?"":o.getId().toString());
         map.put("order_number", o.getOrderNumber());//订单编号
-        map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType().getName());//支付方式
+        map.put("order_payment_type", o.getOrderPayment()==null ?"":o.getOrderPayment().getPayType());//支付方式
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
         String d = sdf.format(o.getCreatedAt());
         map.put("order_createTime", d);//订单日期
@@ -514,5 +523,32 @@ public class OrderService {
         myOrderReq.setOrderStatus(OrderStatus.EVALUATED);
         orderMapper.comment(myOrderReq);
     }
+
+
+	public Map<String,Object> orderPay(MyOrderReq myOrderReq) {
+		List<Order> oo = orderMapper.getWholesaleById(myOrderReq.getId());
+        Map<String,Object> map = new LinkedHashMap<String, Object>();
+        Order o = new Order();
+        if(oo.size()>0){
+        	o = oo.get(0);
+        }else{
+        	return map;
+        }
+        map.put("order_id", myOrderReq.getId()+"");
+        String pay_status = o.getFrontPayStatus()==null?"":o.getFrontPayStatus().toString(); //2 已支付  1未支付
+        Integer zhifu_dingjin = 0;
+        Integer dj_price = o.getFrontMoney()==null?0:o.getFrontMoney();
+        if(pay_status.equals("2")){
+            zhifu_dingjin = dj_price;
+        }
+//        Integer shengyu_price = actual_price-zhifu_dingjin;
+        map.put("pay_status", pay_status+""); //支付状态  定金
+        map.put("order_totalPrice", o.getActualPrice()==null?"":o.getActualPrice()+"");//总共金额
+        map.put("price_dingjin", o.getFrontMoney()==null?"":o.getFrontMoney()+"");//定金总额
+        map.put("zhifu_dingjin", zhifu_dingjin+"");//已付定金
+//        map.put("shengyu_price", shengyu_price);//剩余金额
+        map.put("order_number", o.getOrderNumber());//订单编号
+        return map;
+	}
 
 }

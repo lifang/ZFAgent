@@ -537,14 +537,14 @@ public class SysUtils {
      * @return
      * @throws IOException
      */
-    public static String getUploadFileName(HttpServletRequest request, MultipartFile multiFile, String uploadFilePath) throws IOException {
+    public static String getUploadFileName(int id,HttpServletRequest request, MultipartFile multiFile, String uploadFilePath) throws IOException {
         if (null == multiFile || StringUtils.isEmpty(multiFile.getOriginalFilename())) {
             return null;
         }
         String originalFileName = multiFile.getOriginalFilename();// 源文件全名
         StringBuffer newFileName = new StringBuffer(UUID.randomUUID().toString());// 生成系统唯一文件名
         newFileName.append(originalFileName.substring(originalFileName.lastIndexOf(".")));// 拼接源文件扩展名
-        String realPath = request.getServletContext().getRealPath(uploadFilePath);
+        String realPath = request.getServletContext().getRealPath(uploadFilePath + id);
         String fileName = newFileName.toString();
         FileUtils.copyInputStreamToFile(multiFile.getInputStream(), new File(realPath, fileName));
         return uploadFilePath + fileName;

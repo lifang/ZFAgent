@@ -23,9 +23,9 @@
             	</select>
             </li>
             <li><input name="" type="text" ng-model="agent.userId" placeholder="登录ID"/></li>
-            <li><input name="" type="text" ng-model="agent.passworda" placeholder="密码:密码由6-20位，英文字符组成"/></li>
+            <li><input name="" type="password" ng-model="agent.passworda" placeholder="密码:密码由6-20位，英文字符组成"/></li>
             <li><input name="" type="password" ng-model="agent.passwordb" placeholder="确认密码:密码由6-20位，英文字符组成"/></li>
-            <li><input name="" type="password" ng-model="agent.imgCode" placeholder="输入图片校验码" class="l" /><div class="jym"><img ng-click="reGetRandCodeImg()" class="loginRandCodeImg" src="images/yzm.jpg" /></div></li>
+            <li><input name="" type="text" ng-model="agent.imgCode" placeholder="输入图片校验码" class="l" /><div class="jym"><img ng-click="reGetRandCodeImg()" class="loginRandCodeImg" src="images/yzm.jpg" /></div></li>
             <li><span class="fl_sp"><input ng-model="ridel_xy" ng-click="ridel_xy = !ridel_xy" name="" type="radio" value="" /> <a href="#">同意《掌富服务协议》</a></span></li>
         </ul>
         <div class="btn" ng-click="addAgentRegister()"><button>确定</button></div>

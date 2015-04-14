@@ -60,7 +60,7 @@
 	</resultMap>
 	<resultMap id="orderPaymentMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderPayment">
 		 <id property="id" column="order_payment_id" />  
-            <result property="payType" column="pay_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/> 
+            <result property="payType" column="pay_type" /> 
 	</resultMap>
 	
 	<resultMap id="orderGoodsMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderGood">

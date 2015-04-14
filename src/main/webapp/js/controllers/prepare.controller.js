@@ -21,6 +21,18 @@ var preparelistController = function ($scope, $http, LoginService) {
         });
 	};
 	$scope.search=function(){
+		if ($scope.req.startTime != undefined && $scope.req.endTime!= undefined) {
+			var arr = new Array();
+			var arr2 = new Array();
+			var arr = $scope.req.startTime.split("-");
+			var arr2 = $scope.req.endTime.split("-");
+			var sDate = new Date(arr[0], arr[1] - 1, arr[2]);
+			var eDate = new Date(arr2[0], arr2[1] - 1, arr2[2]);
+			if (eDate < sDate) {
+				alert("开始日期不能大于结束日期！");
+				return;
+			}
+		}
 		$scope.req.indexPage=1;
 		$scope.list();
 	};
@@ -65,7 +77,7 @@ var preparelistController = function ($scope, $http, LoginService) {
 
 var prepareaddController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
-		$scope.req={son_agents_id:0};
+		$scope.req={sonAgentId:0};
 		$scope.req.agentId=LoginService.agentid;
 		$scope.sonlist();
 		$scope.getglist();
@@ -95,8 +107,25 @@ var prepareaddController = function ($scope, $http, LoginService) {
 	$scope.checkson=function(id){
 		$scope.req.sonAgentId=id;
 	};
+	
 	$scope.check=function(){
-		if($scope.req.serialNum!=undefined&&$scope.req.serialNum.trim().length>11){
+		if($scope.req.serialNum==undefined){
+			alert("请输入终端号!");
+			return;
+		}
+		if($scope.req.sonAgentId==0){
+			alert("请选择下级代理商!");
+			return;
+		}
+		if($scope.req.goodId==undefined){
+			alert("请选择商品!");
+			return;
+		}
+		if($scope.req.paychannelId==undefined){
+			alert("请选择支付通道!");
+			return;
+		}
+		if($scope.req.serialNum.trim().length>11){
 			$http.post("api/preparegood/checkTerminals", $scope.req).success(function (data) {  //绑定
 	            if (data.code==1) {
 	            	if(data.result.errorCount==0){
@@ -107,6 +136,8 @@ var prepareaddController = function ($scope, $http, LoginService) {
 	            	}
 	            }
 	        });
+		}else{
+			alert("终端号输入不合法!");
 		}
 	};
 	$scope.add=function(){

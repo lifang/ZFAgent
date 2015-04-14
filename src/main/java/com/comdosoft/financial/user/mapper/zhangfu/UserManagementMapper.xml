@@ -16,7 +16,7 @@
 		SELECT m.id as customersId,m.name
 		from agents a 
 		LEFT JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status} and c.types = #{types}
-		LEFT JOIN customers m ON c.customer_id=m.id
+		JOIN customers m ON c.customer_id=m.id
 		WHERE a.id = #{agentId} 
 		<if test="keys!=''">
 		    <![CDATA[ AND m.name like '%${keys}%' ]]>
@@ -25,13 +25,24 @@
 
 	<update id="delectAgentUser" parameterType="map">
 		UPDATE customer_agent_relations SET status = #{status}
-		WHERE agent_id = #{id} AND customer_id = #{customerId}
+		WHERE agent_id = #{id} AND customer_id = #{customerId} and types = #{types}
+	</update>
+	
+	<update id="updateCustomer" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		UPDATE customers SET username = #{username}, password = #{password},city_id = #{cityId},account_type = #{accountType},types = #{types},
+		phone =  #{phone},email = #{email},created_at = NOW(),dentcode = #{dentcode},status = #{status},name = #{name}
+		where username = #{username} and  status = 101
 	</update>
 
 	<select id="getTerminals" parameterType="map" resultType="map">
 		SELECT id,serial_num FROM terminals
 		WHERE customer_id=#{id}
 		LIMIT #{offSetPage},#{pageSize}
+	</select>
+	
+	<select id="TerminalStatus" parameterType="map" resultType="int">
+		SELECT count(*) FROM terminals
+		WHERE customer_id = #{customerId} `status` in (#{status1},#{status2})
 	</select>
 	
 	<select id="findUname" parameterType="map" resultType="int">

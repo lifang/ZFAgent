@@ -34,10 +34,57 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
         });
 	};
     
-    $scope.topay = function(o) {
-    	window.open("#/pay?id="+o.order_id) ; 
-//    	var g_name = $("#g_name").val();
+	//显示支付
+	$scope.showPay = function(id){
+//		$scope.req={id:id};
+    	$("#o_id").val(id);
+//		popup(".pay_tab",".pay_a");//代理商批购
+		var doc_height = $(document).height();
+		var doc_width = $(document).width();
+		var win_height = $(window).height();
+		var win_width = $(window).width();
+		
+		var layer_height = $(".pay_tab").height();
+		var layer_width = $(".pay_tab").width();
+		
+		var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		 
+	    $(".mask").css({display:'block',height:doc_height});
+		$(".pay_tab").css('top',(win_height-layer_height)/2);
+		$(".pay_tab").css('left',(win_width-layer_width)/2);
+		$(".pay_tab").css('display','block');
+		
+	};
+
+    
+    $scope.close = function(){
+    	$(".pay_tab").css('display','none');
+		$(".mask").css('display','none');
+    }
+    //支付 金额
+    $scope.orderpay = function(o) {
+    	$("#zf_yz").hide();
+   		var pay_price = $("#pay_price").val();
+    	var o_id = $("#o_id").val();
+    	var sy_price = $("#shenyu_price").val();
+    	if(pay_price<0 || pay_price==''){
+    		alert("请输入金额");
+//    		$("#zf_yz").show();
+    		return false;
+    	}else if(parseInt(pay_price) > parseInt(sy_price)){
+        		alert("最多只需支付"+sy_price);
+        		return false;
+    	}else{
+    		$scope.close();
+    	 	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  
+    	}
 //    	window.open("alipayapi.jsp?WIDtotal_fee="+o.order_totalPrice/100+"&WIDsubject="+g_name+"&WIDout_trade_no="+o.order_number);  
+	};
+	
+	//定金支付
+	 $scope.depositpay = function(o) {
+		 var dj = o.price_dingjin;
+	    window.open("#/deposit_pay?id="+o.order_id) ;  
 	};
 	
 	$scope.close_wlxx = function() {
@@ -85,9 +132,9 @@ var proxyOrderinfoController = function ($scope,$location, $http, LoginService) 
 		});
 	};
 	
-	$scope.topay = function(o) {
-		window.open("#/pay?id="+o.order_id) ; 
+    $scope.topay = function(o) {
 //    	var g_name = $("#g_name").val();
+    	window.open("#/topay?id="+o.order_id) ;  
 //    	window.open("alipayapi.jsp?WIDtotal_fee="+o.order_totalPrice/100+"&WIDsubject="+g_name+"&WIDout_trade_no="+o.order_number);  
 	};
 	

@@ -43,12 +43,31 @@
 
 	<select id="getAddressList" resultType="map">
 	<![CDATA[
-		     SELECT ca.id,c2.id as city_parent_id,c.name as city_name,c2.name as city_parent_name, city_id cityId,concat(IFNULL(c2.name,''),IFNULL(c.name,'')) as city, address, zip_code zipCode, receiver, moblephone, telphone, is_default isDefault, customer_id customerId
-		 FROM customer_addresses ca 
-  		 LEFT JOIN cities c on ca.city_id=c.id
-   		 LEFT JOIN cities c2 on c.parent_id=c2.id
-		 WHERE ca.customer_id = #{customerId} and ca.status = 1
-	  	 ORDER BY ca.created_at DESC
+			SELECT
+				IFNULL(ca.id,0) id,
+				IFNULL(c2.id,0) AS city_parent_id,
+				IFNULL(c. NAME,'') AS city_name,
+				IFNULL(c2. NAME,'') AS city_parent_name,
+				IFNULL(city_id,0) as cityId,
+				concat(
+					IFNULL(c2. NAME, ''),
+					IFNULL(c. NAME, '')
+				) AS city,
+				IFNULL(address,'') as address,
+				IFNULL(zip_code,'') as zipCode,
+				IFNULL(receiver,'') as receiver,
+				IFNULL(moblephone,'') as moblephone,
+				IFNULL(telphone,'') as telphone,
+				IFNULL(is_default,'') as isDefault,
+				IFNULL(customer_id,'') as  customerId
+			FROM
+				customer_addresses ca
+			LEFT JOIN cities c ON ca.city_id = c.id
+			LEFT JOIN cities c2 ON c.parent_id = c2.id
+			WHERE
+				ca.customer_id = #{customerId} and ca.status = 1
+			ORDER BY
+				ca.created_at DESC
 	]]>
 	</select>
 

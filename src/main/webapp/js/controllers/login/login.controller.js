@@ -22,12 +22,17 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 	
 	// 初始化图片验证码
 	$scope.reGetRandCodeImg = function() {
-			$scope.agent.agentName = getCookie("agentName");
-		    $scope.agent.agentPass = getCookie("agentPass");  
 		$(".loginRandCodeImg").attr("src", "api/agent/getRandCodeImg?id=" + Math.random());
 	};
 	
+	//cooke初始化
+	$scope.cookeStark = function(){
+		$scope.agent.agentName = getCookie("agentName");
+	    $scope.agent.agentPass = getCookie("agentPass");  
+	}
+	
 	$scope.reGetRandCodeImg();
+	$scope.cookeStark();
 }
 
 

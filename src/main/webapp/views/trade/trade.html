@@ -34,7 +34,7 @@
 						<label>输入终端号</label> <input ng-model="req.terminalNumber" type="text"/>
 					</div></li>
 				<li><div class="user_date">
-						<label>选择日期</label> <input  ng-model="req.startTime" type="text" /> - <input ng-model="req.endTime" type="text" />
+						<label>选择日期</label> <input  ng-model="req.startTime" type="text" readonly/> - <input ng-model="req.endTime" type="text" readonly/>
 					</div></li>
 				<li><button ng-click="search()" class="ghostBtn" >搜索</button></li>
 			</ul>

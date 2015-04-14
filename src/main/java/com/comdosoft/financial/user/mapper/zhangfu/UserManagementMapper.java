@@ -38,6 +38,12 @@ public interface UserManagementMapper {
 	void delectAgentUser(Map<String, Object> map);
 
 	/**
+	 * 判断用户下面所有终端是否全部注销或者已取消
+	 * @param id
+	 */
+	int TerminalStatus(Map<String, Object> map);
+	
+	/**
 	 * 获得该用户所有终端
 	 * 
 	 * @param id
@@ -51,19 +57,24 @@ public interface UserManagementMapper {
 
 	List<Map<String, Object>> getTerminalList(Map<Object, Object> query);
 
-	/**
-	 * 判断用户是否存在
-	 * 
-	 * @param map
-	 */
-	int findUname(Map<Object, Object> map);
-
-	/**
-	 * 添加新用户
-	 * 
-	 * @param map
-	 */
-	void addUser(Customer customer);
+	
+	 /**
+     * 判断用户是否存在
+     * @param map
+     */
+    int findUname(Map<Object, Object> map);
+    
+    /**
+     * 添加新用户
+     * @param map
+     */
+    void addUser(Customer customer);
+    
+    /**
+     * 添加-修改新用户
+     * @param map
+     */
+    void updateCustomer(Customer customer);
 
 	/**
 	 * 为新添加用户与代理商绑定关系

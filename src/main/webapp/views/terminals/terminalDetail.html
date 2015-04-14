@@ -85,8 +85,8 @@
                             </ul>
                         </div> 
                     </div>
-                     <div class="attributes_box" ng-if="openingInfos == ''">
-                    	<h2>开通详情<a href="#" class="a_btn">下载开通资料</a></h2>
+                     <div class="attributes_box" ng-if="terminalShow">
+                    	<h2>开通详情<a href="api/webTerminal/noticeMaterial/{{applyDetails.id}}" class="a_btn">下载开通资料</a></h2>
                         <div class="attributes_list_s clear">
                             <ul>
                                 <li ng-if="openingInfos.types == 1">开通方向：对公</li>

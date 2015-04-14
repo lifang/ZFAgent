@@ -1,12 +1,24 @@
 package com.comdosoft.financial.user.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
@@ -16,6 +28,7 @@ import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsWebMapper;
+import com.comdosoft.financial.user.utils.ZipUtils;
 
 @Service
 public class TerminalsWebService {
@@ -24,6 +37,9 @@ public class TerminalsWebService {
 
 	@Resource
 	private TerminalsWebMapper terminalsWebMapper;
+	
+	 @Value("${uploadPictureTempsPath}")
+	    private String uploadPictureTempsPath;
 	
 	/**
 	 * 获得终端列表
@@ -353,4 +369,57 @@ public class TerminalsWebService {
 	public String findPassword(Integer id){
 		return terminalsWebMapper.findPassword(id);
 	}
+	
+	/**
+	 * 申请资料下载
+	 * @param request
+	 * @param id
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+    public String downloadPdf(HttpServletRequest request, String id, HttpServletResponse response) throws IOException {
+		// 保存上传的实体文件
+        String rootDir = request.getServletContext().getRealPath(uploadPictureTempsPath);
+        List<String> fileName = new ArrayList<String>();
+        File aFile = null;
+                aFile = new File(rootDir + File.separator + id);
+                if (aFile.exists()) {
+                    fileName.add(rootDir + File.separator + id);
+                } 
+        String zipPath = rootDir + "zipFile" + File.separator;
+        File fileExists = new File(zipPath);
+        fileExists.mkdirs();
+        String zipName = zipPath + new Date().getTime() + ".zip";
+        if (ZipUtils.createZip(fileName, zipName)) {
+            response.reset();
+            response.setContentType("Content-Type:application/octet-stream;charset=utf-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + new String(("开通资料.zip").getBytes(), "iso-8859-1"));
+            ServletOutputStream out = response.getOutputStream();
+            InputStream in = null;
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
+            try {
+                in = new FileInputStream(new File(zipName));
+                bis = new BufferedInputStream(in);
+                bos = new BufferedOutputStream(out);
+                byte[] buff = new byte[2048];
+                int bytesRead;
+                while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                    bos.write(buff, 0, bytesRead);
+                }
+            } catch (final IOException e) {
+                throw e;
+            } finally {
+                if (bis != null)
+                    bis.close();
+                if (bos != null)
+                    bos.close();
+            }
+        } else {
+            // zip创建失败
+            // return"系统出错，下载失败!";
+        }
+        return null;
+    }
 }

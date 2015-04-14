@@ -26,6 +26,11 @@
 		UPDATE customers set dentcode=#{dentcode}
 		WHERE username=#{username}
 	</update>
+	
+	<update id="updateCustomer" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		UPDATE customers SET username = #{username}, password = #{password},city_id = #{cityId},account_type = #{accountType},types = #{types},
+		phone =  #{phone},email = #{email},created_at = NOW(),dentcode = #{dentcode},status = #{status}
+	</update>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
 		SELECT id,serial_num,status
@@ -120,17 +125,18 @@
 
 	<select id="getMerchants" parameterType="map" resultType="map">
 		SELECT a.id,a.name FROM customers a LEFT JOIN
-		customer_agent_relations c ON a.id = c.customer_id and a.`status` = #{status}
+		customer_agent_relations c ON a.id = c.customer_id and c.`status` = #{status} and c.types = #{types}
 		WHERE c.agent_id = #{customerId} 
 		LIMIT #{offSetPage},#{pageSize}
 		
 	</select>
 
 	<select id="getMerchantSize" parameterType="map" resultType="int">
-		SELECT a.id,a.name FROM customers a LEFT JOIN
-		customer_agent_relations c ON a.id = c.customer_id  and a.`status` = #{status}
+		SELECT count(*) FROM customers a LEFT JOIN
+		customer_agent_relations c ON a.id = c.customer_id  and c.`status` = #{status} and c.types = #{types}
 		WHERE c.agent_id = #{customerId} 
 	</select>
+	
 	<select id="getTerminalsNum" parameterType="string" resultType="object">
 		SELECT id FROM terminals
 		WHERE serial_num =#{terminalsNum}
@@ -245,8 +251,8 @@
 		WHERE username=#{username}
 	</select>
 	
-	<select id="findUnameAndStatus" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
-		SELECT COUNT(*) from customers 
+	<select id="findUnameAndStatus" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="map">
+		SELECT COUNT(*) as count,id from customers 
 		WHERE username=#{username} AND status=#{status}
 	</select>
 	

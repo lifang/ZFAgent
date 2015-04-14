@@ -50,25 +50,25 @@ var registerAgentController = function($scope, $location, $http, LoginService){
 	};
 	//提交代理商注册
 	$scope.addAgentRegister = function(){
-		if($scope.agent.name == undefined){
+		if($scope.agent.name == undefined || $scope.agent.name == ""){
 		alert("请输入负责人姓名！");
-	}else if($scope.agent.card == undefined){
+	}else if($scope.agent.card == undefined || $scope.agent.card == ""){
 		alert("请输入负责人身份证！");
 	}else if(numCh.test($scope.agent.card)){
 		  alert("身份证含有非法字符！");
-	}else if($scope.agent.companyName == undefined){
+	}else if($scope.agent.companyName == undefined || $scope.agent.companyName == ""){
 		alert("请输入公司名称！");
-	}else if($scope.agent.licenseCode == undefined){
+	}else if($scope.agent.licenseCode == undefined || $scope.agent.licenseCode == ""){
 		alert("请输入执照登记号！");
 	}else if(numCh.test($scope.agent.licenseCode)){
 		  alert("执照登记号含有非法字符！");
-	}else if($scope.agent.phone == undefined){
+	}else if($scope.agent.phone == undefined || $scope.agent.phone == ""){
 		alert("请输入手机号码！");
 	}else if(!reg.test($scope.agent.phone)){
 		alert("请输入合法手机号！");
-	}else if($scope.agent.code == undefined){
+	}else if($scope.agent.code == undefined || $scope.agent.code == ""){
 		alert("请输入验证码！");
-	}else if($scope.agent.email == undefined){
+	}else if($scope.agent.email == undefined || $scope.agent.email == ""){
 		alert("请输入邮箱号码！");
 	}else if(!myreg.test($scope.agent.email)){
 		alert("邮箱格式不正确！");
@@ -76,17 +76,17 @@ var registerAgentController = function($scope, $location, $http, LoginService){
 		alert("请选择城市！");
 	}else if($scope.agcitis == undefined){
 		alert("请选择城市！");
-	}else if($scope.agent.userId == undefined){
+	}else if($scope.agent.userId == undefined || $scope.agent.userId == ""){
 		alert("请输入用户ID！");
-	}else if($scope.agent.passworda == undefined){
+	}else if($scope.agent.passworda == undefined || $scope.agent.passworda == ""){
 		alert("请输入密码！");
-	}else if($scope.agent.passwordb == undefined){
+	}else if($scope.agent.passwordb == undefined || $scope.agent.passwordb == ""){
 		alert("请输入密码！");
 	}else if ($scope.agent.passworda.length<6||$scope.agent.passworda.length>20||$scope.agent.passwordb.length<6||$scope.agent.passwordb.length>20) {
 		alert("密码由6-20位，英文字符组成！");
 	}else if($scope.agent.passworda != $scope.agent.passwordb){
 		alert("密码不一致！");
-	}else if($scope.agent.imgCode == undefined){
+	}else if($scope.agent.imgCode == undefined || $scope.agent.imgCode == ""){
 		alert("请输入图片验证码！");
 	}else if(getCookie("agent_send_phone_code") != $scope.agent.code){
 		alert("验证码错误！");

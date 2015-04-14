@@ -137,7 +137,7 @@ public interface TerminalsMapper {
 	 * @param customer
 	 * @return
 	 */
-	int findUnameAndStatus(Customer customer);
+	Map<Object,Object> findUnameAndStatus(Customer customer);
 	
 	/**
 	 * 修改验证码

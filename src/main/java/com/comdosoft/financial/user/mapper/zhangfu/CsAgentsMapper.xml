@@ -30,7 +30,7 @@
 	
 		<!-- 提交物流信息 -->
 	<insert id="addMark" parameterType="com.comdosoft.financial.user.domain.zhangfu.CsAgentMark">
-       INSERT INTO cs_agent_marks (cs_agent_id,custom_id,content,created_at)
+       INSERT INTO cs_agent_marks (cs_agent_id,customer_id,content,created_at)
        VALUES(#{id},#{customerId},#{content},NOW())
     </insert>
 	

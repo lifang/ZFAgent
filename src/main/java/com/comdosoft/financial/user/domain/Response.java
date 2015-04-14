@@ -50,12 +50,14 @@ public class Response {
     public static Response getSuccess() {
         Response response = new Response();
         response.code = SUCCESS_CODE;
+        response.result = "";
         return response;
     }
 
     public static Response getSuccess(Object result) {
         Response response = new Response();
         response.code = SUCCESS_CODE;
+        response.message = "success";
         response.result = result;
         return response;
     }
@@ -86,7 +88,7 @@ public class Response {
     public static Response buildErrorWithMissing() {
         Response r = new Response();
         r.code = MISSING_CODE;
-        r.result = null;
+        r.result = "";
         r.message = "参数错误或数据不存在";
         return r;
     }

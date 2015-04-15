@@ -136,7 +136,7 @@
 	<select id="countWholesaleOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.customer_id = #{customerId} and o.types = 5
+		where o.created_user_id = #{customerId} and o.types = 5
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
 		</if>
@@ -148,7 +148,7 @@
 	<select id="countProxyOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.customer_id = #{customerId}  and ( o.types = 3 or o.types = 4)
+		where o.created_user_id = #{customerId}  and ( o.types = 3 or o.types = 4)
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
 		</if>
@@ -185,7 +185,7 @@
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		LEFT JOIN cs_out_storages os ON o.id = os.order_id  and os.`status`='1'
 		WHERE
-		o.customer_id = #{customerId}
+		o.created_user_id = #{customerId}
 		and o.types = 5
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
@@ -235,7 +235,7 @@
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		LEFT JOIN customers c ON o.customer_id = c.id
 		WHERE
-		o.customer_id = #{customerId}
+		o.created_user_id = #{customerId}
 	
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 

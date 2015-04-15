@@ -26,6 +26,7 @@
 		WHERE t.agent_id = #{id} 
 		<if test="frontStatus != null and frontStatus !=''">AND t.`status` = #{frontStatus}</if>
 		<if test="serialNum != null and serialNum !=''">AND  t.serial_num like '%${serialNum}%'</if>
+		or t.agent_id in(select a.id from agents a where a.parent_id = #{id} )
 		ORDER BY t.created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 
@@ -47,6 +48,7 @@
 		WHERE t.agent_id = #{id} 
 		<if test="frontStatus != null and frontStatus !=''">AND t.`status` = #{frontStatus}</if>
 		<if test="serialNum != null and serialNum !=''">AND  t.serial_num like '%${serialNum}%'</if>
+		or t.agent_id in(select a.id from agents a where a.parent_id = #{id} )
 		ORDER BY t.created_at DESC
 	</select>
 	

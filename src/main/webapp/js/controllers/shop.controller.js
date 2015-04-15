@@ -975,6 +975,7 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 			$scope.order.is_need_invoice=0;
 		}
 		$scope.order.agentId=LoginService.agentid;
+		$scope.order.creatid=LoginService.loginid;
 		$http.post("api/order/agent", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				if($scope.order.orderType==5){

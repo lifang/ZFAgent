@@ -866,7 +866,7 @@ var purchaseshopinfoController = function ($scope, $http,$location, LoginService
         });
 	}
     $scope.pigou = function() {
-		if ($scope.quantity<$scope.good.goodinfo.quantity) {
+		if ($scope.quantity<=$scope.good.goodinfo.quantity) {
 			window.location.href="#/purchasemakeorder?goodId=" +$scope.good.goodinfo.id+
 					"&type=5&quantity=" +$scope.quantity+"&paychannelId=" +$scope.paychannel.id;
 		}else{
@@ -975,10 +975,11 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 			$scope.order.is_need_invoice=0;
 		}
 		$scope.order.agentId=LoginService.agentid;
+		$scope.order.creatid=LoginService.loginid;
 		$http.post("api/order/agent", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				if($scope.order.orderType==5){
-					window.location.href = '#/wholesaleOrder';
+					window.location.href = '#/deposit_pay?id='+data.result;
 				}else{
 					window.location.href = '#/pay?id='+data.result;
 				}

@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,7 +94,12 @@ public class CsUpdateInfoService {
         map.put("merchant_phone", o.get("mer_phone")==null?"":o.get("mer_phone"));
         myOrderReq.setId(Integer.parseInt(id));
         String json = o.get("templete_info_xml")==null?"":o.get("templete_info_xml").toString();
-        map = csCencelsService.getTemplePaths(map, json);
+        try {
+        	map = csCencelsService.getTemplePaths(map, json);
+		} catch (IOException e) {
+            map.put("resource_info", new ArrayList<>());
+			e.printStackTrace();
+		}
         List<Map<String,Object>> list = csUpdateInfoMapper.findTraceById(myOrderReq);
         map.put("comments", OrderUtils.getTraceByVoId(myOrderReq, list));
         return map;

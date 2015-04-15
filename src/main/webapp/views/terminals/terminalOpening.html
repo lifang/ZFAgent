@@ -142,12 +142,13 @@
                                 <input type="hidden" id="id_{{ma.level+'_'+$index}}" value="{{r.id}}"/>
                                 <span class="labelSpan" id="key_{{ma.level+'_'+$index}}">{{r.name}}：</span>
                                 <div class="text" >
-                                <form method="post" action="api/comment/upload/tempImage" enctype="multipart/form-data">  
-                                	<img src="images/zp.jpg" class="covers" />
+                                <form method="post" action="api/webTerminal/upload/tempOpenImg" enctype="multipart/form-data">  
+                                	<img src="images/zp.jpg" class="cover" data-src="{{r.value}}" ng-mouseenter="onmousover()"/>
+                                	<!-- <img src="images/zp.jpg" class="cover" /> -->
                                 	<a href="javascript:void(0);" class="informImg_a" style="float: right;">
                                     <span ng-if="r.value == null" >上传</span>
                                     <span ng-if="r.value != null" >重新上传</span>
-                                    <input type="text" id="value_{{ma.level+'_'+$index}}" value="{{r.value}}"/>
+                                    <input name="hidden" type="text" id="value_{{ma.level+'_'+$index}}" value="{{r.value}}"/>
                                     <input  name="img" multiple type="file" onchange="showImage(this)">
                                     </a>
                                     <input  id="terid" type="hidden" value="{{applyDetails.id}}">
@@ -155,7 +156,9 @@
                                 </div>
                                 </li>
                             </ul>
-                            <div class="img_info"><img src="images/ewm.jpg" /></div>
+                            <div class="img_info">
+								<img  />
+							</div> 
                         </div>
                     </div>
                     <div class="btnBottom"><button class="orangeBtn" ng-click="addApply()">保存</button></div>
@@ -164,7 +167,7 @@
             <script type="text/javascript">
             function showImage(obj) { 
             	$(obj).parent("a").children("span").html("重新上传");
-            	$(obj).parent("a").parent("form").attr("action","api/comment/upload/tempImage/"+$("#terid").val());
+            	$(obj).parent("a").parent("form").attr("action","api/webTerminal/upload/tempOpenImg/"+$("#terid").val());
             	$(obj).parent("a").parent("form").ajaxSubmit({
             		success : function(data) {
             			$(obj).siblings("input").val(data.result);

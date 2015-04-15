@@ -385,9 +385,9 @@ public class TerminalsWebService {
         File aFile = null;
                 aFile = new File(rootDir + File.separator + id);
                 if (aFile.exists()) {
-                    fileName.add(rootDir + File.separator + id);
+                    fileName.add(rootDir + File.separator + id  +"/opengImg");
                 } 
-        String zipPath = rootDir + "zipFile" + File.separator;
+        String zipPath = rootDir + "zipFile/"+ id + File.separator ;
         File fileExists = new File(zipPath);
         fileExists.mkdirs();
         String zipName = zipPath + new Date().getTime() + ".zip";

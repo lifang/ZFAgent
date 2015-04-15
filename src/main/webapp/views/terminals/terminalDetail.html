@@ -118,11 +118,13 @@
                                 <li ng-repeat="opening in openingDetails " ng-if="opening.types == 2">
                                 <span class="labelSpan" >{{opening.key}}：</span>
                                 <div class="text">
-                                <img ng-src="opening.value" class="cover"/>
+                                <img src="images/zp.jpg" class="cover" path="{{opening.value}}" ng-mouseenter="onmousover()"/>
                                 </div>
                                 </li>
                             </ul>
-                            <div class="img_info"><img src="images/mt_big.jpg" /></div>
+                            <div class="img_info">
+								<img  />
+							</div>
                         </div> 
                     </div>
                      <div class="user_record" ng-if="trackRecord == NULL">

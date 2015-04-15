@@ -13,8 +13,8 @@
                     <div class="searchUser">
             	<div class="su_title">
                 	<ul>
-                    	<li ng-class="{true:'hover'}[butshow == true]" ng-click="butshow = true">搜索现有用户</li>
-                        <li ng-class="{true:'hover'}[butshow == false]" ng-click="butshow = false">创建新用户</li>
+                    	<li ng-class="{true:'hover'}[butshow == true]" ng-click="butshow = true;userId = -1">搜索现有用户</li>
+                        <li ng-class="{true:'hover'}[butshow == false]" ng-click="butshow = false;userId = -1">创建新用户</li>
                         
                     </ul>
                 </div>
@@ -44,7 +44,7 @@
                             <button ng-click="establish()">创建</button>
                       </div>
                       <div class="su_s_box"  ng-show="addShow">
-                        	<a href="javascript:void(0)" class="hover">{{aduser}}</a>
+                        	<a href="javascript:void(0)"  ng-repeat="obj in objectarray" ng-click="checkUserId(obj.adid)" ng-class="{true:'hover'}[userId == obj.adid]">{{obj.adname}}</a>
                         	<!-- <a href="javascript:void(0)" ng-class="{true:'hover'}[numbe>0]" ng-click="numbe=1">{{aduser}}</a> -->
                         </div>
                     </div>

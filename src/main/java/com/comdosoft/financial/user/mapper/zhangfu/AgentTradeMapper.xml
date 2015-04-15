@@ -66,7 +66,7 @@
 			   t.pay_channel_id payChannelId
 		  FROM terminals t
 		  LEFT JOIN agents a on a.id=t.agent_id
-		 WHERE t.status = 2 and a.code like '${code}%'
+		 WHERE  a.code like '${code}%'
 	]]>
 	</select>
 	
@@ -75,7 +75,7 @@
 	<![CDATA[
 		SELECT id as agentId,company_name as agentName
 		  FROM agents
-		 WHERE status = 2 and code like '${code}%'
+		 WHERE  code like '${code}%'
 	]]>
 	</select>
 

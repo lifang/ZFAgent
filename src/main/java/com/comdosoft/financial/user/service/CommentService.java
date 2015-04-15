@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,8 +22,7 @@ public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
     
-    @Value("${uploadPictureTempsPath}")
-    private String uploadPictureTempsPath;
+    
 
     public Map<String, Object> getList(CommentReq req) {
         Map<String, Object> map=new HashMap<String, Object>();
@@ -74,10 +72,9 @@ public class CommentService {
      * @return
      * @throws IOException
      */
-    public String saveTmpImage(int id,MultipartFile img, HttpServletRequest request) throws IOException {
+    public String saveTmpImage(String uploadFilePath,MultipartFile img, HttpServletRequest request) throws IOException {
     	// 保存上传的实体文件
-        String uploadFilePath = uploadPictureTempsPath;
-        String fileNamePath = SysUtils.getUploadFileName(id,request, img, uploadFilePath);
+        String fileNamePath = SysUtils.getUploadFileName(request, img, uploadFilePath);
         return fileNamePath;
     }
 

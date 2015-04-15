@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,18 +8,25 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
 import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
+import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsService;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -42,6 +50,12 @@ public class OpeningApplyController {
 	
 	@Resource
 	private TerminalsService terminalsService;
+	
+	@Autowired
+	private CommentService commentService ;
+	
+	@Value("${uploadPictureTempsPath}")
+    private String uploadPictureTempsPath;
 
 	/**
 	 * 根据代理商ID获得开通申请列表
@@ -397,4 +411,20 @@ public class OpeningApplyController {
 			return Response.getError("请求失败！");
 		}
 	}
+	
+	/**
+     * 上传开通图片文件
+     * 
+     * @param request
+     * @param response
+     * @param id
+     */
+    @RequestMapping(value = "upload/tempOpenImg/{id}", method = RequestMethod.POST)
+    public Response tempOpenImg(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
+        try {
+        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/opengImg/",updatefile, request));
+        } catch (IOException e) {
+        	return Response.getError("请求失败！");
+        }
+    }
 }

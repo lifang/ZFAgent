@@ -64,5 +64,4 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager-oldDataBase" />
  -->
-
 </beans>

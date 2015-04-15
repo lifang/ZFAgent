@@ -10,7 +10,7 @@
 		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
 		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
 		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
-		where g.id is not null AND  t.agent_id in 
+		where g.id is not null AND pc.id is not null AND  t.agent_id in 
 		(SELECT id from agents where code like '${code}%')
 		) t
 		where 1=1
@@ -26,7 +26,7 @@
 		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
 		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
 		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
-		where g.id is not null AND  t.agent_id in 
+		where g.id is not null AND pc.id is not null and t.agent_id in 
 		(SELECT id from agents where code like '${code}%')
 		  order by g.id desc
 		) t

@@ -44,25 +44,7 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager-trades" />
 
-	<!-- db olddatabase -->
-	<bean id="dataSource-oldDataBase" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"
-		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.oldDataBase.url}" p:username="${jdbc.oldDataBase.user}" p:password="${jdbc.oldDataBase.password}"
-		p:filters="stat" p:maxActive="20" p:initialSize="1" p:minIdle="1" p:maxWait="60000" p:timeBetweenEvictionRunsMillis="3000"
-		p:minEvictableIdleTimeMillis="300000" p:validationQuery="SELECT 'x'" p:testWhileIdle="true" p:testOnBorrow="false"
-		p:testOnReturn="false" p:poolPreparedStatements="true" p:maxPoolPreparedStatementPerConnectionSize="20" />
 
-	<bean id="sqlSessionFactory-oldDataBase" class="org.mybatis.spring.SqlSessionFactoryBean" p:dataSource-ref="dataSource-oldDataBase"
-		p:mapperLocations="classpath:com.comdosoft.financial.user.mapper.oldDataBase.*.xml" />
-
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.comdosoft.financial.user.mapper.oldDataBase"></property>
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory-oldDataBase"></property>
-	</bean>
-
-	<bean id="transactionManager-oldDataBase" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		p:dataSource-ref="dataSource-oldDataBase" />
-
-	<tx:annotation-driven transaction-manager="transactionManager-oldDataBase" />
 
 
 </beans>

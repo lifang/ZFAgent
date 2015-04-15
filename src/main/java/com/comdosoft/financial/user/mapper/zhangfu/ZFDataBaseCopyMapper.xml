@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.ZFDataBaseCopyMapper">
-  <select id="getChannelIdByGoodId" resultType="hashmap">
-   		select pay_channel_id as channelId from goods_pay_channels where good_id=#{goodId}
-   </select>
  <insert id="channelNameInit">
 	<![CDATA[
 	insert into pay_channels (id,name) values(#{id},#{channelName})
@@ -13,8 +10,13 @@
 		insert into goods(id,title) values(#{id},#{goodName})
    </insert>
    <insert id="goodsChannelRelationInit">
-		insert into goods_pay_channels(good_id,pay_channel_id) values(#{goodId},#{channelId})
+		insert into goods_pay_channels(good_id,pay_channel_id,create_at) values(#{goodId},#{channelId},now())
    </insert>
+   
+   <select id="getChannelIdByGoodId" resultType="hashmap">
+   		select pay_channel_id as channelId from goods_pay_channels where good_id=#{goodId}
+   </select>
+
    <insert id="customersInit">
 		INSERT into customers(id,username,account_type,phone,name,status,password,types)
 		values(#{id},#{userName},#{accoutType},#{phone},#{name},#{status},#{pwd},#{types})
@@ -22,14 +24,10 @@
    <insert id="merchantsInit">
 		insert into merchants(legal_person_card_id,customer_id) values(#{idNumber},#{customerId})
    </insert>
-   
-  
-   
    <insert id="terminalInit">
 		insert into terminals(id,status,serial_num,base_rate,good_id,pay_channel_id,merchant_id,customer_id) values(
 		#{id},#{status},#{serialNum},#{baseRate},#{goodId},#{channelId},#{merchantId},#{customerId})
    </insert>
-   
    <update id="updateTerminalBySerialNum">
    		update terminals set customer_id =#{customerId},status=#{status} where serial_num=#{serialNum}
    </update>
@@ -44,7 +42,7 @@
 		#{terminalId},#{merchantId},#{merchantName},#{bankNum},#{bankName},#{bankCode},#{customerId},#{types},#{taxNo},#{occn})
    </insert>
    
-   <update id="updateMerchantsById">
+    <update id="updateMerchantsById">
 		update merchants a set a.title=#{merchantName},a.account_bank_name=#{bankName},a.account_bank_num=#{bankNum} where a.id=#{id}
 	</update>
 	
@@ -60,13 +58,11 @@
 		insert into agents(company_name,business_license,customer_id,card_id,
 		parent_id) values(#{companyName},#{businessLicense},#{customerId},#{cardId},#{parentId})
    </insert>
-	
-	
-	<insert id="customerAddressesInit">
+   
+   <insert id="customerAddressesInit">
 		INSERT into customer_addresses(city_id,address,zip_code,receiver,moblephone,telphone,customer_id)
 		 values(#{cityId},#{address},#{zipCode},#{receiver},#{moblePhone},#{telPhone},#{customerId})
    </insert>
-	
 	<update id="updateCustomerCityId">
 		update customers set city_id=#{cityId} where id=#{customerId}
 	</update>
@@ -83,12 +79,12 @@
 		INSERT into prepare_goods_records(agent_id,good_id,quantity) values(
 		#{agentId},#{goodId},#{quantity})
    </insert>
-	
-	<select id="getSellList" resultType="hashmap">
+   
+   <select id="getSellList" resultType="hashmap">
 		select shopId,productId,productNumber,status from sellList
 	</select>
 	
-	<update id="updateTerminalBySerialNum">
+	<update id="updateTerminalBySerialNum1">
 		update terminals set status=#{status},agent_id=#{agentId} where serial_num =#{serialNum} and good_id=#{goodId}
 	</update>
 	
@@ -96,13 +92,12 @@
 		INSERT into dictionary_trade_types(trade_type,trade_value) values(
 		#{tradeType},#{tradeValue})
    </insert>
-	
-	<insert id="supportTradeTypesInit">
+   <insert id="supportTradeTypesInit">
 		INSERT into support_trade_types(trade_type,pay_channel_id,trade_type_id) values(
 		#{tradeType},#{payChannelId},#{tradeTypeId})
    </insert>
-	
-	<select id="getMaxIdOfdictionaryTradeTypes" resultType="int">
+   
+   <select id="getMaxIdOfdictionaryTradeTypes" resultType="int">
 		select max(id) as from dictionary_trade_types
 	</select>
 	
@@ -110,4 +105,23 @@
 		select customer_id as customerId from terminals where serial_num=#{serialNum}
 	</select>
 	
+	<select id="getGoodsById" resultType="hashmap">
+		select title from goods where id=#{id}
+	</select>
+	
+	<update id="updateGoodsById">
+		update goods set title=#{goodName} where id=#{id}
+	</update>
+	
+		<update id="updatePayChannelById">
+		update pay_channels set name=#{channelName} where id=#{id}
+	</update>
+	
+		
+	<select id="getPayChannelById" resultType="hashmap">
+		select name from pay_channels where id=#{id}
+	</select>
+	   <select id="getGoodPayChannelById" resultType="hashmap">
+		select id from goods_pay_channels where good_id=#{goodId} and pay_channel_id=#{channelId}
+	</select>
 </mapper>

@@ -4,13 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 
 public interface OldDataBaseMapper {
 	List<Map<String, Object>> getPersons();
 	
 	List<Map<String, Object>> getZHUSERs();
 	
-	Map<String, Object> getUserPsam(@Param("psam") String psam);
+	Map<String, Object> getUserPsam1(@Param("psam") String psam);
 	
 	List<Map<String, Object>> getHXPerson();
 	

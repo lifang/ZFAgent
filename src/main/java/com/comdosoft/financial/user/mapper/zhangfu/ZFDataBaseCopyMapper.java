@@ -4,17 +4,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import org.junit.experimental.theories.ParametersSuppliedBy;
-import org.junit.runners.Parameterized.Parameters;
 import org.springframework.context.annotation.Scope;
-@Scope("prototype")
+import org.springframework.stereotype.Repository;
+
 public interface ZFDataBaseCopyMapper {
-	
+	Map<String, Object> getPayChannelById(@Param("id") int id);
+	int updatePayChannelById(@Param("id") int id,@Param("channelName") String channelName);
 	int channelNameInit(@Param("id") int id,@Param("channelName") String channelName);
 	
 	int goodsInit(@Param("id") int id,@Param("goodName") String goodName);
+	Map<String, Object> getGoodsById(@Param("id") int id);
+	int updateGoodsById(@Param("id") int id,@Param("goodName") String goodName);
 	
 	int goodsChannelRelationInit(@Param("goodId") int goodId,@Param("channelId") int channelId);
+	Map<String, Object> getGoodPayChannelById(@Param("goodId") int goodId,@Param("channelId") int channelId);
+	
+	
 	//#{id},#{userName},#{accoutType},#{phone},#{name},#{status},#{pwd},#{types}
 	int customersInit(@Param("id") int id,@Param("userName") String userName,@Param("accoutType") int accoutType,@Param("phone") String phone,
 			@Param("name") String name,@Param("status") int status,@Param("pwd") String pwd,@Param("types") int types);
@@ -56,7 +61,7 @@ public interface ZFDataBaseCopyMapper {
 
 	List<Map<String, Object>> getSellList();
 
-	int updateTerminalBySerialNum(@Param("status") String status,@Param("serialNum") String serialNum,@Param("goodId") String goodId,
+	int updateTerminalBySerialNum1(@Param("status") String status,@Param("serialNum") String serialNum,@Param("goodId") String goodId,
 			@Param("agentId") String agentId);
 
 	int dictionaryTradeTypesInit(@Param("tradeType") String tradeType,@Param("tradeValue") String tradeValue);
@@ -71,15 +76,5 @@ public interface ZFDataBaseCopyMapper {
 	int getMaxTerminalId();
 
 	String getCustomerIdBySerialNum(@Param("serialNum") String serialNum);
-
-
-
-
-
-
-
-
-
-
 
 }

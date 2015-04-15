@@ -26,8 +26,13 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  // 绑定
             if (data != null && data != undefined) {
-                $scope.list = data.result;
-                calcSystemPage($scope, data.result.total);// 计算分页
+            	if(data.code == 1){
+            		  $scope.list = data.result;
+                      calcSystemPage($scope, data.result.total);// 计算分页
+            	}else {
+            		window.location.href = '#/';
+            	}
+              
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -46,8 +51,12 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 		};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
-                $scope.list = data.result;
-                calcSystemPage($scope, data.result.total);// 计算分页
+                if(data.code == 1){
+                	 $scope.list = data.result;
+                     calcSystemPage($scope, data.result.total);// 计算分页
+	          	}else {
+	          		window.location.href = '#/';
+	          	}
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -59,8 +68,12 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 				rows:$scope.rows};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
 			if (data != null && data != undefined) {
-				$scope.list = data.result;
-				calcSystemPage($scope, data.result.total);// 计算分页
+				 if(data.code == 1){
+                	 $scope.list = data.result;
+                     calcSystemPage($scope, data.result.total);// 计算分页
+	          	}else {
+	          		window.location.href = '#/';
+	          	}
 			}
 		}).error(function (data) {
 			$("#serverErrorModal").modal({show: true});
@@ -75,8 +88,12 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
         		rows:$scope.rows};
         $http.post("api/order/getWholesaleOrder", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
-                $scope.list = data.result;
-                calcSystemPage($scope, data.result.total);// 计算分页
+            	 if(data.code == 1){
+                	 $scope.list = data.result;
+                     calcSystemPage($scope, data.result.total);// 计算分页
+	          	}else {
+	          		window.location.href = '#/';
+	          	}
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -216,8 +233,12 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 	
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  // 绑定
             if (data != null && data != undefined) {
-                $scope.list = data.result;
-                calcSystemPage($scope, data.result.total);// 计算分页
+            	 if(data.code == 1){
+                	 $scope.list = data.result;
+                     calcSystemPage($scope, data.result.total);// 计算分页
+	          	}else {
+	          		window.location.href = '#/';
+	          	}
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -236,8 +257,12 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 		};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
-                $scope.list = data.result;
-                calcSystemPage($scope, data.result.total);// 计算分页
+            	 if(data.code == 1){
+                	 $scope.list = data.result;
+                     calcSystemPage($scope, data.result.total);// 计算分页
+	          	}else {
+	          		window.location.href = '#/';
+	          	}
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -254,8 +279,12 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 				rows:$scope.rows};
 		$http.post("api/order/orderSearch", $scope.req).success(function (data) {  //绑定
 			if (data != null && data != undefined) {
-				$scope.list = data.result;
-				calcSystemPage($scope, data.result.total);// 计算分页
+				 if(data.code == 1){
+                	 $scope.list = data.result;
+                     calcSystemPage($scope, data.result.total);// 计算分页
+	          	}else {
+	          		window.location.href = '#/';
+	          	}
 			}
 		}).error(function (data) {
 			$("#serverErrorModal").modal({show: true});
@@ -270,8 +299,12 @@ var proxyOrderController = function ($scope, $http, LoginService) {
         		rows:$scope.rows};
         $http.post("api/order/getProxyOrder", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
-                $scope.list = data.result;
-                calcSystemPage($scope, data.result.total);// 计算分页
+            	 if(data.code == 1){
+                	 $scope.list = data.result;
+                     calcSystemPage($scope, data.result.total);// 计算分页
+	          	}else {
+	          		window.location.href = '#/';
+	          	}
             }
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
@@ -418,7 +451,6 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             		$scope.pay=false;
             		$scope.payway=data.result.paytype;
             	}
-            	
             }
         });
 	};

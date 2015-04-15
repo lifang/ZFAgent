@@ -23,7 +23,7 @@
 		LEFT JOIN good_brands b
 		ON b.id = g.good_brands_id
 
-		WHERE t.customer_id = #{id} 
+		WHERE t.agent_id = #{id} 
 		<if test="frontStatus != null and frontStatus !=''">AND t.`status` = #{frontStatus}</if>
 		<if test="serialNum != null and serialNum !=''">AND  t.serial_num like '%${serialNum}%'</if>
 		ORDER BY t.created_at DESC
@@ -44,7 +44,7 @@
 		LEFT JOIN good_brands b
 		ON b.id = g.good_brands_id
 
-		WHERE t.customer_id = #{id} 
+		WHERE t.agent_id = #{id} 
 		<if test="frontStatus != null and frontStatus !=''">AND t.`status` = #{frontStatus}</if>
 		<if test="serialNum != null and serialNum !=''">AND  t.serial_num like '%${serialNum}%'</if>
 		ORDER BY t.created_at DESC

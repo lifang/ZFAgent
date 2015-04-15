@@ -17,7 +17,9 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
     	$http.post("api/order/getWholesaleById", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.orderInfo=data.result;
-            }
+            }else {
+         		window.location.href = '#/';
+         	}
         }).error(function (data) {
             $("#serverErrorModal").modal({show: true});
         });
@@ -115,7 +117,9 @@ var proxyOrderinfoController = function ($scope,$location, $http, LoginService) 
 		$http.post("api/order/getProxyById", $scope.req).success(function (data) {  //绑定
 			if (data.code==1) {
 				$scope.o=data.result;
-			}
+			 }else {
+	         		window.location.href = '#/';
+	         	}
 		}).error(function (data) {
 			$("#serverErrorModal").modal({show: true});
 		});

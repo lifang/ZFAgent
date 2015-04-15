@@ -294,21 +294,20 @@
 	<select id="getWholesaleById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.price,g.purchase_price,
-		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
-		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment,
+		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,
+		 g.title,gb.name , gb.id as good_brands_id,o.comment,
 		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,f.`name` as factory_name,
 		o.actual_price ,o.total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name ,
-			 os.status as os_status,os.quantity as os_quantity,
-			o.front_pay_status,
-			o.front_money,op.pay_type
+		 os.status as os_status,os.quantity as os_quantity,
+		o.front_pay_status,
+		o.front_money,op.pay_type
 		FROM	
 		orders o
 		LEFT JOIN order_goods og ON o.id = og.order_id
 		LEFT JOIN goods g ON og.good_id = g.id
 		LEFT JOIN factories f ON g.factory_id = f.id
-		LEFT JOIN goods_pictures gp ON g.id = gp.good_id
-		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
+ 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
 		LEFT JOIN order_marks om on o.id = om.order_id 
@@ -324,8 +323,8 @@
 	<select id="getProxyById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,
-		o.order_number,	o.created_at,	o.status,o.pay_status,gp.id as pic_id,o.invoice_type,
-		gp.url_path ,g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,
+		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,
+		g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,
 		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,op.pay_type,o.belongs_user_id,f.`name` as factory_name,
 		o.actual_price ,o.total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name 
@@ -334,7 +333,6 @@
 		LEFT JOIN order_goods og ON o.id = og.order_id
 		LEFT JOIN goods g ON og.good_id = g.id
 		LEFT JOIN factories f ON g.factory_id = f.id
-		LEFT JOIN goods_pictures gp ON g.id = gp.good_id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
@@ -346,7 +344,6 @@
 		o.id = #{param1}
 		and  ( o.types = 3 or o.types = 4)
 		group BY os.id
-		order by gp.created_at desc
 	</select>
 	<update id="cancelMyOrder" parameterType="com.comdosoft.financial.user.domain.zhangfu.Order">
         UPDATE orders

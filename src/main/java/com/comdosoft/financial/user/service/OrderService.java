@@ -359,8 +359,10 @@ public class OrderService {
                 String good_logo = "";
                 if (null != od.getGood()) {
                     Good g = od.getGood();
-                    if (g.getPicsList().size() > 0) {
-                        GoodsPicture gp = g.getPicsList().get(0);
+                    Integer gid = g.getId();
+                    List<GoodsPicture> list = orderMapper.findPicByGoodId(gid);
+                    if (list.size() > 0) {
+                        GoodsPicture gp = list.get(0);
                         good_logo = gp.getUrlPath() == null ? "" : gp.getUrlPath();
                     }
                 }
@@ -460,8 +462,10 @@ public class OrderService {
                 String good_logo = "";
                 if (null != od.getGood()) {
                     Good g = od.getGood();
-                    if (g.getPicsList().size() > 0) {
-                        GoodsPicture gp = g.getPicsList().get(0);
+                    Integer gid = g.getId();
+                    List<GoodsPicture> list = orderMapper.findPicByGoodId(gid);
+                    if (list.size() > 0) {
+                        GoodsPicture gp = list.get(0);
                         good_logo = gp.getUrlPath();
                     }
                 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,9 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService ;
+    
+    @Value("${uploadPictureTempsPath}")
+    private String uploadPictureTempsPath;
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
     public Response getGoodsList(@RequestBody  CommentReq req){
@@ -59,7 +63,7 @@ public class CommentController {
     @RequestMapping(value = "upload/tempImage/{id}", method = RequestMethod.POST)
     public Response tempImage(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile img, HttpServletRequest request) {
         try {
-        	return Response.getSuccess(commentService.saveTmpImage(id,img, request));
+        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/",img, request));
         } catch (IOException e) {
         	return Response.getError("请求失败！");
         }

@@ -48,7 +48,10 @@
                                   </tr>
                                   </thead>
                                   <tr  ng-repeat="addre in addressList">
-                                    <td><input name="radio" type="radio" value="" ng-click="radioId($index)" /></td>
+                                    <td>
+                                    <input ng-if="addre.isDefault == 1" checked name="radio" type="radio" value="" ng-click="radioId($index)" />
+                                    <input ng-if="addre.isDefault != 1" name="radio" type="radio" value="" ng-click="radioId($index)" />
+                                    </td>
                                     <td>{{addre.receiver}}</td>
                                     <td>{{addre.parentName+addre.sonName}}</td>
                                     <td>{{addre.address}}</td>

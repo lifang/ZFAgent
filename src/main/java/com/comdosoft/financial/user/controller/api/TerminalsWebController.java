@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
@@ -25,6 +28,7 @@ import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
 import com.comdosoft.financial.user.utils.SysUtils;
@@ -48,6 +52,12 @@ public class TerminalsWebController {
 	
 	@Resource
 	private OpeningApplyService openingApplyService;
+	
+	@Autowired
+	private CommentService commentService ;
+	
+	@Value("${uploadPictureTempsPath}")
+    private String uploadPictureTempsPath;
 
 	@Value("${passPath}")
 	private String passPath;
@@ -449,5 +459,52 @@ public class TerminalsWebController {
 	@RequestMapping(value = "noticeMaterial/{id}", method = RequestMethod.GET)
     public String downloadPdf(@PathVariable(value="id") int id,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		return terminalsWebService.downloadPdf(request,String.valueOf(id), response);
+    }
+	
+	/**
+     * 上传开通图片文件
+     * 
+     * @param request
+     * @param response
+     * @param id
+     */
+    @RequestMapping(value = "upload/tempOpenImg/{id}", method = RequestMethod.POST)
+    public Response tempOpenImg(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
+        try {
+        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/opengImg/",updatefile, request));
+        } catch (IOException e) {
+        	return Response.getError("请求失败！");
+        }
+    }
+	
+	 /**
+     * 上传注销文件
+     * 
+     * @param request
+     * @param response
+     * @param id
+     */
+    @RequestMapping(value = "upload/tempCancellationFile/{id}", method = RequestMethod.POST)
+    public Response tempCancellationFile(@PathVariable("id") int id,@RequestParam(value="updatefile") MultipartFile updatefile, HttpServletRequest request) {
+        try {
+        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/cancellation/",updatefile, request));
+        } catch (IOException e) {
+        	return Response.getError("请求失败！");
+        }
+    }
+    /**
+     * 上传更新资料文件
+     * 
+     * @param request
+     * @param response
+     * @param id
+     */
+    @RequestMapping(value = "upload/tempUpdateFile/{id}", method = RequestMethod.POST)
+    public Response tempUpdateFile(@PathVariable("id") int id,@RequestParam(value="updatefile") MultipartFile updatefile, HttpServletRequest request) {
+    	try {
+    		return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/update/",updatefile, request));
+    	} catch (IOException e) {
+    		return Response.getError("请求失败！");
+    	}
     }
 }

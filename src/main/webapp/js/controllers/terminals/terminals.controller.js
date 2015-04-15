@@ -218,7 +218,35 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
       });
   }*/
   
+  $scope.onmousover = function(){
+	  infoTab('.cover','.img_info'); 
+  }
+//鼠标经过小图提示大图
+function infoTab(i_tab,i_box){
+	
+	$(i_tab).hover(
+			
+		function(e){
+        $(i_box).children("img").attr("src", $(this).attr('path'));
+			$(i_box).css('display','block');
+			$(i_box).css('top',$(this).offset().top - $(i_box).height() +'px');
+			
+			if($(this).offset().left+$(i_box).width() > $(document).width()){
+				$(i_box).css( 'left',($(this).offset().left)-$(i_box).width()+'px');
+			}else {
+				$(i_box).css('left',($(this).offset().left)+$(this).width()+'px');
+			}
+		},
+		function(e){
+			$(i_box).children("img").attr("src", "");
+			$(i_box).css('display','none');
+			$(i_box).css({'top':0+'px', 'left':0+'px'});
+		}
+	);
+}
+  
   $scope.terminalDetail();
+  $scope.onmousover();
 
 };
 
@@ -228,12 +256,41 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	  $scope.butshow = false;//添加新地址显示
 	  $scope.serviceObject = {};//数据封装
 	  $scope.addressObject = {};//数据封装
+	//手机格式
+		var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
 	 
 	 $scope.serviceInit = function(){
 		 $scope.cityList();
 		 $scope.getAddress();
 	 }
 	 
+	 
+	 //校验
+	 $scope.addAddressN = function(){
+		 if($scope.addressObject.receiver == undefined ||$scope.addressObject.receiver == ""){
+			 alert("请填写收件人姓名！");
+			 return false;
+		 }else if($scope.citys == undefined){
+			 alert("请选择省份！");
+			 return false;
+		 }else if($scope.serviceObject.sitys == undefined){
+			 alert("请选择城市！");
+			 return false;
+		 }else if($scope.addressObject.address == undefined || $scope.addressObject.address == ""){
+			 alert("请填写详细地址！");
+			 return false;
+		 }else if($scope.addressObject.zipCode == undefined || $scope.addressObject.zipCode == ""){
+			 alert("请填写邮编！");
+			 return false;
+		 }else if($scope.addressObject.moblephone == undefined || $scope.addressObject.moblephone == ""){
+			 alert("请填写手机号！");
+			 return false;
+		 }else if(!reg.test($scope.addressObject.moblephone)){
+			 alert("手机号格式错误！");
+			 return false;
+		 }
+		 return true;
+	 }
 	 //获得联系地址
 	 $scope.getAddress = function(){
 		  $http.post('api/webTerminal/getAddressee',{customerId:$scope.customersId}).success(function(data){
@@ -249,18 +306,21 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	 
 	 //添加联系地址
 	 $scope.addAddress = function(){
-		 $scope.addressObject.cityId = $scope.serviceObject.sitys.id;
-		 $scope.addressObject.customerId = $scope.customersId;
-		 $http.post('api/webTerminal/addCostometAddress',$scope.addressObject).success(function(data){
-			 if(data.code == 1){
-				 $scope.getAddress();
-			 }else if(data.code == -1){
-				 alert(data.message);
-			 }
-		 })
+		 if($scope.addAddressN()){
+			 $scope.addressObject.cityId = $scope.serviceObject.sitys.id;
+			 $scope.addressObject.customerId = $scope.customersId;
+			 $http.post('api/webTerminal/addCostometAddress',$scope.addressObject).success(function(data){
+				 if(data.code == 1){
+					 $scope.getAddress();
+				 }else if(data.code == -1){
+					 alert(data.message);
+				 }
+			 })
+		 }
 	 }
 	 
 	 $scope.radioStauts = false;
+	 $scope.defaultAddress = false;
 	 $scope.radioId = function(obj){
 		 for(var i=0;i< $scope.addressList.length;i++){
 			 if(obj == i){
@@ -273,14 +333,31 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		 }
 		 $scope.radioStauts = true;
 	 };
+	 $scope.radioIdAddress = function(){
+		 if($scope.radioStauts){
+			 return true;
+		 }else{
+			 for(var i=0;i< $scope.addressList.length;i++){
+				 if($scope.addressList[i].isDefault == 1){
+					 $scope.serviceObject.receiver = $scope.addressList[i].receiver;
+					 $scope.serviceObject.address = $scope.addressList[i].address;
+					 $scope.serviceObject.zipCode = $scope.addressList[i].zipCode;
+					 $scope.serviceObject.phone = $scope.addressList[i].moblephone;
+					 //$scope.serviceObject.cityId = $scope.addressList[i].cityId;
+					 return true;
+				 }
+		 }
+			 return false;
+		 }
+	 };
 	 
 	 $scope.terminalSub = function(){
 		if($scope.serviceObject.terminalsList == undefined || $scope.serviceObject.terminalsList == ""){
 			alert("请填写终端号！");
 		}else if($scope.serviceObject.reason == undefined || $scope.serviceObject.reason == ""){
 			alert("请填写售后原因！");
-		}else if(!$scope.radioStauts){
-			alert("请选择收货地址！");
+		}else if(!$scope.radioIdAddress()){
+				alert("请选择收货地址！");
 		}else if($scope.coms == undefined || $scope.coms == ""){
 			alert("请填写物流公司！");
 		}else if($scope.order == undefined || $scope.order == ""){
@@ -288,7 +365,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		}else{
 		 $scope.serviceObject.customerId = $scope.customersId;
 		 $scope.serviceObject.content = $("#comsName").html()+$scope.coms+","+$("#orderName").html()+$scope.order;
-		 $http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
+		 /*$http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
 			 if(data.code == 1){
 				 alert(data.result);
 			 }else if(data.code == 2){
@@ -296,7 +373,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 			 }else if(data.code == -1){
 				 alert(data.message);
 			 }
-		 })
+		 })*/
 	 }
 	 }
 	 //获得省市
@@ -319,6 +396,10 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 //$scope.customersId = Math.ceil(LoginService.agentUserId);
 	 $scope.customersId = Math.ceil(LoginService.loginid);
 	 // $scope.customersId = 80;
+	//检验邮箱格式
+		var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+		//手机格式
+		var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
 	 $scope.butshow = true;//按钮切换
 	 $scope.binobject = {};//数据封装
 	 
@@ -360,18 +441,19 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 }
 	 
 	 function gotoBingding(){
-		 if($scope.userId == -1){
-			 alert("请选择用户！");
-			 return false
-		 }else if($scope.terminalsNum == undefined){
-			 alert("请填写终端号！");
-			 return false;
-		 }
+			 if($scope.userId == -1){
+				 alert("请选择用户！");
+				 return false
+			 }else if($scope.terminalsNum == undefined || $scope.terminalsNum == null ||  $scope.terminalsNum == ""){
+				 alert("请填写终端号！");
+				 return false;
+			 }
+		 return true;
 	 }
 	 
 	 //开始绑定
 	 $scope.BindingTerminals = function(){
-		if(gotoBingding()){
+		if(gotoBingding() == true){
 			$http.post('api/webTerminal/BindingTerminals',{customerId:$scope.customersId,terminalsNum:$scope.terminalsNum,userId:Math.ceil($scope.userId)}).success(function(data){
 			 if(data.code == 1){
 				 alert(data.result);
@@ -386,22 +468,41 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 }
 	 //创建新用户
 	 $scope.addShow = false;
+	 $scope.objectarray = [];
 	 $scope.establish = function(){
-		 $scope.binobject.cityid = Math.ceil($scope.binobject.address.id);
-		 $http.post('api/webTerminal/addCustomer',$scope.binobject).success(function(data){
-			 if(data.code == 1){
-				 $scope.aduser = data.result.username;
-				 $scope.binobject = {};
-				 $scope.addShow = true;
-				 $scope.userId = data.result.id;
-			 }else if(data.code == -1){
-				 $scope.addShow = false;
-				 $scope.binobject = {};
-				 alert(data.message);
-			 }
-		 }).error(function(){
-			 alert("绑定请求失败！");
-		 })
+		 if($scope.citys == undefined){
+			 alert("请选择省份！");
+		 }else if($scope.binobject.address == undefined){
+			 alert("请选择城市！");
+		 }else if($scope.binobject.username == undefined){
+			 alert("请输入手机号或者邮箱！");
+		 }else if(!myreg.test($scope.binobject.username) && !reg.test($scope.binobject.username)){
+			 alert("请输入正确的手机号或者邮箱！");
+		 }else if($scope.binobject.pass1 == undefined || $scope.binobject.pass2 == undefined || $scope.binobject.pass1 == "" || $scope.binobject.pass2 == ""){
+			 alert("请填写密码！");
+		 }else if ($scope.binobject.pass1.length<6 || $scope.binobject.pass1.length >20 || $scope.binobject.pass2.length<6 || $scope.binobject.pass2.length > 20){
+			 alert("请输入6~20位密码！");
+		 }else if($scope.binobject.pass1.length != $scope.binobject.pass2.length){
+			 alert("密码不一致！");
+		 }else{
+			 $scope.binobject.cityid = Math.ceil($scope.binobject.address.id);
+			 $http.post('api/webTerminal/addCustomer',$scope.binobject).success(function(data){
+				 if(data.code == 1){
+					 $scope.aduser = {adname:data.result.username,adid:data.result.id};
+					 $scope.objectarray = $scope.objectarray.concat($scope.aduser);
+					 $scope.binobject = {};
+					 $scope.addShow = true;
+					 //$scope.userId = data.result.id;
+				 }else if(data.code == -1){
+					 $scope.addShow = false;
+					 $scope.binobject = {};
+					 alert(data.message);
+				 }
+			 }).error(function(){
+				 alert("绑定请求失败！");
+			 })
+		 }
+		
 	 }
 	 
 	 
@@ -419,8 +520,8 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
 	//$scope.customerId = 80;
 	//查看终端详情
 	$scope.terminalDetail = function () {
-		//0 注销， 1 更新
-	  $scope.types = 0;
+		//1 注销， 2 更新
+	  $scope.types = 1;
       $http.post("api/webTerminal/getWebApplyCancellation", {types:$scope.types,terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == 1){
@@ -896,6 +997,33 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			 }
 			  
 		  }
+		  
+		  $scope.onmousover = function(){
+			  infoTab('.cover','.img_info'); 
+		  }
+		  
+		//鼠标经过小图提示大图
+		function infoTab(i_tab,i_box){
+			$(i_tab).hover(
+				function(e){
+		        $(i_box).children("img").attr("src", $(this).siblings("a").children("input[name='hidden']").val());
+
+					$(i_box).css('display','block');
+					$(i_box).css('top',$(this).offset().top - $(i_box).height() +'px');
+					
+					if($(this).offset().left+$(i_box).width() > $(document).width()){
+						$(i_box).css( 'left',($(this).offset().left)-$(i_box).width()+'px');
+					}else {
+						$(i_box).css('left',($(this).offset().left)+$(this).width()+'px');
+					}
+				},
+				function(e){
+					$(i_box).children("img").attr("src", "");
+					$(i_box).css('display','none');
+					$(i_box).css({'top':0+'px', 'left':0+'px'});
+				}
+			);
+		}
 	
 	$scope.terminalDetail();
 

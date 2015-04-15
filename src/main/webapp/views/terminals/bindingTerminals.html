@@ -44,7 +44,7 @@
                             <button ng-click="establish()">创建</button>
                       </div>
                       <div class="su_s_box"  ng-show="addShow">
-                        	<a href="javascript:void(0)" class="hover">{{aduser}}</a>
+                        	<a href="javascript:void(0)"  ng-repeat="obj in objectarray" ng-click="checkUserId(obj.adid)" ng-class="{true:'hover'}[userId == obj.adid]">{{obj.adname}}</a>
                         	<!-- <a href="javascript:void(0)" ng-class="{true:'hover'}[numbe>0]" ng-click="numbe=1">{{aduser}}</a> -->
                         </div>
                     </div>

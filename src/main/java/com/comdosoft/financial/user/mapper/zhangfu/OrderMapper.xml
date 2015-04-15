@@ -386,10 +386,10 @@
 		(order_number,customer_id,total_price,status,types,
 		customer_address_id,need_invoice,invoice_type,
 		invoice_info,actual_price,created_at,updated_at,
-		comment,total_quantity,front_money)
+		comment,total_quantity,front_money,created_user_id)
 		VALUES(#{ordernumber},#{customerId},#{totalprice},1,#{orderType},
 		#{addressId},#{isNeedInvoice},#{invoiceType},#{invoiceInfo},
-		#{totalprice},NOW(),NOW(),#{comment},#{totalcount},#{front_money})
+		#{totalprice},NOW(),NOW(),#{comment},#{totalcount},#{front_money},#{creatid})
   </insert>
   
   <insert id="addOrderGood"  parameterType="com.comdosoft.financial.user.domain.query.OrderReq">

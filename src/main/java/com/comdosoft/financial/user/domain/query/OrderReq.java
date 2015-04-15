@@ -12,6 +12,7 @@ public class OrderReq {
     private int retailPrice;
     
     private int agentId;
+    private int creatid;
     private int goodId;
     private int paychannelId;
     private int quantity;
@@ -142,6 +143,12 @@ public class OrderReq {
     }
     public void setFront_money(int front_money) {
         this.front_money = front_money;
+    }
+    public int getCreatid() {
+        return creatid;
+    }
+    public void setCreatid(int creatid) {
+        this.creatid = creatid;
     }
    
     

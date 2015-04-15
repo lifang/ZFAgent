@@ -1,7 +1,8 @@
 package com.comdosoft.financial.user.mapper.trades;
 
 import org.apache.ibatis.annotations.Param;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public interface TradeDataBaseCopyMapper {
 	int tradeRecordsInit(@Param("tradeNumber") String tradeNumber,@Param("batchNumber") String batchNumber,@Param("terminalNumber") String terminalNumber,
 			@Param("orderNumber") String orderNumber,@Param("agentId") String agentId,@Param("merchantNumber") String merchantNumber,

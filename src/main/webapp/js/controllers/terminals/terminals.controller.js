@@ -5,7 +5,7 @@ var terminalModule = angular.module("agentTerminalModule",['loginServiceModule']
 
 var agentTerminalController = function ($scope, $http, LoginService) {
 	  initSystemPage($scope);// 初始化分页参数
-	  $scope.customersId = Math.ceil(LoginService.agentUserId);
+	  $scope.customersId = Math.ceil(LoginService.agentid);
 	  $scope.total = 0;
 	  //付款筛选状态
 	  $scope.frontStatus = null;
@@ -359,9 +359,20 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 		 $scope.userId = num;
 	 }
 	 
+	 function gotoBingding(){
+		 if($scope.userId == -1){
+			 alert("请选择用户！");
+			 return false
+		 }else if($scope.terminalsNum == undefined){
+			 alert("请填写终端号！");
+			 return false;
+		 }
+	 }
+	 
 	 //开始绑定
 	 $scope.BindingTerminals = function(){
-		 $http.post('api/webTerminal/BindingTerminals',{customerId:$scope.customersId,terminalsNum:$scope.terminalsNum,userId:Math.ceil($scope.userId)}).success(function(data){
+		if(gotoBingding()){
+			$http.post('api/webTerminal/BindingTerminals',{customerId:$scope.customersId,terminalsNum:$scope.terminalsNum,userId:Math.ceil($scope.userId)}).success(function(data){
 			 if(data.code == 1){
 				 alert(data.result);
 			 }else if(data.code == -1){
@@ -370,6 +381,8 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 		 }).error(function(){
 			 alert("绑定请求失败！");
 		 })
+		}
+		 
 	 }
 	 //创建新用户
 	 $scope.addShow = false;

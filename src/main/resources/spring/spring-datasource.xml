@@ -44,7 +44,7 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager-trades" />
 
-	<!-- db olddatabase -->
+	<!-- db olddatabase
 	<bean id="dataSource-oldDataBase" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"
 		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.oldDataBase.url}" p:username="${jdbc.oldDataBase.user}" p:password="${jdbc.oldDataBase.password}"
 		p:filters="stat" p:maxActive="20" p:initialSize="1" p:minIdle="1" p:maxWait="60000" p:timeBetweenEvictionRunsMillis="3000"
@@ -63,6 +63,6 @@
 		p:dataSource-ref="dataSource-oldDataBase" />
 
 	<tx:annotation-driven transaction-manager="transactionManager-oldDataBase" />
-
+ -->
 
 </beans>

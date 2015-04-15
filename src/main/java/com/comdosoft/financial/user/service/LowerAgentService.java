@@ -239,10 +239,16 @@ public class LowerAgentService {
 		            		}
 		            	}
 	            	}
-	            	temp++;
+	            	temp=temp+1;
 	            	StringBuilder tempCode=new StringBuilder();
-	            	tempCode.append(temp/100);
-	            	tempCode.append(temp%100);
+	            	tempCode.append(parentAgentCode);
+	            	if(temp<=9 && temp>=0){
+	            		tempCode.append("00"+temp);
+	            	}else if(temp>=10 && temp<=99){
+	            		tempCode.append("0"+temp);
+	            	}else{
+	            		tempCode.append(temp);
+	            	}
 	            	req.setCode(tempCode.toString());
 	            	//向agents表中插入记录
 	            	int affect_series=lowerAgentMapper.addNewAgent(req);

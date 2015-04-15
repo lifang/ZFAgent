@@ -1,4 +1,4 @@
-package com.comdosoft.financial.user.mapper.oldDataBase;
+package com.comdosoft.financial.user.mapper.zhangfu;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ public interface OldDataBaseMapper {
 	
 	List<Map<String, Object>> getZHUSERs();
 	
-	Map<String, Object> getUserPsam1(@Param("psam") String psam);
+	List<Map<String, Object>> getUserPsam1(@Param("psam") String psam);
 	
 	List<Map<String, Object>> getHXPerson();
 	
@@ -36,4 +36,10 @@ public interface OldDataBaseMapper {
 	List<Map<String, Object>> getTransfer();
 	List<Map<String, Object>> getFeePhone();
 	List<Map<String, Object>> getZF300Order();
+	
+	List<Map<String, Object>> getPhoneNumById(@Param("userId") int userId);
+	
+	Map<String, Object> getLoginNameByShopId(@Param("shopId") String shopId);
+	
+	List<Map<String, Object>> getSellList();
 }

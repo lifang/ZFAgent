@@ -19,16 +19,17 @@ public interface ZFDataBaseCopyMapper {
 	int goodsChannelRelationInit(@Param("goodId") int goodId,@Param("channelId") int channelId);
 	Map<String, Object> getGoodPayChannelById(@Param("goodId") int goodId,@Param("channelId") int channelId);
 	
+	Map<String, Object> getCustomersByUserName(@Param("userName") String userName);
 	
 	//#{id},#{userName},#{accoutType},#{phone},#{name},#{status},#{pwd},#{types}
-	int customersInit(@Param("id") int id,@Param("userName") String userName,@Param("accoutType") int accoutType,@Param("phone") String phone,
+	int customersInit(@Param("userName") String userName,@Param("accoutType") int accoutType,@Param("phone") String phone,
 			@Param("name") String name,@Param("status") int status,@Param("pwd") String pwd,@Param("types") int types);
 
 	int merchantsInit(@Param("idNumber") String idNumber,@Param("customerId") int customerId);
 	
 	Map<String, Object> getChannelIdByGoodId(@Param("goodId") int goodId);
 //	#{id},#{status},#{serialNum},#{baseRate},#{goodId},#{channelId}
-	int terminalInit(@Param("id") int id,@Param("status") int status,@Param("serialNum") String serialNum,
+	int terminalInit(@Param("status") int status,@Param("serialNum") String serialNum,
 			@Param("baseRate") String baseRate,@Param("goodId") int goodId,@Param("channelId") int channelId,
 			@Param("merchantId") int merchantId,@Param("customerId") int customerId);
 	
@@ -47,7 +48,7 @@ public interface ZFDataBaseCopyMapper {
 	Map<String, Object> getCustomerIdByUserName(@Param("username") String userName);
 //	#{companyName},#{businessLicense},#{customerId},#{cardId}
 	int agentsInit(@Param("companyName") String companyName,@Param("businessLicense") String businessLicense,@Param("customerId") int customerId,
-			@Param("cardId") String cardId,@Param("parentId") String parentId);
+			@Param("cardId") String cardId,@Param("parentId") String parentId,@Param("phone") String phone);
 //	#{cityId},#{address},#{zipCode},#{receiver},#{moblePhone},#{telPhone},#{customerId}
 	int customerAddressesInit(@Param("cityId") String cityId,@Param("address") String address,@Param("zipCode") String zipCode,
 			@Param("receiver") String receiver,@Param("moblePhone") String moblePhone,@Param("telPhone") String telPhone,
@@ -59,7 +60,7 @@ public interface ZFDataBaseCopyMapper {
 	
 	int prepareGoodRecordsInit(@Param("agentId") String agentId,@Param("goodId") String goodId,@Param("quantity") String quantity);
 
-	List<Map<String, Object>> getSellList();
+	
 
 	int updateTerminalBySerialNum1(@Param("status") String status,@Param("serialNum") String serialNum,@Param("goodId") String goodId,
 			@Param("agentId") String agentId);
@@ -75,6 +76,7 @@ public interface ZFDataBaseCopyMapper {
 
 	int getMaxTerminalId();
 
-	String getCustomerIdBySerialNum(@Param("serialNum") String serialNum);
-
+	List<Map<String, Object>> getCustomerIdBySerialNum(@Param("serialNum") String serialNum);
+	
+	List<Map<String, Object>> getAgentIdByCustomerId(@Param("customerId") String customerId);
 }

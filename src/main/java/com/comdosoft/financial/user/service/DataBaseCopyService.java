@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,9 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.comdosoft.financial.user.mapper.oldDataBase.OldDataBaseMapper;
 import com.comdosoft.financial.user.mapper.trades.TradeDataBaseCopyMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.OldDataBaseMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.ZFDataBaseCopyMapper;
+import com.google.common.collect.Maps;
 
 /**
  * 数据迁移
@@ -27,35 +29,86 @@ public class DataBaseCopyService {
 	@Autowired
 	private OldDataBaseMapper oldMapper;
 	
-	@Autowired
-	private Map<String, Object> mapTemp;
+	private Map<String, Object> mapTemp= new HashMap<String, Object>();
 	
 	@Transactional(value="transactionManager-trades",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void tradesInit(){
 		System.out.println("==============================旧数据库 hx_order表数据迁移开始==================================================");
 		List<Map<String, Object>> hxOrderList=oldMapper.getHxOrder();
 		for(int i=0;i<hxOrderList.size();i++){
-			String transtype=hxOrderList.get(i).get("transtype").toString();
-			String merchantid=hxOrderList.get(i).get("merchantid").toString();
-			String merchantorderid=hxOrderList.get(i).get("merchantorderid").toString();
-			String bpserialnum=hxOrderList.get(i).get("bpserialnum").toString();
-			String orderamt=hxOrderList.get(i).get("orderamt").toString();
-			String pan=hxOrderList.get(i).get("pan").toString();
-			String transdate=hxOrderList.get(i).get("transdate").toString();
-			String transstatus=hxOrderList.get(i).get("transstatus").toString();
-			String gwtype=hxOrderList.get(i).get("gwtype").toString();
-			String settledate=hxOrderList.get(i).get("settledate").toString();
-			String setlamt=hxOrderList.get(i).get("setlamt").toString();
-			String psam=hxOrderList.get(i).get("psam").toString();
-			String repay=hxOrderList.get(i).get("repay").toString();
-			String type=hxOrderList.get(i).get("type").toString();
-			String shopId=hxOrderList.get(i).get("shopId").toString();
+			String transtype="";
+			if(null!=hxOrderList.get(i).get("transtype")){
+				transtype=hxOrderList.get(i).get("transtype").toString();
+			}
+			String merchantid="";
+			if(null!=hxOrderList.get(i).get("merchantid")){
+				merchantid=hxOrderList.get(i).get("merchantid").toString();
+			}
+			String merchantorderid="";
+			if(null!=hxOrderList.get(i).get("merchantorderid")){
+				merchantorderid=hxOrderList.get(i).get("merchantorderid").toString();
+			}
+			String bpserialnum="";
+			if(null!=hxOrderList.get(i).get("bpserialnum")){
+				bpserialnum=hxOrderList.get(i).get("bpserialnum").toString();
+			}
+			String orderamt="";
+			if(null!=hxOrderList.get(i).get("orderamt")){
+				orderamt=hxOrderList.get(i).get("orderamt").toString();
+			}
 			
-			String customerId=zfMapper.getCustomerIdBySerialNum(psam).toString();
-			
-			tradeMapper.tradeRecordsInit("", "", psam, "", shopId, merchantid, "", "1", repay,
-					orderamt, "", transdate, "", "", "", setlamt, "", transstatus, "", transtype, "", "",
-					customerId, transtype, "", "", pan);
+			String pan="";
+			if(null!=hxOrderList.get(i).get("pan")){
+				pan=hxOrderList.get(i).get("pan").toString();
+			}
+			String transdate="";
+			if(null!=hxOrderList.get(i).get("transdate")){
+				transdate=hxOrderList.get(i).get("transdate").toString();
+			}
+			String transstatus="";
+			if(null!=hxOrderList.get(i).get("transstatus")){
+				transstatus=hxOrderList.get(i).get("transstatus").toString();
+			}
+			String gwtype="";
+			if(null!=hxOrderList.get(i).get("gwtype")){
+				gwtype=hxOrderList.get(i).get("gwtype").toString();
+			}
+			String settledate="";
+			if(null!=hxOrderList.get(i).get("settledate")){
+				settledate=hxOrderList.get(i).get("settledate").toString();
+			}
+			String setlamt="";
+			if(null!=hxOrderList.get(i).get("setlamt")){
+				setlamt=hxOrderList.get(i).get("setlamt").toString();
+			}
+			String psam=" ";
+			if(null!=hxOrderList.get(i).get("psam")){
+				 psam=hxOrderList.get(i).get("psam").toString();
+			}
+			String repay="";
+			if(null!=hxOrderList.get(i).get("repay")){
+				repay=hxOrderList.get(i).get("repay").toString();
+			}
+			String type="";
+			if(null!=hxOrderList.get(i).get("type")){
+				type=hxOrderList.get(i).get("type").toString();
+			}
+			String shopId="";
+			if(null!=hxOrderList.get(i).get("shopId")){
+				shopId=hxOrderList.get(i).get("shopId").toString();
+			}
+			List<Map<String, Object>> mapTemp2=zfMapper.getCustomerIdBySerialNum(psam);
+			if(null!=mapTemp2&& mapTemp2.size()>0){
+				Map<String, Object> mapTemp3=mapTemp2.get(0);
+				int customerId=Integer.parseInt(mapTemp2.get(0).get("customerId").toString());
+				List<Map<String, Object>> listTemp= zfMapper.getAgentIdByCustomerId(customerId+"");
+				if(null!=listTemp && listTemp.size()>0){
+					String agentId=listTemp.get(0).get("id").toString();
+					tradeMapper.tradeRecordsInit("", "", psam, "", agentId, merchantid, "", "1", repay,
+							orderamt, "", transdate, "", "", "", setlamt, "", transstatus, "", transtype, "", "",
+							customerId+"", transtype, "", "", pan);
+				}
+			}
 		}
 		System.out.println("==============================旧数据库 hx_order表数据迁移完毕==================================================");
 	
@@ -79,11 +132,13 @@ public class DataBaseCopyService {
 			String type=hxPhoneOrderList.get(i).get("type").toString();
 			String shopId=hxPhoneOrderList.get(i).get("shopId").toString();
 			String customerId=zfMapper.getCustomerIdBySerialNum(psam).toString();
-			
-			tradeMapper.tradeRecordsInit("", "", psam, "", shopId, merchantid, "", "1", repay,
-					orderamt, "", transdate, "", "", "", setlamt, "", transstatus, "", transtype, "", "",
-					customerId, transtype, "","", pan);
-			
+			List<Map<String, Object>> listTemp= zfMapper.getAgentIdByCustomerId(customerId+"");
+			if(null!=listTemp && listTemp.size()>0){
+				String agentId=listTemp.get(0).get("id").toString();
+				tradeMapper.tradeRecordsInit("", "", psam, "", agentId, merchantid, "", "1", repay,
+						orderamt, "", transdate, "", "", "", setlamt, "", transstatus, "", transtype, "", "",
+						customerId, transtype, "","", pan);
+			}
 		}
 		System.out.println("==============================旧数据库 hx_phoneorder表数据迁移完毕==================================================");
 	
@@ -106,10 +161,14 @@ public class DataBaseCopyService {
 			String type=hxTransferorderList.get(i).get("type").toString();
 			String shopId=hxTransferorderList.get(i).get("shopId").toString();
 			String customerId=zfMapper.getCustomerIdBySerialNum(psam).toString();
+			List<Map<String, Object>> listTemp= zfMapper.getAgentIdByCustomerId(customerId+"");
+			if(null!=listTemp && listTemp.size()>0){
+				String agentId=listTemp.get(0).get("id").toString();
+				tradeMapper.tradeRecordsInit("", "", psam, "", agentId, merchantid, "", "1", repay,
+						orderamt, "", transdate, "", "", "", setlamt, "", transstatus, "", transtype, "", "",
+						customerId, transtype, "","", pan);
+			}
 			
-			tradeMapper.tradeRecordsInit("", "", psam, "", shopId, merchantid, "", "1", repay,
-					orderamt, "", transdate, "", "", "", setlamt, "", transstatus, "", transtype, "", "",
-					customerId, transtype, "","", pan);
 		}
 		System.out.println("==============================旧数据库 hx_transferorder表数据迁移完毕==================================================");
 	
@@ -150,9 +209,12 @@ public class DataBaseCopyService {
 			String syncTime=payForCreditCardList.get(i).get("syncTime").toString();
 			
 			String customerId=zfMapper.getCustomerIdBySerialNum(keyDeviceSerialNo).toString();
-			
-			tradeMapper.tradeRecordsInit("", "", keyDeviceSerialNo, "", ShopId, "", "", "3", rebateMoney, faceValue, "",
-					createTime, "", "","", price, "", payResultCode, payResultDes, "", "", "", customerId, "", "", "", payCardNo);
+			List<Map<String, Object>> listTemp= zfMapper.getAgentIdByCustomerId(customerId+"");
+			if(null!=listTemp && listTemp.size()>0){
+				String agentId=listTemp.get(0).get("id").toString();
+				tradeMapper.tradeRecordsInit("", "", keyDeviceSerialNo, "", agentId, "", "", "3", rebateMoney, faceValue, "",
+						createTime, "", "","", price, "", payResultCode, payResultDes, "", "", "", customerId, "", "", "", payCardNo);
+			}
 		}
 		System.out.println("==============================旧数据库 payForCreditCard表数据迁移完毕==================================================");
 		
@@ -195,9 +257,13 @@ public class DataBaseCopyService {
 			String syncTime=transferList.get(i).get("syncTime").toString();
 			
 			String customerId=zfMapper.getCustomerIdBySerialNum(keyDeviceSerialNo).toString();
+			List<Map<String, Object>> listTemp= zfMapper.getAgentIdByCustomerId(customerId+"");
+			if(null!=listTemp && listTemp.size()>0){
+				String agentId=listTemp.get(0).get("id").toString();
+				tradeMapper.tradeRecordsInit("", "", keyDeviceSerialNo, "", agentId, "", "", "3", rebateMoney, faceValue, "",
+						createTime, "", "","", price, "", payResultCode, payResultDes, "", "", "", customerId, "", "", "", payCardNo);
+			}
 			
-			tradeMapper.tradeRecordsInit("", "", keyDeviceSerialNo, "", ShopId, "", "", "3", rebateMoney, faceValue, "",
-					createTime, "", "","", price, "", payResultCode, payResultDes, "", "", "", customerId, "", "", "", payCardNo);
 		}
 		System.out.println("==============================旧数据库 transfer表数据迁移完毕==================================================");
 		
@@ -239,9 +305,12 @@ public class DataBaseCopyService {
 			String syncTime=feePhoneList.get(i).get("syncTime").toString();
 			
 			String customerId=zfMapper.getCustomerIdBySerialNum(keyDeviceSerialNo).toString();
-			
-			tradeMapper.tradeRecordsInit("", "", keyDeviceSerialNo, "", ShopId, "", "", "3", rebateMoney, faceValue, "",
-					createTime, "", "","", price, "", payResultCode, payResultDes, "", "", "", customerId, "", "", "", payCardNo);
+			List<Map<String, Object>> listTemp= zfMapper.getAgentIdByCustomerId(customerId+"");
+			if(null!=listTemp && listTemp.size()>0){
+				String agentId=listTemp.get(0).get("id").toString();
+				tradeMapper.tradeRecordsInit("", "", keyDeviceSerialNo, "", agentId, "", "", "3", rebateMoney, faceValue, "",
+						createTime, "", "","", price, "", payResultCode, payResultDes, "", "", "", customerId, "", "", "", payCardNo);
+			}
 		}
 		System.out.println("==============================旧数据库 feePhone表数据迁移完毕==================================================");
 	
@@ -266,10 +335,13 @@ public class DataBaseCopyService {
 			String transId=zf300OrderList.get(i).get("transId").toString();
 			
 			String customerId=zfMapper.getCustomerIdBySerialNum(ksn_no).toString();
-			
-			tradeMapper.tradeRecordsInit("", "", ksn_no, "", shopId, merchNo, merchName, "2", rebateMoney, 
-					transAmount, "", transTime, "", "", payCardNo, "", "", "", "", "", "", "", customerId, "",
-					"", "", payCardNo);
+			List<Map<String, Object>> listTemp= zfMapper.getAgentIdByCustomerId(customerId+"");
+			if(null!=listTemp && listTemp.size()>0){
+				String agentId=listTemp.get(0).get("id").toString();
+				tradeMapper.tradeRecordsInit("", "", ksn_no, "", agentId, merchNo, merchName, "2", rebateMoney, 
+						transAmount, "", transTime, "", "", payCardNo, "", "", "", "", "", "", "", customerId, "",
+						"", "", payCardNo);
+			}
 		}
 		System.out.println("==============================旧数据库 zf300_order表数据迁移完毕==================================================");
 	
@@ -328,6 +400,7 @@ public class DataBaseCopyService {
 			zfMapper.goodsChannelRelationInit(1,1);
 		}
 		goodsChannelRelationMap.clear();
+		goodsChannelRelationMap=new HashMap<String, Object>();
 		goodsChannelRelationMap=zfMapper.getGoodPayChannelById(2, 2);
 		if(null!=goodsChannelRelationMap &&goodsChannelRelationMap.size()>0){
 			
@@ -335,6 +408,7 @@ public class DataBaseCopyService {
 			zfMapper.goodsChannelRelationInit(2,2);
 		}
 		goodsChannelRelationMap.clear();
+		goodsChannelRelationMap=new HashMap<String, Object>();
 		goodsChannelRelationMap=zfMapper.getGoodPayChannelById(3, 3);
 		if(null!=goodsChannelRelationMap && goodsChannelRelationMap.size()>0){
 			
@@ -355,8 +429,8 @@ public class DataBaseCopyService {
 		//Person的idnumber   merchants 的legal_person_card_id
 		//Customers表的types初始化为1 （ 1 商户/普通用户 2 代理商 3 运营 4 超级管理员 5 第三方机构 6 代理商员工）
 		//Customers表的City_id请初始化，具体id请查找表cities
-		
 		//userId,phoneNum,realName,status,password,idNumber
+		
 		List<Map<String, Object>> personList=oldMapper.getPersons();
 		for(int i=0;i<personList.size();i++){
 			int userId=Integer.parseInt(personList.get(i).get("userId").toString());
@@ -371,13 +445,22 @@ public class DataBaseCopyService {
 				status=3;
 			}
 			//account_type初始化为1  Customers表的types初始化为1
-			//调试到这里了
-			zfMapper.customersInit(userId,phoneNum,1,phoneNum,realName,status,pwd,1);
-			//Person的idnumber   merchants 的legal_person_card_id
-			zfMapper.merchantsInit(idNumber, userId);
+			mapTemp.clear();
+			mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+			if(null!=mapTemp && mapTemp.size()>0){
+				System.out.println("已存在该手机作为登录号记录,号码为"+phoneNum);
+			}else{
+				zfMapper.customersInit(phoneNum,1,phoneNum,realName,status,pwd,1);
+				mapTemp=new HashMap<String, Object>();
+				mapTemp.clear();
+				mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+				int customerId=Integer.parseInt(mapTemp.get("id").toString());
+				zfMapper.merchantsInit(idNumber, customerId);
+			}
 		}
 		System.out.println("==============================将旧数据库person表数据移入customers表完毕==================================================");
 	
+		
 		
 		System.out.println("==============================开始将旧数据库ZH_user表数据迁移==================================================");
 		//与新系统相关表：
@@ -403,7 +486,7 @@ public class DataBaseCopyService {
 		List<Map<String, Object>> zhUserList=oldMapper.getZHUSERs();
 		for(int i=0;i<zhUserList.size();i++){
 			int userId=Integer.parseInt(zhUserList.get(i).get("userId").toString());
-			int status=Integer.parseInt(zhUserList.get(i).get("status").toString());
+			String oldStatus=zhUserList.get(i).get("status").toString();
 			String companyName=zhUserList.get(i).get("companyName").toString();
 			String regPlace=zhUserList.get(i).get("regPlace").toString();
 			String bankDeposit=zhUserList.get(i).get("bankDeposit").toString();
@@ -411,28 +494,58 @@ public class DataBaseCopyService {
 			String accountNo=zhUserList.get(i).get("accountNo").toString();
 			String psam=zhUserList.get(i).get("psam").toString();
 			String serialType=zhUserList.get(i).get("serialType").toString();
+			float temp=0;
+			if(serialType.contains("--")){
+				String[] serialTypeTemp=serialType.split("\\--");
+				temp=Float.parseFloat(serialTypeTemp[0].toString());
+				temp=temp*1000;
+			}else{
+				temp=Float.parseFloat(serialType);
+				temp=temp*1000;
+			}
 			int productType=Integer.parseInt(zhUserList.get(i).get("productType").toString());
 			String bankNo=zhUserList.get(i).get("bankNo").toString();
+			
+			int status=2;
+			if(oldStatus.equals("4444")){
+				status=3;
+			}
+			if(productType==0){
+				productType=2;
+			}else if(productType==1){
+				productType=3;
+			}
 			
 			Map<String, Object> channelGoodRelationMap=zfMapper.getChannelIdByGoodId(productType);
 			int channelId=Integer.parseInt(channelGoodRelationMap.get("channelId").toString());
 			
 			
 			//获得旧数据库personId 对应customerId
-			mapTemp.clear();
-			mapTemp.put("psam", psam);
-			Map<String, Object> getUserPsamMap=oldMapper.getUserPsam1(psam);
+			//List<Map<String, Object>> getUserPsamMap=oldMapper.getUserPsam1(psam);
 			//int personId=Integer.parseInt(getUserPsamMap.get("userId").toString());
 			//根据customerId获取merchant表的Id
-			Map<String, Object> getMerchantsIdByCustomerIdMap=zfMapper.getMerchantsIdByCustomerId(userId);
-			int merChantId=Integer.parseInt(getMerchantsIdByCustomerIdMap.get("id").toString());
-			
-			int terminalId=zfMapper.getMaxTerminalId();
-			zfMapper.terminalInit(terminalId++, status, psam, serialType, productType, channelId,merChantId,userId);
-			//根据merChantId 更新数据
-			zfMapper.updateMerchantsById(userId, companyName,bankDeposit,accountNo);
-			//Zh_user表中的userid    terminals中的id
-			zfMapper.openingAppliesInit(terminalId, merChantId,companyName,accountNo,name,bankNo,userId,"","","");
+			List<Map<String, Object>> listTemp=oldMapper.getPhoneNumById(userId);
+			String phoneNum="";
+			if(null!=listTemp && listTemp.size()>0){
+				phoneNum=listTemp.get(0).get("phoneNum").toString();
+			}
+			mapTemp.clear();
+			mapTemp=new HashMap<String, Object>();
+			mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+			if(null!=mapTemp && mapTemp.size()>0){
+				int customerId=Integer.parseInt(mapTemp.get("id").toString());
+				Map<String, Object> getMerchantsIdByCustomerIdMap=zfMapper.getMerchantsIdByCustomerId(customerId);
+				if(null!=getMerchantsIdByCustomerIdMap){
+					int merChantId=Integer.parseInt(getMerchantsIdByCustomerIdMap.get("id").toString());
+					
+					int terminalId=zfMapper.getMaxTerminalId();
+					zfMapper.terminalInit(status, psam, temp+"", productType, channelId,merChantId,userId);
+					//根据merChantId 更新数据
+					zfMapper.updateMerchantsById(customerId, companyName,bankDeposit,accountNo);
+					//Zh_user表中的userid    terminals中的id
+					zfMapper.openingAppliesInit(terminalId, merChantId,companyName,accountNo,name,bankNo,customerId,"1","","");
+				}
+			}
 		}
 		System.out.println("==============================旧数据库ZH_user表数据迁移完毕==================================================");
 	
@@ -447,25 +560,41 @@ public class DataBaseCopyService {
 			int userId=Integer.parseInt(getHXPersonMap.get(i).get("userId").toString());
 			String psam=getHXPersonMap.get(i).get("terminalId").toString();
 			String merchantName=getHXPersonMap.get(i).get("merchantName").toString();
-			int settleAccountType=Integer.parseInt(getHXPersonMap.get(i).get("settleAccountType").toString());
+			int settleAccountType=1;
+			if(null==getHXPersonMap.get(i).get("settleAccountType")||getHXPersonMap.get(i).get("settleAccountType").toString().trim().equals("")||getHXPersonMap.get(i).get("settleAccountType").toString().trim().equals("null")){
+				
+			}else{
+				settleAccountType=Integer.parseInt(getHXPersonMap.get(i).get("settleAccountType").toString());
+			}
 			String settleAccount=getHXPersonMap.get(i).get("settleAccount").toString();
 			String settleAccountNo=getHXPersonMap.get(i).get("settleAccountNo").toString();
-			int status=Integer.parseInt(getHXPersonMap.get(i).get("accountstatus").toString());
+			int status=0;
+			if(getHXPersonMap.get(i).get("accountstatus").toString().trim().equals("")){
+				
+			}else{
+				status=Integer.parseInt(getHXPersonMap.get(i).get("accountstatus").toString());
+			}
 			String taxno=getHXPersonMap.get(i).get("taxno").toString();
 			String occno=getHXPersonMap.get(i).get("occno").toString();
 			//根据customerId获取merchant表的Id
-			Map<String, Object> getMerchantsIdByCustomerIdMap=zfMapper.getMerchantsIdByCustomerId(userId);
-			int merChantId=Integer.parseInt(getMerchantsIdByCustomerIdMap.get("id").toString());
-			
-			int terminalId=zfMapper.getMaxTerminalId();
-//			int terminalInit(@Param("id") int id,@Param("status") int status,@Param("serialNum") String serialNum,
-//					@Param("baseRate") String baseRate,@Param("goodId") int goodId,@Param("channelId") int channelId,
-//					@Param("merchantId") int merchantId,@Param("customerId") int customerId);
-			zfMapper.terminalInit(terminalId++, status, psam, "", 0, 0,merChantId,userId);
-			
-			//Zh_user表中的userid    terminals中的id
-			zfMapper.openingAppliesInit(terminalId, merChantId,merchantName,settleAccountNo,settleAccount,"",userId,settleAccountType+"",
-					taxno,occno);
+			String phoneNum=oldMapper.getPhoneNumById(userId).get(0).get("phoneNum").toString();
+			mapTemp.clear();
+			mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+			int customerId=Integer.parseInt(mapTemp.get("id").toString());
+			Map<String, Object> getMerchantsIdByCustomerIdMap=zfMapper.getMerchantsIdByCustomerId(customerId);
+			if(null!=getMerchantsIdByCustomerIdMap && getMerchantsIdByCustomerIdMap.size()>0){
+				int merChantId=Integer.parseInt(getMerchantsIdByCustomerIdMap.get("id").toString());
+				
+				int terminalId=zfMapper.getMaxTerminalId();
+//				int terminalInit(@Param("id") int id,@Param("status") int status,@Param("serialNum") String serialNum,
+//						@Param("baseRate") String baseRate,@Param("goodId") int goodId,@Param("channelId") int channelId,
+//						@Param("merchantId") int merchantId,@Param("customerId") int customerId);
+				zfMapper.terminalInit( status, psam,0+"", 0, 0,merChantId,customerId);
+				
+				//Zh_user表中的userid    terminals中的id
+				zfMapper.openingAppliesInit(terminalId, merChantId,merchantName,settleAccountNo,settleAccount,"",customerId,settleAccountType+"",
+						taxno,occno);
+			}
 		}
 		System.out.println("==============================旧数据库hx_person表数据迁移完毕==================================================");
 		
@@ -481,7 +610,14 @@ public class DataBaseCopyService {
 			int userId=Integer.parseInt(getUserPsamList.get(i).get("userid").toString());
 			int status=Integer.parseInt(getUserPsamList.get(i).get("status").toString());
 			String psam=getUserPsamList.get(i).get("psam").toString();
-			zfMapper.updateTerminalBySerialNum(userId, status, psam);
+			List<Map<String, Object>> temp1=oldMapper.getPhoneNumById(userId);
+			if(null!=temp1 && temp1.size()>0){
+				String phoneNum=temp1.get(0).get("phoneNum").toString();
+				mapTemp.clear();
+				mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+				int customerId=Integer.parseInt(mapTemp.get("id").toString());
+				zfMapper.updateTerminalBySerialNum(customerId, status, psam);
+			}
 		}
 		System.out.println("==============================旧数据库userPsam表数据迁移完毕==================================================");
 		
@@ -503,7 +639,7 @@ public class DataBaseCopyService {
 		List<Map<String, Object>> shopsList=oldMapper.getShops();
 		for(int i=0;i<shopsList.size();i++){
 			String loginName=shopsList.get(i).get("loginName").toString();
-			String shopName=shopsList.get(i).get("shopname").toString();
+			String shopName=shopsList.get(i).get("shopName").toString();
 			String licence=shopsList.get(i).get("licence").toString();
 			String city=shopsList.get(i).get("city").toString();
 			String county=shopsList.get(i).get("county").toString();
@@ -515,18 +651,26 @@ public class DataBaseCopyService {
 			String phoneNumber=shopsList.get(i).get("phoneNumber").toString();
 			String fid=shopsList.get(i).get("fid").toString();
 			
-			int customerId=Integer.parseInt(zfMapper.getCustomerIdByUserName(loginName).get("id").toString());
-			
-			zfMapper.agentsInit(shopName, licence, customerId, idCard,fid);
-			String cityId=zfMapper.getCityIdByCityName(city).get("id").toString();
-			zfMapper.customerAddressesInit(cityId,county+address, post, contact,mobilePhone, phoneNumber, customerId);
-			//更新customers表的cityId
-			zfMapper.updateCustomerCityId(Integer.parseInt(cityId),customerId);
+			Map<String, Object> mapTemp=zfMapper.getCustomerIdByUserName(loginName);
+			if(null!=mapTemp && mapTemp.size()>0){
+				int customerId=Integer.parseInt(zfMapper.getCustomerIdByUserName(loginName).get("id").toString());
+				
+				zfMapper.agentsInit(shopName, licence, customerId, idCard,fid,mobilePhone);
+				Map<String, Object> mapTemp1=zfMapper.getCityIdByCityName(city);
+				if(null!=mapTemp1 && mapTemp1.size()>0){
+					if(null!=zfMapper.getCityIdByCityName(city).get("id") && zfMapper.getCityIdByCityName(city).get("id").equals("null")){
+						String cityId=zfMapper.getCityIdByCityName(city).get("id").toString();
+						zfMapper.customerAddressesInit(cityId,county+address, post, contact,mobilePhone, phoneNumber, customerId);
+						//更新customers表的cityId
+						zfMapper.updateCustomerCityId(Integer.parseInt(cityId),customerId);
+					}
+				}
+			}
 		}
 		System.out.println("==============================旧数据库shop表数据迁移完毕==================================================");
 	
 		
-		System.out.println("==============================旧数据库shipment表数据迁移完毕==================================================");
+		System.out.println("==============================旧数据库shipment表数据迁移开始==================================================");
 		//与新数据库的goods，terminals，cs_out_storages表相关
 		//Amount  更新goods表中id与 productId一致的商品，字段为quantity
 		//库存现在是用terminals这个表记录的，入库也是这张表，所以要造完整所有商品的终端记录
@@ -538,34 +682,47 @@ public class DataBaseCopyService {
 		
 		List<Map<String, Object>> shipMentList=oldMapper.getShipMent();
 		for(int i=0;i<shipMentList.size();i++){
-			String productId=shipMentList.get(i).get("pruductId").toString();
+			String productId=shipMentList.get(i).get("productId").toString();
 			String amount=shipMentList.get(i).get("amount").toString();
-			String shopId=shipMentList.get(i).get("ShopId").toString();
-			
-			zfMapper.updateGoodsQuantity(productId, amount);
-			
-			zfMapper.prepareGoodRecordsInit(shopId, productId, amount);
+			String shopId=shipMentList.get(i).get("shopId").toString();
+			if(null!=oldMapper.getLoginNameByShopId(shopId)){
+				String loginName=oldMapper.getLoginNameByShopId(shopId).get("loginName").toString();
+				Map<String, Object> mapTemp1=zfMapper.getCustomersByUserName(loginName);
+				if(null!=mapTemp1 && mapTemp1.size()>0){
+					String customerId=mapTemp1.get("id").toString();
+					String agentId=zfMapper.getAgentIdByCustomerId(customerId).get(0).get("id").toString();
+					zfMapper.updateGoodsQuantity(productId, amount);
+					zfMapper.prepareGoodRecordsInit(agentId, productId, amount);
+				}
+			}
 		}
 		System.out.println("==============================旧数据库shipment表数据迁移完毕==================================================");
 		
 		
 		
 		
-		System.out.println("==============================旧数据库sellList表数据迁移完毕==================================================");
+		System.out.println("==============================旧数据库sellList表数据迁移开始==================================================");
 		//与新数据库terminals表相关
 		//Status  terminals中的status
 		//ShopId  terminals表中的agent_id
 		//productId  terminals中的good_id
 		
-		List<Map<String, Object>> sellList=zfMapper.getSellList();
+		List<Map<String, Object>> sellList=oldMapper.getSellList();
 		for(int i=0;i<sellList.size();i++){
 			String shopId=sellList.get(i).get("shopId").toString();
 			String productId=sellList.get(i).get("productId").toString();
 			String ProductNumber=sellList.get(i).get("ProductNumber").toString();
 			String status=sellList.get(i).get("status").toString();
-			
-			zfMapper.updateTerminalBySerialNum1(status, ProductNumber, productId,shopId);
-			
+			Map<String, Object> loginNameObj=oldMapper.getLoginNameByShopId(shopId);
+			if(null!=loginNameObj && loginNameObj.size()>0){
+				String loginName=loginNameObj.get("loginName").toString();
+				Map<String, Object> mapTemp1=zfMapper.getCustomersByUserName(loginName);
+				if(null!=mapTemp1 && mapTemp1.size()>0){
+					String customerId=mapTemp1.get("id").toString();
+					String agentId=zfMapper.getAgentIdByCustomerId(customerId).get(0).get("id").toString();
+					zfMapper.updateTerminalBySerialNum1(status, ProductNumber, productId,agentId);
+				}
+			}
 		}
 		System.out.println("==============================旧数据库sellList表数据迁移完毕==================================================");
 		
@@ -573,17 +730,21 @@ public class DataBaseCopyService {
 		//与新数据库的pay_channels ，support_trade_types（支付通道支持交易类型），dictionary_trade_types（交易类型枚举表）表相关
 		//Type  pay_channels表的id，support_trade_types表的pay_channel_id
 		//Transtype，rate  根据交易类型新建dictionary_trade_types记录，并更新support_trade_types表关联关系
-		
+		//1,5
 		List<Map<String, Object>> zf300RateList=oldMapper.getZF300Rate();
 		for(int i=0;i<zf300RateList.size();i++){
 			String type=zf300RateList.get(i).get("type").toString();
 			String transtype=zf300RateList.get(i).get("transtype").toString();
 			String rate=zf300RateList.get(i).get("rate").toString();
-			
-			zfMapper.dictionaryTradeTypesInit(transtype, rate);
-			int tempId=zfMapper.getMaxIdOfdictionaryTradeTypes();
-			tempId++;
-			zfMapper.supportTradeTypesInit(transtype, type, tempId);
+			if(type.equals("zhonghuifu")){
+				zfMapper.dictionaryTradeTypesInit(transtype, rate);
+				int tempId=zfMapper.getMaxIdOfdictionaryTradeTypes();
+				zfMapper.supportTradeTypesInit(transtype, 1+"", tempId);
+			}else if(type.equals("hx_kuaihuitong")){
+				zfMapper.dictionaryTradeTypesInit(transtype, rate);
+				int tempId=zfMapper.getMaxIdOfdictionaryTradeTypes();
+				zfMapper.supportTradeTypesInit(transtype, 5+"", tempId);
+			}
 		}
 		System.out.println("==============================旧数据库zf300_rate表数据迁移完毕==================================================");
 			
@@ -619,7 +780,7 @@ public class DataBaseCopyService {
 	}	
 	
 	public void init(){
-		zfInit();
+		//zfInit();
 		tradesInit();
 	}
 }

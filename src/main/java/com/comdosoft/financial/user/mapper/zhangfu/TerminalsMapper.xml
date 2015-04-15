@@ -82,8 +82,6 @@
 		LEFT JOIN orders e ON t.order_id=e.id
 		LEFT JOIN opening_applies l ON l.terminal_id = t.id
 		WHERE t.id=#{id}
-		AND
-		e.customer_id=t.customer_id
 	</select>
 
 	<select id="getRate" parameterType="int" resultType="map">

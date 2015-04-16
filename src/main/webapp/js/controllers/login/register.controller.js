@@ -7,7 +7,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 	var numCh = /[^a-zA-Z0-9]/g;
 
 	var cardReg = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/;// 身份证号码验证
-	var licenseCodeReg = /^(?=.*[a-z])[a-z0-9]+/;// 验证营业执照为英文字母以及数字组成
+	var licenseCodeReg = /^[1-9]d*$/;// 验证营业执照为数字
 	// 初始化代理商对象
 	$scope.agent = {};
 	// 单选按钮初始化（1.公司 2.个人）
@@ -85,8 +85,9 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					alert("营业执照不能为空");
 					return false;
 				} else if ($scope.agent.licenseCode != undefined && $scope.agent.licenseCode != "" && $scope.agent.licenseCode != null) {
-					alert("验证营业执照号");
+					//
 					if (!licenseCodeReg.test($scope.agent.licenseCode)) {
+						alert("验证营业执照号");
 						return false;
 					} else if ($scope.agent.licenseCode.length.trim > 40) {
 						alert("营业执照登记号需在40个英文字符之间");

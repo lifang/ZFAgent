@@ -24,7 +24,7 @@
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
- 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = 1)))
+ 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id} )))
  		AND t.status in (#{twoStatus},#{threeStatus})
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
@@ -36,7 +36,7 @@
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
- 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = 1)))
+ 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id})))
  		AND t.status in (#{twoStatus},#{threeStatus})
  		
  	</select>
@@ -53,7 +53,7 @@
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
- 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = 1)))
+ 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id =#{id})))
  		AND t.status in (#{twoStatus},#{threeStatus})
  		<if test="serialNum != null and serialNum != ''">AND t.serial_num like '%${serialNum}%'</if>
  		LIMIT #{offSetPage},#{pageSize}
@@ -66,7 +66,7 @@
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
- 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = 1)))
+ 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id})))
  		AND t.status in (#{twoStatus},#{threeStatus})
  		<if test="serialNum != null and serialNum != ''">AND t.serial_num like '%${serialNum}%'</if>
  	</select>

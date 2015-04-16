@@ -22,6 +22,8 @@
 		insert into customer_agent_relations(customer_id,agent_id,types,status,created_at,updated_at) values
 		(#{customerId},#{agentsId},#{types},#{status},now(),now())
    </insert>
+   
+   
     
    <select id="getCusRoleInfo" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="int">
         select count(id) from customer_role_relations where 1=1 and role_id=#{roleId} and customer_id=#{customerId}
@@ -55,4 +57,13 @@ left join customer_role_relations c on a.id=c.customer_id
 where 1=1 and a.id=#{customerId}  and b.agent_id=#{agentsId}
    </select>
    
+   <update id="changePwd" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
+		update customers a set a.password =#{pwd} ,a.updated_at=now()
+		where a.username=#{loginId}
+	</update>
+	
+	<select id="getCustomerIdByLoginId" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="int">
+		select id from customers where username=#{loginId}
+	</select>
+	
 </mapper>

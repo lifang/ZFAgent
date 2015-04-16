@@ -168,6 +168,15 @@ public class OpeningApplyWebService {
     public int judgeOpen(int terminalId){
     	return openingApplyWebMapper.judgeOpen(terminalId);
     }
+    
+    /**
+     * 判断该终端是否绑定
+     * 
+     * @return
+     */
+    public int isopen(int terminalId){
+    	return openingApplyWebMapper.isopen(terminalId);
+    }
 	
 	/**
 	 * 申请开通时判断商户是否存在
@@ -183,8 +192,8 @@ public class OpeningApplyWebService {
 	 * 
 	 * @return
 	 */
-	public List<Merchant> getMerchants(Integer customerId) {
-		return openingApplyWebMapper.getMerchants(customerId);
+	public List<Merchant> getMerchants(Integer terminalId) {
+		return openingApplyWebMapper.getMerchants(terminalId);
 	}
 	
 	/**

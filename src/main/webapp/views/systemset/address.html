@@ -36,7 +36,7 @@
 						&nbsp;<label style="width:12px;text-align:center;">-</label><input style="width: 78px;" id="telphone2" ng-model="address.telphone2" type="text" onblur="numModify(this)" placeholder="电话号码" />
 						&nbsp;<label style="width:12px;text-align:center;">-</label><input style="width: 78px;" id="telphone3" ng-model="address.telphone3" type="text" onblur="numModify(this)" placeholder="分机" />
 						&nbsp;<font color="red"><span id="phoneCheck"></span></font></li>
-					<li><label></label><span class="checkboxRadio_span"><input id="setDefault" name="defaultAddr" ng-model="address.isDefault" type="radio" value="1" />设置为默认地址</span></li>
+					<li><label></label><span class="checkboxRadio_span"><input id="setDefault" name="defaultAddr" ng-model="address.isDefault" type="radio" value="1" ng-click="changeDefault()"/>设置为默认地址</span></li>
 				</ul>
 				<div class="myInfoBox_btn">
 					<input type="submit" class="orangeBtn" value="保存">
@@ -62,7 +62,7 @@
 						<th>所在地区</th>
 						<th>详细地址</th>
 						<th>邮编</th>
-						<th>手机号码</th>
+						<th>电话</th>
 						<th>操作</th>
 						<th>&nbsp;</th>
 					</tr>
@@ -74,6 +74,7 @@
 						<td>{{one.address}}</td>
 						<td>{{one.zipCode}}</td>
 						<td>{{one.moblephone}}</td>
+						<!-- <div ng-show="showtelphone">{{one.telphone}}</div> -->
 						<td>
 							<a href="javascript:void(0);" ng-click="openUpdateAddress(one)" class="a_btn">修改</a>
 							<a href="javascript:void(0);" class="a_btn" ng-click="dele(one)">删除</a>

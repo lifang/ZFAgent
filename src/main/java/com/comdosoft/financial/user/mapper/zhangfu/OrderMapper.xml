@@ -136,7 +136,7 @@
 	<select id="countWholesaleOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.created_user_id = #{customerId} and o.types = 5
+		where o.belongs_user_id = #{customerId} and o.types = 5
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
 		</if>
@@ -148,7 +148,7 @@
 	<select id="countProxyOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.created_user_id = #{customerId}  and ( o.types = 3 or o.types = 4)
+		where o.belongs_user_id = #{customerId}  and ( o.types = 3 or o.types = 4)
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
 		</if>
@@ -185,7 +185,7 @@
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		LEFT JOIN cs_out_storages os ON o.id = os.order_id  and os.`status`='1'
 		WHERE
-		o.created_user_id = #{customerId}
+		o.belongs_user_id = #{customerId}
 		and o.types = 5
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
@@ -235,7 +235,7 @@
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
 		LEFT JOIN customers c ON o.customer_id = c.id
 		WHERE
-		o.created_user_id = #{customerId}
+		o.belongs_user_id = #{customerId}
 	
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
@@ -383,10 +383,10 @@
 		(order_number,customer_id,total_price,status,types,
 		customer_address_id,need_invoice,invoice_type,
 		invoice_info,actual_price,created_at,updated_at,
-		comment,total_quantity,front_money,created_user_id)
+		comment,total_quantity,front_money,created_user_id,belongs_user_Id)
 		VALUES(#{ordernumber},#{customerId},#{totalprice},1,#{orderType},
 		#{addressId},#{isNeedInvoice},#{invoiceType},#{invoiceInfo},
-		#{totalprice},NOW(),NOW(),#{comment},#{totalcount},#{front_money},#{creatid})
+		#{totalprice},NOW(),NOW(),#{comment},#{totalcount},#{front_money},#{creatid},#{belongId})
   </insert>
   
   <insert id="addOrderGood"  parameterType="com.comdosoft.financial.user.domain.query.OrderReq">

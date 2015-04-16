@@ -13,6 +13,7 @@ public class OrderReq {
     
     private int agentId;
     private int creatid;
+    private int belongId;
     private int goodId;
     private int paychannelId;
     private int quantity;
@@ -44,6 +45,12 @@ public class OrderReq {
     }
     
 
+    public int getBelongId() {
+        return belongId;
+    }
+    public void setBelongId(int belongId) {
+        this.belongId = belongId;
+    }
     public int getAddressId() {
         return addressId;
     }

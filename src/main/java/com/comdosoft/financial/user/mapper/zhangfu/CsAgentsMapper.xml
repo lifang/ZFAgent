@@ -102,7 +102,7 @@
 	
 	<update id="changeStatus"  >
 	update  cs_agents 
-	SET STATUS = #{serviceStatus.code}
+	SET STATUS = #{serviceStatus.code},	updated_at = NOW()
 	where id = #{id}
 	</update>
 </mapper>

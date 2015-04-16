@@ -41,9 +41,6 @@ public class AgentLoginController {
 	@Resource
 	private AgentLoginService agentLoginService;
 
-	@Value("${passPath}")
-	private String passPath;
-
 	@Value("${sendEmailFindServicsePath}")
 	private String sendEmailFindServicsePath;
 

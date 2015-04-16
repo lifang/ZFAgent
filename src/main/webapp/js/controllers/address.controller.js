@@ -166,25 +166,24 @@ var addressController = function ($scope, $http, LoginService) {
 					alert("区号需在3位或者是4位数字");
 					return false;
 				}
-			}else{
-				alert("区号不能为空");
-				return false;
-			}
-			if($scope.address.telphone2 != null && $scope.address.telphone2 != "" && $scope.address.telphone2 != undefined){
-				if(!reg1.test($scope.address.telphone2)) {
-					alert("电话号码不合乎规范,请重新输入");
+				
+				if($scope.address.telphone2 != null && $scope.address.telphone2 != "" && $scope.address.telphone2 != undefined){
+					if(!reg1.test($scope.address.telphone2)) {
+						alert("电话号码不合乎规范,请重新输入");
+						return false;
+					}
+					
+					if($scope.address.telphone2.length < 7 || $scope.address.telphone2.length > 8){
+						alert("电话号码需在7位或者是8位数字");
+						return false;
+					}
+					
+				} else {
+					alert("电话号码不能为空");
 					return false;
 				}
-				
-				if($scope.address.telphone2.length < 7 || $scope.address.telphone2.length > 8){
-					alert("电话号码需在7位或者是8位数字");
-					return false;
-				}
-				
-			} else {
-				alert("电话号码不能为空");
-				return false;
 			}
+			
 			$scope.address.telphone = $scope.address.telphone1 + "-" + $scope.address.telphone2;
 		}
 		

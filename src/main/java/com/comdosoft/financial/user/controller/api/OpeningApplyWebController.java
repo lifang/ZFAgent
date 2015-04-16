@@ -55,7 +55,7 @@ public class OpeningApplyWebController {
 			map.put("applyDetails",
 					openingApplyWebService.getApplyDetails((Integer)maps.get("terminalId")));
 			// 获得所有商户
-			map.put("merchants", openingApplyWebService.getMerchants((Integer)maps.get("customerId")));
+			map.put("merchants", openingApplyWebService.getMerchants((Integer)maps.get("terminalId")));
 			// 获得材料等级
 			map.put("materialLevel", openingApplyWebService.getMaterialLevel((Integer)maps.get("terminalId")));
 			//支付通道和周期列表
@@ -97,6 +97,28 @@ public class OpeningApplyWebController {
 			logger.error("根据商户id获得商户详细信息异常！",e);
 			return Response.getError("请求失败！");
 		}
+	}
+	/**
+	 * 判断终端是否绑定
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "isopen", method = RequestMethod.POST)
+	public Response isopen(@RequestBody Map<String, Object> map) {
+		try {
+			int count = openingApplyWebService.isopen((Integer)map.get("id"));
+			if(count>0){
+				return Response.getSuccess("可以开通！");
+			}
+			if(count == 0){
+				return Response.getError("终端尚未绑定不能开通！");
+			}
+		} catch (Exception e) {
+			logger.error("判断终端是否绑定失败！",e);
+			return Response.getError("请求失败！");
+		}
+		return null;
 	}
 	
 	/**

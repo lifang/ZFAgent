@@ -87,6 +87,19 @@ var addressController = function ($scope, $http, LoginService) {
 		$(".myInfoBox").show();
 		$scope.address = one;
 		$scope.address.id = one.id;
+		$scope.address.telphone = one.telphone;
+		var arr = $scope.address.telphone.split("-");
+		if(arr != null && arr != "" && arr != undefined) {
+			if(arr.length == 3) {
+				$scope.address.telphone1 = arr[0];
+				$scope.address.telphone2 = arr[1];
+				$scope.address.telphone3 = arr[2];
+			} else if (arr.length == 2) {
+				$scope.address.telphone1 = arr[0];
+				$scope.address.telphone2 = arr[1];
+			}
+		}
+		
 		$scope.selected = { 
 			id : one.city_parent_id,
 			name : one.city_parent_name
@@ -102,6 +115,7 @@ var addressController = function ($scope, $http, LoginService) {
 		var zipCodeReg = /^[1-9][0-9]{5}$/;// 校验邮政编码
 		var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;// 校验手机号码
 		var phoneReg = /^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/;// 校验电话号码
+		var reg1 = /^[1-9]\d*|0$/;// 匹配正整数和0
 		if (typeof($scope.selected) == "undefined" || ($scope.selected) == "" || ($scope.selected) == null) { 
 			alert("请选择省份");
 			return false;
@@ -117,7 +131,6 @@ var addressController = function ($scope, $http, LoginService) {
 		} 
 		
 		if(typeof($scope.address.zipCode) != "undefined" && $scope.address.zipCode != "" && $scope.address.zipCode != null){
-			
 			if(!zipCodeReg.test($scope.address.zipCode)){
 				alert("请填写正确的邮政编码");
 				return false;
@@ -135,12 +148,43 @@ var addressController = function ($scope, $http, LoginService) {
 			return false;
 		} 
 		
-		$scope.address.telphone = $scope.address.telphone1 + "-" + $scope.address.telphone2 + "-"+ $scope.address.telphone3;
-		if($scope.address.telphone != null && $scope.address.telphone != "" && typeof($scope.address.telphone) != "undefined") {
-			if(!phoneReg.test($scope.address.telphone)) {
-				$("#phoneCheck").html("*电话号码不合乎规范,请重新输入");
-				return false;
+		if($scope.address.telphone3 != null && $scope.address.telphone3 != "" && $scope.address.telphone3 != undefined){
+			$scope.address.telphone = $scope.address.telphone1 + "-" + $scope.address.telphone2 + "-"+ $scope.address.telphone3;
+			if($scope.address.telphone != null && $scope.address.telphone != "" && typeof($scope.address.telphone) != "undefined") {
+				if(!phoneReg.test($scope.address.telphone)) {
+					alert("电话号码不合乎规范,请重新输入");
+					return false;
+				}
 			}
+		} else if($scope.address.telphone3 == null || $scope.address.telphone3 == "" || $scope.address.telphone3 == undefined) {
+			if($scope.address.telphone1 != null && $scope.address.telphone1 != "" && $scope.address.telphone1 != undefined){
+				if(!reg1.test($scope.address.telphone1)){
+					alert("区号不合乎规范,请重新输入");
+					return false;
+				}
+				if($scope.address.telphone1.length<3 || $scope.address.telphone1.length >4){
+					alert("区号需在3位或者是4位数字");
+					return false;
+				}
+				
+				if($scope.address.telphone2 != null && $scope.address.telphone2 != "" && $scope.address.telphone2 != undefined){
+					if(!reg1.test($scope.address.telphone2)) {
+						alert("电话号码不合乎规范,请重新输入");
+						return false;
+					}
+					
+					if($scope.address.telphone2.length < 7 || $scope.address.telphone2.length > 8){
+						alert("电话号码需在7位或者是8位数字");
+						return false;
+					}
+					
+				} else {
+					alert("电话号码不能为空");
+					return false;
+				}
+			}
+			
+			$scope.address.telphone = $scope.address.telphone1 + "-" + $scope.address.telphone2;
 		}
 		
 		if ($scope.address.id == undefined) {// 插入新地址信息
@@ -172,6 +216,16 @@ var addressController = function ($scope, $http, LoginService) {
 		
 	}
 	
+	$scope.changeDefault = function(){
+		// alert($scope.address.isDefault);
+		if($scope.address.isDefault == 1){
+			$("#setDefault").prop("checked", false);// 移除radio的选中属性
+			$scope.address.isDefault = 2;
+			// alert($scope.address.isDefault);
+		} else {
+			$("#setDefault").prop("checked", "checked");
+		}
+	}
 	// 设置默认地址
 	$scope.setDefaultAddress = function(one) {
 		$http.post("api/address/setDefaultAddress", one).success(function(data) {

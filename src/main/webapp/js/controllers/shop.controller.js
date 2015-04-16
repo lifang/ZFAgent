@@ -813,6 +813,7 @@ var purchaseshopinfoController = function($scope, $http, $location, LoginService
 	$scope.req.goodId = $location.search()['goodId'];
 	$scope.creq.goodId = $scope.req.goodId;
 	$scope.req.cityId = LoginService.city;
+	$scope.req.agentId=LoginService.agentid;
 	$scope.init = function() {
 		initSystemPage($scope.creq);// 初始化分页参数
 		// LoginService.hadLoginShow();

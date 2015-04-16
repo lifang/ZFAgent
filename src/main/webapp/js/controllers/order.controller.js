@@ -313,7 +313,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
     //取消
     $scope.cancelApply = function(id){
     	$scope.req={id:id};
-		$http.post("api/order/cancelWholesale", $scope.req).success(function (data) {  //绑定
+		$http.post("api/order/cancelProxy", $scope.req).success(function (data) {  //绑定
             if (data != null && data != undefined) {
             	$scope.submitPage();
             }

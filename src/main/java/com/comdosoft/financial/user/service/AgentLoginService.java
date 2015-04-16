@@ -39,10 +39,10 @@ public class AgentLoginService {
 	 * @param username
 	 * @return
 	 */
-	public Map<Object, Object> isAgentOrPerson(String username,String ststus,String agent,String agentPer){
+	public Map<Object, Object> isAgentOrPerson(String username,String status,String agent,String agentPer){
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("username", username);
-		map.put("ststus", ststus);
+		map.put("status", status);
 		map.put("agent", agent);
 		map.put("agentPer", agentPer);
 		return agentLoginMapper.isAgentOrPerson(map);
@@ -51,10 +51,10 @@ public class AgentLoginService {
 	 * 找回密码
 	 * @param customer
 	 */
-	public void updatePassword(String password,String username,String ststus,String agent,String agentPer){
+	public void updatePassword(String password,String username,String status,String agent,String agentPer){
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("username", username);
-		map.put("ststus", ststus);
+		map.put("status", status);
 		map.put("agent", agent);
 		map.put("agentPer", agentPer);
 		agentLoginMapper.updatePassword(map);
@@ -85,11 +85,11 @@ public class AgentLoginService {
 	 * @param customer
 	 * @return
 	 */
-	public int findUname(String username,String ststus,String agent,String agentPer){
+	public int findUname(String username,String status,String agent,String agentPer){
 		
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("username", username);
-		map.put("ststus", ststus);
+		map.put("status", status);
 		map.put("agent", agent);
 		map.put("agentPer", agentPer);
 		return agentLoginMapper.findUname(map);
@@ -100,11 +100,11 @@ public class AgentLoginService {
 	 * @param customer
 	 * @return
 	 */
-	public int findEmail(String username,String ststus,String agent,String agentPer){
+	public int findEmail(String username,String status,String agent,String agentPer){
 		
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("username", username);
-		map.put("ststus", ststus);
+		map.put("status", status);
 		map.put("agent", agent);
 		map.put("agentPer", agentPer);
 		return agentLoginMapper.findEmail(map);

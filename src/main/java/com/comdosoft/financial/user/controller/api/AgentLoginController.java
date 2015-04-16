@@ -7,21 +7,26 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.MailReq;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.service.AgentLoginService;
+import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.MailService;
 import com.comdosoft.financial.user.utils.SysUtils;
 
@@ -41,7 +46,16 @@ public class AgentLoginController {
 
 	@Resource
 	private AgentLoginService agentLoginService;
+	
+	@Autowired
+	private CommentService commentService ;
+	
+	@Value("${uploadPictureTempsPath}")
+    private String uploadPictureTempsPath;
 
+	@Value("${uploadPictureTempsRegisterPath}")
+	private String uploadPictureTempsRegisterPath;
+	
 	@Value("${sendEmailFindServicsePath}")
 	private String sendEmailFindServicsePath;
 
@@ -66,7 +80,6 @@ public class AgentLoginController {
 			if(obj == null){
 				return Response.getError("用户名不存在,或者未激活！");
 			}else{
-				
 				if(obj.get("types") == Customer.TYPE_AGENT_STAFF){//员工
 					 customerMes = agentLoginService
 					.doLoginPersn(customer);
@@ -184,6 +197,22 @@ public class AgentLoginController {
 			return Response.getError("修改失败！系统异常");
 		}
 	}
+	
+	/**
+     * 上传注册图片文件
+     * 
+     * @param request
+     * @param response
+     * @param id
+     */
+    @RequestMapping(value = "upload/register", method = RequestMethod.POST)
+    public Response tempOpenImg(@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
+        try {
+        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsRegisterPath,updatefile, request));
+        } catch (IOException e) {
+        	return Response.getError("请求失败！");
+        }
+    }
 
 	/**
 	 * 注册代理商

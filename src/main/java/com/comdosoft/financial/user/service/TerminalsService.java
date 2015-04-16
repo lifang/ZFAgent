@@ -65,11 +65,9 @@ public class TerminalsService {
 	 * @return
 	 */
 	public int getTerminalListSize(Integer id,
-			Integer offSetPage, Integer pageSize,Integer status,String serialNum) {
+			Integer status,String serialNum) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
-		map.put("offSetPage", offSetPage);
-		map.put("pageSize", pageSize);
 		map.put("status", status);
 		map.put("serialNum", serialNum);
 		return terminalsMapper.getTerminalListSize(map);
@@ -124,10 +122,10 @@ public class TerminalsService {
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getMerchants(Integer customerId,
+	public List<Map<String, Object>> getMerchants(Integer agentId,
 				Integer offSetPage, Integer pageSize,Integer status,Integer types) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("customerId", customerId);
+			map.put("agentId", agentId);
 			map.put("offSetPage", offSetPage);
 			map.put("pageSize", pageSize);
 			map.put("status", status);
@@ -141,11 +139,9 @@ public class TerminalsService {
 	 * @return
 	 */
 	public int getMerchantSize(Integer customerId,
-			Integer offSetPage, Integer pageSize,Integer status,Integer types) {
+			Integer status,Integer types) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("customerId", customerId);
-		map.put("offSetPage", offSetPage);
-		map.put("pageSize", pageSize);
 		map.put("status", status);
 		map.put("types", types);
 		return terminalsMapper.getMerchantSize(map);

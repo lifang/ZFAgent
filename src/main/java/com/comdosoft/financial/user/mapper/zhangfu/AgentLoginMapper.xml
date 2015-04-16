@@ -3,8 +3,8 @@
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.AgentLoginMapper">
 	
 	<insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
-		INSERT  into customers(username,password,city_id,account_type,types,phone,email,created_at,status,name,integral,updated_at)
-		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{status},#{name},#{integral},now())
+		INSERT  into customers(username,password,city_id,account_type,types,phone,email,created_at,status,name,integral,updated_at,created_at)
+		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{status},#{name},#{integral},now(),now())
 	</insert>
 	
 	<insert id="addAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Agent">
@@ -43,7 +43,7 @@
  	<select id="isAgentOrPerson"  resultType="map">
  		SELECT types
  		FROM customers 
- 		WHERE username=#{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
+ 		WHERE username=#{username} and `status` = #{status} and types IN (#{agent},#{agentPer})
  	</select>
  	
 	<update id="updateLastLoginedAt">
@@ -62,18 +62,18 @@
 	</update>
 	
 	<update id="updateDentcode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
-		UPDATE customers set dentcode=#{dentcode}
+		UPDATE customers set dentcode=#{dentcode},updated_at = now()
 		WHERE phone=#{username} and status=#{status}
 	</update>
 	
 	<select id="findUname"  resultType="int">
 		SELECT COUNT(*) from customers 
-		WHERE phone=#{username} or email=#{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
+		WHERE (phone=#{username} or email=#{username}) and `status` = #{status} and types IN (#{agent},#{agentPer})
 	</select>
 	
 	<select id="findEmail"  resultType="int">
 		SELECT COUNT(*) from customers 
-		WHERE email = #{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
+		WHERE email = #{username} and `status` = #{status} and types IN (#{agent},#{agentPer})
 	</select>
 	
 	<select id="judgeCityId" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">

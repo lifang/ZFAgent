@@ -49,4 +49,13 @@ public interface OrderMapper {
 
 //根据订单id获取终端号
     List<Terminal>  getTerminsla(Integer id);
+
+//根据id查订单
+    List<Map<String, Object>>  findOrderById(MyOrderReq myOrderReq);
+
+//代购 归还库存
+	void updateGoods(MyOrderReq myOrderReq);
+
+
+	void update_goods_stock(String good_id, String quantity);
 }

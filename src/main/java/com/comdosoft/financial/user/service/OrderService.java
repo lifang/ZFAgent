@@ -490,9 +490,26 @@ public class OrderService {
         return map;
     }
 
+    /**
+     * 订单取消
+     * @param myOrderReq
+     * @return
+     */
+    @Transactional(value = "transactionManager-zhangfu")
     public int cancelMyOrder(MyOrderReq myOrderReq) {
         myOrderReq.setOrderStatus(OrderStatus.CANCEL);
+        String p= myOrderReq.getP();//判断是否是代购   代购需要还库存
         int i = orderMapper.cancelMyOrder(myOrderReq);
+        if(null !=p && p=="3"){
+        	List<Map<String, Object>> o = orderMapper.findOrderById(myOrderReq);
+        	for(Map<String,Object> oo :o){
+        		 String good_id = oo.get("good_id")==null?"":oo.get("good_id").toString();
+                 String quantity = oo.get("quantity")==null?"":oo.get("quantity").toString();
+                 if(good_id !="" && quantity!=""){
+                     orderMapper.update_goods_stock(good_id,quantity);
+                 }
+        	}
+        }
         return i;
     }
 

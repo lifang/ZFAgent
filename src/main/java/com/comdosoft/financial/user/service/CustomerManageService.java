@@ -291,6 +291,7 @@ public class CustomerManageService {
 		if(list!=null && list.size()>0){
 			String loginId=list.get(0).get("username").toString();
 			String name=list.get(0).get("name").toString();
+			String createdTime=list.get(0).get("created_at").toString();
 			StringBuilder rolesStr=new StringBuilder();
 			for(int i=0;i<list.size();i++){
 				String roleId=list.get(i).get("role_id").toString();
@@ -304,6 +305,7 @@ public class CustomerManageService {
 			result.put("loginId", loginId);
 			result.put("name", name);
 			result.put("rolesStr", rolesStr);
+			result.put("createdAt",createdTime);
 			map.put("result", result);
 			resultInfo.setLength(0);
 			resultInfo.append("成功");

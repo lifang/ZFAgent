@@ -51,7 +51,7 @@
     
     
     <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="map">
-        select a.username,a.name,c.role_id from customers a 
+        select a.username,a.name,c.role_id,c.created_at from customers a 
 left join customer_agent_relations b on a.id=b.customer_id
 left join customer_role_relations c on a.id=c.customer_id
 where 1=1 and a.id=#{customerId}  and b.agent_id=#{agentsId}

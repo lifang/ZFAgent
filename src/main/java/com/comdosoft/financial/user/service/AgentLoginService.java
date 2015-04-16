@@ -216,5 +216,13 @@ public class AgentLoginService {
 	public String findCustomerPwdById(Integer id) {
 		return agentLoginMapper.findCustomerPwdById(id);
 	}
+
+	public void insertAgent(Agent agent) {
+		agentLoginMapper.insertAgent(agent);
+	}
+
+	public void insertUser(Customer customer) {
+		agentLoginMapper.insertUser(customer);
+	}
 	
 }

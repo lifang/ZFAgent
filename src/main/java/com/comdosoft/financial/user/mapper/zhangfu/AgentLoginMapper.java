@@ -137,4 +137,8 @@ public interface AgentLoginMapper {
 	 * @return
 	 */
 	String findCustomerPwdById(Integer id);
+
+	void insertAgent(Agent agent);
+
+	void insertUser(Customer customer);
 }

@@ -179,6 +179,11 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 		$scope.getShengcit();
 		// 初始化图片验证码
 		$scope.reGetRandCodeImg();
+		$("#headDiv_index").removeClass();
+		$("#headDiv_index").css("padding", "20px 0");
+		$("#headDiv_index").css("border-bottom", "2px #0071cf solid");
+		$("#headDiv_index").css("background", "rgba(255,255,255,0.8)");
+		$("#agentDiv_index").html("申请成为代理商");
 	};
 
 	// 图片验证码

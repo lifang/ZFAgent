@@ -1,7 +1,7 @@
 package com.comdosoft.financial.user.domain.zhangfu;
 
 public enum PayType {
-    ALIPAY(0,"支付宝"),CHINAPAY(1,"银联"),CASH(2,"现金");
+    ALIPAY(1,"支付宝"),CHINAPAY(2,"银联"),CASH(3,"现金");
     private Integer code;
     private String name;
     /**  

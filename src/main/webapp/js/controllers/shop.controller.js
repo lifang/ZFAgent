@@ -8,7 +8,6 @@ var shopController = function ($scope, $http, LoginService) {
 	$scope.req={};
 	$scope.req.keys=LoginService.keys;
 	$scope.req.cityId=LoginService.city;
-	$scope.req.orderType=1;
 	
 	$scope.req.hasLease=false;
 	//$scope.req.keys="";
@@ -458,7 +457,6 @@ var purchaseshopController = function ($scope, $http, LoginService) {
 	$scope.req.type=1;
 	$scope.req.keys=LoginService.keys;
 	$scope.req.cityId=LoginService.city;
-	$scope.req.orderType=1;
 	
 	$scope.req.hasLease=false;
 	//$scope.req.keys="";
@@ -976,6 +974,7 @@ var shopmakeorderController = function($scope,$http ,$location , LoginService) {
 		}
 		$scope.order.agentId=LoginService.agentid;
 		$scope.order.creatid=LoginService.loginid;
+		$scope.order.belongId=LoginService.agentUserId;
 		$http.post("api/order/agent", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				if($scope.order.orderType==5){

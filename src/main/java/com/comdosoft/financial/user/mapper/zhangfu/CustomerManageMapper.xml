@@ -8,7 +8,7 @@
    </select>
    
    <select id="getCustomerList" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq" resultType="map">
-        select b.username,b.id from customer_agent_relations a
+        select b.username,b.name,b.id,b.created_at as createdAt from customer_agent_relations a
 		left join customers b on a.customer_id=b.id
  		where 1=1 and a.types=2 and a.status=1 and a.agent_id=#{agentsId} 
  		order by a.updated_at desc Limit #{offset},#{rows}
@@ -54,4 +54,5 @@ left join customer_agent_relations b on a.id=b.customer_id
 left join customer_role_relations c on a.id=c.customer_id
 where 1=1 and a.id=#{customerId}  and b.agent_id=#{agentsId}
    </select>
+   
 </mapper>

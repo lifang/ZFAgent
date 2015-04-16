@@ -16,6 +16,7 @@ import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.UserManagementMapper;
+import com.comdosoft.financial.user.utils.SysUtils;
 
 @Service
 public class UserManagementService {
@@ -173,7 +174,7 @@ public class UserManagementService {
 			Customer customer = new Customer();
 			customer.setUsername((String) map.get("username"));
 			customer.setName((String) map.get("name"));
-			customer.setPassword((String) map.get("pass1"));
+			customer.setPassword(SysUtils.string2MD5((String) map.get("pass1")));
 			customer.setCityId((Integer) map.get("cityid"));
 			customer.setTypes(Customer.TYPE_CUSTOMER);
 			customer.setStatus(Customer.STATUS_NORMAL);

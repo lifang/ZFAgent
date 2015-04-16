@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.OldDataBaseMapper">
+
+	<select id="getPersons" resultType="hashmap">
+        select userId,phoneNum,ifnull(realName,"") as realName,status,password,ifnull(idNumber,"") as idNumber from person
+	</select>
+	
+	<select id="getZHUSERs" resultType="hashmap">
+        select userId,status,ifnull(company_name,"") as companyName,ifnull(reg_place,"") as regPlace,ifnull(bank_deposit,"") as bankDeposit,
+        ifnull(name,"") as name,ifnull(account_no,"") as accountNo,psam,ifnull(serial_type,"") as serialType,ifnull(product_type,"") as productType,ifnull(union_bankno,"") as bankNo from zh_user
+	</select>
+	
+	<select id="getUserPsam1" resultType="hashmap">
+        select userId from userpsam where psam=#{psam}
+	</select>
+	
+	<select id="getHXPerson" resultType="hashmap">
+		select userId,terminalId,ifnull(merchantname,"") as merchantName,ifnull(settle_account_type,"") as settleAccountType,ifnull(settle_account,"") as settleAccount,
+		ifnull(settle_accountno,"") as settleAccountNo,ifnull(accountstatus,"") as accountstatus,ifnull(taxno,"") as taxno,ifnull(occno,"") as occno from hx_person
+	</select>
+	
+	
+	<select id="getUserPsam" resultType="hashmap">
+		select userid,psam,status from userpsam
+	</select>
+	
+	<select id="getShops" resultType="hashmap">
+		select shopId,loginName,ifnull(shopName,"") as shopName,ifnull(licence,"") as licence,ifnull(city,"") as city,ifnull(county,"") as county,ifnull(address,"") as address,
+		ifnull(post,"") as post,ifnull(contact,"") as contact,ifnull(idcard,"") as idCard,
+		ifnull(mobilephone,"") as mobilePhone,ifnull(phonenumber,"") as phoneNumber,fid from shop
+	</select>
+	
+	<select id="getShipMent" resultType="hashmap">
+		select ifnull(productId,"") as productId,ifnull(Amount,"") as amount,ifnull(ShopId,"") as shopId from shipment
+	</select>
+	
+	<select id="getZF300Rate" resultType="hashmap">
+		select type,transtype,rate from zf300_rate
+	</select>
+	
+	<select id="getShopHxRate" resultType="hashmap">
+		select type,rate,shopId from shop_hx_rate
+	</select>
+	
+	<select id="getHxOrder" resultType="hashmap">
+		select * from hx_order
+	</select>
+	
+	<select id="getHxPhoneorder" resultType="hashmap">
+		select ifnull(transtype,"") as transtype,ifnull(merchantid,"") as merchantid,ifnull(merchantorderid,"") as merchantorderid,
+		ifnull(bpserialnum,"") as bpserialnum,ifnull(orderamt,"") as orderamt, ifnull(pan,"") as pan,
+		ifnull(transdate,"") as transdate,ifnull(transstatus,"") as transstatus,
+		ifnull(gwtype,"") as gwtype,ifnull(settledate,"") as settledate,ifnull(setlamt,"") as setlamt,
+		ifnull(psam,"") as psam,ifnull(repay,"") as repay,ifnull(type,"") as type,ifnull(shopId,"") as shopId from hx_phoneorder
+	</select>
+	
+	<select id="getHxTransferorder" resultType="hashmap">
+		select ifnull(transtype,"") as transtype,ifnull(merchantid,"") as merchantid,ifnull(merchantorderid,"") as merchantorderid,
+		ifnull(bpserialnum,"") as bpserialnum,ifnull(orderamt,"") as orderamt, ifnull(pan,"") as pan,
+		ifnull(transdate,"") as transdate,ifnull(transstatus,"") as transstatus,
+		ifnull(gwtype,"") as gwtype,ifnull(settledate,"") as settledate,ifnull(setlamt,"") as setlamt,
+		ifnull(psam,"") as psam,ifnull(repay,"") as repay,ifnull(type,"") as type,ifnull(shopId,"") as shopId from hx_transferorder
+	</select>
+	
+	<select id="getPayForCreditCard" resultType="hashmap">
+	select ifnull(forCardId,"") as forCardId,ifnull(ShopId,"") as ShopId,ifnull(version,"") as version,ifnull(keyDeviceSerialNo,"") as keyDeviceSerialNo,ifnull(payCardNo,"") as payCardNo,
+	ifnull(userPhone,"") as userPhone,ifnull(partnerNo,"") as partnerNo,ifnull(orderId,"") as orderId,ifnull(qdOrderId,"") as qdOrderId,ifnull(toAccount,"") as toAccount,
+	ifnull(feePhone,"") as feePhone,ifnull(transferAmount,"") as transferAmount,ifnull(price,"") as price,ifnull(faceValue,"") as faceValue,ifnull(rebateMoney,"") as rebateMoney,
+	ifnull(payStatus,"") as payStatus,ifnull(payResultCode,"") as payResultCode,ifnull(payResultDes,"") as payResultDes,ifnull(deliveryStatus,"") as deliveryStatus,
+	ifnull(deliveryResultCode,"") as deliveryResultCode,ifnull(deliveryResultDes,"") as deliveryResultDes,ifnull(refundStatus,"") as refundStatus,ifnull(refundResultCode,"") as refundResultCode,
+	ifnull(refundResultDes,"") as refundResultDes,ifnull(remark,"") as remark,ifnull(signature,"") as signature,ifnull(proofread,"") as proofread,ifnull(createTime,"") as createTime,
+	ifnull(finalTime,"") as finalTime,ifnull(syncTime,"") as syncTime from payForCreditCard
+	</select>
+	<select id="getTransfer" resultType="hashmap">
+	select ifnull(forCardId,"") as forCardId,ifnull(ShopId,"") as ShopId,ifnull(version,"") as version,ifnull(keyDeviceSerialNo,"") as keyDeviceSerialNo,ifnull(payCardNo,"") as payCardNo,
+	ifnull(userPhone,"") as userPhone,ifnull(partnerNo,"") as partnerNo,ifnull(orderId,"") as orderId,ifnull(qdOrderId,"") as qdOrderId,ifnull(toAccount,"") as toAccount,
+	ifnull(feePhone,"") as feePhone,ifnull(transferAmount,"") as transferAmount,ifnull(price,"") as price,ifnull(faceValue,"") as faceValue,ifnull(rebateMoney,"") as rebateMoney,
+	ifnull(payStatus,"") as payStatus,ifnull(payResultCode,"") as payResultCode,ifnull(payResultDes,"") as payResultDes,ifnull(deliveryStatus,"") as deliveryStatus,
+	ifnull(deliveryResultCode,"") as deliveryResultCode,ifnull(deliveryResultDes,"") as deliveryResultDes,ifnull(refundStatus,"") as refundStatus,ifnull(refundResultCode,"") as refundResultCode,
+	ifnull(refundResultDes,"") as refundResultDes,ifnull(remark,"") as remark,ifnull(signature,"") as signature,ifnull(proofread,"") as proofread,ifnull(createTime,"") as createTime,
+	ifnull(finalTime,"") as finalTime,ifnull(syncTime,"") as syncTime from transfer
+	</select>
+	<select id="getFeePhone" resultType="hashmap">
+	select ifnull(forCardId,"") as forCardId,ifnull(ShopId,"") as ShopId,ifnull(version,"") as version,ifnull(keyDeviceSerialNo,"") as keyDeviceSerialNo,ifnull(payCardNo,"") as payCardNo,
+	ifnull(userPhone,"") as userPhone,ifnull(partnerNo,"") as partnerNo,ifnull(orderId,"") as orderId,ifnull(qdOrderId,"") as qdOrderId,ifnull(toAccount,"") as toAccount,
+	ifnull(feePhone,"") as feePhone,ifnull(transferAmount,"") as transferAmount,ifnull(price,"") as price,ifnull(faceValue,"") as faceValue,ifnull(rebateMoney,"") as rebateMoney,
+	ifnull(payStatus,"") as payStatus,ifnull(payResultCode,"") as payResultCode,ifnull(payResultDes,"") as payResultDes,ifnull(deliveryStatus,"") as deliveryStatus,
+	ifnull(deliveryResultCode,"") as deliveryResultCode,ifnull(deliveryResultDes,"") as deliveryResultDes,ifnull(refundStatus,"") as refundStatus,ifnull(refundResultCode,"") as refundResultCode,
+	ifnull(refundResultDes,"") as refundResultDes,ifnull(remark,"") as remark,ifnull(signature,"") as signature,ifnull(proofread,"") as proofread,ifnull(createTime,"") as createTime,
+	ifnull(finalTime,"") as finalTime,ifnull(syncTime,"") as syncTime from feePhone
+	</select>
+	<select id="getZF300Order" resultType="hashmap">
+	select ifnull(platforms,"") as platforms,ifnull(shopId,"") as shopId,ifnull(ksn_no,"") as ksn_no,ifnull(transNo,"") as transNo,ifnull(transTime,"") as transTime,
+	ifnull(transAmount,"") as transAmount,ifnull(rebateMoney,"") as rebateMoney,ifnull(payCardNo,"") as payCardNo,ifnull(transType,"") as transType,
+	ifnull(tranStatus,"") as tranStatus,ifnull(merchNo,"") as merchNo,ifnull(merchName,"") as merchName,ifnull(traceNo,"") as traceNo,ifnull(transId,"") as transId from zf300_order
+	</select>
+	
+	
+	<select id="getPhoneNumById" resultType="hashmap">
+		select phoneNum from person where userId=#{userId}
+	</select>
+	
+	<select id="getLoginNameByShopId" resultType="hashmap">
+		select loginName from Shop where shopid=#{shopId}
+	</select>
+	
+	
+	<select id="getSellList" resultType="hashmap">
+		select shopId,productId,ifnull(productNumber,"") as ProductNumber,status from sellList
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>

@@ -16,24 +16,29 @@
    <select id="getChannelIdByGoodId" resultType="hashmap">
    		select pay_channel_id as channelId from goods_pay_channels where good_id=#{goodId}
    </select>
-
+   
+   	
+   	<select id="getCustomersByUserName" resultType="hashmap">
+   		select id from customers where username=#{userName} and types in (1,2,3,4,5,6) and status in(1,2,3)
+   	</select>
+	
    <insert id="customersInit">
-		INSERT into customers(id,username,account_type,phone,name,status,password,types)
-		values(#{id},#{userName},#{accoutType},#{phone},#{name},#{status},#{pwd},#{types})
+		INSERT into customers(username,account_type,phone,name,status,password,types)
+		values(#{userName},#{accoutType},#{phone},#{name},#{status},#{pwd},#{types})
    </insert>
    <insert id="merchantsInit">
-		insert into merchants(legal_person_card_id,customer_id) values(#{idNumber},#{customerId})
+		insert into merchants(legal_person_card_id,customer_id,created_at) values(#{idNumber},#{customerId},now())
    </insert>
    <insert id="terminalInit">
-		insert into terminals(id,status,serial_num,base_rate,good_id,pay_channel_id,merchant_id,customer_id) values(
-		#{id},#{status},#{serialNum},#{baseRate},#{goodId},#{channelId},#{merchantId},#{customerId})
+		insert into terminals(status,serial_num,base_rate,good_id,pay_channel_id,merchant_id,customer_id) values(
+		#{status},#{serialNum},#{baseRate},#{goodId},#{channelId},#{merchantId},#{customerId})
    </insert>
    <update id="updateTerminalBySerialNum">
    		update terminals set customer_id =#{customerId},status=#{status} where serial_num=#{serialNum}
    </update>
    
    <select id="getMerchantsIdByCustomerId" resultType="hashmap">
-        select id from merchants where customer_id=#{customer}
+        select id from merchants where customer_id=#{customerId}
 	</select>
 	
    <insert id="openingAppliesInit">
@@ -51,12 +56,13 @@
    </select>
 	
 	<select id="getCustomerIdByUserName" resultType="hashmap">
-   		select id from customers where username=#{username}
+   		select id from customers where username=#{username} and types in (1,2,3,4,5,6) and status in(1,2,3)
    </select>
    
 	<insert id="agentsInit">
 		insert into agents(company_name,business_license,customer_id,card_id,
-		parent_id) values(#{companyName},#{businessLicense},#{customerId},#{cardId},#{parentId})
+		parent_id,types,phone,email,status,is_have_profit,created_at,updated_at,code) values(#{companyName},#{businessLicense},#{customerId},
+		#{cardId},#{parentId},1,#{phone},"",5,1,now(),now(),"")
    </insert>
    
    <insert id="customerAddressesInit">
@@ -80,17 +86,15 @@
 		#{agentId},#{goodId},#{quantity})
    </insert>
    
-   <select id="getSellList" resultType="hashmap">
-		select shopId,productId,productNumber,status from sellList
-	</select>
+   
 	
 	<update id="updateTerminalBySerialNum1">
 		update terminals set status=#{status},agent_id=#{agentId} where serial_num =#{serialNum} and good_id=#{goodId}
 	</update>
 	
 	<insert id="dictionaryTradeTypesInit">
-		INSERT into dictionary_trade_types(trade_type,trade_value) values(
-		#{tradeType},#{tradeValue})
+		INSERT into dictionary_trade_types(trade_type,trade_value,created_at) values(
+		#{tradeType},#{tradeValue},now())
    </insert>
    <insert id="supportTradeTypesInit">
 		INSERT into support_trade_types(trade_type,pay_channel_id,trade_type_id) values(
@@ -98,10 +102,10 @@
    </insert>
    
    <select id="getMaxIdOfdictionaryTradeTypes" resultType="int">
-		select max(id) as from dictionary_trade_types
+		select max(id) as id from dictionary_trade_types
 	</select>
 	
-	<select id="getCustomerIdBySerialNum" resultType="int">
+	<select id="getCustomerIdBySerialNum" resultType="map">
 		select customer_id as customerId from terminals where serial_num=#{serialNum}
 	</select>
 	
@@ -124,4 +128,8 @@
 	   <select id="getGoodPayChannelById" resultType="hashmap">
 		select id from goods_pay_channels where good_id=#{goodId} and pay_channel_id=#{channelId}
 	</select>
+	
+	<select id="getAgentIdByCustomerId" resultType="hashmap">
+   	select id from agents where customer_id=#{customerId}
+   </select>
 </mapper>

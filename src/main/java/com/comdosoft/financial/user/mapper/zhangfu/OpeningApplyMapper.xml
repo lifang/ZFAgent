@@ -18,18 +18,20 @@
  	</insert>
  
  	<select id="getApplyList" parameterType="map" resultType="map">
- 		SELECT id,serial_num,status
- 		FROM terminals
- 		WHERE agent_id=#{id}
- 		AND status in (#{twoStatus},#{threeStatus})
+ 		SELECT t.id,t.serial_num,t.status
+ 		FROM terminals t
+ 		WHERE t.agent_id=#{id}
+ 		AND t.status in (#{twoStatus},#{threeStatus})
+ 		or t.agent_id in(select a.id from agents a where a.parent_id = #{id} )
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
  	
  	<select id="getApplyListSize" parameterType="map" resultType="int">
  		SELECT count(*)
- 		FROM terminals
- 		WHERE agent_id=#{id}
- 		AND status in (#{twoStatus},#{threeStatus})
+ 		FROM terminals t
+ 		WHERE t.agent_id=#{id}
+ 		AND t.status in (#{twoStatus},#{threeStatus})
+ 		or t.agent_id in(select a.id from agents a where a.parent_id = #{id} )
  	</select>
  	
  	<select id="judgeOpen"  resultType="int" parameterType="int">
@@ -38,11 +40,12 @@
 	</select>
  	
  	<select id="searchApplyList" parameterType="map" resultType="map">
- 		SELECT id,serial_num,status
- 		FROM terminals
- 		WHERE agent_id=#{id}
- 		AND status in (#{twoStatus},#{threeStatus})
- 		<if test="serialNum != null and serialNum != ''">AND serial_num like '%${serialNum}%'</if>
+ 		SELECT t.id,t.serial_num,t.status
+ 		FROM terminals t
+ 		WHERE t.agent_id=#{id}
+ 		AND t.status in (#{twoStatus},#{threeStatus})
+ 		<if test="serialNum != null and serialNum != ''">AND t.serial_num like '%${serialNum}%'</if>
+ 		or t.agent_id in(select a.id from agents a where a.parent_id = #{id} )
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
  	

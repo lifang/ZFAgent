@@ -48,6 +48,11 @@
  		AND status in (#{twoStatus},#{threeStatus})
  	</select>
  	
+ 	<select id="isopen" resultType="int">
+		SELECT COUNT(*) FROM terminals 
+		WHERE id = #{id} and customer_id is NOT null
+	</select>
+ 	
  	<select id="judgeOpen"  resultType="int" parameterType="int">
 		select count(*) from opening_applies
 		where terminal_id = #{terminalId}
@@ -123,7 +128,10 @@
  	</select>
  	
  	<select id="getMerchants" resultType="map" parameterType="int">
- 		SELECT id,title FROM merchants WHERE customer_id = #{customerId}
+ 		SELECT m.id,m.title 
+		FROM merchants m
+		LEFT JOIN terminals t on m.customer_id = t.customer_id
+		WHERE t.id = #{terminalId}
  	</select>
  	
  	<select id="getMaterialLevel" resultMap="op_Map" parameterType="int">

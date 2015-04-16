@@ -69,6 +69,12 @@ public interface OpeningApplyWebMapper {
 	Map<Object, Object> getMerchantsIsNo(Map<Object, Object> map);
 	
 	/**
+	 * 进入申请开通时判断该终端是否绑定
+	 * @return
+	 */
+	int isopen(int id);
+	
+	/**
 	 * 根据终端id获得该终端详情
 	 * @param id
 	 * @return
@@ -93,7 +99,7 @@ public interface OpeningApplyWebMapper {
 	 * 获得所有商户
 	 * @return
 	 */
-	List<Merchant> getMerchants(int customerId);
+	List<Merchant> getMerchants(int terminalId);
 	
 	/**
 	 * 获得所有商户

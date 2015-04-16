@@ -33,28 +33,34 @@
 	</update>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
-		SELECT t.id,t.serial_num,t.status
+		SELECT t.id,t.serial_num,t.status,g.model_number,b.`name` as brandName,c.`name` as channelName
 		FROM terminals t
+		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
+		LEFT JOIN goods g on o.good_id=g.id
+		LEFT JOIN good_brands b on g.good_brands_id=b.id
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
 		WHERE
-		t.agent_id=#{id}
+		(t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = 1)))
 		<if test="status != -1">
 			AND t.status = #{status}
 		</if>
-		or t.agent_id in(select a.id from agents a where a.parent_id = #{id} )
 		ORDER BY t.created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
  	
  	<select id="getNewTerminalList" parameterType="map" resultType="map">
-		SELECT t.id,t.serial_num,t.status
+		SELECT t.id,t.serial_num,t.status,g.model_number,b.`name` as brandName,c.`name` as channelName
 		FROM terminals t
+		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
+		LEFT JOIN goods g on o.good_id=g.id
+		LEFT JOIN good_brands b on g.good_brands_id=b.id
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
 		WHERE
-		t.agent_id=#{id}
+		(t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = 1)))
 		<if test="status != -1 and status != null">
 			AND t.status = #{status}
 		</if>
 		<if test="serialNum != null and serialNum != ''">AND t.serial_num like '%${serialNum}%'</if>
-		or t.agent_id in(select a.id from agents a where a.parent_id = #{id} )
 		ORDER BY t.created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
@@ -62,13 +68,18 @@
 	<select id="getTerminalListSize" parameterType="map" resultType="int">
 		SELECT count(*)
 		FROM terminals t
+		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
+		LEFT JOIN goods g on o.good_id=g.id
+		LEFT JOIN good_brands b on g.good_brands_id=b.id
+		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
+		WHERESELECT count(*)
+		FROM terminals t
 		WHERE
-		t.agent_id=#{id}
+		(t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = 1)))
 		<if test="status != -1 and status != null">
 			AND t.status = #{status}
 		</if>
 		<if test="serialNum != null and serialNum != ''">AND t.serial_num like '%${serialNum}%'</if>
-		or t.agent_id in(select a.id from agents a where a.parent_id = #{id} )
 		ORDER BY t.created_at DESC
 	</select>
 	

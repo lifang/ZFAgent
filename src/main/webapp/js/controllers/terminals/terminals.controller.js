@@ -53,6 +53,19 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 		//$scope.frontStatus = null;
 		$scope.getInfo();
 	}
+	
+	//判断该中终端是否绑定才取决是否开通
+	$scope.isopen = function(tCusId){
+		 $http.post("api/applyWeb/isopen", {id:tCusId}).success(function (data) {  //绑定
+	          if (data != null && data != undefined) {
+	        	  if(data.code == 1){
+	        		  window.location.href = '#/terminalOpening?terminalId='+tCusId;
+	        	  }else if(data.code == -1){
+	        		  alert(data.message);
+	        	  }
+	          }
+	      })
+	}
 
 	//go to page
 	$scope.tiaoPage = 1;
@@ -393,8 +406,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 };
 
 var agentBinTerminalController = function ($scope, $http, LoginService) {
-	 //$scope.customersId = Math.ceil(LoginService.agentUserId);
-	 $scope.customersId = Math.ceil(LoginService.loginid);
+	 $scope.customersId = Math.ceil(LoginService.agentUserId);
 	 // $scope.customersId = 80;
 	//检验邮箱格式
 		var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;

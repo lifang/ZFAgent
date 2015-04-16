@@ -591,8 +591,8 @@ var terminalToUpdateController = function ($scope, $http,$location, LoginService
 	//$(".leaseExplain_tab").hide();
 	//查看终端详情
 	$scope.terminalDetail = function () {
-		//0 注销， 1 更新
-	  $scope.types = 1;
+		//1 注销， 2 更新
+	  $scope.types = 2;
       $http.post("api/webTerminal/getWebApplyCancellation", {types:$scope.types,terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == 1){

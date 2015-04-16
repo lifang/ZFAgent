@@ -270,6 +270,22 @@
 		   og.order_id =#{param1}
 		order by og.created_at desc
 	</select>
+	<!-- 查询此订单的原有库存 -->
+	<select id="findOrderById"  resultType="map" >
+	 	SELECT
+			og.good_id, 	sum(og.quantity) as quantity
+		FROM
+			orders t
+		right JOIN order_goods og ON og.order_id = t.id
+		WHERE t.id=#{id}
+	</select>
+	<!-- 归还库存 -->
+	<update id="update_goods_stock" >
+     UPDATE goods
+	SET quantity = quantity + #{param2},updated_at= NOW()
+	WHERE
+		id = #{param1}
+    </update>
 	
 	<select id="findCustomerById" resultMap="customerMap" >
 		SELECT
@@ -347,7 +363,7 @@
 	</select>
 	<update id="cancelMyOrder" parameterType="com.comdosoft.financial.user.domain.zhangfu.Order">
         UPDATE orders
-			SET STATUS = #{orderStatus.code}
+			SET STATUS = #{orderStatus.code},	updated_at = NOW()
 		WHERE
 			id = #{id}
     </update>

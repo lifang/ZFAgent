@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.AgentLoginMapper">
-	
-	<insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
-		INSERT  into customers(username,password,city_id,account_type,types,phone,email,created_at,status,name,integral,updated_at,created_at)
-		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{status},#{name},#{integral},now(),now())
-	</insert>
-	
-	<insert id="addAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Agent">
-		insert into agents(name,card_id,types,company_name,business_license,
-						phone,email,customer_id,address,form_types,parent_id,status,is_have_profit,created_at,updated_at,code,
-						card_id_photo_path,tax_registered_no,license_no_pic_path,tax_no_pic_path)
-		values(#{name},#{cardId},#{types},#{companyName},#{businessLicense},#{phone},#{email},#{customerId},#{address},#{formTypes},
-						#{parentId},#{status},#{isHaveProfit},now(),now(),#{code},#{cardIdPhotoPath},#{taxRegisteredNo},#{licenseNoPicPath},#{taxNoPicPath})
+
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		INSERT into
+		customers(username,password,city_id,account_type,types,phone,email,created_at,status,name,integral,updated_at)
+		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{status},#{name},#{integral},now())
 	</insert>
 
-	<select id="doLogin" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="map">
- 		SELECT c.id,c.username,c.account_type as accountType,c.name,
-			c.city_id as cityId,c.types,date_format(c.last_logined_at,'%Y-%c-%d') as lastLoginedAt,
- 			c.integral as integral,c.status,c.device_code as deviceCode,
-			date_format(c.created_at,'%Y-%c-%d') as createdAt,date_format(c.updated_at,'%Y-%c-%d') as updatedAt,
-			c.phone,c.email ,c.types,a.id as agentId,a.parent_id,a.is_have_profit,a.customer_id as agentUserId,u.city_id as agentCityId
- 		FROM customers c 
+	<insert id="addAgent" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Agent">
+		insert into
+		agents(name,card_id,types,company_name,business_license,
+		phone,email,customer_id,address,form_types,parent_id,status,is_have_profit,created_at,updated_at,code,
+		card_id_photo_path,tax_registered_no,license_no_pic_path,tax_no_pic_path)
+		values(#{name},#{cardId},#{types},#{companyName},#{businessLicense},#{phone},#{email},#{customerId},#{address},#{formTypes},
+		#{parentId},#{status},#{isHaveProfit},now(),now(),#{code},#{cardIdPhotoPath},#{taxRegisteredNo},#{licenseNoPicPath},#{taxNoPicPath})
+	</insert>
+
+	<select id="doLogin"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer"
+		resultType="map">
+		SELECT c.id,c.username,c.account_type as accountType,c.name,
+		c.city_id as cityId,c.types,date_format(c.last_logined_at,'%Y-%c-%d') as
+		lastLoginedAt,
+		c.integral as integral,c.status,c.device_code as deviceCode,
+		date_format(c.created_at,'%Y-%c-%d') as
+		createdAt,date_format(c.updated_at,'%Y-%c-%d') as updatedAt,
+		c.phone,c.email ,c.types,a.id as
+		agentId,a.parent_id,a.is_have_profit,a.customer_id as
+		agentUserId,u.city_id as agentCityId
+		FROM customers c
 		LEFT JOIN agents a ON a.customer_id = c.id
-		LEFT JOIN customers u ON u.id = a.customer_id
- 		WHERE c.username=#{username} and c.password=#{password} and c.types in (#{types},#{statusEnd}) and c.status=#{status}
- 		GROUP BY c.id
- 	</select>
- 	
-	<select id="doLoginPersn" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="map">
- 		SELECT c.id,c.username,c.account_type as accountType,c.name,
-			c.city_id as cityId,c.types,date_format(c.last_logined_at,'%Y-%c-%d') as lastLoginedAt,
- 			c.integral as integral,c.status,c.device_code as deviceCode,
-			date_format(c.created_at,'%Y-%c-%d') as createdAt,date_format(c.updated_at,'%Y-%c-%d') as updatedAt,
-			c.phone,c.email ,c.types,a.id as agentId,a.parent_id,a.is_have_profit,a.customer_id as agentUserId,u.city_id as agentCityId
- 		FROM customers c 
+		LEFT JOIN customers u ON u.id =
+		a.customer_id
+		WHERE c.username=#{username} and c.password=#{password} and c.types in
+		(#{types},#{statusEnd}) and c.status=#{status}
+		GROUP BY c.id
+	</select>
+
+	<select id="doLoginPersn"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer"
+		resultType="map">
+		SELECT c.id,c.username,c.account_type as accountType,c.name,
+		c.city_id as cityId,c.types,date_format(c.last_logined_at,'%Y-%c-%d') as
+		lastLoginedAt,
+		c.integral as integral,c.status,c.device_code as deviceCode,
+		date_format(c.created_at,'%Y-%c-%d') as
+		createdAt,date_format(c.updated_at,'%Y-%c-%d') as updatedAt,
+		c.phone,c.email ,c.types,a.id as
+		agentId,a.parent_id,a.is_have_profit,a.customer_id as
+		agentUserId,u.city_id as agentCityId
+		FROM customers c
 		LEFT JOIN customer_agent_relations r ON r.customer_id = c.id
 		LEFT JOIN agents a ON a.id = r.agent_id
 		LEFT JOIN customers u ON u.id = a.customer_id
@@ -45,72 +63,110 @@
  		FROM customers 
  		WHERE username=#{username} and `status` = #{status} and types IN (#{agent},#{agentPer})
  	</select>
- 	
+
 	<update id="updateLastLoginedAt">
 		UPDATE customers set last_logined_at=now()
-		WHERE username=#{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
+		WHERE
+		username=#{username} and `status` = #{ststus} and types IN
+		(#{agent},#{agentPer})
 	</update>
-	
+
 	<update id="updatePassword">
-		UPDATE customers set `password`=#{password},updated_at=now()
-		WHERE phone=#{username} and status=#{status} and types IN (#{agent},#{agentPer})
+		UPDATE customers set
+		`password`=#{password},updated_at=now()
+		WHERE phone=#{username} and
+		status=#{status} and types IN (#{agent},#{agentPer})
 	</update>
-	
+
 	<update id="updateEmailPassword">
-		UPDATE customers set `password`=#{password},updated_at=now()
-		WHERE email=#{username} and status=#{status} and types IN (#{agent},#{agentPer})
+		UPDATE customers set
+		`password`=#{password},updated_at=now()
+		WHERE email=#{username} and
+		status=#{status} and types IN (#{agent},#{agentPer})
 	</update>
 	
-	<update id="updateDentcode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
-		UPDATE customers set dentcode=#{dentcode},updated_at = now()
-		WHERE phone=#{username} and status=#{status}
+	
+	<update id="updateDentcode"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		UPDATE customers set dentcode=#{dentcode}
+		WHERE
+		phone=#{username} and status=#{status}
 	</update>
-	
-	<select id="findUname"  resultType="int">
-		SELECT COUNT(*) from customers 
-		WHERE (phone=#{username} or email=#{username}) and `status` = #{status} and types IN (#{agent},#{agentPer})
+
+	<select id="findUname" resultType="int">
+		SELECT COUNT(*) from customers
+		WHERE phone=#{username} or email=#{username} and `status` = #{ststus}
+		and types IN (#{agent},#{agentPer})
 	</select>
-	
-	<select id="findEmail"  resultType="int">
-		SELECT COUNT(*) from customers 
-		WHERE email = #{username} and `status` = #{status} and types IN (#{agent},#{agentPer})
+
+	<select id="findEmail" resultType="int">
+		SELECT COUNT(*) from customers
+		WHERE email = #{username} and `status` = #{ststus} and types IN
+		(#{agent},#{agentPer})
 	</select>
-	
-	<select id="judgeCityId" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="int">
-		SELECT count(*) FROM customers WHERE  city_id=#{cityId} and status = #{status} and types = #{types}
+
+	<select id="judgeCityId"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer"
+		resultType="int">
+		SELECT count(*) FROM customers WHERE city_id=#{cityId} and
+		status = #{status} and types = #{types}
 	</select>
-	
-	<select id="judgePhone"  resultType="int">
-		SELECT count(*) FROM customers WHERE  phone = #{phone}  and status = #{status} and types = #{types}
+
+	<select id="judgePhone" resultType="int">
+		SELECT count(*) FROM
+		customers WHERE phone = #{phone} and status = #{status} and types =
+		#{types}
 	</select>
-	
-	<select id="judgeEmail"  resultType="int">
-		SELECT count(*) FROM customers WHERE  email = #{email}  and status = #{status} and types = #{types}
+
+	<select id="judgeEmail" resultType="int">
+		SELECT count(*) FROM
+		customers WHERE email = #{email} and status = #{status} and types =
+		#{types}
 	</select>
-	
+
 	<select id="getAgentCode" resultType="object">
-		SELECT max(code) FROM agents WHERE parent_id = #{parentId}
+		SELECT max(code) FROM
+		agents WHERE parent_id = #{parentId}
 	</select>
-	
-	<select id="Toestemming" resultType="map" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
-		SELECT r.role_id FROM  customers c 
+
+	<select id="Toestemming" resultType="map"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		SELECT r.role_id FROM customers c
 		LEFT JOIN customer_role_relations r ON r.customer_id=c.id
 		WHERE c.id=#{id}
 	</select>
-	
-	<select id="findCode" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="string">
+
+	<select id="findCode"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer"
+		resultType="string">
 		SELECT dentcode from customers
-		WHERE phone=#{username} and `status` = #{ststus} and types IN (#{agent},#{agentPer})
+		WHERE phone=#{username} and
+		`status` = #{ststus} and types IN (#{agent},#{agentPer})
 	</select>
-	
+
 	<update id="modifyPassword">
 		UPDATE customers c SET
 		c.password=#{password},updated_at = NOW()
-		WHERE c.id = #{customerId} AND c.password = #{passwordOld}
+		WHERE c.id = #{customerId}
+		AND c.password = #{passwordOld}
 	</update>
-	
+
 	<select id="findCustomerPwdById" parameterType="int" resultType="string">
 		SELECT password from customers
 		WHERE id=#{id}
 	</select>
+
+	<insert id="insertAgent" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Agent">
+		insert into
+		agents(name,phone,customer_id,form_types,parent_id,status,is_have_profit,created_at,updated_at,code)
+		values(#{name},#{phone},#{customerId},#{formTypes},#{parentId},#{status},#{isHaveProfit},now(),now(),#{code})
+	</insert>
+	
+	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+		INSERT into
+		customers(city_id,types,phone,created_at,status,name,integral,updated_at)
+		VALUES(#{cityId},#{types},#{phone},now(),#{status},#{name},#{integral},now())
+	</insert>
 </mapper>

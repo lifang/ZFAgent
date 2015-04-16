@@ -61,14 +61,16 @@ public class OrderService {
         int payprice = 0;
         int price = 0;
         int count = SysUtils.Object2int(goodMap.get("count"));
-        if (count < quantity) {
-            throw new LowstocksException("库存不足");
-        } else {
-            int goodId = SysUtils.Object2int(goodMap.get("goodid"));
-            PosReq posreq = new PosReq();
-            posreq.setGoodId(goodId);
-            posreq.setCityId(count - quantity);
-            goodMapper.upQuantity(posreq);
+        if(5 != orderreq.getOrderType()){
+            if (count < quantity) {
+                throw new LowstocksException("库存不足");
+            } else {
+                int goodId = SysUtils.Object2int(goodMap.get("goodid"));
+                PosReq posreq = new PosReq();
+                posreq.setGoodId(goodId);
+                posreq.setCityId(count - quantity);
+                goodMapper.upQuantity(posreq);
+            }
         }
         // 3 代理商代购 4 代理商代租赁 5 代理商批购
         if (3 == orderreq.getOrderType()) {
@@ -488,9 +490,26 @@ public class OrderService {
         return map;
     }
 
+    /**
+     * 订单取消
+     * @param myOrderReq
+     * @return
+     */
+    @Transactional(value = "transactionManager-zhangfu")
     public int cancelMyOrder(MyOrderReq myOrderReq) {
         myOrderReq.setOrderStatus(OrderStatus.CANCEL);
+        String p= myOrderReq.getP();//判断是否是代购   代购需要还库存
         int i = orderMapper.cancelMyOrder(myOrderReq);
+        if(null !=p && p=="3"){
+        	List<Map<String, Object>> o = orderMapper.findOrderById(myOrderReq);
+        	for(Map<String,Object> oo :o){
+        		 String good_id = oo.get("good_id")==null?"":oo.get("good_id").toString();
+                 String quantity = oo.get("quantity")==null?"":oo.get("quantity").toString();
+                 if(good_id !="" && quantity!=""){
+                     orderMapper.update_goods_stock(good_id,quantity);
+                 }
+        	}
+        }
         return i;
     }
 

@@ -11,7 +11,7 @@
 	</insert>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
-		SELECT t.id,t.serial_num,t.status,t.type,o.id as appid,m.title,m.phone,p.`name` as channelName ,g.model_number,b.`name` as brandsName
+		SELECT t.id,t.serial_num,t.status,t.type,o.id as appid,m.title,m.phone,p.`name` as channelName ,g.model_number,g.title AS goodsName,b.`name` as brandsName
 		FROM terminals t LEFT JOIN opening_applies o
 		ON o.terminal_id = t.id
 		LEFT JOIN merchants m 
@@ -122,7 +122,7 @@
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.id,t.serial_num,t.`status`,g.title,g.model_number,b.name as
 		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,l.`id` as appId,l.`status` as applieStatus,e.types,
-		u.`name` as userName ,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
+		u.`name` as userName,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
 		FROM terminals t 
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on t.good_id=g.id

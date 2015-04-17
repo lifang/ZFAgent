@@ -169,10 +169,6 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 	};
 
 	$scope.agentInit = function() {
-		// 移除样式
-		// $("link[href='style/global.css']").remove();
-		// 隐藏中间搜索
-		// $scope.$emit('changesearchview',false);
 		// 获得省级
 		$scope.getShengcit();
 		// 初始化图片验证码

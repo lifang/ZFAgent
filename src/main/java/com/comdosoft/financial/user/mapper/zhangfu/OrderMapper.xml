@@ -61,6 +61,8 @@
 	<resultMap id="orderPaymentMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderPayment">
 		 <id property="id" column="order_payment_id" />  
             <result property="payType" column="pay_type" /> 
+            <result property="orderId" column="order_id" /> 
+            <result property="price" column="price" /> 
 	</resultMap>
 	
 	<resultMap id="orderGoodsMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderGood">
@@ -395,6 +397,10 @@
 	
      <select id="getTerminsla" resultMap="terResultMap" >
 		select  t.serial_num from terminals t where t.order_id=#{param1}
+	</select>
+	
+     <select id="getOrderPayByOrderId" resultMap="orderPaymentMap" >
+		select * from order_payments op where op.order_id=#{param1}
 	</select>
 	
     

@@ -25,8 +25,8 @@
 										<input ng-model="req.keys" type="text" />
 										<button ng-click="sonlist()">搜索</button>
 									</div>
-									<div class="ac_area">
-										<a href="javascript:void(0);" ng-repeat="one in son" on-finish-render-filters ng-click="checkson(one.id)">{{one.company_name}}</a>
+									<div class="ac_area" id="test1">
+										<a href="javascript:void(0);" ng-repeat="one in son" on-finish-render2-filters ng-click="checkson(one.id)">{{one.company_name}}</a>
 									</div>
 								</div>
 							</div></li>

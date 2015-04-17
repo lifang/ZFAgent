@@ -11,7 +11,7 @@
 	</insert>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
-		SELECT t.id,t.serial_num,t.status,t.type,o.id as appid,m.title,m.phone,p.`name` as channelName ,g.model_number,g.title AS goodsName,b.`name` as brandsName
+		SELECT t.id,t.serial_num,t.status,t.type,o.id as appid,m.title,m.phone,p.`name` as channelName ,g.model_number,b.`name` as brandsName
 		FROM terminals t LEFT JOIN opening_applies o
 		ON o.terminal_id = t.id
 		LEFT JOIN merchants m 
@@ -22,7 +22,6 @@
 		ON g.id = t.good_id
 		LEFT JOIN good_brands b
 		ON b.id = g.good_brands_id
-
 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id} )))
 		<if test="frontStatus != null and frontStatus !=''">AND t.`status` = #{frontStatus}</if>
 		<if test="serialNum != null and serialNum !=''">AND  t.serial_num like '%${serialNum}%'</if>
@@ -43,7 +42,6 @@
 		ON g.id = t.good_id
 		LEFT JOIN good_brands b
 		ON b.id = g.good_brands_id
-
 		WHERE (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id =#{id} )))
 		<if test="frontStatus != null and frontStatus !=''">AND t.`status` = #{frontStatus}</if>
 		<if test="serialNum != null and serialNum !=''">AND  t.serial_num like '%${serialNum}%'</if>
@@ -58,7 +56,6 @@
 	</select>
 	
 	<select id="searchUser" resultType="map">
-		
 		SELECT u.id ,u.`username` FROM  agents s
 		LEFT JOIN customer_agent_relations c ON c.agent_id = s.id
 		LEFT JOIN customers u ON u.id = c.customer_id
@@ -122,7 +119,7 @@
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.id,t.serial_num,t.`status`,g.title,g.model_number,b.name as
 		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,l.`id` as appId,l.`status` as applieStatus,e.types,
-		u.`name` as userName,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
+		u.`name` as userName ,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
 		FROM terminals t 
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on t.good_id=g.id
@@ -135,8 +132,6 @@
 		LEFT JOIN customers u ON u.id = t.customer_id
 		LEFT JOIN agents q on q.id = t.agent_id
 		WHERE t.id=#{id}
-		<!-- AND
-		e.customer_id=t.customer_id -->
 	</select>
 	
 	<select id="getRate" parameterType="int" resultType="map">

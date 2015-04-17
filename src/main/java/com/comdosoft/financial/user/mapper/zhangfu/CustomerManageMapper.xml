@@ -36,7 +36,7 @@
    
 	<update id="delCustomer" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
 		update customers set status=3 and updated_at=now()
-		  WHERE 1=1 and id=#{customerId}
+		  WHERE 1=1 and id=#{customerId} and username like #{loginId}
 	</update>
 	
 	<update id="delCusAgentRel"  parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">

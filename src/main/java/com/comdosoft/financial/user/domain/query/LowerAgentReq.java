@@ -51,7 +51,7 @@ public class LowerAgentReq {
     private String pwd;
     //确认密码
     private String pwd1;
-    //分润   1无2有
+    //分润
     private int isProfit;
     //存放页面修该分润比例的值  格式为   precent_tradeId|precent_tradeId
     private String profitPercent;

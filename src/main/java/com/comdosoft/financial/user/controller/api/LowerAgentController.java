@@ -313,22 +313,22 @@ public class LowerAgentController {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value="setDefaultProfit",method=RequestMethod.POST)
-	public Response setDefaultProfit(@RequestBody LowerAgentReq req){
-		Response response = new Response();
-		
-		Map<String, Object> map=lowerAgentService.setDefaultProfit(req);
-		
-		int result= (Integer)map.get("resultCode");
-	    if(result==-1){
-	    	response.setCode(Response.ERROR_CODE);
-	    	response.setMessage("设置分润时出错！");
-	    }else{
-	    	response.setCode(Response.SUCCESS_CODE);
-	    	response.setMessage("设置分润成功！");
-	    }
-        return response;
-	}
+//	@RequestMapping(value="setDefaultProfit",method=RequestMethod.POST)
+//	public Response setDefaultProfit(@RequestBody LowerAgentReq req){
+//		Response response = new Response();
+//		
+//		Map<String, Object> map=lowerAgentService.setDefaultProfit(req);
+//		
+//		int result= (Integer)map.get("resultCode");
+//	    if(result==-1){
+//	    	response.setCode(Response.ERROR_CODE);
+//	    	response.setMessage("设置分润时出错！");
+//	    }else{
+//	    	response.setCode(Response.SUCCESS_CODE);
+//	    	response.setMessage("设置分润成功！");
+//	    }
+//        return response;
+//	}
 	/**
 	 * 上传图片
 	 * @param id

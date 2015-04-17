@@ -67,10 +67,6 @@ public class OpeningApplyWebController {
 			map.put("channels", list);
 			// 数据回显(针对重新开通申请)
 			map.put("applyFor", openingApplyWebService.ReApplyFor((Integer)maps.get("terminalId")));
-			// 材料名称
-			//map.put("materialName",
-					//openingApplyWebService.getMaterialName((Integer)maps.get("terminalId"),
-							//(Integer)maps.get("status")));
 			//获得已有申请开通基本信息
 						map.put("openingInfos",
 								openingApplyWebService.getOppinfo((Integer)maps.get("terminalId")));
@@ -107,27 +103,19 @@ public class OpeningApplyWebController {
 	 */
 	@RequestMapping(value = "isopen", method = RequestMethod.POST)
 	public Response isopen(@RequestBody Map<String, Object> map) {
-		Response response = null;
 		try {
-			response = new Response();
 			int count = openingApplyWebService.isopen((Integer)map.get("id"));
 			if(count>0){
-				response.setCode(Response.SUCCESS_CODE);
-				response.setMessage("可以开通!");
-				response.setResult(count);
+				return Response.getSuccess("可以开通！");
 			}
 			if(count == 0){
-				response.setCode(Response.ERROR_CODE);
-				response.setMessage("终端尚未绑定不能开通！");
-				response.setResult(count);
-
+				return Response.getError("终端尚未绑定用户不能开通！");
 			}
 		} catch (Exception e) {
 			logger.error("判断终端是否绑定失败！",e);
-			response.setCode(Response.ERROR_CODE);
-			response.setMessage("请求失败！");
+			return Response.getError("请求失败！");
 		}
-		return response;
+		return null;
 	}
 	
 	/**
@@ -216,8 +204,6 @@ public class OpeningApplyWebController {
 				openingApplie.setStatus(OpeningApplie.STATUS_1);
 				openingApplie.setTypes((Integer) map
 						.get("publicPrivateStatus"));
-				/*openingApplie.setMerchantId((Integer) map
-						.get("merchantId"));*/
 				openingApplie.setMerchantName((String) map
 						.get("merchantName"));
 				openingApplie.setSex((Integer) map
@@ -267,7 +253,6 @@ public class OpeningApplyWebController {
 					merchant.setPhone((String) map
 							.get("phone"));
 					merchant.setCityId((Integer)map.get("cityId"));
-					
 					//得到该终端绑定用户
 					merchant.setCustomerId(openingApplyWebService.isopenMessage(terminalId));//终端绑定用户id
 					openingApplyWebService.addMerchan(merchant);

@@ -10,6 +10,7 @@ import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.Order;
 import com.comdosoft.financial.user.domain.zhangfu.OrderGood;
+import com.comdosoft.financial.user.domain.zhangfu.OrderPayment;
 import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 
 public interface OrderMapper {
@@ -60,6 +61,8 @@ public interface OrderMapper {
 
 	void update_goods_stock(String good_id, String quantity);
 
-
 	List<CsOutStorage> getOutStorageByOrderId(Integer id);
+
+	List<OrderPayment> getOrderPayByOrderId(Integer id);
+ 
 }

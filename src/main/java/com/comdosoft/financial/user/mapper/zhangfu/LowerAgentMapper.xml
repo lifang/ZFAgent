@@ -84,11 +84,11 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
     <insert id="addNewAgent" useGeneratedKeys="true" keyProperty="id"  parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		insert into agents(types,name,card_id,company_name,business_license,phone,email,address,
 			is_have_profit,created_at,updated_at,code,customer_id,status,parent_id,
-			default_profit,card_id_photo_path,license_no_pic_path,tax_no_pic_path,tax_registered_no) 
+			default_profit,card_id_photo_path,license_no_pic_path,tax_no_pic_path,tax_registered_no,agent_code) 
 		values(#{agentType},#{agentName},#{agentCardId},#{companyName},#{companyId},#{phoneNum},
 		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{code},#{customerId},1,#{agentsId},
 		(select a.default_profit from agents a where a.id=#{agentsId}),#{cardPhotoPath},
-		#{licensePhotoPath},#{taxPhotoPath},#{taxNumStr})
+		#{licensePhotoPath},#{taxPhotoPath},#{taxNumStr},#{code})
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
@@ -147,9 +147,5 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
     <select id="getChildAgentCode" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="hashmap">
     	select code from agents where parent_id=#{agentsId}
     </select>
-	
-	<update id="setDefaultProfit" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-		update agents set is_have_profit=#{isProfit} where id=#{sonAgentsId}
-	</update>
 	
 </mapper>

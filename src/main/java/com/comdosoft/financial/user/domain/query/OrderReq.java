@@ -18,7 +18,7 @@ public class OrderReq {
     private int paychannelId;
     private int quantity;
     private int orderType;
-    private Integer customerId;
+    private int customerId;
     private int addressId;
     private String comment;
     private int isNeedInvoice;
@@ -37,15 +37,14 @@ public class OrderReq {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
-
-    public Integer getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
+    
+
     public int getBelongId() {
         return belongId;
     }

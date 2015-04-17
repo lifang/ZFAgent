@@ -23,6 +23,7 @@ import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.domain.zhangfu.Order;
 import com.comdosoft.financial.user.domain.zhangfu.OrderGood;
+import com.comdosoft.financial.user.domain.zhangfu.OrderPayment;
 import com.comdosoft.financial.user.domain.zhangfu.OrderStatus;
 import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.mapper.zhangfu.GoodMapper;
@@ -82,7 +83,6 @@ public class OrderService {
             payprice = lease_deposit + opening_cost;
             price = payprice;
         } else if (5 == orderreq.getOrderType()) {
-            orderreq.setCustomerId(null);
             int purchase_price = SysUtils.Object2int(goodMap.get("purchase_price"));
             int floor_price = SysUtils.Object2int(goodMap.get("floor_price"));
             int floor_purchase_quantity = SysUtils.Object2int(goodMap.get("floor_purchase_quantity"));
@@ -152,22 +152,18 @@ public class OrderService {
             if (pay_status == 2) {
                 zhifu_dingjin = dj_price;
             }
+            Integer haspayed_price = getHasPayedPriceByOrderid(o.getId());
             BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
-            BigDecimal bd_dj = new BigDecimal(zhifu_dingjin);
+            BigDecimal bd_dj = new BigDecimal(haspayed_price);
             BigDecimal shengyu_price = bd_act.subtract(bd_dj); // actual_price-zhifu_dingjin;
-            
-//            List<CsOutStorage> csOutList = o.getCsOutStorageList();
-            List<CsOutStorage> csOutList = orderMapper.getOutStorageByOrderId(o.getId());
+            List<CsOutStorage> csOutList = o.getCsOutStorageList();
             Integer quantity = 0;
-            if(csOutList.size()>0){
-            	for (CsOutStorage cs_out : csOutList) {
-                    if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
-                        Integer q = cs_out.getQuantity();
-                        quantity = quantity + q;
-                    }
+            for (CsOutStorage cs_out : csOutList) {
+                if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
+                    Integer q = cs_out.getQuantity();
+                    quantity = quantity + q;
                 }
-            } 
-            
+            }
             map.put("zhifu_dingjin", zhifu_dingjin + "");// 已付定金
             map.put("shengyu_price", shengyu_price + "");//
             logger.debug("剩余金额：" + shengyu_price);
@@ -298,6 +294,7 @@ public class OrderService {
             return map;
         }
         map.put("order_id", id + "");
+        Integer haspayed_price = getHasPayedPriceByOrderid(id);
         Integer actual_price = o.getActualPrice();// 这个单子的总额
         String pay_status = o.getFrontPayStatus() == null ? "" : o.getFrontPayStatus().toString(); // 1 已支付 0 未支付
         Integer zhifu_dingjin = 0;
@@ -306,9 +303,9 @@ public class OrderService {
             zhifu_dingjin = dj_price;
         }
         BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
-        BigDecimal bd_dj = new BigDecimal(zhifu_dingjin);
+        BigDecimal bd_dj = new BigDecimal(haspayed_price);
         BigDecimal shengyu_price = bd_act.subtract(bd_dj); // actual_price-zhifu_dingjin;
-
+       
         List<CsOutStorage> csOutList = o.getCsOutStorageList();
         Integer quantity = 0;
         for (CsOutStorage cs_out : csOutList) {
@@ -322,8 +319,9 @@ public class OrderService {
         map.put("order_totalPrice", o.getActualPrice() == null ? "" : o.getActualPrice() + "");// 总共金额
         map.put("order_oldPrice", o.getTotalPrice() == null ? "" : o.getTotalPrice() + "");// 总共金额
         map.put("total_dingjin", o.getFrontMoney() == null ? "" : o.getFrontMoney() + "");// 定金总额
-        map.put("zhifu_dingjin", zhifu_dingjin + "");// 已付定金
-        map.put("shengyu_price", shengyu_price);// 剩余金额
+        map.put("zhifu_dingjin", zhifu_dingjin + "");// 已付定金   haspayed_price
+        map.put("shengyu_price", shengyu_price);// 剩余金额   
+        map.put("haspayed_price", haspayed_price);// 已付金额
         map.put("total_quantity", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
 
         map.put("order_receiver", o.getCustomerAddress() == null ? "" : o.getCustomerAddress().getReceiver() == null ? "" : o.getCustomerAddress().getReceiver());
@@ -392,6 +390,18 @@ public class OrderService {
         // obj_list.add(map);
         return map;
     }
+
+	private Integer getHasPayedPriceByOrderid(Integer id) {
+		List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(id);
+        Integer haspayed_price = 0;
+        if(oplist.size()>0){
+        	for(OrderPayment op:oplist){
+        		haspayed_price += op.getPrice();
+        	}
+        }
+        logger.debug("订单号："+id+" 已经付了 ==>"+ haspayed_price);
+		return haspayed_price;
+	}
 
     /**
      * 代购详情

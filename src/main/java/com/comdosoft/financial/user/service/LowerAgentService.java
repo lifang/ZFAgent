@@ -340,29 +340,6 @@ public class LowerAgentService {
     }
 	
 	
-	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> setDefaultProfit(LowerAgentReq req) {
-		Map<String,Object> map=new HashMap<String, Object>();
-		if(req.getIsProfit()==1){
-			req.setIsProfit(2);
-		}else{
-			req.setIsProfit(1);
-		}
-		
-    	int affect_series1=lowerAgentMapper.setDefaultProfit(req);
-    	
-    	//都更新成功
-    	if(affect_series1>=1){
-    		map.put("resultCode", 1);
-			map.put("resultInfo", "设置分润成功！");
-    	}else{
-    		map.put("resultCode", -1);
-			map.put("resultInfo", "设置分润失败！");
-    	}
-    	String resultInfo="执行设置下级代理商分润操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgentsId());
-    	return map;
-    }
 	
 	public int checkLoginId(LowerAgentReq req) {
 		Map<String, Object> map=lowerAgentMapper.checkLoginId(req);

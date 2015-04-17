@@ -148,7 +148,7 @@ public class CustomerManageService {
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
+		req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
 		//密码加密，执行存入数据库
 		req.setPwd(SysUtils.string2MD5(req.getPwd()));
 		int temp=customerManageMapper.changePwd(req);

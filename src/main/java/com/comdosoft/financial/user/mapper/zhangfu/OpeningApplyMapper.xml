@@ -71,6 +71,16 @@
  		<if test="serialNum != null and serialNum != ''">AND t.serial_num like '%${serialNum}%'</if>
  	</select>
  	
+ 	<select id="isopen" resultType="int">
+		SELECT COUNT(*) FROM terminals 
+		WHERE id = #{id} and customer_id is NOT null
+	</select>
+	
+ 	<select id="isopenMessage" resultType="int">
+		SELECT customer_id FROM terminals 
+		WHERE id = #{id}
+	</select>
+ 	
  	<update id="updateOpeningApplyStatus" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">
 		UPDATE `opening_applies` SET `status` = #{status}  
 		WHERE id = #{id}
@@ -123,19 +133,23 @@
  	</select>
  	
  	<select id="getMerchants" resultType="map" parameterType="map">
- 		SELECT id,title FROM merchants 
- 		WHERE customer_id = #{customerId}
+ 		SELECT m.id,m.title 
+		FROM merchants m
+		LEFT JOIN terminals t on m.customer_id = t.customer_id
+		WHERE t.id = #{terminalId}
  		<if test="title != null and title != ''">
- 		title like '%${title}%'
+ 		m.title like '%${title}%'
  		</if>
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
  	
  	<select id="getMerchantSize" resultType="int" parameterType="map">
- 		SELECT count(*) FROM merchants 
- 		WHERE customer_id = #{customerId}
+ 		SELECT count(*)
+		FROM merchants m
+		LEFT JOIN terminals t on m.customer_id = t.customer_id
+		WHERE t.id = #{terminalId}
  		<if test="title != null and title != ''">
- 		title like '%${title}%'
+ 		m.title like '%${title}%'
  		</if>
  	</select>
  	

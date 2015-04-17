@@ -156,10 +156,10 @@ public class GoodService {
         Map<String,Object> map1=sysconfigMapper.getValue("shopcount");
         Map<String,Object> map2=sysconfigMapper.getValue("totalmoney");
         if(hasBuyCount>=SysUtils.Object2int(map1.get("value"))){
-            purchasePrice=purchasePrice*(10000-SysUtils.Object2int(map1.get("remark")))/10000;
+            purchasePrice=purchasePrice*(1000-SysUtils.Object2int(map1.get("remark")))/1000;
         }
         if(totalMoney>=SysUtils.Object2int(map2.get("value"))){
-            purchasePrice=purchasePrice*(10000-SysUtils.Object2int(map2.get("remark")))/10000;
+            purchasePrice=purchasePrice*(1000-SysUtils.Object2int(map2.get("remark")))/1000;
         }
         return purchasePrice>leasePrice?purchasePrice:leasePrice;
     }

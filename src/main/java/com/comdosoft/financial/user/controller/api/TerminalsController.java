@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,9 +47,6 @@ public class TerminalsController {
 	@Resource
 	private UserManagementService userManagementService;
 
-	@Value("${passPath}")
-	private String passPath;
-
 	/**
 	 * 根据代理商ID获得终端列表
 	 * 
@@ -73,8 +69,6 @@ public class TerminalsController {
 					status));
 			applyMap.put("total", terminalsService.getTerminalListSize(
 					(Integer)map.get("agentId"),
-					offSetPage,
-					(Integer)map.get("rows"),
 					status,null));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
@@ -108,8 +102,6 @@ public class TerminalsController {
 					(String)map.get("serialNum")));
 			applyMap.put("total", terminalsService.getTerminalListSize(
 					(Integer)map.get("agentId"),
-					offSetPage,
-					(Integer)map.get("rows"),
 					(Integer)map.get("status"),
 					(String)map.get("serialNum")));
 			return Response.getSuccess(applyMap);
@@ -161,15 +153,13 @@ public class TerminalsController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
 			applyMap.put("terminalList", terminalsService.getMerchants(
-					(Integer)map.get("customerId"),//代理商对应用户id
+					(Integer)map.get("agentId"),//代理商对应用户id
 					offSetPage,
 					(Integer)map.get("rows"),
 					CustomerAgentRelation.STATUS_1,
 					CustomerAgentRelation.TYPES_USER_TO_AGENT));
 			applyMap.put("total", terminalsService.getMerchantSize(
-					(Integer)map.get("customerId"),//代理商对应用户id
-					offSetPage,
-					(Integer)map.get("rows"),
+					(Integer)map.get("agentId"),//代理商对应用户id
 					CustomerAgentRelation.STATUS_1,
 					CustomerAgentRelation.TYPES_USER_TO_AGENT));
 			return Response.getSuccess(applyMap);
@@ -287,21 +277,6 @@ public class TerminalsController {
 		}
 	}
 
-
-	
-	/**
-	 * 选择终端号
-	 * @param customerId
-	 * @return
-	 */
-	//@RequestMapping(value="getTerminal/{customerId}",method=RequestMethod.GET)
-	/*public Response getTerminal(@PathVariable("customerId") Integer customerId){
-		try{
-			return Response.getSuccess(terminalsService.getTerminal(customerId));
-		}catch(Exception e){
-			return Response.getError("请求失败！");
-		}
-	}*/
 	
 	/**
 	 * 筛选终端（pos机，通道，价格）
@@ -336,7 +311,7 @@ public class TerminalsController {
 				
 				for(int i=0;i<arr.size();i++){
 					int count = terminalsService.checkTerminalCode(arr.get(i));//该终端号是否存在
-					int num = terminalsService.checkTerminalCodeOpen(arr.get(i));//该终端号是否存在
+					int num = terminalsService.checkTerminalCodeOpen(arr.get(i));//该终端号是否售后
 					if(count == 0){
 						errorlist.add(arr.get(i));
 					}else if(num != 0){
@@ -345,19 +320,11 @@ public class TerminalsController {
 						successlist.add(arr.get(i));
 					}
 				}
-				//if(errorlist.size() == 0){
 					List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 					for(int i=0;i<successlist.size();i++){
-						list.add(terminalsService.getTerminalArray(arr.get(i).toString()));
+						list.add(terminalsService.getTerminalArray(successlist.get(i).toString()));
 					}
 					return Response.getSuccess(list);
-				/*}else{
-					//返回错误终端号数组
-					Map<Object, Object> listMap = new HashMap<Object, Object>();
-					listMap.put("errorlist", errorlist);
-					listMap.put("successlist", successlist);
-					return Response.getErrorContext(listMap);
-				}*/
 			}catch(Exception e){
 				logger.error("提交申请售后失败！", e);
 				return Response.getError("请求失败！");

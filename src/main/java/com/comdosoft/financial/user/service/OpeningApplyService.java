@@ -46,12 +46,9 @@ public class OpeningApplyService {
 	 * @param pageSize
 	 * @return
 	 */
-	public int getApplyListSize(Integer id,
-			Integer offSetPage, Integer pageSize) {
+	public int getApplyListSize(Integer id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
-		map.put("offSetPage", offSetPage);
-		map.put("pageSize", pageSize);
 		map.put("twoStatus", Terminal.TerminalTYPEID_2);
 		map.put("threeStatus", Terminal.TerminalTYPEID_3);
 		return openingApplyMapper.getApplyListSize(map);
@@ -84,12 +81,9 @@ public class OpeningApplyService {
 	 * @param pageSize
 	 * @return
 	 */
-	public int searchApplyListSize(Integer id,
-			Integer offSetPage, Integer pageSize,String serialNum) {
+	public int searchApplyListSize(Integer id,String serialNum) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
-		map.put("offSetPage", offSetPage);
-		map.put("pageSize", pageSize);
 		map.put("serialNum", serialNum);
 		map.put("twoStatus", Terminal.TerminalTYPEID_2);
 		map.put("threeStatus", Terminal.TerminalTYPEID_3);
@@ -107,16 +101,18 @@ public class OpeningApplyService {
 		OpeningApplie openingApplie =new OpeningApplie();
 		openingApplie.setTerminalId(terminalsId);
 		
-		 SimpleDateFormat sdf =  new SimpleDateFormat( "yyyy-MM-dd" );
-		 Map<String, Object> map = openingApplyMapper.getOppinfo(openingApplie);
-		 if(map!=null){
-			 map.put("birthday", sdf.format(map.get("birthday")));
-				map.put("created_at", sdf.format(map.get("created_at")));
-				map.put("updated_at", sdf.format(map.get("updated_at")));
-		 }
-		return map;
+		return openingApplyMapper.getOppinfo(openingApplie);
 	}
 
+	  /**
+     * 判断该终端是否绑定
+     * 
+     * @return
+     */
+    public int isopen(int terminalId){
+    	return openingApplyMapper.isopen(terminalId);
+    }
+	
 	/**
 	 * 获得终端详情
 	 * 
@@ -144,6 +140,15 @@ public class OpeningApplyService {
     public int judgeOpen(int terminalId){
     	return openingApplyMapper.judgeOpen(terminalId);
     }
+    /**
+     * 获得该终端信息
+     * 
+     * @param terminalId
+     * @return
+     */
+    public int isopenMessage(int terminalId){
+    	return openingApplyMapper.isopenMessage(terminalId);
+    }
 	
 	/**
 	 * 申请开通时判断商户是否存在
@@ -159,9 +164,9 @@ public class OpeningApplyService {
 	 * 
 	 * @return
 	 */
-	public List<Merchant> getMerchants(Integer customerId,Integer offSetPage,Integer pageSize,String title) {
+	public List<Merchant> getMerchants(Integer terminalId,Integer offSetPage,Integer pageSize,String title) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("customerId", customerId);
+			map.put("terminalId", terminalId);
 			map.put("offSetPage", offSetPage);
 			map.put("pageSize", pageSize);
 			map.put("title", title);
@@ -173,11 +178,9 @@ public class OpeningApplyService {
 	 * 
 	 * @return
 	 */
-	public int getMerchantSize(Integer customerId,Integer offSetPage,Integer pageSize,String title) {
+	public int getMerchantSize(Integer terminalId,String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("customerId", customerId);
-		map.put("offSetPage", offSetPage);
-		map.put("pageSize", pageSize);
+		map.put("terminalId", terminalId);
 		map.put("title", title);
 		return openingApplyMapper.getMerchantSize(map);
 	}

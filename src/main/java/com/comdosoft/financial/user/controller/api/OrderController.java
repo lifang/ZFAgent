@@ -128,6 +128,7 @@ public class OrderController {
     @RequestMapping(value="cancelProxy" ,method=RequestMethod.POST)
     public Response cancelProxy(@RequestBody MyOrderReq myOrderReq ) {
         try{
+        	myOrderReq.setP("3");
             int  i = orderService.cancelMyOrder(myOrderReq);
             if(i==1){
                 return Response.buildSuccess("", "取消成功");

@@ -101,14 +101,7 @@ public class OpeningApplyService {
 		OpeningApplie openingApplie =new OpeningApplie();
 		openingApplie.setTerminalId(terminalsId);
 		
-		 SimpleDateFormat sdf =  new SimpleDateFormat( "yyyy-MM-dd" );
-		 Map<String, Object> map = openingApplyMapper.getOppinfo(openingApplie);
-		 if(map!=null){
-			 map.put("birthday", sdf.format(map.get("birthday")));
-				map.put("created_at", sdf.format(map.get("created_at")));
-				map.put("updated_at", sdf.format(map.get("updated_at")));
-		 }
-		return map;
+		return openingApplyMapper.getOppinfo(openingApplie);
 	}
 
 	  /**

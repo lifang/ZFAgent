@@ -40,8 +40,6 @@ public interface PrepareGoodMapper {
 
     int isPcId(PrepareGoodReq req);
 
-    Map<String, Object> getwInfo(PrepareGoodReq req);
-
    
 
     

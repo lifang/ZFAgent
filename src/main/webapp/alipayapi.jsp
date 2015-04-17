@@ -35,29 +35,29 @@
 		//必填，不能修改
 		//服务器异步通知页面路径
 		String notify_url = AlipayConfig.backurl+"ZFMerchant/notify_url.jsp";
-		//需http://格式的完整路径，不能加?id=123这类自定义参数
+		//需http://格式的完整路径，不能加?id=123这类自定义参数
 		//页面跳转同步通知页面路径
 		String return_url = AlipayConfig.backurl+"ZFMerchant/return_url.jsp";
-		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
+		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 		
 
 		//商户订单号
 		String out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
-		//商户网站订单系统中唯一订单号，必填
+		//商户网站订单系统中唯一订单号，必填
 		//订单名称
 		String subject =new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
-		//必填
+		//必填
 		//付款金额
 		String total_fee =new String(request.getParameter("WIDtotal_fee").getBytes("ISO-8859-1"),"UTF-8");
-		//必填
-		//订单描述
+		//必填
+		//订单描述
 		String body ="掌富订单"; //new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
 		//商品展示地址
 		//String show_url ="http://www.商户网址.com/myorder.html"; //new String(request.getParameter("WIDshow_url").getBytes("ISO-8859-1"),"UTF-8");
-		//需以http://开头的完整路径，例如：http://www.商户网址.com/myorder.html
+		//需以http://开头的完整路径，例如：http://www.商户网址.com/myorder.html
 		//防钓鱼时间戳
 		String anti_phishing_key = "";
-		//若要使用请调用类文件submit中的query_timestamp函数
+		//若要使用请调用类文件submit中的query_timestamp函数
 		//客户端的IP地址
 		String exter_invoke_ip = "";
 		//非局域网的外网IP地址，如：221.0.0.1

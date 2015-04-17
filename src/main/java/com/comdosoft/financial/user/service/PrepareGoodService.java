@@ -34,10 +34,6 @@ public class PrepareGoodService {
     public Map<String, Object> getInfo(PrepareGoodReq req) {
         return prepareGoodMapper.getInfo(req);
     }
-    
-    public Map<String, Object> getwInfo(PrepareGoodReq req) {
-        return prepareGoodMapper.getwInfo(req);
-    }
 
     @Transactional(value = "transactionManager-zhangfu")
     public int add(PrepareGoodReq req) {

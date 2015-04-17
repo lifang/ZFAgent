@@ -61,9 +61,8 @@ public interface OrderMapper {
 
 	void update_goods_stock(String good_id, String quantity);
 
-
 	List<CsOutStorage> getOutStorageByOrderId(Integer id);
 
-
 	List<OrderPayment> getOrderPayByOrderId(Integer id);
+ 
 }

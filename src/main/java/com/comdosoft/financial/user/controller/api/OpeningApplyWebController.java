@@ -107,27 +107,19 @@ public class OpeningApplyWebController {
 	 */
 	@RequestMapping(value = "isopen", method = RequestMethod.POST)
 	public Response isopen(@RequestBody Map<String, Object> map) {
-		Response response = null;
 		try {
-			response = new Response();
 			int count = openingApplyWebService.isopen((Integer)map.get("id"));
 			if(count>0){
-				response.setCode(Response.SUCCESS_CODE);
-				response.setMessage("可以开通!");
-				response.setResult(count);
+				return Response.getSuccess("可以开通！");
 			}
 			if(count == 0){
-				response.setCode(Response.ERROR_CODE);
-				response.setMessage("终端尚未绑定不能开通！");
-				response.setResult(count);
-
+				return Response.getError("终端尚未绑定用户不能开通！");
 			}
 		} catch (Exception e) {
 			logger.error("判断终端是否绑定失败！",e);
-			response.setCode(Response.ERROR_CODE);
-			response.setMessage("请求失败！");
+			return Response.getError("请求失败！");
 		}
-		return response;
+		return null;
 	}
 	
 	/**

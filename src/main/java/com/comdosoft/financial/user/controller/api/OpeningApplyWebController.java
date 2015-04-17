@@ -113,7 +113,7 @@ public class OpeningApplyWebController {
 				return Response.getSuccess("可以开通！");
 			}
 			if(count == 0){
-				return Response.getError("终端尚未绑定不能开通！");
+				return Response.getError("终端尚未绑定用户不能开通！");
 			}
 		} catch (Exception e) {
 			logger.error("判断终端是否绑定失败！",e);

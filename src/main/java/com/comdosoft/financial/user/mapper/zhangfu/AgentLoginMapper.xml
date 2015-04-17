@@ -95,7 +95,7 @@
 
 	<select id="findUname" resultType="int">
 		SELECT COUNT(*) from customers
-		WHERE phone=#{username} or email=#{username} and `status` = #{ststus}
+		WHERE (phone=#{username} or email=#{username}) and `status` = #{ststus}
 		and types IN (#{agent},#{agentPer})
 	</select>
 

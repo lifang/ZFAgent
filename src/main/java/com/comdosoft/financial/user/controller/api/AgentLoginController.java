@@ -370,7 +370,6 @@ public class AgentLoginController {
 			if (obj == null) {
 				return Response.getError("用户名不存在,或者未激活！");
 			} else {
-
 				if (obj.get("types") == Customer.TYPE_AGENT_STAFF) {// 员工
 					customerMes = agentLoginService.doLoginPersn(customer);
 				} else if (obj.get("types") == Customer.TYPE_AGENT) {// 代理商
@@ -405,11 +404,9 @@ public class AgentLoginController {
 			Customer customer = new Customer();
 			customer.setStatus(Customer.STATUS_NORMAL);
 			customer.setUsername((String) map.get("username"));
-			if (agentLoginService.findUname(customer.getUsername(), customer.getStatus().toString(), Customer.TYPE_AGENT.toString(), Customer.TYPE_AGENT_STAFF.toString()) == 0) {
+			if (agentLoginService.findUname(customer.getUsername(), customer.getStatus().toString(), Customer.TYPE_AGENT.toString(), Customer.TYPE_AGENT_STAFF.toString()) == 0)
 				return Response.getError("用户不存在！");
-			} else {
 				return Response.getSuccess("用户存在！");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.getError("系统异常！");

@@ -82,9 +82,20 @@ public class LowerAgentReq {
     //公司税务登记证号
     private String taxNumStr;
     private String code;
+    //下级代理商名字
+    private String lowerAgentName;
     
     
-    public String getCode() {
+    
+    public String getLowerAgentName() {
+		return lowerAgentName;
+	}
+
+	public void setLowerAgentName(String lowerAgentName) {
+		this.lowerAgentName = lowerAgentName;
+	}
+
+	public String getCode() {
 		return code;
 	}
 

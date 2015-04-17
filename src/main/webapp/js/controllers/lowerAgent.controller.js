@@ -57,6 +57,7 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 	};
 	$scope.list=function(){
 		$scope.req.page=$scope.req.indexPage;
+		$scope.req.lowerAgentName=$scope.lowerAgentName;
 		$http.post("api/lowerAgent/list", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.lowerAgentList=data.result.list;
@@ -65,6 +66,12 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
             }
         });
 	};
+	
+	$scope.searchByName = function(){
+		 $scope.indexPage = 1;
+		 
+		$scope.init();
+	}
 	
 	$scope.changeStatus=function(val,status){
 		$scope.req.sonAgentsId=val;

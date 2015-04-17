@@ -148,7 +148,7 @@ public class CustomerManageService {
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
+		//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
 		//密码加密，执行存入数据库
 		req.setPwd(SysUtils.string2MD5(req.getPwd()));
 		int temp=customerManageMapper.changePwd(req);
@@ -203,17 +203,18 @@ public class CustomerManageService {
 			int temp1=customerManageMapper.delCusAgentRel(req);
 			if(temp1<1){
 				resultInfo.setLength(0);
-				resultInfo.append("删除customer_agent_relations表出错");
+				resultInfo.append("删除customer_agent_relations表出错,不存在该用户与代理商的关系");
 			}else{
 				int temp2=customerManageMapper.delCusRoleRel(req);
-				if(temp2<1){
-					resultInfo.setLength(0);
-					resultInfo.append("删除customer_role_relations表出错");
-				}else{
-					resultCode=Response.SUCCESS_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("删除用户成功");
-				}
+//				if(temp2<1){
+//					resultInfo.setLength(0);
+//					resultInfo.append("删除customer_role_relations表出错");
+//				}else{
+//					
+//				}
+				resultCode=Response.SUCCESS_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("删除用户成功");
 			}
 		}
 		
@@ -250,20 +251,21 @@ public class CustomerManageService {
 				if(temp1<1){
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("删除customer_agent_relations表出错");
+					resultInfo.append("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
 					break;
 				}else{
 					int temp2=customerManageMapper.delCusRoleRel(req);
-					if(temp2<1){
-						resultCode=Response.ERROR_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("删除customer_role_relations表出错");
-						break;
-					}else{
-						resultCode=Response.SUCCESS_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("删除用户成功");
-					}
+//					if(temp2<1){
+//						resultCode=Response.ERROR_CODE;
+//						resultInfo.setLength(0);
+//						resultInfo.append("删除customer_role_relations表出错");
+//						break;
+//					}else{
+//						
+//					}
+					resultCode=Response.SUCCESS_CODE;
+					resultInfo.setLength(0);
+					resultInfo.append("删除用户成功");
 				}
 			}
 			
@@ -291,10 +293,10 @@ public class CustomerManageService {
 		if(list!=null && list.size()>0){
 			String loginId=list.get(0).get("username").toString();
 			String name=list.get(0).get("name").toString();
-			String createdTime=list.get(0).get("created_at").toString();
+			String createdTime=list.get(0).get("createdAt").toString();
 			StringBuilder rolesStr=new StringBuilder();
 			for(int i=0;i<list.size();i++){
-				String roleId=list.get(i).get("role_id").toString();
+				String roleId=list.get(i).get("roleId").toString();
 				if(rolesStr.length()<1){
 					rolesStr.append(roleId);
 				}else{

@@ -45,13 +45,22 @@ where a.agent_id=#{sonAgentsId} and b.name is not null group by a.trade_type_id,
    </select>
      
     <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="map">
-        select c.*,d.name as cityName,if(e.name is null," ",e.name) as provinceName from 
+        select ifnull(c.types," ") as types,ifnull(c.name," ") as name,ifnull(c.card_id," ") as card_id,
+        ifnull(c.company_name," ") as company_name,ifnull(c.business_license," ") as business_license,
+        ifnull(c.phone," ") as phone,ifnull(c.email," ") as email,ifnull(c.address," ") as address,
+        ifnull(c.is_have_profit," ") as is_have_profit,ifnull(c.loginId," ") as loginId,ifnull(c.cityId," ") as cityId,
+ifnull(c.tax_registered_no," ") as tax_registered_no,ifnull(c.created_at," ") as created_at,ifnull(c.allQty," ") as allQty,
+ifnull(c.opennum," ") as opennum,ifnull(c.soldnum," ") as soldnum,
+ifnull(c.cardpath," ") as cardpath,ifnull(c.licensepath," ") as licensepath,ifnull(c.taxpath," ") as taxpath,
+		ifnull(d.name," ") as cityName,if(e.name is null," ",e.name) as provinceName from 
 		(select a.types,a.name,a.card_id,a.company_name,a.business_license,a.phone,a.email,a.address,a.is_have_profit,
-         b.username as loginId,b.city_id as cityId,if(a.tax_registered_no is null, " ",a.tax_registered_no) as tax_registered_no,a.created_at,
+         b.username as loginId,b.city_id as cityId,if(a.tax_registered_no is null, " ",a.tax_registered_no) as tax_registered_no,
+         ifnull(date_format(a.created_at,'%Y-%c-%d %h:%i:%s'),"") as created_at,
          (select if(sum(f.quantity) is null,0,sum(f.quantity)) from prepare_goods_records f where f.agent_id=a.id) as allQty,
 		(select count(g.id) from terminals g where g.agent_id=a.id and g.customer_id!=null and g.status=1) as openNum,
 		(select count(h.id) from terminals h where h.agent_id=a.id and h.customer_id!=null) as soldNum,
-		a.card_id_photo_path as cardPath,a.license_no_pic_path as licensePath,a.tax_no_pic_path as taxPath
+		ifnull(a.card_id_photo_path," ") as cardPath,ifnull(a.license_no_pic_path," ") as licensePath,
+		ifnull(a.tax_no_pic_path," ") as taxPath
 		from agents a 
 		left join customers b on b.id=a.customer_id
 		where a.id=#{sonAgentsId}) c left join cities d on c.cityId=d.id

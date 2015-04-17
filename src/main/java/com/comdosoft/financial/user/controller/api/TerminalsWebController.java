@@ -28,9 +28,11 @@ import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
+import com.comdosoft.financial.user.service.UserManagementService;
 import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -52,6 +54,9 @@ public class TerminalsWebController {
 	
 	@Resource
 	private OpeningApplyService openingApplyService;
+	
+	@Resource
+	private UserManagementService userManagementService;
 	
 	@Autowired
 	private CommentService commentService ;
@@ -340,6 +345,7 @@ public class TerminalsWebController {
 	@RequestMapping(value="addCustomer",method=RequestMethod.POST)
 	public Response addCustomer(@RequestBody Map<Object, Object> map){
 		try {
+			CustomerAgentRelation customerAgentRelation = new CustomerAgentRelation();
 			if(terminalsWebService.findUname(map)>0){
 				return Response.getError("用户已存在！");
 			}else{
@@ -353,6 +359,12 @@ public class TerminalsWebController {
 				customer.setStatus(Customer.STATUS_NORMAL);
 				customer.setIntegral(0);
 				terminalsWebService.addUser(customer);
+				//对该代理商已改用户绑定关系
+				customerAgentRelation.setCustomerId(customer.getId());
+				customerAgentRelation.setAgentId((Integer)map.get("agentId"));
+				customerAgentRelation.setTypes(CustomerAgentRelation.TYPES_USER_TO_AGENT);
+				customerAgentRelation.setStatus(CustomerAgentRelation.STATUS_1);
+				userManagementService.addCustomerOrAgent(customerAgentRelation);
 				return Response.getSuccess(customer);
 			}
 		} catch (Exception e) {

@@ -193,7 +193,7 @@
 		<if test="q !=null and q!=''">
 		and o.status = #{q}
 		</if>
-			group BY os.id
+			group BY o.id
 		order by o.created_at desc
 		
 		LIMIT #{offset},#{rows}
@@ -270,6 +270,7 @@
 		   og.order_id =#{param1}
 		order by og.created_at desc
 	</select>
+	
 	<!-- 查询此订单的原有库存 -->
 	<select id="findOrderById"  resultType="map" >
 	 	SELECT
@@ -279,6 +280,7 @@
 		right JOIN order_goods og ON og.order_id = t.id
 		WHERE t.id=#{id}
 	</select>
+	
 	<!-- 归还库存 -->
 	<update id="update_goods_stock" >
      UPDATE goods
@@ -286,6 +288,10 @@
 	WHERE
 		id = #{param1}
     </update>
+    
+	<select id="getOutStorageByOrderId" resultMap="csOutStorageMap" >
+		select * from cs_out_storages c where c.order_id=  #{param1}
+	</select>
 	
 	<select id="findCustomerById" resultMap="customerMap" >
 		SELECT
@@ -306,6 +312,7 @@
 		 gp.good_id = #{param1}
 		order by gp.id desc
 	</select>
+	
 	  <!--  批购 详情 -->
 	<select id="getWholesaleById" resultMap="orderMap">
 		SELECT

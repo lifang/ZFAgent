@@ -1,6 +1,5 @@
 package com.comdosoft.financial.user.service;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,7 +95,7 @@ public class CsUpdateInfoService {
         String json = o.get("templete_info_xml")==null?"":o.get("templete_info_xml").toString();
         try {
         	map = csCencelsService.getTemplePaths(map, json);
-		} catch (IOException e) {
+		} catch (Exception e) {
             map.put("resource_info", new ArrayList<>());
 			e.printStackTrace();
 		}

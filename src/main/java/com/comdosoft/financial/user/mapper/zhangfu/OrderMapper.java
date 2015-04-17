@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.comdosoft.financial.user.domain.query.OrderReq;
+import com.comdosoft.financial.user.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
@@ -58,4 +59,7 @@ public interface OrderMapper {
 
 
 	void update_goods_stock(String good_id, String quantity);
+
+
+	List<CsOutStorage> getOutStorageByOrderId(Integer id);
 }

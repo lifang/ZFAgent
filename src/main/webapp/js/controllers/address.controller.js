@@ -115,7 +115,7 @@ var addressController = function ($scope, $http, LoginService) {
 		var zipCodeReg = /^[1-9][0-9]{5}$/;// 校验邮政编码
 		var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;// 校验手机号码
 		var phoneReg = /^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/;// 校验电话号码
-		var reg1 = /^[1-9]\d*|0$/;// 匹配正整数和0
+		var reg1 = /^[0-9]*$/;// 匹配正整数和0
 		if (typeof($scope.selected) == "undefined" || ($scope.selected) == "" || ($scope.selected) == null) { 
 			alert("请选择省份");
 			return false;

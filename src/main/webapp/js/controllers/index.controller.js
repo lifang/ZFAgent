@@ -154,11 +154,56 @@ indexModule.directive('onFinishRenderFilters', function ($timeout) {
         link: function(scope, element, attr) {
             if (scope.$last === true) {
                 $timeout(function() {
-                	$.getScript('js/zinish.js');
+                	$(".su_s_box a").click(function(){
+                		if( !$(this).hasClass("hover")){
+                			$(this).addClass("hover").siblings().removeClass("hover");
+                		} else {
+                			$(this).removeClass("hover");
+                		}
+                	});
                 });
             }
         }
     };
 });
+
+indexModule.directive('onFinishRender2Filters', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                	$("#test1 a").click(function(){
+                		if( !$(this).hasClass("hover")){
+                			$(this).addClass("hover").siblings().removeClass("hover");
+                		} else {
+                			$(this).removeClass("hover");
+                		}
+                	});
+                });
+            }
+        }
+    };
+});
+
+indexModule.directive('onFinishRender3Filters', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                	$("#test2 a").click(function(){
+                		if( !$(this).hasClass("hover")){
+                			$(this).addClass("hover").siblings().removeClass("hover");
+                		} else {
+                			$(this).removeClass("hover");
+                		}
+                	});
+                });
+            }
+        }
+    };
+});
+
 
 indexModule.controller("indexController", indexController);

@@ -82,6 +82,7 @@ public class OrderService {
             payprice = lease_deposit + opening_cost;
             price = payprice;
         } else if (5 == orderreq.getOrderType()) {
+            orderreq.setCustomerId(null);
             int purchase_price = SysUtils.Object2int(goodMap.get("purchase_price"));
             int floor_price = SysUtils.Object2int(goodMap.get("floor_price"));
             int floor_purchase_quantity = SysUtils.Object2int(goodMap.get("floor_purchase_quantity"));
@@ -154,14 +155,19 @@ public class OrderService {
             BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
             BigDecimal bd_dj = new BigDecimal(zhifu_dingjin);
             BigDecimal shengyu_price = bd_act.subtract(bd_dj); // actual_price-zhifu_dingjin;
-            List<CsOutStorage> csOutList = o.getCsOutStorageList();
+            
+//            List<CsOutStorage> csOutList = o.getCsOutStorageList();
+            List<CsOutStorage> csOutList = orderMapper.getOutStorageByOrderId(o.getId());
             Integer quantity = 0;
-            for (CsOutStorage cs_out : csOutList) {
-                if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
-                    Integer q = cs_out.getQuantity();
-                    quantity = quantity + q;
+            if(csOutList.size()>0){
+            	for (CsOutStorage cs_out : csOutList) {
+                    if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
+                        Integer q = cs_out.getQuantity();
+                        quantity = quantity + q;
+                    }
                 }
-            }
+            } 
+            
             map.put("zhifu_dingjin", zhifu_dingjin + "");// 已付定金
             map.put("shengyu_price", shengyu_price + "");//
             logger.debug("剩余金额：" + shengyu_price);

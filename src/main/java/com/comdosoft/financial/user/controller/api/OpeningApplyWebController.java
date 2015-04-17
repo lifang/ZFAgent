@@ -67,10 +67,6 @@ public class OpeningApplyWebController {
 			map.put("channels", list);
 			// 数据回显(针对重新开通申请)
 			map.put("applyFor", openingApplyWebService.ReApplyFor((Integer)maps.get("terminalId")));
-			// 材料名称
-			//map.put("materialName",
-					//openingApplyWebService.getMaterialName((Integer)maps.get("terminalId"),
-							//(Integer)maps.get("status")));
 			//获得已有申请开通基本信息
 						map.put("openingInfos",
 								openingApplyWebService.getOppinfo((Integer)maps.get("terminalId")));
@@ -208,8 +204,6 @@ public class OpeningApplyWebController {
 				openingApplie.setStatus(OpeningApplie.STATUS_1);
 				openingApplie.setTypes((Integer) map
 						.get("publicPrivateStatus"));
-				/*openingApplie.setMerchantId((Integer) map
-						.get("merchantId"));*/
 				openingApplie.setMerchantName((String) map
 						.get("merchantName"));
 				openingApplie.setSex((Integer) map
@@ -259,7 +253,6 @@ public class OpeningApplyWebController {
 					merchant.setPhone((String) map
 							.get("phone"));
 					merchant.setCityId((Integer)map.get("cityId"));
-					
 					//得到该终端绑定用户
 					merchant.setCustomerId(openingApplyWebService.isopenMessage(terminalId));//终端绑定用户id
 					openingApplyWebService.addMerchan(merchant);

@@ -23,8 +23,6 @@ import com.comdosoft.financial.user.mapper.zhangfu.CsCencelsMapper;
 import com.comdosoft.financial.user.utils.OrderUtils;
 import com.comdosoft.financial.user.utils.page.Page;
 import com.comdosoft.financial.user.utils.page.PageRequest;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class CsCencelsService {
@@ -77,7 +75,7 @@ public class CsCencelsService {
         csCencelsMapper.cancel(myOrderReq);
     }
 
-    public Map<String,Object> findById(MyOrderReq myOrderReq) throws ParseException {
+    public Map<String,Object> findById(MyOrderReq myOrderReq)  {
         Map<String, Object> o = csCencelsMapper.findById(myOrderReq);
         Map<String,Object> map = new HashMap<String,Object>();
         String id = o.get("id").toString();
@@ -88,7 +86,12 @@ public class CsCencelsService {
         if(apply_time==""){
             map.put("apply_time", "");
         }else{
-            map.put("apply_time", sdf.format(sdf.parse(apply_time)));
+            try {
+				map.put("apply_time", sdf.format(sdf.parse(apply_time)));
+			} catch (ParseException e) {
+				map.put("apply_time", "");
+				e.printStackTrace();
+			}
         }
         map.put("apply_num", o.get("apply_num")==null?"":o.get("apply_num"));//维修编号
         map.put("terminal_num", o.get("serial_num")==null?"":o.get("serial_num"));
@@ -102,7 +105,7 @@ public class CsCencelsService {
         String json = o.get("templete_info_xml")==null?"":o.get("templete_info_xml").toString();
         try {
 			map = getTemplePaths(map, json);
-		} catch (IOException e) {
+		} catch (Exception e) {
             map.put("resource_info", new ArrayList<>());
 			e.printStackTrace();
 		}
@@ -113,47 +116,56 @@ public class CsCencelsService {
     }
 
     @SuppressWarnings({ "unchecked", "unused" })
-    public Map<String,Object> getTemplePaths(Map<String, Object> map, String json) throws JsonParseException, JsonMappingException, IOException {
+    public Map<String,Object> getTemplePaths(Map<String, Object> map, String json) {
         ObjectMapper mapper = new ObjectMapper();
         logger.debug("templete_info_xml==>>"+json);
         if(!json.equals("") || null!=json){
             Map<String,Object> child_map = null;
             List<LinkedHashMap<String, Object>> list_json;
                 List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-                list_json = mapper.readValue(json, List.class);
-                String[] ids = new String[list_json.size()];
-                for(int i=0;i<list_json.size();i++){
-                    String c_id = list_json.get(i).get("id")+"";
-                    ids[i]= c_id;
-                    logger.debug("ids["+i+"]"+ids[i]);
-                }
-//                logger.debug("ids[]==>>"+ids);
-                MyOrderReq mo = new MyOrderReq();
-                mo.setIds(ids);
-                List<Map<String, Object>> childsList = csCencelsMapper.findTemplete(mo);
-                if(childsList.size()>0){
-                	 for(Map<String,Object> m: childsList){
-                         child_map = new HashMap<String,Object>();
-                         String temp_id = (m.get("id")==null?"":m.get("id").toString());
-                         String temp_title = m.get("title")==null?"":m.get("title").toString();
-                         String temp_path = m.get("templet_file_path")==null?"":m.get("templet_file_path").toString();
-                         String temp_up_path = "";
-                         for(Map<String,Object> mm: list_json){
-                             String mid = mm.get("id")==null?"":mm.get("id")+"";
-                             if(temp_id !="" && temp_id.equals(mid)){
-                                 temp_up_path = mm.get("path")==null?"":mm.get("path")+"" ;
-                             }
-                         }
-                         child_map.put("id", temp_id);
-                         child_map.put("title", temp_title);
-                         child_map.put("templet_path", temp_path);
-                         child_map.put("upload_path", temp_up_path);
-                         list.add(child_map);
-                     }
-                     map.put("resource_info", list);
-                }else{
-                	 map.put("resource_info", new ArrayList<>());
-                }
+                try {
+					list_json = mapper.readValue(json, List.class);
+					if(list_json.size()<1){
+						 map.put("resource_info", new ArrayList<>());
+						 return map;
+					}
+				    String[] ids = new String[list_json.size()];
+	                for(int i=0;i<list_json.size();i++){
+	                    String c_id = list_json.get(i).get("id")+"";
+	                    ids[i]= c_id;
+	                    logger.debug("ids["+i+"]"+ids[i]);
+	                }
+//	                logger.debug("ids[]==>>"+ids);
+	                MyOrderReq mo = new MyOrderReq();
+	                mo.setIds(ids);
+	                List<Map<String, Object>> childsList = csCencelsMapper.findTemplete(mo);
+	                if(childsList.size()>0){
+	                	 for(Map<String,Object> m: childsList){
+	                         child_map = new HashMap<String,Object>();
+	                         String temp_id = (m.get("id")==null?"":m.get("id").toString());
+	                         String temp_title = m.get("title")==null?"":m.get("title").toString();
+	                         String temp_path = m.get("templet_file_path")==null?"":m.get("templet_file_path").toString();
+	                         String temp_up_path = "";
+	                         for(Map<String,Object> mm: list_json){
+	                             String mid = mm.get("id")==null?"":mm.get("id")+"";
+	                             if(temp_id !="" && temp_id.equals(mid)){
+	                                 temp_up_path = mm.get("path")==null?"":mm.get("path")+"" ;
+	                             }
+	                         }
+	                         child_map.put("id", temp_id);
+	                         child_map.put("title", temp_title);
+	                         child_map.put("templet_path", temp_path);
+	                         child_map.put("upload_path", temp_up_path);
+	                         list.add(child_map);
+	                     }
+	                     map.put("resource_info", list);
+	                }else{
+	                	 map.put("resource_info", new ArrayList<>());
+	                }
+				} catch (IOException e) {
+					map.put("resource_info", new ArrayList<>());
+					e.printStackTrace();
+				}
         }else{
             map.put("resource_info", new ArrayList<>());
         }

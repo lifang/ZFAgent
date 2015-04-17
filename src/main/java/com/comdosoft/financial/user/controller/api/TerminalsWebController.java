@@ -83,18 +83,8 @@ public class TerminalsWebController {
 			
 			maps.put("total", terminalsWebService.getTerminalListNums(
 					((Integer)map.get("customersId")),
-					offSetPage,
-					(Integer)map.get("rows"),
 					(Integer)map.get("frontStatus"),
 					(String)map.get("serialNum")));
-			//终端付款状态（2 已付   1未付  3已付定金）
-			maps.put("frontPayStatus", terminalsWebService.getFrontPayStatus());
-			//支付通道和周期列表
-			/*List<Map<Object, Object>> list = terminalsService.getChannels();
-			 for(Map<Object, Object> m:list){
-				 m.put("billings", terminalsService.channelsT(Integer.parseInt(m.get("id").toString())));
-			 }
-			maps.put("channels",list);*/
 			List<Map<Object, Object>> li = terminalsWebService.getTerminalList(
 					((Integer)map.get("customersId")),
 					offSetPage,
@@ -133,12 +123,6 @@ public class TerminalsWebController {
 			// 获得已有申请开通基本信息
 						map.put("openingInfos",
 								terminalsWebService.getOppinfo((Integer)maps.get("terminalsId")));
-			//获得模板路径
-			//map.put("ReModel", terminalsWebService.getModule((Integer)maps.get("terminalsId"),(Integer)maps.get("types")));
-			//获得用户收货地址
-			//map.put("address", terminalsWebService.getCustomerAddress((Integer)maps.get("customerId")));
-			//城市级联
-			/*map.put("Cities", terminalsService.getCities());*/
 			return Response.getSuccess(map);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -277,7 +261,7 @@ public class TerminalsWebController {
 				csAgent.setTerminalsQuantity(arr.length);
 				terminalsWebService.submitAgent(csAgent);//添加售后信息
 				map.put("agentId", csAgent.getId());
-				map.put("customerId", csAgent.getCustomerId());
+				map.put("customerId",(Integer)map.get("agentUserId"));
 				terminalsWebService.addCsAgentMark(map);//物流信息
 				return Response.getSuccess("提交申请成功！");
 			}else{
@@ -321,14 +305,8 @@ public class TerminalsWebController {
 				if(terminalsWebService.numIsBinding((String)map.get("terminalsNum"))==0){
 					return Response.getError("该终端已绑定！");
 				}else{
-					/*if(terminalsWebService.merchantsIsBinding((Integer)map.get("merchantsId"))>0){
-						return Response.getError("该商户已绑定终端！");
-					}else{*/
-						//Integer terId =(Integer) terminalsWebService.getTerminalsNum((String)map.get("terminalsNum"));
-						//map.put("terchantsId", terId);
 						terminalsWebService.Binding(map);
 						return Response.getSuccess("绑定成功！");
-					//}
 				}
 			}
 		} catch (Exception e) {
@@ -387,10 +365,6 @@ public class TerminalsWebController {
 					terminalsWebService.getApplyDetails((Integer)maps.get("terminalsId")));
 			//获得模板路径
 			map.put("ReModel", terminalsWebService.getModule((Integer)maps.get("terminalsId"),(Integer)maps.get("types")));
-			//获得用户收货地址
-			//map.put("address", terminalsWebService.getCustomerAddress((Integer)maps.get("customerId")));
-			//城市级联
-			/*map.put("Cities", terminalsService.getCities());*/
 			return Response.getSuccess(map);
 		} catch (Exception e) {
 			e.printStackTrace();

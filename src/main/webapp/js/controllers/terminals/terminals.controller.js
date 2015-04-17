@@ -26,7 +26,6 @@ var agentTerminalController = function ($scope, $http, LoginService) {
           if (data != null && data != undefined) {
               $scope.list = data.result.list;
               $scope.total = data.result.total;
-              $scope.appstatus = data.result.frontPayStatus;
           }
           $scope.pages = [];
           calcSystemPage($scope, $scope.total);// 计算分页
@@ -101,9 +100,7 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 
 var terminalDetailController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalId=Math.ceil($location.search()['terminalId']);
-	//$scope.terminalId=1;
-	$scope.customerId = Math.ceil(LoginService.agentUserId);
-	//$scope.customerId = 80;
+	//$scope.customerId = Math.ceil(LoginService.agentUserId);
 	$(".leaseExplain_tab").hide();
 	$("#pass").hide();
 	//显示终端详情
@@ -111,7 +108,7 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
 	//查看终端详情
 	$scope.terminalDetail = function () {
 	//获取终端详情
-      $http.post("api/webTerminal/getWebApplyDetail", {terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
+      $http.post("api/webTerminal/getWebApplyDetail", {terminalsId:$scope.terminalId}).success(function (data) {  //绑定
     	  if (data != null && data != undefined) {
         	  if(data.code == 1){
         		  //终端信息
@@ -265,6 +262,7 @@ function infoTab(i_tab,i_box){
 
 var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	  $scope.customersId = Math.ceil(LoginService.loginid);
+	  $scope.agentUserId = Math.ceil(LoginService.agentUserId);
 	  //$scope.customersId = 80;
 	  $scope.butshow = false;//添加新地址显示
 	  $scope.serviceObject = {};//数据封装
@@ -306,7 +304,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	 }
 	 //获得联系地址
 	 $scope.getAddress = function(){
-		  $http.post('api/webTerminal/getAddressee',{customerId:$scope.customersId}).success(function(data){
+		  $http.post('api/webTerminal/getAddressee',{customerId:$scope.agentUserId}).success(function(data){
 			 if(data.code == 1){
 				 $scope.addressList = data.result;
 			 }else if(data.code == -1){
@@ -321,7 +319,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	 $scope.addAddress = function(){
 		 if($scope.addAddressN()){
 			 $scope.addressObject.cityId = $scope.serviceObject.sitys.id;
-			 $scope.addressObject.customerId = $scope.customersId;
+			 $scope.addressObject.customerId = $scope.agentUserId;
 			 $http.post('api/webTerminal/addCostometAddress',$scope.addressObject).success(function(data){
 				 if(data.code == 1){
 					 $scope.getAddress();
@@ -341,7 +339,6 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 				 $scope.serviceObject.address = $scope.addressList[i].address;
 				 $scope.serviceObject.zipCode = $scope.addressList[i].zipCode;
 				 $scope.serviceObject.phone = $scope.addressList[i].moblephone;
-				 //$scope.serviceObject.cityId = $scope.addressList[i].cityId;
 			 }
 		 }
 		 $scope.radioStauts = true;
@@ -377,6 +374,8 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 			alert("请填写物流单号！");
 		}else{
 		 $scope.serviceObject.customerId = $scope.customersId;
+		 $scope.serviceObject.agentUserId = $scope.agentUserId;
+		 
 		 $scope.serviceObject.content = $("#comsName").html()+$scope.coms+","+$("#orderName").html()+$scope.order;
 		 $http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
 			 if(data.code == 1){
@@ -407,7 +406,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 
 var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 $scope.customersId = Math.ceil(LoginService.agentUserId);
-	 // $scope.customersId = 80;
+	 $scope.agentId = Math.ceil(LoginService.agentid);
 	//检验邮箱格式
 		var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
 		//手机格式
@@ -498,43 +497,37 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 			 alert("密码不一致！");
 		 }else{
 			 $scope.binobject.cityid = Math.ceil($scope.binobject.address.id);
+			 $scope.binobject.agentId = Math.ceil($scope.agentId);
+			 
 			 $http.post('api/webTerminal/addCustomer',$scope.binobject).success(function(data){
 				 if(data.code == 1){
 					 $scope.aduser = {adname:data.result.username,adid:data.result.id};
 					 $scope.objectarray = $scope.objectarray.concat($scope.aduser);
 					 $scope.binobject = {};
 					 $scope.addShow = true;
-					 //$scope.userId = data.result.id;
 				 }else if(data.code == -1){
 					 $scope.addShow = false;
 					 $scope.binobject = {};
 					 alert(data.message);
 				 }
 			 }).error(function(){
-				 alert("绑定请求失败！");
+				 alert("创建用户失败！");
 			 })
 		 }
 		
 	 }
-	 
-	 
-	 
-	
 	 //初始化数据
 	 $scope.bininit();
 };
 
 var terminalCancellationController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalId=Math.ceil($location.search()['terminalId']);
-	//$scope.terminalId = 1;
-	//$scope.customerId = Math.ceil(LoginService.agentUserId);//代理商对应用户id
 	$scope.customerId = Math.ceil(LoginService.loginid);//用户登陆id
-	//$scope.customerId = 80;
 	//查看终端详情
 	$scope.terminalDetail = function () {
 		//1 注销， 2 更新
 	  $scope.types = 1;
-      $http.post("api/webTerminal/getWebApplyCancellation", {types:$scope.types,terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
+      $http.post("api/webTerminal/getWebApplyCancellation", {types:$scope.types,terminalsId:$scope.terminalId}).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == 1){
         		  //终端信息
@@ -584,16 +577,12 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
 
 var terminalToUpdateController = function ($scope, $http,$location, LoginService) {
 	$scope.terminalId=Math.ceil($location.search()['terminalId']);
-	//$scope.terminalId = 1;
-	//$scope.customerId = Math.ceil(LoginService.agentUserId);//代理商对应用户id
 	$scope.customerId = Math.ceil(LoginService.loginid);//用户登陆id
-	//$scope.customerId = 80;
-	//$(".leaseExplain_tab").hide();
 	//查看终端详情
 	$scope.terminalDetail = function () {
 		//1 注销， 2 更新
 	  $scope.types = 2;
-      $http.post("api/webTerminal/getWebApplyCancellation", {types:$scope.types,terminalsId:$scope.terminalId,customerId:$scope.customerId}).success(function (data) {  //绑定
+      $http.post("api/webTerminal/getWebApplyCancellation", {types:$scope.types,terminalsId:$scope.terminalId}).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == 1){
         		//终端信息
@@ -680,8 +669,6 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	              $scope.openingInfos = data.result.openingInfos;
 	              //所有省
 	              $scope.CitieChen= data.result.CitieChen;
-	              
-	             // $("#terid").val($scope.applyDetails.id);
 	              
 	              if($scope.openingInfos != null && $scope.openingInfos!= undefined){
 	              	//数据替换

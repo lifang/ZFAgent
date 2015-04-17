@@ -1,5 +1,6 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -179,10 +180,11 @@ public class OpeningApplyWebController {
 	 * 添加申请信息
 	 * 
 	 * @param paramMap
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "addOpeningApply", method = RequestMethod.POST)
 	@ResponseBody
-	public Response addOpeningApply(@RequestBody Map<Object, Object> applyMap) {
+	public Response addOpeningApply(@RequestBody Map<Object, Object> applyMap){
 		try {
 			OpeningApplie openingApplie = new OpeningApplie();
 			String openingAppliesId = null;
@@ -254,15 +256,18 @@ public class OpeningApplyWebController {
 							.get("organizationNo"));
 					merchant.setAccountBankNum((String) map
 							.get("bankNum"));
-					merchant.setCustomerId((Integer) map
-							.get("applyCustomerId"));//代理商用户id
 					merchant.setPhone((String) map
 							.get("phone"));
 					merchant.setCityId((Integer)map.get("cityId"));
+					
+					//得到该终端绑定用户
+					merchant.setCustomerId(openingApplyWebService.isopenMessage(terminalId));//终端绑定用户id
 					openingApplyWebService.addMerchan(merchant);
-					//获得添加后商户Id
-					//terminalId = merchant.getId();
-					openingApplie.setMerchantId(merchant.getId());
+					if(merchant.getId() != null){
+						openingApplie.setMerchantId(merchant.getId());
+					}else{
+						return Response.getError("申请失败！");
+					}
 				}else if(countMap !=null){
 					openingApplie.setMerchantId((Integer)countMap.get("id"));
 				}

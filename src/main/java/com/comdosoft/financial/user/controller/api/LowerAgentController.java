@@ -1,17 +1,25 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.LowerAgentReq;
+import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.LowerAgentService;
 import com.comdosoft.financial.user.service.SystemSetService;
 /**
@@ -28,6 +36,11 @@ public class LowerAgentController {
 	@Autowired
 	private SystemSetService sys;
 	
+	@Autowired
+	private CommentService commentService;
+	
+	@Value("${uploadAgentImgPath}")
+    private String uploadPictureTempsPath;
 	/**
 	 * 根据传入的agentId,statusId，修改代理商状态
 	 * @param req
@@ -316,5 +329,26 @@ public class LowerAgentController {
 	    }
         return response;
 	}
-	
+	/**
+	 * 上传图片
+	 * @param id
+	 * @param img
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="uploadImg",method=RequestMethod.POST)
+	public Response uploadImg(@RequestParam(value="img") MultipartFile img, HttpServletRequest request) {
+		Response response = new Response();
+		try {
+			response.setCode(Response.SUCCESS_CODE);
+	    	response.setMessage("上传成功");
+	    	response.setResult(commentService.saveTmpImage(uploadPictureTempsPath+"/",img, request));
+        	return response;
+        } catch (IOException e) {
+        	response.setCode(Response.ERROR_CODE);
+	    	response.setMessage("上传失败");
+	    	return response;
+        }
+		
+    }
 }

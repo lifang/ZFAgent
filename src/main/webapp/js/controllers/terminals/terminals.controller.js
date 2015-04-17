@@ -378,7 +378,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		}else{
 		 $scope.serviceObject.customerId = $scope.customersId;
 		 $scope.serviceObject.content = $("#comsName").html()+$scope.coms+","+$("#orderName").html()+$scope.order;
-		 /*$http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
+		 $http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
 			 if(data.code == 1){
 				 alert(data.result);
 			 }else if(data.code == 2){
@@ -386,7 +386,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 			 }else if(data.code == -1){
 				 alert(data.message);
 			 }
-		 })*/
+		 })
 	 }
 	 }
 	 //获得省市

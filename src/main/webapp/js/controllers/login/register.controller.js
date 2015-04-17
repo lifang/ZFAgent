@@ -85,7 +85,6 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					alert("营业执照不能为空");
 					return false;
 				} else if ($scope.agent.licenseCode != undefined && $scope.agent.licenseCode != "" && $scope.agent.licenseCode != null) {
-					//
 					if (!licenseCodeReg.test($scope.agent.licenseCode)) {
 						alert("营业执照号必须为数字,请重新输入");
 						return false;

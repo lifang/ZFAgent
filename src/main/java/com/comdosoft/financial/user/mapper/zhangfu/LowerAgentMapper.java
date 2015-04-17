@@ -42,6 +42,8 @@ public interface LowerAgentMapper {
 	
 	int delChannel(LowerAgentReq req);
 	
+	int setDefaultProfit(LowerAgentReq req);
+	
 	Map<String, Object> checkLoginId(LowerAgentReq req);
 	
 	int getCustomerId(LowerAgentReq req);

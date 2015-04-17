@@ -19,7 +19,7 @@
 						<div class="text">
 							<textarea ng-model="req.serialNum"></textarea>
 						</div></li>
-					<li class="block"><span class="labelSpan">指定下级代理商：</span>
+					<li class="block"><span class="labelSpan" >指定下级代理商：</span>
 						<div class="text">
 							<p>从</p>
 							<div class="allocationCargo">
@@ -27,8 +27,8 @@
 									<input ng-model="keys1" type="text" />
 									<button ng-click="sonlist(1)">搜索</button>
 								</div>
-								<div class="ac_area">
-									<a href="javascript:void(0);" ng-repeat="one in son1" on-finish-render-filters ng-click="checkson1(one.id)">{{one.company_name}}</a>
+								<div class="ac_area" id="test1">
+									<a href="javascript:void(0);"  ng-repeat="one in son1" on-finish-render2-filters ng-click="checkson1(one.id)">{{one.company_name}}</a>
 								</div>
 							</div>
 							<p>到</p>
@@ -37,8 +37,8 @@
 									<input ng-model="keys2" type="text" />
 									<button ng-click="sonlist(2)">搜索</button>
 								</div>
-								<div class="ac_area">
-									<a href="javascript:void(0);" ng-repeat="one in son2"  ng-click="checkson2(one.id)">{{one.company_name}}</a>
+								<div class="ac_area" id="test2">
+									<a href="javascript:void(0);"  ng-repeat="one in son2" on-finish-render3-filters  ng-click="checkson2(one.id)">{{one.company_name}}</a>
 								</div>
 							</div>
 						</div></li>

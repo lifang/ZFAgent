@@ -4,7 +4,7 @@
 
 
 	<select id="getUser" resultType="map" parameterType="int">
-		SELECT m.id as customersId,m.`name`,m.phone,m.email,m.created_at as createdAt,a.id as agentId 
+		SELECT m.id as customersId,m.`name`,IFNULL(m.phone,'') as phone,IFNULL(m.email,'') as email,date_format(m.created_at,'%Y-%m-%d') as createdAt,a.id as agentId 
 		from agents a 
 		INNER JOIN customer_agent_relations c ON a.id=c.agent_id and c.`status` = #{status} and c.types = #{types}
 		INNER JOIN customers m ON c.customer_id=m.id

@@ -528,10 +528,6 @@ public class AgentLoginController {
 			Customer customer = new Customer();
 			Agent agent = new Agent();
 			customer.setUsername((String) map.get("userId"));
-			/*
-			 * if(agentLoginService.findUname(customer)>0){ return
-			 * Response.getError("用户已注册！"); }else{
-			 */
 			// 查找该城市中是否有状态为正常的代理商
 			customer.setTypes(Customer.TYPE_AGENT);
 			customer.setStatus(Customer.STATUS_NORMAL);
@@ -552,7 +548,6 @@ public class AgentLoginController {
 				// 向用户表添加数据
 				customer.setPassword((String) map.get("passworda"));
 				customer.setPassword(SysUtils.string2MD5(customer.getPassword()));
-				// customer.setAccountType((Integer)map.get("accountType"));
 				customer.setTypes(Customer.TYPE_AGENT);
 				customer.setStatus(Customer.STATUS_NON_ACTIVE);
 				customer.setPhone((String) map.get("phone"));

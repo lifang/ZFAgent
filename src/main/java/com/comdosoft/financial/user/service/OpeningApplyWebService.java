@@ -186,6 +186,16 @@ public class OpeningApplyWebService {
 	public void addMerchan(Merchant merchant) {
 		openingApplyWebMapper.addMerchan(merchant);
 	}
+	
+	/**
+     * 获得该终端信息
+     * 
+     * @param terminalId
+     * @return
+     */
+    public int isopenMessage(int terminalId){
+    	return openingApplyWebMapper.isopenMessage(terminalId);
+    }
 
 	/**
 	 * 获得所有商户列表

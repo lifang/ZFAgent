@@ -193,7 +193,7 @@
 		<if test="q !=null and q!=''">
 		and o.status = #{q}
 		</if>
-			group BY os.id
+			group BY o.id
 		order by o.created_at desc
 		
 		LIMIT #{offset},#{rows}
@@ -306,6 +306,7 @@
 		 gp.good_id = #{param1}
 		order by gp.id desc
 	</select>
+	
 	  <!--  批购 详情 -->
 	<select id="getWholesaleById" resultMap="orderMap">
 		SELECT

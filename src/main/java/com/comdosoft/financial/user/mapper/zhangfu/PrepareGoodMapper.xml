@@ -70,7 +70,7 @@
 	<select id="getGoodList" resultType="map">
 		SELECT DISTINCT g.id,IFNULL(agn.name,g.title) as goodname from terminals t
 		LEFT JOIN goods g on t.good_id=g.id
-		LEFT JOIN agent_good_names agn on g.id=agn.good_id
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
 		where t.agent_id=#{agentId} and t.customer_id is null
 	</select>
 

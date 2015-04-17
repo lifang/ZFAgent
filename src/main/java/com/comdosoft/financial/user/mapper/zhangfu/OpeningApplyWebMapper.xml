@@ -67,6 +67,11 @@
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
  	
+ 	<select id="isopenMessage" resultType="int">
+		SELECT customer_id FROM terminals 
+		WHERE id = #{id}
+	</select>
+ 	
  	<select id="searchApplyListSize" parameterType="map" resultType="int">
  		SELECT count(*)
  		FROM terminals

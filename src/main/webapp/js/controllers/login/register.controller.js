@@ -5,7 +5,6 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
 	// 英文数字校验
 	var numCh = /[^a-zA-Z0-9]/g;
-
 	var cardReg = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/;// 身份证号码验证
 	var licenseCodeReg = /^[1-9]\d*|0$/;// 验证营业执照为数字
 	// 初始化代理商对象
@@ -170,10 +169,6 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 	};
 
 	$scope.agentInit = function() {
-		// 移除样式
-		// $("link[href='style/global.css']").remove();
-		// 隐藏中间搜索
-		// $scope.$emit('changesearchview',false);
 		// 获得省级
 		$scope.getShengcit();
 		// 初始化图片验证码

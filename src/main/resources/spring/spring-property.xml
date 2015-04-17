@@ -8,7 +8,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:config/production.properties</value>
-				<!-- <value>classpath:config/demo.properties</value> --> 
+				<!-- <value>classpath:config/demo.properties</value>  -->
 				<!-- <value>classpath:config/local.properties</value>-->
 				<value>classpath:config/config.properties</value>
 			</list>

@@ -217,10 +217,6 @@ public class AgentLoginController {
 			Customer customer = new Customer();
 			Agent agent = new Agent();
 			customer.setUsername((String) map.get("username"));
-			/*
-			 * if(agentLoginService.findUname(customer)>0){ return
-			 * Response.getError("用户已注册！"); }else{
-			 */
 			// 查找该城市中是否有状态为正常的代理商
 			customer.setTypes(Customer.TYPE_AGENT);
 			customer.setStatus(Customer.STATUS_NORMAL);
@@ -240,7 +236,6 @@ public class AgentLoginController {
 			} else {
 				// 向用户表添加数据
 				customer.setPassword((String) map.get("password"));
-				// customer.setAccountType((Integer)map.get("accountType"));
 				customer.setTypes(Customer.TYPE_AGENT);
 				customer.setStatus(Customer.STATUS_NON_ACTIVE);
 				customer.setPhone((String) map.get("phone"));
@@ -289,7 +284,6 @@ public class AgentLoginController {
 					return Response.getSuccess("注册成功！");
 				}
 			}
-			// }
 		} catch (Exception e) {
 			logger.error("注册代理商异常！", e);
 			return Response.getError("请求失败！");
@@ -370,7 +364,6 @@ public class AgentLoginController {
 			if (obj == null) {
 				return Response.getError("用户名不存在,或者未激活！");
 			} else {
-
 				if (obj.get("types") == Customer.TYPE_AGENT_STAFF) {// 员工
 					customerMes = agentLoginService.doLoginPersn(customer);
 				} else if (obj.get("types") == Customer.TYPE_AGENT) {// 代理商
@@ -405,11 +398,9 @@ public class AgentLoginController {
 			Customer customer = new Customer();
 			customer.setStatus(Customer.STATUS_NORMAL);
 			customer.setUsername((String) map.get("username"));
-			if (agentLoginService.findUname(customer.getUsername(), customer.getStatus().toString(), Customer.TYPE_AGENT.toString(), Customer.TYPE_AGENT_STAFF.toString()) == 0) {
+			if (agentLoginService.findUname(customer.getUsername(), customer.getStatus().toString(), Customer.TYPE_AGENT.toString(), Customer.TYPE_AGENT_STAFF.toString()) == 0)
 				return Response.getError("用户不存在！");
-			} else {
 				return Response.getSuccess("用户存在！");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.getError("系统异常！");
@@ -531,10 +522,6 @@ public class AgentLoginController {
 			Customer customer = new Customer();
 			Agent agent = new Agent();
 			customer.setUsername((String) map.get("userId"));
-			/*
-			 * if(agentLoginService.findUname(customer)>0){ return
-			 * Response.getError("用户已注册！"); }else{
-			 */
 			// 查找该城市中是否有状态为正常的代理商
 			customer.setTypes(Customer.TYPE_AGENT);
 			customer.setStatus(Customer.STATUS_NORMAL);
@@ -555,7 +542,6 @@ public class AgentLoginController {
 				// 向用户表添加数据
 				customer.setPassword((String) map.get("passworda"));
 				customer.setPassword(SysUtils.string2MD5(customer.getPassword()));
-				// customer.setAccountType((Integer)map.get("accountType"));
 				customer.setTypes(Customer.TYPE_AGENT);
 				customer.setStatus(Customer.STATUS_NON_ACTIVE);
 				customer.setPhone((String) map.get("phone"));
@@ -581,28 +567,21 @@ public class AgentLoginController {
 						agent.setCode(str);
 					}
 					agent.setName((String) map.get("name"));
-					// agent.setCardId((String)map.get("cityId"));
 					agent.setTypes((Integer) map.get("types"));
 					agent.setCompanyName((String) map.get("companyName"));
 					agent.setBusinessLicense((String) map.get("licenseCode"));
 					agent.setPhone((String) map.get("phone"));
 					agent.setEmail((String) map.get("email"));
 					agent.setCustomerId(customer.getId());
-					// agent.setAddress((String)map.get("address"));
 					agent.setFormTypes(Agent.FROM_TYPE_1);
 					agent.setStatus(Agent.STATUS_1);
 					agent.setParentId(Agent.PARENT_ID);
 					agent.setIsHaveProfit(Agent.IS_HAVE_PROFIT_N);
-					// agent.setCardIdPhotoPath((String)map.get("cardIdPhotoPath"));
-					// agent.setTaxRegisteredNo((String)map.get("taxRegisteredNo"));
-					// agent.setLicenseNoPicPath((String)map.get("licenseNoPicPath"));
-					// agent.setTaxNoPicPath((String)map.get("taxNoPicPath"));
 					agent.setCardId((String) map.get("card"));
 					agentLoginService.addAgent(agent);
 					return Response.getSuccess("注册成功！");
 				}
 			}
-			// }
 		} catch (Exception e) {
 			logger.error("注册代理商异常！", e);
 			return Response.getError("请求失败！");

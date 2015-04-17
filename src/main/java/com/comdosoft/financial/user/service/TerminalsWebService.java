@@ -69,9 +69,11 @@ public class TerminalsWebService {
 	 * @return
 	 */
 	public int getTerminalListNums(Integer id,
-			Integer frontStatus,String serialNum) {
+			Integer offSetPage, Integer pageSize,Integer frontStatus,String serialNum) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
+		map.put("offSetPage", offSetPage);
+		map.put("pageSize", pageSize);
 		map.put("frontStatus", frontStatus);
 		map.put("serialNum", serialNum);
 		return terminalsWebMapper.getTerminalListPage(map);

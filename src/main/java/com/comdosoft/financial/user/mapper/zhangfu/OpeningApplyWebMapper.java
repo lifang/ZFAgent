@@ -112,6 +112,14 @@ public interface OpeningApplyWebMapper {
 	 */
 	void addMerchan(Merchant merchant);
 	
+	 /**
+     * 获得该终端信息
+     * 
+     * @param terminalId
+     * @return
+     */
+    int isopenMessage(int terminalId);
+	
 	/**
 	 * 获得所有通道周期
 	 * @return

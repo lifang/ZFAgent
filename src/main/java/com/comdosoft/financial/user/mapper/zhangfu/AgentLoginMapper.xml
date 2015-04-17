@@ -54,19 +54,15 @@
 		agentUserId,u.city_id as agentCityId
 		FROM customers c
 		LEFT JOIN customer_agent_relations r ON r.customer_id = c.id
-		LEFT JOIN
-		agents a ON a.id = r.agent_id
-		LEFT JOIN customers u ON u.id =
-		a.customer_id
-		WHERE c.username=#{username} and c.password=#{password} and c.types in
-		(#{types},#{statusEnd}) and c.status=#{status}
-	</select>
-	<select id="isAgentOrPerson" resultType="map">
-		SELECT types
-		FROM customers
-		WHERE username=#{username} and `status` = #{ststus} and types IN
-		(#{agent},#{agentPer})
-	</select>
+		LEFT JOIN agents a ON a.id = r.agent_id
+		LEFT JOIN customers u ON u.id = a.customer_id
+ 		WHERE c.username=#{username} and c.password=#{password} and c.types in (#{types},#{statusEnd}) and c.status=#{status}
+ 	</select>
+ 	<select id="isAgentOrPerson"  resultType="map">
+ 		SELECT types
+ 		FROM customers 
+ 		WHERE username=#{username} and `status` = #{status} and types IN (#{agent},#{agentPer})
+ 	</select>
 
 	<update id="updateLastLoginedAt">
 		UPDATE customers set last_logined_at=now()
@@ -88,7 +84,8 @@
 		WHERE email=#{username} and
 		status=#{status} and types IN (#{agent},#{agentPer})
 	</update>
-
+	
+	
 	<update id="updateDentcode"
 		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		UPDATE customers set dentcode=#{dentcode}

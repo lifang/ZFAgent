@@ -72,8 +72,6 @@
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id
-		WHERESELECT count(*)
-		FROM terminals t
 		WHERE
 		(t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id} )))
 		<if test="status != -1 and status != null">
@@ -138,7 +136,7 @@
 	<select id="getMerchants" parameterType="map" resultType="map">
 		SELECT a.id,a.name FROM customers a LEFT JOIN
 		customer_agent_relations c ON a.id = c.customer_id and c.`status` = #{status} and c.types = #{types}
-		WHERE c.agent_id = #{customerId} 
+		WHERE c.agent_id = #{agentId} 
 		LIMIT #{offSetPage},#{pageSize}
 		
 	</select>

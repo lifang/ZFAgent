@@ -39,10 +39,21 @@ public class PrepareGoodController {
         return response;
     }
     
+   
+    
     @RequestMapping(value = "info", method = RequestMethod.POST)
     public Response getInfo(@RequestBody  PrepareGoodReq req){
         Response response = new Response();
         Map<String,Object> result= repareGoodService.getInfo(req);
+        response.setCode(Response.SUCCESS_CODE);
+        response.setResult(result);
+        return response;
+    }
+    
+    @RequestMapping(value = "winfo", method = RequestMethod.POST)
+    public Response getwInfo(@RequestBody  PrepareGoodReq req){
+        Response response = new Response();
+        Map<String,Object> result= repareGoodService.getwInfo(req);
         response.setCode(Response.SUCCESS_CODE);
         response.setResult(result);
         return response;

@@ -14,10 +14,13 @@
 	</update>
 
 	<select id="getPrepareGoodList" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
-		SELECT pgr.id,a.company_name,pgr.quantity,
+		SELECT pgr.id,a.company_name,pgr.quantity,IFNULL(agn.name,g.title) as goodname,pc.name as pcname,
 		DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') as created_at
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
+		left join goods g on g.id=pgr.good_id
+		left join pay_channels pc on pc.id=pgr.pay_channel_id
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
 		where (process_user_id in
 		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
 		process_user_id=(SELECT customer_id from agents WHERE id=#{agentId}))
@@ -55,6 +58,17 @@
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
 		LEFT JOIN customers c on c.id=pgr.process_user_id
+		where pgr.id=#{id}
+	</select>
+	
+	<select id="getwInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
+		SELECT pgr.id,a.company_name ,DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') created_at,
+		pgr.quantity,pgr.terminal_list ,IFNULL(c.name,c.username) as creator,IFNULL(agn.name,g.title) as goodname
+		from prepare_goods_records pgr
+		LEFT JOIN agents a on a.id=pgr.agent_id
+		LEFT JOIN customers c on c.id=pgr.process_user_id
+		left join goods g on g.id=pgr.good_id
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
 		where pgr.id=#{id}
 	</select>
 

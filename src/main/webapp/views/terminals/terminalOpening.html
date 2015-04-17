@@ -18,6 +18,7 @@
                                 <li>品牌型号：{{applyDetails.brandName + applyDetails.model_number}}</li>
                                 <li>支付通道：{{applyDetails.channelName}}</li>
                                 <li>终端号：{{applyDetails.serial_num}}</li>
+                                <li>绑定用户：{{applyDetails.username}}</li>
                             </ul>
                         </div> 
                     </div>
@@ -27,7 +28,7 @@
                     	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
                     	</div>
                         <div class="ab_b">
-                        	<dl>
+                        	<dl ng-if="merchantList.size() > 0">
                             	<dt>已有商户：</dt>
                                 <dd>
                                 <a href="javascript:void(0)" ng-repeat="merchan in merchantList" ng-class="{true:'hover'}[$index == merbut]" ng-click="angu(merchan.title,merchan.id,$index)" >{{merchan.title}}</a>

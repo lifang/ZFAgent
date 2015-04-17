@@ -98,4 +98,18 @@ public class CustomerManageController {
 		response.setResult(result.get("result"));
 		return response;
 	}
+	/**
+	 * 修改  密码，权限
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="edit",method=RequestMethod.POST)
+	public Response editInfo(@RequestBody CustomerManageReq req){
+		Response response=new Response();
+		Map<String,Object> result= customerManageService.edit(req);
+		response.setCode(Integer.parseInt(result.get("resultCode").toString()));
+		response.setMessage(result.get("resultInfo").toString());
+		response.setResult(result.get("result"));
+		return response;
+	}
 }

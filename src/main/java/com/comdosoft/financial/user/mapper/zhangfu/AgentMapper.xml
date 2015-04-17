@@ -4,20 +4,42 @@
 
 	<select id="getOne" resultType="map">
 	<![CDATA[
-		SELECT a.id, a.types, a.company_name, a.business_license, a.tax_registered_no, a.name, a.card_id, a.phone, a.email,
-			   a.address, a.card_id_photo_path, a.license_no_pic_path, a.tax_no_pic_path,
-			   c.username, c.city_id
-		  FROM agents a JOIN customers c ON a.customer_id = c.id
-		 WHERE a.customer_id = #{customerId}
+		SELECT
+			a.id,
+			IFNULL(a.types,'') as types,
+			IFNULL(a.company_name,'') as company_name,
+			IFNULL(a.business_license,'') as business_license,
+			IFNULL(a.tax_registered_no,'') as tax_registered_no,
+			IFNULL(a. NAME,'') as name,
+			IFNULL(a.card_id,'') as card_id,
+			IFNULL(a.phone,'') as phone,
+			IFNULL(a.email,'') as email,
+			IFNULL(a.address,'') as address,
+			IFNULL(a.card_id_photo_path,'') as card_id_photo_path,
+			IFNULL(a.license_no_pic_path,'') as license_no_pic_path,
+			IFNULL(a.tax_no_pic_path,'') as tax_no_pic_path,
+			IFNULL(c.username,'') as username,
+			IFNULL(c.city_id,'') as city_id
+		FROM
+			agents a
+		JOIN customers c ON a.customer_id = c.id
+		WHERE
+			a.customer_id = #{customerId}
 	]]>
 	</select>
 
 	<select id="getOneCustomer"
 		resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 	<![CDATA[
-		SELECT phone, email, dentcode, password
-		  FROM customers
-		 WHERE id = #{customerId}
+		SELECT
+			IFNULL(phone,'') as phone,
+			IFNULL(email,'') as email,
+			IFNULL(dentcode,'') as dentcode,
+			dentcode(password,'') as `password`
+		FROM
+			customers
+		WHERE
+			id = #{customerId}
 	]]>
 	</select>
 
@@ -73,9 +95,18 @@
 
 	<select id="getOneAddress" resultType="map">
 	<![CDATA[
-		SELECT id, city_id, receiver, moblephone, zip_code, address, is_default
-		  FROM customer_addresses
-		 WHERE id = #{id}
+		SELECT
+			id,
+			IFNULL(city_id,'') as city_id,
+			IFNULL(receiver,'') as receiver,
+			IFNULL(moblephone,'') as moblephone,
+			IFNULL(zip_code,'') as zip_code,
+			IFNULL(address,'') as address,
+			IFNULL(is_default,'') as is_default
+		FROM
+			customer_addresses
+		WHERE
+			id = #{id}
 	]]>
 	</select>
 

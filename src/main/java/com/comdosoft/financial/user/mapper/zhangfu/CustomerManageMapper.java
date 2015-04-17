@@ -30,5 +30,9 @@ public interface CustomerManageMapper {
 	
 	int delCustomer(CustomerManageReq req);
 	
+	int changePwd(CustomerManageReq req);
+	
+	int getCustomerIdByLoginId(CustomerManageReq req);
+	
 	List<Map<String, Object>> getInfo(CustomerManageReq req);
 }

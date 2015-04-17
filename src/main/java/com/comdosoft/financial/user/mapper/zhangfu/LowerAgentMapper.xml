@@ -88,8 +88,8 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-   		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email,name)
-   		 values(#{loginId},#{pwd},now(),now(),#{cityId},2,#{phoneNum},#{emailStr},#{agentName})
+   		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email,name,types)
+   		 values(#{loginId},#{pwd},now(),now(),#{cityId},1,#{phoneNum},#{emailStr},#{agentName},2)
    </insert>
    
    <insert id="savePrecent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">

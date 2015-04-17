@@ -60,6 +60,12 @@ public interface OpeningApplyMapper {
 	Map<Object, Object> getMerchantsIsNo(Map<Object, Object> map);
 	
 	/**
+	 * 进入申请开通时判断该终端是否绑定
+	 * @return
+	 */
+	int isopen(int id);
+	
+	/**
 	 * 根据终端id获得该终端详情
 	 * @param id
 	 * @return
@@ -124,10 +130,18 @@ public interface OpeningApplyMapper {
 	/**
      * 判断该终端是否开通
      * 
-     * @param map
+     * @param terminalId
      * @return
      */
     int judgeOpen(int terminalId);
+    
+    /**
+     * 获得该终端信息
+     * 
+     * @param terminalId
+     * @return
+     */
+    int isopenMessage(int terminalId);
 	
 	/**
 	 * 添加开通关联信息

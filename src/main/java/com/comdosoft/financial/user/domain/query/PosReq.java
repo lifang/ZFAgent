@@ -15,7 +15,7 @@ public class PosReq {
     /**
      * 0.按照上架时间倒序排列商品 1.按照销售优先倒序排列商品 2.按照价格倒序排列商品 3.按照价格正序排列商品 4.按照评分最高倒序排列商品
      */
-    private int orderType;
+    private int orderType=0;
 
     /**
      * POS品牌 brandsId ------>good_brands

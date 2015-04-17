@@ -45,7 +45,7 @@
 	
 	<update id="cancelApply">
 	update  cs_returns 
-	SET STATUS = #{repairStatus.code}
+	SET STATUS = #{repairStatus.code},	updated_at = NOW()
 	where id = #{id}
 	</update>
 	

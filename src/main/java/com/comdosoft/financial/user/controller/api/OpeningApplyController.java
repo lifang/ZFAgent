@@ -78,8 +78,7 @@ public class OpeningApplyController {
 					(Integer)map.get("agentId"),
 					offSetPage, (Integer)map.get("rows")));
 			resultMap.put("total", openingApplyService.getApplyListSize(
-					(Integer)map.get("agentId"),
-					offSetPage, (Integer)map.get("rows")));
+					(Integer)map.get("agentId")));
 			return Response.getSuccess(resultMap);
 		} catch (Exception e) {
 			logger.error("根据用户ID获得开通申请列表异常！",e);
@@ -110,7 +109,6 @@ public class OpeningApplyController {
 					(String)map.get("serialNum")));
 			resultMap.put("total", openingApplyService.searchApplyListSize(
 					(Integer)map.get("agentId"),
-					offSetPage, (Integer)map.get("rows"),
 					(String)map.get("serialNum")));
 			return Response.getSuccess(resultMap);
 		} catch (Exception e) {
@@ -127,26 +125,51 @@ public class OpeningApplyController {
 	@RequestMapping(value = "getApplyDetails", method = RequestMethod.POST)
 	public Response getApplyDetails(@RequestBody Map<String, Object> maps) {
 		try {
-			Map<Object, Object> map = new HashMap<Object, Object>();
-			// 获得终端详情
-			map.put("applyDetails",
-					openingApplyService.getApplyDetails((Integer)maps.get("terminalsId")));
-			// 获得所有商户
-			//map.put("merchants", openingApplyService.getMerchants((Integer)maps.get("customerId")));
-			// 数据回显(针对重新开通申请)
-			map.put("applyFor", openingApplyService.ReApplyFor((Integer)maps.get("terminalsId")));
-			// 材料名称
-			map.put("materialName",
-					openingApplyService.getMaterialName((Integer)maps.get("terminalsId"),
-							(Integer)maps.get("status")));
-			// 获得已有申请开通基本信息
-						map.put("openingInfos",
-								openingApplyService.getOppinfo((Integer)maps.get("terminalsId")));
-			return Response.getSuccess(map);
+			Response re = isopen((Integer)maps.get("terminalsId"));
+			if(re.getCode() == 1){
+				Map<Object, Object> map = new HashMap<Object, Object>();
+				// 获得终端详情
+				map.put("applyDetails",
+						openingApplyService.getApplyDetails((Integer)maps.get("terminalsId")));
+				// 数据回显(针对重新开通申请)
+				map.put("applyFor", openingApplyService.ReApplyFor((Integer)maps.get("terminalsId")));
+				// 材料名称
+				map.put("materialName",
+						openingApplyService.getMaterialName((Integer)maps.get("terminalsId"),
+								(Integer)maps.get("status")));
+				// 获得已有申请开通基本信息
+							map.put("openingInfos",
+									openingApplyService.getOppinfo((Integer)maps.get("terminalsId")));
+				return Response.getSuccess(map);
+			}else {
+				return re;
+			}
 		} catch (Exception e) {
 			logger.error("进入申请开通异常！",e);
 			return Response.getError("请求失败！");
 		}
+	}
+	
+	/**
+	 * 判断终端是否绑定
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Response isopen(int id) {
+		try {
+			int count = openingApplyService.isopen(id);
+			if(count>0){
+				return Response.getSuccess("可以开通！");
+			}
+			if(count == 0){
+				return Response.getError("终端尚未绑定不能开通！");
+			}
+		} catch (Exception e) {
+			logger.error("判断终端是否绑定失败！",e);
+			return Response.getError("请求失败！");
+		}
+		return null;
 	}
 	
 	/**
@@ -163,14 +186,12 @@ public class OpeningApplyController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object,Object> resultMap = new HashMap<Object, Object>();
 			resultMap.put("merchaneList", openingApplyService.getMerchants(
-					(Integer)map.get("customerId"),//代理商用户id
+					(Integer)map.get("terminalId"),//代理商用户id
 					offSetPage,
 					(Integer)map.get("rows"),
 					(String)map.get("title")));
 			resultMap.put("total", openingApplyService.getMerchantSize(
-					(Integer)map.get("customerId"),//代理商用户id
-					offSetPage,
-					(Integer)map.get("rows"),
+					(Integer)map.get("terminalId"),//代理商用户id
 					(String)map.get("title")));
 			return Response.getSuccess(resultMap);
 		} catch (Exception e) {
@@ -339,15 +360,17 @@ public class OpeningApplyController {
 							.get("organizationNo"));
 					merchant.setAccountBankNum((String) map
 							.get("bankNum"));
-					merchant.setCustomerId((Integer) map
-							.get("applyCustomerId"));//代理商对应用户id
 					merchant.setPhone((String) map
 							.get("phone"));
 					merchant.setCityId((Integer)map.get("cityId"));
+					//得到该终端绑定用户
+					merchant.setCustomerId(openingApplyService.isopenMessage(terminalId));//终端绑定用户id
 					openingApplyService.addMerchan(merchant);
-					//获得添加后商户Id
-					//terminalId = merchant.getId();
-					openingApplie.setMerchantId(merchant.getId());
+					if(merchant.getId() != null){
+						openingApplie.setMerchantId(merchant.getId());
+					}else{
+						return Response.getError("申请失败！");
+					}
 				}else if(countMap !=null){
 					openingApplie.setMerchantId((Integer)countMap.get("id"));
 				}

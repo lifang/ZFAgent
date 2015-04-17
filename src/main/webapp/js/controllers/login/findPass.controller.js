@@ -175,7 +175,6 @@ var findpassController=function($scope, $location, $http, LoginService,$timeout)
 				username : $scope.phone_email
 			}).success(function(data) {
 				if (data.code == 1) {
-					//$('#login').show();
 					 window.location.href = '#/login';
 				} else if (data.code == -1) {
 					alert(data.message);
@@ -197,7 +196,6 @@ var findpassController=function($scope, $location, $http, LoginService,$timeout)
 				username : $scope.phone_email
 			}).success(function(data) {
 				if (data.code == 1) {
-					//$('#login').show();
 					window.location.href = '#/login';
 				} else if (data.code == -1) {
 					alert(data.message);

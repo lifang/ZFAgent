@@ -24,17 +24,21 @@ where a.agent_id=#{sonAgentsId} and b.name is not null group by a.trade_type_id,
 		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id!=null and c.status=1) as openNum,
 		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id!=null) as soldNum,
 		date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.types
-		from agents a where a.parent_id=#{agentsId} order by a.updated_at desc) d
+		from agents a where a.parent_id=#{agentsId} 
+		<if test="lowerAgentName != null and lowerAgentName != ''">AND a.company_name like '%${lowerAgentName}%'</if>
+		order by a.updated_at desc) d
 		Limit #{offset},#{rows}
      </select>
+     <select id="getLowerAgentTotal" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
+        select count(a.id) from agents a where a.parent_id=#{agentsId}
+         <if test="lowerAgentName != null and lowerAgentName != ''">AND a.company_name like '%${lowerAgentName}%'</if>
+   </select>
      
    <select id="checkLoginId" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="hashmap">
         select count(a.id) as num from customers a where a.username like #{loginId}
    </select>
      
-   <select id="getLowerAgentTotal" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
-        select count(a.id) from agents a where a.parent_id=#{agentsId}
-   </select>
+   
    
    <select id="getCustomerId" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="int">
         select a.id from customers a where a.username like #{loginId}

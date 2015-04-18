@@ -94,6 +94,12 @@ public interface OpeningApplyMapper {
 	 * @return
 	 */
 	void addMerchan(Merchant merchant);
+	/**
+	 * 终端关联商户和通道周期时间
+	 * @param id
+	 */
+	void updateterminal(Map<Object, Object> map);
+	
 	
 	/**
 	 * 获得所有通道周期

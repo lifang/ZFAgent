@@ -65,6 +65,20 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 	          }
 	      })
 	}
+	
+	//获取开通状态若为审核中就提示用户
+	$scope.isopenstatus = function(index,id){
+		for(var i=0;i<$scope.list.length;i++){
+			if(i==index){
+				if($scope.list[i].appstatus == 6){
+					alert("正在第三方审核,请耐心等待...");
+				}
+				else {
+					window.location.href = '#/terminalOpening?terminalId='+id+"&status="+$scope.list[i].appstatus;
+				}
+			}
+		}
+	}
 
 	//go to page
 	$scope.tiaoPage = 1;
@@ -639,6 +653,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 
 	$scope.customerId = Math.ceil(LoginService.agentUserId);
 	$scope.terminalId = Math.ceil($location.search()['terminalId']);
+	$scope.opstatus = Math.ceil($location.search()['status']);
 	$scope.chan={};//通道对象封装
 	$scope.tln={};//通道周期对象封装
 	$scope.req={};//城市对象封装
@@ -650,7 +665,6 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  if(data.code == 1){
 				  //终端信息
 	              $scope.applyDetails = data.result.applyDetails;
-	              
 	              //获得商户集合
 	              $scope.merchantList = data.result.merchants;
 	              //城市级联
@@ -819,6 +833,10 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			$scope.channel = null;
 			$scope.billingId = null;
 		  $scope.addApply = function(){
+			  if($scope.opstatus == 6){
+				  alert("你当前的信息正在第三方审核中,请耐心等待...");
+				  return false;
+			  }
 			  
 			  if($scope.req.shiList != undefined){
 				  $scope.cityId = Math.ceil($scope.req.shiList.id);
@@ -854,7 +872,8 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 				                     bankName:$("#bankNameValue").val(),
 				                     bankCode:$("#bankCodeValue").val(),
 				                     organizationNo:$("#organizationNoValue").val(),
-				                     registeredNo:$("#registeredNoValue").val()
+				                     registeredNo:$("#registeredNoValue").val(),
+				                     needPreliminaryVerify:Math.ceil($scope.applyDetails.needPreliminaryVerify)
 				                 }
 				             ];
 				  

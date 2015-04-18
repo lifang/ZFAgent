@@ -33,8 +33,9 @@
 	</update>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
-		SELECT t.id,t.serial_num,t.status,g.model_number,b.`name` as brandName,c.`name` as channelName
+		SELECT t.id,t.serial_num,t.status,e.id as appid,e.status as appstatus,g.model_number,b.`name` as brandName,c.`name` as channelName
 		FROM terminals t
+		LEFT JOIN opening_applies e on e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
@@ -168,7 +169,7 @@
 	</select>
 
 	<update id="Binding" parameterType="map">
-		UPDATE terminals SET customer_id = #{userId}
+		UPDATE terminals SET customer_id = #{userId},type = #{keys}
 		WHERE serial_num = #{terminalsNum}
 	</update>
 

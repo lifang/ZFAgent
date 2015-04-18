@@ -201,7 +201,6 @@ public class OpeningApplyWebController {
 						.get("terminalId"));
 				openingApplie.setApplyCustomerId((Integer) map
 						.get("applyCustomerId"));
-				openingApplie.setStatus(OpeningApplie.STATUS_1);
 				openingApplie.setTypes((Integer) map
 						.get("publicPrivateStatus"));
 				openingApplie.setMerchantName((String) map
@@ -233,6 +232,12 @@ public class OpeningApplyWebController {
 						.get("registeredNo"));
 				openingApplie.setOrganizationCodeNo((String) map
 						.get("organizationNo"));
+				if((Integer) map.get("needPreliminaryVerify") == 0){
+					openingApplie.setStatus(OpeningApplie.STATUS_5);
+				}
+				if((Integer) map.get("needPreliminaryVerify") == 1){
+					openingApplie.setStatus(OpeningApplie.STATUS_1);
+				}
 				//判断该商户是否存在
 				Map<Object, Object> countMap =  openingApplyWebService.getMerchantsIsNo((String) map.get("merchantName"),(String) map.get("phone"));
 				if(countMap == null){

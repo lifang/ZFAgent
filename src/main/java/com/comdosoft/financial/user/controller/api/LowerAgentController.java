@@ -115,9 +115,10 @@ public class LowerAgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "getTradelist", method = RequestMethod.POST)
-    public Response getTradelist(@RequestBody  String id){
+    public Response getTradelist(@RequestBody Map<String, Object> map){
         Response response = new Response();
-        Map<String,Object> result= lowerAgentService.getTradelist(Integer.parseInt(id));
+        int id= Integer.parseInt(map.get("id").toString());
+        Map<String,Object> result= lowerAgentService.getTradelist(id);
         response.setCode(Response.SUCCESS_CODE);
         response.setResult(result);
         return response;

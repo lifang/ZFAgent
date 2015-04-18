@@ -4,32 +4,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.comdosoft.financial.user.mapper.oldDataBase.OldDataBaseMapper;
 import com.comdosoft.financial.user.mapper.trades.TradeDataBaseCopyMapper;
-import com.comdosoft.financial.user.mapper.zhangfu.OldDataBaseMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.ZFDataBaseCopyMapper;
-import com.google.common.collect.Maps;
 
 /**
  * 数据迁移
  * @author yyb
  *
  */
-@Service
+//@Service
 public class DataBaseCopyService {
-	@Autowired
+//	@Autowired
 	private ZFDataBaseCopyMapper zfMapper;
-	@Autowired
+//	@Autowired
 	private TradeDataBaseCopyMapper tradeMapper;
-	@Autowired
+//	@Autowired
 	private OldDataBaseMapper oldMapper;
 	
 	private Map<String, Object> mapTemp= new HashMap<String, Object>();
+	
+	
+	public void init(){
+		//zfInit();
+		tradesInit();
+	}
 	
 	@Transactional(value="transactionManager-trades",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void tradesInit(){
@@ -223,7 +227,6 @@ public class DataBaseCopyService {
 		System.out.println("==============================旧数据库 transfer表数据迁移开始==================================================");
 		List<Map<String, Object>> transferList=oldMapper.getTransfer();
 		for(int i=0;i<transferList.size();i++){
-			String forCardId=transferList.get(i).get("forCardId").toString();
 			String ShopId=transferList.get(i).get("ShopId").toString();
 			String version=transferList.get(i).get("version").toString();
 			String keyDeviceSerialNo=transferList.get(i).get("keyDeviceSerialNo").toString();
@@ -271,7 +274,6 @@ public class DataBaseCopyService {
 		System.out.println("==============================旧数据库 feePhone表数据迁移开始==================================================");
 		List<Map<String, Object>> feePhoneList=oldMapper.getFeePhone();
 		for(int i=0;i<feePhoneList.size();i++){
-			String forCardId=feePhoneList.get(i).get("forCardId").toString();
 			String ShopId=feePhoneList.get(i).get("ShopId").toString();
 			String version=feePhoneList.get(i).get("version").toString();
 			String keyDeviceSerialNo=feePhoneList.get(i).get("keyDeviceSerialNo").toString();
@@ -280,10 +282,8 @@ public class DataBaseCopyService {
 			String partnerNo=feePhoneList.get(i).get("partnerNo").toString();
 			String orderId=feePhoneList.get(i).get("orderId").toString();
 			String qdOrderId=feePhoneList.get(i).get("qdOrderId").toString();
-			String toAccount=feePhoneList.get(i).get("toAccount").toString();
 			String feePhone=feePhoneList.get(i).get("feePhone").toString();
 			
-			String transferAmount=feePhoneList.get(i).get("transferAmount").toString();
 			String price=feePhoneList.get(i).get("price").toString();
 			String faceValue=feePhoneList.get(i).get("faceValue").toString();
 			String rebateMoney=feePhoneList.get(i).get("rebateMoney").toString();
@@ -779,8 +779,4 @@ public class DataBaseCopyService {
 	
 	}	
 	
-	public void init(){
-		//zfInit();
-		tradesInit();
-	}
 }

@@ -673,8 +673,8 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 			var id=temp[0];
 			$scope.channelId=id;
 			$scope.curChannel=temp[1];
-			
-			$http.post("api/lowerAgent/getTradelist",id).success(function (data) {  //绑定
+			$scope.req.id=id;
+			$http.post("api/lowerAgent/getTradelist",$scope.req).success(function (data) {  //绑定
 	            if (data.code==1) {
 	            	$scope.detailList=data.result.list;
 	            }
@@ -685,7 +685,8 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 	
 	$scope.selChange=function(){
 		$scope.curChannel=$scope.channelModel.id;
-		$http.post("api/lowerAgent/getTradelist", $scope.channelModel.id).success(function (data) {  //绑定
+		$scope.req.id=$scope.channelModel.id;
+		$http.post("api/lowerAgent/getTradelist", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.detailList=data.result.list;
             }
@@ -696,7 +697,8 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 	$scope.saveNew=function(){
 		//新增
 		//需要校验输入必须为数字
-		$http.post("api/lowerAgent/getTradelist", $scope.curChannel).success(function (data) {  //绑定
+		$scope.req.id=$scope.curChannel;
+		$http.post("api/lowerAgent/getTradelist", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	var list =data.result.list;
             	var editVal="";
@@ -742,7 +744,8 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 	
 	$scope.saveOne=function(){
 		//需要校验输入必须为数字
-		$http.post("api/lowerAgent/getTradelist", $scope.channelId).success(function (data) {  //绑定
+		$scope.req.id=$scope.channelId;
+		$http.post("api/lowerAgent/getTradelist",$scope.req ).success(function (data) {  //绑定
             if (data.code==1) {
             	var list =data.result.list;
             	var editVal="";

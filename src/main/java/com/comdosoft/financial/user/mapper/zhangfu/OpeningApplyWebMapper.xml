@@ -32,6 +32,11 @@
 		INSERT INTO `terminal_opening_infos` (`key`, `value`,`types`,`opening_applies_id`,`target_id`,`opening_requirement_id`,`created_at`,`updated_at`) 
 		VALUES (#{key},#{value},#{types},#{openingAppliesId},#{targetId},#{openingRequirementId},now(),now());
  	</insert>
+ 	
+ 	<update id="updateterminal">
+ 		UPDATE terminals SET merchant_id = #{merchantId},billing_cycles_id = #{billingCyclesId}
+ 		where id=#{terminalId}
+ 	</update>
  
  	<select id="getApplyList" parameterType="map" resultType="map">
  		SELECT id,serial_num,status

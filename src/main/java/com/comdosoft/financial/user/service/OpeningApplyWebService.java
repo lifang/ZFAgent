@@ -323,6 +323,18 @@ public class OpeningApplyWebService {
 	}
 	
 	/**
+	 * 终端表关联商户id和通道周期
+	 * 
+	 */
+	public void updateterminal(int merchantId,int terminalId,int billingCyclesId) {
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("merchantId", merchantId);
+		map.put("terminalId", terminalId);
+		map.put("billingCyclesId", billingCyclesId);
+		openingApplyWebMapper.updateterminal(map);
+	}
+	
+	/**
 	 * 更该重新申请状态
 	 * @param openingApplie
 	 */

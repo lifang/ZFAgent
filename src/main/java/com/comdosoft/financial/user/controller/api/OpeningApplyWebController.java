@@ -264,7 +264,9 @@ public class OpeningApplyWebController {
 				}else if(countMap !=null){
 					openingApplie.setMerchantId((Integer)countMap.get("id"));
 				}
-				//
+				//为终端表关联对应的商户id和通道周期ID 
+				openingApplyWebService.updateterminal(openingApplie.getMerchantId(),terminalId,(Integer) map
+						.get("billingId"));
 				//判断该申请是否为从新申请
 				if(openingApplyWebService.judgeOpen(terminalId) != 0){
 					openingAppliesId = String.valueOf(openingApplyWebService

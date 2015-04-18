@@ -187,6 +187,12 @@ public interface OpeningApplyWebMapper {
 	void deleteOpeningInfos(Integer id);
 	
 	/**
+	 * 终端关联商户和通道周期时间
+	 * @param id
+	 */
+	void updateterminal(Map<Object, Object> map);
+	
+	/**
 	 * 更该重新申请状态
 	 * @param openingApplie
 	 */

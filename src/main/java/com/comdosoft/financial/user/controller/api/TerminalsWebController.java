@@ -29,6 +29,7 @@ import com.comdosoft.financial.user.domain.zhangfu.CsUpdateInfo;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
+import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
@@ -307,6 +308,7 @@ public class TerminalsWebController {
 				if(terminalsWebService.numIsBinding((String)map.get("terminalsNum"))==0){
 					return Response.getError("该终端已绑定！");
 				}else{
+						map.put("keys", Terminal.SELFTYPES);
 						terminalsWebService.Binding(map);
 						return Response.getSuccess("绑定成功！");
 				}

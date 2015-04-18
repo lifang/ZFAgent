@@ -542,8 +542,6 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
   
 //提交注销申请
 	$scope.subRentalReturn = function(){
-		
-		
 		$scope.array = [];
 		 for(var i=0;i<$scope.reModel.length;i++){
 			$scope.array[i] = {

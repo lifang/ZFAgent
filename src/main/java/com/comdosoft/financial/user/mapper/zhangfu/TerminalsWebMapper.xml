@@ -76,7 +76,7 @@
 	</select>
 	
 	<update id="Binding" parameterType="map">
-		UPDATE terminals SET customer_id = #{userId}
+		UPDATE terminals SET customer_id = #{userId},type = #{keys}
 		WHERE serial_num = #{terminalsNum}
 	</update>
 	
@@ -118,7 +118,7 @@
 	
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.id,t.serial_num,t.`status`,g.title,g.model_number,b.name as
-		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,l.`id` as appId,l.`status` as applieStatus,e.types,
+		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,c.id as channelId,l.`id` as appId,l.`status` as applieStatus,e.types,
 		u.`name` as userName ,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
 		FROM terminals t 
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id

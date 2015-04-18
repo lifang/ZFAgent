@@ -264,6 +264,7 @@ public class OpeningApplyWebController {
 				}else if(countMap !=null){
 					openingApplie.setMerchantId((Integer)countMap.get("id"));
 				}
+				//
 				//判断该申请是否为从新申请
 				if(openingApplyWebService.judgeOpen(terminalId) != 0){
 					openingAppliesId = String.valueOf(openingApplyWebService

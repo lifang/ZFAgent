@@ -35,7 +35,7 @@
    </insert> 
    
 	<update id="delCustomer" parameterType="com.comdosoft.financial.user.domain.query.CustomerManageReq">
-		update customers set status=3 and updated_at=now()
+		update customers set status=3,updated_at=now()
 		  WHERE 1=1 and id=#{customerId}
 	</update>
 	

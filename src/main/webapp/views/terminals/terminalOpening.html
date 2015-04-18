@@ -3,8 +3,8 @@
 <div class="right" ng-controller="terminalOpenController">
             	<div class="breadcrumb">
                     <ul>
-                        <li><a href="#">管理终端</a></li>
-                        <li><a href="#">开通申请</a></li>
+                        <li><a href="javascript:void(0)">管理终端</a></li>
+                        <li><a href="javascript:void(0)">开通申请</a></li>
                     </ul>
                 </div>
                 <div class="content clear">
@@ -97,7 +97,7 @@
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">支付通道：</span>
                                 	<div class="text">
-                                	<select  ng-model="chan.chanList" ng-options="s.name for s in channels">
+                                	<select  ng-model="chan.chanList" ng-options="s.name for s in channels" >
 		             		 				<option value="">{{channelName}}</option>
 		          						</select>
 						 				<select ng-model="tln.chanTs" ng-options="x.name for x in chan.chanList.billings">

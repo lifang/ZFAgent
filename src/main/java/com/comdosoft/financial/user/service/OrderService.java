@@ -183,8 +183,8 @@ public class OrderService {
                 for (OrderGood od : olist) {
                     omap = new HashMap<String, Object>();
                     omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId() == null ? "" : od.getGood().getId().toString());
-                    omap.put("good_price", od.getGood() == null ? "" : od.getGood().getPrice() == null ? "" : od.getGood().getPrice());// 原价
-                    omap.put("good_batch_price", od.getGood() == null ? "" : od.getGood().getPurchasePrice() == null ? "" : od.getGood().getPurchasePrice());
+                    omap.put("good_price",od.getPrice() == null ? "" : od.getPrice().toString());// 原价
+                    omap.put("good_batch_price", od.getActualPrice()== null ? "" : od.getActualPrice());
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                     omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle() == null ? "" : od.getGood().getTitle());
                     omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName() == null ? "" : od.getGood().getGoodsBrand().getName());
@@ -253,7 +253,7 @@ public class OrderService {
                 for (OrderGood od : olist) {
                     omap = new HashMap<String, Object>();
                     omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId() == null ? "" : od.getGood().getId() + "");
-                    omap.put("good_price", od.getGood() == null ? "" : od.getGood().getRetailPrice() == null ? "" : od.getGood().getRetailPrice() + "");
+                    omap.put("good_price", od.getActualPrice()== null ? "" : od.getActualPrice()+"");
                     omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity() == null ? "" : od.getQuantity() + "");
                     omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle() == null ? "" : od.getGood().getTitle());
                     omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName() == null ? "" : od.getGood().getGoodsBrand().getName());
@@ -357,8 +357,8 @@ public class OrderService {
             for (OrderGood od : olist) {
                 omap = new HashMap<String, Object>();
                 omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId() == null ? "" : od.getGood().getId().toString());
-                omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());
-                omap.put("good_batch_price", od.getGood() == null ? "" : od.getGood().getPurchasePrice() == null ? "" : od.getGood().getPurchasePrice() + "");
+                omap.put("good_price", od.getPrice() == null ? "" : od.getPrice().toString());//原价
+                omap.put("good_batch_price", od.getActualPrice()== null ? "" : od.getActualPrice());
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                 omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle() == null ? "" : od.getGood().getTitle());
                 omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());
@@ -473,7 +473,7 @@ public class OrderService {
             for (OrderGood od : olist) {
                 omap = new HashMap<String, Object>();
                 omap.put("good_id", od.getGood() == null ? "" : od.getGood().getId().toString());
-                omap.put("good_price", od.getGood() == null ? "" : od.getGood().getRetailPrice() + "");
+                omap.put("good_price", od.getActualPrice() == null ? "" : od.getActualPrice() + "");
                 omap.put("good_num", od.getQuantity() == null ? "" : od.getQuantity().toString());
                 omap.put("good_name", od.getGood() == null ? "" : od.getGood().getTitle());
                 omap.put("good_brand", od.getGood() == null ? "" : od.getGood().getGoodsBrand() == null ? "" : od.getGood().getGoodsBrand().getName());

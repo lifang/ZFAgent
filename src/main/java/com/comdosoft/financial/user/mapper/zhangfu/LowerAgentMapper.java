@@ -53,6 +53,8 @@ public interface LowerAgentMapper {
 	
 	int changeProfit(LowerAgentReq req);
 	
+	String getDefaultProfit(LowerAgentReq req);
+	
 	int checkChannelById(LowerAgentReq req);
 	
 	String getParentAgentCode(LowerAgentReq req);

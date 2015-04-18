@@ -136,8 +136,13 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 	</update>
 	
 	<update id="changeProfit" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
-		update agents a set a.default_profit=#{defaultProfit} ,a.updated_at=now() where a.parent_id=#{agentsId} or a.id=#{agentsId}
+		update agents a set a.default_profit=#{defaultProfit} ,a.updated_at=now()
+		 where a.parent_id=#{agentsId}
 	</update>
+	
+	<select id="getDefaultProfit" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="String">
+		select ifnull(a.default_profit,"") as defaultProfit from agents a where a.parent_id=#{agentsId}
+	</select>
 	
 	<delete id="delChannel"  parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		DELETE FROM agent_profit_settings

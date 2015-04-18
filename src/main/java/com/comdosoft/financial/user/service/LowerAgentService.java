@@ -60,6 +60,20 @@ public class LowerAgentService {
 	 * @param req
 	 * @return
 	 */
+	public Map<String,Object> getDefaultProfit(LowerAgentReq req){
+		Map<String,Object> map =new HashMap<String, Object>();
+		String defaultProfit=lowerAgentMapper.getDefaultProfit(req);
+		
+		map.put("resultCode", 1);
+		map.put("resultInfo", defaultProfit);
+		return map;
+	}
+	
+	/**
+	 * 修改默认分润比例
+	 * @param req
+	 * @return
+	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String,Object> changeProfit(LowerAgentReq req){
 		Map<String,Object> map =new HashMap<String, Object>();

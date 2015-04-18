@@ -80,6 +80,22 @@ public class LowerAgentController {
 	}
 	
 	/**
+	 * 获取默认分润比例
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "getDefaultProfit", method = RequestMethod.POST)
+	public Response getDefaultProfit(@RequestBody LowerAgentReq req){
+		Response response=new Response();
+		Map<String,Object> result=lowerAgentService.getDefaultProfit(req);
+		if(Integer.parseInt(result.get("resultCode").toString()) == 1){
+			response.setCode(Response.SUCCESS_CODE);
+			response.setResult(result.get("resultInfo").toString());
+		}
+		return response;
+	}
+	
+	/**
 	 * 获取下级代理商分润设置比例列表
 	 * @param req
 	 * @return
@@ -351,4 +367,8 @@ public class LowerAgentController {
         }
 		
     }
+	
+	
+	
+	
 }

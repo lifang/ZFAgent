@@ -136,13 +136,14 @@ public class LowerAgentService {
         		String tradeTypeName=list.get(j).get("tradeTypeName").toString();
     			String percent=list.get(j).get("percent").toString();
     			String id=list.get(j).get("pay_channel_id").toString();
-    			
+    			String tradeTypeId=list.get(j).get("tradeTypeId").toString();
         		if(channelName.equals(channelName1)){
         			newMap.put("id", id);
         			Map<String,Object> newMap1=new HashMap<String, Object>();
         			
         			newMap1.put("tradeTypeName", tradeTypeName);
         			newMap1.put("percent", percent);
+        			newMap1.put("tradeTypeId", tradeTypeId);
         			childList.add(newMap1);
         		}
         		newMap.put("detail", childList);

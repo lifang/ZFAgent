@@ -156,7 +156,8 @@ public class OrderService {
             BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
             BigDecimal bd_dj = new BigDecimal(haspayed_price);
             BigDecimal shengyu_price = bd_act.subtract(bd_dj); // actual_price-zhifu_dingjin;
-            List<CsOutStorage> csOutList = o.getCsOutStorageList();
+            List<CsOutStorage> csOutList = orderMapper.getOutStorageByOrderId(o.getId());
+//            List<CsOutStorage> csOutList = o.getCsOutStorageList();
             Integer quantity = 0;
             for (CsOutStorage cs_out : csOutList) {
                 if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
@@ -305,8 +306,8 @@ public class OrderService {
         BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
         BigDecimal bd_dj = new BigDecimal(haspayed_price);
         BigDecimal shengyu_price = bd_act.subtract(bd_dj); // actual_price-zhifu_dingjin;
-       
-        List<CsOutStorage> csOutList = o.getCsOutStorageList();
+        List<CsOutStorage> csOutList = orderMapper.getOutStorageByOrderId(o.getId());
+//        List<CsOutStorage> csOutList = o.getCsOutStorageList();
         Integer quantity = 0;
         for (CsOutStorage cs_out : csOutList) {
             if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
@@ -442,8 +443,8 @@ public class OrderService {
         map.put("order_invoce_type", invoce_name);// 发票类型
         map.put("order_invoce_info", o.getInvoiceInfo() == null ? "" : o.getInvoiceInfo());// 发票抬头
         map.put("order_type", o.getTypes() == null ? "" : o.getTypes());// 订单类型
-
-        List<CsOutStorage> csOutList = o.getCsOutStorageList();
+        List<CsOutStorage> csOutList = orderMapper.getOutStorageByOrderId(o.getId());
+//        List<CsOutStorage> csOutList = o.getCsOutStorageList();
         Integer quantity = 0;
         for (CsOutStorage cs_out : csOutList) {
             if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {

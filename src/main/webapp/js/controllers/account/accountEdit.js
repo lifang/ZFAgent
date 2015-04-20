@@ -15,11 +15,13 @@ var accountEditController = function($scope, $http, $location, LoginService) {
 			if (data.code == 1) {
 				$scope.info = data.result;
 				var rightIds = data.result.rightIds;
-				for (var i = 0; i < rightIds.length; i++) {
-					// alert(i);
-					isCheckBoxChecked(rightIds[i]);
+				if (rightIds != null) {
+					for (var i = 0; i < rightIds.length; i++) {
+						// alert(i);
+						isCheckBoxChecked(rightIds[i]);
+					}
+					// alert(rightIds[0]);
 				}
-				// alert(rightIds[0]);
 
 			} else {
 				alert(data.message);

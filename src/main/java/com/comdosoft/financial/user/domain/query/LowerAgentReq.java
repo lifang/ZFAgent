@@ -62,7 +62,7 @@ public class LowerAgentReq {
     //tradeTypeId 
     private int tradeTypeId;
     //precent分润比例
-    private int precent;
+    private float precent;
     //代理商状态
     private int status;
     //cityId 
@@ -72,7 +72,7 @@ public class LowerAgentReq {
     private String cityName;
     private String provinceName;
     //默认分润比例
-    private int defaultProfit;
+    private float defaultProfit;
     //法人身份证图片
     private String cardPhotoPath;
     //营业执照照片
@@ -155,11 +155,13 @@ public class LowerAgentReq {
 		this.taxPhotoPath = taxPhotoPath;
 	}
 
-	public int getDefaultProfit() {
+
+
+	public float getDefaultProfit() {
 		return defaultProfit;
 	}
 
-	public void setDefaultProfit(int defaultProfit) {
+	public void setDefaultProfit(float defaultProfit) {
 		this.defaultProfit = defaultProfit;
 	}
 
@@ -218,11 +220,12 @@ public class LowerAgentReq {
 		this.tradeTypeId = tradeTypeId;
 	}
 
-	public int getPrecent() {
+	
+	public float getPrecent() {
 		return precent;
 	}
 
-	public void setPrecent(int precent) {
+	public void setPrecent(float precent) {
 		this.precent = precent;
 	}
 

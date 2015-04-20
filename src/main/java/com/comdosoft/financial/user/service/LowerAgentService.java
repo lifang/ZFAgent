@@ -78,7 +78,7 @@ public class LowerAgentService {
 	public Map<String,Object> changeProfit(LowerAgentReq req){
 		Map<String,Object> map =new HashMap<String, Object>();
 		
-		int profit=req.getDefaultProfit();
+		float profit=req.getDefaultProfit()*10;
 		
 		if(profit>100 || profit<0){
 			map.put("resultCode", -1);
@@ -134,7 +134,7 @@ public class LowerAgentService {
         	for(int j=0;j<list.size();j++){
         		String channelName1=list.get(j).get("channelName").toString();
         		String tradeTypeName=list.get(j).get("tradeTypeName").toString();
-    			String percent=list.get(j).get("percent").toString();
+    			float percent=Float.parseFloat(list.get(j).get("percent").toString())/10;
     			String id=list.get(j).get("pay_channel_id").toString();
     			String tradeTypeId=list.get(j).get("tradeTypeId").toString();
         		if(channelName.equals(channelName1)){
@@ -382,7 +382,7 @@ public class LowerAgentService {
 			for(int i=0;i<temp1.length;i++){
 				String[] temp2=temp1[i].split("\\_");
 				int tradeTypeId=Integer.parseInt(temp2[1]);
-				int precent=Integer.parseInt(temp2[0]);
+				float precent=Float.parseFloat(temp2[0])*10;
 				req.setTradeTypeId(tradeTypeId);
 				req.setPrecent(precent);
 				
@@ -417,7 +417,7 @@ public class LowerAgentService {
 			for(int i=0;i<temp1.length;i++){
 				String[] temp2=temp1[i].split("\\_");
 				int tradeTypeId=Integer.parseInt(temp2[1]);
-				int precent=Integer.parseInt(temp2[0]);
+				float precent=Float.parseFloat(temp2[0])*10;
 				req.setTradeTypeId(tradeTypeId);
 				req.setPrecent(precent);
 				int result=lowerAgentMapper.editPrecent(req);

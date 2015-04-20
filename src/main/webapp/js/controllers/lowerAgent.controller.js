@@ -565,6 +565,8 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 		
 	};
 	
+	
+	
 	$scope.saveNew=function(){
 		//新增
 		//需要校验输入必须为数字
@@ -576,15 +578,15 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
             	for(var i=0;i<list.length;i++){
             		var modelTemp=list[i].id+"_model";
             		var tempVal=$("#"+modelTemp).val();
-            		if(!tempVal.match( /^\d+$/)){
+            		tempVal=parseInt(tempVal)*10;
+            		tempVal=tempVal+"";
+            		var reg = /^\d+$/;
+            		if(!tempVal.match(reg)||tempVal<0 || tempVal>100){
             			alert("输入的分润数值不正确，请输入0~100之间的数字");
-            			break;
-            		}
-            		if(tempVal<0 || tempVal>100){
-            			alert("输入的分润数值不正确，请输入0~100之间的数字");
-            			break;
+            			return false;
             		}
             		else{
+            			tempVal=tempVal/10;
 	            		if(editVal==""){
 	            			editVal=tempVal+"_"+list[i].id;
 	            		}else{
@@ -623,16 +625,17 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
             	for(var i=0;i<list.length;i++){
             		var modelTemp=list[i].id+"_model";
             		var tempVal=$("#"+modelTemp).val();
-            		if(!tempVal.match( /^\d+$/)){
-            			alert("输入的分润数值不正确，请输入0~100之间的数字");
-            			return false;
-            		}
-            		if(tempVal<0 || tempVal>100){
+            		tempVal=parseFloat(tempVal)*10;
+            		tempVal=tempVal+"";
+            		var reg = /^\d+$/;
+            		if(!tempVal.match(reg)||tempVal<0 || tempVal>100){
             			alert("输入的分润数值不正确，请输入0~100之间的数字");
             			return false;
             		}
             		else{
+            			tempVal=tempVal/10;
 	            		if(editVal==""){
+	            			
 	            			editVal=tempVal+"_"+list[i].id;
 	            		}else{
 	            			editVal=editVal+"|"+tempVal+"_"+list[i].id;

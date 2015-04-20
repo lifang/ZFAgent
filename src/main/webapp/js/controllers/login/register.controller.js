@@ -55,13 +55,13 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			alert("请输入负责人姓名！");
 			return false;
 		} else if (strlen($scope.agent.name) > 20) {
-			alert("负责人姓名需在10个中文字符或20个英文字符");
+			alert("负责人姓名需在10个中文字符或20个英文字符之间");
 			return false;
 		} else if ($scope.agent.card == undefined || $scope.agent.card == "") {
 			alert("请输入负责人身份证！");
 			return false;
 		} else if (!cardReg.test($scope.agent.card)) {
-			alert("身份证含有非法字符！");
+			alert("身份证格式错误！");
 			return false;
 		}
 
@@ -76,7 +76,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			}
 
 			if (strlen($scope.agent.companyName) > 40) {
-				alert("公司名称20个中文字符或40个英文字符");
+				alert("公司名称需在20个中文字符或40个英文字符之间");
 				return false;
 			} else {
 				// 如果营业执照为空
@@ -95,6 +95,18 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			}
 		}
 
+		if ($scope.agent.licenseCode == undefined || $scope.agent.licenseCode == "" || $scope.agent.licenseCode == null) {
+			if ($scope.agent.companyName != undefined && $scope.agent.companyName != "") {
+				alert("营业执照号不能为空");
+				return false;
+			}
+		} else if ($scope.agent.licenseCode != undefined && $scope.agent.licenseCode != "" && $scope.agent.licenseCode != null) {
+			// alert("ceshiceshi");
+			if ($scope.agent.companyName == undefined || $scope.agent.companyName == "") {
+				alert("公司名称不能为空");
+				return false;
+			}
+		}
 		if ($scope.agent.phone == undefined || $scope.agent.phone == "") {
 			alert("请输入手机号码！");
 			return false;
@@ -126,7 +138,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			alert("请输入密码！");
 			return false;
 		} else if ($scope.agent.passworda.length < 6 || $scope.agent.passworda.length > 20 || $scope.agent.passwordb.length < 6 || $scope.agent.passwordb.length > 20) {
-			alert("密码由6-20位，英文字符组成！");
+			alert("密码有6-20位，英文字符组成！");
 			return false;
 		} else if ($scope.agent.passworda != $scope.agent.passwordb) {
 			alert("密码不一致！");
@@ -173,11 +185,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 		$scope.getShengcit();
 		// 初始化图片验证码
 		$scope.reGetRandCodeImg();
-		$("#headDiv_index").removeClass();
-		$("#headDiv_index").css("padding", "20px 0");
-		$("#headDiv_index").css("border-bottom", "2px #0071cf solid");
-		$("#headDiv_index").css("background", "rgba(255,255,255,0.8)");
-		$("#agentDiv_index").html("申请成为代理商");
+
 	};
 
 	// 图片验证码

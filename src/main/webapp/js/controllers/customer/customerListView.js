@@ -49,6 +49,7 @@ var customerListViewController = function($scope, $location, $http, LoginService
 	$scope.marksSave = function() {
 		var marksContent = $scope.marks_content;
 		if (marksContent == null || marksContent == '') {
+			$("#markCheck").html("*备注内容不能为空");
 			return false;
 		}
 		$scope.req = {

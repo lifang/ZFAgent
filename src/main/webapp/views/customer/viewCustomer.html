@@ -81,8 +81,8 @@
 			</div>
 		</div>
 		<div class="user_remark">
-			<textarea name="marks_content" ng-model="marks_content" maxlength="400" cols="" rows=""></textarea>
-			<button class="whiteBtn" ng_click="marksSave()">备注</button>
+			<textarea name="marks_content" ng-model="marks_content" maxlength="400" cols="" rows="" onfocus="clearCheck();"></textarea>
+			<button class="whiteBtn" ng_click="marksSave()">备注</button>&nbsp;<font color="red"><span id="markCheck"></span></font>
 		</div>
 		<div class="user_record">
 			<h2>追踪记录</h2>
@@ -104,3 +104,8 @@
 		border: 1px #ff5f2b solid;
 	}
 </style>
+<script>
+	function clearCheck(){
+		$("#markCheck").html("");
+	}
+</script>

@@ -241,5 +241,9 @@ public class IndexService {
 	    indexMapper.saveViewCustomerViews(req);
 	}
 
+    public List<Map<Object, Object>> getList() {
+        return indexMapper.getList();
+    }
+
 
 }

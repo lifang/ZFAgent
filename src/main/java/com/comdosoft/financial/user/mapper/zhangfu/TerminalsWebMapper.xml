@@ -11,7 +11,7 @@
 	</insert>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
-		SELECT t.id,t.serial_num,t.status,t.type,o.id as appid,o.status as appstatus,m.title,m.phone,p.`name` as channelName ,g.model_number,b.`name` as brandsName
+		SELECT t.id,t.serial_num,t.status,t.type,o.id as appid,o.status as appstatus,m.title,m.phone,p.`name` as channelName ,g.model_number,g.title AS goodsName,b.`name` as brandsName
 		FROM terminals t LEFT JOIN opening_applies o
 		ON o.terminal_id = t.id
 		LEFT JOIN merchants m 

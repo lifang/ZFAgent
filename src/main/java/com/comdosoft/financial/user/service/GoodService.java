@@ -45,8 +45,9 @@ public class GoodService {
         int total=goodMapper.getGoodsTotal(posreq);
         for (Map<String, Object> map : list) {
             if(1==posreq.getType()){
+                int id = SysUtils.Object2int(map.get("id"));
                 map.put("purchase_price", setPurchasePrice(
-                        posreq.getAgentId(),SysUtils.Object2int(map.get("purchase_price")),
+                        posreq.getAgentId(),id,SysUtils.Object2int(map.get("purchase_price")),
                         SysUtils.Object2int(map.get("floor_price"))));
             }
             int id = Integer.valueOf("" + map.get("id"));
@@ -74,10 +75,10 @@ public class GoodService {
         Map<String, Object> goodInfoMap = null;
         // 商品信息
         Map<String, Object> goodinfo = goodMapper.getGoodById(posreq.getGoodId());
-        int id = SysUtils.Object2int("" + goodinfo.get("id"));
+        int id = SysUtils.Object2int(goodinfo.get("id"));
         if(1==posreq.getType()){
             goodinfo.put("purchase_price", setPurchasePrice(
-                    posreq.getAgentId(),SysUtils.Object2int(goodinfo.get("purchase_price")),
+                    posreq.getAgentId(),id,SysUtils.Object2int(goodinfo.get("purchase_price")),
                     SysUtils.Object2int(goodinfo.get("floor_price"))));
         }
         if (id > 0) {
@@ -141,8 +142,8 @@ public class GoodService {
         return map;
     }
     
-    public int setPurchasePrice(int agentid,int purchasePrice,int leasePrice){
-        int hasBuyCount=goodMapper.getHasBuyCount(agentid);
+    public int setPurchasePrice(int agentid,int goodId,int purchasePrice,int leasePrice){
+        int hasBuyCount=goodMapper.getHasBuyCount(agentid,goodId);
         int totalMoney=0;//总交易流水金额
         String code=stockMapper.getAgentCode(agentid);
         if(code!=null&&code.length()>2){

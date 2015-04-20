@@ -102,6 +102,13 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/libs/commons-httpclient-3.0.1.jar</systemPath>
 		</dependency>
+		
+		<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpmime</artifactId>
+		<version>4.3.6</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

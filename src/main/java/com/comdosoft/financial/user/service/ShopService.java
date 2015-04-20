@@ -34,7 +34,7 @@ public class ShopService {
         }else if(5==shopReq.getOrderType()){
             map=shopMapper.getPurchaseOne(shopReq);
             map.put("price", goodService.setPurchasePrice(
-                    shopReq.getAgentId(),SysUtils.Object2int(map.get("price")),
+                    shopReq.getAgentId(),shopReq.getGoodId(),SysUtils.Object2int(map.get("price")),
                     SysUtils.Object2int(map.get("floor_price"))));
         }
         if(map==null){

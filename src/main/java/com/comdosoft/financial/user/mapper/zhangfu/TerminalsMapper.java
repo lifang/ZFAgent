@@ -203,7 +203,7 @@ public interface TerminalsMapper {
      * 检查终端号是否存在
      * @param map
      */
-    int checkTerminalCode(String str);
+    int checkTerminalCode(Map<Object, Object> map);
     
     /**
      * 检查终端号是否已有申请售后

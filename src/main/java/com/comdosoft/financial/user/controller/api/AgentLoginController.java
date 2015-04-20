@@ -213,7 +213,6 @@ public class AgentLoginController {
 	@RequestMapping(value = "userRegistration", method = RequestMethod.POST)
 	public Response userRegistration(@RequestBody Map<String, Object> map) {
 		try {
-			// 检查该代理商账号是否存在
 			Customer customer = new Customer();
 			Agent agent = new Agent();
 			customer.setUsername((String) map.get("username"));

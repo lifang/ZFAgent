@@ -194,9 +194,8 @@
 
 	<select id="getHasBuyCount" resultType="int">
 		select IFNULL( (
-		SELECT SUM(o.total_quantity) from orders o
-		where o.types=5 and o.status in (2,3,4) and ( o.customer_id=(SELECT customer_id from agents WHERE id=#{agentId})
-		or o.customer_id in (SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}))
+		SELECT SUM(o.total_quantity) from orders o  JOIN order_goods og on og.order_id=o.id and og.good_id=#{goodId}
+		where o.types=5 and o.status in (2,3,4) and  o.belongs_user_Id=(SELECT customer_id from agents WHERE id=#{agentId})
 		),0)as quantity
 	</select>
 

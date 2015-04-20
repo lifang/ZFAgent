@@ -89,7 +89,7 @@ public class OrderService {
             if (quantity < floor_purchase_quantity) {
                 throw new LessException("批购少于最少批购数量");
             }
-            int factprice = goodService.setPurchasePrice(orderreq.getAgentId(), purchase_price, floor_price);
+            int factprice = goodService.setPurchasePrice(orderreq.getAgentId(),orderreq.getGoodId(), purchase_price, floor_price);
             payprice = factprice + opening_cost;
             price = SysUtils.Object2int(goodMap.get("price")) + opening_cost;
             int pp;

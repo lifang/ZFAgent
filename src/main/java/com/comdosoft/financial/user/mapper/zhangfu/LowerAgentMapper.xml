@@ -21,8 +21,8 @@ where a.agent_id=#{sonAgentsId} and b.name is not null group by a.trade_type_id,
         case d.is_have_profit when 0 then '关闭' else if(d.default_profit is null,'非默认比例','默认比例') end as isProfitStr,  
           d.* from(select a.id,a.company_name,a.status,a.is_have_profit,a.default_profit,
 		(select sum(b.quantity) from prepare_goods_records b where b.agent_id=a.id) as allQty,
-		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id!=null and c.status=1) as openNum,
-		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id!=null) as soldNum,
+		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id is not null and c.status=1) as openNum,
+		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id is not null) as soldNum,
 		date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.types
 		from agents a where a.parent_id=#{agentsId} 
 		<if test="lowerAgentName != null and lowerAgentName != ''">AND a.company_name like '%${lowerAgentName}%'</if>
@@ -57,8 +57,8 @@ ifnull(c.cardpath," ") as cardpath,ifnull(c.licensepath," ") as licensepath,ifnu
          b.username as loginId,b.city_id as cityId,if(a.tax_registered_no is null, " ",a.tax_registered_no) as tax_registered_no,
          ifnull(date_format(a.created_at,'%Y-%c-%d %h:%i:%s'),"") as created_at,
          (select if(sum(f.quantity) is null,0,sum(f.quantity)) from prepare_goods_records f where f.agent_id=a.id) as allQty,
-		(select count(g.id) from terminals g where g.agent_id=a.id and g.customer_id!=null and g.status=1) as openNum,
-		(select count(h.id) from terminals h where h.agent_id=a.id and h.customer_id!=null) as soldNum,
+		(select count(g.id) from terminals g where g.agent_id=a.id and g.customer_id is not null and g.status=1) as openNum,
+		(select count(h.id) from terminals h where h.agent_id=a.id and h.customer_id is not null) as soldNum,
 		ifnull(a.card_id_photo_path," ") as cardPath,ifnull(a.license_no_pic_path," ") as licensePath,
 		ifnull(a.tax_no_pic_path," ") as taxPath
 		from agents a 
@@ -81,7 +81,7 @@ ifnull(c.cardpath," ") as cardpath,ifnull(c.licensepath," ") as licensepath,ifnu
     </select>
     
     <select id="getTradelist" parameterType="int" resultType="map">
-    	select b.trade_value,b.id,c.name,c.id from support_trade_types a 
+    	select b.trade_value,b.id,c.name from support_trade_types a 
 left join dictionary_trade_types b on a.trade_type_id=b.id 
 left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} order by b.id 
     </select>

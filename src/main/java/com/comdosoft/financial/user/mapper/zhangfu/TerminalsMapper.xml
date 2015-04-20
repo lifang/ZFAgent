@@ -33,7 +33,9 @@
 	</update>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
-		SELECT t.id,t.serial_num,t.status,e.id as appid,e.status as appstatus,g.model_number,b.`name` as brandName,c.`name` as channelName
+		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(e.id,'') as appid,
+		IFNULL(e.status,'') as appstatus,
+		IFNULL(g.model_number,'') as model_number,IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName
 		FROM terminals t
 		LEFT JOIN opening_applies e on e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
@@ -50,7 +52,8 @@
 	</select>
  	
  	<select id="getNewTerminalList" parameterType="map" resultType="map">
-		SELECT t.id,t.serial_num,t.status,g.model_number,b.`name` as brandName,c.`name` as channelName
+		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(g.model_number,'') as model_number,
+		IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName
 		FROM terminals t
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on o.good_id=g.id
@@ -84,7 +87,7 @@
 	
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.id,t.serial_num,t.`status`,g.model_number,b.name as
-		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,l.`id` as appId,l.`status` as applieStatus,e.types
+		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,c.need_preliminary_verify as needPreliminaryVerify,l.`id` as appId,l.`status` as applieStatus,e.types
 		FROM terminals t 
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on o.good_id=g.id
@@ -181,7 +184,7 @@
 	</select>
 
 	<select id="getAddressee" parameterType="int" resultType="map">
-		SELECT id,receiver,moblephone,address
+		SELECT id,receiver,moblephone,address,is_default as isDefault
 		FROM customer_addresses
 		WHERE
 		customer_id=#{customerId}
@@ -201,7 +204,7 @@
 		LEFT JOIN pay_channels p ON
 		t.pay_channel_id = p.id
 		WHERE
-		agent_id=#{agentId}
+		 (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{agentId} )))
 		<if test="title != null">
 			AND g.title LIKE '%${title}%' 
 		</if>
@@ -247,9 +250,10 @@
 	]]>
 	</select>
 	
-	<select id="checkTerminalCode" parameterType="string" resultType="int">
-		SELECT count(*) FROM terminals
-		WHERE serial_num = #{serialNum}
+	<select id="checkTerminalCode" parameterType="map" resultType="int">
+		SELECT count(*) FROM terminals t
+		WHERE t.serial_num = #{serialNum} and t.`status` != #{status} and t.`status` != #{status1}
+		and (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id} )))
 	</select>
 	
 	<select id="checkTerminalCodeOpen" parameterType="string" resultType="int">

@@ -341,10 +341,11 @@ public class OpeningApplyController {
 						.get("registeredNo"));
 				openingApplie.setOrganizationCodeNo((String) map
 						.get("organizationNo"));
-				if((Integer) map.get("needPreliminaryVerify") == 0){
+				Map<String, Object> m = openingApplyService.getApplyDetails(terminalId);
+				if(!(Boolean)m.get("needPreliminaryVerify")){
 					openingApplie.setStatus(OpeningApplie.STATUS_5);
 				}
-				if((Integer) map.get("needPreliminaryVerify") == 1){
+				if((Boolean)m.get("needPreliminaryVerify")){
 					openingApplie.setStatus(OpeningApplie.STATUS_1);
 				}
 				//判断该商户是否存在

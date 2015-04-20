@@ -95,13 +95,13 @@
 
 	<select id="findUname" resultType="int">
 		SELECT COUNT(*) from customers
-		WHERE (phone=#{username} or email=#{username}) and `status` = #{ststus}
+		WHERE (phone=#{username} or email=#{username}) and `status` = #{status}
 		and types IN (#{agent},#{agentPer})
 	</select>
 
 	<select id="findEmail" resultType="int">
 		SELECT COUNT(*) from customers
-		WHERE email = #{username} and `status` = #{ststus} and types IN
+		WHERE email = #{username} and `status` = #{status} and types IN
 		(#{agent},#{agentPer})
 	</select>
 
@@ -114,13 +114,13 @@
 
 	<select id="judgePhone" resultType="int">
 		SELECT count(*) FROM
-		customers WHERE phone = #{phone} and status = #{status} and types =
+		customers WHERE phone = #{phone} and types =
 		#{types}
 	</select>
 
 	<select id="judgeEmail" resultType="int">
 		SELECT count(*) FROM
-		customers WHERE email = #{email} and status = #{status} and types =
+		customers WHERE email = #{email} and types =
 		#{types}
 	</select>
 

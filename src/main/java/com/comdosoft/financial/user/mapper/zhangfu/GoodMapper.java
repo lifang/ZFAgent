@@ -5,6 +5,8 @@ import com.comdosoft.financial.user.domain.query.PosReq;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 
 public interface GoodMapper {
 
@@ -48,7 +50,7 @@ public interface GoodMapper {
 
     List<Map<String, Object>> getStandard_rates(int pcid);
 
-    int getHasBuyCount(int agent_id);
+    int getHasBuyCount(@Param("agentId")int agentId,@Param("goodId")int goodId);
 
     int getGoodsTotal(PosReq posreq);
 

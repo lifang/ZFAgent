@@ -33,7 +33,26 @@ public class IndexController {
 
     @Autowired
     private IndexService indexService ;
-     
+    
+    /**
+     * 获取首页轮播图列表
+     * 
+     * 
+     */
+    @RequestMapping(value = "sysshufflingfigure", method = RequestMethod.POST)
+    public Response getList2() {
+        Response sysResponse = null;
+        try {
+            List<Map<Object, Object>> list=indexService.getList();
+            Map<Object, Object> map=new HashMap<Object, Object>();
+            map.put("list", list);
+            map.put("total", list.size());
+            sysResponse = Response.getSuccess(map);
+        } catch (Exception e) {
+            sysResponse = Response.getError("获取首页轮播图列表失败:系统异常");
+        }
+        return sysResponse;
+    }
 
     /**
      * 获取首页  收单机构列表

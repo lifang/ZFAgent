@@ -378,7 +378,7 @@ public class LowerAgentService {
 			//遍历分解
 			String profitPercent=req.getProfitPercent();
 			//tradeTypeId_channelId
-			String[] temp1=profitPercent.split("\\|");
+			String[] temp1=profitPercent.split("\\|");	
 			for(int i=0;i<temp1.length;i++){
 				String[] temp2=temp1[i].split("\\_");
 				int tradeTypeId=Integer.parseInt(temp2[1]);

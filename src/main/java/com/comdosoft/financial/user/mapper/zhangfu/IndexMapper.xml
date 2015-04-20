@@ -130,5 +130,14 @@
 		customer_agent_relation_marks(customer_agent_relation_id,customer_id,content,created_at)
 		values(#{agentId},#{customerId},#{content},now())
 	</insert>
+	
+	<select id="getList" resultType="map">
+	<![CDATA[
+		SELECT id, picture_url, website_url
+		  FROM sys_shuffling_figures
+	  ORDER BY created_at DESC
+		 LIMIT 0, 5
+	]]>
+	</select>
 
 </mapper>

@@ -29,4 +29,6 @@ public interface IndexMapper {
 
 	void saveViewCustomerViews(MyOrderReq req);
 
+    List<Map<Object, Object>> getList();
+
 }

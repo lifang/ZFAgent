@@ -45,10 +45,12 @@
 						<p>支付金额：<strong>{{order.total_price/100|currency : "￥"}}</strong></p>
 						<p>如交易出现问题请联系021-37494756</p>
                     </div>
+                    <!--  
                     <div class="pay_ok_info_right">
                     	<button class="orangeBtn">开通申请认证</button>
                         <p>POS机必须完成开通认证方能使用</p>
                     </div>
+                    -->
                 </div>
                 <div class="payAD"><img src="images/anios.jpg" /></div>
             </div>
@@ -56,7 +58,7 @@
     </div>
 </div>
 <div class="tab payTab"  id="payTab">
-	<a href="javascript:void(0);" class="close">关闭</a>
+	<a onclick="$('.tab').hide()" class="close">关闭</a>
 	<div class="tabBody">
     	<h2>您是否已经完成支付？</h2>
     </div>

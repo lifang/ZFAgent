@@ -83,6 +83,7 @@ public class OrderService {
             payprice = lease_deposit + opening_cost;
             price = payprice;
         } else if (5 == orderreq.getOrderType()) {
+            orderreq.setCustomerId(null);
             int purchase_price = SysUtils.Object2int(goodMap.get("purchase_price"));
             int floor_price = SysUtils.Object2int(goodMap.get("floor_price"));
             int floor_purchase_quantity = SysUtils.Object2int(goodMap.get("floor_purchase_quantity"));

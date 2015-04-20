@@ -5,7 +5,7 @@
 	<select id="getTradeRecordsCount" resultType="map">
 		SELECT COUNT(r.id) total,SUM(r.amount) amountTotal
 		FROM trade_records r
-		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=1
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number like '%${terminalNumber}%'  ]]>
 		</if>
@@ -30,7 +30,7 @@
 		r.pay_channel_id ,
 		r.traded_status tradedStatus
 		FROM trade_records r
-		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=1
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number like '%${terminalNumber}%'  ]]>
 		</if>
@@ -94,7 +94,7 @@
 		IFNULL(SUM(r.amount), 0) amountTotal,
 		r.agent_id
 		FROM trade_records r
-		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=2
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id in ${agentIds} and r.traded_status=1
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number like '%${terminalNumber}%'  ]]>
 		</if>
@@ -120,7 +120,7 @@
 		FROM
 		trade_records r
 		JOIN profits p ON p.trade_record_id = r.id
-		WHERE r.trade_type_id = #{tradeTypeId} and agent_id =#{id} and r.traded_status=2
+		WHERE r.trade_type_id = #{tradeTypeId} and agent_id =#{id} and r.traded_status=1
 		<if test="terminalNumber!=''">
 		    <![CDATA[ AND r.terminal_number like '%${terminalNumber}%'  ]]>
 		</if>

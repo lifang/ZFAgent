@@ -63,7 +63,9 @@ public class LowerAgentService {
 	public Map<String,Object> getDefaultProfit(LowerAgentReq req){
 		Map<String,Object> map =new HashMap<String, Object>();
 		String defaultProfit=lowerAgentMapper.getDefaultProfit(req);
-		
+		if(defaultProfit==null){
+			defaultProfit="0";
+		}
 		map.put("resultCode", 1);
 		map.put("resultInfo", defaultProfit);
 		return map;

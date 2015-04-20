@@ -2,6 +2,7 @@ package com.comdosoft.financial.user.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.io.FileUtils;
@@ -25,24 +26,25 @@ public class HttpFile {
     
     private static String urlpath="http://121.40.84.2:8888/File/index/upload";
 
-    private static String successurl="http://121.40.84.2:8888/";
     
-    public static Response upload(MultipartFile file, String path) {
+    public static String upload(MultipartFile file, String path) {
          String upload_path =localpath+path; 
          String name= file.getOriginalFilename();
          int a=-1;
          try {
+             String s[]=name.split(".");
+             name=new Date().getTime()+s[1];
              File f=new File(upload_path, name);
              FileUtils.copyInputStreamToFile(file.getInputStream(), f);
              a=postHttp(urlpath, path,f);
          } catch (Exception e) {
              e.printStackTrace();
-             return Response.getError("上传失败");
+             return "上传失败";
          }
          if(a==-1){
-             return Response.getError("同步上传失败");
+             return "同步上传失败";
          }else{
-             return Response.getSuccess(successurl+path+name);
+             return path+name;
          }
          
      }

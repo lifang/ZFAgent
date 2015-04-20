@@ -54,6 +54,7 @@ public class AgentLoginService {
 	public void updatePassword(String password,String username,String status,String agent,String agentPer){
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("username", username);
+		map.put("password", password);
 		map.put("status", status);
 		map.put("agent", agent);
 		map.put("agentPer", agentPer);
@@ -66,6 +67,7 @@ public class AgentLoginService {
 	public void updateEmailPassword(String password,String username,String ststus,String agent,String agentPer){
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("username", username);
+		map.put("password", password);
 		map.put("ststus", ststus);
 		map.put("agent", agent);
 		map.put("agentPer", agentPer);

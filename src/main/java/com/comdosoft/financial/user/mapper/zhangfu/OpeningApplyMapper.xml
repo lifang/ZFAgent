@@ -23,10 +23,13 @@
  	</update>
  
  	<select id="getApplyList" parameterType="map" resultType="map">
- 		SELECT t.id,t.serial_num,t.status,e.id as appid,e.status as appstatus,g.model_number,b.`name` as brandName,c.`name` as channelName
+ 		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,
+ 		IFNULL(e.id,'') as appid,
+ 		IFNULL(e.status,'') as appstatus,IFNULL(g.model_number,'') as model_number,IFNULL(b.`name`,'') as brandName,
+ 		IFNULL(c.`name`,'') as channelName
 		FROM terminals t
 		LEFT JOIN opening_applies e
-		ON o.terminal_id = t.id
+		ON e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
@@ -39,6 +42,8 @@
  	<select id="getApplyListSize" parameterType="map" resultType="int">
  		SELECT count(*)
 		FROM terminals t
+		LEFT JOIN opening_applies e
+		ON e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
@@ -54,8 +59,13 @@
 	</select>
  	
  	<select id="searchApplyList" parameterType="map" resultType="map">
- 		SELECT t.id,t.serial_num,t.status,g.model_number,b.`name` as brandName,c.`name` as channelName
+ 		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,
+ 		IFNULL(g.model_number,'') as model_number,IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName,
+ 		IFNULL(e.id,'') as appid,
+ 		IFNULL(e.status,'') as appstatus
 		FROM terminals t
+		LEFT JOIN opening_applies e
+		ON e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
@@ -69,6 +79,8 @@
  	<select id="searchApplyListSize" parameterType="map" resultType="int">
  		SELECT count(*)
 		FROM terminals t
+		LEFT JOIN opening_applies e
+		ON e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
@@ -145,7 +157,7 @@
 		LEFT JOIN terminals t on m.customer_id = t.customer_id
 		WHERE t.id = #{terminalId}
  		<if test="title != null and title != ''">
- 		m.title like '%${title}%'
+ 		and m.title like '%${title}%'
  		</if>
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
@@ -156,7 +168,7 @@
 		LEFT JOIN terminals t on m.customer_id = t.customer_id
 		WHERE t.id = #{terminalId}
  		<if test="title != null and title != ''">
- 		m.title like '%${title}%'
+ 		and m.title like '%${title}%'
  		</if>
  	</select>
  	

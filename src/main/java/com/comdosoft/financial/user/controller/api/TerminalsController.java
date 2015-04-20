@@ -227,7 +227,7 @@ public class TerminalsController {
             }
             } else {
             	 Map<Object, Object> m = terminalsService.findUnameAndStatus(customer);
-                if ((Integer)m.get("count") == 0) {
+                if ((Long)m.get("count") == 0) {
                     return Response.getError("该用户已注册！");
                 } else {
                 	terminalsService.updateCode(customer);
@@ -312,7 +312,7 @@ public class TerminalsController {
 				List<String> arr= (List<String>) map.get("serialNum");
 				
 				for(int i=0;i<arr.size();i++){
-					int count = terminalsService.checkTerminalCode(arr.get(i));//该终端号是否存在
+					int count = terminalsService.checkTerminalCode(arr.get(i),(Integer)map.get("agentId"),Terminal.TerminalTYPEID_4,Terminal.TerminalTYPEID_5);//该终端号是否存在
 					int num = terminalsService.checkTerminalCodeOpen(arr.get(i));//该终端号是否售后
 					if(count == 0){
 						errorlist.add(arr.get(i));

@@ -31,7 +31,7 @@ public class DataBaseCopyService {
 	
 	
 	public void init(){
-		//zfInit();
+		zfInit();
 		tradesInit();
 	}
 	
@@ -407,10 +407,9 @@ public class DataBaseCopyService {
 		}else{
 			zfMapper.goodsChannelRelationInit(2,2);
 		}
-		goodsChannelRelationMap.clear();
-		goodsChannelRelationMap=new HashMap<String, Object>();
-		goodsChannelRelationMap=zfMapper.getGoodPayChannelById(3, 3);
-		if(null!=goodsChannelRelationMap && goodsChannelRelationMap.size()>0){
+		Map<String, Object> goodsChannelRelationMap1=new HashMap<String, Object>();
+		goodsChannelRelationMap1=zfMapper.getGoodPayChannelById(3, 3);
+		if(null!=goodsChannelRelationMap1 && goodsChannelRelationMap1.size()>0){
 			
 		}else{
 			zfMapper.goodsChannelRelationInit(3,3);

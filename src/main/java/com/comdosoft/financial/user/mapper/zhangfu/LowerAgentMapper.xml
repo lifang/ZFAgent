@@ -81,7 +81,7 @@ ifnull(c.cardpath," ") as cardpath,ifnull(c.licensepath," ") as licensepath,ifnu
     </select>
     
     <select id="getTradelist" parameterType="int" resultType="map">
-    	select b.trade_value,b.id,c.name,c.id from support_trade_types a 
+    	select b.trade_value,b.id,c.name from support_trade_types a 
 left join dictionary_trade_types b on a.trade_type_id=b.id 
 left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} order by b.id 
     </select>

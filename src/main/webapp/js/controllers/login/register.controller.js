@@ -73,8 +73,9 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			if ($scope.agent.types == 2) {// 如果是个人
 				$("#radio1").removeAttr("checked");
 				$("#radio2").prop("checked", "checked");// 选中公司
+				$scope.agent.types = 1;
 			}
-
+			// alert($scope.agent.types);
 			if (strlen($scope.agent.companyName) > 40) {
 				alert("公司名称需在20个中文字符或40个英文字符之间");
 				return false;

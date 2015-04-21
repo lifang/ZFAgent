@@ -28,6 +28,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.service.AgentLoginService;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.MailService;
+import com.comdosoft.financial.user.utils.HttpFile;
 import com.comdosoft.financial.user.utils.SysUtils;
 
 /**
@@ -57,6 +58,9 @@ public class AgentLoginController {
 	
 	@Value("${sendEmailFindServicsePath}")
 	private String sendEmailFindServicsePath;
+	
+	@Value("${agent}")
+	private String agent;
 
 	@Resource
 	private MailService mailService;
@@ -70,7 +74,7 @@ public class AgentLoginController {
 	@RequestMapping(value = "agentLogin", method = RequestMethod.POST)
 	public Response agentLogin(@RequestBody Customer customer) {
 		try {
-			customer.setTypes(Customer.TYPE_AGENT);
+			/*customer.setTypes(Customer.TYPE_AGENT);
 			customer.setStatus(Customer.STATUS_NORMAL);
 			customer.setStatusEnd(Customer.TYPE_AGENT_STAFF);
 			Map<Object, Object> customerMes = new HashMap<Object, Object>();
@@ -90,13 +94,15 @@ public class AgentLoginController {
 				if (customerMes != null) {
 					agentLoginService.updateLastLoginedAt(customer.getUsername(), customer.getStatus().toString(), Customer.TYPE_AGENT.toString(), Customer.TYPE_AGENT_STAFF.toString());
 					// 登陆成功并且获得权限
-					customer.setId((Integer) customerMes.get("id"));
-					customerMes.put("machtigingen", agentLoginService.Toestemming(customer) == null ? "" : agentLoginService.Toestemming(customer));
-					return Response.getSuccess(customerMes);
+					customer.setId((Integer) customerMes.get("id"));*/
+					//customerMes.put("machtigingen", agentLoginService.Toestemming(customer) == null ? "" : agentLoginService.Toestemming(customer));
+					return Response.getSuccess(agentLoginService.Toestemming(customer) == null ? "" : agentLoginService.Toestemming(customer));
+					
+					/*return Response.getSuccess(customerMes);
 				} else {
 					return Response.getError("用户名/密码错误！账号不可用！");
 				}
-			}
+			}*/
 		} catch (Exception e) {
 			logger.error("代理商登陆异常！", e);
 			return Response.getError("系统异常！");
@@ -198,8 +204,13 @@ public class AgentLoginController {
     @RequestMapping(value = "upload/register", method = RequestMethod.POST)
     public Response tempOpenImg(@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
-        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsRegisterPath,updatefile, request));
-        } catch (IOException e) {
+        	//return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsRegisterPath,updatefile, request));
+        	String joinpath="";
+        	joinpath = HttpFile.upload(updatefile, agent+"/Registe/");
+        	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
+        		return Response.getError(joinpath);
+        		return Response.getSuccess(joinpath);
+        } catch (Exception e) {
         	return Response.getError("请求失败！");
         }
     }

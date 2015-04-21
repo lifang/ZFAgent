@@ -31,7 +31,7 @@ public class DataBaseCopyService {
 	
 	
 	public void init(){
-		//zfInit();
+		zfInit();
 		tradesInit();
 	}
 	
@@ -437,16 +437,13 @@ public class DataBaseCopyService {
 				status=3;
 			}
 			//account_type初始化为1  Customers表的types初始化为1
-			mapTemp.clear();
-			mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+			Map<String,Object> mapTemp=zfMapper.getCustomersByUserName(phoneNum);
 			if(null!=mapTemp && mapTemp.size()>0){
 				System.out.println("已存在该手机作为登录号记录,号码为"+phoneNum);
 			}else{
 				zfMapper.customersInit(phoneNum,1,phoneNum,realName,status,pwd,1);
-				mapTemp=new HashMap<String, Object>();
-				mapTemp.clear();
-				mapTemp=zfMapper.getCustomersByUserName(phoneNum);
-				int customerId=Integer.parseInt(mapTemp.get("id").toString());
+				Map<String,Object> mapTemp1=zfMapper.getCustomersByUserName(phoneNum);
+				int customerId=Integer.parseInt(mapTemp1.get("id").toString());
 				zfMapper.merchantsInit(idNumber, customerId);
 			}
 		}
@@ -570,8 +567,8 @@ public class DataBaseCopyService {
 			String occno=getHXPersonMap.get(i).get("occno").toString();
 			//根据customerId获取merchant表的Id
 			String phoneNum=oldMapper.getPhoneNumById(userId).get(0).get("phoneNum").toString();
-			mapTemp.clear();
-			mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+
+			Map<String,Object> mapTemp=zfMapper.getCustomersByUserName(phoneNum);
 			int customerId=Integer.parseInt(mapTemp.get("id").toString());
 			Map<String, Object> getMerchantsIdByCustomerIdMap=zfMapper.getMerchantsIdByCustomerId(customerId);
 			if(null!=getMerchantsIdByCustomerIdMap && getMerchantsIdByCustomerIdMap.size()>0){
@@ -605,8 +602,7 @@ public class DataBaseCopyService {
 			List<Map<String, Object>> temp1=oldMapper.getPhoneNumById(userId);
 			if(null!=temp1 && temp1.size()>0){
 				String phoneNum=temp1.get(0).get("phoneNum").toString();
-				mapTemp.clear();
-				mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+				Map<String,Object> mapTemp=zfMapper.getCustomersByUserName(phoneNum);
 				int customerId=Integer.parseInt(mapTemp.get("id").toString());
 				zfMapper.updateTerminalBySerialNum(customerId, status, psam);
 			}
@@ -645,13 +641,13 @@ public class DataBaseCopyService {
 			
 			Map<String, Object> mapTemp=zfMapper.getCustomerIdByUserName(loginName);
 			if(null!=mapTemp && mapTemp.size()>0){
-				int customerId=Integer.parseInt(zfMapper.getCustomerIdByUserName(loginName).get("id").toString());
+				int customerId=Integer.parseInt(mapTemp.get("id").toString());
 				
 				zfMapper.agentsInit(shopName, licence, customerId, idCard,fid,mobilePhone);
 				Map<String, Object> mapTemp1=zfMapper.getCityIdByCityName(city);
 				if(null!=mapTemp1 && mapTemp1.size()>0){
-					if(null!=zfMapper.getCityIdByCityName(city).get("id") && zfMapper.getCityIdByCityName(city).get("id").equals("null")){
-						String cityId=zfMapper.getCityIdByCityName(city).get("id").toString();
+					if(null!=mapTemp1.get("id") &&mapTemp1.get("id").equals("null")){
+						String cityId=mapTemp1.get("id").toString();
 						zfMapper.customerAddressesInit(cityId,county+address, post, contact,mobilePhone, phoneNumber, customerId);
 						//更新customers表的cityId
 						zfMapper.updateCustomerCityId(Integer.parseInt(cityId),customerId);
@@ -677,8 +673,9 @@ public class DataBaseCopyService {
 			String productId=shipMentList.get(i).get("productId").toString();
 			String amount=shipMentList.get(i).get("amount").toString();
 			String shopId=shipMentList.get(i).get("shopId").toString();
-			if(null!=oldMapper.getLoginNameByShopId(shopId)){
-				String loginName=oldMapper.getLoginNameByShopId(shopId).get("loginName").toString();
+			Map<String,Object> mapTemp=oldMapper.getLoginNameByShopId(shopId);
+			if(null!=mapTemp){
+				String loginName=mapTemp.get("loginName").toString();
 				Map<String, Object> mapTemp1=zfMapper.getCustomersByUserName(loginName);
 				if(null!=mapTemp1 && mapTemp1.size()>0){
 					String customerId=mapTemp1.get("id").toString();
@@ -770,5 +767,4 @@ public class DataBaseCopyService {
 	
 	
 	}	
-	
 }

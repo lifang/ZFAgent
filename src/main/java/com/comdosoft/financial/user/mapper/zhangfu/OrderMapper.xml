@@ -434,4 +434,18 @@
 		LEFT JOIN pay_channels pc on pc.id=gpc.pay_channel_id
 		where gpc.good_id=#{goodId} and gpc.pay_channel_id=#{paychannelId}
   </select>
+  
+  <insert id="payFinish"   parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
+		INSERT into order_payments(order_id,price,pay_type,created_at)  
+		VALUES(#{id},#{price},#{type},NOW())
+  </insert>
+  
+  <select id="getOrderByMumber"  resultType="map" parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
+		SELECT id,total_price from orders where order_number=#{ordernumber} and status=1
+  </select>
+  
+  <update id="upOrder"   parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
+       UPDATE orders set status=2 where id=#{id}
+  </update>
+  
 </mapper>

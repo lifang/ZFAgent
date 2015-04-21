@@ -3,14 +3,19 @@ package com.comdosoft.financial.user.controller.api;
 
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.domain.query.ShopReq;
+import com.comdosoft.financial.user.service.OrderService;
 import com.comdosoft.financial.user.service.ShopService;
 
 @RestController
@@ -20,7 +25,8 @@ public class ShopController {
     @Autowired
     private ShopService shopService ;
     
-   
+    @Resource
+    private OrderService orderService;
     
     @RequestMapping(value = "getShop", method = RequestMethod.POST)
     public Response getShopOne(@RequestBody ShopReq shopReq){
@@ -52,5 +58,12 @@ public class ShopController {
 
 
     
+    
+    @RequestMapping(value = "alipayback", method = RequestMethod.POST)
+    public void payOrder(@RequestParam("ordernumber") String ordernumber) {
+        OrderReq orderreq=new OrderReq();
+        orderreq.setOrdernumber(ordernumber);
+        orderService.payFinish(orderreq);
+    }
     
 }

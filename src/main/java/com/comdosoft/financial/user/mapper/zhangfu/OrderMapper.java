@@ -21,6 +21,13 @@ public interface OrderMapper {
     void addOrderGood(OrderReq orderreq);
 
     Map<String, Object> getGoodInfo(OrderReq orderreq);
+    
+    Map<String, Object> getOrderByMumber(OrderReq orderreq);
+
+    void payFinish(OrderReq orderreq);
+
+    void upOrder(OrderReq orderreq);
+ 
 
 // ----gch start --------------
     int countWholesaleOrder(MyOrderReq myOrderReq);//批购查询
@@ -64,5 +71,7 @@ public interface OrderMapper {
 	List<CsOutStorage> getOutStorageByOrderId(Integer id);
 
 	List<OrderPayment> getOrderPayByOrderId(Integer id);
- 
+
+
+  
 }

@@ -22,6 +22,7 @@ import com.comdosoft.financial.user.domain.query.LowerAgentReq;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.LowerAgentService;
 import com.comdosoft.financial.user.service.SystemSetService;
+import com.comdosoft.financial.user.utils.HttpFile;
 /**
  * 下级代销商业务处理
  * @author yyb
@@ -41,6 +42,7 @@ public class LowerAgentController {
 	
 	@Value("${uploadAgentImgPath}")
     private String uploadPictureTempsPath;
+	
 	/**
 	 * 根据传入的agentId,statusId，修改代理商状态
 	 * @param req
@@ -356,20 +358,21 @@ public class LowerAgentController {
 	@RequestMapping(value="uploadImg",method=RequestMethod.POST)
 	public Response uploadImg(@RequestParam(value="img") MultipartFile img, HttpServletRequest request) {
 		Response response = new Response();
-		try {
+		HttpFile hf=new HttpFile();
+		String resultInfo=hf.upload(img,uploadPictureTempsPath);
+		if(resultInfo.equals("上传失败")){
+			response.setCode(Response.ERROR_CODE);
+	    	response.setMessage(resultInfo);
+	    	return response;
+		}else if(resultInfo.equals("同步上传失败")){
+			response.setCode(Response.ERROR_CODE);
+	    	response.setMessage(resultInfo);
+	    	return response;
+		}else{
 			response.setCode(Response.SUCCESS_CODE);
 	    	response.setMessage("上传成功");
-	    	response.setResult(commentService.saveTmpImage(uploadPictureTempsPath+"/",img, request));
+	    	response.setResult(resultInfo);
         	return response;
-        } catch (IOException e) {
-        	response.setCode(Response.ERROR_CODE);
-	    	response.setMessage("上传失败");
-	    	return response;
-        }
-		
+		}
     }
-	
-	
-	
-	
 }

@@ -18,20 +18,20 @@ import com.comdosoft.financial.user.mapper.zhangfu.ZFDataBaseCopyMapper;
  * @author yyb
  *
  */
-//@Service
+@Service
 public class DataBaseCopyService {
-//	@Autowired
+	@Autowired
 	private ZFDataBaseCopyMapper zfMapper;
-//	@Autowired
+	@Autowired
 	private TradeDataBaseCopyMapper tradeMapper;
-//	@Autowired
+	@Autowired
 	private OldDataBaseMapper oldMapper;
 	
 	private Map<String, Object> mapTemp= new HashMap<String, Object>();
 	
 	
 	public void init(){
-		zfInit();
+		//zfInit();
 		tradesInit();
 	}
 	
@@ -352,42 +352,38 @@ public class DataBaseCopyService {
 		System.out.println("==============================初始化goods,channelName以及relation关系==================================================");
 		//初始化goods表数据
 		Map<String, Object> goodsMap=zfMapper.getGoodsById(1);
-		if(goodsMap.size()>0){
+		if(null!=goodsMap && goodsMap.size()>0){
 			zfMapper.updateGoodsById(1, "ZF300");
 		}else{
 			zfMapper.goodsInit(1, "ZF300");
 		}
-		goodsMap.clear();
-		goodsMap=zfMapper.getGoodsById(2);
-		if(goodsMap.size()>0){
+		Map<String, Object> goodsMap1=zfMapper.getGoodsById(2);
+		if(null!=goodsMap1 &&goodsMap1.size()>0){
 			zfMapper.updateGoodsById(2, "ZF300S");
 		}else{
 			zfMapper.goodsInit(2, "ZF300S");
 		}
-		goodsMap.clear();
-		goodsMap=zfMapper.getGoodsById(3);
-		if(goodsMap.size()>0){
+		Map<String, Object> goodsMap2=zfMapper.getGoodsById(3);
+		if(null!=goodsMap2 &&goodsMap2.size()>0){
 			zfMapper.updateGoodsById(3, "翰鑫");
 		}else{
 			zfMapper.goodsInit(3, "翰鑫");
 		}
 		//初始化channel表数据
 		Map<String, Object> channelsMap=zfMapper.getPayChannelById(1);
-		if(channelsMap.size()>0){
+		if(null!=channelsMap &&channelsMap.size()>0){
 			zfMapper.updatePayChannelById(1,"翰鑫");
 		}else{
 			zfMapper.channelNameInit(1,"翰鑫");
 		}
-		channelsMap.clear();
-		channelsMap=zfMapper.getPayChannelById(2);
-		if(channelsMap.size()>0){
+		Map<String, Object> channelsMap1=zfMapper.getPayChannelById(2);
+		if(null!=channelsMap1 &&channelsMap1.size()>0){
 			zfMapper.updatePayChannelById(2,"中惠ZF300");
 		}else{
 			zfMapper.channelNameInit(2,"中惠ZF300");
 		}
-		channelsMap.clear();
-		channelsMap=zfMapper.getPayChannelById(3);
-		if(channelsMap.size()>0){
+		Map<String, Object> channelsMap2=zfMapper.getPayChannelById(3);
+		if(null!=channelsMap2 &&channelsMap2.size()>0){
 			zfMapper.updatePayChannelById(3,"中惠ZF300S");
 		}else{
 			zfMapper.channelNameInit(3,"中惠ZF300S");
@@ -399,17 +395,14 @@ public class DataBaseCopyService {
 		}else{
 			zfMapper.goodsChannelRelationInit(1,1);
 		}
-		goodsChannelRelationMap.clear();
-		goodsChannelRelationMap=new HashMap<String, Object>();
-		goodsChannelRelationMap=zfMapper.getGoodPayChannelById(2, 2);
-		if(null!=goodsChannelRelationMap &&goodsChannelRelationMap.size()>0){
+		Map<String, Object> goodsChannelRelationMap1=zfMapper.getGoodPayChannelById(2,2);
+		if(null!=goodsChannelRelationMap1 &&goodsChannelRelationMap1.size()>0){
 			
 		}else{
 			zfMapper.goodsChannelRelationInit(2,2);
 		}
-		Map<String, Object> goodsChannelRelationMap1=new HashMap<String, Object>();
-		goodsChannelRelationMap1=zfMapper.getGoodPayChannelById(3, 3);
-		if(null!=goodsChannelRelationMap1 && goodsChannelRelationMap1.size()>0){
+		Map<String, Object> goodsChannelRelationMap2=zfMapper.getGoodPayChannelById(3, 3);
+		if(null!=goodsChannelRelationMap2 && goodsChannelRelationMap2.size()>0){
 			
 		}else{
 			zfMapper.goodsChannelRelationInit(3,3);
@@ -482,70 +475,70 @@ public class DataBaseCopyService {
 		//Termnals表中需初始化的字段： merchant_id（商户id）， customer_id，agent_id（代理商id），account（终端账号）， password（终端密码），type，billing_cycles_id（到账日期id）， opened_at（开通日期）
 		
 		
-		List<Map<String, Object>> zhUserList=oldMapper.getZHUSERs();
-		for(int i=0;i<zhUserList.size();i++){
-			int userId=Integer.parseInt(zhUserList.get(i).get("userId").toString());
-			String oldStatus=zhUserList.get(i).get("status").toString();
-			String companyName=zhUserList.get(i).get("companyName").toString();
-			String regPlace=zhUserList.get(i).get("regPlace").toString();
-			String bankDeposit=zhUserList.get(i).get("bankDeposit").toString();
-			String name=zhUserList.get(i).get("name").toString();
-			String accountNo=zhUserList.get(i).get("accountNo").toString();
-			String psam=zhUserList.get(i).get("psam").toString();
-			String serialType=zhUserList.get(i).get("serialType").toString();
-			float temp=0;
-			if(serialType.contains("--")){
-				String[] serialTypeTemp=serialType.split("\\--");
-				temp=Float.parseFloat(serialTypeTemp[0].toString());
-				temp=temp*1000;
-			}else{
-				temp=Float.parseFloat(serialType);
-				temp=temp*1000;
-			}
-			int productType=Integer.parseInt(zhUserList.get(i).get("productType").toString());
-			String bankNo=zhUserList.get(i).get("bankNo").toString();
-			
-			int status=2;
-			if(oldStatus.equals("4444")){
-				status=3;
-			}
-			if(productType==0){
-				productType=2;
-			}else if(productType==1){
-				productType=3;
-			}
-			
-			Map<String, Object> channelGoodRelationMap=zfMapper.getChannelIdByGoodId(productType);
-			int channelId=Integer.parseInt(channelGoodRelationMap.get("channelId").toString());
-			
-			
-			//获得旧数据库personId 对应customerId
-			//List<Map<String, Object>> getUserPsamMap=oldMapper.getUserPsam1(psam);
-			//int personId=Integer.parseInt(getUserPsamMap.get("userId").toString());
-			//根据customerId获取merchant表的Id
-			List<Map<String, Object>> listTemp=oldMapper.getPhoneNumById(userId);
-			String phoneNum="";
-			if(null!=listTemp && listTemp.size()>0){
-				phoneNum=listTemp.get(0).get("phoneNum").toString();
-			}
-			mapTemp.clear();
-			mapTemp=new HashMap<String, Object>();
-			mapTemp=zfMapper.getCustomersByUserName(phoneNum);
-			if(null!=mapTemp && mapTemp.size()>0){
-				int customerId=Integer.parseInt(mapTemp.get("id").toString());
-				Map<String, Object> getMerchantsIdByCustomerIdMap=zfMapper.getMerchantsIdByCustomerId(customerId);
-				if(null!=getMerchantsIdByCustomerIdMap){
-					int merChantId=Integer.parseInt(getMerchantsIdByCustomerIdMap.get("id").toString());
-					
-					int terminalId=zfMapper.getMaxTerminalId();
-					zfMapper.terminalInit(status, psam, temp+"", productType, channelId,merChantId,userId);
-					//根据merChantId 更新数据
-					zfMapper.updateMerchantsById(customerId, companyName,bankDeposit,accountNo);
-					//Zh_user表中的userid    terminals中的id
-					zfMapper.openingAppliesInit(terminalId, merChantId,companyName,accountNo,name,bankNo,customerId,"1","","");
-				}
-			}
-		}
+//		List<Map<String, Object>> zhUserList=oldMapper.getZHUSERs();
+//		for(int i=0;i<zhUserList.size();i++){
+//			int userId=Integer.parseInt(zhUserList.get(i).get("userId").toString());
+//			String oldStatus=zhUserList.get(i).get("status").toString();
+//			String companyName=zhUserList.get(i).get("companyName").toString();
+//			String regPlace=zhUserList.get(i).get("regPlace").toString();
+//			String bankDeposit=zhUserList.get(i).get("bankDeposit").toString();
+//			String name=zhUserList.get(i).get("name").toString();
+//			String accountNo=zhUserList.get(i).get("accountNo").toString();
+//			String psam=zhUserList.get(i).get("psam").toString();
+//			String serialType=zhUserList.get(i).get("serialType").toString();
+//			float temp=0;
+//			if(serialType.contains("--")){
+//				String[] serialTypeTemp=serialType.split("\\--");
+//				temp=Float.parseFloat(serialTypeTemp[0].toString());
+//				temp=temp*1000;
+//			}else{
+//				temp=Float.parseFloat(serialType);
+//				temp=temp*1000;
+//			}
+//			int productType=Integer.parseInt(zhUserList.get(i).get("productType").toString());
+//			String bankNo=zhUserList.get(i).get("bankNo").toString();
+//			
+//			int status=2;
+//			if(oldStatus.equals("4444")){
+//				status=3;
+//			}
+//			if(productType==0){
+//				productType=2;
+//			}else if(productType==1){
+//				productType=3;
+//			}
+//			
+//			Map<String, Object> channelGoodRelationMap=zfMapper.getChannelIdByGoodId(productType);
+//			int channelId=Integer.parseInt(channelGoodRelationMap.get("channelId").toString());
+//			
+//			
+//			//获得旧数据库personId 对应customerId
+//			//List<Map<String, Object>> getUserPsamMap=oldMapper.getUserPsam1(psam);
+//			//int personId=Integer.parseInt(getUserPsamMap.get("userId").toString());
+//			//根据customerId获取merchant表的Id
+//			List<Map<String, Object>> listTemp=oldMapper.getPhoneNumById(userId);
+//			String phoneNum="";
+//			if(null!=listTemp && listTemp.size()>0){
+//				phoneNum=listTemp.get(0).get("phoneNum").toString();
+//			}
+//			mapTemp.clear();
+//			mapTemp=new HashMap<String, Object>();
+//			mapTemp=zfMapper.getCustomersByUserName(phoneNum);
+//			if(null!=mapTemp && mapTemp.size()>0){
+//				int customerId=Integer.parseInt(mapTemp.get("id").toString());
+//				Map<String, Object> getMerchantsIdByCustomerIdMap=zfMapper.getMerchantsIdByCustomerId(customerId);
+//				if(null!=getMerchantsIdByCustomerIdMap){
+//					int merChantId=Integer.parseInt(getMerchantsIdByCustomerIdMap.get("id").toString());
+//					
+//					int terminalId=zfMapper.getMaxTerminalId();
+//					zfMapper.terminalInit(status, psam, temp+"", productType, channelId,merChantId,userId);
+//					//根据merChantId 更新数据
+//					zfMapper.updateMerchantsById(customerId, companyName,bankDeposit,accountNo);
+//					//Zh_user表中的userid    terminals中的id
+//					zfMapper.openingAppliesInit(terminalId, merChantId,companyName,accountNo,name,bankNo,customerId,"1","","");
+//				}
+//			}
+//		}
 		System.out.println("==============================旧数据库ZH_user表数据迁移完毕==================================================");
 	
 	

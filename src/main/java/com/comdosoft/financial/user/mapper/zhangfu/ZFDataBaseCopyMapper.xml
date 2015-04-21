@@ -52,7 +52,7 @@
 	</update>
 	
 	<select id="getMaxTerminalId" resultType="int">
-   		select max(id) as id from terminals
+   		select ifnull(max(id),1) as id from terminals
    </select>
 	
 	<select id="getCustomerIdByUserName" resultType="hashmap">

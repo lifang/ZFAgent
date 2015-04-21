@@ -28,11 +28,11 @@
 	<select id="getShops" resultType="hashmap">
 		select shopId,loginName,ifnull(shopName,"") as shopName,ifnull(licence,"") as licence,ifnull(city,"") as city,ifnull(county,"") as county,ifnull(address,"") as address,
 		ifnull(post,"") as post,ifnull(contact,"") as contact,ifnull(idcard,"") as idCard,
-		ifnull(mobilephone,"") as mobilePhone,ifnull(phonenumber,"") as phoneNumber,fid from shop
+		ifnull(mobilephone,"") as mobilePhone,ifnull(phonenumber,"") as phoneNumber,fid from Shop
 	</select>
 	
 	<select id="getShipMent" resultType="hashmap">
-		select ifnull(productId,"") as productId,ifnull(Amount,"") as amount,ifnull(ShopId,"") as shopId from shipment
+		select ifnull(productId,"") as productId,ifnull(Amount,"") as amount,ifnull(ShopId,"") as shopId from Shipment
 	</select>
 	
 	<select id="getZF300Rate" resultType="hashmap">
@@ -107,7 +107,7 @@
 	
 	
 	<select id="getSellList" resultType="hashmap">
-		select shopId,productId,ifnull(productNumber,"") as ProductNumber,status from sellList
+		select shopId,productId,ifnull(productNumber,"") as ProductNumber,status from SellList
 	</select>
 	
 	

@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.service.DataBaseCopyService;
 
-//@RestController
-//@RequestMapping("api/dataBase")
+@RestController
+@RequestMapping("api/dataBase")
 public class DataBaseCopyController {
 	
-//	@Autowired
+	@Autowired
 	private DataBaseCopyService dbs;
 	
-//	@RequestMapping(value = "init", method = RequestMethod.POST)
+	@RequestMapping(value = "init", method = RequestMethod.POST)
 	public Response changeStatus(){
 		Response response=new Response();
 		dbs.init();

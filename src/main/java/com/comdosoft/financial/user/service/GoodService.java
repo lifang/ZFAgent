@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.query.PosReq;
@@ -36,6 +37,9 @@ public class GoodService {
     @Autowired
     private TradeRecordMapper tradeRecordMapper;
 
+    @Value("${filePath}")
+    private String filePath;
+    
     public Map<String,Object> getGoodsList(PosReq posreq) {
         if(posreq.getCityId()!=0){
             posreq.setShengId(goodMapper.getShengId(posreq.getCityId()));
@@ -60,7 +64,7 @@ public class GoodService {
             // 图片
             List<String> goodPics = goodMapper.getgoodPics(id);
             if (null != goodPics && goodPics.size() > 0) {
-                map.put("url_path", goodPics.get(0));
+                map.put("url_path",filePath+ goodPics.get(0));
             }
         }
         result.put("list", list);
@@ -93,6 +97,11 @@ public class GoodService {
             }
             // 图片
             List<String> goodPics = goodMapper.getgoodPics(posreq.getGoodId());
+            if(goodPics!=null&&goodPics.size()>0){
+                for (int i = 0; i < goodPics.size(); i++) {
+                    goodPics.set(i, filePath+ goodPics.get(i));
+                }
+            }
             goodInfoMap.put("goodPics", goodPics);
             // 评论数
             int commentsCount = cMapper.getCommentCount(posreq.getGoodId());
@@ -101,8 +110,20 @@ public class GoodService {
             int factoryId = SysUtils.Object2int(goodinfo.get("factory_id"));
             if (factoryId > 0) {
                 Map<String, Object> factoryMap = goodMapper.getFactoryById(factoryId);
+                factoryMap.put("logo_file_path", filePath+factoryMap.get("logo_file_path"));
                 goodInfoMap.put("factory", factoryMap);
             }
+            List<Map<String, Object>> relativeShopList  = goodMapper.getRelativeShopListByGoodId(posreq);
+            if (null != relativeShopList && relativeShopList.size() > 0) {
+               for (Map<String, Object> map : relativeShopList) {
+                   // 图片
+                   List<String> goodPics2 = goodMapper.getgoodPics( SysUtils.Object2int(map.get("id")));
+                   if (null != goodPics2 && goodPics2.size() > 0) {
+                       map.put("url_path", filePath+goodPics2.get(0));
+                   }
+               }
+            }
+            goodInfoMap.put("relativeShopList",relativeShopList);
         }
         return goodInfoMap;
     }

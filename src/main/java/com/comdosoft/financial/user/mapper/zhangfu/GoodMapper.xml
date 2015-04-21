@@ -210,5 +210,15 @@
 	<select id="getShengId" resultType="int">
 		SELECT parent_id from cities WHERE id=#{cityId} LIMIT 0,1
 	</select>
+	
+	<select id="getRelativeShopListByGoodId"  resultType="map">
+		SELECT g.id,g.Title,g.retail_price,g.volume_number from good_relations gr
+		LEFT JOIN goods g on g.id=gr.relative_good_id
+		where
+		gr.good_id=#{goodId}
+		<if test="1==type">
+		  and g.has_purchase>0
+		</if>
+	</select>
 
 </mapper>

@@ -69,7 +69,7 @@ public interface TerminalsMapper {
      * @param id
      * @return
      */
-    List<Map<String, String>> getOpeningDetails(Integer id);
+    List<Map<Object, Object>> getOpeningDetails(Integer id);
 
     /**
      * 支付通道列表

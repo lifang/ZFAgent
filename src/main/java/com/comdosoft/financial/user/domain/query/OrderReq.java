@@ -26,6 +26,8 @@ public class OrderReq {
     private String invoiceInfo;
     
     private int front_money=0;
+    
+    private int type;
     /**
     {"quantity":2,"customerId":1,"addressId":1,"comment":"nihao",
     "is_need_invoice":0,"cartid":[1,2,3],"goodId":2,"paychannelId":2,"":}
@@ -40,6 +42,12 @@ public class OrderReq {
    
     
 
+    public int getType() {
+        return type;
+    }
+    public void setType(int type) {
+        this.type = type;
+    }
     public Integer getCustomerId() {
         return customerId;
     }

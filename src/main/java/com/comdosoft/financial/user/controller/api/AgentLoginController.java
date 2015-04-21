@@ -28,6 +28,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.service.AgentLoginService;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.MailService;
+import com.comdosoft.financial.user.utils.HttpFile;
 import com.comdosoft.financial.user.utils.SysUtils;
 
 /**
@@ -57,6 +58,9 @@ public class AgentLoginController {
 	
 	@Value("${sendEmailFindServicsePath}")
 	private String sendEmailFindServicsePath;
+	
+	@Value("${agent}")
+	private String agent;
 
 	@Resource
 	private MailService mailService;
@@ -198,8 +202,13 @@ public class AgentLoginController {
     @RequestMapping(value = "upload/register", method = RequestMethod.POST)
     public Response tempOpenImg(@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
-        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsRegisterPath,updatefile, request));
-        } catch (IOException e) {
+        	//return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsRegisterPath,updatefile, request));
+        	String joinpath="";
+        	joinpath = HttpFile.upload(updatefile, agent+"/Registe/");
+        	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
+        		return Response.getError(joinpath);
+        		return Response.getSuccess(joinpath);
+        } catch (Exception e) {
         	return Response.getError("请求失败！");
         }
     }

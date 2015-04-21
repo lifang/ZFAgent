@@ -1,11 +1,13 @@
 package com.comdosoft.financial.user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
@@ -20,6 +22,9 @@ public class TerminalsService {
 
 	@Resource
 	private TerminalsMapper terminalsMapper;
+	
+	@Value("${filePath}")
+	private String filePath;
 	/**
 	 * 获得终端列表
 	 * 
@@ -104,8 +109,15 @@ public class TerminalsService {
 	 * @param id
 	 * @return
 	 */
-	public List<Map<String, String>> getOpeningDetails(Integer id){
-		return terminalsMapper.getOpeningDetails(id);
+	public List<Map<Object, Object>> getOpeningDetails(Integer id){
+		 List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
+	        list = terminalsMapper.getOpeningDetails(id);
+	        for(int i=0;i<list.size();i++){
+	        	if((Integer)list.get(i).get("types") == 2){
+	            	list.get(i).put("value",filePath+list.get(i).get("value"));
+	        	}
+	        }
+			return list;
 	}
 	
 	/**

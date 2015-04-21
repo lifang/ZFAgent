@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.query.MailReq;
@@ -27,6 +28,9 @@ public class IndexService {
     private IndexMapper indexMapper;
     @Resource
     private MailService MailService;
+    
+    @Value("${filePath}")
+    private String filePath;
     
     public List<Map<String, Object>> getFactoryList() {
         List<Map<String, Object>> list = indexMapper.getFactoryList();
@@ -242,7 +246,13 @@ public class IndexService {
 	}
 
     public List<Map<Object, Object>> getList() {
-        return indexMapper.getList();
+        List<Map<Object , Object>> result=indexMapper.getList();
+        for (int i = 0; i < result.size(); i++) {
+            Map<Object, Object> m=result.get(i);
+            m.put("picture_url", filePath+m.get("picture_url"));
+            result.set(i, m);
+        }
+        return result;
     }
 
 

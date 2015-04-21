@@ -115,6 +115,20 @@ public class OrderService {
         return orderreq.getId();
 
     }
+    
+    public void payFinish(OrderReq orderreq) {
+        Map<String, Object> map = orderMapper.getOrderByMumber(orderreq);
+        try {
+            int id = SysUtils.Object2int(map.get("id"));
+            int total_price = SysUtils.Object2int(map.get("total_price"));
+            orderreq.setId(id);
+            orderreq.setType(1);
+            orderreq.setPrice(total_price);
+            orderMapper.payFinish(orderreq);
+            orderMapper.upOrder(orderreq);
+        } catch (Exception e) {
+        }
+    }
 
     /**
      * 上jwb ------------------------------------------------------------- 下gch
@@ -587,5 +601,7 @@ public class OrderService {
         map.put("order_number", o.getOrderNumber());// 订单编号
         return map;
     }
+
+   
 
 }

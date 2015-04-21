@@ -131,7 +131,7 @@
 
 	<select id="Toestemming" resultType="map"
 		parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
-		SELECT r.role_id FROM customers c
+		SELECT IFNULL(r.role_id,'') as role_id FROM customers c
 		LEFT JOIN customer_role_relations r ON r.customer_id=c.id
 		WHERE c.id=#{id}
 	</select>

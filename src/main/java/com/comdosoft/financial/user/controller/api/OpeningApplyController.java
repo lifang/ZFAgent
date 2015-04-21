@@ -1,6 +1,5 @@
 package com.comdosoft.financial.user.controller.api;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +28,7 @@ import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsService;
+import com.comdosoft.financial.user.utils.HttpFile;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
 /**
@@ -56,6 +56,12 @@ public class OpeningApplyController {
 	
 	@Value("${uploadPictureTempsPath}")
     private String uploadPictureTempsPath;
+	
+	@Value("${userTerminal}")
+	private String userTerminal;
+	
+	@Value("${filePath}")
+	private String filePath;
 
 	/**
 	 * 根据代理商ID获得开通申请列表
@@ -399,8 +405,12 @@ public class OpeningApplyController {
 				}
 			} else {
 					key = (String) map.get("key");
-					value =  map.get("value");
 					types = (Integer) map.get("types");
+					if(types == 2){
+						value =  map.get("value").toString().substring(filePath.length());
+					}else{
+						value = map.get("value");
+					}
 					openingRequirementId = (Integer) map.get("openingRequirementId");
 					targetId =(Integer) map.get("targetId");
 				openingApplyService.addApply(key, value,types, openingAppliesId,openingRequirementId,targetId);
@@ -453,8 +463,13 @@ public class OpeningApplyController {
     @RequestMapping(value = "upload/tempOpenImg/{id}", method = RequestMethod.POST)
     public Response tempOpenImg(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
-        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/opengImg/",updatefile, request));
-        } catch (IOException e) {
+        	String joinpath="";
+        	joinpath = HttpFile.upload(updatefile, userTerminal+id+"/opengImg/");
+        	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
+        		return Response.getError(joinpath);
+        	joinpath = filePath+joinpath;
+        		return Response.getSuccess(joinpath);
+        } catch (Exception e) {
         	return Response.getError("请求失败！");
         }
     }

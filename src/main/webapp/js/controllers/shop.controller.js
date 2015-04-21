@@ -922,6 +922,8 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		if ($scope.order.orderType != 5) {
 			$scope.cc = {};
 			$scope.clist();
+		}else{
+			$scope.order.agentId=LoginService.agentid;
 		}
 		$scope.city_list();
 		$scope.min = 1;
@@ -929,6 +931,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$scope.adlist();
 	};
 	$scope.getGood = function() {
+		
 		$http.post("api/shop/getShop", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				$scope.shop = data.result;

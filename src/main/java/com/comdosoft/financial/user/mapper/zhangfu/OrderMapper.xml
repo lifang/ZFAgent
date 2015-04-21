@@ -68,8 +68,8 @@
 	<resultMap id="orderGoodsMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderGood">
 		 <id property="id" column="order_good_id" />
 			<result property="quantity" column="quantity" />
-			<result property="price" column="price" />
-			<result property="actualPrice" column="actual_price" />
+			<result property="price" column="og_price" />
+			<result property="actualPrice" column="og_actual_price" />
 			<result property="createdAt" column="created_at" />
 			<result property="updatedAt" column="updated_at" />
 			<association property="payChannel" javaType="com.comdosoft.financial.user.domain.zhangfu.PayChannel" resultMap="payChannelMap" />  
@@ -173,7 +173,7 @@
 			gb. NAME,
 			gb.id AS good_brands_id,
 			pc. NAME AS channel_name,
-			og.price,
+			og.price as og_price,og.actual_price as og_actual_price,
 			o.total_quantity AS total_num,
 			os.quantity as os_quantity,os.status as os_status,
 			o.actual_price,
@@ -209,7 +209,7 @@
 			gb. NAME,
 			gb.id AS good_brands_id,
 			pc. NAME AS channel_name,
-			og.price,
+			og.price as og_price,og.actual_price as og_actual_price,
 			os.quantity as os_quantity,os.status as os_status
 		FROM
 		 order_goods og
@@ -226,8 +226,8 @@
 	<select id="getProxyOrder" resultMap="orderMap" >
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,g.retail_price,
-		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,
-		pc.name as channel_name,og.price ,	og.quantity , c.name,o.belongs_user_id,
+		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,og.actual_price as og_actual_price,
+		pc.name as channel_name,og.price as og_price ,	og.quantity , c.name,o.belongs_user_id,
 		o.actual_price ,o.total_price,o.total_quantity as total_num
 		FROM	
 		orders o
@@ -260,9 +260,9 @@
 		SELECT
 		og.id as order_good_id,
 		g.id as good_id, 
-		g.retail_price,
+		g.retail_price,og.actual_price as og_actual_price,
 		g.title,gb.name , gb.id as good_brands_id,
-		pc.name as channel_name,og.price ,	og.quantity 
+		pc.name as channel_name,og.price as og_price ,	og.quantity 
 		FROM	
 	      order_goods og
 		LEFT JOIN goods g ON og.good_id = g.id
@@ -319,10 +319,10 @@
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.price,g.purchase_price,
 		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,
 		 g.title,gb.name , gb.id as good_brands_id,o.comment,
-		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,f.`name` as factory_name,
+		pc.name as channel_name,og.price as og_price ,	og.quantity ,o.invoice_info,f.`name` as factory_name,
 		o.actual_price ,o.total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name ,
-		 os.status as os_status,os.quantity as os_quantity,
+		 os.status as os_status,os.quantity as os_quantity,og.actual_price as og_actual_price,
 		o.front_pay_status,
 		o.front_money,op.pay_type
 		FROM	
@@ -347,8 +347,8 @@
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,
 		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,
-		g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,
-		pc.name as channel_name,og.price ,	og.quantity ,o.invoice_info,op.pay_type,o.belongs_user_id,f.`name` as factory_name,
+		g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,og.actual_price as og_actual_price,
+		pc.name as channel_name,og.price as og_price ,	og.quantity ,o.invoice_info,op.pay_type,o.belongs_user_id,f.`name` as factory_name,
 		o.actual_price ,o.total_price,o.total_quantity as total_num,om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name 
 		FROM	

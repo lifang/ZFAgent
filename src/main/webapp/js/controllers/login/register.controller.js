@@ -174,6 +174,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 				$scope.codeNumber = "";
 				$scope.code = "";
 				$scope.codeBei = "";
+				alert("您的申请信息已经提交，静候我们的工作人员处理。");
 				window.location.href = '#/login';
 			} else if (data.code == -1) {
 				alert(data.message);

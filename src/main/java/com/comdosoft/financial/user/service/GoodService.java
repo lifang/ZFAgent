@@ -48,19 +48,21 @@ public class GoodService {
         List<Map<String, Object>> list = goodMapper.getGoodsList(posreq);
         int total=goodMapper.getGoodsTotal(posreq);
         for (Map<String, Object> map : list) {
-            if(1==posreq.getType()){
-                int id = SysUtils.Object2int(map.get("id"));
-                map.put("purchase_price", setPurchasePrice(
-                        posreq.getAgentId(),id,SysUtils.Object2int(map.get("purchase_price")),
-                        SysUtils.Object2int(map.get("floor_price"))));
-            }
-            int id = Integer.valueOf("" + map.get("id"));
+            int id = SysUtils.Object2int(map.get("id"));
             // 支付通道
             posreq.setGoodId(id);
             List<Map<String, Object>> payChannelList = goodMapper.getPayChannelListByGoodId(posreq);
+            int openprice=0;
             if (null != payChannelList && payChannelList.size() > 0) {
                 map.put("pay_channe", payChannelList.get(0).get("name"));
+                openprice=SysUtils.Object2int(payChannelList.get(0).get("opening_cost")); 
             }
+            if(1==posreq.getType()){
+                map.put("purchase_price", setPurchasePrice(
+                        posreq.getAgentId(),id,SysUtils.Object2int(map.get("purchase_price")),
+                        SysUtils.Object2int(map.get("floor_price")))+openprice);
+            }
+            map.put("retail_price", SysUtils.Object2int(map.get("retail_price"))+openprice);
             // 图片
             List<String> goodPics = goodMapper.getgoodPics(id);
             if (null != goodPics && goodPics.size() > 0) {
@@ -110,8 +112,11 @@ public class GoodService {
             int factoryId = SysUtils.Object2int(goodinfo.get("factory_id"));
             if (factoryId > 0) {
                 Map<String, Object> factoryMap = goodMapper.getFactoryById(factoryId);
-                factoryMap.put("logo_file_path", filePath+factoryMap.get("logo_file_path"));
-                goodInfoMap.put("factory", factoryMap);
+                if(factoryMap!=null){
+                    factoryMap.put("logo_file_path", filePath+factoryMap.get("logo_file_path"));
+                    goodInfoMap.put("factory", factoryMap);
+                }
+                
             }
             List<Map<String, Object>> relativeShopList  = goodMapper.getRelativeShopListByGoodId(posreq);
             if (null != relativeShopList && relativeShopList.size() > 0) {

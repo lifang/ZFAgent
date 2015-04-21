@@ -131,12 +131,13 @@
 
 
 	<select id="getPayChannelListByGoodId" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
-		SELECT pc.id,pc.name
+		SELECT pc.id,pc.name,pc.opening_cost
 		from pay_channels pc
 		LEFT JOIN goods_pay_channels gpc on gpc.pay_channel_id=pc.id
 		where gpc.good_id=#{goodId} and pc.status=5 and
 		((pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
 		or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0)))
+		order by pc.created_at
 	</select>
 
 	<select id="getgoodPics" resultType="String">

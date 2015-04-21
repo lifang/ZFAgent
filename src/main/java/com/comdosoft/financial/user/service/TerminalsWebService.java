@@ -41,6 +41,8 @@ public class TerminalsWebService {
 	 @Value("${uploadPictureTempsPath}")
 	    private String uploadPictureTempsPath;
 	
+	 @Value("${filePath}")
+	 private String filePath;
 	/**
 	 * 获得终端列表
 	 * 
@@ -236,13 +238,18 @@ public class TerminalsWebService {
 	 * @param id
 	 * @return
 	 */
-	public List<Map<String, Object>>  getModule(Integer  terminalsId,int type){
+	public List<Map<Object, Object>>  getModule(Integer  terminalsId,int type){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("terminalsId",terminalsId);
 		map.put("type", type);
-		return terminalsWebMapper.getModule(map);
+		 List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
+	        list = terminalsWebMapper.getModule(map);
+	        for(int i=0;i<list.size();i++){
+	            	list.get(i).put("templet_file_path",filePath+list.get(i).get("templet_file_path"));
+	        }
+		return list;
 	}
-	
+
 	/**
 	 * 提交注销
 	 * @param map
@@ -347,8 +354,15 @@ public class TerminalsWebService {
 	 * @param id
 	 * @return
 	 */
-	public List<Map<String, String>> getOpeningDetails(Integer id){
-		return terminalsWebMapper.getOpeningDetails(id);
+	public List<Map<Object, Object>> getOpeningDetails(Integer id){
+        List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
+        list = terminalsWebMapper.getOpeningDetails(id);
+        for(int i=0;i<list.size();i++){
+        	if((Integer)list.get(i).get("types") == 2){
+            	list.get(i).put("value",filePath+list.get(i).get("value"));
+        	}
+        }
+		return list;
 	}
 	
 	/**
@@ -376,7 +390,7 @@ public class TerminalsWebService {
 	 * @return
 	 * @throws IOException
 	 */
-    public String downloadPdf(HttpServletRequest request, String id, HttpServletResponse response) throws IOException {
+    public String downloadZip(HttpServletRequest request, String id, HttpServletResponse response) throws IOException {
 		// 保存上传的实体文件
         String rootDir = request.getServletContext().getRealPath(uploadPictureTempsPath);
         List<String> fileName = new ArrayList<String>();

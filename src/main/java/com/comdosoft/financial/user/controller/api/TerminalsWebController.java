@@ -34,6 +34,7 @@ import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
 import com.comdosoft.financial.user.service.UserManagementService;
+import com.comdosoft.financial.user.utils.HttpFile;
 import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -68,6 +69,14 @@ public class TerminalsWebController {
 	@Value("${passPath}")
 	private String passPath;
 	
+	@Value("${userTerminal}")
+	private String userTerminal;
+	
+	@Value("${filePath}")
+	private String filePath;
+	
+	@Value("${sysPaychannel}")
+	private String sysPaychannel;
 	/**
 	 * 根据用户ID获得终端列表
 	 * 
@@ -447,8 +456,8 @@ public class TerminalsWebController {
 
 	
 	@RequestMapping(value = "noticeMaterial/{id}", method = RequestMethod.GET)
-    public String downloadPdf(@PathVariable(value="id") int id,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		return terminalsWebService.downloadPdf(request,String.valueOf(id), response);
+    public String downloadZip(@PathVariable(value="id") int id,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		return terminalsWebService.downloadZip(request,String.valueOf(id), response);
     }
 	
 	/**
@@ -461,8 +470,13 @@ public class TerminalsWebController {
     @RequestMapping(value = "upload/tempOpenImg/{id}", method = RequestMethod.POST)
     public Response tempOpenImg(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
-        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/opengImg/",updatefile, request));
-        } catch (IOException e) {
+        		String joinpath="";
+            	joinpath = HttpFile.upload(updatefile, userTerminal+id+"/opengImg/");
+            	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
+            		return Response.getError(joinpath);
+            	joinpath = filePath+joinpath;
+            		return Response.getSuccess(joinpath);
+        } catch (Exception e) {
         	return Response.getError("请求失败！");
         }
     }
@@ -477,8 +491,13 @@ public class TerminalsWebController {
     @RequestMapping(value = "upload/tempCancellationFile/{id}", method = RequestMethod.POST)
     public Response tempCancellationFile(@PathVariable("id") int id,@RequestParam(value="updatefile") MultipartFile updatefile, HttpServletRequest request) {
         try {
-        	return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/cancellation/",updatefile, request));
-        } catch (IOException e) {
+        	//return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/cancellation/",updatefile, request));
+        	String joinpath="";
+        	joinpath = HttpFile.upload(updatefile, sysPaychannel+id+"/cancellation/");
+        	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
+        		return Response.getError(joinpath);
+        		return Response.getSuccess(joinpath);
+        } catch (Exception e) {
         	return Response.getError("请求失败！");
         }
     }
@@ -492,8 +511,12 @@ public class TerminalsWebController {
     @RequestMapping(value = "upload/tempUpdateFile/{id}", method = RequestMethod.POST)
     public Response tempUpdateFile(@PathVariable("id") int id,@RequestParam(value="updatefile") MultipartFile updatefile, HttpServletRequest request) {
     	try {
-    		return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/update/",updatefile, request));
-    	} catch (IOException e) {
+    		String joinpath="";
+        	joinpath = HttpFile.upload(updatefile, sysPaychannel+id+"/update/");
+        	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
+        		return Response.getError(joinpath);
+        		return Response.getSuccess(joinpath);
+    	} catch (Exception e) {
     		return Response.getError("请求失败！");
     	}
     }

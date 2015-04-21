@@ -152,7 +152,7 @@ public interface TerminalsWebMapper {
      * @param id
      * @return
      */
-    List<Map<String, Object>> getModule(Map<String, Object> map);
+    List<Map<Object, Object>> getModule(Map<String, Object> map);
     
     /**
      * 提交退还申请
@@ -225,7 +225,7 @@ public interface TerminalsWebMapper {
      * @param id
      * @return
      */
-    List<Map<String, String>> getOpeningDetails(Integer id);
+    List<Map<Object, Object>> getOpeningDetails(Integer id);
 
     /**
      * 支付通道列表

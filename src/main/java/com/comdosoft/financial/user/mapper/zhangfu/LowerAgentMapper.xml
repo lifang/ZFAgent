@@ -110,6 +110,10 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
    		 (#{sonAgentsId},#{payChannelId},#{precent},now(),now(),#{tradeTypeId})
    </insert>
    
+  <insert id="createRoleRelation" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
+   		insert into customer_role_relations(role_id,customer_id,created_at,updated_at) values(#{roleId},#{customerId},now(),now())
+   </insert> 
+   
    <update id="editPrecent" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
 		update agent_profit_settings set percent=#{precent},created_at=now(),updated_at=now() 
 		where agent_id=#{sonAgentsId} and pay_channel_id=#{payChannelId} and trade_type_id=#{tradeTypeId}  

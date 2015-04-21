@@ -84,10 +84,19 @@ public class LowerAgentReq {
     private String code;
     //下级代理商名字
     private String lowerAgentName;
+    //权限id
+    private int roleId;
     
     
-    
-    public String getLowerAgentName() {
+    public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getLowerAgentName() {
 		return lowerAgentName;
 	}
 

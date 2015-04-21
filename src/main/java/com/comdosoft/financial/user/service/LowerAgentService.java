@@ -246,10 +246,26 @@ public class LowerAgentService {
 	                //获取新的agents表ID
 	        		int customer_id=lowerAgentMapper.getCustomerId(req);
 	            	req.setCustomerId(customer_id);
+	            	//插入权限
+	            	req.setRoleId(3);
+	            	lowerAgentMapper.createRoleRelation(req);
+	            	req.setRoleId(4);
+	            	lowerAgentMapper.createRoleRelation(req);
+	            	req.setRoleId(5);
+	            	lowerAgentMapper.createRoleRelation(req);
+	            	req.setRoleId(6);
+	            	lowerAgentMapper.createRoleRelation(req);
+	            	req.setRoleId(7);
+	            	lowerAgentMapper.createRoleRelation(req);
+	            	req.setRoleId(8);
+	            	lowerAgentMapper.createRoleRelation(req);
+	            	req.setRoleId(9);
+	            	lowerAgentMapper.createRoleRelation(req);
 	            	//agengCode
 	            	String parentAgentCode=lowerAgentMapper.getParentAgentCode(req);
 	            	int lengthTemp=parentAgentCode.length();
 	            	List<Map<String, Object>> list=lowerAgentMapper.getChildAgentCode(req);
+	            	
 	            	int temp=0;
 	            	
 	            	if(list.size()>0){

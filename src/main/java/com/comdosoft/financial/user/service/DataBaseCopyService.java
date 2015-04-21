@@ -31,7 +31,7 @@ public class DataBaseCopyService {
 	
 	
 	public void init(){
-		zfInit();
+		//zfInit();
 		tradesInit();
 	}
 	

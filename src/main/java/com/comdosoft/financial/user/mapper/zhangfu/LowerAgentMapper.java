@@ -3,6 +3,8 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.comdosoft.financial.user.domain.query.LowerAgentReq;
 
 /**
@@ -60,5 +62,7 @@ public interface LowerAgentMapper {
 	String getParentAgentCode(LowerAgentReq req);
 	
 	List<Map<String,Object>> getChildAgentCode(LowerAgentReq req);
+	
+	int createRoleRelation(LowerAgentReq req);
 	
 }

@@ -135,7 +135,7 @@
 								</thead>
 								<tr ng-repeat="one in paychannel.standard_rates">
 									<td>{{one.name}}</td>
-									<td>{{one.standard_rate}}‰</td>
+									<td>{{one.standard_rate/10}}‰</td>
 									<td><p>{{one.description}}</p></td>
 								</tr>
 
@@ -159,7 +159,7 @@
 								</thead>
 								<tr ng-repeat="one in paychannel.tDates">
 									<td>{{one.name}}</td>
-									<td>{{one.service_rate}}‰</td>
+									<td>{{one.service_rate/10}}‰</td>
 									<td><p>{{one.description}}</p></td>
 								</tr>
 							</table>
@@ -181,7 +181,7 @@
 								</thead>
 								<tr ng-repeat="one in paychannel.other_rate">
 									<td>{{one.trade_value}}</td>
-									<td>{{one.terminal_rate}}‰</td>
+									<td>{{one.terminal_rate/10}}‰</td>
 									<td><p>{{one.description}}</p></td>
 								</tr>
 
@@ -212,7 +212,7 @@
 								</thead>
 								<tr ng-repeat="one in paychannel.tDates">
 									<td>{{one.name}}</td>
-									<td>{{one.service_rate}}‰</td>
+									<td>{{one.service_rate/10}}‰</td>
 									<td><p>{{one.description}}</p></td>
 								</tr>
 							</table>

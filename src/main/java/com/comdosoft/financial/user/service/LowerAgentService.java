@@ -29,9 +29,8 @@ public class LowerAgentService {
 	@Autowired
 	private SystemSetService sys;
 	
-	@Value("${uploadAgentImgPath}")
-    private String uploadPictureTempsPath;
-	
+	@Value("${filePath}")
+	private String filePath;
 	/**
 	 * 修改代理商状态
 	 * @param req
@@ -193,11 +192,11 @@ public class LowerAgentService {
 	
 	public Map<String, Object> getInfo(LowerAgentReq req) {
 		Map<String, Object> map=lowerAgentMapper.getInfo(req);
-		String temp=uploadPictureTempsPath+" "+map.get("cardpath").toString();
+		String temp=filePath+" "+map.get("cardpath").toString();
 		map.put("cardpath", temp);
-		String temp1=uploadPictureTempsPath+" "+map.get("licensepath").toString();
+		String temp1=filePath+" "+map.get("licensepath").toString();
 		map.put("licensepath", temp1);
-		String temp2=uploadPictureTempsPath+" "+map.get("taxpath").toString();
+		String temp2=filePath+" "+map.get("taxpath").toString();
 		map.put("taxpath", temp2);
         return lowerAgentMapper.getInfo(req);
     }

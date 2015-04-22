@@ -40,9 +40,11 @@ public class LowerAgentController {
 	@Autowired
 	private CommentService commentService;
 	
-	@Value("${uploadAgentImgPath}")
-    private String uploadPictureTempsPath;
+	@Value("${filePath}")
+	private String filePath;
 	
+	@Value("${agent}")
+	private String agent;
 	/**
 	 * 根据传入的agentId,statusId，修改代理商状态
 	 * @param req
@@ -355,24 +357,18 @@ public class LowerAgentController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="uploadImg",method=RequestMethod.POST)
-	public Response uploadImg(@RequestParam(value="img") MultipartFile img, HttpServletRequest request) {
-		Response response = new Response();
-		HttpFile hf=new HttpFile();
-		String resultInfo=hf.upload(img,uploadPictureTempsPath);
-		if(resultInfo.equals("上传失败")){
-			response.setCode(Response.ERROR_CODE);
-	    	response.setMessage(resultInfo);
-	    	return response;
-		}else if(resultInfo.equals("同步上传失败")){
-			response.setCode(Response.ERROR_CODE);
-	    	response.setMessage(resultInfo);
-	    	return response;
-		}else{
-			response.setCode(Response.SUCCESS_CODE);
-	    	response.setMessage("上传成功");
-	    	response.setResult(resultInfo);
-        	return response;
-		}
+	@RequestMapping(value="uploadImg/{agentsId}",method=RequestMethod.POST)
+	public Response uploadImg(@PathVariable("agentsId") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
+		try {
+    		String joinpath="";
+        	joinpath = HttpFile.upload(updatefile, agent+id+"/opengImg/");
+        	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath)){
+        		return Response.getError(joinpath);
+        	}else{
+        		return Response.getSuccess(joinpath);
+        	}
+	    } catch (Exception e) {
+	    	return Response.getError("请求失败！");
+	    }
     }
 }

@@ -66,7 +66,6 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 		}
 
 		if ($("#radio1").attr("checked") != undefined && $("#radio2").attr("checked") == undefined) {
-			alert("aaaa");
 			$scope.agent.types = 2;// 个人
 		} else if ($("#radio2").attr("checked") != undefined && $("#radio1").attr("checked") == undefined) {
 			$scope.agent.types = 1;// 公司
@@ -93,7 +92,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 				}
 			}
 		}
-		
+
 		if ($scope.agent.phone == undefined || $scope.agent.phone == "") {
 			alert("请输入手机号码！");
 			return false;

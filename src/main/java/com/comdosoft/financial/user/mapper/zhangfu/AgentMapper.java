@@ -6,6 +6,7 @@ import java.util.Map;
 import com.comdosoft.financial.user.domain.query.CommercialReq;
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 
 /**
@@ -91,5 +92,7 @@ public interface AgentMapper {
 
 	//修改编辑地址
 	void update_Address(Map<Object, Object> param);
+
+	CustomerAddress findAddressById(Integer addressId);
 
 }

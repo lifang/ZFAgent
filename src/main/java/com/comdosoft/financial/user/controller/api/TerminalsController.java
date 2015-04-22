@@ -288,6 +288,12 @@ public class TerminalsController {
 	@RequestMapping(value="screeningTerminalNum",method=RequestMethod.POST)
 	public Response screeningTerminalNum(@RequestBody Map<Object, Object> map){
 		try{
+			PageRequest PageRequest = new PageRequest(
+					(Integer)map.get("page"),
+					(Integer)map.get("rows"));
+			int offSetPage = PageRequest.getOffset();
+			map.put("offSetPage", offSetPage);
+			map.put("pageSize", (Integer)map.get("rows"));
 			return Response.getSuccess(terminalsService.screeningTerminalNum(map));
 		}catch(Exception e){
 			logger.error("筛选终端失败！", e);

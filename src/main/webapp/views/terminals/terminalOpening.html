@@ -84,10 +84,10 @@
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">地址：</span>
                                 	<div class="text">
-                                		<select  ng-model="selected" ng-options="s.name for s in cities">
+                                		<select  ng-model="selected" ng-options="s.name for s in cities" ng-click="desjub()">
 		             		 				<option value="">{{addressShen}}</option>
 		          						</select>
-						 				<select ng-model="req.shiList" ng-options="x.name for x in selected.childrens">
+						 				<select ng-model="req.shiList" ng-options="x.name for x in selected.childrens" ng-click="desjub()">
 			               					<option value="">{{addressShi}}</option>
 			          					</select>
                                      </div>
@@ -97,10 +97,10 @@
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">支付通道：</span>
                                 	<div class="text">
-                                	<select  ng-model="chan.chanList" ng-options="s.name for s in channels" >
+                                	<select  ng-model="chan.chanList" ng-options="s.name for s in channels" ng-click="desju()">
 		             		 				<option value="">{{channelName}}</option>
 		          						</select>
-						 				<select ng-model="tln.chanTs" ng-options="x.name for x in chan.chanList.billings">
+						 				<select ng-model="tln.chanTs" ng-options="x.name for x in chan.chanList.billings" ng-click="desju()">
 			               					<option value="">{{channelTsName}}</option>
 			          					</select>
                                 	</div>

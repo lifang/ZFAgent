@@ -118,7 +118,7 @@ public class UserManagementController {
 				int count = userManagementService.TerminalStatus((Integer) list.get(i),
 						Terminal.TerminalTYPEID_4,
 						Terminal.TerminalTYPEID_5);
-				if(count == 0){
+				if(count > 0){
 					return Response.getError("该用户终端未注销或取消,不能删除！");
 				}
 				userManagementService.delectAgentUser((Integer) map.get("agentId")

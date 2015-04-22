@@ -43,9 +43,15 @@ public class PayChannelService {
         int factoryId = SysUtils.Object2int(map.get("factory_id"));
         if (factoryId > 0) {
             Map<String, Object> factoryMap = pcMapper.getFactoryById(pcid);
-            factoryMap.put("logo_file_path", filePath+factoryMap.get("logo_file_path"));
-            map.put("pcfactory", factoryMap);
+            if(factoryMap!=null){
+                factoryMap.put("logo_file_path", filePath+factoryMap.get("logo_file_path"));
+                map.put("pcfactory", factoryMap);
+            }
         }
         return map;
+    }
+    
+    public static void main(String[] args) {
+        
     }
 }

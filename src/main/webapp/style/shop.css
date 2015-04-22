@@ -131,12 +131,13 @@
 .category_item a.up:hover i { background: url(../images/icons.png) no-repeat 0 -27px;}
 
 .category_item_maxHeight .category_item_con ul { height: auto; max-height: 100px; overflow-y: auto;}
-.category_item_maxHeight .category_item_con li { width: 120px; margin: 0 20px 0 0;}
+.category_item_maxHeight .category_item_con li { width: 118px; margin: 0 20px 0 0;}
 
 .category_item_con {}
 .category_item_con ul { display: block; height: 24px; overflow: hidden;}
 .category_item_con ul li {
 	margin: 0 20px 0 0;
+	width: 118px;
 	float: left;
 	max-width: 120px;
 	height: 24px; 

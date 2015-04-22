@@ -130,7 +130,7 @@ public class AgentAPI {
 		try {
 			Customer customer = agentService.getOneCustomer(param);
 			if (customer != null) {
-				if (param.getPasswordOld().equals(customer.getPassword())) {// 判断原密码
+				if (param.getPasswordOld().equalsIgnoreCase(customer.getPassword())) {// 判断原密码
 					agentService.update(param, 1);// 更新密码
 					sysResponse = Response.getSuccess();
 				} else {

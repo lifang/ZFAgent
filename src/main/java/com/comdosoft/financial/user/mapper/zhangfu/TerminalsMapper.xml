@@ -224,6 +224,7 @@
 				AND g.retail_price &gt; #{minPrice}*100
 			</when>
 		</choose>
+		LIMIT #{offSetPage},#{pageSize}
 	</select>
 	
 	<select id="batchTerminalNum" resultType="map" parameterType="map">

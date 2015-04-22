@@ -555,13 +555,18 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
   };
   
 //提交注销申请
+  $scope.subtruefalse = true;
 	$scope.subRentalReturn = function(){
 		$scope.array = [];
 		 for(var i=0;i<$scope.reModel.length;i++){
-			$scope.array[i] = {
-					"id":$("#upId_"+i).val()+"",
-					"path":$("#up_"+i).val()+""
-			};
+			 if($("#up_"+i).val() != null && $("#up_"+i).val() != ""){
+				 $scope.subtruefalse = false;
+				 $scope.array[i] = {
+							"id":$("#upId_"+i).val()+"",
+							"path":$("#up_"+i).val()+""
+					};
+			 }
+			
 		 }
 		
 		 $scope.map = {
@@ -571,7 +576,10 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
  				type : 3,
  				customerId:$scope.customerId
  		 }
-		 $http.post("api/webTerminal/subRentalReturn", $scope.map).success(function (data) {  //绑定
+		 if($scope.subtruefalse == true){
+			 alert("请选择你要上传注销资料！");
+		 }else{
+			 $http.post("api/webTerminal/subRentalReturn", $scope.map).success(function (data) {  //绑定
 	          if (data != null && data != undefined) {
 	        	  if(data.code == 1){
 	        		  window.location.href ='#/terminalDetail?terminalId='+$scope.terminalId;
@@ -582,6 +590,7 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
 	      }).error(function (data) {
 	    	  alert("获取列表失败");
 	      });
+		 }
 	}
   $scope.terminalDetail();
 };
@@ -609,14 +618,19 @@ var terminalToUpdateController = function ($scope, $http,$location, LoginService
   };
   
 //提交
+  $scope.subtruefalse = true;
 	$scope.subToUpdate = function () {
 		
 		$scope.array = [];
 		 for(var i=0;i<$scope.reModel.length;i++){
-			$scope.array[i] = {
-					id:$("#upId_"+i).val(),
-					path:$("#up_"+i).val()
-			};
+			 if($("#up_"+i).val() != null && $("#up_"+i).val() != ""){
+				 $scope.subtruefalse = false;
+				 $scope.array[i] = {
+							id:$("#upId_"+i).val(),
+							path:$("#up_"+i).val()
+					};
+			 }
+			
 		 }
 		
 		$scope.message = {
@@ -625,20 +639,22 @@ var terminalToUpdateController = function ($scope, $http,$location, LoginService
 				status:1,
 				templeteInfoXml :JSON.stringify($scope.array),
 				};
-		
-  $http.post("api/webTerminal/getApplyToUpdate", $scope.message).success(function (data) {  //绑定
-      if (data != null && data != undefined) {
-    	  if(data.code == 1){
-    		  window.location.href ='#/terminalDetail?terminalId='+$scope.terminalId;
-    	  }else{
-    		  alert("跟新失败！");
-    	  }
-        
-      }
-  }).error(function (data) {
-	  alert("操作失败");
-  });
-  
+		if($scope.subtruefalse == true){
+			alert("请选择你要上传更新资料！");
+		}else{
+			 $http.post("api/webTerminal/getApplyToUpdate", $scope.message).success(function (data) {  //绑定
+		      if (data != null && data != undefined) {
+		    	  if(data.code == 1){
+		    		  window.location.href ='#/terminalDetail?terminalId='+$scope.terminalId;
+		    	  }else{
+		    		  alert("跟新失败！");
+		    	  }
+		        
+		      }
+		  }).error(function (data) {
+			  alert("操作失败");
+		  });
+		}
 };
   $scope.terminalDetail();
 };

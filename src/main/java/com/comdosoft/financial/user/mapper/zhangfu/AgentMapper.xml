@@ -139,6 +139,22 @@
 		WHERE id = #{id}
 	</update>
 	
+		<select id="findAddressById"  resultType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+		SELECT
+			id,
+			IFNULL(city_id,'') as city_id,
+			IFNULL(receiver,'') as receiver,
+			IFNULL(moblephone,'') as moblephone,
+			IFNULL(zip_code,'') as zip_code,
+			IFNULL(is_default,'') as is_default,
+			IFNULL(address,'') as address,
+			customer_id as customerId
+		FROM
+			customer_addresses
+		WHERE
+			id = #{param1} 
+	</select>
+	
 		<update id="setDefaultAddress">
 	<![CDATA[
 		UPDATE customer_addresses SET is_default = 1 ,updated_at = NOW()

@@ -65,21 +65,19 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			return false;
 		}
 
-		// 如果公司名称为空
-		if ($scope.agent.companyName == undefined || $scope.agent.companyName == "" || $scope.agent.companyName == null) {
-			$scope.agent.types = 2;// 如果公司名称为空，个人必须选中
-		} else if ($scope.agent.companyName != undefined && $scope.agent.companyName != "" && $scope.agent.companyName != null) {
-			// alert($scope.agent.types);
-			if ($scope.agent.types == 2) {// 如果是个人
-				$("#radio1").removeAttr("checked");
-				$("#radio2").prop("checked", "checked");// 选中公司
-				$scope.agent.types = 1;
-			}
-			// alert($scope.agent.types);
-			if (strlen($scope.agent.companyName) > 40) {
-				alert("公司名称需在20个中文字符或40个英文字符之间");
+		if ($("#radio1").attr("checked") != undefined && $("#radio2").attr("checked") == undefined) {
+			alert("aaaa");
+			$scope.agent.types = 2;// 个人
+		} else if ($("#radio2").attr("checked") != undefined && $("#radio1").attr("checked") == undefined) {
+			$scope.agent.types = 1;// 公司
+			if ($scope.agent.companyName == undefined || $scope.agent.companyName == "" || $scope.agent.companyName == null) {
+				alert("公司名称不能为空");
 				return false;
-			} else {
+			} else if ($scope.agent.companyName != undefined && $scope.agent.companyName != "" && $scope.agent.companyName != null) {
+				if (strlen($scope.agent.companyName) > 40) {
+					alert("公司名称需在20个中文字符或40个英文字符之间");
+					return false;
+				}
 				// 如果营业执照为空
 				if ($scope.agent.licenseCode == undefined || $scope.agent.licenseCode == "" || $scope.agent.licenseCode == null) {
 					alert("营业执照不能为空");
@@ -89,25 +87,13 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 						alert("营业执照号必须为数字,请重新输入");
 						return false;
 					} else if ($scope.agent.licenseCode.length.trim > 40) {
-						alert("营业执照登记号需在40个英文字符之间");
+						alert("营业执照登记号需在40个数字之间");
 						return false;
 					}
 				}
 			}
 		}
-
-		if ($scope.agent.licenseCode == undefined || $scope.agent.licenseCode == "" || $scope.agent.licenseCode == null) {
-			if ($scope.agent.companyName != undefined && $scope.agent.companyName != "") {
-				alert("营业执照号不能为空");
-				return false;
-			}
-		} else if ($scope.agent.licenseCode != undefined && $scope.agent.licenseCode != "" && $scope.agent.licenseCode != null) {
-			// alert("ceshiceshi");
-			if ($scope.agent.companyName == undefined || $scope.agent.companyName == "") {
-				alert("公司名称不能为空");
-				return false;
-			}
-		}
+		
 		if ($scope.agent.phone == undefined || $scope.agent.phone == "") {
 			alert("请输入手机号码！");
 			return false;

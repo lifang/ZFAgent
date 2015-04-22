@@ -118,7 +118,7 @@ public interface OpeningApplyMapper {
 	 * @param id
 	 * @return
 	 */
-	List<Map<String, String>> ReApplyFor(Integer id);
+	List<Map<Object, Object>> ReApplyFor(Integer id);
 	
 	/**
 	 * 根据商户id获得商户详情信息

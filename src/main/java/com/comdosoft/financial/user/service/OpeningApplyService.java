@@ -1,11 +1,13 @@
 package com.comdosoft.financial.user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.Merchant;
@@ -17,6 +19,9 @@ import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 public class OpeningApplyService {
 	@Resource
 	private OpeningApplyMapper openingApplyMapper;
+	
+	@Value("${filePath}")
+	private String filePath;
 
 	/**
 	 * 获得申请开通列表
@@ -217,8 +222,17 @@ public class OpeningApplyService {
 	 * @param id
 	 * @return
 	 */
-	public List<Map<String, String>> ReApplyFor(Integer id) {
-		return openingApplyMapper.ReApplyFor(id);
+	public List<Map<Object, Object>> ReApplyFor(Integer id) {
+		List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
+        list = openingApplyMapper.ReApplyFor(id);
+        for(int i=0;i<list.size();i++){
+       	 if((Integer)list.get(i).get("types") == 2){
+       		 list.get(i).put("value",filePath+list.get(i).get("value").toString());
+       	 }else {
+       		 list.get(i).put("value",list.get(i).get("value").toString());
+       	 }
+        }
+		return list;
 	}
 
 	/**

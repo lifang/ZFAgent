@@ -115,6 +115,8 @@ public class TerminalsService {
 	        for(int i=0;i<list.size();i++){
 	        	if((Integer)list.get(i).get("types") == 2){
 	            	list.get(i).put("value",filePath+list.get(i).get("value"));
+	        	}else{
+	        		list.get(i).put("value",list.get(i).get("value"));
 	        	}
 	        }
 			return list;

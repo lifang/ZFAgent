@@ -141,12 +141,12 @@ public class OpeningApplyWebController {
 		try {
 			
 			// 数据回显(重新开通申请)
-			List<Map<String, String>> list = openingApplyWebService.ReApplyFor((Integer)map.get("terminalId"));
+			List<Map<Object, Object>> list = openingApplyWebService.ReApplyFor((Integer)map.get("terminalId"));
 			List<Map<Object, Object>> listMap = openingApplyWebService.getMaterialName(
 					map.get("terminalId")
 					,map.get("status"));
 			for(Map<Object, Object> mp:listMap){
-				for(Map<String, String> mp1:list){
+				for(Map<Object, Object> mp1:list){
 					if(mp.get("id").equals(mp1.get("target_id")) && mp.get("opening_requirements_id").equals(mp1.get("opening_requirement_id"))){
 						if((Integer)mp.get("info_type") == 2){
 							mp.put("value", filePath+mp1.get("value"));

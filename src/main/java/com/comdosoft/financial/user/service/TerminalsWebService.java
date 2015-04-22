@@ -255,6 +255,7 @@ public class TerminalsWebService {
 	        for(int i=0;i<list.size();i++){
 	            	list.get(i).put("templet_file_path",filePath+list.get(i).get("templet_file_path"));
 	        }
+	        
 		return list;
 	}
 
@@ -367,7 +368,11 @@ public class TerminalsWebService {
         list = terminalsWebMapper.getOpeningDetails(id);
         for(int i=0;i<list.size();i++){
         	if((Integer)list.get(i).get("types") == 2){
-            	list.get(i).put("value",filePath+list.get(i).get("value"));
+            	if((Integer)list.get(i).get("types") == 2){
+   	       		 list.get(i).put("value",filePath+list.get(i).get("value").toString());
+   	       	 }else {
+   	       		 list.get(i).put("value",list.get(i).get("value").toString());
+   	       	 }
         	}
         }
 		return list;

@@ -126,7 +126,7 @@
 	</select>
 
 	<select id="getOpeningDetails" parameterType="int" resultType="map">
-		SELECT s.`key`,s.`value`
+		SELECT s.*
 		FROM terminals t LEFT JOIN
 		opening_applies i ON t.id=i.terminal_id
 		LEFT JOIN terminal_opening_infos s ON

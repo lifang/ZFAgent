@@ -194,6 +194,21 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
     	  alert("获取列表失败");
       });
   }
+  //同步
+  $scpoe.sync = function(){
+	  $http.post("api/webTerminal/judgeUpdate", null).success(function (data) {  //绑定
+          if (data != null && data != undefined) {
+        	  if(data.code == -1){
+        		  alert("已有该终端更新申请！");
+        	  }else if(data.code == 1){
+        		  window.location.href = "#/terminalToUpdate?terminalId="+$scope.terminalId;
+        		  
+        	  }
+          }
+      }).error(function (data) {
+    	  alert("操作失败！");
+      });
+  }
   
   //关闭弹出框
   $scope.closeDocument = function(obj){
@@ -670,6 +685,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	$scope.customerId = Math.ceil(LoginService.agentUserId);
 	$scope.terminalId = Math.ceil($location.search()['terminalId']);
 	$scope.opstatus = Math.ceil($location.search()['status']);
+	$scope.channels = {};
 	$scope.chan={};//通道对象封装
 	$scope.tln={};//通道周期对象封装
 	$scope.req={};//城市对象封装
@@ -779,6 +795,21 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			})
 		};
 		
+		//清除通道赋值
+		$scope.desju = function(){
+			$scope.channelName = "请选择";
+			$scope.channelTsName = "请选择"; 
+			$scope.channel = null;
+			$scope.billingId = null;
+			
+		}
+		
+		//清除城市赋值
+		$scope.desjub = function(){
+			$scope.addressShen = "请选择";
+			$scope.addressShi = "请选择"; 
+			$scope.cityId = null;
+		}
 		
 		//根据对公对私不同显示不同资料
 		  $scope.getMaterialName = function(){

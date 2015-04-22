@@ -42,7 +42,7 @@
 	
 	<select id="TerminalStatus" parameterType="map" resultType="int">
 		SELECT count(*) FROM terminals
-		WHERE customer_id = #{customerId} AND `status` in (#{status1},#{status2})
+		WHERE customer_id = #{customerId} AND `status` not in (#{status1},#{status2})
 	</select>
 	
 	<select id="findUname" parameterType="map" resultType="int">

@@ -75,8 +75,8 @@ public class TerminalsWebController {
 	@Value("${filePath}")
 	private String filePath;
 	
-	@Value("${sysPaychannel}")
-	private String sysPaychannel;
+	@Value("${sysFileTerminal}")
+	private String sysFileTerminal;
 	/**
 	 * 根据用户ID获得终端列表
 	 * 
@@ -447,7 +447,9 @@ public class TerminalsWebController {
 	@RequestMapping(value = "synchronous", method = RequestMethod.POST)
 	public Response Synchronous() {
 		try {
-			return Response.getSuccess("同步成功！");
+			//return Response.getSuccess("同步成功！");
+			return Response.getError("同步失败！");
+			//return terminalsWebService.synchronous(1);
 		} catch (Exception e) {
 			logger.error("同步异常！", e);
 			return Response.getError("同步失败！");
@@ -493,7 +495,7 @@ public class TerminalsWebController {
         try {
         	//return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsPath+id+"/cancellation/",updatefile, request));
         	String joinpath="";
-        	joinpath = HttpFile.upload(updatefile, sysPaychannel+id+"/cancellation/");
+        	joinpath = HttpFile.upload(updatefile, sysFileTerminal+id+"/cancellation/");
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
         		return Response.getError(joinpath);
         		return Response.getSuccess(joinpath);
@@ -512,7 +514,7 @@ public class TerminalsWebController {
     public Response tempUpdateFile(@PathVariable("id") int id,@RequestParam(value="updatefile") MultipartFile updatefile, HttpServletRequest request) {
     	try {
     		String joinpath="";
-        	joinpath = HttpFile.upload(updatefile, sysPaychannel+id+"/update/");
+        	joinpath = HttpFile.upload(updatefile, sysFileTerminal+id+"/update/");
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
         		return Response.getError(joinpath);
         		return Response.getSuccess(joinpath);

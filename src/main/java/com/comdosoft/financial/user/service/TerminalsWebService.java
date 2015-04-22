@@ -2,10 +2,15 @@ package com.comdosoft.financial.user.service;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
@@ -38,8 +44,10 @@ public class TerminalsWebService {
 	@Resource
 	private TerminalsWebMapper terminalsWebMapper;
 	
+	 public static final String POST_URL = "http://121.40.84.2:8380/ZFTiming/api/service/status/sync";
+	
 	 @Value("${uploadPictureTempsPath}")
-	    private String uploadPictureTempsPath;
+	 private String uploadPictureTempsPath;
 	
 	 @Value("${filePath}")
 	 private String filePath;
@@ -434,4 +442,56 @@ public class TerminalsWebService {
         }
         return null;
     }
+    
+	/**
+     * 同步
+     * @param terminalId 终端号id
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @SuppressWarnings({ "unchecked", "unused" })
+	public static Object  synchronous(Integer terminalId) throws IOException, ClassNotFoundException {
+        URL postUrl = new URL(POST_URL);
+        HttpURLConnection connection = (HttpURLConnection) postUrl.openConnection();
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        connection.setRequestMethod("POST");
+        connection.setUseCaches(false);
+        connection.setInstanceFollowRedirects(true);
+        connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        connection.connect();
+        DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+        //String content = "terminalId=" + terminalId;
+       // out.writeBytes(); 
+        out.flush();
+        out.close(); // flush and close
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String line;
+        List<String> contents = new ArrayList<String>();  
+        while ((line = reader.readLine()) != null) {
+            contents.add(line);
+        }
+        reader.close();
+        connection.disconnect();
+        String json =  contents.get(0);
+        Map<String,Object> m = JSON.parseObject(json);
+        Object code ="";
+        Object result ="";
+        Object message ="";
+        for (Object o : m.entrySet()) { 
+        	  Map.Entry<String,Object> entry = (Map.Entry<String,Object>)o; 
+              if(entry.getKey().equals("code")){ 
+            	   code =  entry.getValue();
+              }
+              if(entry.getKey().equals("result")){ 
+            	   result =  entry.getValue();
+              }
+              if(entry.getKey().equals("message")){ 
+            	   message =  entry.getValue();
+              }
+		}
+        return result;
+    }
+    
 }

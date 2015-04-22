@@ -57,18 +57,25 @@ public class OpeningApplyWebController {
 		try {
 			Map<Object, Object> map = new HashMap<Object, Object>();
 			// 获得终端详情
-			map.put("applyDetails",
-					openingApplyWebService.getApplyDetails((Integer)maps.get("terminalId")));
+			Map<String, Object> mp = new HashMap<String, Object>();
+			mp = openingApplyWebService.getApplyDetails((Integer)maps.get("terminalId"));
+			map.put("applyDetails",mp);
 			// 获得所有商户
 			map.put("merchants", openingApplyWebService.getMerchants((Integer)maps.get("terminalId")));
 			// 获得材料等级
 			map.put("materialLevel", openingApplyWebService.getMaterialLevel((Integer)maps.get("terminalId")));
 			//支付通道和周期列表
 			List<Map<Object, Object>> list = openingApplyWebService.getChannels();
+			List<Map<Object, Object>> li = new ArrayList<Map<Object,Object>>();
 			 for(Map<Object, Object> m:list){
-				 m.put("billings", openingApplyWebService.channelsT(Integer.parseInt(m.get("id").toString())));
+				 if((Integer)m.get("id") == mp.get("channelId")){
+					 li.add(m);
+				 }
 			 }
-			map.put("channels", list);
+			 for(Map<Object, Object> m:li){
+					 m.put("billings", openingApplyWebService.channelsT(Integer.parseInt(m.get("id").toString())));
+			 }
+			map.put("channels", li);
 			// 数据回显(针对重新开通申请)
 			map.put("applyFor", openingApplyWebService.ReApplyFor((Integer)maps.get("terminalId")));
 			//获得已有申请开通基本信息

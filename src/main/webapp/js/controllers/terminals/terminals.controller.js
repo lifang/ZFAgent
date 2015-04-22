@@ -195,7 +195,7 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
       });
   }
   //同步
-  $scpoe.sync = function(){
+  $scope.sync = function(){
 	  $http.post("api/webTerminal/judgeUpdate", null).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == -1){

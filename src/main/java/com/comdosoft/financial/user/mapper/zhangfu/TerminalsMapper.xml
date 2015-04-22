@@ -53,8 +53,10 @@
  	
  	<select id="getNewTerminalList" parameterType="map" resultType="map">
 		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(g.model_number,'') as model_number,
-		IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName
+		IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName,IFNULL(e.id,'') as appid,
+		IFNULL(e.status,'') as appstatus
 		FROM terminals t
+		LEFT JOIN opening_applies e on e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
 		LEFT JOIN goods g on o.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id

@@ -35,7 +35,7 @@
     </select>
     
     <select id="getPayOrder" resultType="map">
-        SELECT o.order_number,o.total_price, IFNULL(o.actual_price,0)  actual_price, ca.receiver,ca.address,IFNULL(op.pay_type,0) paytype
+        SELECT o.order_number, IFNULL(o.actual_price,0)  total_price, ca.receiver,ca.address,IFNULL(op.pay_type,0) paytype
  		from orders o
 		LEFT JOIN customer_addresses ca on ca.id=o.customer_address_id
 		LEFT JOIN order_payments op on op.order_id=o.id

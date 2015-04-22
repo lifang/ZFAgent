@@ -692,6 +692,13 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	$scope.status=1;//对公对私（1.公 2.私）
 	$scope.materialLevel = [];//等级集合
 	$scope.sex = 1;//默认性别为男
+	
+	//初始化下拉框
+	$scope.channelName = "请选择";
+	$scope.channelTsName = "请选择";
+	$scope.addressShi = "请选择";
+	$scope.addressShen = "请选择";
+	
 	$scope.terminalDetail = function () {
 		   $http.post("api/applyWeb/getApplyDetails", {customerId:$scope.customerId,terminalId:$scope.terminalId}).success(function (data) {//绑定  
 			  if(data.code == 1){

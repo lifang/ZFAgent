@@ -148,7 +148,11 @@ public class OpeningApplyWebController {
 			for(Map<Object, Object> mp:listMap){
 				for(Map<String, String> mp1:list){
 					if(mp.get("id").equals(mp1.get("target_id")) && mp.get("opening_requirements_id").equals(mp1.get("opening_requirement_id"))){
-						mp.put("value", mp1.get("value"));
+						if((Integer)mp.get("info_type") == 2){
+							mp.put("value", filePath+mp1.get("value"));
+						}else{
+							mp.put("value", mp1.get("value"));
+						}
 					}
 				}
 			}

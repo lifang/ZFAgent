@@ -28,14 +28,13 @@
 	]]>
 	</select>
 
-	<select id="getOneCustomer"
-		resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+	<select id="getOneCustomer"		resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 	<![CDATA[
 		SELECT
 			IFNULL(phone,'') as phone,
 			IFNULL(email,'') as email,
 			IFNULL(dentcode,'') as dentcode,
-			dentcode(password,'') as `password`
+			IFNULL(password,'') as `password`
 		FROM
 			customers
 		WHERE

@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
@@ -29,6 +30,9 @@ public class CsCencelsService {
     private static final Logger logger = LoggerFactory.getLogger(CsCencelsService.class);
     @Resource
     private CsCencelsMapper csCencelsMapper;
+    @Value("${filePath}")
+    private String filePath;
+    
     public Page<List<Object>>  findAll(MyOrderReq myOrderReq) throws ParseException {
         PageRequest request = new PageRequest(myOrderReq.getPage(), myOrderReq.getRows());
         int count = csCencelsMapper.count(myOrderReq);
@@ -154,8 +158,8 @@ public class CsCencelsService {
 	                         }
 	                         child_map.put("id", temp_id);
 	                         child_map.put("title", temp_title);
-	                         child_map.put("templet_path", temp_path);
-	                         child_map.put("upload_path", temp_up_path);
+	                         child_map.put("templet_path", filePath +temp_path);
+	                         child_map.put("upload_path", filePath + temp_up_path);
 	                         list.add(child_map);
 	                     }
 	                     map.put("resource_info", list);

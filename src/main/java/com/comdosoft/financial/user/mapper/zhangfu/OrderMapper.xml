@@ -150,9 +150,15 @@
 	<select id="countProxyOrder" resultType="int">
 		SELECT count(o.id) as count
 		FROM orders o
-		where o.belongs_user_id = #{customerId}  and ( o.types = 3 or o.types = 4)
+		where o.belongs_user_id = #{customerId}  
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
+		</if>
+			<if test="p !=null and p!=''">
+		and  o.types = #{p} 
+		</if>
+		<if test="p ==null or p==''">
+			and ( o.types = 3 or o.types = 4)
 		</if>
 		<if test="q !=null and q!=''">
 		and o.status = #{q}
@@ -224,8 +230,17 @@
 	<!-- 代购 -->
 	<select id="getProxyOrder" resultMap="orderMap" >
 		SELECT
-		o.id as id,og.id as order_good_id,g.id as good_id, o.total_quantity,g.retail_price,
-		o.order_number,	o.created_at,	o.status,g.title,gb.name , gb.id as good_brands_id,og.actual_price as og_actual_price,
+		o.id as id,
+		og.id as order_good_id,
+		g.id as good_id,
+		 o.total_quantity,
+		 g.retail_price,
+		o.order_number,
+			o.created_at,
+				o.status,g.title,
+				gb.name , 
+				gb.id as good_brands_id,
+				og.actual_price as og_actual_price,
 		pc.name as channel_name,og.price as og_price ,	og.quantity as og_quantity , c.name,o.belongs_user_id,
 		o.actual_price ,o.total_price,o.total_quantity as total_num
 		FROM	

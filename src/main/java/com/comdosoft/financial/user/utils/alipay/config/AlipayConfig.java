@@ -31,6 +31,7 @@ public class AlipayConfig {
     public static String  seller_email="ebank007@epalmpay.cn";
 	
 	public static String  backurl="http://121.40.84.2:8080/";
+	//public static String  backurl="http://agent.ebank007.com/";
 
 	//↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 	

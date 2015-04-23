@@ -16,10 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class HttpFile {
 
     private static String localpath = "C:/test/local/";
+   // private static String localpath = "/opt/data/";
 
     // private static String urlpath="http://127.0.0.1:8080/file/index/upload";
 
     private static String urlpath = "http://121.40.84.2:8888/File/index/upload";
+    //private static String urlpath = "file.ebank007.com/File/index/upload";
 
   
 

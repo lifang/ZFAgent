@@ -16,7 +16,7 @@
 			</div>
 			<div class="category_item">
 				<h4>POS机品牌：</h4>
-				<a class="more">更多<i></i></a>
+				<a class="more" ng-show="brands.length>7">更多<i></i></a>
 				<div class="category_item_con">
 					<ul>
 						<li ng-repeat="one in brands"><a href="javascript:void(0)" ng-click="check1(one)" class="{{one.clazz}}">{{one.value}}</a></li>
@@ -25,7 +25,7 @@
 			</div>
 			<div class="category_item">
 				<h4>POS机类型：</h4>
-				<a class="more">更多<i></i></a>
+				<a class="more" ng-show="category.length>7">更多<i></i></a>
 				<div class="category_item_con">
 					<ul>
 						<li ng-repeat="one in category"><a href="javascript:void(0)" ng-click="check2(one)" class="{{one.clazz}}">{{one.value}}</a></li>
@@ -34,7 +34,7 @@
 			</div>
 			<div class="category_item">
 				<h4>支付通道：</h4>
-				<a class="more">更多<i></i></a>
+				<a class="more" ng-show="pay_channel.length>7">更多<i></i></a>
 				<div class="category_item_con">
 					<ul>
 						<li ng-repeat="one in pay_channel"><a href="javascript:void(0)" ng-click="check3(one)" class="{{one.clazz}}">{{one.value}}</a></li>
@@ -43,7 +43,7 @@
 			</div>
 			<div class="category_item">
 				<h4>支持卡类型：</h4>
-				<a class="more">更多<i></i></a>
+				<a class="more" ng-show="pay_card.length>7">更多<i></i></a>
 				<div class="category_item_con">
 					<ul>
 						<li ng-repeat="one in pay_card"><a href="javascript:void(0)" ng-click="check4(one)" class="{{one.clazz}}">{{one.value}}</a></li>
@@ -52,7 +52,7 @@
 			</div>
 			<div class="category_item">
 				<h4>支持交易类型：</h4>
-				<a class="more">更多<i></i></a>
+				<a class="more" ng-show="trade_type.length>7">更多<i></i></a>
 				<div class="category_item_con">
 					<ul>
 						<li ng-repeat="one in trade_type"><a href="javascript:void(0)" ng-click="check5(one)" class="{{one.clazz}}">{{one.value}}</a></li>
@@ -61,7 +61,7 @@
 			</div>
 			<div class="category_item category_item_noBorder">
 				<h4>签购单方式：</h4>
-				<a class="more">更多<i></i></a>
+				<a class="more" ng-show="sale_slip.length>7">更多<i></i></a>
 				<div class="category_item_con">
 					<ul>
 						<li ng-repeat="one in sale_slip"><a href="javascript:void(0)" ng-click="check6(one)" class="{{one.clazz}}">{{one.value}}</a></li>

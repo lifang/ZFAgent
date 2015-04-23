@@ -51,11 +51,7 @@ public class AgentLoginController {
 	@Autowired
 	private CommentService commentService ;
 	
-	@Value("${uploadPictureTempsPath}")
-    private String uploadPictureTempsPath;
 
-	@Value("${uploadPictureTempsRegisterPath}")
-	private String uploadPictureTempsRegisterPath;
 	
 	@Value("${sendEmailFindServicsePath}")
 	private String sendEmailFindServicsePath;
@@ -203,7 +199,6 @@ public class AgentLoginController {
     @RequestMapping(value = "upload/register", method = RequestMethod.POST)
     public Response tempOpenImg(@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
-        	//return Response.getSuccess(commentService.saveTmpImage(uploadPictureTempsRegisterPath,updatefile, request));
         	String joinpath="";
         	joinpath = HttpFile.upload(updatefile, agent+"/Registe/");
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))

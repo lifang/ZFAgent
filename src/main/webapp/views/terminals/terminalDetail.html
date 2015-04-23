@@ -33,10 +33,11 @@
                                 <span ng-if="applyDetails.applieStatus == 2">开通申请状态： 待初预审不通过</span>
                                 <span ng-if="applyDetails.applieStatus == 3">开通申请状态： 二次预审中</span>
                                 <span ng-if="applyDetails.applieStatus == 4">开通申请状态： 二次预审不通过</span>
-                                <span ng-if="applyDetails.applieStatus == 5">开通申请状态： 审核中</span>
-                                <span ng-if="applyDetails.applieStatus == 6">开通申请状态： 审核失败</span>
-                                <span ng-if="applyDetails.applieStatus == 7">开通申请状态： 处理完成</span>
-                                <span ng-if="applyDetails.applieStatus == 7">开通申请状态： 已取消</span>
+                                <span ng-if="applyDetails.applieStatus == 5">开通申请状态： 待审核</span>
+                                <span ng-if="applyDetails.applieStatus == 6">开通申请状态： 审核中</span>
+                                <span ng-if="applyDetails.applieStatus == 7">开通申请状态： 审核失败</span>
+                                <span ng-if="applyDetails.applieStatus == 8">开通申请状态： 处理完成</span>
+                                <span ng-if="applyDetails.applieStatus == 9">开通申请状态： 已取消</span>
 								</li>
                                 <li>POS产品：{{applyDetails.brandName + applyDetails.model_number}}</li>
                                 <li>支付通道：{{applyDetails.channelName}}</li>

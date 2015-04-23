@@ -48,6 +48,7 @@ var empAddController = function($scope, $http, $location, LoginService) {
 
 		$http.post("api/account/addCustomer", $scope.customer).success(function(data) {
 			if (data.code == 1) {
+				alert("创建用户成功！");
 				window.location.href = '#/accountList';
 			} else {
 				alert(data.message);
@@ -56,13 +57,6 @@ var empAddController = function($scope, $http, $location, LoginService) {
 
 		});
 	};
-
-	// $scope.init = function() {
-	// alert(LoginService.agentid);
-	// // alert(LoginService.agentId);
-	// };
-	//
-	// $scope.init();
 
 };
 empAddModule.controller("empAddController", empAddController);

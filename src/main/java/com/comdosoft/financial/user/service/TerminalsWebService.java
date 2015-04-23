@@ -253,7 +253,9 @@ public class TerminalsWebService {
 		 List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
 	        list = terminalsWebMapper.getModule(map);
 	        for(int i=0;i<list.size();i++){
-	            	list.get(i).put("templet_file_path",filePath+list.get(i).get("templet_file_path"));
+	        	if(list.get(i) !=null){
+	        		list.get(i).put("templet_file_path",filePath+list.get(i).get("templet_file_path"));
+	        	}
 	        }
 	        
 		return list;
@@ -367,7 +369,7 @@ public class TerminalsWebService {
         List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
         list = terminalsWebMapper.getOpeningDetails(id);
         for(int i=0;i<list.size();i++){
-        	if((Integer)list.get(i).get("types") == 2){
+        	if(list.get(i) !=null){
             	if((Integer)list.get(i).get("types") == 2){
    	       		 list.get(i).put("value",filePath+list.get(i).get("value").toString());
    	       	 }else {

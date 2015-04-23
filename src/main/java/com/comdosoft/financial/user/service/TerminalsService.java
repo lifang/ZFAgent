@@ -113,10 +113,12 @@ public class TerminalsService {
 		 List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
 	        list = terminalsMapper.getOpeningDetails(id);
 	        for(int i=0;i<list.size();i++){
-	        	if((Integer)list.get(i).get("types") == 2){
-	            	list.get(i).put("value",filePath+list.get(i).get("value"));
-	        	}else{
-	        		list.get(i).put("value",list.get(i).get("value"));
+	        	if(list.get(i) != null){
+	        		if((Integer)list.get(i).get("types") == 2){
+		            	list.get(i).put("value",filePath+list.get(i).get("value"));
+		        	}else{
+		        		list.get(i).put("value",list.get(i).get("value"));
+		        	}
 	        	}
 	        }
 			return list;

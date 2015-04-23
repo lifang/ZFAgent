@@ -2,7 +2,7 @@
  * 初始化分页
  */
 function initSystemPage(page) {
-	page.rows = 2;// 每页条数
+	page.rows = 10;// 每页条数
 	page.indexPage = 1;// 起始页
 	page.totalPage = 1;// 总页数
 	page.total = 0;// 总条数

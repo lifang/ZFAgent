@@ -92,7 +92,6 @@ public class CustomerManageService {
 							if(temp2>0){
 								resultInfo.setLength(0);
 								resultInfo.append("已存在该用户与代理商的关联关系");
-								throw new Exception("save_error");
 							}else{
 								req.setTypes(2);
 								req.setStatus(1);
@@ -144,7 +143,7 @@ public class CustomerManageService {
 	}
 
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> edit(CustomerManageReq req){
+	public Map<String, Object> edit(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -189,9 +188,10 @@ public class CustomerManageService {
 	 * 单个删除
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String, Object> deleteOne(CustomerManageReq req){
+	public Map<String, Object> deleteOne(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -229,9 +229,10 @@ public class CustomerManageService {
 	 * 批量删除
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> deleteAll(CustomerManageReq req){
+	public Map<String,Object> deleteAll(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
@@ -245,14 +246,12 @@ public class CustomerManageService {
 				resultCode=Response.ERROR_CODE;
 				resultInfo.setLength(0);
 				resultInfo.append("删除customers表出错");
-				break;
 			}else{
 				int temp1=customerManageMapper.delCusAgentRel(req);
 				if(temp1<1){
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
 					resultInfo.append("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
-					break;
 				}else{
 					int temp2=customerManageMapper.delCusRoleRel(req);
 //					if(temp2<1){

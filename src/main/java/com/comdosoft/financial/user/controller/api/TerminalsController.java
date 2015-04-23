@@ -226,8 +226,8 @@ public class TerminalsController {
                 return Response.getError("系统异常！");
             }
             } else {
-            	 Map<Object, Object> m = terminalsService.findUnameAndStatus(customer);
-                if ((Long)m.get("count") == 0) {
+            	Map<Object, Object> m = terminalsService.findUnameAndStatus(customer);
+                if (Integer.valueOf((String) m.get("id")) == 0) {
                     return Response.getError("该用户已注册！");
                 } else {
                 	terminalsService.updateCode(customer);
@@ -254,7 +254,8 @@ public class TerminalsController {
 			 customer.setUsername((String)map.get("codeNumber"));
 			 customer.setStatus(Customer.STATUS_NON_END);
 			 Map<Object, Object> m = terminalsService.findUnameAndStatus(customer);
-			if ((Long)m.get("count") > 0) {
+			 if(m != null){
+			if (Integer.valueOf((String) m.get("id")) > 0) {
 				// 修改添加新用户
 				customer.setName((String) map.get("name"));
 				customer.setPassword((String) map.get("password"));
@@ -264,15 +265,15 @@ public class TerminalsController {
 				customer.setIntegral(0);
 				userManagementService.updateCustomer(customer);
 				//对该代理商已改用户绑定关系
-				customerAgentRelation.setCustomerId((Integer)m.get("id"));
+				customerAgentRelation.setCustomerId(Integer.valueOf((String) m.get("id")));
 				customerAgentRelation.setAgentId((Integer)map.get("agentId"));
 				customerAgentRelation.setTypes(CustomerAgentRelation.TYPES_USER_TO_AGENT);
 				customerAgentRelation.setStatus(CustomerAgentRelation.STATUS_1);
 				userManagementService.addCustomerOrAgent(customerAgentRelation);
 				return Response.getSuccess(customer);
-			} else {
+			} 
+			 }
 				return Response.getError("手机号不匹配！");
-			}
 		} catch (Exception e) {
 			logger.error("为用户绑定失败！", e);
 			return Response.getError("请求失败！");

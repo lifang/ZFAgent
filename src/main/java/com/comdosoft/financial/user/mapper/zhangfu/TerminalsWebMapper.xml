@@ -151,6 +151,7 @@
 		g.has_lease,g.lease_price,g.lease_time,g.lease_deposit,
 		g.return_time
 		,g.lease_description,
+		datediff(now(), o.updated_at) as createdDay,
 		date_format(o.updated_at,'%Y-%m-%d') as created_at
 		FROM terminals t LEFT JOIN
 		goods g ON t.good_id = g.id

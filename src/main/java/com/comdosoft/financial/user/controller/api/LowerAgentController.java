@@ -49,9 +49,10 @@ public class LowerAgentController {
 	 * 根据传入的agentId,statusId，修改代理商状态
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "changeStatus", method = RequestMethod.POST)
-	public Response changeStatus(@RequestBody LowerAgentReq req){
+	public Response changeStatus(@RequestBody LowerAgentReq req) throws Exception{
 		Response response=new Response();
 		Map<String,Object> result=lowerAgentService.changeStatus(req);
 		if(Integer.parseInt(result.get("resultCode").toString()) == 1){
@@ -68,9 +69,10 @@ public class LowerAgentController {
 	 * 修改默认分润比例
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "changeProfit", method = RequestMethod.POST)
-	public Response changeProfit(@RequestBody LowerAgentReq req){
+	public Response changeProfit(@RequestBody LowerAgentReq req) throws Exception{
 		Response response=new Response();
 		Map<String,Object> result=lowerAgentService.changeProfit(req);
 		if(Integer.parseInt(result.get("resultCode").toString()) == 1){
@@ -199,9 +201,10 @@ public class LowerAgentController {
 	 * 创建新增新的下级代理商
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "createNew", method = RequestMethod.POST)
-	public Response createNew(@RequestBody LowerAgentReq req){
+	public Response createNew(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
 		
 		if(req.getLoginId()==null || req.getLoginId().trim().equals("")){
@@ -229,9 +232,10 @@ public class LowerAgentController {
 	 * 修改编辑下级代理商保存
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public Response save(@RequestBody LowerAgentReq req){
+	public Response save(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
 		Map<String,Object> map=lowerAgentService.save(req);
 		if(map.get("resultCode").toString().equals("1")){
@@ -263,9 +267,10 @@ public class LowerAgentController {
 	 * 代理商 分润新增  或者保存  1为新增，0为保存
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "saveOrEdit", method = RequestMethod.POST)
-	public Response saveOrEdit(@RequestBody LowerAgentReq req){
+	public Response saveOrEdit(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
 	    Map<String, Object> map=lowerAgentService.saveOrEdit(req);
 	    int result= (Integer)map.get("resultCode");
@@ -283,9 +288,10 @@ public class LowerAgentController {
 	 * 修改密码
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "changePwd", method = RequestMethod.POST)
-	public Response changePwd(@RequestBody LowerAgentReq req){
+	public Response changePwd(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
 		if(req.getPwd()==null ||req.getPwd().trim().equals("")){
 			response.setCode(Response.ERROR_CODE);
@@ -311,9 +317,10 @@ public class LowerAgentController {
 	 * 
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "delChannel", method = RequestMethod.POST)
-	public Response delChannel(@RequestBody LowerAgentReq req){
+	public Response delChannel(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
 		
 		Map<String, Object> map=lowerAgentService.delChannel(req);

@@ -60,9 +60,10 @@ public class CustomerManageController {
 	 * 删除单个用户
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "deleteOne", method = RequestMethod.POST)
-	public Response deleteOne(@RequestBody CustomerManageReq req){
+	public Response deleteOne(@RequestBody CustomerManageReq req) throws Exception{
 		Response response=new Response();
 		Map<String,Object> result= customerManageService.deleteOne(req);
 		response.setCode(Integer.parseInt(result.get("resultCode").toString()));
@@ -74,9 +75,10 @@ public class CustomerManageController {
 	 * 批量删除用户
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "deleteAll", method = RequestMethod.POST)
-	public Response deleteAll(@RequestBody CustomerManageReq req){
+	public Response deleteAll(@RequestBody CustomerManageReq req) throws Exception{
 		Response response=new Response();
 		Map<String,Object> result= customerManageService.deleteAll(req);
 		response.setCode(Integer.parseInt(result.get("resultCode").toString()));
@@ -102,9 +104,10 @@ public class CustomerManageController {
 	 * 修改  密码，权限
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="edit",method=RequestMethod.POST)
-	public Response editInfo(@RequestBody CustomerManageReq req){
+	public Response editInfo(@RequestBody CustomerManageReq req) throws Exception{
 		Response response=new Response();
 		Map<String,Object> result= customerManageService.edit(req);
 		response.setCode(Integer.parseInt(result.get("resultCode").toString()));

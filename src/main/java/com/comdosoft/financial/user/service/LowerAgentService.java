@@ -35,9 +35,10 @@ public class LowerAgentService {
 	 * 修改代理商状态
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> changeStatus(LowerAgentReq req){
+	public Map<String,Object> changeStatus(LowerAgentReq req) throws Exception{
 		Map<String,Object> map =new HashMap<String, Object>();
 		if(req.getStatus()==5){
 			req.setStatus(6);
@@ -79,9 +80,10 @@ public class LowerAgentService {
 	 * 修改默认分润比例
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> changeProfit(LowerAgentReq req){
+	public Map<String,Object> changeProfit(LowerAgentReq req) throws Exception{
 		Map<String,Object> map =new HashMap<String, Object>();
 		
 		float profit=req.getDefaultProfit()*10;
@@ -224,9 +226,10 @@ public class LowerAgentService {
 	 * 新增下级代理商
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> addNewAgent(LowerAgentReq req) {
+	public Map<String,Object> addNewAgent(LowerAgentReq req) throws Exception {
 		
 		Map<String, Object> map=new HashMap<String, Object>();
         	//向customers表中插入记录
@@ -318,9 +321,10 @@ public class LowerAgentService {
 	 * 修改下级代理商密码
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> changePwd(LowerAgentReq req){
+	public Map<String,Object> changePwd(LowerAgentReq req) throws Exception{
 		req.setPwd(SysUtils.string2MD5(req.getPwd()));
 		int result=lowerAgentMapper.changePwd(req);
 		Map<String,Object> map=new HashMap<String, Object>();
@@ -340,9 +344,10 @@ public class LowerAgentService {
 	 * 修改下级代理商，保存
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> save(LowerAgentReq req) {
+	public Map<String,Object> save(LowerAgentReq req) throws Exception {
 		Map<String,Object> map=new HashMap<String, Object>();
 		
     	int affect_series1=lowerAgentMapper.saveAgents(req);
@@ -365,7 +370,7 @@ public class LowerAgentService {
 	
 	
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> delChannel(LowerAgentReq req) {
+	public Map<String,Object> delChannel(LowerAgentReq req) throws Exception {
 		Map<String,Object> map=new HashMap<String, Object>();
 		
     	int affect_series1=lowerAgentMapper.delChannel(req);
@@ -394,9 +399,10 @@ public class LowerAgentService {
 	 * 代理商 分润新增  或者保存  1为新增，0为保存
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> saveOrEdit(LowerAgentReq req){
+	public Map<String,Object> saveOrEdit(LowerAgentReq req) throws Exception{
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		
@@ -453,7 +459,6 @@ public class LowerAgentService {
 				if(result<1){
 					map.put("resultCode", -1);
 					map.put("resultInfo", "保存出错！");
-					break;
 				}
 			}
 			if(map==null || map.get("resultCode")==null){

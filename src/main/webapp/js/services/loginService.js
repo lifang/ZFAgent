@@ -14,6 +14,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
 		loginid: typeof($cookieStore.get("loginId")) == 'undefined' ? 0 : $cookieStore.get("loginId"),
 		//身份 1一级代理商   2二级代理商 3普通用户  by yyb
 		identity:typeof($cookieStore.get("identity")) == 'undefined' ? 0 : $cookieStore.get("identity"),
+		toptop:typeof($cookieStore.get("agentParentId")) == 'undefined' ? 1 : $cookieStore.get("agentParentId"),
         //代理商用户id
         agentUserId:typeof($cookieStore.get("agentUserId")) == 'undefined' ? 0 : $cookieStore.get("agentUserId"),//
 		//城市
@@ -56,7 +57,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       			        	   $cookieStore.put("loginId",data.result.id);//登陆用户id
       			        	   $cookieStore.put("agentIsHaveProfit",data.result.is_have_profit?2:1);//是否有分润
       			        	   $cookieStore.put("agentTypes",data.result.types);//用户类型
-      			        	   //$cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
+      			        	   $cookieStore.put("agentParentId",data.result.parent_id);//是否为一级代理商
       			        	   if(data.result.types==6){
       			        		 $cookieStore.put("identity",3);
       			        	   }else{

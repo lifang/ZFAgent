@@ -50,7 +50,7 @@
 						<td>{{one.agentCount}}</td>
 						<td><a ng-show="menu1" href="#/purchaseShopinfo?goodId={{one.good_id}}" class="a_btn">批购</a> 
 						<a href="#/stockinfo?pcid={{one.paychannel_id}}&goodid={{one.good_id}}" class="a_btn">库存详情</a> 
-						<a href="javascript:void(0);" class="a_btn rename_a" ng-click="rename(one.good_id)">商品更名</a>
+						<a ng-if="toptop==0" class="a_btn rename_a" ng-click="rename(one.good_id)">商品更名</a>
 						</td>
 					</tr>
 

@@ -74,10 +74,9 @@ public interface OrderMapper {
 
 	Order findOrderByNumber(String number);
 
-
 	int insertOrderPayment(OrderPayment op);
 
-
-	int paySuccessUpdateOrder();
+	// 
+	int paySuccessUpdateOrder(Integer orderId,byte status);
   
 }

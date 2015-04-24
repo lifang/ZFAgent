@@ -303,6 +303,13 @@
 		id = #{param1}
     </update>
 	
+	<update id="paySuccessUpdateOrder" >
+     UPDATE orders
+	SET status = #{param2},updated_at= NOW()
+	WHERE
+		id = #{param1}
+    </update>
+	
 	<select id="getOutStorageByOrderId" resultMap="csOutStorageMap" >
 		select * from cs_out_storages c where c.order_id=  #{param1}
 	</select>
@@ -397,7 +404,7 @@
   
     <insert id="insertOrderPayment" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.OrderPayment">
 		INSERT INTO order_payments (order_id,price,pay_type,created_user_id,created_user_type,created_at)
-		VALUES('1',1,1,7,2,NOW())
+		VALUES(#{orderId},#{price},#{payType},#{createdUserId},#{createdUserType},NOW())
   </insert>
     
      <select id="findTraceById" resultType="map" >

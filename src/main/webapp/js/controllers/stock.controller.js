@@ -8,6 +8,7 @@ var stockController = function ($scope, $http, LoginService) {
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
 		$scope.req.agentId=LoginService.agentid;
+		$scope.toptop=LoginService.toptop;
 		$scope.list();
 	};
 	$scope.list=function(){

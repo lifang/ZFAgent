@@ -166,11 +166,15 @@
             </div>
             <script type="text/javascript">
             function showImage(obj) { 
-            	$(obj).parent("a").children("span").html("重新上传");
             	$(obj).parent("a").parent("form").attr("action","api/webTerminal/upload/tempOpenImg/"+$("#terid").val());
             	$(obj).parent("a").parent("form").ajaxSubmit({
             		success : function(data) {
-            			$(obj).siblings("input").val(data.result);
+            			if(data.code == -1){
+            				alert(data.message);
+            			}else if(data.code == 1){
+            				$(obj).parent("a").children("span").html("重新上传");
+            				$(obj).siblings("input").val(data.result);
+            			}
             		}
             	});
             }

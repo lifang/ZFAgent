@@ -25,7 +25,7 @@
 		LEFT JOIN goods g on t.good_id=g.id 
 		LEFT JOIN pay_channels pc on pc.id=t.pay_channel_id
 		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
-		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{agentId}
+		LEFT JOIN agent_good_names agn on g.id=agn.good_id and agn.agent_id=#{topAgentId}
 		where g.id is not null AND pc.id is not null and t.agent_id in 
 		(SELECT id from agents where code like '${code}%')
 		  order by g.id desc
@@ -148,5 +148,7 @@
        <select id="getAgents" resultType="int" >
          SELECT id from agents where code LIKE '${code}%'
      </select>
-	
+	<select id="getAgentId" resultType="int" >
+         SELECT id from agents where code = #{code}
+     </select>
 </mapper>

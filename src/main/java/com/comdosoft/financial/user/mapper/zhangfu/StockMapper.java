@@ -48,4 +48,6 @@ public interface StockMapper {
 
     void renameAdd(StockReq req);
 
+    int getAgentId(@Param("code") String code);
+
 }

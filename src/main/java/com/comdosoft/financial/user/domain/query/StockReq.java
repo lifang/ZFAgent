@@ -19,7 +19,7 @@ public class StockReq {
     
     private String name="";
     
-    
+    private int topAgentId;
 
     public String getName() {
         return name;
@@ -27,6 +27,15 @@ public class StockReq {
 
     public void setName(String name) {
         this.name = name.trim();
+    }
+
+
+    public int getTopAgentId() {
+        return topAgentId;
+    }
+
+    public void setTopAgentId(int topAgentId) {
+        this.topAgentId = topAgentId;
     }
 
     public int getAgentId() {

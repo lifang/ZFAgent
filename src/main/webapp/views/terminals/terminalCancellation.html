@@ -23,7 +23,7 @@
                             </ul>
                         </div> 
                     </div>
-                    <div class="attributes_box">
+                    <div class="attributes_box" ng-if="reModel != null && reModel !=''">
                     	<h2>注销申请资料</h2>
                         <div class="applyFor_list clear" ng-repeat="re in reModel">
                            <div class="af_con">
@@ -43,19 +43,24 @@
                         </div>
                          <input type="hidden" id="terid" value="{{applyDetails.id}}"/>
                     </div>
-                    <div class="btnBottom"><button class="blueBtn" ng-click="subRentalReturn()">提交申请</button></div>
+                    <div ng-if="reModel != null && reModel !=''" class="btnBottom"><button class="blueBtn" ng-click="subRentalReturn()">提交申请</button></div>
             	</div>
             </div>
             <script type="text/javascript">
           //改变上传按钮
             function setSpanName(obj){
             	//改变下载模板初始状态
-            	$(obj).parent("a").children("span").html("重新上传")
+            	
             	$(obj).parent("a").parent("form").attr("action","api/webTerminal/upload/tempCancellationFile/"+$("#terid").val());
-            	$(obj).siblings("span").parent("a").siblings("i").attr("class","on");
             	$(obj).parent("a").parent("form").ajaxSubmit({
             		success : function(data) {
-            			$(obj).siblings("input").val(data.result);
+            			if(data.code == -1){
+            				alert(data.message);
+            			}else if(data.code == 1){
+            				$(obj).parent("a").children("span").html("重新上传");
+                        	$(obj).siblings("span").parent("a").siblings("i").attr("class","on");
+                        	$(obj).siblings("input").val(data.result);
+            			}
             		}
             	});
             }

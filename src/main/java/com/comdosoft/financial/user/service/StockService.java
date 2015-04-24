@@ -27,13 +27,14 @@ public class StockService {
         if (null == code || code.length() < 3) {
             return null;
         }
+        req.setTopAgentId(stockMapper.getAgentId(code.substring(0,3)));
         req.setCode(code);
         Map<String, Object> map = new HashMap<String, Object>();
         int total = stockMapper.getStockTotal(req);
         map.put("total", total);
         List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
-        list = stockMapper.getStockList(req);
         if (total > 0) {
+            list = stockMapper.getStockList(req);
             for (Map<String, Object> map2 : list) {
                 List<String> goodPics = goodMapper.getgoodPics(SysUtils.Object2int(map2.get("good_id")));
                 if (null != goodPics && goodPics.size() > 0) {
@@ -51,6 +52,8 @@ public class StockService {
         return map;
     }
 
+ 
+    
     public Map<String, Object> getInfo(StockReq req) {
         Map<String, Object> resultmap = new HashMap<String, Object>();
         if (null == req.getAgentname()) {

@@ -70,11 +70,17 @@
 		<if test="orderType==1">
 			order by g.volume_number desc
 		</if>
-		<if test="orderType==2">
+		<if test="orderType==2 and  type!=1">
 			order by g.retail_price desc
 		</if>
-		<if test="orderType==3">
+		<if test="orderType==3 and  type!=1">
 			order by g.retail_price
+		</if>
+		<if test="orderType==2 and  type==1">
+			order by g.purchase_price desc
+		</if>
+		<if test="orderType==3 and  type==1">
+			order by g.purchase_price
 		</if>
 		<if test="orderType==4">
 			order by g.total_score desc

@@ -622,6 +622,13 @@ public class OrderService {
         return map;
     }
 
+    /**
+     * 
+    * @Title: payBack 
+    * @Description:  支付回调 记录 付款记录 并更新订单状态
+    * @return void    返回类型 
+    * @throws
+     */
 	public void payBack(MyOrderReq req) {
 		String no = req.getOut_trade_no();
 		String payPrice = req.getPayPrice(); //payPrice
@@ -637,14 +644,27 @@ public class OrderService {
 			   o = orderMapper.findOrderByNumber(no);
 		   }
 		 Integer order_id =o.getId();
+		 Integer pay_price = Integer.parseInt(payPrice);
 		 Integer actual_price = o.getActualPrice();
 		 Integer front_money = o.getFrontMoney();
-		 
+		 byte s = 1;
+		 if(front_money == pay_price){  //付款金额等于 定金金额
+			 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
+				 s = Order.ORDER_STATUS_PAD;
+			 }else{
+				 s = Order.ORDER_STATUS_FINISH;
+			 }
+		 }else if(actual_price == pay_price){ //付款金额 等于 订单金额
+			 s = Order.ORDER_STATUS_FINISH;
+		 }
 		 OrderPayment op = new OrderPayment();
 	     op.setOrderId(order_id);
-	     op.setPrice(actual_price);
+	     op.setPrice(Integer.parseInt(payPrice));
+	     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
+	     op.setCreatedUserId(o.getCustomerId());
+	     op.setCreatedUserType(o.getCreatedUserType());
 	     int i = orderMapper.insertOrderPayment(op);
-	     int  j = orderMapper.paySuccessUpdateOrder();
+	     int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
 	}
  
 }

@@ -29,6 +29,15 @@
 		]]>
 	</insert>
 	
+	<!--  -->
+	 <select id="countAddress" resultType="int">
+	<![CDATA[
+		SELECT COUNT(i.id)
+		  FROM customer_addresses i  
+		 WHERE i.customer_id = #{customerId} and i.status = 1
+	]]>
+	</select>
+	
 	<!-- 根据用户ID获取用户信息 -->
 	<select id="getEmpInfoById" parameterType="com.comdosoft.financial.user.domain.query.EmpReq"
 		resultType="map">

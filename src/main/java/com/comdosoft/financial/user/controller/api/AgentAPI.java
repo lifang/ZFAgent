@@ -162,6 +162,11 @@ public class AgentAPI {
 	public Response insertAddress(@RequestBody Map<Object, Object> param) {
 		Response sysResponse = null;
 		try {
+			int i = agentService.countAddress(param);
+        	if(i>9){
+        		sysResponse = Response.buildSuccess("", "最多可以创建10个收货地址");
+        		return sysResponse;
+        	}
 			agentService.insertAddress(param);
 			sysResponse = Response.getSuccess();
 		} catch (Exception e) {

@@ -35,7 +35,8 @@
 	<select id="getTerminalList" parameterType="map" resultType="map">
 		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(e.id,'') as appid,
 		IFNULL(e.status,'') as appstatus,
-		IFNULL(g.model_number,'') as model_number,IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName
+		IFNULL(g.model_number,'') as model_number,IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName,
+		IFNULL(t.pay_channel_id,'0') as payChannelId
 		FROM terminals t
 		LEFT JOIN opening_applies e on e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
@@ -50,11 +51,16 @@
 		ORDER BY t.created_at DESC
 		LIMIT #{offSetPage},#{pageSize}
 	</select>
+	
+	<select id="hasVideoVerify" parameterType="map" resultType="int">
+		SELECT count(*) FROM opening_requirements r
+		WHERE r.pay_channel_id = #{payChannelId} and r.has_video_verify =#{hasVideoVerify}
+	</select>
  	
  	<select id="getNewTerminalList" parameterType="map" resultType="map">
 		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(g.model_number,'') as model_number,
 		IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName,IFNULL(e.id,'') as appid,
-		IFNULL(e.status,'') as appstatus
+		IFNULL(e.status,'') as appstatus,IFNULL(t.pay_channel_id,'0') as payChannelId
 		FROM terminals t
 		LEFT JOIN opening_applies e on e.terminal_id = t.id
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id

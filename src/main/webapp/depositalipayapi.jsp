@@ -44,14 +44,14 @@
 		//商户订单号
 		String out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
 		//商户网站订单系统中唯一订单号，必填
-		//订单名称
+		//订单名称WIDsubject
 		String subject =new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
 		//必填
 		//付款金额
 		String total_fee =new String(request.getParameter("WIDtotal_fee").getBytes("ISO-8859-1"),"UTF-8");
 		//必填
 		//订单描述
-		String body ="支付定金"; //new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
+		String body =  new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
 		//商品展示地址
 		//String show_url ="http://www.商户网址.com/myorder.html"; //new String(request.getParameter("WIDshow_url").getBytes("ISO-8859-1"),"UTF-8");
 		//需以http://开头的完整路径，例如：http://www.商户网址.com/myorder.html

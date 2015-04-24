@@ -10,18 +10,17 @@
         <div class="inner">
 			<div class="payBox">
             	<div class="pay_info">
-                	<p>订单编号：<strong>{{order.order_number}}</strong></p>
-					<p>付款金额：<strong>{{p |currency : "￥"}}</strong></p>
-			 
+                		<p>订单编号：<strong>{{order.order_number}}</strong></p>
+					    <p>付款金额：<strong>{{p |currency : "￥"}}</strong></p>
                 </div>
                 <div class="payTitle">选择支付方式</div>
                 <div class="payCon">
                 	<ul>
-                    	<li><input ng-model="payway" type="radio" ng-value="1" name="payway" /><label><span><img src="images/zfb.jpg" /></span></label></li>
+                    	<li><input ng-model="payway" type="radio" ng-value="1"  name="payway"/><label><span><img src="images/zfb.jpg" /></span></label></li>
                         <li><input ng-model="payway" type="radio" ng-value="2" name="payway"/><label><span><img src="images/wy.jpg" /></span></label></li>
                     </ul>
                 </div>
-                <div class="btnBottom"><button class="orangeBtn goPay" ng-click="orderpay()">立即支付</button></div>
+                <div class="btnBottom"><button class="orangeBtn goPay" ng-click="orderpay()">立即支付</button> </div>
             </div>
         </div>
     </div>
@@ -40,10 +39,11 @@
                 </div>
                 <div class="pay_ok_info">
                 	<div class="pay_ok_info_left">
-				     	<p>订单编号：<strong>{{order.order_number}}</strong></p>
+                	<p>订单编号：<strong>{{order.order_number}}</strong></p>
 						<p>支付方式：<strong>{{order.paytype==1?"支付宝":"银联"}}</strong></p>
 					   <p>付款金额：<strong>{{order.p |currency : "￥"}}</strong></p>
 						<p>如交易出现问题请联系021-37494756</p>
+						
                     </div>
                     <!--  
                     <div class="pay_ok_info_right">
@@ -58,7 +58,7 @@
     </div>
 </div>
 <div class="tab payTab"  id="payTab">
-	<a onclick="$('.tab').hide()" class="close">关闭</a>
+	<a href="javascript:void(0);" class="close">关闭</a>
 	<div class="tabBody">
     	<h2>您是否已经完成支付？</h2>
     </div>

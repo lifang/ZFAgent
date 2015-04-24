@@ -170,7 +170,6 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	//定金支付
 	 $scope.depositpay = function(o) {
 		 var dj = o.price_dingjin;
-		 console.log("dj===>>"+dj);
 	    window.open("#/deposit_pay?id="+o.order_id) ;  
 	};
 	
@@ -366,6 +365,8 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 //    $scope.submitSearch();
 //    $scope.orderinfo();
 };
+
+// 定金支付
 var topayModule = angular.module("topayModule",[]);
 var payController = function($scope, $http,$location,LoginService) {
 	$scope.pay=true;
@@ -380,6 +381,7 @@ var payController = function($scope, $http,$location,LoginService) {
 		$scope.getOrder();
 	};
 	$scope.getOrder = function() {
+		console.log(" 定金支付  paycongtroller   getOrder>>>");
 		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.order=data.result;
@@ -455,36 +457,38 @@ var orderpayController = function($scope, $http,$location,LoginService) {
         });
 	};
 	
-	$scope.to_pay= function(){
-		$('#payTab').show();
-		if(1==$scope.payway){
-			//alert("支付宝");
-			$scope.order.title="";
-        	var count=0;
-        	 angular.forEach($scope.order.good, function (one) {
-                 if(count<2){
-                	 $scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
-                 }
-                 count++;
-             });
-        	 if(count>2){
-        		 $scope.order.title+="..";
-        	 }
-			window.open("alipayapi.jsp?WIDtotal_fee="+
-					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
-					+"&WIDout_trade_no="+$scope.order.order_number);  
-		}else{
-			//alert("银行");
-			window.open("http://www.taobao.com");  
-		}
-	}
+//	$scope.to_pay= function(){
+//		$('#payTab').show();
+//		if(1==$scope.payway){
+//			//alert("支付宝");
+//			$scope.order.title="";
+//        	var count=0;
+//        	 angular.forEach($scope.order.good, function (one) {
+//                 if(count<2){
+//                	 $scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
+//                 }
+//                 count++;
+//             });
+//        	 if(count>2){
+//        		 $scope.order.title+="..";
+//        	 }
+//			window.open("alipayapi.jsp?WIDtotal_fee="+
+//					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+//					+"&WIDout_trade_no="+$scope.order.order_number);  
+//		}else{
+//			//alert("银行");
+//			window.open("http://www.taobao.com");  
+//		}
+//	}
 	
 	//定金支付
 	$scope.depositpay= function(){
 		$('#payTab').show();
+		$('.mask').show();
+		var body = "定金付款";
 		if(1==$scope.payway){
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
-					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"
+					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"+"&WIDbody="+body
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
@@ -494,11 +498,13 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	//订单支付
 	$scope.orderpay= function(){
 		$('#payTab').show();
+		$('.mask').show();
 		if(1==$scope.payway){
 			//alert("支付宝");
 			$scope.order.title="订单付款";
+			var body = "订单付款";
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
-					$scope.p+"&WIDsubject="+$scope.order.title
+					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
@@ -506,19 +512,20 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		}
 	}
 	$scope.finish= function(){
-		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
-            if (data.code==1) {
-            	$scope.order=data.result;
-            	if(data.result.paytype>0){
+		console.log(">>>>>>	");
+//		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
+//            if (data.code==1) {
+//            	$scope.order=data.result;
+//            	if(data.result.paytype>0){
             		$scope.pay=false;
-            		$scope.payway=data.result.paytype;
+            		$scope.payway=1;
             		$('#payTab').hide();
             		$('.mask').hide();
-            	}else{
-            		alert("尚未支付,如有疑问请联系888-88888");
-            	}
-            }
-        });
+//            	}else{
+//            		alert("尚未支付,如有疑问请联系888-88888");
+//            	}
+//            }
+//        });
 	};
 	$scope.getOrder();
 };

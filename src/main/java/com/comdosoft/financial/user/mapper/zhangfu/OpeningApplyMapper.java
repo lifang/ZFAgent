@@ -22,7 +22,7 @@ public interface OpeningApplyMapper {
 	 * @param map
 	 * @return
 	 */
-	List<Map<Object, Object>> getApplyList(Map<String, Object> map);
+	List<Map<Object, Object>> getApplyList(Map<Object, Object> map);
 	
 	/**
 	 * 根据用户id得到所有申请总记录数
@@ -37,7 +37,7 @@ public interface OpeningApplyMapper {
 	 * @param map
 	 * @return
 	 */
-	List<Map<Object, Object>> searchApplyList(Map<String, Object> map);
+	List<Map<Object, Object>> searchApplyList(Map<Object, Object> map);
 	
 	/**
 	 * 根据终端号模糊查询相关终端总记录数

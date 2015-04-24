@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
+import com.comdosoft.financial.user.domain.zhangfu.OpeningRequirement;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 
@@ -35,12 +36,30 @@ public class TerminalsService {
 	 */
 	public List<Map<Object, Object>> getTerminalList(Integer id,
 			Integer offSetPage, Integer pageSize,Integer status) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("id", id);
 		map.put("offSetPage", offSetPage);
 		map.put("pageSize", pageSize);
 		map.put("status", status);
-		return terminalsMapper.getTerminalList(map);
+		map.put("hasVideoVerify", OpeningRequirement.TYPE_1);
+		
+		List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
+		list = terminalsMapper.getTerminalList(map);
+		
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).get("payChannelId") != null){
+				map.put("payChannelId", list.get(i).get("payChannelId"));
+				int count = terminalsMapper.hasVideoVerify(map);
+				if(count>0){
+					list.get(i).put("hasVideoVerify", 1);
+				}
+				if(count == 0){
+					list.get(i).put("hasVideoVerify", 0);
+				}
+			}
+			
+		}
+		return list;
 	}
 
 	/**
@@ -53,13 +72,31 @@ public class TerminalsService {
 	 */
 	public List<Map<Object, Object>> getNewTerminalList(Integer id,
 			Integer offSetPage, Integer pageSize,Integer status,String serialNum) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("id", id);
 		map.put("offSetPage", offSetPage);
 		map.put("pageSize", pageSize);
 		map.put("status", status);
 		map.put("serialNum", serialNum);
-		return terminalsMapper.getNewTerminalList(map);
+		map.put("hasVideoVerify", OpeningRequirement.TYPE_1);
+		
+		List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
+		list = terminalsMapper.getNewTerminalList(map);
+		
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).get("payChannelId") != null){
+				map.put("payChannelId", list.get(i).get("payChannelId"));
+				int count = terminalsMapper.hasVideoVerify(map);
+				if(count>0){
+					list.get(i).put("hasVideoVerify", 1);
+				}
+				if(count == 0){
+					list.get(i).put("hasVideoVerify", 0);
+				}
+			}
+			
+		}
+		return list;
 	}
 	/**
 	 * 获得终端列表总记录数

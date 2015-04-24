@@ -269,8 +269,8 @@
 		WHERE username=#{username}
 	</select>
 	
-	<select id="findUnameAndStatus" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer" resultType="map">
-		SELECT COUNT(*) as count,id from customers 
+	<select id="findUnameAndStatus" parameterType="map" resultType="map">
+		SELECT COUNT(*) as count,IFNULL(id,'-1') as id from customers 
 		WHERE username=#{username} AND status=#{status}
 	</select>
 	

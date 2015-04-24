@@ -220,7 +220,10 @@ public class TerminalsService {
 	 * @return
 	 */
 	public Map<Object, Object> findUnameAndStatus(Customer customer){
-		return terminalsMapper.findUnameAndStatus(customer);
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", customer.getUsername());
+		map.put("status", customer.getStatus());
+		return terminalsMapper.findUnameAndStatus(map);
 	}
 	
 	/**

@@ -95,4 +95,6 @@ public interface AgentMapper {
 
 	CustomerAddress findAddressById(Integer addressId);
 
+	int countAddress(Map<Object, Object> param);
+
 }

@@ -186,4 +186,14 @@ public class OpeningRequirement {
 	public void setOpeningRequirementId(Integer openingRequirementId) {
 		this.openingRequirementId = openingRequirementId;
 	}
+	
+	/**
+	 * 是否需要视频认证1.需要
+	 */
+	public final static int TYPE_1 = 1;
+	
+	/**
+	 * 是否需要视频认证0.不需要
+	 */
+	public final static int TYPE_2 = 0;
 }

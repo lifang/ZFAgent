@@ -32,7 +32,7 @@
  		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,
  		IFNULL(e.id,'') as appid,
  		IFNULL(e.status,'') as appstatus,IFNULL(g.model_number,'') as model_number,IFNULL(b.`name`,'') as brandName,
- 		IFNULL(c.`name`,'') as channelName
+ 		IFNULL(c.`name`,'') as channelName,IFNULL(t.pay_channel_id,'0') as payChannelId
 		FROM terminals t
 		LEFT JOIN opening_applies e
 		ON e.terminal_id = t.id
@@ -44,7 +44,7 @@
  		AND t.status in (#{twoStatus},#{threeStatus})
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
- 	
+ 
  	<select id="getApplyListSize" parameterType="map" resultType="int">
  		SELECT count(*)
 		FROM terminals t
@@ -68,7 +68,7 @@
  		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,
  		IFNULL(g.model_number,'') as model_number,IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName,
  		IFNULL(e.id,'') as appid,
- 		IFNULL(e.status,'') as appstatus
+ 		IFNULL(e.status,'') as appstatus,IFNULL(t.pay_channel_id,'0') as payChannelId
 		FROM terminals t
 		LEFT JOIN opening_applies e
 		ON e.terminal_id = t.id

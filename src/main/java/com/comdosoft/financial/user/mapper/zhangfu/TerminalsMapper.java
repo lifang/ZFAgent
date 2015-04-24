@@ -22,7 +22,15 @@ public interface TerminalsMapper {
      * @param map
      * @return
      */
-    List<Map<Object, Object>> getTerminalList(Map<String, Object> map);
+    List<Map<Object, Object>> getTerminalList(Map<Object, Object> map);
+    
+    /**
+     * 判断该终端是否需要开通视频
+     * 
+     * @param map
+     * @return
+     */
+    int hasVideoVerify(Map<Object, Object> map);
 
     /**
      * 根据用户id获得终端列表
@@ -30,7 +38,7 @@ public interface TerminalsMapper {
      * @param map
      * @return
      */
-    List<Map<Object, Object>> getNewTerminalList(Map<String, Object> map);
+    List<Map<Object, Object>> getNewTerminalList(Map<Object, Object> map);
     
     /**
      * 根据用户id获得终端列表总记录数

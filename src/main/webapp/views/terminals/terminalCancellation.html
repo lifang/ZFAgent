@@ -23,7 +23,7 @@
                             </ul>
                         </div> 
                     </div>
-                    <div class="attributes_box">
+                    <div class="attributes_box" ng-if="reModel != null && reModel !=''">
                     	<h2>注销申请资料</h2>
                         <div class="applyFor_list clear" ng-repeat="re in reModel">
                            <div class="af_con">
@@ -43,7 +43,7 @@
                         </div>
                          <input type="hidden" id="terid" value="{{applyDetails.id}}"/>
                     </div>
-                    <div class="btnBottom"><button class="blueBtn" ng-click="subRentalReturn()">提交申请</button></div>
+                    <div ng-if="reModel != null && reModel !=''" class="btnBottom"><button class="blueBtn" ng-click="subRentalReturn()">提交申请</button></div>
             	</div>
             </div>
             <script type="text/javascript">

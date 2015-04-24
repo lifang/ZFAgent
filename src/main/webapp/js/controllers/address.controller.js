@@ -88,17 +88,20 @@ var addressController = function ($scope, $http, LoginService) {
 		$scope.address = one;
 		$scope.address.id = one.id;
 		$scope.address.telphone = one.telphone;
-		var arr = $scope.address.telphone.split("-");
-		if(arr != null && arr != "" && arr != undefined) {
-			if(arr.length == 3) {
-				$scope.address.telphone1 = arr[0];
-				$scope.address.telphone2 = arr[1];
-				$scope.address.telphone3 = arr[2];
-			} else if (arr.length == 2) {
-				$scope.address.telphone1 = arr[0];
-				$scope.address.telphone2 = arr[1];
+		if($scope.address.telphone != null){
+			var arr = $scope.address.telphone.split("-");
+			if(arr != null && arr != "" && arr != undefined) {
+				if(arr.length == 3) {
+					$scope.address.telphone1 = arr[0];
+					$scope.address.telphone2 = arr[1];
+					$scope.address.telphone3 = arr[2];
+				} else if (arr.length == 2) {
+					$scope.address.telphone1 = arr[0];
+					$scope.address.telphone2 = arr[1];
+				}
 			}
 		}
+		
 		
 		$scope.selected = { 
 			id : one.city_parent_id,
@@ -184,7 +187,7 @@ var addressController = function ($scope, $http, LoginService) {
 				}
 			}
 			
-			$scope.address.telphone = $scope.address.telphone1 + "-" + $scope.address.telphone2;
+		//	$scope.address.telphone = $scope.address.telphone1 + "-" + $scope.address.telphone2;
 		}
 		
 		if ($scope.address.id == undefined) {// 插入新地址信息

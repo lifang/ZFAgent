@@ -1100,6 +1100,21 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			alert("密码不一致");
 			return;
 		}
+		if($scope.user.cityid==undefined){
+			alert("请选择城市");
+			return;
+		}
+		if ($scope.user.username == undefined || $scope.user.username.trim() == "") {
+			alert("请手机或邮箱");
+			return;
+		} else {
+			var reg = /^(13[0-9]|14(5|7)|15(0|1|2|3|5|6|7|8|9)|18[0-9])\d{8}$/;
+			var reg2= /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			if (!(reg.test($scope.user.username)||reg2.test($scope.user.username))) {
+				alert("手机或邮箱不正确!");
+				return;
+			}
+		}
 		$scope.user.agentId = LoginService.agentid;
 		$scope.user.cityid = Math.ceil($scope.user.cityid);
 		$http.post("api/user/addCustomer", $scope.user).success(function(data) {

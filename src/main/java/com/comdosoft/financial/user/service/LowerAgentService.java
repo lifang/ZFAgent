@@ -35,28 +35,39 @@ public class LowerAgentService {
 	 * 修改代理商状态
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> changeStatus(LowerAgentReq req){
+	public Map<String,Object> changeStatus(LowerAgentReq req) throws Exception{
 		Map<String,Object> map =new HashMap<String, Object>();
-		if(req.getStatus()==5){
-			req.setStatus(6);
-		}else if(req.getStatus()==6){
-			req.setStatus(5);
+		try{
+			if(req.getStatus()==5){
+				req.setStatus(6);
+			}else if(req.getStatus()==6){
+				req.setStatus(5);
+			}
+			int result=lowerAgentMapper.changeStatus(req);
+			if(result>=1){
+				//成功
+				map.put("resultCode", 1);
+				map.put("resultInfo", "修改状态成功");
+			}else{
+				//失败
+				map.put("resultCode", -1);
+				map.put("resultInfo", "修改状态出错");
+				throw new Exception("修改状态出错");
+			}
+			String resultInfo="执行修改下级代理商状态操作,结果为："+map.get("resultInfo");
+			int temp=sys.operateRecord(resultInfo,req.getAgentsId());
+			if(temp<1){
+				throw new Exception("保存操作记录出错");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			return map;
 		}
-		int result=lowerAgentMapper.changeStatus(req);
-		if(result>=1){
-			//成功
-			map.put("resultCode", 1);
-			map.put("resultInfo", "修改状态成功");
-		}else{
-			//失败
-			map.put("resultCode", -1);
-			map.put("resultInfo", "修改状态出错");
-		}
-		String resultInfo="执行修改下级代理商状态操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgentsId());
-		return map;
 	}
 	
 	/**
@@ -79,32 +90,42 @@ public class LowerAgentService {
 	 * 修改默认分润比例
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> changeProfit(LowerAgentReq req){
+	public Map<String,Object> changeProfit(LowerAgentReq req) throws Exception{
 		Map<String,Object> map =new HashMap<String, Object>();
-		
-		float profit=req.getDefaultProfit()*10;
-		
-		if(profit>100 || profit<0){
-			map.put("resultCode", -1);
-			map.put("resultInfo", "默认分润比例必须介于0-100之间");
-		}else{
-			int result=lowerAgentMapper.changeProfit(req);
-			if(result>=1){
-				//成功
-				map.put("resultCode", 1);
-				map.put("resultInfo", "修改默认分润比例成功");
-			}else{
-				//失败
+		try{
+			float profit=req.getDefaultProfit()*10;
+			
+			if(profit>100 || profit<0){
 				map.put("resultCode", -1);
-				map.put("resultInfo", "修改默认分润比例出错");
+				map.put("resultInfo", "默认分润比例必须介于0-100之间");
+			}else{
+				int result=lowerAgentMapper.changeProfit(req);
+				if(result>=1){
+					//成功
+					map.put("resultCode", 1);
+					map.put("resultInfo", "修改默认分润比例成功");
+				}else{
+					//失败
+					map.put("resultCode", -1);
+					map.put("resultInfo", "修改默认分润比例出错");
+					throw new Exception("修改默认分润比例出错");
+				}
 			}
+			
+			String resultInfo="执行修改下级代理商默认分润比例操作,结果为："+map.get("resultInfo");
+			int temp=sys.operateRecord(resultInfo,req.getAgentsId());
+			if(temp<1){
+				throw new Exception("保存操作记录出错");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			return map;
 		}
-		
-		String resultInfo="执行修改下级代理商默认分润比例操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgentsId());
-		return map;
 	}
 	
 	public Map<String, Object> getProfitlist(LowerAgentReq req) {
@@ -224,11 +245,14 @@ public class LowerAgentService {
 	 * 新增下级代理商
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> addNewAgent(LowerAgentReq req) {
+	public Map<String,Object> addNewAgent(LowerAgentReq req) throws Exception {
 		
 		Map<String, Object> map=new HashMap<String, Object>();
+		try{
         	//向customers表中插入记录
         	//调用加密方法
         	req.setPwd(SysUtils.string2MD5(req.getPwd()));
@@ -245,21 +269,44 @@ public class LowerAgentService {
 	                //获取新的agents表ID
 	        		int customer_id=lowerAgentMapper.getCustomerId(req);
 	            	req.setCustomerId(customer_id);
+	            	
+	            	int temp1=0;
 	            	//插入权限
 	            	req.setRoleId(3);
-	            	lowerAgentMapper.createRoleRelation(req);
+	            	temp1=lowerAgentMapper.createRoleRelation(req);
+	            	if(temp1<=0){
+	            		throw new Exception("新增用户权限失败");
+	            	}
 	            	req.setRoleId(4);
-	            	lowerAgentMapper.createRoleRelation(req);
+	            	temp1=lowerAgentMapper.createRoleRelation(req);
+	            	if(temp1<=0){
+	            		throw new Exception("新增用户权限失败");
+	            	}
 	            	req.setRoleId(5);
-	            	lowerAgentMapper.createRoleRelation(req);
+	            	temp1=lowerAgentMapper.createRoleRelation(req);
+	            	if(temp1<=0){
+	            		throw new Exception("新增用户权限失败");
+	            	}
 	            	req.setRoleId(6);
-	            	lowerAgentMapper.createRoleRelation(req);
+	            	temp1=lowerAgentMapper.createRoleRelation(req);
+	            	if(temp1<=0){
+	            		throw new Exception("新增用户权限失败");
+	            	}
 	            	req.setRoleId(7);
-	            	lowerAgentMapper.createRoleRelation(req);
+	            	temp1=lowerAgentMapper.createRoleRelation(req);
+	            	if(temp1<=0){
+	            		throw new Exception("新增用户权限失败");
+	            	}
 	            	req.setRoleId(8);
-	            	lowerAgentMapper.createRoleRelation(req);
+	            	temp1=lowerAgentMapper.createRoleRelation(req);
+	            	if(temp1<=0){
+	            		throw new Exception("新增用户权限失败");
+	            	}
 	            	req.setRoleId(9);
-	            	lowerAgentMapper.createRoleRelation(req);
+	            	temp1=lowerAgentMapper.createRoleRelation(req);
+	            	if(temp1<=0){
+	            		throw new Exception("新增用户权限失败");
+	            	}
 	            	//agengCode
 	            	String parentAgentCode=lowerAgentMapper.getParentAgentCode(req);
 	            	int lengthTemp=parentAgentCode.length();
@@ -302,85 +349,124 @@ public class LowerAgentService {
 	            	}else{
 	            		map.put("resultCode", -1);
 		        		map.put("resultInfo", "新增agents表出错");
+		        		throw new Exception("新增agents表出错");
 	            	}
 	        	}else{
 	        		//失败
 	        		map.put("resultCode", -1);
 	        		map.put("resultInfo", "新增customers表出错");
+	        		throw new Exception("新增customers表出错");
 	        	}
         	}
-    	String resultInfo="执行新增下级代理商操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgentsId());
-        return map;
+	    	String resultInfo="执行新增下级代理商操作,结果为："+map.get("resultInfo");
+			int temp=sys.operateRecord(resultInfo,req.getAgentsId());
+			if(temp<1){
+				throw new Exception("保存操作记录出错");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			return map;
+        }
     }
 	
 	/**
 	 * 修改下级代理商密码
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> changePwd(LowerAgentReq req){
-		req.setPwd(SysUtils.string2MD5(req.getPwd()));
-		int result=lowerAgentMapper.changePwd(req);
+	public Map<String,Object> changePwd(LowerAgentReq req) throws Exception{
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(result>=1){
-			map.put("errorCode", 1);
-			map.put("errorInfo", "保存成功！");
-		}else{
-			map.put("errorCode", -1);
-			map.put("errorInfo", "保存出错！");
+		try{
+			req.setPwd(SysUtils.string2MD5(req.getPwd()));
+			int result=lowerAgentMapper.changePwd(req);
+			
+			if(result>=1){
+				map.put("errorCode", 1);
+				map.put("errorInfo", "保存成功！");
+			}else{
+				map.put("errorCode", -1);
+				map.put("errorInfo", "保存出错！");
+				throw new Exception("保存出错！");
+			}
+			String resultInfo="执行修改下级代理商密码操作,结果为："+map.get("errorInfo");
+			
+			int temp=sys.operateRecord(resultInfo,req.getAgentsId());
+			if(temp<1){
+				throw new Exception("保存操作记录出错");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			return map;
 		}
-		String resultInfo="执行修改下级代理商密码操作,结果为："+map.get("errorInfo");
-		sys.operateRecord(resultInfo,req.getAgentsId());
-		return map;
 	}
 	
 	/**
 	 * 修改下级代理商，保存
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> save(LowerAgentReq req) {
+	public Map<String,Object> save(LowerAgentReq req) throws Exception {
 		Map<String,Object> map=new HashMap<String, Object>();
-		
-    	int affect_series1=lowerAgentMapper.saveAgents(req);
-    	//调用加密方法
-    	req.setPwd(SysUtils.string2MD5(req.getPwd()));
-    	int affect_series2=lowerAgentMapper.saveCustomers(req);
-    	
-    	//都更新成功
-    	if(affect_series1>=1 && affect_series2>=1){
-    		map.put("resultCode", 1);
-			map.put("resultInfo", "保存修改成功！");
-    	}else{
-    		map.put("resultCode", -1);
-			map.put("resultInfo", "保存修改失败！");
+		try{
+	    	int affect_series1=lowerAgentMapper.saveAgents(req);
+	    	//调用加密方法
+	    	req.setPwd(SysUtils.string2MD5(req.getPwd()));
+	    	int affect_series2=lowerAgentMapper.saveCustomers(req);
+	    	
+	    	//都更新成功
+	    	if(affect_series1>=1 && affect_series2>=1){
+	    		map.put("resultCode", 1);
+				map.put("resultInfo", "保存修改成功！");
+	    	}else{
+	    		map.put("resultCode", -1);
+				map.put("resultInfo", "保存修改失败！");
+				throw new Exception("保存修改失败");
+	    	}
+	    	String resultInfo="执行修改下级代理商信息操作,结果为："+map.get("resultInfo");
+			int temp=sys.operateRecord(resultInfo,req.getAgentsId());
+			if(temp<1){
+				throw new Exception("保存操作记录出错");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			return map;
     	}
-    	String resultInfo="执行修改下级代理商信息操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgentsId());
-    	return map;
     }
 	
 	
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> delChannel(LowerAgentReq req) {
+	public Map<String,Object> delChannel(LowerAgentReq req) throws Exception {
 		Map<String,Object> map=new HashMap<String, Object>();
-		
-    	int affect_series1=lowerAgentMapper.delChannel(req);
-    	
-    	//都更新成功
-    	if(affect_series1>=1){
-    		map.put("resultCode", 1);
-			map.put("resultInfo", "删除成功！");
-    	}else{
-    		map.put("resultCode", -1);
-			map.put("resultInfo", "删除失败！");
-    	}
-    	String resultInfo="执行删除下级代理商分润渠道操作,结果为："+map.get("resultInfo");
-		sys.operateRecord(resultInfo,req.getAgentsId());
-    	return map;
+		try{
+	    	int affect_series1=lowerAgentMapper.delChannel(req);
+	    	//都更新成功
+	    	if(affect_series1>=1){
+	    		map.put("resultCode", 1);
+				map.put("resultInfo", "删除成功！");
+	    	}else{
+	    		map.put("resultCode", -1);
+				map.put("resultInfo", "删除失败！");
+	    	}
+	    	String resultInfo="执行删除下级代理商分润渠道操作,结果为："+map.get("resultInfo");
+	    	int temp=sys.operateRecord(resultInfo,req.getAgentsId());
+			if(temp<1){
+				throw new Exception("保存操作记录出错");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			return map;
+		}
     }
 	
 	
@@ -394,16 +480,16 @@ public class LowerAgentService {
 	 * 代理商 分润新增  或者保存  1为新增，0为保存
 	 * @param req
 	 * @return
+	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public Map<String,Object> saveOrEdit(LowerAgentReq req){
-		
+	public Map<String,Object> saveOrEdit(LowerAgentReq req) throws Exception{
 		Map<String,Object> map=new HashMap<String, Object>();
-		
+		try{
 		//precent_tradeId|precent_tradeId
 		if(req.getSign() == 1){
 			//新增 
-			
 			//遍历分解
 			String profitPercent=req.getProfitPercent();
 			//tradeTypeId_channelId
@@ -425,6 +511,7 @@ public class LowerAgentService {
 					if(result<1){
 						map.put("resultCode", -1);
 						map.put("resultInfo", "保存出错！");
+						throw new Exception("保存分润比例出错");
 					}
 				}
 			}
@@ -453,7 +540,7 @@ public class LowerAgentService {
 				if(result<1){
 					map.put("resultCode", -1);
 					map.put("resultInfo", "保存出错！");
-					break;
+					throw new Exception("修改分润比例出错");
 				}
 			}
 			if(map==null || map.get("resultCode")==null){
@@ -465,8 +552,15 @@ public class LowerAgentService {
 			}
 			
 			String resultInfo="执行修改下级代理商分润操作,结果为："+map.get("resultInfo");
-			sys.operateRecord(resultInfo,req.getAgentsId());
+			int temp=sys.operateRecord(resultInfo,req.getAgentsId());
+			if(temp<1){
+				throw new Exception("保存操作记录出错");
+			}
 		}
-		return map;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			return map;
+		}
 	}
 }

@@ -113,10 +113,12 @@ public class TerminalsService {
 		 List<Map<Object, Object>> list = new ArrayList<Map<Object,Object>>();
 	        list = terminalsMapper.getOpeningDetails(id);
 	        for(int i=0;i<list.size();i++){
-	        	if((Integer)list.get(i).get("types") == 2){
-	            	list.get(i).put("value",filePath+list.get(i).get("value"));
-	        	}else{
-	        		list.get(i).put("value",list.get(i).get("value"));
+	        	if(list.get(i) != null){
+	        		if((Integer)list.get(i).get("types") == 2){
+		            	list.get(i).put("value",filePath+list.get(i).get("value"));
+		        	}else{
+		        		list.get(i).put("value",list.get(i).get("value"));
+		        	}
 	        	}
 	        }
 			return list;
@@ -218,7 +220,10 @@ public class TerminalsService {
 	 * @return
 	 */
 	public Map<Object, Object> findUnameAndStatus(Customer customer){
-		return terminalsMapper.findUnameAndStatus(customer);
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", customer.getUsername());
+		map.put("status", customer.getStatus());
+		return terminalsMapper.findUnameAndStatus(map);
 	}
 	
 	/**

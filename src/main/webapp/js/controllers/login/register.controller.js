@@ -172,7 +172,6 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 		$scope.getShengcit();
 		// 初始化图片验证码
 		$scope.reGetRandCodeImg();
-
 	};
 
 	// 图片验证码

@@ -21,7 +21,7 @@
      </select>
  
        <select id="getTDatesByPayChannel" resultType="map" >
-        SELECT dbc.id,dbc.name,dbc.service_rate,dbc.description 
+        SELECT dbc.id,dbc.name,pcbc.rate as service_rate,pcbc.description 
 		from dictionary_billing_cycles dbc 
 		LEFT JOIN pay_channel_billing_cycles pcbc on pcbc.billing_cycles_id=dbc.id 
 		where pcbc.pay_channel_id=#{pcid}

@@ -154,15 +154,13 @@ public class TerminalsController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
 			applyMap.put("terminalList", terminalsService.getMerchants(
-					(Integer)map.get("agentId"),//代理商对应用户id
+					(Integer)map.get("terminalId"),
+					(String)map.get("title"),
 					offSetPage,
-					(Integer)map.get("rows"),
-					CustomerAgentRelation.STATUS_1,
-					CustomerAgentRelation.TYPES_USER_TO_AGENT));
+					(Integer)map.get("rows")));
 			applyMap.put("total", terminalsService.getMerchantSize(
-					(Integer)map.get("agentId"),//代理商对应用户id
-					CustomerAgentRelation.STATUS_1,
-					CustomerAgentRelation.TYPES_USER_TO_AGENT));
+					(Integer)map.get("terminalId"),
+					(String)map.get("title")));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
 			logger.error("获得代理商下面的用户失败！", e);

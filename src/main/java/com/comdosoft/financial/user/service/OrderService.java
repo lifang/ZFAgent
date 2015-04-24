@@ -365,6 +365,7 @@ public class OrderService {
         String d = sdf.format(o.getCreatedAt());
         map.put("order_createTime", d);// 订单日期
         map.put("order_status", o.getStatus() == null ? "" : o.getStatus() + "");
+        map.put("need_invoice", o.getNeedInvoice()== null ? "" : o.getNeedInvoice() + "");
 
         List<OrderGood> olist = o.getOrderGoodsList();
         map.put("order_goods_size", olist.size());//
@@ -589,7 +590,21 @@ public class OrderService {
         } else {
             return map;
         }
-        map.put("order_id", myOrderReq.getId() + "");
+        Integer id = myOrderReq.getId();
+        map.put("order_id",  id);
+        List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(id);
+        Integer haspayed_price = 0;
+        int size = oplist.size()+1;
+        if(oplist.size()>0){
+        	for(OrderPayment op:oplist){
+        		haspayed_price += op.getPrice();
+        	}
+        }
+        Integer actual_price = o.getActualPrice();// 这个单子的总额
+        BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
+        BigDecimal bd_dj = new BigDecimal(haspayed_price);
+        BigDecimal shengyu_price = bd_act.subtract(bd_dj); // actual_price-zhifu_dingjin;
+        
         String pay_status = o.getFrontPayStatus() == null ? "" : o.getFrontPayStatus().toString(); // 2 已支付 1未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney() == null ? 0 : o.getFrontMoney();
@@ -602,10 +617,34 @@ public class OrderService {
         map.put("price_dingjin", o.getFrontMoney() == null ? "" : o.getFrontMoney() + "");// 定金总额
         map.put("zhifu_dingjin", zhifu_dingjin + "");// 已付定金
         // map.put("shengyu_price", shengyu_price);//剩余金额
-        map.put("order_number", o.getOrderNumber());// 订单编号
+        map.put("order_number", o.getOrderNumber()+"_"+size);// 订单编号
+        map.put("shengyu_price", shengyu_price);// 剩余金额
         return map;
     }
 
-   
-
+	public void payBack(MyOrderReq req) {
+		String no = req.getOut_trade_no();
+		String payPrice = req.getPayPrice(); //payPrice
+		String status = req.getStatus();
+		String number = "";
+		Order o = new Order();
+		Boolean isWhole = no.contains("_");
+		   if(isWhole){
+			   String[] s = no.split("_");
+			   number = s[0];
+			   o = orderMapper.findOrderByNumber(number);
+		   }else{
+			   o = orderMapper.findOrderByNumber(no);
+		   }
+		 Integer order_id =o.getId();
+		 Integer actual_price = o.getActualPrice();
+		 Integer front_money = o.getFrontMoney();
+		 
+		 OrderPayment op = new OrderPayment();
+	     op.setOrderId(order_id);
+	     op.setPrice(actual_price);
+	     int i = orderMapper.insertOrderPayment(op);
+	     int  j = orderMapper.paySuccessUpdateOrder();
+	}
+ 
 }

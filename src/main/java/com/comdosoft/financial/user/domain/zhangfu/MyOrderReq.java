@@ -13,7 +13,7 @@ public class MyOrderReq {
 	private String userName;
 	private String email;
 	private String q;// 状态值
-	private String p;// 订单类型
+	private String p;// 订单类型  5批购  4代理商代租赁 3代理商代购
 	private Integer rows;// 每页大小
 	private Integer customerId;// 用户id
 	private String content;// 内容
@@ -28,6 +28,58 @@ public class MyOrderReq {
 	private String track_number;
 	private List<CommentsJson> json;
 	private String agentId;
+	//支付回调信息
+	private String out_trade_no;
+	private String payPrice;
+	private String status;
+
+	/** 
+	 * 获取 out_trade_no 
+	 * @return out_trade_no
+	 */
+	public String getOut_trade_no() {
+		return out_trade_no;
+	}
+
+	/** 
+	 *  设置 out_trade_no 
+	 *  @param out_trade_no
+	 */
+	public void setOut_trade_no(String out_trade_no) {
+		this.out_trade_no = out_trade_no;
+	}
+
+	/** 
+	 * 获取 payPrice 
+	 * @return payPrice
+	 */
+	public String getPayPrice() {
+		return payPrice;
+	}
+
+	/** 
+	 *  设置 payPrice 
+	 *  @param payPrice
+	 */
+	public void setPayPrice(String payPrice) {
+		this.payPrice = payPrice;
+	}
+
+	/** 
+	 * 获取 status 
+	 * @return status
+	 */
+	public String getStatus() {
+		return status;
+	}
+
+	/** 
+	 *  设置 status 
+	 *  @param status
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getAgentId() {
 		return agentId;
@@ -426,6 +478,12 @@ public class MyOrderReq {
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	* <p>Title: toString</p> 
+	* <p>Description: </p> 
+	* @return 
+	* @see java.lang.Object#toString() 
+	 */
 	@Override
 	public String toString() {
 		return "MyOrderReq [id=" + id + ", ids=" + Arrays.toString(ids)
@@ -434,10 +492,14 @@ public class MyOrderReq {
 				+ ", email=" + email + ", q=" + q + ", p=" + p + ", rows="
 				+ rows + ", customerId=" + customerId + ", content=" + content
 				+ ", payType=" + payType + ", orderStatus=" + orderStatus
-				+ ", repairStatus=" + repairStatus + ", updateStatus="
-				+ updateStatus + ", score=" + score + ", good_id=" + good_id
-				+ ", computer_name=" + computer_name + ", track_number="
-				+ track_number + ", json=" + json + "]";
+				+ ", repairStatus=" + repairStatus + ", serviceStatus="
+				+ serviceStatus + ", updateStatus=" + updateStatus + ", score="
+				+ score + ", good_id=" + good_id + ", computer_name="
+				+ computer_name + ", track_number=" + track_number + ", json="
+				+ json + ", agentId=" + agentId + ", out_trade_no="
+				+ out_trade_no + ", payPrice=" + payPrice + ", status="
+				+ status + "]";
 	}
+
 
 }

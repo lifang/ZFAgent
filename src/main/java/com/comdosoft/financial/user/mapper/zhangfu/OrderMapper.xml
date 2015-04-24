@@ -331,7 +331,7 @@
 	<select id="getWholesaleById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.price,g.purchase_price,
-		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,
+		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,o.need_invoice,
 		 g.title,gb.name , gb.id as good_brands_id,o.comment,
 		pc.name as channel_name,og.price as og_price ,	og.quantity as og_quantity ,o.invoice_info,f.`name` as factory_name,
 		o.actual_price ,o.total_price, om.customer_id as om_customer_id,om.order_id as om_order_id,
@@ -394,6 +394,11 @@
 		(score,content,customer_id,good_id,order_id,created_at)
 		VALUES(#{score},#{content},#{customerId},#{good_id},#{order_id},NOW())
   </insert>
+  
+    <insert id="insertOrderPayment" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.OrderPayment">
+		INSERT INTO order_payments (order_id,price,pay_type,created_user_id,created_user_type,created_at)
+		VALUES('1',1,1,7,2,NOW())
+  </insert>
     
      <select id="findTraceById" resultType="map" >
 		SELECT
@@ -415,6 +420,9 @@
 		select * from order_payments op where op.order_id=#{param1}
 	</select>
 	
+	 <select id="findOrderByNumber"  resultMap="orderMap">
+	 	SELECT o.id,o.total_price,o.actual_price from orders o where o.order_number =#{param1} limit 1
+	</select>
     
 	<!-- gch end -->
 	

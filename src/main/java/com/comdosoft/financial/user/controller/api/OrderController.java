@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
@@ -155,10 +156,31 @@ public class OrderController {
 //        }
     }
     
+    /**
+     * 
+    * @Title: orderPay 
+    * @Description: 请求支付界面返回金额及其订单号
+    * @return Response    返回类型 
+    * @throws
+     */
     @RequestMapping(value = "payOrder", method = RequestMethod.POST)
     public Response orderPay(@RequestBody MyOrderReq myOrderReq) {
     	Map<String,Object> centers = orderService.orderPay(myOrderReq);
     	return Response.getSuccess(centers);
+    }
+
+    /**
+     * 
+    * @Title: orderPay 
+    * @Description: 支付请求 回调
+    * @return Response    返回类型 
+    * @throws
+     */
+    @RequestMapping(value = "payBack", method = RequestMethod.POST)
+    public Response payBack(@RequestParam("req") MyOrderReq req) {
+    	logger.debug("支付请求 回调 start 》》》"+ req);
+    	orderService.payBack(req);
+    	return Response.getSuccess("");
     }
 
    //  gch  end

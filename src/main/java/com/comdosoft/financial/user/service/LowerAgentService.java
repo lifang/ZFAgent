@@ -99,7 +99,7 @@ public class LowerAgentService {
 		try{
 			float profit=req.getDefaultProfit()*10;
 			
-			if(profit>100 || profit<0){
+			if(profit>1000 || profit<0){
 				map.put("resultCode", -1);
 				map.put("resultInfo", "默认分润比例必须介于0-100之间");
 			}else{

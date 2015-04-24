@@ -155,46 +155,59 @@ public class CustomerManageService {
 		}
 	}
 
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> edit(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		
-		//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
-		//密码加密，执行存入数据库
-		req.setPwd(SysUtils.string2MD5(req.getPwd()));
-		int temp=customerManageMapper.changePwd(req);
-		if(temp<1){
-			resultInfo.setLength(0);
-			resultInfo.append("修改该用户的密码出错");
-		}else{
-			//根据customerId
-			customerManageMapper.delCusRoleRel(req);
-			//循环权限
-			String[] roles=req.getRoles().split("\\,");
-			int sign=0;
-			for(int i=0;i<roles.length;i++){
-				req.setRoleId(Integer.parseInt(roles[i].toString()));
-				
-				int temp5=customerManageMapper.creCusRoleRelation(req);
-				if(temp5<1){
-					sign=1;
-					resultInfo.setLength(0);
-					resultInfo.append("插入该用户权限的关联关系出错");
-				}else{
-					resultInfo.setLength(0);
-					resultInfo.append("插入该用户权限的关联关系成功");
+		try{
+			//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
+			//密码加密，执行存入数据库
+			req.setPwd(SysUtils.string2MD5(req.getPwd()));
+			int temp=customerManageMapper.changePwd(req);
+			if(temp<1){
+				resultInfo.setLength(0);
+				resultInfo.append("修改该用户的密码出错");
+				throw new Exception("修改该用户的密码出错");
+			}else{
+				//根据customerId
+				customerManageMapper.delCusRoleRel(req);
+				//循环权限
+				String[] roles=req.getRoles().split("\\,");
+				int sign=0;
+				for(int i=0;i<roles.length;i++){
+					req.setRoleId(Integer.parseInt(roles[i].toString()));
+					
+					int temp5=customerManageMapper.creCusRoleRelation(req);
+					if(temp5<1){
+						sign=1;
+						resultInfo.setLength(0);
+						resultInfo.append("插入该用户权限的关联关系出错");
+						throw new Exception("插入该用户权限的关联关系出错");
+					}else{
+						resultInfo.setLength(0);
+						resultInfo.append("插入该用户权限的关联关系成功");
+					}
 				}
+				if(sign==0){
+					resultCode=Response.SUCCESS_CODE;
+				}
+			 }
+			
+			String result="代理商修改用户操作，结果为"+resultInfo.toString();
+			int temp1=sys.operateRecord(result,req.getAgentsId());
+			if(temp1<1){
+				throw new Exception("插入操作记录失败");
 			}
-			if(sign==0){
-				resultCode=Response.SUCCESS_CODE;
-			}
-		 }
-		
-		map.put("resultCode", resultCode);
-		map.put("resultInfo", resultInfo);
-		return map;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			map.put("resultCode", resultCode);
+			map.put("resultInfo", resultInfo);
+			return map;
+		}
 	}
 	
 	
@@ -204,39 +217,50 @@ public class CustomerManageService {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> deleteOne(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		int temp=customerManageMapper.delCustomer(req);
-		if(temp<1){
-			resultInfo.setLength(0);
-			resultInfo.append("删除customers表出错");
-		}else{
-			int temp1=customerManageMapper.delCusAgentRel(req);
-			if(temp1<1){
+		try{
+			int temp=customerManageMapper.delCustomer(req);
+			if(temp<1){
 				resultInfo.setLength(0);
-				resultInfo.append("删除customer_agent_relations表出错,不存在该用户与代理商的关系");
+				resultInfo.append("删除customers表出错");
+				throw new Exception("删除customers表出错");
 			}else{
-				int temp2=customerManageMapper.delCusRoleRel(req);
-//				if(temp2<1){
-//					resultInfo.setLength(0);
-//					resultInfo.append("删除customer_role_relations表出错");
-//				}else{
-//					
-//				}
-				resultCode=Response.SUCCESS_CODE;
-				resultInfo.setLength(0);
-				resultInfo.append("删除用户成功");
+				int temp1=customerManageMapper.delCusAgentRel(req);
+				if(temp1<1){
+					resultInfo.setLength(0);
+					resultInfo.append("删除customer_agent_relations表出错,不存在该用户与代理商的关系");
+					throw new Exception("删除customer_agent_relations表出错,不存在该用户与代理商的关系");
+				}else{
+					int temp2=customerManageMapper.delCusRoleRel(req);
+	//				if(temp2<1){
+	//					resultInfo.setLength(0);
+	//					resultInfo.append("删除customer_role_relations表出错");
+	//				}else{
+	//					
+	//				}
+					resultCode=Response.SUCCESS_CODE;
+					resultInfo.setLength(0);
+					resultInfo.append("删除用户成功");
+				}
 			}
+			
+			String result="代理商删除用户操作，结果为"+resultInfo.toString();
+			int temp1=sys.operateRecord(result,req.getAgentsId());
+			if(temp1<1){
+				throw new Exception("插入操作记录失败");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			map.put("resultCode", resultCode);
+			map.put("resultInfo", resultInfo.toString());
+			return map;
 		}
-		
-		String result="代理商删除用户操作，结果为"+resultInfo.toString();
-		sys.operateRecord(result,req.getAgentsId());
-		map.put("resultCode", resultCode);
-		map.put("resultInfo", resultInfo.toString());
-		return map;
 	}
 
 	/**
@@ -245,50 +269,60 @@ public class CustomerManageService {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String,Object> deleteAll(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		
-		String[] customerIds=req.getCustomerIds().split("\\,");
-		for(int i=0;i<customerIds.length;i++){
-			req.setCustomerId(Integer.parseInt(customerIds[i].toString()));
-			
-			int temp=customerManageMapper.delCustomer(req);
-			if(temp<1){
-				resultCode=Response.ERROR_CODE;
-				resultInfo.setLength(0);
-				resultInfo.append("删除customers表出错");
-			}else{
-				int temp1=customerManageMapper.delCusAgentRel(req);
-				if(temp1<1){
+		try{
+			String[] customerIds=req.getCustomerIds().split("\\,");
+			for(int i=0;i<customerIds.length;i++){
+				req.setCustomerId(Integer.parseInt(customerIds[i].toString()));
+				
+				int temp=customerManageMapper.delCustomer(req);
+				if(temp<1){
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
+					resultInfo.append("删除customers表出错");
+					throw new Exception("删除customers表出错");
 				}else{
-					int temp2=customerManageMapper.delCusRoleRel(req);
-//					if(temp2<1){
-//						resultCode=Response.ERROR_CODE;
-//						resultInfo.setLength(0);
-//						resultInfo.append("删除customer_role_relations表出错");
-//						break;
-//					}else{
-//						
-//					}
-					resultCode=Response.SUCCESS_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("删除用户成功");
+					int temp1=customerManageMapper.delCusAgentRel(req);
+					if(temp1<1){
+						resultCode=Response.ERROR_CODE;
+						resultInfo.setLength(0);
+						resultInfo.append("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
+						throw new Exception("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
+					}else{
+						int temp2=customerManageMapper.delCusRoleRel(req);
+	//					if(temp2<1){
+	//						resultCode=Response.ERROR_CODE;
+	//						resultInfo.setLength(0);
+	//						resultInfo.append("删除customer_role_relations表出错");
+	//						break;
+	//					}else{
+	//						
+	//					}
+						resultCode=Response.SUCCESS_CODE;
+						resultInfo.setLength(0);
+						resultInfo.append("删除用户成功");
+					}
 				}
+				
 			}
 			
+			String result="代理商批量删除用户操作，结果为"+resultInfo.toString();
+			int temp1=sys.operateRecord(result,req.getAgentsId());
+			if(temp1<1){
+				throw new Exception("插入操作记录失败");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			map.put("resultCode", resultCode);
+			map.put("resultInfo", resultInfo.toString());
+			return map;
 		}
-		
-		String result="代理商批量删除用户操作，结果为"+resultInfo.toString();
-		sys.operateRecord(result,req.getAgentsId());
-		map.put("resultCode", resultCode);
-		map.put("resultInfo", resultInfo.toString());
-		return map;
 	}
 	
 	

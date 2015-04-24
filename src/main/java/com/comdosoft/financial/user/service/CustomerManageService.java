@@ -45,86 +45,93 @@ public class CustomerManageService {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> insert(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
-		LowerAgentReq lowerAgentReq=new LowerAgentReq();
+		
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		//校验格式等 名字，密码，登陆ID不存在可用
-		if(req.getUserName().trim().equals("")){
-			resultInfo.setLength(0);
-			resultInfo.append("姓名不能为空");
-		}else{
-			if(req.getPwd().trim().equals("")){
+		try{
+			LowerAgentReq lowerAgentReq=new LowerAgentReq();
+			//校验格式等 名字，密码，登陆ID不存在可用
+			if(req.getUserName().trim().equals("")){
 				resultInfo.setLength(0);
-				resultInfo.append("密码不能为空");
+				resultInfo.append("姓名不能为空");
 			}else{
-				if(!req.getPwd().equals(req.getPwd1())){
+				if(req.getPwd().trim().equals("")){
 					resultInfo.setLength(0);
-					resultInfo.append("两次输入的密码不一致");
+					resultInfo.append("密码不能为空");
 				}else{
-					lowerAgentReq.setLoginId(req.getLoginId());
-					Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(lowerAgentReq);
-					int temp=0;
-					if(null!=mapTemp.get("num")){
-						temp=Integer.parseInt(mapTemp.get("num").toString());
-					}
-					if(temp>=1){
+					if(!req.getPwd().equals(req.getPwd1())){
 						resultInfo.setLength(0);
-						resultInfo.append("该登陆ID已经存在");
+						resultInfo.append("两次输入的密码不一致");
 					}else{
-						//密码加密，执行存入数据库
-						req.setPwd(SysUtils.string2MD5(req.getPwd()));
-						//向customers表插入记录
-						lowerAgentReq.setAgentName(req.getUserName());
-						lowerAgentReq.setPwd(req.getPwd());
-						int temp1=lowerAgentMapper.addNewCustomer(lowerAgentReq);
-						if(temp1<1){
+						lowerAgentReq.setLoginId(req.getLoginId());
+						Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(lowerAgentReq);
+						int temp=0;
+						if(null!=mapTemp.get("num")){
+							temp=Integer.parseInt(mapTemp.get("num").toString());
+						}
+						if(temp>=1){
 							resultInfo.setLength(0);
-							resultInfo.append("新增customers表出错");
+							resultInfo.append("该登陆ID已经存在");
 						}else{
-							//更新关联关系表
-							int customerId=lowerAgentMapper.getCustomerId(lowerAgentReq);
-							req.setCustomerId(customerId);
-							//检查是否已经存在
-							int temp2=customerManageMapper.getCusAgentInfo(req);
-							if(temp2>0){
+							//密码加密，执行存入数据库
+							req.setPwd(SysUtils.string2MD5(req.getPwd()));
+							//向customers表插入记录
+							lowerAgentReq.setAgentName(req.getUserName());
+							lowerAgentReq.setPwd(req.getPwd());
+							int temp1=lowerAgentMapper.addNewCustomer(lowerAgentReq);
+							if(temp1<1){
 								resultInfo.setLength(0);
-								resultInfo.append("已存在该用户与代理商的关联关系");
+								resultInfo.append("新增customers表出错");
+								throw new Exception("新增customers表出错");
 							}else{
-								req.setTypes(2);
-								req.setStatus(1);
-								int temp3=customerManageMapper.creCusAgentRelation(req);
-								if(temp3<1){
+								//更新关联关系表
+								int customerId=lowerAgentMapper.getCustomerId(lowerAgentReq);
+								req.setCustomerId(customerId);
+								//检查是否已经存在
+								int temp2=customerManageMapper.getCusAgentInfo(req);
+								if(temp2>0){
 									resultInfo.setLength(0);
-									resultInfo.append("插入customerAgent关系出错");
+									resultInfo.append("已存在该用户与代理商的关联关系");
 								}else{
-									//循环权限
-									String[] roles=req.getRoles().split("\\,");
-									int sign=0;
-									for(int i=0;i<roles.length;i++){
-										req.setRoleId(Integer.parseInt(roles[i].toString()));
-										int temp4=customerManageMapper.getCusRoleInfo(req);
-										if(temp4>=1){
-											sign=1;
-											resultInfo.setLength(0);
-											resultInfo.append("已存在该用户与所选权限的关联关系");
-										}else{
-											int temp5=customerManageMapper.creCusRoleRelation(req);
-											if(temp5<1){
+									req.setTypes(2);
+									req.setStatus(1);
+									int temp3=customerManageMapper.creCusAgentRelation(req);
+									if(temp3<1){
+										resultInfo.setLength(0);
+										resultInfo.append("插入customerAgent关系出错");
+										throw new Exception("插入customerAgent关系出错");
+									}else{
+										//循环权限
+										String[] roles=req.getRoles().split("\\,");
+										int sign=0;
+										for(int i=0;i<roles.length;i++){
+											req.setRoleId(Integer.parseInt(roles[i].toString()));
+											int temp4=customerManageMapper.getCusRoleInfo(req);
+											if(temp4>=1){
 												sign=1;
 												resultInfo.setLength(0);
-												resultInfo.append("插入该用户权限的关联关系出错");
+												resultInfo.append("已存在该用户与所选权限的关联关系");
 											}else{
-												resultInfo.setLength(0);
-												resultInfo.append("插入该用户权限的关联关系成功");
+												int temp5=customerManageMapper.creCusRoleRelation(req);
+												if(temp5<1){
+													sign=1;
+													resultInfo.setLength(0);
+													resultInfo.append("插入该用户权限的关联关系出错");
+													throw new Exception("插入该用户权限的关联关系出错");
+												}else{
+													resultInfo.setLength(0);
+													resultInfo.append("插入该用户权限的关联关系成功");
+												}
 											}
 										}
-									}
-									
-									if(sign==0){
-										resultCode=Response.SUCCESS_CODE;
+										
+										if(sign==0){
+											resultCode=Response.SUCCESS_CODE;
+										}
 									}
 								}
 							}
@@ -132,14 +139,20 @@ public class CustomerManageService {
 					}
 				}
 			}
+			
+			String result="代理商新增用户操作，结果为"+resultInfo.toString();
+			int temp=sys.operateRecord(result,req.getAgentsId());
+			if(temp<1){
+				throw new Exception("插入操作记录失败");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			map.put("resultCode", resultCode);
+			map.put("resultInfo", resultInfo.toString());
+			
+			return map;
 		}
-		
-		String result="代理商新增用户操作，结果为"+resultInfo.toString();
-		sys.operateRecord(result,req.getAgentsId());
-		map.put("resultCode", resultCode);
-		map.put("resultInfo", resultInfo.toString());
-		
-		return map;
 	}
 
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -147,6 +160,7 @@ public class CustomerManageService {
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
+		
 		//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
 		//密码加密，执行存入数据库
 		req.setPwd(SysUtils.string2MD5(req.getPwd()));

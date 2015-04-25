@@ -450,22 +450,6 @@ public class TerminalsWebController {
 		}
 	}
 	
-	/**
-	 * 同步
-	 */
-	@RequestMapping(value = "synchronous", method = RequestMethod.POST)
-	public Response Synchronous() {
-		try {
-			//return Response.getSuccess("同步成功！");
-			return Response.getError("同步失败！");
-			//return terminalsWebService.synchronous(1);
-		} catch (Exception e) {
-			logger.error("同步异常！", e);
-			return Response.getError("同步失败！");
-		}
-	}
-
-	
 	@RequestMapping(value = "noticeMaterial/{id}", method = RequestMethod.GET)
     public String downloadZip(@PathVariable(value="id") int id,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		return terminalsWebService.downloadZip(request,String.valueOf(id), response);
@@ -535,7 +519,7 @@ public class TerminalsWebController {
     /**
 	 * 同步状态
 	 */
-	@RequestMapping(value = "syncStatus", method = RequestMethod.POST)
+	@RequestMapping(value = "synchronous", method = RequestMethod.POST)
 	@ResponseBody
 	public String syncStatus(@RequestBody Map<String, Object> map) {
 		String url = timingPath + syncStatus;

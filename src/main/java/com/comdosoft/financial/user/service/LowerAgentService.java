@@ -219,7 +219,7 @@ public class LowerAgentService {
 		map.put("licensepath", temp1);
 		String temp2=filePath+" "+map.get("taxpath").toString();
 		map.put("taxpath", temp2);
-        return lowerAgentMapper.getInfo(req);
+        return map;
     }
 	
 	public Map<String, Object> getProCity(LowerAgentReq req) {

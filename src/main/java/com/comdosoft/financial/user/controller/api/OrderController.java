@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
 import com.comdosoft.financial.user.domain.query.OrderReq;
+import com.comdosoft.financial.user.domain.query.PayReq;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.service.OrderService;
 import com.comdosoft.financial.user.utils.Exception.LessException;
@@ -176,10 +177,10 @@ public class OrderController {
     * @return Response    返回类型 
     * @throws
      */
-    @RequestMapping(value = "payBack", method = RequestMethod.POST)
-    public Response payBack(@RequestBody MyOrderReq req) {
-    	logger.debug("支付请求 回调 start 》》》"+ req);
-    	orderService.payBack(req);
+      @RequestMapping(value = "payBack", method = RequestMethod.POST)
+    public Response payBack(@RequestBody PayReq req) {
+    	logger.debug("param 支付请求 回调 start 》》》"+ req);
+       	orderService.payBack(req);
     	return Response.getSuccess("");
     }
 

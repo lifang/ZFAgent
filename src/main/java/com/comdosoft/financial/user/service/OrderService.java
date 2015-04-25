@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.user.domain.query.OrderReq;
+import com.comdosoft.financial.user.domain.query.PayReq;
 import com.comdosoft.financial.user.domain.query.PosReq;
 import com.comdosoft.financial.user.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
@@ -629,11 +630,12 @@ public class OrderService {
     * @return void    返回类型 
     * @throws
      */
-	public void payBack(MyOrderReq req) {
+	public void payBack(PayReq req) {
 		logger.debug("支付回调开始。》》》"+ req);
 		String no = req.getOut_trade_no();
 		String payPrice = req.getPayPrice(); //payPrice
 		String status = req.getStatus();
+		String trade_no = req.getTrade_no();
 		String number = "";
 		Order o = new Order();
 		List<Order> list = null;
@@ -674,6 +676,8 @@ public class OrderService {
 			     int i = orderMapper.insertOrderPayment(op);
 			     int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
 			     logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
+		   }else{
+			   logger.debug("查询的订单号不存在>>"+no+"   金额>>>"+payPrice);
 		   }
 	}
  

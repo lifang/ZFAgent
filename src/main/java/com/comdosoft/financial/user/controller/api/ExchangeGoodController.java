@@ -51,8 +51,6 @@ public class ExchangeGoodController {
     
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public Response add(@RequestBody  ExchangeGoodReq req){
-        Response response = new Response();
-        response.setCode(Response.ERROR_CODE);
         if(1==req.getWeb()){
             String[] ss = req.getSerialNum().split("\\s+|,|;");
             List<String> list = new ArrayList<String>();
@@ -65,9 +63,13 @@ public class ExchangeGoodController {
         }
         int result= exchangeGoodService.add(req);
         if(result==1){
-            response.setCode(Response.SUCCESS_CODE);
+            return Response.getSuccess();
+        }else if(result==-1){
+            return Response.getError("终端为空!");
+        }else{
+            return Response.getError("系统出错!");
         }
-        return response;
+        
     }
    
     @RequestMapping(value = "getterminalslist", method = RequestMethod.POST)

@@ -3,6 +3,8 @@ package com.comdosoft.financial.user.domain.zhangfu;
 import java.util.Arrays;
 import java.util.List;
 
+import com.comdosoft.financial.user.domain.query.PayReq;
+
 public class MyOrderReq {
 	private Integer id;// 业务id
 	private String[] ids;
@@ -29,56 +31,22 @@ public class MyOrderReq {
 	private List<CommentsJson> json;
 	private String agentId;
 	//支付回调信息
-	private String out_trade_no;
-	private String payPrice;
-	private String status;
-
+	private PayReq req;
+ 
 	/** 
-	 * 获取 out_trade_no 
-	 * @return out_trade_no
+	 * 获取 req 
+	 * @return req
 	 */
-	public String getOut_trade_no() {
-		return out_trade_no;
+	public PayReq getReq() {
+		return req;
 	}
 
 	/** 
-	 *  设置 out_trade_no 
-	 *  @param out_trade_no
+	 *  设置 req 
+	 *  @param req
 	 */
-	public void setOut_trade_no(String out_trade_no) {
-		this.out_trade_no = out_trade_no;
-	}
-
-	/** 
-	 * 获取 payPrice 
-	 * @return payPrice
-	 */
-	public String getPayPrice() {
-		return payPrice;
-	}
-
-	/** 
-	 *  设置 payPrice 
-	 *  @param payPrice
-	 */
-	public void setPayPrice(String payPrice) {
-		this.payPrice = payPrice;
-	}
-
-	/** 
-	 * 获取 status 
-	 * @return status
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/** 
-	 *  设置 status 
-	 *  @param status
-	 */
-	public void setStatus(String status) {
-		this.status = status;
+	public void setReq(PayReq req) {
+		this.req = req;
 	}
 
 	public String getAgentId() {
@@ -497,8 +465,7 @@ public class MyOrderReq {
 				+ score + ", good_id=" + good_id + ", computer_name="
 				+ computer_name + ", track_number=" + track_number + ", json="
 				+ json + ", agentId=" + agentId + ", out_trade_no="
-				+ out_trade_no + ", payPrice=" + payPrice + ", status="
-				+ status + "]";
+				+ "]";
 	}
 
 

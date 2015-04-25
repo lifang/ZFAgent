@@ -20,7 +20,7 @@
 <%@ page import="com.comdosoft.financial.user.utils.alipay.util.*"%>
 <%@ page import="com.comdosoft.financial.user.utils.alipay.config.*"%>
 <%@ page import="com.comdosoft.financial.user.utils.HttpUtil"%>
-<%@ page import="com.comdosoft.financial.user.domain.zhangfu.MyOrderReq"%>
+<%@ page import="com.comdosoft.financial.user.domain.query.PayReq"%>
 <%
 	//获取支付宝POST过来反馈信息
 	Map<String,String> params = new HashMap<String,String>();
@@ -55,12 +55,12 @@
 	if(AlipayNotify.verify(params)){//验证成功
 		//////////////////////////////////////////////////////////////////////////////////////////
 		//请在这里加上商户的业务逻辑程序代码
-		MyOrderReq req = new MyOrderReq();
-		req.setOut_trade_no(out_trade_no);
-		req.setStatus(trade_status);
-		req.setQ(trade_no);
-		req.setPayPrice(total_fee);
-		HttpUtil.postJsonHttp2(AlipayConfig.backurl+"ZFAgent/api/order/payBack","req",req);
+		PayReq p = new PayReq();
+    	p.setOut_trade_no(out_trade_no);
+		p.setStatus(trade_status);
+		p.setTrade_no(trade_no);
+		p.setPayPrice(total_fee);
+		HttpUtil.sendPost(AlipayConfig.backurl+"ZFAgent/api/order/payBack",p);
 		//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
 		
 		if(trade_status.equals("TRADE_FINISHED")){

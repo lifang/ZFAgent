@@ -234,7 +234,7 @@ public class AgentService {
     }
 
 	public int countAddress(Map<Object, Object> param) {
-		return agentMapper.countAddress(param);
+			return agentMapper.countAddress(param);
 	}
 
 

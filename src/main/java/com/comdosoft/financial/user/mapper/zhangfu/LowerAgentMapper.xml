@@ -165,5 +165,9 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
     <select id="getChildAgentCode" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="hashmap">
     	select code from agents where parent_id=#{agentsId}
     </select>
+    
+   	<update id="openCloseProfit" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
+   		update agents set is_have_profit=#{isProfit} where id=#{sonAgentsId}
+   	</update>
 	
 </mapper>

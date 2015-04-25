@@ -476,6 +476,31 @@ public class LowerAgentService {
         return Integer.parseInt(map.get("num").toString());
     }
 	
+	
+	@SuppressWarnings("finally")
+	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public Map<String, Object> openCloseProfit(LowerAgentReq req) throws Exception{
+		Map<String,Object> map=new HashMap<String, Object>();
+		try{
+			int temp=lowerAgentMapper.openCloseProfit(req);
+			if(temp<1){
+				map.put("resultCode", -1);
+				map.put("resultInfo", "更新是否有分润失败");
+				throw new Exception("更新是否有分润失败");
+			}else{
+				String resultInfo="执行更新下级代理商是否分润操作,结果为：更新是否有分润失败";
+		    	int temp1=sys.operateRecord(resultInfo,req.getAgentsId());
+				if(temp1<1){
+					throw new Exception("更新是否有分润失败");
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			return map;
+		}
+	}
+	
 	/**
 	 * 代理商 分润新增  或者保存  1为新增，0为保存
 	 * @param req
@@ -563,4 +588,7 @@ public class LowerAgentService {
 			return map;
 		}
 	}
+	
+	
+	
 }

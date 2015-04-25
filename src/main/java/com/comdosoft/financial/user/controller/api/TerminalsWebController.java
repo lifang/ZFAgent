@@ -466,9 +466,13 @@ public class TerminalsWebController {
 	}
 
 	
-	@RequestMapping(value = "noticeMaterial/{id}", method = RequestMethod.GET)
-    public String downloadZip(@PathVariable(value="id") int id,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		return terminalsWebService.downloadZip(request,String.valueOf(id), response);
+	@RequestMapping(value = "noticeMaterial/{id}", method = RequestMethod.POST)
+    public Response downloadZip(@PathVariable(value="id") int id,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int count  = HttpFile.postWar(userTerminal+id+"/opengImg");
+		if(count == 0){
+			return Response.getSuccess(filePath+userTerminal+id+"/opengImg.zip");
+		}
+			return Response.getError("下载失败！");
     }
 	
 	/**

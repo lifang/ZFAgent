@@ -117,8 +117,11 @@ public class OpeningApplyWebService {
 		 SimpleDateFormat sdf =  new SimpleDateFormat( "yyyy-MM-dd" );
 		 Map<String, Object> map = openingApplyWebMapper.getOppinfo(openingApplie);
 		 if(map!=null){
+			 if(map.get("birthday") !=null)
 			 map.put("birthday", sdf.format(map.get("birthday")));
+			 if(map.get("created_at") !=null)
 				map.put("created_at", sdf.format(map.get("created_at")));
+			 if(map.get("updated_at") !=null)
 				map.put("updated_at", sdf.format(map.get("updated_at")));
 		 }
 		return map;

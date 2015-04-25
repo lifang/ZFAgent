@@ -630,8 +630,9 @@ public class OrderService {
     * @return void    返回类型 
     * @throws
      */
+	@SuppressWarnings("unused")
 	public void payBack(PayReq req) {
-		logger.debug("支付回调开始。》》》"+ req);
+		logger.info("支付回调开始。》》》"+ req);
 		String no = req.getOut_trade_no();
 		String payPrice = req.getPayPrice(); //payPrice
 		String status = req.getStatus();
@@ -650,7 +651,7 @@ public class OrderService {
 		   if(list.size()>0){
 			   	 o = list.get(0);
 				 Integer order_id =o.getId();
-				 Integer pay_price = Integer.parseInt(payPrice);
+				 Integer pay_price = Integer.parseInt(payPrice)*100;
 				 Integer actual_price = o.getActualPrice();
 				 Integer front_money = o.getFrontMoney();
 				 byte s = 1;
@@ -671,8 +672,8 @@ public class OrderService {
 			     op.setOrderId(order_id);
 			     op.setPrice(Integer.parseInt(payPrice));
 			     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
-			     op.setCreatedUserId(o.getCustomerId());
-			     op.setCreatedUserType(o.getCreatedUserType());
+//			     op.setCreatedUserId(o.getCustomerId());
+//			     op.setCreatedUserType(o.getCreatedUserType());
 			     int i = orderMapper.insertOrderPayment(op);
 			     int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
 			     logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);

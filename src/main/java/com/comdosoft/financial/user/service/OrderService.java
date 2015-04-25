@@ -596,7 +596,7 @@ public class OrderService {
         //根据订单id 查询 支付记录中存在多少条记录
         List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(id);
         Integer haspayed_price = 0;
-        int size = oplist.size()+1;
+        int size = oplist.size();
         if(oplist.size()>0){
         	for(OrderPayment op:oplist){
         		haspayed_price += op.getPrice();

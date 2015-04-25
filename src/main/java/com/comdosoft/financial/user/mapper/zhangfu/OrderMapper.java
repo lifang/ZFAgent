@@ -78,5 +78,8 @@ public interface OrderMapper {
 
 	// 
 	int paySuccessUpdateOrder(Integer orderId,byte status);
+
+	//查询是否存在多条相同的支付记录
+	int countOrderPaymentByNum(String no);
   
 }

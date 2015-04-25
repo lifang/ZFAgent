@@ -660,14 +660,16 @@ public class OrderService {
 				 if(front_money == pay_price){  //付款金额等于 定金金额
 					 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
 						 s = Order.ORDER_STATUS_PAD;
-						 logger.debug("付款回调状态："+status+"  付款金额等于定金金额，并且该订单定金还未付");
+						 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金还未付");
 					 }else{
 						 s = Order.ORDER_STATUS_FINISH;
-						 logger.debug("付款回调状态："+status+"  付款金额等于定金金额，并且该订单定金已付");
+						 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金已付");
 					 }
 				 }else if(actual_price == pay_price){ //付款金额 等于 订单金额
 					 s = Order.ORDER_STATUS_FINISH;
-					 logger.debug("付款回调状态："+status+"  付款金额等于订单金额");
+					 logger.debug("付款回调状态："+s+"  付款金额等于订单金额");
+				 }else{
+					 logger.debug("其他 》》付款回调 "+s+"  付款金额>>"+pay_price);
 				 }
 				 OrderPayment op = new OrderPayment();
 			     op.setOrderId(order_id);
@@ -675,9 +677,14 @@ public class OrderService {
 			     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
 //			     op.setCreatedUserId(o.getCustomerId());
 //			     op.setCreatedUserType(o.getCreatedUserType());
-			     int i = orderMapper.insertOrderPayment(op);
-			     int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
-			     logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
+			     int c = orderMapper.countOrderPaymentByNum(no);
+				 if(c>0){
+					logger.debug("维修单号: " +no+"已经存在一条付款记录了。。");
+				 }else{
+					int i = orderMapper.insertOrderPayment(op);
+					int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
+					logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
+				}
 		   }else{
 			   logger.debug("查询的订单号不存在>>"+no+"   金额>>>"+payPrice);
 		   }

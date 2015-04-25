@@ -309,6 +309,15 @@
 	WHERE
 		id = #{param1}
     </update>
+    
+ <select id="countOrderPaymentByNum" resultType="int" >
+	SELECT
+		count(p.id) AS count
+	FROM
+		order_payments p
+	WHERE
+		p.order_id = #{param1}
+	</select>
 	
 	<select id="getOutStorageByOrderId" resultMap="csOutStorageMap" >
 		select * from cs_out_storages c where c.order_id=  #{param1}

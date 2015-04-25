@@ -651,35 +651,49 @@ public class OrderService {
 		   if(list.size()>0){
 			   	 o = list.get(0);
 				 Integer order_id =o.getId();
-				 Integer pay_price = Integer.parseInt(payPrice)*100;
-				 Integer actual_price = o.getActualPrice();
-				 Integer front_money = o.getFrontMoney();
-				 byte s = 1;
-				 if(front_money == pay_price){  //付款金额等于 定金金额
-					 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
-						 s = Order.ORDER_STATUS_PAD;
-						 logger.debug("付款回调状态："+status+"  付款金额等于定金金额，并且该订单定金还未付");
-						 
-					 }else{
+				 Integer order_status = o.getStatus();
+				 if(order_status.equals(Order.ORDER_STATUS_FINISH)){
+					 //已经付款成功，无需再次支付
+					 logger.debug("付款回调 》》》》此订单已经完成付款了");
+				 }else{
+					 BigDecimal bd = new BigDecimal(payPrice);
+					 Double d = bd.doubleValue()*100;
+					 Integer pay_price = d.intValue();
+					 Integer actual_price = o.getActualPrice();
+					 Integer front_money = o.getFrontMoney();
+					 byte s = 1;
+					 if(front_money == pay_price){  //付款金额等于 定金金额
+						 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
+							 s = Order.ORDER_STATUS_PAD;
+							 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金还未付");
+						 }else{
+							 s = Order.ORDER_STATUS_FINISH;
+							 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金已付");
+						 }
+					 }else if(actual_price == pay_price){ //付款金额 等于 订单金额
 						 s = Order.ORDER_STATUS_FINISH;
-						 logger.debug("付款回调状态："+status+"  付款金额等于定金金额，并且该订单定金已付");
+						 logger.debug("付款回调状态："+s+"  付款金额等于订单金额");
+					 }else{
+						 logger.debug("其他 》》付款回调 "+s+"  付款金额>>"+pay_price);
 					 }
-				 }else if(actual_price == pay_price){ //付款金额 等于 订单金额
-					 s = Order.ORDER_STATUS_FINISH;
-					 logger.debug("付款回调状态："+status+"  付款金额等于订单金额");
+					 OrderPayment op = new OrderPayment();
+				     op.setOrderId(order_id);
+				     op.setPrice(pay_price);
+				     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
+//				     op.setCreatedUserId(o.getCustomerId());
+//				     op.setCreatedUserType(o.getCreatedUserType());
+//				     int c = orderMapper.countOrderPaymentByNum(no);
+//					 if(c>0){
+//						logger.debug("维修单号: " +no+"已经存在一条付款记录了。。");
+//					 }else{
+						int i = orderMapper.insertOrderPayment(op);
+						int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
+						logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
+//					} 
 				 }
-				 OrderPayment op = new OrderPayment();
-			     op.setOrderId(order_id);
-			     op.setPrice(Integer.parseInt(payPrice));
-			     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
-//			     op.setCreatedUserId(o.getCustomerId());
-//			     op.setCreatedUserType(o.getCreatedUserType());
-			     int i = orderMapper.insertOrderPayment(op);
-			     int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
-			     logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
 		   }else{
 			   logger.debug("查询的订单号不存在>>"+no+"   金额>>>"+payPrice);
 		   }
 	}
- 
+	
 }

@@ -309,6 +309,15 @@
 	WHERE
 		id = #{param1}
     </update>
+    
+ <select id="countOrderPaymentByNum" resultType="int" >
+	SELECT
+		count(p.id) AS count
+	FROM
+		order_payments p
+	WHERE
+		p.order_id = #{param1}
+	</select>
 	
 	<select id="getOutStorageByOrderId" resultMap="csOutStorageMap" >
 		select * from cs_out_storages c where c.order_id=  #{param1}
@@ -428,7 +437,7 @@
 	</select>
 	
 	 <select id="findOrderByNumber"  resultMap="orderMap">
-	 	SELECT o.id,o.total_price,o.actual_price from orders o where o.order_number =#{param1} limit 1
+	 	SELECT o.id,o.`status`,o.total_price,o.actual_price from orders o where o.order_number =#{param1} limit 1
 	</select>
     
 	<!-- gch end -->

@@ -123,6 +123,17 @@
 	]]>
 	</update>
 	
+	<!-- 1有效 2删除 -->
+	<update id="countAddress"  >
+		SELECT
+			count(id) count
+		FROM
+			customer_addresses
+		WHERE
+			STATUS = 1
+		AND customer_id = #{customerId}
+	</update>
+	
 	<update id="update_Address">
 	UPDATE customer_addresses
 		<trim prefix="SET" suffixOverrides=",">

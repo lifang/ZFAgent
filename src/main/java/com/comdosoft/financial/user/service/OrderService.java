@@ -593,9 +593,10 @@ public class OrderService {
         }
         Integer id = myOrderReq.getId();
         map.put("order_id",  id);
+        //根据订单id 查询 支付记录中存在多少条记录
         List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(id);
         Integer haspayed_price = 0;
-        int size = oplist.size()+1;
+        int size = oplist.size();
         if(oplist.size()>0){
         	for(OrderPayment op:oplist){
         		haspayed_price += op.getPrice();
@@ -638,12 +639,14 @@ public class OrderService {
 		String status = req.getStatus();
 		String trade_no = req.getTrade_no();
 		String number = "";
+		String size = "";
 		Order o = new Order();
 		List<Order> list = null;
 		Boolean isWhole = no.contains("_");
 		   if(isWhole){
 			   String[] s = no.split("_");
 			   number = s[0];
+			   size = s[1];
 			   list = orderMapper.findOrderByNumber(number);
 		   }else{
 			   list = orderMapper.findOrderByNumber(no);
@@ -652,7 +655,8 @@ public class OrderService {
 			   	 o = list.get(0);
 				 Integer order_id =o.getId();
 				 Integer order_status = o.getStatus();
-				 if(order_status.equals(Order.ORDER_STATUS_FINISH)){
+				 List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(order_id);
+				 if(size !="" && size.equals(oplist.size())){
 					 //已经付款成功，无需再次支付
 					 logger.debug("付款回调 》》》》此订单已经完成付款了");
 				 }else{

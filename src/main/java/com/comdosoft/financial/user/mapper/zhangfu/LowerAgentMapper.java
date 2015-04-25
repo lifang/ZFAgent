@@ -65,4 +65,6 @@ public interface LowerAgentMapper {
 	
 	int createRoleRelation(LowerAgentReq req);
 	
+	int openCloseProfit(LowerAgentReq req);
+	
 }

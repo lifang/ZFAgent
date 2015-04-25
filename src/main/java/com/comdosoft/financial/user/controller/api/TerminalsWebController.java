@@ -539,7 +539,7 @@ public class TerminalsWebController {
     /**
 	 * 同步状态
 	 */
-	@RequestMapping(value = "syncStatus", method = RequestMethod.POST)
+	@RequestMapping(value = "synchronous", method = RequestMethod.POST)
 	@ResponseBody
 	public String syncStatus(@RequestBody Map<String, Object> map) {
 		String url = timingPath + syncStatus;

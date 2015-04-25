@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +35,7 @@ import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
 import com.comdosoft.financial.user.service.UserManagementService;
+import com.comdosoft.financial.user.utils.CommonServiceUtil;
 import com.comdosoft.financial.user.utils.HttpFile;
 import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
@@ -77,6 +79,13 @@ public class TerminalsWebController {
 	
 	@Value("${sysFileTerminal}")
 	private String sysFileTerminal;
+	
+	@Value("${syncStatus}")
+	private String syncStatus;
+	
+	@Value("${timingPath}")
+	private String timingPath;
+	
 	/**
 	 * 根据用户ID获得终端列表
 	 * 
@@ -522,4 +531,21 @@ public class TerminalsWebController {
     		return Response.getError("请求失败！");
     	}
     }
+    
+    /**
+	 * 同步状态
+	 */
+	@RequestMapping(value = "syncStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public String syncStatus(@RequestBody Map<String, Object> map) {
+		String url = timingPath + syncStatus;
+		String response = null;
+		try {
+			response = CommonServiceUtil.synchronizeStatus(url, (Integer)map.get("terminalId"));
+		} catch (IOException e) {
+			logger.error("IOException...");
+			return "{\"code\":-1,\"message\":\"同步失败\",\"result\":null}";
+		}
+		return response;
+	}
 }

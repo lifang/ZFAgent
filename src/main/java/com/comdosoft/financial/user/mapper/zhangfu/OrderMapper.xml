@@ -305,7 +305,16 @@
 	
 	<update id="paySuccessUpdateOrder" >
      UPDATE orders
-	SET status = #{param2},updated_at= NOW()
+     <if test="param3 ==1">
+			 SET front_pay_status = #{param2},
+		</if>
+		<if test="param3 ==2">
+			 SET status = #{param2},
+		</if>
+		<if test="param3 ==3">
+			 SET status = #{param2},pay_status=2
+		</if>
+	updated_at= NOW()
 	WHERE
 		id = #{param1}
     </update>

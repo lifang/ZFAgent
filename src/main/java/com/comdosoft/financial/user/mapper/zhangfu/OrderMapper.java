@@ -76,8 +76,14 @@ public interface OrderMapper {
 
 	int insertOrderPayment(OrderPayment op);
 
-	// 
-	int paySuccessUpdateOrder(Integer orderId,byte status);
+	/**
+	 *
+	* @Title: paySuccessUpdateOrder 
+	* @Description:   
+	*  i int     1为定金付款   2 为余额支付  3  付款金额= 剩下的钱
+	* @throws
+	 */
+	int paySuccessUpdateOrder(Integer orderId,byte status, int i);
 
 	//查询是否存在多条相同的支付记录
 	int countOrderPaymentByNum(String no);

@@ -196,7 +196,7 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
   }
   //同步
   $scope.sync = function(){
-	  $http.post("api/webTerminal/syncStatus", {terminalId:$scope.terminalId}).success(function (data) {  //绑定
+	  $http.post("api/webTerminal/synchronous", {terminalId:$scope.terminalId}).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == -1){
         		  alert("同步失败！");

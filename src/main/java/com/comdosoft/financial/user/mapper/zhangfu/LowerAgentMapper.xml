@@ -145,7 +145,7 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 	</update>
 	
 	<select id="getDefaultProfit" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq" resultType="String">
-		select ifnull(a.default_profit,"") as defaultProfit from agents a where a.parent_id=#{agentsId}
+		select ifnull(a.default_profit,"") as defaultProfit from agents a where a.parent_id=#{agentsId} LIMIT 1
 	</select>
 	
 	<delete id="delChannel"  parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">

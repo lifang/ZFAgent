@@ -56,10 +56,9 @@ public class ExchangeGoodService {
                 exchangeGoodMapper.add(req);
                 return 1;
             }else{
-                return 0;
+                return -1;
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return 0;
         }
     }

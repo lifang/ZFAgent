@@ -667,12 +667,8 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 };
 
 
-
-
-
 lowerAgentlistController.$inject = ['$scope','$http','LoginService'];
 lowerAgentModule.controller("lowerAgentlistController", lowerAgentlistController);
-
 
 lowerInfoController.$inject = ['$scope','$http','$location','LoginService'];
 lowerAgentModule.controller("lowerInfoController", lowerInfoController);

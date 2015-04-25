@@ -62,6 +62,12 @@ public class OrderService {
             orderreq.setAddressId(goodMapper.getAdId(orderreq.getCustomerId()));
         }
         Map<String, Object> goodMap = orderMapper.getGoodInfo(orderreq);
+        int bb=SysUtils.Object2int(goodMap.get("belongs_to"));
+        if(bb==0){
+            orderreq.setBelongto(null);
+        }else{
+            orderreq.setBelongto(bb);
+        }
         int quantity = orderreq.getQuantity();
         int opening_cost = SysUtils.Object2int(goodMap.get("opening_cost"));
         int payprice = 0;

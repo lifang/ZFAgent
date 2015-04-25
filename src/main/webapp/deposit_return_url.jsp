@@ -21,7 +21,7 @@
 <%@ page import="com.comdosoft.financial.user.utils.alipay.util.*"%>
 <%@ page import="com.comdosoft.financial.user.utils.alipay.config.*"%>
 <%@ page import="com.comdosoft.financial.user.utils.HttpUtil"%>
-<%@ page import="com.comdosoft.financial.user.domain.zhangfu.PayReq"%>
+<%@ page import="com.comdosoft.financial.user.domain.query.PayReq"%>
 <html>
   <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

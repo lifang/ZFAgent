@@ -20,7 +20,7 @@
 <%@ page import="com.comdosoft.financial.user.utils.alipay.util.*"%>
 <%@ page import="com.comdosoft.financial.user.utils.alipay.config.*"%>
 <%@ page import="com.comdosoft.financial.user.utils.HttpUtil"%>
-<%@ page import="com.comdosoft.financial.user.domain.zhangfu.PayReq"%>
+<%@ page import="com.comdosoft.financial.user.domain.query.PayReq"%>
 <%
 	//获取支付宝POST过来反馈信息
 	Map<String,String> params = new HashMap<String,String>();

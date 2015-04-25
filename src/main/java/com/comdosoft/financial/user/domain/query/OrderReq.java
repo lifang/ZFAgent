@@ -33,6 +33,17 @@ public class OrderReq {
     "is_need_invoice":0,"cartid":[1,2,3],"goodId":2,"paychannelId":2,"":}
     
     **/
+    
+    private Integer belongto;
+    
+    
+    
+    public Integer getBelongto() {
+        return belongto;
+    }
+    public void setBelongto(Integer belongto) {
+        this.belongto = belongto;
+    }
     public int getId() {
         return id;
     }

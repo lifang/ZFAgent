@@ -163,6 +163,21 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
       });
   }
   
+  //下载资料
+  $scope.updownfile = function(id){
+	  $http.post("api/webTerminal/noticeMaterial/"+id, {terminalid:$scope.terminalId}).success(function (data) {  //绑定
+          if (data != null && data != undefined) {
+        	  if(data.code == -1){
+        		  alert(data.message);
+        	  }else if(data.code == 1){
+        		  window.location.href = data.result;
+        	  }
+          }
+      }).error(function (data) {
+    	  alert("操作失败！");
+      });
+  }
+  
 //申请更新判断
   $scope.judgeUpdate = function(){
 	  $http.post("api/webTerminal/judgeUpdate", {terminalid:$scope.terminalId}).success(function (data) {  //绑定

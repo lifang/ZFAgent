@@ -651,7 +651,9 @@ public class OrderService {
 		   if(list.size()>0){
 			   	 o = list.get(0);
 				 Integer order_id =o.getId();
-				 Integer pay_price = Integer.parseInt(payPrice)*100;
+				 BigDecimal bd = new BigDecimal(payPrice);
+				 Double d = bd.doubleValue()*100;
+				 Integer pay_price = d.intValue();
 				 Integer actual_price = o.getActualPrice();
 				 Integer front_money = o.getFrontMoney();
 				 byte s = 1;
@@ -659,7 +661,6 @@ public class OrderService {
 					 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
 						 s = Order.ORDER_STATUS_PAD;
 						 logger.debug("付款回调状态："+status+"  付款金额等于定金金额，并且该订单定金还未付");
-						 
 					 }else{
 						 s = Order.ORDER_STATUS_FINISH;
 						 logger.debug("付款回调状态："+status+"  付款金额等于定金金额，并且该订单定金已付");
@@ -670,7 +671,7 @@ public class OrderService {
 				 }
 				 OrderPayment op = new OrderPayment();
 			     op.setOrderId(order_id);
-			     op.setPrice(Integer.parseInt(payPrice));
+			     op.setPrice(pay_price);
 			     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
 //			     op.setCreatedUserId(o.getCustomerId());
 //			     op.setCreatedUserType(o.getCreatedUserType());
@@ -681,5 +682,5 @@ public class OrderService {
 			   logger.debug("查询的订单号不存在>>"+no+"   金额>>>"+payPrice);
 		   }
 	}
- 
+	
 }

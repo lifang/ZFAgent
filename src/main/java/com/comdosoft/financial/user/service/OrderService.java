@@ -630,41 +630,51 @@ public class OrderService {
     * @throws
      */
 	public void payBack(MyOrderReq req) {
+		logger.debug("支付回调开始。》》》"+ req);
 		String no = req.getOut_trade_no();
 		String payPrice = req.getPayPrice(); //payPrice
 		String status = req.getStatus();
 		String number = "";
 		Order o = new Order();
+		List<Order> list = null;
 		Boolean isWhole = no.contains("_");
 		   if(isWhole){
 			   String[] s = no.split("_");
 			   number = s[0];
-			   o = orderMapper.findOrderByNumber(number);
+			   list = orderMapper.findOrderByNumber(number);
 		   }else{
-			   o = orderMapper.findOrderByNumber(no);
+			   list = orderMapper.findOrderByNumber(no);
 		   }
-		 Integer order_id =o.getId();
-		 Integer pay_price = Integer.parseInt(payPrice);
-		 Integer actual_price = o.getActualPrice();
-		 Integer front_money = o.getFrontMoney();
-		 byte s = 1;
-		 if(front_money == pay_price){  //付款金额等于 定金金额
-			 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
-				 s = Order.ORDER_STATUS_PAD;
-			 }else{
-				 s = Order.ORDER_STATUS_FINISH;
-			 }
-		 }else if(actual_price == pay_price){ //付款金额 等于 订单金额
-			 s = Order.ORDER_STATUS_FINISH;
-		 }
-		 OrderPayment op = new OrderPayment();
-	     op.setOrderId(order_id);
-	     op.setPrice(Integer.parseInt(payPrice));
-	     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
-	     op.setCreatedUserId(o.getCustomerId());
-	     op.setCreatedUserType(o.getCreatedUserType());
-	     int i = orderMapper.insertOrderPayment(op);
-	     int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
+		   if(list.size()>0){
+			   	 o = list.get(0);
+				 Integer order_id =o.getId();
+				 Integer pay_price = Integer.parseInt(payPrice);
+				 Integer actual_price = o.getActualPrice();
+				 Integer front_money = o.getFrontMoney();
+				 byte s = 1;
+				 if(front_money == pay_price){  //付款金额等于 定金金额
+					 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
+						 s = Order.ORDER_STATUS_PAD;
+						 logger.debug("付款回调状态："+status+"  付款金额等于定金金额，并且该订单定金还未付");
+						 
+					 }else{
+						 s = Order.ORDER_STATUS_FINISH;
+						 logger.debug("付款回调状态："+status+"  付款金额等于定金金额，并且该订单定金已付");
+					 }
+				 }else if(actual_price == pay_price){ //付款金额 等于 订单金额
+					 s = Order.ORDER_STATUS_FINISH;
+					 logger.debug("付款回调状态："+status+"  付款金额等于订单金额");
+				 }
+				 OrderPayment op = new OrderPayment();
+			     op.setOrderId(order_id);
+			     op.setPrice(Integer.parseInt(payPrice));
+			     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
+			     op.setCreatedUserId(o.getCustomerId());
+			     op.setCreatedUserType(o.getCreatedUserType());
+			     int i = orderMapper.insertOrderPayment(op);
+			     int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s);
+			     logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
+		   }
 	}
  
 }

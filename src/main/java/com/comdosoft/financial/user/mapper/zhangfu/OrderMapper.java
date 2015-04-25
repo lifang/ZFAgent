@@ -72,7 +72,7 @@ public interface OrderMapper {
 
 	List<OrderPayment> getOrderPayByOrderId(Integer id);
 
-	Order findOrderByNumber(String number);
+	List<Order> findOrderByNumber(String number);
 
 	int insertOrderPayment(OrderPayment op);
 

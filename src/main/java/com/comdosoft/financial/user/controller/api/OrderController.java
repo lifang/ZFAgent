@@ -177,7 +177,7 @@ public class OrderController {
     * @throws
      */
     @RequestMapping(value = "payBack", method = RequestMethod.POST)
-    public Response payBack(@RequestParam("req") MyOrderReq req) {
+    public Response payBack(@RequestBody MyOrderReq req) {
     	logger.debug("支付请求 回调 start 》》》"+ req);
     	orderService.payBack(req);
     	return Response.getSuccess("");

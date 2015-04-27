@@ -392,6 +392,17 @@ public class TerminalsWebService {
 	}
 	
 	/**
+	 * 获得终端开通图片资料
+	 * @return
+	 */
+	public List<Map<Object, Object>> getTerminalOpen(int id,int type){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("id", id);
+		map.put("type", type);
+		return terminalsWebMapper.getTerminalOpen(map);
+	}
+	
+	/**
 	 * POS找回密码
 	 * @param id
 	 * @return

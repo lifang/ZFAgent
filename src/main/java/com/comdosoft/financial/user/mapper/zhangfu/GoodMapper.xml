@@ -4,7 +4,7 @@
 
 
 	<select id="getGoodById" resultType="map">
-		SELECT g.id,g.Title,g.second_title,gb.name as good_brand,g.Model_number,pc.name as category,
+		SELECT g.id,g.Title,g.second_title,gb.name as good_brand,g.Model_number,g.purchase_number,pc.name as category,
 		g.volume_number,g.retail_price,g.price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,
 		g.has_lease,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,g.lease_deposit,
 		g.shell_material,g.battery_info,dsow.sign_order_way,decw.encrypt_card_way,

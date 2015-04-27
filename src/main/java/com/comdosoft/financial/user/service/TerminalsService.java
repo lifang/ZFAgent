@@ -261,6 +261,19 @@ public class TerminalsService {
 	}
 	
 	/**
+	 * 查找假注册状态
+	 * @param customer
+	 * @return
+	 */
+	public Map<Object, Object> findUnameAndStatusCode(Customer customer){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("username", customer.getUsername());
+		map.put("status", customer.getStatus());
+		map.put("dentcode", customer.getDentcode());
+		return terminalsMapper.findUnameAndStatusCode(map);
+	}
+	
+	/**
 	 * 修改验证码
 	 * @param customer
 	 */

@@ -172,7 +172,7 @@ public class OrderService {
             map.put("order_status", o.getStatus() == null ? "" : o.getStatus() + "");
 
             Integer actual_price = o.getActualPrice() == null ? 0 : o.getActualPrice();// 这个单子的总额
-            int pay_status = o.getFrontPayStatus() == null ? 0 : o.getFrontPayStatus(); // 2已支付 1 未支付
+            int pay_status = o.getFrontPayStatus() == null ? 1 : o.getFrontPayStatus(); // 2已支付 1 未支付
             Integer zhifu_dingjin = 0;
             Integer dj_price = o.getFrontMoney() == null ? 0 : o.getFrontMoney();
             if (pay_status == 2) {
@@ -613,10 +613,10 @@ public class OrderService {
         BigDecimal bd_dj = new BigDecimal(haspayed_price);
         BigDecimal shengyu_price = bd_act.subtract(bd_dj); // actual_price-zhifu_dingjin;
         
-        String pay_status = o.getFrontPayStatus() == null ? "" : o.getFrontPayStatus().toString(); // 2 已支付 1未支付
+        Integer pay_status = o.getFrontPayStatus() == null ? 1 : o.getFrontPayStatus(); // 2 已支付 1未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney() == null ? 0 : o.getFrontMoney();
-        if (pay_status.equals("2")) {
+        if (pay_status== 2) {
             zhifu_dingjin = dj_price;
         }
         // Integer shengyu_price = actual_price-zhifu_dingjin;
@@ -690,7 +690,7 @@ public class OrderService {
 								logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
 						 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
 							 // TODO
-							 s = Order.ORDER_STATUS_FINISH;
+							 s = Order.ORDER_STATUS_PAD;
 							 OrderPayment op = new OrderPayment();
 						     op.setOrderId(order_id);
 						     op.setPrice(pay_price);
@@ -701,7 +701,7 @@ public class OrderService {
 						 }
 					 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
 						 // TODO
-						 s = Order.ORDER_STATUS_FINISH;
+						 s = Order.ORDER_STATUS_PAD;
 						 OrderPayment op = new OrderPayment();
 					     op.setOrderId(order_id);
 					     op.setPrice(pay_price);
@@ -716,8 +716,8 @@ public class OrderService {
 					     op.setPrice(pay_price);
 					     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
 							int i = orderMapper.insertOrderPayment(op);
-							int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
-							logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
+					//		int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
+							logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>");
 					 }
 					 
 				 }

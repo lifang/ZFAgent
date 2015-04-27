@@ -164,7 +164,7 @@ public class AgentAPI {
 		try {
 			int i = agentService.countAddress(param);
         	if(i>9){
-        		sysResponse = Response.buildSuccess("", "最多可以创建10个收货地址");
+        		sysResponse = Response.getError( "最多可以创建10个收货地址");
         		return sysResponse;
         	}
 			agentService.insertAddress(param);

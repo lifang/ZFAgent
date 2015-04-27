@@ -30,6 +30,7 @@
 	<update id="updateCustomer" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		UPDATE customers SET username = #{username}, password = #{password},city_id = #{cityId},account_type = #{accountType},types = #{types},
 		phone =  #{phone},email = #{email},created_at = NOW(),dentcode = #{dentcode},status = #{status}
+		where id = #{id}
 	</update>
 	
 	<select id="findPassword" parameterType="int" resultType="string">
@@ -297,6 +298,11 @@
 	<select id="findUnameAndStatus" parameterType="map" resultType="map">
 		SELECT COUNT(*) as count,IFNULL(id,'-1') as id from customers 
 		WHERE username=#{username} AND status=#{status}
+	</select>
+	
+	<select id="findUnameAndStatusCode" parameterType="map" resultType="map">
+		SELECT COUNT(*) as count,IFNULL(id,'-1') as id from customers 
+		WHERE username=#{username} AND status=#{status} AND dentcode = #{dentcode}
 	</select>
 	
 	<select id="getTerminalById" parameterType="java.lang.Integer" resultType="map">

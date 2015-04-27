@@ -255,7 +255,7 @@ public class LowerAgentService {
 		try{
         	//向customers表中插入记录
         	//调用加密方法
-        	req.setPwd(SysUtils.string2MD5(req.getPwd()));
+			//req.setPwd(SysUtils.string2MD5(req.getPwd()));
         	//判断该登陆名是否已经存在
         	Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(req);
         	if(Integer.parseInt(mapTemp.get("num").toString())>=1){

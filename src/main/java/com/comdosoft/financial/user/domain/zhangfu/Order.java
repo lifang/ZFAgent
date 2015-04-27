@@ -7,8 +7,8 @@ import java.util.List;
 public class Order {
 
 	public static  final byte ORDER_STATUS_PENDING = 1;//未付款
-	public static  final byte ORDER_STATUS_PAD = 2;//已付定金
-	public static  final byte ORDER_STATUS_FINISH = 3;//已完成
+	public static  final byte ORDER_STATUS_PAD = 2;//已付款
+	public static  final byte ORDER_STATUS_FINISH = 3;//已完成（已发货）
 	public static  final byte ORDER_STATUS_COMMENT = 4;//已评价
 	public static  final byte ORDER_STATUS_CANCEL = 5;//已取消
 	public static  final byte ORDER_STATUS_CLOSE = 6;//交易关闭

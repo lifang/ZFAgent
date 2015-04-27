@@ -12,7 +12,7 @@ public class  RootUrl {
     public static String localpath = "/opt/data/";
     
     //测试
-  public static String urlpath="http://121.40.84.2:28080/";
+  public static String urlpath="http://121.40.84.2:28080/ZFAgent/";
     
   public static String filepath="http://121.40.84.2:8888/";
 }

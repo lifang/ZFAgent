@@ -676,10 +676,11 @@ public class OrderService {
 					 BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
 				        BigDecimal bd_dj = new BigDecimal(haspayed_price);
 				        BigDecimal shengyu_price = bd_act.subtract(bd_dj); 
+				       Integer fps =  o.getFrontPayStatus()==null?1:o.getFrontPayStatus();
 				        logger.debug("定金>>>>>"+front_money+">>>>>>>>>>>>>支付金额>>>>>"+pay_price);
 					 if(front_money == pay_price){  //付款金额等于 定金金额
 						 logger.debug(">>>>>>>>>>>>付款金额等于 定金金额>>>>>>");
-						 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
+						 if(fps != 2){   // 2 已付   1未付
 							 logger.debug(">>>>>>>>>>>>定金还未付>>>>>>");
 							 s = Order.ORDER_STATUS_PAD;
 							 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金还未付");

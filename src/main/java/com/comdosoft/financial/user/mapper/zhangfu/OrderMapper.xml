@@ -325,7 +325,7 @@
 			 SET status = #{param2},
 		</if>
 		<if test="param3 ==3">
-			 SET status = #{param2},pay_status=2
+			 SET status = #{param2},pay_status=2,
 		</if>
 	updated_at= NOW()
 	WHERE
@@ -459,7 +459,8 @@
 	</select>
 	
 	 <select id="findOrderByNumber"  resultMap="orderMap">
-	 	SELECT o.id,o.`status`,o.total_price,o.actual_price from orders o where o.order_number =#{param1} limit 1
+	 	SELECT o.id,o.`status`,o.total_price,o.actual_price,o.front_money
+	 	 from orders o where o.order_number =#{param1} limit 1
 	</select>
     
 	<!-- gch end -->

@@ -602,7 +602,7 @@ public class OrderService {
         //根据订单id 查询 支付记录中存在多少条记录
         List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(id);
         Integer haspayed_price = 0;
-        int size = oplist.size();
+        int size = oplist.size()+1;
         if(oplist.size()>0){
         	for(OrderPayment op:oplist){
         		haspayed_price += op.getPrice();
@@ -676,9 +676,11 @@ public class OrderService {
 					 BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
 				        BigDecimal bd_dj = new BigDecimal(haspayed_price);
 				        BigDecimal shengyu_price = bd_act.subtract(bd_dj); 
-				      
+				        logger.debug("定金>>>>>"+front_money+">>>>>>>>>>>>>支付金额>>>>>"+pay_price);
 					 if(front_money == pay_price){  //付款金额等于 定金金额
+						 logger.debug(">>>>>>>>>>>>付款金额等于 定金金额>>>>>>");
 						 if(o.getFrontPayStatus() != 2){   // 2 已付   1未付
+							 logger.debug(">>>>>>>>>>>>定金还未付>>>>>>");
 							 s = Order.ORDER_STATUS_PAD;
 							 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金还未付");
 							 OrderPayment op = new OrderPayment();
@@ -690,6 +692,7 @@ public class OrderService {
 								logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
 						 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
 							 // TODO
+							 logger.debug(">>>>>>>>>>>>定金已付>>>>>>");
 							 s = Order.ORDER_STATUS_PAD;
 							 OrderPayment op = new OrderPayment();
 						     op.setOrderId(order_id);
@@ -701,6 +704,7 @@ public class OrderService {
 						 }
 					 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
 						 // TODO
+						 logger.debug(">>>>>>>>>>>>付款金额 等于 剩余的金额>>>>>>");
 						 s = Order.ORDER_STATUS_PAD;
 						 OrderPayment op = new OrderPayment();
 					     op.setOrderId(order_id);
@@ -710,13 +714,14 @@ public class OrderService {
 							int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,3); //  1为定金付款   2 为余额支付   3
 						 logger.debug("付款回调状态："+s+"  付款金额等于订单金额");
 					 }else{
+						 logger.debug(">>>>>>>>>>>>付款金额 不等于定金 >>>>>>");
 						 logger.debug("其他 》》付款回调 "+s+"  付款金额>>"+pay_price);
 						 OrderPayment op = new OrderPayment();
 					     op.setOrderId(order_id);
 					     op.setPrice(pay_price);
 					     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
 							int i = orderMapper.insertOrderPayment(op);
-					//		int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
+						//int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
 							logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>");
 					 }
 					 

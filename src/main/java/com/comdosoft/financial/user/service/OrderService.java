@@ -690,7 +690,7 @@ public class OrderService {
 								logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
 						 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
 							 // TODO
-							 s = Order.ORDER_STATUS_FINISH;
+							 s = Order.ORDER_STATUS_PAD;
 							 OrderPayment op = new OrderPayment();
 						     op.setOrderId(order_id);
 						     op.setPrice(pay_price);
@@ -701,7 +701,7 @@ public class OrderService {
 						 }
 					 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
 						 // TODO
-						 s = Order.ORDER_STATUS_FINISH;
+						 s = Order.ORDER_STATUS_PAD;
 						 OrderPayment op = new OrderPayment();
 					     op.setOrderId(order_id);
 					     op.setPrice(pay_price);
@@ -716,8 +716,8 @@ public class OrderService {
 					     op.setPrice(pay_price);
 					     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
 							int i = orderMapper.insertOrderPayment(op);
-							int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
-							logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
+					//		int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
+							logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>");
 					 }
 					 
 				 }

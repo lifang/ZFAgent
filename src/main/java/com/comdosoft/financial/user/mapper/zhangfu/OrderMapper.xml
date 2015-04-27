@@ -302,7 +302,7 @@
 	WHERE
 		id = #{param1}
     </update>
-	
+	<!--   1为定金付款   2 为余额支付  3  付款金额= 剩下的钱  -->
 	<update id="paySuccessUpdateOrder" >
      UPDATE orders
      <if test="param3 ==1">

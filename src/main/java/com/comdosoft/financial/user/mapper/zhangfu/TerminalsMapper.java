@@ -198,6 +198,14 @@ public interface TerminalsMapper {
      * @return
      */
     List<Map<String, Object>> screeningPosName(int customerId);
+    
+    /**
+     * POS找回密码
+     * 
+     * @param id
+     * @return
+     */
+    String findPassword(Integer id);
 
 
     /**

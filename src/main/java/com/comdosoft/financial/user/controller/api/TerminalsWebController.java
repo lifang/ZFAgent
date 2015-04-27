@@ -449,7 +449,6 @@ public class TerminalsWebController {
 			return Response.getError("请求失败！");
 		}
 	}
-
 	
 	@RequestMapping(value = "noticeMaterial/{id}", method = RequestMethod.POST)
     public Response downloadZip(@PathVariable(value="id") int id,HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -453,7 +453,7 @@ public class TerminalsWebController {
 	/**
 	 * 同步
 	 */
-	@RequestMapping(value = "synchronous", method = RequestMethod.POST)
+	@RequestMapping(value = "synchronou", method = RequestMethod.POST)
 	public Response Synchronous() {
 		try {
 			//return Response.getSuccess("同步成功！");

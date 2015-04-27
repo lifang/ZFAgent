@@ -233,6 +233,13 @@ public interface TerminalsWebMapper {
      * @return
      */
     List<Map<Object, Object>> channels();
+    
+    /**
+     * 获得终端开通图片资料
+     * 
+     * @return
+     */
+    List<Map<Object, Object>> getTerminalOpen(Map<Object, Object> map);
 
     /**
      * POS找回密码

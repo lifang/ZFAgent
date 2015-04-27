@@ -352,5 +352,7 @@ public class TerminalsService {
 		return  terminalsMapper.checkTerminalCodeOpen(str);
 	}
 	
-	
+	public Map<Object,Object> getTerminalById(Integer id){
+		return  terminalsMapper.getTerminalById(id);
+	}
 }

@@ -218,5 +218,7 @@ public interface TerminalsMapper {
      * @param map
      */
     int checkTerminalCodeOpen(String str);
+
+	Map<Object, Object> getTerminalById(Integer id);
     
 }

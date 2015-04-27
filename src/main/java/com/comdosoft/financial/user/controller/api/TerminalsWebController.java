@@ -449,21 +449,6 @@ public class TerminalsWebController {
 			return Response.getError("请求失败！");
 		}
 	}
-	
-	/**
-	 * 同步
-	 */
-	@RequestMapping(value = "synchronous", method = RequestMethod.POST)
-	public Response Synchronous() {
-		try {
-			//return Response.getSuccess("同步成功！");
-			return Response.getError("同步失败！");
-			//return terminalsWebService.synchronous(1);
-		} catch (Exception e) {
-			logger.error("同步异常！", e);
-			return Response.getError("同步失败！");
-		}
-	}
 
 	
 	@RequestMapping(value = "noticeMaterial/{id}", method = RequestMethod.POST)

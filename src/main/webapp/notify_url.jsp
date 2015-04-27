@@ -52,7 +52,7 @@
 	if(AlipayNotify.verify(params)){//验证成功
 		//////////////////////////////////////////////////////////////////////////////////////////
 		//请在这里加上商户的业务逻辑程序代码
-		HttpUtil.postJsonHttp(AlipayConfig.backurl+"ZFAgent/api/shop/alipayback","ordernumber",out_trade_no);
+		HttpUtil.postJsonHttp(AlipayConfig.backurl+"api/shop/alipayback","ordernumber",out_trade_no);
 		//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
 		
 		if(trade_status.equals("TRADE_FINISHED")){

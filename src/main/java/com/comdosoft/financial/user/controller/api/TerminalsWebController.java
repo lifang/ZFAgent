@@ -31,6 +31,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.domain.zhangfu.Terminal;
+import com.comdosoft.financial.user.domain.zhangfu.TerminalOpeningInfo;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
@@ -199,9 +200,13 @@ public class TerminalsWebController {
 	@RequestMapping(value = "Encryption", method = RequestMethod.POST)
 	public Response Encryption(@RequestBody Map<String, Object> map) {
 		try {
-			String pass = SysUtils.Decrypt(
-					terminalsWebService.findPassword((Integer)map.get("terminalid")),passPath);
-			if("".equals(pass)){
+			//String pass = SysUtils.Decrypt(
+					//terminalsWebService.findPassword((Integer)map.get("terminalid")),passPath);
+			
+			String pass = 
+					terminalsWebService.findPassword((Integer)map.get("terminalid"));
+			
+			if("".equals(pass) || pass == null){
 				return Response.getSuccess("未设置密码！");
 			}
 			return Response.getSuccess(pass);
@@ -451,10 +456,21 @@ public class TerminalsWebController {
 	}
 	
 	@RequestMapping(value = "noticeMaterial/{id}", method = RequestMethod.POST)
-    public Response downloadZip(@PathVariable(value="id") int id,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		int count  = HttpFile.postWar(userTerminal+id+"/opengImg");
+    public Response downloadZip(@PathVariable(value="id") String id,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//根据终端id查的该终端开通申请资料
+		List<Map<Object, Object>> list = terminalsWebService.getTerminalOpen(Integer.valueOf(id),TerminalOpeningInfo.TYPE_2);
+		if(list == null){
+			return Response.getError("下载失败！");
+		}
+		String[] str = new String[list.size()];
+		for(int i=0;i<list.size();i++){
+			if((String) list.get(i).get("value") !=null){
+				str[i] = (String) list.get(i).get("value");
+			}
+		}
+		int count  = HttpFile.postWar(str,id);
 		if(count == 0){
-			return Response.getSuccess(filePath+userTerminal+id+"/opengImg.zip");
+			return Response.getSuccess(filePath+"zip/terminal/"+id+".zip");
 		}
 			return Response.getError("下载失败！");
     }

@@ -99,35 +99,31 @@ public class PrepareGoodService {
             for (String s : list) {
                 map = new HashMap<String, Object>();
                 map.put("serialNum", s);
-                if (s.length() == 12) {
-                    req.setSerialNum(s);
-                    int t1 = prepareGoodMapper.isExit(req);
-                    if (t1 == 0) {
-                        map.put("error", "终端不存在");
+                req.setSerialNum(s);
+                int t1 = prepareGoodMapper.isExit(req);
+                if (t1 == 0) {
+                    map.put("error", "终端不存在");
+                    errorTerminals.add(map);
+                } else {
+                    int t2 = prepareGoodMapper.isUsed(req);
+                    if (t2 == 0) {
+                        map.put("error", "终端已使用");
                         errorTerminals.add(map);
                     } else {
-                        int t2 = prepareGoodMapper.isUsed(req);
-                        if (t2 == 0) {
-                            map.put("error", "终端已使用");
+                        int t3 = prepareGoodMapper.isGoodId(req);
+                        if (t3 == 0) {
+                            map.put("error", "终端不属于该商品");
                             errorTerminals.add(map);
                         } else {
-                            int t3 = prepareGoodMapper.isGoodId(req);
-                            if (t3 == 0) {
-                                map.put("error", "终端不属于该商品");
+                            int t4 = prepareGoodMapper.isPcId(req);
+                            if (t4 == 0) {
+                                map.put("error", "终端不属于该支付通道");
                                 errorTerminals.add(map);
-                            } else {
-                                int t4 = prepareGoodMapper.isPcId(req);
-                                if (t4 == 0) {
-                                    map.put("error", "终端不属于该支付通道");
-                                    errorTerminals.add(map);
-                                }
                             }
                         }
                     }
-                } else {
-                    map.put("error", "终端不合法");
-                    errorTerminals.add(map);
                 }
+
             }
         }
         Map<String, Object> result = new HashMap<String, Object>();

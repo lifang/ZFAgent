@@ -17,7 +17,7 @@ var userManageListController = function($scope, $http, LoginService) {
 		$http.post("api/agents/queryCommercials", $scope.req).success(function(data) {
 			if (data.code == 1) {
 				$scope.commercialList = data.result.list;
-				calcSystemPage($scope, data.result.total);// 计算分页
+				calcSystemPage($scope.req, data.result.total);// 计算分页
 			} else {
 				alert(data.message);
 			}

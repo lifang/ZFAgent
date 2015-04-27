@@ -195,6 +195,12 @@
 		AND `status` in (#{statusa},#{statusb})
 	</select>
 	
+	<select id="getTerminalOpen"  resultType="map" parameterType="map">
+		SELECT i.* FROM opening_applies o 
+		LEFT JOIN terminal_opening_infos i on i.opening_applies_id = o.id and i.types = #{type}
+		WHERE o.terminal_id = #{id} 
+	</select>
+	
 	<select id="getCustomerAddress"  resultType="map" parameterType="int">
 		SELECT * from customer_addresses
 		WHERE customer_id = #{customerId}

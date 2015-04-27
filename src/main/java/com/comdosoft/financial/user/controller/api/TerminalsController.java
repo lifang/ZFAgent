@@ -238,9 +238,13 @@ public class TerminalsController {
             }
             } else {
             	Map<Object, Object> m = terminalsService.findUnameAndStatus(customer);
-                if (Integer.valueOf((String) m.get("id")) == 0) {
+                if (Integer.valueOf((String) m.get("id")) == -1) {
                     return Response.getError("该用户已注册！");
                 } else {
+                	 Boolean is_sucess = SysUtils.sendPhoneCode("感谢您注册华尔街金融，您的验证码为："+str, phone);
+                     if(!is_sucess){
+                     	return Response.getError("获取验证码失败！");
+                     }
                 	terminalsService.updateCode(customer);
                     return Response.getSuccess(str);
                 }
@@ -264,11 +268,13 @@ public class TerminalsController {
 			 Customer customer = new Customer();
 			 customer.setUsername((String)map.get("codeNumber"));
 			 customer.setStatus(Customer.STATUS_NON_END);
-			 Map<Object, Object> m = terminalsService.findUnameAndStatus(customer);
+			 customer.setDentcode((String)map.get("code"));
+			 Map<Object, Object> m = terminalsService.findUnameAndStatusCode(customer);
 			 if(m != null){
 			if (Integer.valueOf((String) m.get("id")) > 0) {
 				// 修改添加新用户
 				customer.setName((String) map.get("name"));
+				customer.setId(Integer.valueOf(m.get("id").toString()));
 				customer.setPassword((String) map.get("password"));
 				customer.setCityId((Integer) map.get("cityId"));
 				customer.setTypes(Customer.TYPE_CUSTOMER);
@@ -284,7 +290,7 @@ public class TerminalsController {
 				return Response.getSuccess(customer);
 			} 
 			 }
-				return Response.getError("手机号不匹配！");
+				return Response.getError("验证码错误！");
 		} catch (Exception e) {
 			logger.error("为用户绑定失败！", e);
 			return Response.getError("请求失败！");
@@ -457,8 +463,9 @@ public class TerminalsController {
 					terminalsService.findPassword((Integer)map.get("terminalid"));
 				String pass = "该终端未设置密码！";
 				if(password != null){
-					pass = SysUtils.Decrypt(
-							password,passPath);
+					/*pass = SysUtils.Decrypt(
+							password,passPath);*/
+					pass = password;
 				}
 				return Response.getSuccess(pass);
 			} catch (Exception e) {

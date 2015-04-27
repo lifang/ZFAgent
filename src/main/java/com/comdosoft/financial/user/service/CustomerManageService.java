@@ -162,38 +162,41 @@ public class CustomerManageService {
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
 		try{
+			
 			//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
 			//密码加密，执行存入数据库
-			req.setPwd(SysUtils.string2MD5(req.getPwd()));
-			int temp=customerManageMapper.changePwd(req);
-			if(temp<1){
-				resultInfo.setLength(0);
-				resultInfo.append("修改该用户的密码出错");
-				throw new Exception("修改该用户的密码出错");
-			}else{
-				//根据customerId
-				customerManageMapper.delCusRoleRel(req);
-				//循环权限
-				String[] roles=req.getRoles().split("\\,");
-				int sign=0;
-				for(int i=0;i<roles.length;i++){
-					req.setRoleId(Integer.parseInt(roles[i].toString()));
-					
-					int temp5=customerManageMapper.creCusRoleRelation(req);
-					if(temp5<1){
-						sign=1;
-						resultInfo.setLength(0);
-						resultInfo.append("插入该用户权限的关联关系出错");
-						throw new Exception("插入该用户权限的关联关系出错");
-					}else{
-						resultInfo.setLength(0);
-						resultInfo.append("插入该用户权限的关联关系成功");
-					}
+			if(!req.getPwd().trim().equals("")){
+				req.setPwd(SysUtils.string2MD5(req.getPwd()));
+				int temp=customerManageMapper.changePwd(req);
+				if(temp<1){
+					resultInfo.setLength(0);
+					resultInfo.append("修改该用户的密码出错");
+					throw new Exception("修改该用户的密码出错");
 				}
-				if(sign==0){
-					resultCode=Response.SUCCESS_CODE;
+			}
+			
+			//根据customerId
+			customerManageMapper.delCusRoleRel(req);
+			//循环权限
+			String[] roles=req.getRoles().split("\\,");
+			int sign=0;
+			for(int i=0;i<roles.length;i++){
+				req.setRoleId(Integer.parseInt(roles[i].toString()));
+				
+				int temp5=customerManageMapper.creCusRoleRelation(req);
+				if(temp5<1){
+					sign=1;
+					resultInfo.setLength(0);
+					resultInfo.append("插入该用户权限的关联关系出错");
+					throw new Exception("插入该用户权限的关联关系出错");
+				}else{
+					resultInfo.setLength(0);
+					resultInfo.append("插入该用户权限的关联关系成功");
 				}
-			 }
+			}
+			if(sign==0){
+				resultCode=Response.SUCCESS_CODE;
+			}
 			
 			String result="代理商修改用户操作，结果为"+resultInfo.toString();
 			int temp1=sys.operateRecord(result,req.getAgentsId());

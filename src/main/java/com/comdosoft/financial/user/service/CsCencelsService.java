@@ -119,11 +119,11 @@ public class CsCencelsService {
         return map;
     }
 
-    @SuppressWarnings({ "unchecked", "unused" })
-    public Map<String,Object> getTemplePaths(Map<String, Object> map, String json) {
+    @SuppressWarnings("unchecked")
+	public Map<String,Object> getTemplePaths(Map<String, Object> map, String json) {
         ObjectMapper mapper = new ObjectMapper();
         logger.debug("templete_info_xml==>>"+json);
-        if(!json.equals("") || null!=json){
+        if(!json.equals("") && null!=json && !json.equals("[]")){
             Map<String,Object> child_map = null;
             List<LinkedHashMap<String, Object>> list_json;
                 List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -192,5 +192,12 @@ public class CsCencelsService {
         List<Map<String, Object>> list = putDate(o);
         return new Page<List<Object>>(request, list,count);
     }
+    
+    public static void main(String[] args) {
+		String json = "[]";
+		if(json.equals("[]")){
+			System.err.println(".....[]");
+		}
+	}
 
 }

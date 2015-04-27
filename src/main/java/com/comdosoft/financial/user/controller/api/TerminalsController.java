@@ -274,6 +274,7 @@ public class TerminalsController {
 			if (Integer.valueOf((String) m.get("id")) > 0) {
 				// 修改添加新用户
 				customer.setName((String) map.get("name"));
+				customer.setId(Integer.valueOf(m.get("id").toString()));
 				customer.setPassword((String) map.get("password"));
 				customer.setCityId((Integer) map.get("cityId"));
 				customer.setTypes(Customer.TYPE_CUSTOMER);

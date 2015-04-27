@@ -199,9 +199,13 @@ public class TerminalsWebController {
 	@RequestMapping(value = "Encryption", method = RequestMethod.POST)
 	public Response Encryption(@RequestBody Map<String, Object> map) {
 		try {
-			String pass = SysUtils.Decrypt(
-					terminalsWebService.findPassword((Integer)map.get("terminalid")),passPath);
-			if("".equals(pass)){
+			//String pass = SysUtils.Decrypt(
+					//terminalsWebService.findPassword((Integer)map.get("terminalid")),passPath);
+			
+			String pass = 
+					terminalsWebService.findPassword((Integer)map.get("terminalid"));
+			
+			if("".equals(pass) || pass == null){
 				return Response.getSuccess("未设置密码！");
 			}
 			return Response.getSuccess(pass);

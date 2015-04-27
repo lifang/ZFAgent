@@ -1,7 +1,7 @@
 package com.comdosoft.financial.user.controller.api;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +28,7 @@ import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsService;
+import com.comdosoft.financial.user.utils.CommonServiceUtil;
 import com.comdosoft.financial.user.utils.HttpFile;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -62,6 +63,12 @@ public class OpeningApplyController {
 	
 	@Value("${filePath}")
 	private String filePath;
+	
+	@Value("${bankList}")
+	private String bankList;
+	
+	@Value("${timingPath}")
+	private String timingPath;
 
 	/**
 	 * 根据代理商ID获得开通申请列表
@@ -249,22 +256,23 @@ public class OpeningApplyController {
 	 * 从第三方接口获得银行
 	 */
 	@RequestMapping(value = "chooseBank", method = RequestMethod.POST)
-	public Response ChooseBank(@RequestBody Map<String, Object> map) {
+	public String ChooseBank(@RequestBody Map<String, Object> map) {
+		String url = timingPath + bankList;
+		String keyword = (String)map.get("keyword");
+		Integer page = (Integer)map.get("page");
+		Integer pageSize = (Integer)map.get("pageSize");
+		Integer terminalId = (Integer)map.get("terminalId");
+		Map<Object,Object> resultMap = terminalsService.getTerminalById(terminalId);
+		String response = null;
 		try {
-			List<Map<String, String>> list = new ArrayList<Map<String,String>>();
-			Map<String, String> map1 = new HashMap<String, String>();
-			map1.put("name", "中国农业银行");
-			map1.put("code", "111111");
-			Map<String, String> map2 = new HashMap<String, String>();
-			map2.put("name", "中国工商银行");
-			map2.put("code", "222222");
-			list.add(map1);
-			list.add(map2);
-			return Response.getSuccess(list);
-		} catch (Exception e) {
+			response = CommonServiceUtil.getBankList(url, keyword, page, pageSize, (Integer)resultMap.get("pay_channel_id"), 
+					(String)resultMap.get("serial_num"));
+		} catch (IOException e) {
 			logger.error("从第三方接口获得银行异常！",e);
-			return Response.getError("请求失败！");
+			return "{\"code\":-1,\"message\":\"银行列表获取失败\",\"result\":null}";
 		}
+		
+		return response;
 	}
 
 	/**

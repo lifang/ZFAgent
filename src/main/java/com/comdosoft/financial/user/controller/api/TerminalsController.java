@@ -10,9 +10,11 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
@@ -23,6 +25,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Terminal;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsService;
 import com.comdosoft.financial.user.service.UserManagementService;
+import com.comdosoft.financial.user.utils.CommonServiceUtil;
 import com.comdosoft.financial.user.utils.SysUtils;
 import com.comdosoft.financial.user.utils.page.PageRequest;
 
@@ -47,6 +50,16 @@ public class TerminalsController {
 	
 	@Resource
 	private UserManagementService userManagementService;
+	
+	@Value("${syncStatus}")
+	private String syncStatus;
+	
+	@Value("${timingPath}")
+	private String timingPath;
+	
+
+	@Value("${passPath}")
+	private String passPath;
 
 	/**
 	 * 根据代理商ID获得终端列表
@@ -414,17 +427,44 @@ public class TerminalsController {
 		}
 	}
 	
-	/**
-	 * 同步
-	 */
-	@RequestMapping(value = "synchronous", method = RequestMethod.POST)
-	public Response Synchronous() {
-		try {
-			return Response.getSuccess("同步成功！");
-		} catch (Exception e) {
-			logger.error("同步异常！", e);
-			return Response.getError("同步失败！");
+	 /**
+		 * 同步状态
+		 */
+		@RequestMapping(value = "synchronous", method = RequestMethod.POST)
+		@ResponseBody
+		public String syncStatus(@RequestBody Map<String, Object> map) {
+			String url = timingPath + syncStatus;
+			String response = null;
+			try {
+				response = CommonServiceUtil.synchronizeStatus(url, (Integer)map.get("terminalId"));
+			} catch (IOException e) {
+				logger.error("IOException...");
+				return "{\"code\":-1,\"message\":\"同步失败\",\"result\":null}";
+			}
+			return response;
 		}
-	}
+		
+		/**
+		 * 找回POS机密码
+		 * 
+		 * @param id
+		 * @return
+		 */
+		@RequestMapping(value = "encryption", method = RequestMethod.POST)
+		public Response Encryption(@RequestBody Map<String, Object> map) {
+			try {
+				String  password= terminalsService.findPassword((Integer)map.get("terminalid")) == null?null:
+					terminalsService.findPassword((Integer)map.get("terminalid"));
+				String pass = "该终端未设置密码！";
+				if(password != null){
+					pass = SysUtils.Decrypt(
+							password,passPath);
+				}
+				return Response.getSuccess(pass);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.getError("请求失败!");
+			}
+		}
 
 }

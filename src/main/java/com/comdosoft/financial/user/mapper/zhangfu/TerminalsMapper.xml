@@ -31,6 +31,12 @@
 		UPDATE customers SET username = #{username}, password = #{password},city_id = #{cityId},account_type = #{accountType},types = #{types},
 		phone =  #{phone},email = #{email},created_at = NOW(),dentcode = #{dentcode},status = #{status}
 	</update>
+	
+	<select id="findPassword" parameterType="int" resultType="string">
+		SELECT password
+		FROM terminals
+		WHERE id=#{id}
+	</select>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
 		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(e.id,'') as appid,
@@ -293,7 +299,9 @@
 		WHERE username=#{username} AND status=#{status}
 	</select>
 	
-	
+	<select id="getTerminalById" parameterType="java.lang.Integer" resultType="map">
+		select serial_num,pay_channel_id from terminals where id = #{id}
+	</select>
 	
 	
 </mapper>

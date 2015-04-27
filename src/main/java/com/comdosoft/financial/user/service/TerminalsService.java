@@ -332,6 +332,15 @@ public class TerminalsService {
 	}
 	
 	/**
+	 * POS找回密码
+	 * @param id
+	 * @return
+	 */
+	public String findPassword(Integer id){
+		return terminalsMapper.findPassword(id);
+	}
+	
+	/**
 	 * 检查终端号是否存在
 	 * @param map
 	 */
@@ -352,5 +361,7 @@ public class TerminalsService {
 		return  terminalsMapper.checkTerminalCodeOpen(str);
 	}
 	
-	
+	public Map<Object,Object> getTerminalById(Integer id){
+		return  terminalsMapper.getTerminalById(id);
+	}
 }

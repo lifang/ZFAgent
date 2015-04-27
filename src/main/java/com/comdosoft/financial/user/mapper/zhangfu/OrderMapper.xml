@@ -142,8 +142,11 @@
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
 		</if>
-		<if test="q !=null and q!='' and q!=2">
+		<if test="q !=null and q!='' and q!=2  and q!=1">
 		and o.status = #{q}
+		</if>
+		<if test=" q==1">
+		and o.status = #{q}  and  o.front_pay_status!=2
 		</if>
 		<if test=" q==2">
 		and (o.status = #{q}  or  o.front_pay_status=#{q})
@@ -200,8 +203,15 @@
 		<if test="search !=null and search!=''">
 		and   o.order_number like "%"#{search}"%" 
 		</if>
-		<if test="q !=null and q!=''">
+	
+		<if test="q !=null and q!='' and q!=2  and q!=1">
 		and o.status = #{q}
+		</if>
+		<if test=" q==1">
+		and (o.status = #{q}  and  o.front_pay_status!=2)
+		</if>
+		<if test=" q==2">
+		and (o.status = #{q}  or  o.front_pay_status=#{q})
 		</if>
 			group BY o.id
 		order by o.created_at desc

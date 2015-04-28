@@ -148,6 +148,13 @@ public interface TerminalsMapper {
 	Map<Object, Object> findUnameAndStatus(Map<Object, Object> map);
 	
 	/**
+	 * 查找假注册状态(验证码)
+	 * @param customer
+	 * @return
+	 */
+	Map<Object, Object> findUnameAndStatusCode(Map<Object, Object> map);
+	
+	/**
 	 * 修改验证码
 	 */
 	void updateCode(Customer customer);
@@ -198,6 +205,14 @@ public interface TerminalsMapper {
      * @return
      */
     List<Map<String, Object>> screeningPosName(int customerId);
+    
+    /**
+     * POS找回密码
+     * 
+     * @param id
+     * @return
+     */
+    String findPassword(Integer id);
 
 
     /**

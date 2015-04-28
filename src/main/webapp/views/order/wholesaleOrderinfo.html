@@ -26,8 +26,11 @@
 		</div>
 		<div class="detail_panel">
 			<div class="detailPanel_status" >
-				<div class="payWarning"  ng-if="orderInfo.order_status==1">
+				<div class="payWarning"  ng-if="orderInfo.order_status==1   && orderInfo.pay_status!=2">
 					<i class="no"></i>未付款
+				</div>
+				<div class="payWarning"  ng-if="orderInfo.order_status==1   && orderInfo.pay_status==2">
+					<i class="no"></i>已付定金
 				</div>
 				<div class="payWarning" ng-if="orderInfo.order_status==2">
 					<i ></i>已付款

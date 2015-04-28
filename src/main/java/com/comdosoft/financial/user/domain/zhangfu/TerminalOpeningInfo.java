@@ -211,4 +211,19 @@ public class TerminalOpeningInfo {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+	/**
+	 * 资料类型(1.文本,2.文件,3.查询)
+	 */
+	public static int TYPE_1 = 1;
+	
+	/**
+	 * 资料类型(1.文本,2.文件,3.查询)
+	 */
+	public static int TYPE_2 = 2;
+	
+	/**
+	 * 资料类型(1.文本,2.文件,3.查询)
+	 */
+	public static int TYPE_3 = 3;
 }

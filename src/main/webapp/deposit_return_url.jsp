@@ -69,7 +69,7 @@
 		p.setStatus(trade_status);
 		p.setTrade_no(trade_no);
 		p.setPayPrice(total_fee);
-		HttpUtil.sendPost(AlipayConfig.backurl+"ZFAgent/api/order/payBack",p);
+		HttpUtil.sendPost(AlipayConfig.backurl+"api/order/payBack",p);
 		//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
 		if(trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")){
 			//判断该笔订单是否在商户网站中已经做过处理

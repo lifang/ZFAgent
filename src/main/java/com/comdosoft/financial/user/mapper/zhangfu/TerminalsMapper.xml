@@ -30,10 +30,17 @@
 	<update id="updateCustomer" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		UPDATE customers SET username = #{username}, password = #{password},city_id = #{cityId},account_type = #{accountType},types = #{types},
 		phone =  #{phone},email = #{email},created_at = NOW(),dentcode = #{dentcode},status = #{status}
+		where id = #{id}
 	</update>
+	
+	<select id="findPassword" parameterType="int" resultType="string">
+		SELECT password
+		FROM terminals
+		WHERE id=#{id}
+	</select>
 
 	<select id="getTerminalList" parameterType="map" resultType="map">
-		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(e.id,'') as appid,
+		SELECT IFNULL(t.id,'') as id,IFNULL(t.customer_id,0) as terCustomerId,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(e.id,'') as appid,
 		IFNULL(e.status,'') as appstatus,
 		IFNULL(g.model_number,'') as model_number,IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName,
 		IFNULL(t.pay_channel_id,'0') as payChannelId
@@ -58,7 +65,7 @@
 	</select>
  	
  	<select id="getNewTerminalList" parameterType="map" resultType="map">
-		SELECT IFNULL(t.id,'') as id,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(g.model_number,'') as model_number,
+		SELECT IFNULL(t.id,'') as id,IFNULL(t.customer_id,0) as terCustomerId,IFNULL(t.serial_num,'') as serial_num,IFNULL(t.status,'') as status,IFNULL(g.model_number,'') as model_number,
 		IFNULL(b.`name`,'') as brandName,IFNULL(c.`name`,'') as channelName,IFNULL(e.id,'') as appid,
 		IFNULL(e.status,'') as appstatus,IFNULL(t.pay_channel_id,'0') as payChannelId
 		FROM terminals t
@@ -292,10 +299,16 @@
 		SELECT COUNT(*) as count,IFNULL(id,'-1') as id from customers 
 		WHERE username=#{username} AND status=#{status}
 	</select>
-	
+
 	<select id="getTerminalByNo" parameterType="java.lang.String" resultType="map">
 		select serial_num,pay_channel_id from terminals where serial_num = #{serialNum}
 	</select>
+
+	<select id="findUnameAndStatusCode" parameterType="map" resultType="map">
+		SELECT COUNT(*) as count,IFNULL(id,'-1') as id from customers 
+		WHERE username=#{username} AND status=#{status} AND dentcode = #{dentcode}
+	</select>
+	
 	
 	
 </mapper>

@@ -255,7 +255,7 @@ public class LowerAgentService {
 		try{
         	//向customers表中插入记录
         	//调用加密方法
-        	req.setPwd(SysUtils.string2MD5(req.getPwd()));
+			//req.setPwd(SysUtils.string2MD5(req.getPwd()));
         	//判断该登陆名是否已经存在
         	Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(req);
         	if(Integer.parseInt(mapTemp.get("num").toString())>=1){
@@ -481,15 +481,20 @@ public class LowerAgentService {
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> openCloseProfit(LowerAgentReq req) throws Exception{
 		Map<String,Object> map=new HashMap<String, Object>();
+		int resultCode=-1;
+		StringBuffer resultInfo=new StringBuffer("");
+		
 		try{
 			int temp=lowerAgentMapper.openCloseProfit(req);
 			if(temp<1){
-				map.put("resultCode", -1);
-				map.put("resultInfo", "更新是否有分润失败");
+				resultInfo.setLength(0);
+				resultInfo.append("更新是否有分润失败");
 				throw new Exception("更新是否有分润失败");
 			}else{
-				String resultInfo="执行更新下级代理商是否分润操作,结果为：更新是否有分润失败";
-		    	int temp1=sys.operateRecord(resultInfo,req.getAgentsId());
+				resultCode=1;
+				resultInfo.setLength(0);
+				resultInfo.append("执行更新下级代理商是否分润操作,结果为：更新是否有分润失败");
+		    	int temp1=sys.operateRecord(resultInfo.toString(),req.getAgentsId());
 				if(temp1<1){
 					throw new Exception("更新是否有分润失败");
 				}
@@ -497,6 +502,8 @@ public class LowerAgentService {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}finally{
+			map.put("resultCode", resultCode);
+			map.put("resultInfo", resultInfo.toString());
 			return map;
 		}
 	}

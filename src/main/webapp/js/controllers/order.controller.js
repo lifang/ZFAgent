@@ -366,7 +366,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 //    $scope.orderinfo();
 };
 
-// 定金支付
+ 
 var topayModule = angular.module("topayModule",[]);
 var payController = function($scope, $http,$location,LoginService) {
 	$scope.pay=true;
@@ -381,7 +381,6 @@ var payController = function($scope, $http,$location,LoginService) {
 		$scope.getOrder();
 	};
 	$scope.getOrder = function() {
-		console.log(" 定金支付  paycongtroller   getOrder>>>");
 		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.order=data.result;
@@ -389,7 +388,6 @@ var payController = function($scope, $http,$location,LoginService) {
             		$scope.pay=false;
             		$scope.payway=data.result.paytype;
             	}
-            	
             }
         });
 	};
@@ -481,11 +479,22 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 //		}
 //	}
 	
-	//定金支付
+	//定金支付  跳转至支付宝
 	$scope.depositpay= function(){
 		$('#payTab').show();
 		$('.mask').show();
 		var body = "定金付款";
+		$scope.order.title="";
+//    	var count=0;
+//    	 angular.forEach($scope.order.good, function (one) {
+//             if(count<2){
+//            	 $scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
+//             }
+//             count++;
+//         });
+//    	 if(count>2){
+//    		 $scope.order.title+="..";
+//    	 }
 		if(1==$scope.payway){
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
 					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"+"&WIDbody="+body
@@ -511,21 +520,35 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 			window.open("http://www.taobao.com");  
 		}
 	}
-	$scope.finish= function(){
-		console.log(">>>>>>	");
-//		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
-//            if (data.code==1) {
-//            	$scope.order=data.result;
-//            	if(data.result.paytype>0){
+	$scope.deposit_finish= function(){  //  批购定金支付
+		$http.post("api/order/payFinish", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	var r =data.result;
+            	if(r ==1){  //定金支付成功
             		$scope.pay=false;
             		$scope.payway=1;
             		$('#payTab').hide();
             		$('.mask').hide();
-//            	}else{
-//            		alert("尚未支付,如有疑问请联系888-88888");
-//            	}
-//            }
-//        });
+            	}else{
+            		alert("尚未支付,如有疑问请联系888-88888");
+            	}
+            }
+        });
+	};
+	$scope.order_finish= function(){  //  批购支付
+		$http.post("api/order/payFinish", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	var r =data.result;
+            	if(r ==2){  // 支付成功
+            		$scope.pay=false;
+            		$scope.payway=1;
+            		$('#payTab').hide();
+            		$('.mask').hide();
+            	}else{
+            		alert("尚未支付,如有疑问请联系888-88888");
+            	}
+            }
+        });
 	};
 	$scope.getOrder();
 };

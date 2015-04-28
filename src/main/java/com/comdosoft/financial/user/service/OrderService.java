@@ -720,5 +720,19 @@ public class OrderService {
 			   logger.debug("查询的订单号不存在>>"+no+"   金额>>>"+payPrice);
 		   }
 	}
+
+	public int orderPayFinish(MyOrderReq req) {
+		Order o = orderMapper.getOrderById(req);//根据订单id查询
+		if(null != o){
+			Integer start = o.getStatus() == null?1: o.getStatus();
+			Integer front_start = o.getFrontPayStatus() == null?1: o.getFrontPayStatus();
+			if(start == 2){
+				return 2;//支付成功
+			}else if(front_start ==2){
+				return 1; //定金支付成功
+			}
+		}
+		return 0;
+	}
 	
 }

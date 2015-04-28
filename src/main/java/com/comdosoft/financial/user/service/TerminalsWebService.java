@@ -153,8 +153,11 @@ public class TerminalsWebService {
 	 * 检查终端号是否存在
 	 * @param map
 	 */
-	public int checkTerminalCode(String str){
-		return  terminalsWebMapper.checkTerminalCode(str);
+	public int checkTerminalCode(String serialNum,int id){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("serialNum", serialNum);
+		map.put("id", id);
+		return  terminalsWebMapper.checkTerminalCode(map);
 	}
 	
 	/**

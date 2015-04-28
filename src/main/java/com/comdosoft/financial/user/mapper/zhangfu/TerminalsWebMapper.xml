@@ -85,9 +85,10 @@
 		WHERE username=#{username}
 	</select>
 	
-	<select id="checkTerminalCode" parameterType="string" resultType="int">
-		SELECT count(*) FROM terminals
-		WHERE serial_num = #{serialNum}
+	<select id="checkTerminalCode" parameterType="map" resultType="int">
+		SELECT count(*) FROM terminals t
+		WHERE t.serial_num = #{serialNum}
+		AND (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id} )))
 	</select>
 	
 	<insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="map">

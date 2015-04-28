@@ -833,7 +833,6 @@ var purchaseshopinfoController = function($scope, $http, $location, LoginService
 			if (data.code == 1) {
 				$scope.good = data.result;
 				$scope.paychannel = data.result.paychannelinfo;
-				alert($scope.paychannel.pcfactory.logo_file_path);
 				$scope.minquantity = $scope.good.goodinfo.floor_purchase_quantity;
 				$scope.quantity = $scope.minquantity;
 			}

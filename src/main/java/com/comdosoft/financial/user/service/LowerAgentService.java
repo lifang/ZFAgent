@@ -241,7 +241,9 @@ public class LowerAgentService {
 		Map<String, Object> map=new HashMap<String, Object>();
     	//向customers表中插入记录
     	//调用加密方法
-		//req.setPwd(SysUtils.string2MD5(req.getPwd()));
+		if(!req.getIsEncrypt()){
+			req.setPwd(SysUtils.string2MD5(req.getPwd()));
+		}
     	//判断该登陆名是否已经存在
     	Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(req);
     	if(Integer.parseInt(mapTemp.get("num").toString())>=1){
@@ -249,6 +251,7 @@ public class LowerAgentService {
     		map.put("resultCode", -1);
     		map.put("resultInfo", "当前登录名已经存在！");
     	}else{
+    		req.setTypes(2);
         	int affect_series1=lowerAgentMapper.addNewCustomer(req);
         	if(affect_series1==1){
         		//成功

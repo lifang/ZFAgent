@@ -76,10 +76,11 @@ public class CustomerManageService {
 						resultInfo.append("该登陆ID已经存在");
 					}else{
 						//密码加密，执行存入数据库
-						req.setPwd(SysUtils.string2MD5(req.getPwd()));
+						//req.setPwd(SysUtils.string2MD5(req.getPwd()));
 						//向customers表插入记录
 						lowerAgentReq.setAgentName(req.getUserName());
 						lowerAgentReq.setPwd(req.getPwd());
+						lowerAgentReq.setTypes(6);
 						int temp1=lowerAgentMapper.addNewCustomer(lowerAgentReq);
 						if(temp1<1){
 							resultInfo.setLength(0);

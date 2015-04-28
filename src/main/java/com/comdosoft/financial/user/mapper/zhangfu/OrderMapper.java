@@ -90,6 +90,6 @@ public interface OrderMapper {
 	int countOrderPaymentByNum(String no);
 
 
-	Order getOrderById(PayReq req);
+	Order getOrderById(MyOrderReq req);
   
 }

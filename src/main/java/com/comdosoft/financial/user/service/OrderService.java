@@ -721,7 +721,7 @@ public class OrderService {
 		   }
 	}
 
-	public int orderPayFinish(PayReq req) {
+	public int orderPayFinish(MyOrderReq req) {
 		Order o = orderMapper.getOrderById(req);//根据订单id查询
 		if(null != o){
 			Integer start = o.getStatus() == null?1: o.getStatus();

@@ -254,22 +254,20 @@ public class OpeningApplyController {
 
 	/**
 	 * 从第三方接口获得银行
+	 * 
+	 * @return
 	 */
 	@RequestMapping(value = "chooseBank", method = RequestMethod.POST)
-	public String ChooseBank(@RequestBody Map<String, Object> map) {
+	public String ChooseBank(String keyword,Integer page,Integer pageSize,String serialNum) {
 		String url = timingPath + bankList;
-		String keyword = (String)map.get("keyword");
-		Integer page = (Integer)map.get("page");
-		Integer pageSize = (Integer)map.get("pageSize");
-		Integer terminalId = (Integer)map.get("terminalId");
-		Map<Object,Object> resultMap = terminalsService.getTerminalById(terminalId);
+		Map<Object,Object> resultMap = terminalsService.getTerminalByNo(serialNum);
 		String response = null;
 		try {
 			response = CommonServiceUtil.getBankList(url, keyword, page, pageSize, (Integer)resultMap.get("pay_channel_id"), 
 					(String)resultMap.get("serial_num"));
 		} catch (IOException e) {
 			logger.error("从第三方接口获得银行异常！",e);
-			return "{\"code\":-1,\"message\":\"银行列表获取失败\",\"result\":null}";
+			return "{\"code\":-1,\"message\":\"银行列表获取失败\",\"result\":{\"content\":null,\"total\":0,\"pageSize\":0,\"currentPage\":0,\"totalPage\":0}}";
 		}
 		
 		return response;

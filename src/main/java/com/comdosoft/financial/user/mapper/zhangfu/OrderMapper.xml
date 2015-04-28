@@ -146,10 +146,10 @@
 		and o.status = #{q}
 		</if>
 		<if test=" q==1">
-		and o.status = #{q}  and  o.front_pay_status!=2
+		and   (o.status = 1 and IFNULL(o.front_pay_status,1)=1) 
 		</if>
 		<if test=" q==2">
-		and (o.status = #{q}  or  o.front_pay_status=#{q})
+		and o.status = #{q}  or ( o.front_pay_status=#{q} and o.status = 1 ) 
 		</if>
 	</select>
 	<!-- 代购 -->
@@ -211,7 +211,7 @@
 		and   (o.status = 1 and IFNULL(o.front_pay_status,1)=1) 
 		</if>
 		<if test=" q==2">
-		and (o.status = #{q}  or  o.front_pay_status=#{q})
+		and o.status = #{q}  or ( o.front_pay_status=#{q} and o.status = 1 ) 
 		</if>
 			group BY o.id
 		order by o.created_at desc

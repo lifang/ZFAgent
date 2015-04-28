@@ -177,7 +177,7 @@ public class SysUtils {
 	public static BufferedImage generateRandImg(char[] randNum) {
 
 		// 在内存中创建图象
-		int width = 60, height = 30;
+		int width = 162, height = 45;
 
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_RGB);
@@ -194,7 +194,7 @@ public class SysUtils {
 		g.fillRect(0, 0, width, height);
 
 		// 设定字体
-		g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 28));
 
 		// 画边框
 		// g.setColor(new Color());
@@ -215,7 +215,7 @@ public class SysUtils {
 			strRandNum = Character.toString(randNum[i]);
 			g.setColor(new Color(20 + random.nextInt(110), 20 + random
 					.nextInt(110), 20 + random.nextInt(110)));
-			g.drawString(strRandNum, 13 * i + 6, 20);// 将验证码显示到图象中
+			g.drawString(strRandNum, 38 * i + 6, 28);// 将验证码显示到图象中
 		}
 
 		// 图象生效

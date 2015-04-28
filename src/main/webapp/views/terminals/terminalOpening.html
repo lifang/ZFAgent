@@ -105,11 +105,18 @@
 			          					</select>
                                 	</div>
                                 </li>
-                                <li ng-if="$index == 0"><span class="labelSpan">结算银行名称：</span>
+                                <li ng-if="$index == 0"><span class="labelSpan">结算银行帐户名：</span>
                                 	<div class="text"><input name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
                                 </li>
-                                <li ng-if="$index == 0"><span class="labelSpan">结算银行代码：</span>
-                                	<div class="text"><input name="" type="text" id="bankCodeValue" value="{{openingInfos.account_bank_code}}"/></div></li>
+                                <li ng-if="$index == 0" id="bankcode"><span class="labelSpan">结算银行代码：</span>
+                                	<div class="text"><input name="" type="text" id="bankCodeValue" ng-model="bankObj.bankName" ng-keyup="bank(1)"/></div>
+                                	<div id="suggestDiv" class="suggest">
+				                        <ul>
+				                            <li><a href="javascript:void(0)" ng-repeat="res in bankObj.bankCode" ng-click='selectBank(res.no,res.name)'>{{res.name}}</a></li>
+				                        </ul>
+                    				</div>
+                                </li>
+                                
                                 <li ng-if="$index == 0"><span class="labelSpan">结算银行账户：</span>
                                 	<div class="text"><input name="" type="text" id="bankNumValue" value="{{merchant.account_bank_num}}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div></li>
                                 <li ng-if="$index == 0"><span class="labelSpan">税务机构号：</span>
@@ -161,6 +168,7 @@
 							</div> 
                         </div>
                     </div>
+                    
                     <div class="btnBottom"><button class="orangeBtn" ng-click="addApply()">保存</button></div>
             	</div>
             </div>

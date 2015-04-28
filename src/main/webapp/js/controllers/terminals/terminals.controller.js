@@ -858,15 +858,20 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		  }
 		  
 		//动态加载银行
-		  $scope.bankName ="";
-		  $scope.bankCode="";
+		  //$scope.bankName ="";
+		  //$scope.bankCode="";
+		  $scope.bankObj={bankName:"",bankCode:0,code:0};
 		  $scope.bank = function(obj){
-			 $scope.bankjson = {};
+			 $scope.bankjson = {keyword:$scope.bankObj.bankName,page:1,pageSize:10,serialNum:$scope.applyDetails.serial_num};
 			  $http.post("api/applyWeb/chooseBank",$scope.bankjson).success(function (data) {  //绑定
 		          if (data != null && data != undefined) {
 		        	  if(data.code == 1){
-		        		  $scope.bankCode = data.result;
-		        		  $("#div_"+obj).show();
+		        		  $scope.bankObj.bankCode = data.result.content;
+		        		  $("#suggestDiv").parent().addClass("overflow");
+		        		  if(data.result.total!=0){ 
+		        			  $("#suggestDiv").show(); 
+		        		  }
+		        		  
 		        	  }else{
 		        		  alert("获取银行失败！");
 		        	  }
@@ -874,7 +879,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		      }).error(function (data){
 		    	  alert("银行加载失败！");
 		      });
-			  $("#div_"+obj).show();
+			  //$("#div_"+obj).show();
 		  }
 		//动态显示银行代码号
 		  $scope.bankNum = function(obj,number,backName){
@@ -882,6 +887,11 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  $("#"+obj).siblings("input").val(number)
 			  $("#"+obj).parent("div").hide();
 			  $("#"+obj).parent("div").siblings("div").children("input[type='text']").val(backName)
+		  }
+		  $scope.selectBank = function(code,name){
+			  $scope.bankObj.bankName = name;
+			  $scope.bankObj.code = code;
+			  $("#suggestDiv").hide();
 		  }
 		  
 		//性别单选
@@ -938,7 +948,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 				                     billingId:$scope.billingId,
 				                     bankNum:$("#bankNumValue").val(),
 				                     bankName:$("#bankNameValue").val(),
-				                     bankCode:$("#bankCodeValue").val(),
+				                     bankCode:$scope.bankObj.code,
 				                     organizationNo:$("#organizationNoValue").val(),
 				                     registeredNo:$("#registeredNoValue").val(),
 				                     needPreliminaryVerify:Math.ceil($scope.applyDetails.needPreliminaryVerify)

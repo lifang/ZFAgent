@@ -31,6 +31,18 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 	    $scope.agent.agentPass = getCookie("agentPass");  
 	}
 	
+	//跳转普通用户登陆页面
+	$scope.goToUserLogin = function(){
+		$http.post("api/agent/goToUserLogin").success(function(data){
+			if(data.code == 1){
+				window.location.href = data.result;
+			}
+			if(data.code == -1){
+				alert(data.message);
+			}
+		})
+	}
+	
 	$scope.reGetRandCodeImg();
 	$scope.cookeStark();
 }

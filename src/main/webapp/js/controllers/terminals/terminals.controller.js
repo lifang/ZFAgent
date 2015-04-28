@@ -843,7 +843,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		          if (data != null && data != undefined) {
 		        	  if(data.code == 1){
 		        		  $scope.result=data.result;
-		        		  
+		        		  $scope.bankObj.bankName = $scope.openingInfos.account_bank_code;
 		        	  }
 		          }
 		      }).error(function (data) {
@@ -870,6 +870,8 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		        		  $("#suggestDiv").parent().addClass("overflow");
 		        		  if(data.result.total!=0){ 
 		        			  $("#suggestDiv").show(); 
+		        		  }else{
+		        			  $("#suggestDiv").hide();
 		        		  }
 		        		  
 		        	  }else{
@@ -889,7 +891,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  $("#"+obj).parent("div").siblings("div").children("input[type='text']").val(backName)
 		  }
 		  $scope.selectBank = function(code,name){
-			  $scope.bankObj.bankName = name;
+			  $scope.bankObj.bankName = code;
 			  $scope.bankObj.code = code;
 			  $("#suggestDiv").hide();
 		  }

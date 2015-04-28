@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.comdosoft.financial.user.domain.query.OrderReq;
+import com.comdosoft.financial.user.domain.query.PayReq;
 import com.comdosoft.financial.user.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
@@ -87,5 +88,8 @@ public interface OrderMapper {
 
 	//查询是否存在多条相同的支付记录
 	int countOrderPaymentByNum(String no);
+
+
+	Order getOrderById(MyOrderReq req);
   
 }

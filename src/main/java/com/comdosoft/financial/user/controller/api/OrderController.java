@@ -182,6 +182,18 @@ public class OrderController {
        	orderService.payBack(req);
     	return Response.getSuccess("");
     }
+      
+      /**
+       * 
+       * @param req
+       * @return  0 都未付款   1  定金已付   2 支付完成
+       */
+      @RequestMapping(value = "payFinish", method = RequestMethod.POST)
+      public Response orderpayFinish(@RequestBody MyOrderReq req) {
+      	logger.debug("param 支付完成  start 》》》"+ req);
+         int i = orderService.orderPayFinish(req);
+      	return Response.getSuccess(i);
+      }
 
    //  gch  end
   

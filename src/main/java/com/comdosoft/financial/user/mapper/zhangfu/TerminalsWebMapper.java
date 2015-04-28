@@ -84,7 +84,7 @@ public interface TerminalsWebMapper {
      * 检查终端号是否存在
      * @param map
      */
-    int checkTerminalCode(String str);
+    int checkTerminalCode(Map<Object, Object> map);
     
     /**
      * 添加申请售后记录

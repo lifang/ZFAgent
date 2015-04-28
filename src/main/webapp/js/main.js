@@ -105,6 +105,7 @@ $(function(){
 	popup(".rename_tab",".rename_a");//我的库存 商品更名
 	popup(".leaseExplain_tab",".leaseExplain_a");//管理终端  查看说明
 	popup("#show_phone_input_my_o","#show_phone_input_my_btn");//我的信息 根据原来手机号发送验证码
+	popup(".payTab",".goPay");//支付完成
 })
 
 

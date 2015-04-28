@@ -463,6 +463,9 @@
 	 	 from orders o where o.order_number =#{param1} limit 1
 	</select>
     
+    <select id="getOrderById" resultMap="orderMap">
+    select * from orders o where o.id = #{id}
+    </select>
 	<!-- gch end -->
 	
 	<!-- jwb -->

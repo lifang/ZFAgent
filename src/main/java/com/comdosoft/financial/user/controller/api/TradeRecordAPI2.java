@@ -37,6 +37,9 @@ public class TradeRecordAPI2 {
             Map<String, Object> result = tradeRecordService3.getTradeRecordsCount(req);
             result.put("list", tradeRecordService3.getTradeRecords(req));
             sysResponse = Response.getSuccess(result);
+        }catch (NullPointerException e) {
+            logger.error("查询交易流水信息失败", e);
+            sysResponse = Response.getError("查询交易流水失败:数据异常");
         } catch (Exception e) {
             logger.error("查询交易流水信息失败", e);
             sysResponse = Response.getError("查询交易流水失败:系统异常");
@@ -49,7 +52,11 @@ public class TradeRecordAPI2 {
         Response sysResponse = null;
         try {
             Map<String, Object> result = tradeRecordService3.getTradeRecord(req);
-            sysResponse = Response.getSuccess(result);
+            if(null==result){
+                sysResponse = Response.getError("查询交易流水失败:流水不存在");
+            }else{
+                sysResponse = Response.getSuccess(result);
+            }
         } catch (Exception e) {
             logger.error("查询交易流水信息失败", e);
             sysResponse = Response.getError("查询交易流水失败:系统异常");

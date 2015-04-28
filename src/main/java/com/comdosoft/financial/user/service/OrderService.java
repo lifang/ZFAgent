@@ -258,7 +258,7 @@ public class OrderService {
             map.put("order_totalNum", o.getTotalQuantity() == null ? "" : o.getTotalQuantity().toString());// 订单总件数
             map.put("order_totalPrice", o.getActualPrice() == null ? "" : o.getActualPrice() + "");
             map.put("order_psf", "0");// 配送费
-            Integer guishu_user = o.getBelongsUserId();
+            Integer guishu_user = o.getCustomerId();
             Customer customer = new Customer();
             customer.setId(guishu_user);
             customer = orderMapper.findCustomerById(customer);
@@ -481,7 +481,7 @@ public class OrderService {
         }
         map.put("shipped_quantity", quantity + "");// 已发货数量
 
-        Integer guishu_user = o.getBelongsUserId();
+        Integer guishu_user = o.getCustomerId();
         Customer customer = new Customer();
         customer.setId(guishu_user);
         customer = orderMapper.findCustomerById(customer);

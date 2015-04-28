@@ -638,6 +638,7 @@ public class OrderService {
     * @throws
      */
 	@SuppressWarnings("unused")
+	 @Transactional(value = "transactionManager-zhangfu")
 	public void payBack(PayReq req) {
 		logger.info("支付回调开始。》》》"+ req);
 		String no = req.getOut_trade_no();
@@ -646,6 +647,7 @@ public class OrderService {
 		String trade_no = req.getTrade_no();
 		String number = "";
 		String size = "";
+	 
 		Order o = new Order();
 		List<Order> list = null;
 		Boolean isWhole = no.contains("_");
@@ -653,16 +655,20 @@ public class OrderService {
 			   String[] s = no.split("_");
 			   number = s[0];
 			   size = s[1];
+			   logger.info("》》》》》批购支付》》》支付批次 默认从1开始》》"+size);
 			   list = orderMapper.findOrderByNumber(number);
 		   }else{
 			   list = orderMapper.findOrderByNumber(no);
+			   logger.info("》》》》》不是批购支付》》》");
 		   }
 		   if(list.size()>0){
 			   	 o = list.get(0);
 				 Integer order_id =o.getId();
 				 Integer order_status = o.getStatus();
 				 List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(order_id);
-				 if(size !="" && size.equals(oplist.size())){
+				 logger.debug("根据订单id查询支付记录，存在多少条记录 》》》》"+oplist.size());
+				 logger.debug("此次付款是第"+size+"次付款  》》》数据库中查询到有"+oplist.size()+"条数据");
+				 if(size.equals(oplist.size())){
 					 //已经付款成功，无需再次支付
 					 logger.debug("付款回调 》》》》此订单已经完成付款了");
 				 }else{
@@ -681,7 +687,7 @@ public class OrderService {
 					 if(front_money == pay_price){  //付款金额等于 定金金额
 						 logger.debug(">>>>>>>>>>>>付款金额等于 定金金额>>>>>>");
 						 if(fps != 2){   // 2 已付   1未付
-							 logger.debug(">>>>>>>>>>>>定金还未付>>>>>>");
+							 logger.debug(">>>>>>>>>>>>定金还未付>>>>>>"+fps);
 							 s = Order.ORDER_STATUS_PAD;
 							 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金还未付");
 							 OrderPayment op = new OrderPayment();
@@ -693,7 +699,7 @@ public class OrderService {
 								logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
 						 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
 							 // TODO
-							 logger.debug(">>>>>>>>>>>>定金已付>>>>>>");
+							 logger.debug(">>>>>>>>>>>>定金已付>>>>>>"+fps);
 							 s = Order.ORDER_STATUS_PAD;
 							 OrderPayment op = new OrderPayment();
 						     op.setOrderId(order_id);
@@ -705,7 +711,7 @@ public class OrderService {
 						 }
 					 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
 						 // TODO
-						 logger.debug(">>>>>>>>>>>>付款金额 等于 剩余的金额>>>>>>");
+						 logger.debug(">>>>>>>>>>>>付款金额 "+pay_price+" 等于 剩余的金额>>>>>>"+shengyu_price);
 						 s = Order.ORDER_STATUS_PAD;
 						 OrderPayment op = new OrderPayment();
 					     op.setOrderId(order_id);
@@ -715,17 +721,16 @@ public class OrderService {
 							int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,3); //  1为定金付款   2 为余额支付   3
 						 logger.debug("付款回调状态："+s+"  付款金额等于订单金额");
 					 }else{
-						 logger.debug(">>>>>>>>>>>>付款金额 不等于定金 >>>>>>");
-						 logger.debug("其他 》》付款回调 "+s+"  付款金额>>"+pay_price);
+						 logger.debug(">>>>>>>>>>>>付款金额  "+pay_price+" 不等于定金 >>>>>>"+front_money+"剩余金额为"+shengyu_price);
 						 OrderPayment op = new OrderPayment();
 					     op.setOrderId(order_id);
 					     op.setPrice(pay_price);
 					     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
 							int i = orderMapper.insertOrderPayment(op);
 						//int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
-							logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>");
 					 }
 					 
+					 logger.debug("支付回调 over。。。。>>>");
 				 }
 		   }else{
 			   logger.debug("查询的订单号不存在>>"+no+"   金额>>>"+payPrice);

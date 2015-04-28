@@ -249,6 +249,7 @@ public class LowerAgentService {
     		map.put("resultCode", -1);
     		map.put("resultInfo", "当前登录名已经存在！");
     	}else{
+    		req.setTypes(2);
         	int affect_series1=lowerAgentMapper.addNewCustomer(req);
         	if(affect_series1==1){
         		//成功

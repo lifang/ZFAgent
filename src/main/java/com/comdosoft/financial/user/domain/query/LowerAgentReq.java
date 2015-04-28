@@ -86,8 +86,19 @@ public class LowerAgentReq {
     private String lowerAgentName;
     //权限id
     private int roleId;
+    //
+    private int types;
     
-    public int getRoleId() {
+    
+    public int getTypes() {
+		return types;
+	}
+
+	public void setTypes(int types) {
+		this.types = types;
+	}
+
+	public int getRoleId() {
 		return roleId;
 	}
 

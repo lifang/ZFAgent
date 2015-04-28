@@ -299,15 +299,16 @@
 		SELECT COUNT(*) as count,IFNULL(id,'-1') as id from customers 
 		WHERE username=#{username} AND status=#{status}
 	</select>
-	
+
+	<select id="getTerminalByNo" parameterType="java.lang.String" resultType="map">
+		select serial_num,pay_channel_id from terminals where serial_num = #{serialNum}
+	</select>
+
 	<select id="findUnameAndStatusCode" parameterType="map" resultType="map">
 		SELECT COUNT(*) as count,IFNULL(id,'-1') as id from customers 
 		WHERE username=#{username} AND status=#{status} AND dentcode = #{dentcode}
 	</select>
 	
-	<select id="getTerminalById" parameterType="java.lang.Integer" resultType="map">
-		select serial_num,pay_channel_id from terminals where id = #{id}
-	</select>
 	
 	
 </mapper>

@@ -86,8 +86,29 @@ public class LowerAgentReq {
     private String lowerAgentName;
     //权限id
     private int roleId;
+    //
+    private int types;
+    //shi fou jiama 
+    private Boolean isEncrypt;
     
-    public int getRoleId() {
+    
+    public Boolean getIsEncrypt() {
+		return isEncrypt;
+	}
+
+	public void setIsEncrypt(Boolean isEncrypt) {
+		this.isEncrypt = isEncrypt;
+	}
+
+	public int getTypes() {
+		return types;
+	}
+
+	public void setTypes(int types) {
+		this.types = types;
+	}
+
+	public int getRoleId() {
 		return roleId;
 	}
 

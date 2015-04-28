@@ -47,13 +47,21 @@ public class CustomerManageController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "insert", method = RequestMethod.POST)
 	public Response insert(@RequestBody CustomerManageReq req) throws Exception{
 		Response response=new Response();
-		Map<String,Object> result= customerManageService.insert(req);
-		response.setCode(Integer.parseInt(result.get("resultCode").toString()));
-		response.setMessage(result.get("resultInfo").toString());
-		return response;
+		try{
+			Map<String,Object> result= customerManageService.insert(req);
+			response.setCode(Integer.parseInt(result.get("resultCode").toString()));
+			response.setMessage(result.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	
 	/**
@@ -62,13 +70,21 @@ public class CustomerManageController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "deleteOne", method = RequestMethod.POST)
 	public Response deleteOne(@RequestBody CustomerManageReq req) throws Exception{
 		Response response=new Response();
-		Map<String,Object> result= customerManageService.deleteOne(req);
-		response.setCode(Integer.parseInt(result.get("resultCode").toString()));
-		response.setMessage(result.get("resultInfo").toString());
-		return response;
+		try{
+			Map<String,Object> result= customerManageService.deleteOne(req);
+			response.setCode(Integer.parseInt(result.get("resultCode").toString()));
+			response.setMessage(result.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	
 	/**
@@ -77,13 +93,21 @@ public class CustomerManageController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "deleteAll", method = RequestMethod.POST)
 	public Response deleteAll(@RequestBody CustomerManageReq req) throws Exception{
 		Response response=new Response();
-		Map<String,Object> result= customerManageService.deleteAll(req);
-		response.setCode(Integer.parseInt(result.get("resultCode").toString()));
-		response.setMessage(result.get("resultInfo").toString());
-		return response;
+		try{
+			Map<String,Object> result= customerManageService.deleteAll(req);
+			response.setCode(Integer.parseInt(result.get("resultCode").toString()));
+			response.setMessage(result.get("resultInfo").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	
 	/**
@@ -106,13 +130,21 @@ public class CustomerManageController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value="edit",method=RequestMethod.POST)
 	public Response editInfo(@RequestBody CustomerManageReq req) throws Exception{
 		Response response=new Response();
-		Map<String,Object> result= customerManageService.edit(req);
-		response.setCode(Integer.parseInt(result.get("resultCode").toString()));
-		response.setMessage(result.get("resultInfo").toString());
-		response.setResult(result.get("result"));
-		return response;
+		try{
+			Map<String,Object> result= customerManageService.edit(req);
+			response.setCode(Integer.parseInt(result.get("resultCode").toString()));
+			response.setMessage(result.get("resultInfo").toString());
+			response.setResult(result.get("result"));
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 }

@@ -165,13 +165,15 @@ public class CustomerManageService {
 			
 			//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
 			//密码加密，执行存入数据库
-			if(!req.getPwd().trim().equals("")){
-				req.setPwd(SysUtils.string2MD5(req.getPwd()));
-				int temp=customerManageMapper.changePwd(req);
-				if(temp<1){
-					resultInfo.setLength(0);
-					resultInfo.append("修改该用户的密码出错");
-					throw new Exception("修改该用户的密码出错");
+			if(null !=req.getPwd()){
+				if(!req.getPwd().trim().equals("")){
+					req.setPwd(SysUtils.string2MD5(req.getPwd()));
+					int temp=customerManageMapper.changePwd(req);
+					if(temp<1){
+						resultInfo.setLength(0);
+						resultInfo.append("修改该用户的密码出错");
+						throw new Exception("修改该用户的密码出错");
+					}
 				}
 			}
 			

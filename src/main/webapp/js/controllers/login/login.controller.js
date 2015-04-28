@@ -1,7 +1,7 @@
 
 var agentLoginController = function($scope, $location, $http, LoginService){
 	 
-	if(LoginService.loginid>0){
+	if(LoginService.loginid>0&&LoginService.agentid>0){
 		window.location.href = '#/';
 	}
 	//定义代理商对象

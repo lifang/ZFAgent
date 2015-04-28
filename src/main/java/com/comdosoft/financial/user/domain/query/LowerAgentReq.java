@@ -88,9 +88,19 @@ public class LowerAgentReq {
     private int roleId;
     //
     private int types;
+    //shi fou jiama 
+    private Boolean isEncrypt;
     
     
-    public int getTypes() {
+    public Boolean getIsEncrypt() {
+		return isEncrypt;
+	}
+
+	public void setIsEncrypt(Boolean isEncrypt) {
+		this.isEncrypt = isEncrypt;
+	}
+
+	public int getTypes() {
 		return types;
 	}
 

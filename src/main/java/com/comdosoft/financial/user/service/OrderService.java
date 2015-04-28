@@ -666,11 +666,13 @@ public class OrderService {
 				 Integer order_id =o.getId();
 				 Integer order_status = o.getStatus();
 				 List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(order_id);
-				 logger.debug("根据订单id查询支付记录，存在多少条记录 》》》》"+oplist.size());
-				 logger.debug("此次付款是第"+size+"次付款  》》》数据库中查询到有"+oplist.size()+"条数据");
-				 if(size.equals(oplist.size())){
+				 Integer o_size = oplist.size();
+				Integer  p_size = Integer.parseInt(size);
+				 logger.debug("根据订单id查询支付记录，存在多少条记录 》》》》"+o_size);
+				 logger.debug("此次付款是第"+p_size+"次付款  》》》数据库中查询到有"+o_size+"条数据");
+				 if(p_size == o_size){
 					 //已经付款成功，无需再次支付
-					 logger.debug("付款回调 》》》》此订单已经完成付款了");
+					 logger.debug(">>>>>>>>>>>>>此订单已经付过款了 无需重复付款>>>>>>>>>>>>>>>>>>>>>>>");
 				 }else{
 					 BigDecimal bd = new BigDecimal(payPrice);
 					 Double d = bd.doubleValue()*100;
@@ -729,9 +731,8 @@ public class OrderService {
 							int i = orderMapper.insertOrderPayment(op);
 						//int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
 					 }
-					 
-					 logger.debug("支付回调 over。。。。>>>");
 				 }
+				 logger.debug("支付回调 over。。。。>>>");
 		   }else{
 			   logger.debug("查询的订单号不存在>>"+no+"   金额>>>"+payPrice);
 		   }

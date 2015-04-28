@@ -87,7 +87,7 @@
 	
 	<select id="checkTerminalCode" parameterType="map" resultType="int">
 		SELECT count(*) FROM terminals t
-		WHERE t.serial_num = #{serialNum}
+		WHERE t.serial_num = #{serialNum} and t.`status` != #{status} and t.`status` != #{status1}
 		AND (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{id} )))
 	</select>
 	

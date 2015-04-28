@@ -44,12 +44,14 @@ public class AgentService {
 
 	public Map<Object, Object> getOne(Customer param) {
 		Map<Object, Object>  m = agentMapper.getOne(param);
-		String card_id_photo_path = (String) m.get("card_id_photo_path");
-		String license_no_pic_path = (String) m.get("license_no_pic_path");
-		String tax_no_pic_path = (String) m.get("tax_no_pic_path");
-		m.put("card_id_photo_path", filePath+card_id_photo_path);
-		m.put("license_no_pic_path", filePath+license_no_pic_path);
-		m.put("tax_no_pic_path", filePath+tax_no_pic_path);
+		if(null != m){
+			Object card_id_photo_path =  m.get("card_id_photo_path") ;
+			Object license_no_pic_path = m.get("license_no_pic_path");
+			Object tax_no_pic_path = m.get("tax_no_pic_path");
+			m.put("card_id_photo_path", filePath+card_id_photo_path);
+			m.put("license_no_pic_path", filePath+license_no_pic_path);
+			m.put("tax_no_pic_path", filePath+tax_no_pic_path);
+		}
 		return m;
 	}
 

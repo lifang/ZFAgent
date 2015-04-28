@@ -10,7 +10,7 @@
      <select id="getOther_rate" resultType="map" >
         SELECT dtt.trade_value,terminal_rate,description FROM 
 		support_trade_types stt LEFT JOIN dictionary_trade_types dtt on dtt.id=stt.trade_type_id
- 		where pay_channel_id=#{pcid}
+ 		where pay_channel_id=#{pcid} and terminal_rate is not null
      </select>
      
      <select id="getStandard_rates" resultType="map" >

@@ -1,6 +1,7 @@
 package com.comdosoft.financial.user.controller.api;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,18 +52,27 @@ public class LowerAgentController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "changeStatus", method = RequestMethod.POST)
 	public Response changeStatus(@RequestBody LowerAgentReq req) throws Exception{
 		Response response=new Response();
-		Map<String,Object> result=lowerAgentService.changeStatus(req);
-		if(Integer.parseInt(result.get("resultCode").toString()) == 1){
-			response.setCode(Response.SUCCESS_CODE);
-			response.setMessage(result.get("resultInfo").toString());
-		}else{
+		Map<String,Object> result=new HashMap<String, Object>();
+		try{
+			result=lowerAgentService.changeStatus(req);
+			if(Integer.parseInt(result.get("resultCode").toString()) == 1){
+				response.setCode(Response.SUCCESS_CODE);
+				response.setMessage(result.get("resultInfo").toString());
+			}else{
+				response.setCode(Response.ERROR_CODE);
+				response.setMessage(result.get("resultInfo").toString());
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
 			response.setCode(Response.ERROR_CODE);
-			response.setMessage(result.get("resultInfo").toString());
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
 		}
-		return response;
 	}
 	
 	/**
@@ -71,18 +81,27 @@ public class LowerAgentController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "changeProfit", method = RequestMethod.POST)
 	public Response changeProfit(@RequestBody LowerAgentReq req) throws Exception{
 		Response response=new Response();
-		Map<String,Object> result=lowerAgentService.changeProfit(req);
-		if(Integer.parseInt(result.get("resultCode").toString()) == 1){
-			response.setCode(Response.SUCCESS_CODE);
-			response.setMessage(result.get("resultInfo").toString());
-		}else{
+		Map<String,Object> result=new HashMap<String, Object>();
+		try{
+			result=lowerAgentService.changeProfit(req);
+			if(Integer.parseInt(result.get("resultCode").toString()) == 1){
+				response.setCode(Response.SUCCESS_CODE);
+				response.setMessage(result.get("resultInfo").toString());
+			}else{
+				response.setCode(Response.ERROR_CODE);
+				response.setMessage(result.get("resultInfo").toString());
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
 			response.setCode(Response.ERROR_CODE);
-			response.setMessage(result.get("resultInfo").toString());
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
 		}
-		return response;
 	}
 	
 	/**
@@ -203,29 +222,37 @@ public class LowerAgentController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "createNew", method = RequestMethod.POST)
 	public Response createNew(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
-		
-		if(req.getLoginId()==null || req.getLoginId().trim().equals("")){
-			response.setCode(Response.ERROR_CODE);
-			response.setMessage("输入登陆ID不能为空！");
-		}else{
-			if(req.getPwd()==null || req.getPwd1()==null|| !req.getPwd().equals(req.getPwd1())){
+		Map<String,Object> map=new HashMap<String, Object>();
+		try{
+			if(req.getLoginId()==null || req.getLoginId().trim().equals("")){
 				response.setCode(Response.ERROR_CODE);
-				response.setMessage("两次输入的密码不一致");
+				response.setMessage("输入登陆ID不能为空！");
 			}else{
-	        	Map<String,Object> map=lowerAgentService.addNewAgent(req);
-				if(map.get("resultCode").toString().equals("-1")){
+				if(req.getPwd()==null || req.getPwd1()==null|| !req.getPwd().equals(req.getPwd1())){
 					response.setCode(Response.ERROR_CODE);
-		        	response.setMessage(map.get("resultInfo").toString());
-		        }else{
-		        	response.setCode(Response.SUCCESS_CODE);
-		        	response.setMessage(map.get("resultInfo").toString());
-		        }
+					response.setMessage("两次输入的密码不一致");
+				}else{
+		        	map=lowerAgentService.addNewAgent(req);
+					if(map.get("resultCode").toString().equals("-1")){
+						response.setCode(Response.ERROR_CODE);
+			        	response.setMessage(map.get("resultInfo").toString());
+			        }else{
+			        	response.setCode(Response.SUCCESS_CODE);
+			        	response.setMessage(map.get("resultInfo").toString());
+			        }
+				}
 			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
 		}
-        return response;
 	}
 	
 	/**
@@ -234,18 +261,28 @@ public class LowerAgentController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public Response save(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
-		Map<String,Object> map=lowerAgentService.save(req);
-		if(map.get("resultCode").toString().equals("1")){
-        	response.setCode(Response.SUCCESS_CODE);
-        	response.setMessage(map.get("resultInfo").toString());
-        }else{
-        	response.setCode(Response.ERROR_CODE);
-        	response.setMessage(map.get("resultInfo").toString());
-        }
-        return response;
+		Map<String,Object> map=new HashMap<String, Object>();
+		try{
+			map=lowerAgentService.save(req);
+		
+			if(map.get("resultCode").toString().equals("1")){
+	        	response.setCode(Response.SUCCESS_CODE);
+	        	response.setMessage(map.get("resultInfo").toString());
+	        }else{
+	        	response.setCode(Response.ERROR_CODE);
+	        	response.setMessage(map.get("resultInfo").toString());
+	        }
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	
 	/**
@@ -269,19 +306,27 @@ public class LowerAgentController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "saveOrEdit", method = RequestMethod.POST)
 	public Response saveOrEdit(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
-	    Map<String, Object> map=lowerAgentService.saveOrEdit(req);
-	    int result= (Integer)map.get("resultCode");
-	    if(result==-1){
-	    	response.setCode(Response.ERROR_CODE);
-	    	response.setMessage(map.get("resultInfo").toString());
-	    }else{
-	    	response.setCode(Response.SUCCESS_CODE);
-	    	response.setMessage(map.get("resultInfo").toString());
-	    }
-        return response;
+		try{
+		    Map<String, Object> map=lowerAgentService.saveOrEdit(req);
+		    int result= (Integer)map.get("resultCode");
+		    if(result==-1){
+		    	response.setCode(Response.ERROR_CODE);
+		    	response.setMessage(map.get("resultInfo").toString());
+		    }else{
+		    	response.setCode(Response.SUCCESS_CODE);
+		    	response.setMessage(map.get("resultInfo").toString());
+		    }
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	
 	/**
@@ -290,27 +335,35 @@ public class LowerAgentController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "changePwd", method = RequestMethod.POST)
 	public Response changePwd(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
-		if(req.getPwd()==null ||req.getPwd().trim().equals("")){
+		try{
+			if(req.getPwd()==null ||req.getPwd().trim().equals("")){
+				response.setCode(Response.ERROR_CODE);
+		    	response.setMessage("输入的密码不能为空！");
+			}else if(!req.getPwd().trim().equals(req.getPwd1().trim())){
+				response.setCode(Response.ERROR_CODE);
+		    	response.setMessage("两次输入的密码不一致！");
+			}else{
+				Map<String, Object> map=lowerAgentService.changePwd(req);
+			    int result= (Integer)map.get("errorCode");
+			    if(result==-1){
+			    	response.setCode(Response.ERROR_CODE);
+			    	response.setMessage("保存时出错！");
+			    }else{
+			    	response.setCode(Response.SUCCESS_CODE);
+			    	response.setMessage("保存成功！");
+			    }
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
 			response.setCode(Response.ERROR_CODE);
-	    	response.setMessage("输入的密码不能为空！");
-		}else if(!req.getPwd().trim().equals(req.getPwd1().trim())){
-			response.setCode(Response.ERROR_CODE);
-	    	response.setMessage("两次输入的密码不一致！");
-		}else{
-			Map<String, Object> map=lowerAgentService.changePwd(req);
-		    int result= (Integer)map.get("errorCode");
-		    if(result==-1){
-		    	response.setCode(Response.ERROR_CODE);
-		    	response.setMessage("保存时出错！");
-		    }else{
-		    	response.setCode(Response.SUCCESS_CODE);
-		    	response.setMessage("保存成功！");
-		    }
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
 		}
-        return response;
 	}
 	
 	/**
@@ -319,22 +372,28 @@ public class LowerAgentController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "delChannel", method = RequestMethod.POST)
 	public Response delChannel(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
-		
-		Map<String, Object> map=lowerAgentService.delChannel(req);
-		
-		int result= (Integer)map.get("resultCode");
-	    if(result==-1){
-	    	response.setCode(Response.ERROR_CODE);
-	    	response.setMessage("删除时出错！");
-	    }else{
-	    	response.setCode(Response.SUCCESS_CODE);
-	    	response.setMessage("删除成功！");
-	    }
-		
-        return response;
+		try{
+			Map<String, Object> map=lowerAgentService.delChannel(req);
+			
+			int result= (Integer)map.get("resultCode");
+		    if(result==-1){
+		    	response.setCode(Response.ERROR_CODE);
+		    	response.setMessage("删除时出错！");
+		    }else{
+		    	response.setCode(Response.SUCCESS_CODE);
+		    	response.setMessage("删除成功！");
+		    }
+		}catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
 	/**
 	 * 修改是否有分润    传入sonagentsId,isprofit
@@ -342,22 +401,30 @@ public class LowerAgentController {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("finally")
 	@RequestMapping(value="setDefaultProfit",method=RequestMethod.POST)
 	public Response setDefaultProfit(@RequestBody LowerAgentReq req) throws Exception{
 		Response response = new Response();
-		
-		Map<String, Object> map=lowerAgentService.openCloseProfit(req);
-		
-		int result= (Integer)map.get("resultCode");
-	    if(result==-1){
-	    	response.setCode(Response.ERROR_CODE);
-	    	response.setMessage("设置分润时出错！");
-	    }else{
-	    	response.setCode(Response.SUCCESS_CODE);
-	    	response.setMessage("设置分润成功！");
-	    }
-        return response;
+		try{
+			Map<String, Object> map=lowerAgentService.openCloseProfit(req);
+			
+			int result= (Integer)map.get("resultCode");
+		    if(result==-1){
+		    	response.setCode(Response.ERROR_CODE);
+		    	response.setMessage("设置分润时出错！");
+		    }else{
+		    	response.setCode(Response.SUCCESS_CODE);
+		    	response.setMessage("设置分润成功！");
+		    }
+	    }catch(Exception ex){
+			ex.printStackTrace();
+			response.setCode(Response.ERROR_CODE);
+			response.setMessage(ex.getMessage());
+		}finally{
+			return response;
+		}
 	}
+	
 	/**
 	 * 上传图片
 	 * @param id

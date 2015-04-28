@@ -45,93 +45,90 @@ public class CustomerManageService {
 	 * @return
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> insert(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		try{
-			LowerAgentReq lowerAgentReq=new LowerAgentReq();
-			//校验格式等 名字，密码，登陆ID不存在可用
-			if(req.getUserName().trim().equals("")){
+		LowerAgentReq lowerAgentReq=new LowerAgentReq();
+		//校验格式等 名字，密码，登陆ID不存在可用
+		if(req.getUserName().trim().equals("")){
+			resultInfo.setLength(0);
+			resultInfo.append("姓名不能为空");
+		}else{
+			if(req.getPwd().trim().equals("")){
 				resultInfo.setLength(0);
-				resultInfo.append("姓名不能为空");
+				resultInfo.append("密码不能为空");
 			}else{
-				if(req.getPwd().trim().equals("")){
+				if(!req.getPwd().equals(req.getPwd1())){
 					resultInfo.setLength(0);
-					resultInfo.append("密码不能为空");
+					resultInfo.append("两次输入的密码不一致");
 				}else{
-					if(!req.getPwd().equals(req.getPwd1())){
+					lowerAgentReq.setLoginId(req.getLoginId());
+					Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(lowerAgentReq);
+					int temp=0;
+					if(null!=mapTemp.get("num")){
+						temp=Integer.parseInt(mapTemp.get("num").toString());
+					}
+					if(temp>=1){
 						resultInfo.setLength(0);
-						resultInfo.append("两次输入的密码不一致");
+						resultInfo.append("该登陆ID已经存在");
 					}else{
-						lowerAgentReq.setLoginId(req.getLoginId());
-						Map<String, Object> mapTemp=lowerAgentMapper.checkLoginId(lowerAgentReq);
-						int temp=0;
-						if(null!=mapTemp.get("num")){
-							temp=Integer.parseInt(mapTemp.get("num").toString());
-						}
-						if(temp>=1){
+						//密码加密，执行存入数据库
+						req.setPwd(SysUtils.string2MD5(req.getPwd()));
+						//向customers表插入记录
+						lowerAgentReq.setAgentName(req.getUserName());
+						lowerAgentReq.setPwd(req.getPwd());
+						int temp1=lowerAgentMapper.addNewCustomer(lowerAgentReq);
+						if(temp1<1){
 							resultInfo.setLength(0);
-							resultInfo.append("该登陆ID已经存在");
+							resultInfo.append("新增customers表出错");
+							throw new Exception("新增customers表出错");
 						}else{
-							//密码加密，执行存入数据库
-							req.setPwd(SysUtils.string2MD5(req.getPwd()));
-							//向customers表插入记录
-							lowerAgentReq.setAgentName(req.getUserName());
-							lowerAgentReq.setPwd(req.getPwd());
-							int temp1=lowerAgentMapper.addNewCustomer(lowerAgentReq);
-							if(temp1<1){
+							//更新关联关系表
+							int customerId=lowerAgentMapper.getCustomerId(lowerAgentReq);
+							req.setCustomerId(customerId);
+							//检查是否已经存在
+							int temp2=customerManageMapper.getCusAgentInfo(req);
+							if(temp2>0){
 								resultInfo.setLength(0);
-								resultInfo.append("新增customers表出错");
-								throw new Exception("新增customers表出错");
+								resultInfo.append("已存在该用户与代理商的关联关系");
 							}else{
-								//更新关联关系表
-								int customerId=lowerAgentMapper.getCustomerId(lowerAgentReq);
-								req.setCustomerId(customerId);
-								//检查是否已经存在
-								int temp2=customerManageMapper.getCusAgentInfo(req);
-								if(temp2>0){
+								req.setTypes(2);
+								req.setStatus(1);
+								int temp3=customerManageMapper.creCusAgentRelation(req);
+								if(temp3<1){
 									resultInfo.setLength(0);
-									resultInfo.append("已存在该用户与代理商的关联关系");
+									resultInfo.append("插入customerAgent关系出错");
+									throw new Exception("插入customerAgent关系出错");
 								}else{
-									req.setTypes(2);
-									req.setStatus(1);
-									int temp3=customerManageMapper.creCusAgentRelation(req);
-									if(temp3<1){
-										resultInfo.setLength(0);
-										resultInfo.append("插入customerAgent关系出错");
-										throw new Exception("插入customerAgent关系出错");
-									}else{
-										//循环权限
-										String[] roles=req.getRoles().split("\\,");
-										int sign=0;
-										for(int i=0;i<roles.length;i++){
-											req.setRoleId(Integer.parseInt(roles[i].toString()));
-											int temp4=customerManageMapper.getCusRoleInfo(req);
-											if(temp4>=1){
+									//循环权限
+									String[] roles=req.getRoles().split("\\,");
+									int sign=0;
+									for(int i=0;i<roles.length;i++){
+										req.setRoleId(Integer.parseInt(roles[i].toString()));
+										int temp4=customerManageMapper.getCusRoleInfo(req);
+										if(temp4>=1){
+											sign=1;
+											resultInfo.setLength(0);
+											resultInfo.append("已存在该用户与所选权限的关联关系");
+										}else{
+											int temp5=customerManageMapper.creCusRoleRelation(req);
+											if(temp5<1){
 												sign=1;
 												resultInfo.setLength(0);
-												resultInfo.append("已存在该用户与所选权限的关联关系");
+												resultInfo.append("插入该用户权限的关联关系出错");
+												throw new Exception("插入该用户权限的关联关系出错");
 											}else{
-												int temp5=customerManageMapper.creCusRoleRelation(req);
-												if(temp5<1){
-													sign=1;
-													resultInfo.setLength(0);
-													resultInfo.append("插入该用户权限的关联关系出错");
-													throw new Exception("插入该用户权限的关联关系出错");
-												}else{
-													resultInfo.setLength(0);
-													resultInfo.append("插入该用户权限的关联关系成功");
-												}
+												resultInfo.setLength(0);
+												resultInfo.append("插入该用户权限的关联关系成功");
 											}
 										}
-										
-										if(sign==0){
-											resultCode=Response.SUCCESS_CODE;
-										}
+									}
+									
+									if(sign==0){
+										resultCode=Response.SUCCESS_CODE;
 									}
 								}
 							}
@@ -139,80 +136,72 @@ public class CustomerManageService {
 					}
 				}
 			}
-			
-			String result="代理商新增用户操作，结果为"+resultInfo.toString();
-			int temp=sys.operateRecord(result,req.getAgentsId());
-			if(temp<1){
-				throw new Exception("插入操作记录失败");
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			map.put("resultCode", resultCode);
-			map.put("resultInfo", resultInfo.toString());
-			
-			return map;
 		}
+		
+		String result="代理商新增用户操作，结果为"+resultInfo.toString();
+		int temp=sys.operateRecord(result,req.getAgentsId());
+		if(temp<1){
+			throw new Exception("插入操作记录失败");
+		}
+		map.put("resultCode", resultCode);
+		map.put("resultInfo", resultInfo.toString());
+		
+		return map;
 	}
 
-	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> edit(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		try{
-			
-			//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
-			//密码加密，执行存入数据库
-			if(null !=req.getPwd()){
-				if(!req.getPwd().trim().equals("")){
-					//req.setPwd(SysUtils.string2MD5(req.getPwd()));
-					int temp=customerManageMapper.changePwd(req);
-					if(temp<1){
-						resultInfo.setLength(0);
-						resultInfo.append("修改该用户的密码出错");
-						throw new Exception("修改该用户的密码出错");
-					}
+	
+		//req.setCustomerId(customerManageMapper.getCustomerIdByLoginId(req));
+		//密码加密，执行存入数据库
+		if(null !=req.getPwd()){
+			if(!req.getPwd().trim().equals("")){
+				//req.setPwd(SysUtils.string2MD5(req.getPwd()));
+				int temp=customerManageMapper.changePwd(req);
+				if(temp<1){
+					resultInfo.setLength(0);
+					resultInfo.append("修改该用户的密码出错");
+					throw new Exception("修改该用户的密码出错");
 				}
 			}
-			
-			//根据customerId
-			customerManageMapper.delCusRoleRel(req);
-			//循环权限
-			String[] roles=req.getRoles().split("\\,");
-			int sign=0;
-			for(int i=0;i<roles.length;i++){
-				req.setRoleId(Integer.parseInt(roles[i].toString()));
-				
-				int temp5=customerManageMapper.creCusRoleRelation(req);
-				if(temp5<1){
-					sign=1;
-					resultInfo.setLength(0);
-					resultInfo.append("插入该用户权限的关联关系出错");
-					throw new Exception("插入该用户权限的关联关系出错");
-				}else{
-					resultInfo.setLength(0);
-					resultInfo.append("插入该用户权限的关联关系成功");
-				}
-			}
-			if(sign==0){
-				resultCode=Response.SUCCESS_CODE;
-			}
-			
-			String result="代理商修改用户操作，结果为"+resultInfo.toString();
-			int temp1=sys.operateRecord(result,req.getAgentsId());
-			if(temp1<1){
-				throw new Exception("插入操作记录失败");
-			}
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			map.put("resultCode", resultCode);
-			map.put("resultInfo", resultInfo);
-			return map;
 		}
+		
+		//根据customerId
+		customerManageMapper.delCusRoleRel(req);
+		//循环权限
+		String[] roles=req.getRoles().split("\\,");
+		int sign=0;
+		for(int i=0;i<roles.length;i++){
+			req.setRoleId(Integer.parseInt(roles[i].toString()));
+			
+			int temp5=customerManageMapper.creCusRoleRelation(req);
+			if(temp5<1){
+				sign=1;
+				resultInfo.setLength(0);
+				resultInfo.append("插入该用户权限的关联关系出错");
+				throw new Exception("插入该用户权限的关联关系出错");
+			}else{
+				resultInfo.setLength(0);
+				resultInfo.append("插入该用户权限的关联关系成功");
+			}
+		}
+		if(sign==0){
+			resultCode=Response.SUCCESS_CODE;
+		}
+		
+		String result="代理商修改用户操作，结果为"+resultInfo.toString();
+		int temp1=sys.operateRecord(result,req.getAgentsId());
+		if(temp1<1){
+			throw new Exception("插入操作记录失败");
+		}
+		
+	
+		map.put("resultCode", resultCode);
+		map.put("resultInfo", resultInfo);
+		return map;
 	}
 	
 	
@@ -222,50 +211,43 @@ public class CustomerManageService {
 	 * @return
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String, Object> deleteOne(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		try{
-			int temp=customerManageMapper.delCustomer(req);
-			if(temp<1){
-				resultInfo.setLength(0);
-				resultInfo.append("删除customers表出错");
-				throw new Exception("删除customers表出错");
-			}else{
-				int temp1=customerManageMapper.delCusAgentRel(req);
-				if(temp1<1){
-					resultInfo.setLength(0);
-					resultInfo.append("删除customer_agent_relations表出错,不存在该用户与代理商的关系");
-					throw new Exception("删除customer_agent_relations表出错,不存在该用户与代理商的关系");
-				}else{
-					int temp2=customerManageMapper.delCusRoleRel(req);
-	//				if(temp2<1){
-	//					resultInfo.setLength(0);
-	//					resultInfo.append("删除customer_role_relations表出错");
-	//				}else{
-	//					
-	//				}
-					resultCode=Response.SUCCESS_CODE;
-					resultInfo.setLength(0);
-					resultInfo.append("删除用户成功");
-				}
-			}
-			
-			String result="代理商删除用户操作，结果为"+resultInfo.toString();
-			int temp1=sys.operateRecord(result,req.getAgentsId());
+		int temp=customerManageMapper.delCustomer(req);
+		if(temp<1){
+			resultInfo.setLength(0);
+			resultInfo.append("删除customers表出错");
+			throw new Exception("删除customers表出错");
+		}else{
+			int temp1=customerManageMapper.delCusAgentRel(req);
 			if(temp1<1){
-				throw new Exception("插入操作记录失败");
+				resultInfo.setLength(0);
+				resultInfo.append("删除customer_agent_relations表出错,不存在该用户与代理商的关系");
+				throw new Exception("删除customer_agent_relations表出错,不存在该用户与代理商的关系");
+			}else{
+				int temp2=customerManageMapper.delCusRoleRel(req);
+				if(temp2<1){
+					resultInfo.setLength(0);
+					resultInfo.append("删除customer_role_relations表出错");
+					throw new Exception("删除customer_role_relations表出错");
+				}
+				resultCode=Response.SUCCESS_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("删除用户成功");
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			map.put("resultCode", resultCode);
-			map.put("resultInfo", resultInfo.toString());
-			return map;
 		}
+		
+		String result="代理商删除用户操作，结果为"+resultInfo.toString();
+		int temp1=sys.operateRecord(result,req.getAgentsId());
+		if(temp1<1){
+			throw new Exception("插入操作记录失败");
+		}
+		map.put("resultCode", resultCode);
+		map.put("resultInfo", resultInfo.toString());
+		return map;
 	}
 
 	/**
@@ -274,60 +256,52 @@ public class CustomerManageService {
 	 * @return
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("finally")
 	@Transactional(value="transactionManager-zhangfu",propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Map<String,Object> deleteAll(CustomerManageReq req) throws Exception{
 		Map<String, Object> map=new HashMap<String, Object>();
 		int resultCode=Response.ERROR_CODE;
 		StringBuilder resultInfo=new StringBuilder();
-		try{
-			String[] customerIds=req.getCustomerIds().split("\\,");
-			for(int i=0;i<customerIds.length;i++){
-				req.setCustomerId(Integer.parseInt(customerIds[i].toString()));
-				
-				int temp=customerManageMapper.delCustomer(req);
-				if(temp<1){
+		String[] customerIds=req.getCustomerIds().split("\\,");
+		for(int i=0;i<customerIds.length;i++){
+			req.setCustomerId(Integer.parseInt(customerIds[i].toString()));
+			
+			int temp=customerManageMapper.delCustomer(req);
+			if(temp<1){
+				resultCode=Response.ERROR_CODE;
+				resultInfo.setLength(0);
+				resultInfo.append("删除customers表出错");
+				throw new Exception("删除customers表出错");
+			}else{
+				int temp1=customerManageMapper.delCusAgentRel(req);
+				if(temp1<1){
 					resultCode=Response.ERROR_CODE;
 					resultInfo.setLength(0);
-					resultInfo.append("删除customers表出错");
-					throw new Exception("删除customers表出错");
+					resultInfo.append("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
+					throw new Exception("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
 				}else{
-					int temp1=customerManageMapper.delCusAgentRel(req);
-					if(temp1<1){
+					int temp2=customerManageMapper.delCusRoleRel(req);
+					if(temp2<1){
 						resultCode=Response.ERROR_CODE;
 						resultInfo.setLength(0);
-						resultInfo.append("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
-						throw new Exception("删除customer_agent_relations表出错，,不存在该用户与代理商的关系");
-					}else{
-						int temp2=customerManageMapper.delCusRoleRel(req);
-	//					if(temp2<1){
-	//						resultCode=Response.ERROR_CODE;
-	//						resultInfo.setLength(0);
-	//						resultInfo.append("删除customer_role_relations表出错");
-	//						break;
-	//					}else{
-	//						
-	//					}
-						resultCode=Response.SUCCESS_CODE;
-						resultInfo.setLength(0);
-						resultInfo.append("删除用户成功");
+						resultInfo.append("删除customer_role_relations表出错");
+						throw new Exception("删除customer_role_relations表出错");
 					}
+					resultCode=Response.SUCCESS_CODE;
+					resultInfo.setLength(0);
+					resultInfo.append("删除用户成功");
 				}
-				
 			}
 			
-			String result="代理商批量删除用户操作，结果为"+resultInfo.toString();
-			int temp1=sys.operateRecord(result,req.getAgentsId());
-			if(temp1<1){
-				throw new Exception("插入操作记录失败");
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			map.put("resultCode", resultCode);
-			map.put("resultInfo", resultInfo.toString());
-			return map;
 		}
+		
+		String result="代理商批量删除用户操作，结果为"+resultInfo.toString();
+		int temp1=sys.operateRecord(result,req.getAgentsId());
+		if(temp1<1){
+			throw new Exception("插入操作记录失败");
+		}
+		map.put("resultCode", resultCode);
+		map.put("resultInfo", resultInfo.toString());
+		return map;
 	}
 	
 	

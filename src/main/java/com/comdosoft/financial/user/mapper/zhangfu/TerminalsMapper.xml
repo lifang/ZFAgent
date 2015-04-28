@@ -293,8 +293,8 @@
 		WHERE username=#{username} AND status=#{status}
 	</select>
 	
-	<select id="getTerminalById" parameterType="java.lang.Integer" resultType="map">
-		select serial_num,pay_channel_id from terminals where id = #{id}
+	<select id="getTerminalByNo" parameterType="java.lang.String" resultType="map">
+		select serial_num,pay_channel_id from terminals where serial_num = #{serialNum}
 	</select>
 	
 	

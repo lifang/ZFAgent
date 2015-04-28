@@ -273,7 +273,7 @@ public class TerminalsWebController {
 			String[] arr = csAgent.getTerminalsList().split(",");
 			
 			for(int i=0;i<arr.length;i++){
-				int count = terminalsWebService.checkTerminalCode(arr[i]);
+				int count = terminalsWebService.checkTerminalCode(arr[i],(Integer)map.get("agentId"));
 				if(count == 0){
 					errorlist.add(arr[i]);
 				}else{

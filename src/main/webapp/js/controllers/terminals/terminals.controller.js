@@ -306,6 +306,7 @@ function infoTab(i_tab,i_box){
 var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	  $scope.customersId = Math.ceil(LoginService.loginid);
 	  $scope.agentUserId = Math.ceil(LoginService.agentUserId);
+	  $scope.agentId = Math.ceil(LoginService.agentid);
 	  //$scope.customersId = 80;
 	  $scope.butshow = false;//添加新地址显示
 	  $scope.serviceObject = {};//数据封装
@@ -360,19 +361,27 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	 
 	 //添加联系地址
 	 $scope.addAddress = function(){
-		 if($scope.addAddressN()){
-			 $scope.addressObject.cityId = $scope.serviceObject.sitys.id;
-			 $scope.addressObject.customerId = $scope.agentUserId;
-			 $http.post('api/webTerminal/addCostometAddress',$scope.addressObject).success(function(data){
-				 if(data.code == 1){
-					 $scope.getAddress();
-				 }else if(data.code == -1){
-					 alert(data.message);
-				 }
-			 })
+		 if(isAddressTen()<10){
+			 if($scope.addAddressN()){
+				 $scope.addressObject.cityId = $scope.serviceObject.sitys.id;
+				 $scope.addressObject.customerId = $scope.agentUserId;
+				 $http.post('api/webTerminal/addCostometAddress',$scope.addressObject).success(function(data){
+					 if(data.code == 1){
+						 $scope.getAddress();
+					 }else if(data.code == -1){
+						 alert(data.message);
+					 }
+				 })
+			 }
+		 }else{
+			 alert("收获地址已满十条！");
 		 }
 	 }
 	 
+	 var isAddressTen = function(){
+		 return  $scope.addressList.length;
+	 }
+	
 	 $scope.radioStauts = false;
 	 $scope.defaultAddress = false;
 	 $scope.radioId = function(obj){
@@ -418,6 +427,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		}else{
 		 $scope.serviceObject.customerId = $scope.customersId;
 		 $scope.serviceObject.agentUserId = $scope.agentUserId;
+		 $scope.serviceObject.agentId = $scope.agentId;
 		 $scope.serviceObject.content = $("#comsName").html()+$scope.coms+","+$("#orderName").html()+$scope.order;
 		 $http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
 			 if(data.code == 1){

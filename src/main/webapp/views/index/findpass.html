@@ -34,7 +34,12 @@
 			<div class="ret_b">
 				<ul>
 					<li><input name="" type="text" placeholder="手机号/邮箱" ng-model="phone_email" /></li>
-					<li><input name="" type="text" placeholder="输入图片校验码" class="l" ng-model="code" /><img class="loginRandCodeImg" src="images/yzm.jpg" ng-click="reGetRandCodeImg()" /></li>
+					<li>
+					<input name="" type="text" placeholder="输入图片校验码" class="l" ng-model="code" />
+					<div class="jym">
+						<img class="loginRandCodeImg" src="images/yzm.jpg" ng-click="reGetRandCodeImg()" />
+					</div>
+					</li>
 				</ul>
 				<div class="btn">
 					<button ng-click="findPassOnes()">下一步</button>

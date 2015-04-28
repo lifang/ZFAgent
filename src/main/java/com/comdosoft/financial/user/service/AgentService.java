@@ -47,9 +47,9 @@ public class AgentService {
 		String card_id_photo_path = (String) m.get("card_id_photo_path");
 		String license_no_pic_path = (String) m.get("license_no_pic_path");
 		String tax_no_pic_path = (String) m.get("tax_no_pic_path");
-		m.put("card_id_photo_path", card_id_photo_path);
-		m.put("license_no_pic_path", license_no_pic_path);
-		m.put("tax_no_pic_path", tax_no_pic_path);
+		m.put("card_id_photo_path", filePath+card_id_photo_path);
+		m.put("license_no_pic_path", filePath+license_no_pic_path);
+		m.put("tax_no_pic_path", filePath+tax_no_pic_path);
 		return m;
 	}
 

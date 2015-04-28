@@ -167,7 +167,7 @@ public class CustomerManageService {
 			//密码加密，执行存入数据库
 			if(null !=req.getPwd()){
 				if(!req.getPwd().trim().equals("")){
-					req.setPwd(SysUtils.string2MD5(req.getPwd()));
+					//req.setPwd(SysUtils.string2MD5(req.getPwd()));
 					int temp=customerManageMapper.changePwd(req);
 					if(temp<1){
 						resultInfo.setLength(0);

@@ -1296,3 +1296,8 @@ span.checkboxRadio_span input {
 .foot .foot_nav li a { color: #016cb7; margin: 0 10px;}
 .foot .foot_nav li a:hover { color: #0292f7;}
 .copyright { float: right; color: #666;}
+
+/*--------------*/
+#suggestDiv {display:none;background:#fff;z-index:999}
+#suggestDiv ul li a{display:inline-block;width:245px;padding-left:5px;margin-left:-120px;}
+#suggestDiv ul li a:hover{color: #fff;background:#CCCCCC}

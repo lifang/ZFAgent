@@ -58,6 +58,9 @@ public class AgentLoginController {
 	
 	@Value("${agent}")
 	private String agent;
+	
+	@Value("${goToUserLogin}")
+	private String goToUserLogin;
 
 	@Resource
 	private MailService mailService;
@@ -689,6 +692,18 @@ public class AgentLoginController {
 			}
 		} catch (Exception e) {
 			logger.error("注册代理商异常！", e);
+			return Response.getError("请求失败！");
+		}
+	}
+	/**
+	 * 获取普通用户登陆页面路径
+	 */
+	@RequestMapping(value="goToUserLogin",method =RequestMethod.POST)
+	public Response RequestMethod(){
+		try{
+			return Response.getSuccess(goToUserLogin);
+		}catch(Exception e){
+			e.printStackTrace();
 			return Response.getError("请求失败！");
 		}
 	}

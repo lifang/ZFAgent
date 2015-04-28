@@ -682,57 +682,40 @@ public class OrderService {
 					 byte s = 1;
 				     Integer haspayed_price = getHasPayedPriceByOrderid(order_id);
 					 BigDecimal bd_act = new BigDecimal(actual_price); // 真实金额
-				        BigDecimal bd_dj = new BigDecimal(haspayed_price);
-				        BigDecimal shengyu_price = bd_act.subtract(bd_dj); 
-				       Integer fps =  o.getFrontPayStatus()==null?1:o.getFrontPayStatus();
-				        logger.debug("定金>>>>>"+front_money+">>>>>>>>>>>>>支付金额>>>>>"+pay_price);
-					 if(front_money == pay_price){  //付款金额等于 定金金额
-						 logger.debug(">>>>>>>>>>>>付款金额等于 定金金额>>>>>>");
-						 if(fps != 2){   // 2 已付   1未付
-							 logger.debug(">>>>>>>>>>>>定金还未付>>>>>>"+fps);
-							 s = Order.ORDER_STATUS_PAD;
-							 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金还未付");
-							 OrderPayment op = new OrderPayment();
-						     op.setOrderId(order_id);
-						     op.setPrice(pay_price);
-						     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
-								int i = orderMapper.insertOrderPayment(op);
-								int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,1); //  1为定金付款   2 为余额支付
-								logger.debug("支付回调 over。。。。增加付款记录"+i +" 增加订单状态>>>"+j);
-						 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
-							 // TODO
-							 logger.debug(">>>>>>>>>>>>定金已付>>>>>>"+fps);
-							 s = Order.ORDER_STATUS_PAD;
-							 OrderPayment op = new OrderPayment();
-						     op.setOrderId(order_id);
-						     op.setPrice(pay_price);
-						     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
-								int i = orderMapper.insertOrderPayment(op);
-								int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,3); //  1为定金付款   2 为余额支付 3 余下的钱
-							 logger.debug("付款回调状态："+s+"  付款金额等于定金金额，并且该订单定金已付");
+			        BigDecimal bd_dj = new BigDecimal(haspayed_price);
+			        BigDecimal shengyu_price = bd_act.subtract(bd_dj); 
+			       Integer fps =  o.getFrontPayStatus()==null?1:o.getFrontPayStatus();
+			        logger.debug("定金>>>>>"+front_money+">>>>>>>>>>>>>支付金额>>>>>"+pay_price+" >>>定金支付状态》》"+fps);
+			        if(fps == 2){   // 2 已付   1未付   》》》》》》》》》》》   已付定金
+						 logger.debug(">>>>>>>>>>>>已付定金>>>>>>"+fps);
+						 s = Order.ORDER_STATUS_PAD;
+						 OrderPayment op = new OrderPayment();
+						 op.setOrderId(order_id);
+						 op.setPrice(pay_price);
+						 op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
+						 int i = orderMapper.insertOrderPayment(op);   //插入一条记录到 支付记录标中
+					 
+						 if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
+							 logger.debug(">>>>>>>>>>>>支付剩余金额的付款>>>>>>"+shengyu_price);
+							  int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,3); //  1为定金付款   2 为余额支付 3 余下的钱
+							 logger.debug("余额全额付款完成》》记录付款单并更新状态over》》》》");
 						 }
-					 }else if(shengyu_price.intValue() == pay_price){ //付款金额 等于 剩下的金额
-						 // TODO
-						 logger.debug(">>>>>>>>>>>>付款金额 "+pay_price+" 等于 剩余的金额>>>>>>"+shengyu_price);
+			        }else{ //     支付定金 
+			        	 logger.debug(">>>>>>>>>>>>定金还未付>>>>>>"+fps);
 						 s = Order.ORDER_STATUS_PAD;
 						 OrderPayment op = new OrderPayment();
 					     op.setOrderId(order_id);
 					     op.setPrice(pay_price);
 					     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
-							int i = orderMapper.insertOrderPayment(op);
-							int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,3); //  1为定金付款   2 为余额支付   3
-						 logger.debug("付款回调状态："+s+"  付款金额等于订单金额");
-					 }else{
-						 logger.debug(">>>>>>>>>>>>付款金额  "+pay_price+" 不等于定金 >>>>>>"+front_money+"剩余金额为"+shengyu_price);
-						 OrderPayment op = new OrderPayment();
-					     op.setOrderId(order_id);
-					     op.setPrice(pay_price);
-					     op.setPayType(OrderPayment.PAY_TYPE_ALIPAY);
-							int i = orderMapper.insertOrderPayment(op);
-						//int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,2);
-					 }
-				 }
+						int i = orderMapper.insertOrderPayment(op);
+						 if(front_money >= pay_price){  //付款金额等于 定金金额
+							 logger.debug(">>>>>>>>>>>>付款金额大于等于 定金金额>>>>>>");
+							int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,1); //  1为定金付款   2 为余额支付
+						 }
+						 logger.debug("定金支付over.....");
+			        }
 				 logger.debug("支付回调 over。。。。>>>");
+				 }
 		   }else{
 			   logger.debug("查询的订单号不存在>>"+no+"   金额>>>"+payPrice);
 		   }

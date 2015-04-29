@@ -270,9 +270,17 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 .product_right { width: 240px; float: left;}
 
 .pro_head { margin-bottom: 30px;}
-.pro_show { width: 390px; float: left;}
+.pro_show { width: 342px; float: left;margin-right: 40px;}
 
-.bigImg { width: 388px; height:330px; overflow: hidden; border: 1px #CCCCCC solid; margin-bottom: 10px;}
+.bigImg { 
+	width: 340px; 
+	height:340px; 
+	overflow: hidden; 
+	border: 1px #CCCCCC solid; 
+	margin-bottom: 10px; 
+	
+}
+.bigImg img { width: 340px; height: 340px;}
 .picBox { height: 75px; overflow: hidden; position: relative; padding: 0 20px;}
 .prev, .next { 
 	width: 15px; 
@@ -290,17 +298,18 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 .next { right: 0px; background: url(../images/icons.png) no-repeat -88px -112px;}
 .next:hover { background: url(../images/icons.png) no-repeat -63px -112px;}
 
-.smallImg { width: 350px; height: 75px; float: left; position: relative; overflow: hidden;}
+.smallImg { width: 296px; height: 75px; float: left; position: relative; overflow: hidden; font-size: 0;}
 .pic_show { width: 5000px; margin-top: 10px; display: block; position: absolute; left: 2px;}
 .smallImg li { 
-	display: inline-block; 
-	margin: 0 9px 0 0; 
+	display: inline-block;
 	cursor: pointer; 
 	border: 1px #e6e6e6 solid; 
 	font-size: 0;
 	overflow: hidden;
+	margin-right: 2px;
 }
-.smallImg li:hover, .smallImg li.hover { border: 1px #0071cf solid;}
+.smallImg li:hover, .smallImg li.hover { border: 1px #ff5f2b solid;}
+.smallImg li img { width: 55px; height: 55px;}
 
 .proInfo_area { float: left; width: 530px; padding-left: 20px;}
 .proInfo_area h1 { font-size: 16px; line-height: 32px;}

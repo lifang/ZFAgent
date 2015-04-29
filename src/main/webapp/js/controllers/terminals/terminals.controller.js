@@ -857,7 +857,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		  //$scope.bankCode="";
 		  $scope.bankObj={bankName:"",bankCode:0,code:0};
 		  $scope.bank = function(obj){
-			 $scope.bankjson = {keyword:$scope.bankObj.bankName,page:1,pageSize:10,terminalId:$scope.terminalId};
+			 $scope.bankjson = {keyword:$scope.bankObj.bankName,page:1,pageSize:10,terminalId:($scope.terminalId).toString()};
 			  $http.post("api/applyWeb/chooseBank",$scope.bankjson).success(function (data) {  //绑定
 		          if (data != null && data != undefined) {
 		        	  if(data.code == 1){

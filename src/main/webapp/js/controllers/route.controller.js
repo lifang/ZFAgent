@@ -142,6 +142,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/index/msginfo.html'
 	}).when('/dataBaseCopy', {
 		templateUrl : 'views/agent/dataBaseCopy.html'
+	}).when('/app', {
+		templateUrl : 'views/index/app.html'
 	}).otherwise({
 		redirectTo : "/"
 	});

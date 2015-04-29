@@ -217,6 +217,7 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
         		  alert("同步失败！");
         	  }else if(data.code == 1){
         		  alert("同步成功！");
+        		  window.location.reload();
         	  }
           }
       }).error(function (data) {

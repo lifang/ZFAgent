@@ -282,13 +282,14 @@ public class AgentLoginController {
 					agent.setStatus(Agent.STATUS_1);
 					agent.setParentId(Agent.PARENT_ID);
 					agent.setIsHaveProfit(Agent.IS_HAVE_PROFIT_N);
-					agent.setCardIdPhotoPath((String) map.get("cardIdPhotoPath"));
+					
+					agent.setCardIdPhotoPath(((String) map.get("cardIdPhotoPath")).replaceFirst(filePath, ""));
 					if (agent.getTypes() == 1) {// 公司选项多出几个
 						agent.setCompanyName((String) map.get("companyName"));
 						agent.setBusinessLicense((String) map.get("businessLicense"));
 						agent.setTaxRegisteredNo((String) map.get("taxRegisteredNo"));
-						agent.setLicenseNoPicPath((String) map.get("licenseNoPicPath"));
-						agent.setTaxNoPicPath((String) map.get("taxNoPicPath"));
+						agent.setLicenseNoPicPath(((String) map.get("licenseNoPicPath")).replaceFirst(filePath, ""));
+						agent.setTaxNoPicPath(((String) map.get("taxNoPicPath")).replaceFirst(filePath, ""));
 					}
 					agentLoginService.addAgent(agent);
 					return Response.getSuccess("注册成功！");

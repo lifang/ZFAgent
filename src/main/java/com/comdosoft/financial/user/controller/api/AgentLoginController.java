@@ -61,6 +61,9 @@ public class AgentLoginController {
 	
 	@Value("${goToUserLogin}")
 	private String goToUserLogin;
+	
+	@Value("${filePath}")
+	private String filePath;
 
 	@Resource
 	private MailService mailService;
@@ -203,7 +206,7 @@ public class AgentLoginController {
     public Response tempOpenImg(@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
         	String joinpath="";
-        	joinpath = HttpFile.upload(updatefile, agent+"/Registe/");
+        	joinpath = filePath+HttpFile.upload(updatefile, agent+"/Registe/");
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
         		return Response.getError(joinpath);
         		return Response.getSuccess(joinpath);

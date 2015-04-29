@@ -589,6 +589,9 @@ public class OrderService {
     }
 
     public Map<String, Object> orderPay(MyOrderReq myOrderReq) {
+    	String we_price =  myOrderReq.getWebPrice()==null?"-1": myOrderReq.getWebPrice().trim();
+    	BigDecimal web_price = new BigDecimal(we_price);//获取页面上显示的价格
+    	web_price = web_price.multiply(new BigDecimal(100));
         List<Order> oo = orderMapper.getWholesaleById(myOrderReq.getId());
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         Order o = new Order();
@@ -616,8 +619,30 @@ public class OrderService {
         Integer pay_status = o.getFrontPayStatus() == null ? 1 : o.getFrontPayStatus(); // 2 已支付 1未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney() == null ? 0 : o.getFrontMoney();
+        
         if (pay_status== 2) {
+        	logger.debug("订单号:::"+id+"支付请求>>>  >>>>>>"+web_price.compareTo(shengyu_price)+">>>"+shengyu_price+">>>"+web_price);
             zhifu_dingjin = dj_price;
+	            	//    -1 小于   	0 等于   1 大于
+	    	  if(web_price.compareTo(shengyu_price)==1) {
+	    		  map.put("is_true", 0);  //   大于订单金额  提示
+	    		  logger.debug("订单号:::"+id+"支付请求>>>>已经支付定金>>>大于订单金额  >>>>>>");
+	    	  }else{
+	    		  map.put("is_true", 1);  //    
+	    		  logger.debug("订单号:::"+id+"支付请求>>>>已经支付定金>>>小于等于订单金额  >>>>>>");
+	    	  }
+        }else{//如果定金没有支付完成
+        	logger.debug("订单号:::"+id+"支付请求>>>还没支付定金>> >>>>>>"+web_price.compareTo(new BigDecimal(dj_price)) +">>>"+ web_price +">>>>"+dj_price);
+	        	if(web_price.compareTo(new BigDecimal(dj_price))==0){  //判断页面上金额  是否与 定金相同
+	        		map.put("is_true", 1);  //正常
+	        		 logger.debug("订单号:::"+id+"支付请求>>>还没支付定金>>>>正常>>>>>>");
+	        	}else 	if(web_price.compareTo(new BigDecimal(dj_price))==1){
+	        		  map.put("is_true", 0);  //   大于订单金额  提示
+	        		 logger.debug("订单号:::"+id+"支付请求>>>还没支付定金>>>>多给了>>>>>>");
+	        	}else {
+	        		map.put("is_true", -1); //非法提交
+	        		 logger.debug("订单号:::"+id+"支付请求>>>>还没支付定金>>>非法提交  少给了>>>>>>");
+	        	}
         }
         // Integer shengyu_price = actual_price-zhifu_dingjin;
         map.put("pay_status", pay_status + ""); // 支付状态 定金
@@ -699,6 +724,9 @@ public class OrderService {
 							 logger.debug(">>>>>>>>>>>>支付剩余金额的付款>>>>>>"+shengyu_price);
 							  int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,3); //  1为定金付款   2 为余额支付 3 余下的钱
 							 logger.debug("余额全额付款完成》》记录付款单并更新状态over》》》》");
+						 }else  if(shengyu_price.intValue() < pay_price){ 
+							  int  j = orderMapper.paySuccessUpdateOrder(o.getId(),s,3); //  1为定金付款   2 为余额支付 3 余下的钱
+								 logger.debug("》》》》》》》》》》》》》订单支付金额》》》  大于  》》》  剩余需要付款的钱》》》》》》》》》》》更新订单付款over");
 						 }
 			        }else{ //     支付定金 
 			        	 logger.debug(">>>>>>>>>>>>定金还未付>>>>>>"+fps);

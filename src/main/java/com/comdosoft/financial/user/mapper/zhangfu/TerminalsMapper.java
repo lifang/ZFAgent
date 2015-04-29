@@ -234,6 +234,6 @@ public interface TerminalsMapper {
      */
     int checkTerminalCodeOpen(String str);
 
-	Map<Object, Object> getTerminalByNo(String serialNum);
+	Map<Object, Object> getTerminalById(Integer terminalId);
     
 }

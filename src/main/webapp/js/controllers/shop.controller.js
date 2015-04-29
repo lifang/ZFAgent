@@ -442,7 +442,7 @@ var shopinfoController = function($scope, $http, $location, LoginService) {
 	};
 
 	// 跳转到XX页
-	$scope.picnb = 2;
+	$scope.picnb = 0;
 	$scope.tt = function(nb) {
 		$scope.picnb = nb;
 	};
@@ -896,7 +896,7 @@ var purchaseshopinfoController = function($scope, $http, $location, LoginService
 	};
 
 	// 跳转到XX页
-	$scope.picnb = 2;
+	$scope.picnb = 0;
 	$scope.tt = function(nb) {
 		$scope.picnb = nb;
 	};

@@ -374,7 +374,7 @@ public class TerminalsService {
 		return  terminalsMapper.checkTerminalCodeOpen(str);
 	}
 	
-	public Map<Object,Object> getTerminalByNo(String serialNum){
-		return  terminalsMapper.getTerminalByNo(serialNum);
+	public Map<Object,Object> getTerminalById(Integer id){
+		return  terminalsMapper.getTerminalById(id);
 	}
 }

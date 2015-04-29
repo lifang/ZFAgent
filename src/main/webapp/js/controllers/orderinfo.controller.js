@@ -85,6 +85,9 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
 	    	}else if(parseInt(pay_price) > parseInt(sy_price)){
 	    		alert("最多只需支付"+sy_price);
 	    		return false;
+	    	}else if(pay_price < 0.01){
+        			alert("大哥，至少赏个一分钱吧!！");
+        			return false;
 	    	}else{
 	    		$scope.close();
 	    	 	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  
@@ -104,6 +107,9 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
     	}else if(parseInt(pay_price) > parseInt(sy_price)){
         		alert("最多只需支付"+sy_price);
         		return false;
+    	}else   if( pay_price < 0.01){
+        			alert("大哥，至少赏个一分钱吧！");
+        			return false;
     	}else{
     		$scope.close();
     	 	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  

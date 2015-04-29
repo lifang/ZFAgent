@@ -171,6 +171,9 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
     	}else if(parseInt(pay_price) > parseInt(sy_price)){
     		alert("最多只需支付"+sy_price);
     		return false;
+    	}else if( pay_price < 0.01){
+    		alert("大哥，至少赏个一分钱吧！");
+    		return false;
     	}else{
     		$scope.close();
     	 	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  
@@ -534,12 +537,17 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		$scope.req.id=$location.search()['id'];
 		var price =$location.search()['p'];//
 		$scope.req.webPrice = price;
+	
 		$http.post("api/order/payOrder", $scope.req).success(function (data) {  //绑定
 	        if (data.code==1) {
 	        	if(data.result.is_true==0){
 	        		alert("不需要支付那么多哦!!!");
 	        		return false;
 	        	}else{
+	        		if($scope.p < 0.01){
+	        			alert("大哥，至少赏个一分钱吧!！");
+	        			return false;
+	        		}
 //	        		console.log(">>>>>>金额正确>>>");
 	        		$('#payTab').show();
 	        		$('.mask').show();

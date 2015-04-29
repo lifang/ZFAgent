@@ -195,6 +195,13 @@ public class LowerAgentService {
         int total=lowerAgentMapper.getLowerAgentTotal(req);
         map.put("total", total);
         List<Map<String, Object>> list=lowerAgentMapper.getLowerAgentList(req);
+        for(int i=0;i<list.size();i++){
+        	int types=Integer.parseInt(list.get(i).get("types").toString());
+        	if(types==2){
+        		String name=list.get(i).get("name").toString();
+        		list.get(i).put("company_name", name);
+        	}
+        }
         map.put("list", list);
         return map;
     }

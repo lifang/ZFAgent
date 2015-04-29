@@ -190,9 +190,9 @@ public class TerminalsService {
 	 * @param customerId
 	 * @return
 	 */
-	public int getMerchantSize(Integer customerId,String title) {
+	public int getMerchantSize(Integer terminalId,String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("customerId", customerId);
+		map.put("terminalId", terminalId);
 		map.put("title", title);
 		return terminalsMapper.getMerchantSize(map);
 	}

@@ -65,7 +65,7 @@ public class OpeningApplyWebController {
 		try {
 			Map<Object, Object> map = new HashMap<Object, Object>();
 			// 获得终端详情
-			Map<String, Object> mp = new HashMap<String, Object>();
+			Map<Object, Object> mp = new HashMap<Object, Object>();
 			mp = openingApplyWebService.getApplyDetails((Integer)maps.get("terminalId"));
 			map.put("applyDetails",mp);
 			// 获得所有商户
@@ -76,7 +76,7 @@ public class OpeningApplyWebController {
 			List<Map<Object, Object>> list = openingApplyWebService.getChannels();
 			List<Map<Object, Object>> li = new ArrayList<Map<Object,Object>>();
 			 for(Map<Object, Object> m:list){
-				 if((Integer)m.get("id") == mp.get("channelId")){
+				 if(m.get("id").equals(mp.get("channelId"))){
 					 li.add(m);
 				 }
 			 }

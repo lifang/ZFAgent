@@ -65,9 +65,9 @@
 		</if>
 	</select>
 	
-	<select id="getTerminalsNum" parameterType="string" resultType="object">
+	<select id="getTerminalsNum" parameterType="map" resultType="object">
 		SELECT id FROM terminals
-		WHERE serial_num =#{terminalsNum}
+		WHERE serial_num =#{terminalsNum} and agent_id = #{agentId}
 	</select>
 	
 	<select id="numIsBinding" parameterType="string" resultType="int">

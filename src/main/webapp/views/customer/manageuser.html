@@ -16,7 +16,7 @@
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				class="b_table">
 				<colgroup>
-					<!-- <col width="50" /> -->
+					<col /> 
 					<col />
 					<col />
 					<col />
@@ -24,7 +24,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<!-- <th></th> -->
+						<th>用户ID</th>
 						<th>用户姓名</th>
 						<th>手机号码</th>
 						<th>邮箱</th>
@@ -34,6 +34,7 @@
 				<tbody>
 					<tr ng-repeat="one in commercialList">
 						<!-- <td><input name="" type="checkbox" value="" /></td> -->
+						<td>{{one.username}}</td>
 						<td>{{one.name}}</td>
 						<td>{{one.phone}}</td>
 						<td>{{one.email}}</td>

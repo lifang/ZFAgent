@@ -403,7 +403,7 @@ public class TerminalsController {
 	@RequestMapping(value="screeningPosName",method=RequestMethod.POST)
 	public Response screeningPosName(@RequestBody Map<String, Object> map){
 		try{//代理商id
-			return Response.getSuccess(terminalsService.screeningPosName((Integer)map.get("agentId")));
+			return Response.getSuccess(terminalsService.screeningPosName((Integer)map.get("customerId")));
 		}catch(Exception e){
 			logger.error("POS机选择失败！", e);
 			return Response.getError("请求失败！");

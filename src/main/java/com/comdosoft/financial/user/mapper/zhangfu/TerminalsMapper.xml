@@ -272,7 +272,8 @@
 		SELECT distinct  g.id,g.title FROM terminals t
 		LEFT JOIN goods g ON
 		t.good_id = g.id
-		WHERE t.agent_id = #{agentId} AND g.id is not NULL
+		LEFT JOIN agents a on a.customer_id = #{customerId}
+		WHERE t.agent_id =a.id  AND g.id is not NULL
 	</select>
 
 	<!-- 查询单个商户的终端信息 -->

@@ -196,13 +196,12 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
   
 //找回POS机密码
   $scope.pass =null;
-  $scope.findPassword = function(){
+  $scope.findPassword = function(t){
 	  $http.post("api/webTerminal/Encryption", {terminalid:$scope.terminalId}).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == 1){
-            	  $(".mask").show();
-            	  $("#pass").show();
-            	  $("#passdiv").html(data.result);
+        		  $("#passdiv").html(data.result);
+        		  $scope.showPay(t);
         	  }
           }
       }).error(function (data) {
@@ -230,11 +229,9 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
 	  $(".mask").hide ();
   }
   
-//租借說明弹出层
-  $scope.popup = function(t,b){
-	  $(".mask").show();
-	  $(".leaseExplain_tab").show();
-	  var doc_height = $(document).height();
+  
+	$scope.showPay = function(t){
+		var doc_height = $(document).height();
 		var doc_width = $(document).width();
 		var win_height = $(window).height();
 		var win_width = $(window).width();
@@ -243,34 +240,19 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
 		var layer_width = $(t).width();
 		
 		var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		 
+	    $(".mask").css({display:'block',height:doc_height});
+		$(t).css('top',(win_height-layer_height)/2);
+		$(t).css('left',(win_width-layer_width)/2);
+		$(t).css('display','block');
 		
-		//tab
-		$(b).bind('click',function(){
-			    $(".mask").css({display:'block',height:doc_height});
-				$(t).css('top',(win_height-layer_height)/2);
-				$(t).css('left',(win_width-layer_width)/2);
-				$(t).css('display','block');
-				return false;
-			}
-		)
-		$(".close").click(function(){
-			$(t).css('display','none');
-			$(".mask").css('display','none');
-		})
-  }
-  
+	};
+	
+	$scope.close = function(t){
+    	$(t).css('display','none');
+		$(".mask").css('display','none');
+    }
  
-//同步
-  /*$scope.synchronous = function(){
-	  $http.post("api/terminal/synchronous").success(function (data) {  //绑定
-          if (data != null && data != undefined) {
-        	  alert(data.code);
-          }
-      }).error(function (data) {
-    	  alert("同步失败");
-      });
-  }*/
-  
   $scope.onmousover = function(){
 	  infoTab('.cover','.img_info'); 
   }

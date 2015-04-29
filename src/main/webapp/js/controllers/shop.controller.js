@@ -974,7 +974,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$http.post("api/order/agent", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				if ($scope.order.orderType == 5) {
-					window.location.href = '#/deposit_pay?id=' + data.result;
+					window.location.href = '#/deposit_pay?id=' + data.result+"&q=1";
 				} else {
 					window.location.href = '#/pay?id=' + data.result;
 				}

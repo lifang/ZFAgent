@@ -152,7 +152,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
     $scope.orderpay = function(o) {
     	$("#zf_yz").hide();
    		var pay_price = $("#pay_price").val();
-   		console.log(">>>>>>>>>>>"+pay_price);
+//   		console.log(">>>>>>>>>>>"+pay_price);
    		if(isNaN(pay_price)){
    			alert("支付金额必须是数字");
    			return false;
@@ -165,7 +165,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 //    		$("#zf_yz").show();
     		return false;
     	}else if( sy_price  < pay_price ){
-    		console.log(">>>>>>muqian "+pay_price+">>>最多"+sy_price);
+//    		console.log(">>>>>>muqian "+pay_price+">>>最多"+sy_price);
         		alert("最多只需支付"+sy_price);
         		return false;
     	}else if(parseInt(pay_price) > parseInt(sy_price)){
@@ -182,7 +182,7 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	//定金支付
 	 $scope.depositpay = function(o) {
 		 var dj = o.price_dingjin;
-	    window.open("#/deposit_pay?id="+o.order_id) ;  
+	    window.open("#/deposit_pay?id="+o.order_id+"&q=1") ;  
 	};
 	
 	// 上一页
@@ -455,7 +455,9 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.payway=1;
 	$scope.req.id=$location.search()['id'];
 	var price =$location.search()['p'];//
+	var q =$location.search()['q'];//  1　定金支付
 	$scope.req.webPrice = price;
+	$scope.req.q = q;
 	$scope.getOrder = function() {
 		$http.post("api/order/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
@@ -527,7 +529,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
  
 	//订单支付
 	$scope.orderpay= function(){
-		console.log(">>>>>去支付");
+//		console.log(">>>>>去支付");
 		$scope.req={};
 		$scope.req.id=$location.search()['id'];
 		var price =$location.search()['p'];//
@@ -538,7 +540,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	        		alert("不需要支付那么多哦!!!");
 	        		return false;
 	        	}else{
-	        		console.log(">>>>>>金额正确>>>");
+//	        		console.log(">>>>>>金额正确>>>");
 	        		$('#payTab').show();
 	        		$('.mask').show();
 	        		if(1==$scope.payway){

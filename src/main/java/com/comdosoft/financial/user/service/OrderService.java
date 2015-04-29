@@ -590,6 +590,7 @@ public class OrderService {
 
     public Map<String, Object> orderPay(MyOrderReq myOrderReq) {
     	String we_price =  myOrderReq.getWebPrice()==null?"-1": myOrderReq.getWebPrice().trim();
+    	String q =  myOrderReq.getQ()==null?"-1": myOrderReq.getQ().trim();   // 1　为定金支付　　
     	BigDecimal web_price = new BigDecimal(we_price);//获取页面上显示的价格
     	web_price = web_price.multiply(new BigDecimal(100));
         List<Order> oo = orderMapper.getWholesaleById(myOrderReq.getId());
@@ -605,7 +606,7 @@ public class OrderService {
         //根据订单id 查询 支付记录中存在多少条记录
         List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(id);
         Integer haspayed_price = 0;
-        int size = oplist.size();
+        int size = oplist.size()+1;
         if(oplist.size()>0){
         	for(OrderPayment op:oplist){
         		haspayed_price += op.getPrice();
@@ -619,9 +620,11 @@ public class OrderService {
         Integer pay_status = o.getFrontPayStatus() == null ? 1 : o.getFrontPayStatus(); // 2 已支付 1未支付
         Integer zhifu_dingjin = 0;
         Integer dj_price = o.getFrontMoney() == null ? 0 : o.getFrontMoney();
-        
+       
         if (pay_status== 2) {
-        	size = size +1;
+        	if(q.equals("1")){//支付定金
+        		size = size -1;
+        	}
         	logger.debug("订单号:::"+id+"支付请求>>>  >>>>>>"+web_price.compareTo(shengyu_price)+">>>"+shengyu_price+">>>"+web_price);
             zhifu_dingjin = dj_price;
 	            	//    -1 小于   	0 等于   1 大于

@@ -30,27 +30,24 @@ public class MessageReceiverService {
         List<MessageReceiver> centers = messageReceiverMapper.findAll(myOrderReq);
         List<Object> list = new ArrayList<Object>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Map<String,Object> map = null;
+        Map<String,Object> map = new HashMap<String,Object>();
         for(MessageReceiver s: centers){
-            SysMessage sm = s.getSysMessage();
-            if(null != sm){
-            	  map.put("id", sm.getId() ==null ?"":sm.getId()+"");
-                  map.put("title", sm.getTitle()==null ?"":sm.getTitle());
-                  Date d = sm.getCreatedAt();
-                  if(null ==d){
-                	  map.put("create_at","");
-                  }else{
-                	  map.put("create_at",sdf.format(d));
-                  }
-                  map.put("content",sm.getContent() ==null ?"":sm.getContent());
-            }
-            map = new HashMap<String,Object>();
-            if(null != s.getStatus() && s.getStatus()==1){
-                map.put("status", true);
-            }else{
-                map.put("status", false);
-            }
-            list.add(map);
+        	  map = new HashMap<String,Object>();
+              map.put("id", s.getSysMessage() ==null ?"":s.getSysMessage().getId()+"");
+              map.put("title", s.getSysMessage() ==null ?"":s.getSysMessage().getTitle());
+              if(null != s.getStatus() && s.getStatus()==1){
+                  map.put("status", true);
+              }else{
+                  map.put("status", false);
+              }
+              Date d = s.getSysMessage().getCreatedAt() ;
+              if(null == d){
+              	map.put("create_at","");
+              }else{
+              	map.put("create_at",sdf.format(d));
+              }
+              map.put("content", s.getSysMessage() ==null ?"":s.getSysMessage().getContent());
+              list.add(map);
         }
         return new Page<Object>(request, list, count);
     }

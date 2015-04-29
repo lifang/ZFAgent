@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +38,21 @@ public class AgentService {
 
 	@Resource
 	private TerminalsMapper terminalsMapper;
+	
+	@Value("${filePath}")
+	private String filePath;
 
 	public Map<Object, Object> getOne(Customer param) {
-		return agentMapper.getOne(param);
+		Map<Object, Object>  m = agentMapper.getOne(param);
+		if(null != m){
+			Object card_id_photo_path =  m.get("card_id_photo_path") ;
+			Object license_no_pic_path = m.get("license_no_pic_path");
+			Object tax_no_pic_path = m.get("tax_no_pic_path");
+			m.put("card_id_photo_path", filePath+card_id_photo_path);
+			m.put("license_no_pic_path", filePath+license_no_pic_path);
+			m.put("tax_no_pic_path", filePath+tax_no_pic_path);
+		}
+		return m;
 	}
 
 	public Customer getOneCustomer(Customer param) {

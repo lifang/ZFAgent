@@ -423,6 +423,7 @@ var payController = function($scope, $http,$location,LoginService) {
             		$scope.payway=data.result.paytype;
             		$('#payTab').hide();
             		$('.mask').hide();
+            		window.location.href = '#/proxyOrder';
             	}else{
             		alert("尚未支付,如有疑问请联系888-88888");
             	}
@@ -529,6 +530,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             		$scope.payway=1;
             		$('#payTab').hide();
             		$('.mask').hide();
+            		window.location.href = '#/wholesaleOrder';
             	}else{
             		alert("尚未支付,如有疑问请联系888-88888");
             	}
@@ -544,6 +546,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             		$scope.payway=1;
             		$('#payTab').hide();
             		$('.mask').hide();
+            		window.location.href = '#/wholesaleOrder';
             	}else{
             		alert("尚未支付,如有疑问请联系888-88888");
             	}

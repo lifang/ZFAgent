@@ -63,8 +63,8 @@
                                <tr ng-repeat="rates in rateList">
                                 <td>{{rates.trade_value}}</td>
                                 <td>
-                                 <span ng-if="rates.trade_value == '消费'">{{(rates.service_rate+rates.base_rate)}}‰</span>
-                                 <span ng-if="rates.trade_value != '消费'">{{rates.terminal_rate}}‰</span>
+                                 <span ng-if="rates.trade_value == '消费'">{{(rates.service_rate+rates.base_rate/10 |number:1)}}‰</span>
+                                 <span ng-if="rates.trade_value != '消费'">{{rates.terminal_rate/10 |number:1}}‰</span>
                                 </td>
                                 <td>
                                 <span ng-if="rates.status == 1">已开通</span>

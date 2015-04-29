@@ -108,6 +108,9 @@ public class TradeRecordService3 {
 
     public Map<String, Object> getTradeRecord(TradeReq req) {
         Map<String, Object> result = tradeRecordMapper3.getTradeRecord(req);
+        if(result==null){
+            return null;
+        }
         int type = SysUtils.Object2int(result.get("types"));
         int pcid = SysUtils.Object2int(result.get("pay_channel_id"));
         int agid=SysUtils.Object2int(result.get("agent_id"));

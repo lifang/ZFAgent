@@ -208,11 +208,11 @@ public class LowerAgentService {
 	
 	public Map<String, Object> getInfo(LowerAgentReq req) {
 		Map<String, Object> map=lowerAgentMapper.getInfo(req);
-		String temp=filePath+" "+map.get("cardpath").toString();
+		String temp=filePath+map.get("cardpath").toString();
 		map.put("cardpath", temp);
-		String temp1=filePath+" "+map.get("licensepath").toString();
+		String temp1=filePath+map.get("licensepath").toString();
 		map.put("licensepath", temp1);
-		String temp2=filePath+" "+map.get("taxpath").toString();
+		String temp2=filePath+map.get("taxpath").toString();
 		map.put("taxpath", temp2);
         return map;
     }

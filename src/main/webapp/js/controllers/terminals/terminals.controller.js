@@ -196,13 +196,12 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
   
 //找回POS机密码
   $scope.pass =null;
-  $scope.findPassword = function(){
+  $scope.findPassword = function(t){
 	  $http.post("api/webTerminal/Encryption", {terminalid:$scope.terminalId}).success(function (data) {  //绑定
           if (data != null && data != undefined) {
         	  if(data.code == 1){
-            	  $(".mask").show();
-            	  $("#pass").show();
-            	  $("#passdiv").html(data.result);
+        		  $("#passdiv").html(data.result);
+        		  $scope.showPay(t);
         	  }
           }
       }).error(function (data) {
@@ -217,6 +216,7 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
         		  alert("同步失败！");
         	  }else if(data.code == 1){
         		  alert("同步成功！");
+        		  window.location.reload();
         	  }
           }
       }).error(function (data) {
@@ -230,11 +230,9 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
 	  $(".mask").hide ();
   }
   
-//租借說明弹出层
-  $scope.popup = function(t,b){
-	  $(".mask").show();
-	  $(".leaseExplain_tab").show();
-	  var doc_height = $(document).height();
+  
+	$scope.showPay = function(t){
+		var doc_height = $(document).height();
 		var doc_width = $(document).width();
 		var win_height = $(window).height();
 		var win_width = $(window).width();
@@ -243,34 +241,19 @@ var terminalDetailController = function ($scope, $http,$location, LoginService) 
 		var layer_width = $(t).width();
 		
 		var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		 
+	    $(".mask").css({display:'block',height:doc_height});
+		$(t).css('top',(win_height-layer_height)/2);
+		$(t).css('left',(win_width-layer_width)/2);
+		$(t).css('display','block');
 		
-		//tab
-		$(b).bind('click',function(){
-			    $(".mask").css({display:'block',height:doc_height});
-				$(t).css('top',(win_height-layer_height)/2);
-				$(t).css('left',(win_width-layer_width)/2);
-				$(t).css('display','block');
-				return false;
-			}
-		)
-		$(".close").click(function(){
-			$(t).css('display','none');
-			$(".mask").css('display','none');
-		})
-  }
-  
+	};
+	
+	$scope.close = function(t){
+    	$(t).css('display','none');
+		$(".mask").css('display','none');
+    }
  
-//同步
-  /*$scope.synchronous = function(){
-	  $http.post("api/terminal/synchronous").success(function (data) {  //绑定
-          if (data != null && data != undefined) {
-        	  alert(data.code);
-          }
-      }).error(function (data) {
-    	  alert("同步失败");
-      });
-  }*/
-  
   $scope.onmousover = function(){
 	  infoTab('.cover','.img_info'); 
   }
@@ -517,7 +500,7 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 //开始绑定
 	 $scope.BindingTerminals = function(){
 		if(gotoBingding() == true){
-			$http.post('api/webTerminal/BindingTerminals',{customerId:$scope.customersId,terminalsNum:$scope.terminalsNum,userId:Math.ceil($scope.userId)}).success(function(data){
+			$http.post('api/webTerminal/BindingTerminals',{customerId:$scope.customersId,terminalsNum:$scope.terminalsNum,userId:Math.ceil($scope.userId),agentId:Math.ceil($scope.agentId)}).success(function(data){
 			 if(data.code == 1){
 				 alert(data.result);
 			 }else if(data.code == -1){
@@ -705,7 +688,9 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
 	//英文数字校验
 	var numCh = /[^a-zA-Z0-9]/g;
-
+	//数字校验
+	var numReg = /^\d+$/;
+	
 	$scope.customerId = Math.ceil(LoginService.agentUserId);
 	$scope.terminalId = Math.ceil($location.search()['terminalId']);
 	$scope.opstatus = Math.ceil($location.search()['status']);
@@ -872,7 +857,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		  //$scope.bankCode="";
 		  $scope.bankObj={bankName:"",bankCode:0,code:0};
 		  $scope.bank = function(obj){
-			 $scope.bankjson = {keyword:$scope.bankObj.bankName,page:1,pageSize:10,serialNum:$scope.applyDetails.serial_num};
+			 $scope.bankjson = {keyword:$scope.bankObj.bankName,page:1,pageSize:10,terminalId:($scope.terminalId).toString()};
 			  $http.post("api/applyWeb/chooseBank",$scope.bankjson).success(function (data) {  //绑定
 		          if (data != null && data != undefined) {
 		        	  if(data.code == 1){
@@ -960,7 +945,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 				                     billingId:$scope.billingId,
 				                     bankNum:$("#bankNumValue").val(),
 				                     bankName:$("#bankNameValue").val(),
-				                     bankCode:$scope.bankObj.code,
+				                     bankCode:$scope.bankObj.bankName.toString(),
 				                     organizationNo:$("#organizationNoValue").val(),
 				                     registeredNo:$("#registeredNoValue").val(),
 				                     needPreliminaryVerify:Math.ceil($scope.applyDetails.needPreliminaryVerify)
@@ -1055,8 +1040,11 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  }*/else if($("#bankNameValue").val() == null || $("#bankNameValue").val() == ""){
 				  alert("请填写结算银行名称！");
 				  return false;
-			  }else if($("#bankCodeValue").val() == null || $("#bankCodeValue").val() == ""){
+			  }else if($scope.bankObj.bankName == null || $scope.bankObj.bankName == ""){
 				  alert("请填写结算银行代码！");
+				  return false;
+			  }else if(!numReg.test($scope.bankObj.bankName)){
+				  alert("结算银行代码由数字组成！");
 				  return false;
 			  }else if($("#organizationNoValue").val() == null || $("#organizationNoValue").val() == ""){
 				  alert("请填写组织登记号！");

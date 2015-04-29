@@ -117,12 +117,13 @@
 
 	<select id="getRate" parameterType="int" resultType="map">
 		SELECT
-		s.id,s.trade_type_id,s.terminal_rate,s.base_rate,s.service_rate,i.`status`
+		s.id,s.terminal_rate,d.trade_type,d.trade_value,y.rate as service_rate,t.base_rate,l.`status`
 		FROM terminals t LEFT JOIN
-		terminal_trade_type_infos
-		i ON t.id=i.terminal_id
-		LEFT JOIN support_trade_types s ON i.trade_type_id=s.id
-		WHERE t.id=#{id}
+		support_trade_types s ON t.pay_channel_id = s.pay_channel_id
+		LEFT JOIN dictionary_trade_types d ON d.id = s.trade_type_id
+		LEFT JOIN pay_channel_billing_cycles y ON y.pay_channel_id = t.pay_channel_id and y.billing_cycles_id = t.billing_cycles_id
+		LEFT JOIN terminal_trade_type_infos l ON l.trade_type_id = s.trade_type_id and l.terminal_id = #{id} 
+		WHERE t.id=#{id} 
 	</select>
 
 	<select id="getTrackRecord" parameterType="int" resultType="map">
@@ -179,9 +180,9 @@
 		<if test="title != null and title != ''">AND m.title  like '%${title}%'</if>
 	</select>
 	
-	<select id="getTerminalsNum" parameterType="string" resultType="object">
+	<select id="getTerminalsNum" parameterType="map" resultType="object">
 		SELECT id FROM terminals
-		WHERE serial_num =#{terminalsNum}
+		WHERE serial_num =#{terminalsNum} and agent_id = #{agentId}
 	</select>
 
 	<select id="numIsBinding" parameterType="string" resultType="int">
@@ -300,8 +301,8 @@
 		WHERE username=#{username} AND status=#{status}
 	</select>
 
-	<select id="getTerminalByNo" parameterType="java.lang.String" resultType="map">
-		select serial_num,pay_channel_id from terminals where serial_num = #{serialNum}
+	<select id="getTerminalById" parameterType="java.lang.Integer" resultType="map">
+		select serial_num,pay_channel_id from terminals where id = #{terminalId}
 	</select>
 
 	<select id="findUnameAndStatusCode" parameterType="map" resultType="map">

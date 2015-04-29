@@ -65,9 +65,9 @@
 		</if>
 	</select>
 	
-	<select id="getTerminalsNum" parameterType="string" resultType="object">
+	<select id="getTerminalsNum" parameterType="map" resultType="object">
 		SELECT id FROM terminals
-		WHERE serial_num =#{terminalsNum}
+		WHERE serial_num =#{terminalsNum} and agent_id = #{agentId}
 	</select>
 	
 	<select id="numIsBinding" parameterType="string" resultType="int">
@@ -119,7 +119,7 @@
 	
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.id,t.serial_num,t.`status`,g.title,g.model_number,b.name as
-		brandName,a.name as factorName,m.title,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,c.id as channelId,l.`id` as appId,l.`status` as applieStatus,e.types,
+		brandName,a.name as factorName,m.title as merTitle,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,c.id as channelId,l.`id` as appId,l.`status` as applieStatus,e.types,
 		u.`name` as userName ,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
 		FROM terminals t 
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id
@@ -137,12 +137,12 @@
 	
 	<select id="getRate" parameterType="int" resultType="map">
 		SELECT
-		s.id,s.terminal_rate,d.trade_type,d.trade_value,y.service_rate,t.base_rate,l.`status`
+		s.id,s.terminal_rate,d.trade_type,d.trade_value,y.rate as service_rate,t.base_rate,l.`status`
 		FROM terminals t LEFT JOIN
 		support_trade_types s ON t.pay_channel_id = s.pay_channel_id
 		LEFT JOIN dictionary_trade_types d ON d.id = s.trade_type_id
-		LEFT JOIN dictionary_billing_cycles y ON y.id = t.billing_cycles_id
-		LEFT JOIN terminal_trade_type_infos l ON l.trade_type_id = s.trade_type_id and l.terminal_id = #{id}
+		LEFT JOIN pay_channel_billing_cycles y ON y.pay_channel_id = t.pay_channel_id and y.billing_cycles_id = t.billing_cycles_id
+		LEFT JOIN terminal_trade_type_infos l ON l.trade_type_id = s.trade_type_id and l.terminal_id = #{id} 
 		WHERE t.id=#{id} 
 	</select>
 	

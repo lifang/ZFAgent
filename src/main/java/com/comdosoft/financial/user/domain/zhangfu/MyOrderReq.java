@@ -32,7 +32,16 @@ public class MyOrderReq {
 	private String agentId;
 	//支付回调信息
 	private PayReq req;
- 
+	private String webPrice;//web页面上的金额
+	 
+	public String getWebPrice() {
+		return webPrice;
+	}
+
+	public void setWebPrice(String webPrice) {
+		this.webPrice = webPrice;
+	}
+
 	/** 
 	 * 获取 req 
 	 * @return req

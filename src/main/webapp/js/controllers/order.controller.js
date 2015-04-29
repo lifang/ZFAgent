@@ -121,8 +121,10 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	//显示支付
 	$scope.showPay = function(id,i){
 //		$scope.req={id:id};
+//		console.log(">>>>>>>>>>>pay_price  showpay");
     	$("#o_id").val(id);
     	$("#o_index").val(i);
+    	$("#pay_price").val("");
 //		popup(".pay_tab",".pay_a");//代理商批购
 		var doc_height = $(document).height();
 		var doc_width = $(document).width();
@@ -150,6 +152,11 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
     $scope.orderpay = function(o) {
     	$("#zf_yz").hide();
    		var pay_price = $("#pay_price").val();
+//   		console.log(">>>>>>>>>>>"+pay_price);
+   		if(isNaN(pay_price)){
+   			alert("支付金额必须是数字");
+   			return false;
+   		}
     	var o_id = $("#o_id").val();
     	var o_index = $("#o_index").val();
     	var sy_price = $("#shenyu_price_"+o_index).val();
@@ -157,9 +164,16 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
     		alert("请输入金额");
 //    		$("#zf_yz").show();
     		return false;
-    	}else if(parseInt(pay_price) > parseInt(sy_price)){
+    	}else if( sy_price  < pay_price ){
+//    		console.log(">>>>>>muqian "+pay_price+">>>最多"+sy_price);
         		alert("最多只需支付"+sy_price);
         		return false;
+    	}else if(parseInt(pay_price) > parseInt(sy_price)){
+    		alert("最多只需支付"+sy_price);
+    		return false;
+    	}else if( pay_price < 0.01){
+    		alert("大哥，至少赏个一分钱吧！");
+    		return false;
     	}else{
     		$scope.close();
     	 	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  
@@ -167,10 +181,11 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 //    	window.open("alipayapi.jsp?WIDtotal_fee="+o.order_totalPrice/100+"&WIDsubject="+g_name+"&WIDout_trade_no="+o.order_number);  
 	};
 	
+	
 	//定金支付
 	 $scope.depositpay = function(o) {
 		 var dj = o.price_dingjin;
-	    window.open("#/deposit_pay?id="+o.order_id) ;  
+	    window.open("#/deposit_pay?id="+o.order_id+"&q=1") ;  
 	};
 	
 	// 上一页
@@ -443,11 +458,19 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.payway=1;
 	$scope.req.id=$location.search()['id'];
 	var price =$location.search()['p'];//
+	var q =$location.search()['q'];//  1　定金支付
+	$scope.req.webPrice = price;
+	$scope.req.q = q;
 	$scope.getOrder = function() {
 		$http.post("api/order/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.order=data.result;
             	$scope.p=price;
+            	if(data.result.is_true==0){
+            		alert("不需要支付那么多哦!!!");
+            		return false;
+            	}
+            	
             	if(data.result.paytype>0){
             		$scope.pay=false;
             		$scope.payway=data.result.paytype;
@@ -505,21 +528,43 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 			window.open("http://www.taobao.com");  
 		}
 	}
+	
+ 
 	//订单支付
 	$scope.orderpay= function(){
-		$('#payTab').show();
-		$('.mask').show();
-		if(1==$scope.payway){
-			//alert("支付宝");
-			$scope.order.title="订单付款";
-			var body = "订单付款";
-			window.open("depositalipayapi.jsp?WIDtotal_fee="+
-					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
-					+"&WIDout_trade_no="+$scope.order.order_number);  
-		}else{
-			//alert("银行");
-			window.open("http://www.taobao.com");  
-		}
+//		console.log(">>>>>去支付");
+		$scope.req={};
+		$scope.req.id=$location.search()['id'];
+		var price =$location.search()['p'];//
+		$scope.req.webPrice = price;
+	
+		$http.post("api/order/payOrder", $scope.req).success(function (data) {  //绑定
+	        if (data.code==1) {
+	        	if(data.result.is_true==0){
+	        		alert("不需要支付那么多哦!!!");
+	        		return false;
+	        	}else{
+	        		if($scope.p < 0.01){
+	        			alert("大哥，至少赏个一分钱吧!！");
+	        			return false;
+	        		}
+//	        		console.log(">>>>>>金额正确>>>");
+	        		$('#payTab').show();
+	        		$('.mask').show();
+	        		if(1==$scope.payway){
+		    			//alert("支付宝");
+		    			$scope.order.title="订单付款";
+		    			var body = "订单付款";
+		    			window.open("depositalipayapi.jsp?WIDtotal_fee="+
+		    					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
+		    					+"&WIDout_trade_no="+$scope.order.order_number);  
+		    		}else{
+		    			//alert("银行");
+		    			window.open("http://www.taobao.com");  
+		    		}
+	        	}
+	        }
+	    });
 	}
 	$scope.deposit_finish= function(){  //  批购定金支付
 		$http.post("api/order/payFinish", $scope.req).success(function (data) {  //绑定

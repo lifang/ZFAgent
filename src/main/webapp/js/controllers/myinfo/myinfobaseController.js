@@ -137,7 +137,7 @@ var myinfobaseController = function($scope, $http,$location, LoginService) {
 				var sMobile = $scope.customer.phone; 
 				$scope.getPhoneCode(sMobile);
 			}else{
-				console.log(t+"再次点击获取发送验证码时间未到");
+//				console.log(t+"再次点击获取发送验证码时间未到");
 			}
 		}
 	};

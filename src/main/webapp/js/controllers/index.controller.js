@@ -79,7 +79,7 @@ var indexController = function($scope, $location, $http, LoginService,
 	}
 	
 	$scope.$on('$locationChangeStart', function(scope, next, current) {
-
+		$("#yyy").show();
 		var strs = new Array(); // 定义一数组
 		strs = next.split("/#/"); // 字符分割
 
@@ -115,7 +115,7 @@ var indexController = function($scope, $location, $http, LoginService,
 	
 	var check = function(str) {
 		// alert(str + "====index.controller");
-		var arry = [ "shop", "shopinfo", "purchaseShop", "purchaseShopinfo",'login','register','findpass','findpassEmail',
+		var arry = [ "app","shop", "shopinfo", "purchaseShop", "purchaseShopinfo",'login','register','findpass','findpassEmail',
 		             "shopmakeorder","leasemakeorder","purchasemakeorder", "pay", "lowstocks","deposit_pay","order_pay","topay" ];
 		for (var i = 0; i < arry.length; i++) {
 			if (str == arry[i]) {
@@ -127,7 +127,7 @@ var indexController = function($scope, $location, $http, LoginService,
 	
 	var checkLogin = function(str) {
 		// alert(str + "====index.controller");
-		var arry = [ "login",'register','findpass','findpassEmail' ];
+		var arry = [ "app", "login",'register','findpass','findpassEmail' ];
 		for (var i = 0; i < arry.length; i++) {
 			if (str == arry[i]) {
 				return true;

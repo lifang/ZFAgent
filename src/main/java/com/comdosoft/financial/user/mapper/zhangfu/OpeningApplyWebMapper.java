@@ -79,7 +79,7 @@ public interface OpeningApplyWebMapper {
 	 * @param id
 	 * @return
 	 */
-	Map<String, Object> getApplyDetails(Integer id);
+	Map<Object, Object> getApplyDetails(Integer id);
 	
 	/**
 	 * 查看该终端材料等级个数

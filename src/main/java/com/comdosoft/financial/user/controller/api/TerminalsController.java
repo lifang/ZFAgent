@@ -166,7 +166,7 @@ public class TerminalsController {
 					(Integer)map.get("rows"));
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
-			applyMap.put("terminalList", terminalsService.getMerchants(
+			applyMap.put("merchaneList", terminalsService.getMerchants(
 					(Integer)map.get("terminalId"),
 					(String)map.get("title"),
 					offSetPage,

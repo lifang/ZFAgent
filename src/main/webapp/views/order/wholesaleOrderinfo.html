@@ -47,7 +47,8 @@
 				<div class="payWarning" ng-if="orderInfo.order_status==6">
 					<i ></i>交易关闭
 				</div>
-				<input type="hidden" value="{{orderInfo.shengyu_price/100}}"  id="shenyu_price">
+				<input type="hidden" value="{{orderInfo.shengyu_price/100}}"  id="shenyu_price_">
+				
 				<div class="dp_status_btn"  ng-if="orderInfo.order_status==1 && orderInfo.pay_status==2">
 					<a href="javascript:void(0);" ng-click="showPay(orderInfo.order_id)" class="orangeBtn">付款</a>
 				</div>
@@ -211,7 +212,7 @@
     </div>
     <input type="hidden" name="o_id" id="o_id" value=""> 
     <input type="hidden" name="o_index" id="o_index" value=""> 
-    <div class="tabFoot"><button class="blueBtn"  ng-click="orderpay()" >确定</button></div>
+    <div class="tabFoot"><button class="blueBtn"  ng-click="infoorderpay()" >确定</button></div>
     </div>
     
 </div>

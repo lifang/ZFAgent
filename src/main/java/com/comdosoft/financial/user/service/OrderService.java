@@ -605,7 +605,7 @@ public class OrderService {
         //根据订单id 查询 支付记录中存在多少条记录
         List<OrderPayment>  oplist = orderMapper.getOrderPayByOrderId(id);
         Integer haspayed_price = 0;
-        int size = oplist.size()+1;
+        int size = oplist.size();
         if(oplist.size()>0){
         	for(OrderPayment op:oplist){
         		haspayed_price += op.getPrice();
@@ -621,6 +621,7 @@ public class OrderService {
         Integer dj_price = o.getFrontMoney() == null ? 0 : o.getFrontMoney();
         
         if (pay_status== 2) {
+        	size = size +1;
         	logger.debug("订单号:::"+id+"支付请求>>>  >>>>>>"+web_price.compareTo(shengyu_price)+">>>"+shengyu_price+">>>"+web_price);
             zhifu_dingjin = dj_price;
 	            	//    -1 小于   	0 等于   1 大于

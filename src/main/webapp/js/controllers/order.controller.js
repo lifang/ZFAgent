@@ -507,7 +507,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.depositpay= function(){
 		$('#payTab').show();
 		$('.mask').show();
-		var body = "定金付款";
+		var body = "定金付款 "+ $scope.order.body;
 		$scope.order.title="";
 //    	var count=0;
 //    	 angular.forEach($scope.order.good, function (one) {
@@ -554,7 +554,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	        		if(1==$scope.payway){
 		    			//alert("支付宝");
 		    			$scope.order.title="订单付款";
-		    			var body = "订单付款";
+		    			var body = "订单付款  "+ $scope.order.body;
 		    			window.open("depositalipayapi.jsp?WIDtotal_fee="+
 		    					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
 		    					+"&WIDout_trade_no="+$scope.order.order_number);  

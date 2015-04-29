@@ -145,7 +145,7 @@ public class OpeningApplyWebService {
 	 * @param id
 	 * @return
 	 */
-	public Map<String, Object> getApplyDetails(Integer id) {
+	public Map<Object, Object> getApplyDetails(Integer id) {
 		return openingApplyWebMapper.getApplyDetails(id);
 	}
 	

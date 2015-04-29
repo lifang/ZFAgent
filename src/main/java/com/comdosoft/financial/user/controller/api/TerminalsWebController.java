@@ -325,7 +325,7 @@ public class TerminalsWebController {
 	@RequestMapping(value="BindingTerminals",method=RequestMethod.POST)
 	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
 		try {
-			if(terminalsWebService.getTerminalsNum((String)map.get("terminalsNum"))==null){
+			if(terminalsWebService.getTerminalsNum((String)map.get("terminalsNum"),(Integer)map.get("agentId"))==null){
 				return Response.getError("终端号不存在！");
 			}else{
 				if(terminalsWebService.numIsBinding((String)map.get("terminalsNum"))==0){

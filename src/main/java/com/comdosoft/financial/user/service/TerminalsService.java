@@ -201,8 +201,11 @@ public class TerminalsService {
 	 * @param terminalsNum
 	 * @return
 	 */
-	public Object getTerminalsNum(String terminalsNum){
-		return terminalsMapper.getTerminalsNum(terminalsNum);
+	public Object getTerminalsNum(String terminalsNum,Integer agentId){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("terminalsNum", terminalsNum);
+		map.put("agentId", agentId);
+		return terminalsMapper.getTerminalsNum(map);
 	}
 	
 	/**

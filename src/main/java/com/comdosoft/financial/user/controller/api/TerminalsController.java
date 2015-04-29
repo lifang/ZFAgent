@@ -189,7 +189,7 @@ public class TerminalsController {
 	@RequestMapping(value="bindingTerminals",method=RequestMethod.POST)
 	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
 		try {
-			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"))==null){
+			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"),(Integer)map.get("agentId"))==null){
 				return Response.getError("终端号不存在！");
 			}else{
 				if(terminalsService.numIsBinding((String)map.get("terminalsNum"))==0){

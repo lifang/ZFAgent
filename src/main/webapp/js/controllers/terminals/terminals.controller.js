@@ -500,7 +500,7 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 //开始绑定
 	 $scope.BindingTerminals = function(){
 		if(gotoBingding() == true){
-			$http.post('api/webTerminal/BindingTerminals',{customerId:$scope.customersId,terminalsNum:$scope.terminalsNum,userId:Math.ceil($scope.userId)}).success(function(data){
+			$http.post('api/webTerminal/BindingTerminals',{customerId:$scope.customersId,terminalsNum:$scope.terminalsNum,userId:Math.ceil($scope.userId),agentId:Math.ceil($scope.agentId)}).success(function(data){
 			 if(data.code == 1){
 				 alert(data.result);
 			 }else if(data.code == -1){

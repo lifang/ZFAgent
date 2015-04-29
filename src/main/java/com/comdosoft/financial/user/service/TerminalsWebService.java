@@ -102,8 +102,11 @@ public class TerminalsWebService {
 	 * @param terminalsNum
 	 * @return
 	 */
-	public Object getTerminalsNum(String terminalsNum){
-		return terminalsWebMapper.getTerminalsNum(terminalsNum);
+	public Object getTerminalsNum(String terminalsNum,Integer agentId){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("terminalsNum", terminalsNum);
+		map.put("agentId", agentId);
+		return terminalsWebMapper.getTerminalsNum(map);
 	}
 	
 	/**

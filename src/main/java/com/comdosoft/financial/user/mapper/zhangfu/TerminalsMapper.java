@@ -105,7 +105,7 @@ public interface TerminalsMapper {
      * @param terminalsNum
      * @return
      */
-    Object getTerminalsNum(String terminalsNum);
+    Object getTerminalsNum(Map<Object, Object> map);
     
     /**
      * 查看该终端号是否已经绑定

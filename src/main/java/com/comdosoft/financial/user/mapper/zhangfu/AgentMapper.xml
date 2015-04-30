@@ -198,7 +198,10 @@
 
 	<select id="queryAgent" resultType="map">
 	<![CDATA[
-		SELECT * FROM agents  WHERE id = #{id}
+		SELECT a.id, a.business_license, a.card_id, a.`name`, c.username, a.company_name, a.email, a.phone, cy.id AS cityid,
+		cy.`name` AS cityname, cyy.`name` AS provincename, cy.parent_id 
+		FROM agents a LEFT JOIN customers c ON a.customer_id = c.id LEFT JOIN
+		cities cy ON c.city_id = cy.id LEFT JOIN cities cyy ON cyy.id = cy.parent_id WHERE a.id = #{id}
 	]]>
 	</select>
 

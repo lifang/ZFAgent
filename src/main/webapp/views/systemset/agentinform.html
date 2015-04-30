@@ -76,7 +76,7 @@
 				<li><label>公司名称：</label><input type="text"
 					ng-model="one.company_name" disabled="true" /></li>
 				<li><label>公司营业执照登记号：</label><input name="" type="text"
-					ng-model="one.tax_registered_no" disabled="true" /></li>
+					ng-model="one.business_license" disabled="true" /></li>
 				<li><label>电话：</label><input type="text" ng-model="one.phone"
 					disabled="disabled" /><a href="javascript:void(0)"
 					id="show_phone_input_my_btn" ng-click="send_code_one(1)">修改手机号</a></li>
@@ -87,9 +87,9 @@
 						ng-model="one.address" disabled="true" /></label>
 					<div class="addr_area">
 						<select name="" disabled="true">
-							<option>江苏省</option>
+							<option>{{one.provincename}}</option>
 						</select> <select name="" disabled="true">
-							<option>苏州市</option>
+							<option>{{one.cityname}}</option>
 						</select>
 					</div></li>
 			</ul>

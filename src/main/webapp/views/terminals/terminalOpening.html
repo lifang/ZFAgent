@@ -114,9 +114,9 @@
                                 
                                 <li ng-if="$index == 0"><span class="labelSpan">结算银行账户：</span>
                                 	<div class="text"><input name="" type="text" id="bankNumValue" value="{{merchant.account_bank_num}}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div></li>
-                                <li ng-if="$index == 0"><span class="labelSpan">税务机构号：</span>
+                                <li ng-if="$index == 0 && status == 1"><span class="labelSpan">税务机构号：</span>
                                 	<div class="text"><input name="" type="text" id="registeredNoValue" value="{{merchant.tax_registered_no}}"/></div></li>
-                                <li ng-if="$index == 0"><span class="labelSpan">组织机构号：</span>
+                                <li ng-if="$index == 0 && status == 1"><span class="labelSpan">组织机构号：</span>
                                 	<div class="text"><input name="" type="text" id="organizationNoValue" value="{{merchant.organization_code_no}}"/></div></li>
                                 	
                                 	

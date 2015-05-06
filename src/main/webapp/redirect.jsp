@@ -13,9 +13,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	setInterval("refer()",1000); //启动1秒定时
 	function refer(){
 	if(t==0){
-		//location="<%=basePath%>/order/#list"; //#设定跳转的链接地址
+		//location="<%=basePath%>/#/order"; //#设定跳转的链接地址
 		var isIE = navigator.appName == "Microsoft Internet Explorer";
         //alert(isIE);
+        window.opener.location="<%=basePath%>/#/order"; 
         if(isIE){
             window.opener = "";
             window.open("","_self");

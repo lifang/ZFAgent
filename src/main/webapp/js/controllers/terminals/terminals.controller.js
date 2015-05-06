@@ -725,6 +725,9 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  if(data.code == 1){
 				  //终端信息
 	              $scope.applyDetails = data.result.applyDetails;
+	              if($scope.applyDetails.supportRequirementType != null && $scope.applyDetails.supportRequirementType != 3){
+	            	  $scope.status=$scope.applyDetails.supportRequirementType;
+	              }
 	              //获得商户集合
 	              $scope.merchantList = data.result.merchants;
 	              //城市级联
@@ -741,7 +744,9 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	              $scope.CitieChen= data.result.CitieChen;
 	              if($scope.openingInfos != null && $scope.openingInfos!= undefined){
 	              	//数据替换
-	                    $scope.status = $scope.openingInfos.types;//对公对私
+	            	  if($scope.applyDetails.supportRequirementType != null && $scope.applyDetails.supportRequirementType == 3){
+	            		  $scope.status = $scope.openingInfos.types;//对公对私
+		              }
 	                    $scope.merchantName = $scope.openingInfos.merchant_name
 	                    $scope.merchantId  = $scope.openingInfos.merchant_id;
 	                    $scope.sex = $scope.openingInfos.sex;
@@ -810,6 +815,10 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	      }).error(function (data) {
 	    	  alert("获取列表失败");
 	      });
+	  }
+	  //姓名和银行名称对应
+	  $scope.toworte = function(){
+		  $("#bankNameValue").val($("#valueName").val());
 	  }
 	  
 	//获得省级

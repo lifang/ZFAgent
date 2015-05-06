@@ -141,6 +141,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					$scope.addAgent();
 				} else if (data.code == -1) {
 					alert(data.message);
+					$scope.reGetRandCodeImg();
 				}
 			});
 		}

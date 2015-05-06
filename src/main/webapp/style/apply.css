@@ -86,4 +86,24 @@ button { cursor: pointer; border: none;}
 .copyright { float: right; color: #666;}
 
 
+/*---协议弹层---*/
+.ebankAgreementTab { 
+	position: fixed; 
+	padding: 20px; 
+	top: 50%; 
+	left: 50%; 
+	margin-top: -290px;
+	margin-left: -440px;
+	background: #FFF;
+	box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+	display: none;
+	z-index:1000;
+}
+ 
+.ebankAgreementTab h1 { font-size: 18px; font-weight:bolder; line-height: 36px; text-align: center; margin-bottom: 10px;}
+.ebankat_con { width: 840px; height: 540px;overflow-y:auto; overflow-x: hidden;}
+.ebankat_con p { line-height: 24px; text-indent: 24px; font-size: 12px; margin-bottom: 10px;}
+
+
+
 

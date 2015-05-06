@@ -1163,7 +1163,6 @@ var payController = function($scope, $http, $location, LoginService) {
 	$scope.pay = function() {
 		$http.post("api/shop/payOrder", $scope.req).success(function(data) { // 绑定
 			if (data.code == 1) {
-				$scope.order = data.result;
 				if (data.result.paytype > 0) {
 					alert("当前订单已支付成功，请不要重复支付");
 					$scope.pay = false;

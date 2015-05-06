@@ -9,10 +9,10 @@
 		DATE_FORMAT(gp.create_at,'%Y-%m-%d %H:%i:%s') AS created_at 
 		FROM good_profits gp WHERE gp.agent_id = #{agent_id} 
 		<if test="startTime != null and startTime != ''">
-			<![CDATA[ and gp.create_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			<![CDATA[ and  DATE_FORMAT(gp.create_at,'%Y-%m-%d')  >= str_to_date(#{startTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="endTime != null and endTime != ''">
-			<![CDATA[ and gp.create_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			<![CDATA[ and DATE_FORMAT(gp.create_at,'%Y-%m-%d')  <= str_to_date(#{endTime},'%Y-%m-%d') ]]>
 		</if>
 		ORDER BY gp.create_at LIMIT #{offset}, #{rows}
 	</select>
@@ -22,10 +22,10 @@
 		resultType="int">
 		SELECT count(gp.id) AS count FROM good_profits gp WHERE gp.agent_id = #{agent_id}
 		<if test="startTime != null and startTime != ''">
-			<![CDATA[ and gp.create_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			<![CDATA[ and DATE_FORMAT(gp.create_at,'%Y-%m-%d') >= str_to_date(#{startTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="endTime != null and endTime != ''">
-			<![CDATA[ and gp.create_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			<![CDATA[ and DATE_FORMAT(gp.create_at,'%Y-%m-%d') <= str_to_date(#{endTime},'%Y-%m-%d') ]]>
 		</if>
 	</select>
 </mapper>

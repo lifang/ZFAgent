@@ -1105,7 +1105,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			return;
 		}
 		if ($scope.user.username == undefined || $scope.user.username.trim() == "") {
-			alert("请手机或邮箱");
+			alert("请输入手机或邮箱");
 			return;
 		} else {
 			var reg = /^(13[0-9]|14(5|7)|15(0|1|2|3|5|6|7|8|9)|18[0-9])\d{8}$/;

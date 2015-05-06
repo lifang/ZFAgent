@@ -108,6 +108,7 @@ button { cursor: pointer; border: none;}
 .copyright { float: right; color: #666;}
 
 
+<<<<<<< HEAD
 .topInfo { height: 40px; background: #0071cf;}
 .top_user { float: right; line-height: 40px; font-size: 14px;}
 .top_user a { display: inline-block; margin: 0 15px; color: #FFF;}
@@ -138,7 +139,6 @@ button { cursor: pointer; border: none;}
 .res_b_pl { padding-left: 85px;}
 
 /*---协议弹层---*/
-
 .ebankAgreementTab { 
 	position: fixed; 
 	padding: 20px; 
@@ -154,5 +154,4 @@ button { cursor: pointer; border: none;}
 .ebankAgreementTab h1 { font-size: 18px; font-weight:bolder; line-height: 36px; text-align: center; margin-bottom: 10px;}
 .ebankat_con { width: 840px; height: 540px;overflow-y:auto; overflow-x: hidden;}
 .ebankat_con p { line-height: 24px; text-indent: 24px; font-size: 12px; margin-bottom: 10px;}
-
 

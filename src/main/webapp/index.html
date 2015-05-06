@@ -79,7 +79,14 @@
 					<li ng-show="menu9"><a href="#/stock">我的库存</a></li>
 					<li ng-show="menu1"><a href="#/wholesaleOrder">批购</a></li>
 					<li ng-show="menu2"><a href="#/proxyOrder">代购</a></li>
-					<li ng-show="menu3"><a href="#/terminals">管理终端</a></li>
+					<li ng-show="menu3" class="second">
+					<a href="javascript:void(0);">管理终端<i class="off"></i></a>
+						<ol>
+							<li><a href="#/terminals">终端列表</a></li>
+							<li><a href="#/terminalSerivce">批量申请售后</a></li>
+							<li><a href="#/binding">批量为用户绑定终端</a></li>
+						</ol>
+					</li>
 					<li ng-show="menu4"><a href="#/trade">交易流水</a></li>
 					<!-- <li ng-show="menu4"><a href="#/posprofit">POS销售分润</a></li> -->
 					<li ng-show="menu5" class="second">

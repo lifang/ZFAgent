@@ -145,6 +145,16 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 	
 	
 	$scope.showProfitTab=function(){
+		var doc_height = $(document).height();
+		var win_height = $(window).height();
+		var win_width = $(window).width();
+		
+		var layer_height = $(".defaultRatio_tab").height();
+		var layer_width = $(".defaultRatio_tab").width();
+		$(".mask").css({display:'block',height:doc_height});
+		$(".defaultRatio_tab").css('top',(win_height-layer_height)/2);
+		$(".defaultRatio_tab").css('left',(win_width-layer_width)/2);
+		$(".defaultRatio_tab").css('display','block');
 		popup(".defaultRatio_tab",".defaultRatio_a");
 	}
 	$scope.init();

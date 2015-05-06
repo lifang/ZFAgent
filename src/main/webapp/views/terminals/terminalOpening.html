@@ -22,7 +22,13 @@
                         </div> 
                     </div>
                     <div class="attributes_box">
-                    	<div class="ab_h">
+                    	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 1">
+                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
+                    	</div>
+                    	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 2">
+                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
+                    	</div>
+                    	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 3">
                     	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
                     	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
                     	</div>
@@ -44,7 +50,7 @@
                                 	<div class="text"><input name="" type="text" ng-model="merchantName"/></div>
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan" >姓名：</span>
-                                	<div class="text"><input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}"/></div></li>
+                                	<div class="text"><input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}" ng-keyup="toworte()"/></div></li>
                                 <li ng-if="$index == 0"><span class="labelSpan">生日：</span>
                                     <div class="text">
                                 	<select id="selYear" ng-model="nian">
@@ -91,7 +97,7 @@
                                      </div>
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">结算银行帐户名：</span>
-                                	<div class="text"><input name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
+                                	<div class="text"><input disabled="disabled" name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">支付通道：</span>
                                 	<div class="text">

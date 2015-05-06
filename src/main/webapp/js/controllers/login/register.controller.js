@@ -109,18 +109,18 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			alert("请输入用户名！");
 			return false;
 		} else if ($scope.agent.passworda == undefined || $scope.agent.passworda == "") {
-			alert("请输入密码！");
+			$scope.passclassa = "input_false";
 			return false;
 		} else if ($scope.agent.passwordb == undefined || $scope.agent.passwordb == "") {
-			alert("请输入密码！");
+			$scope.passclassb = "input_false";
 			return false;
-		} else if ($scope.agent.passworda.length < 6 || $scope.agent.passworda.length > 20 || $scope.agent.passwordb.length < 6 || $scope.agent.passwordb.length > 20) {
-			alert("密码有6-20位，英文字符组成！");
+		} else if ($scope.topassa() == false) {
+			$scope.passclassa = "input_false";
 			return false;
-		} else if ($scope.agent.passworda != $scope.agent.passwordb) {
-			alert("密码不一致！");
+		}  else if ($scope.topassb() == false) {
+			$scope.passclassb = "input_false";
 			return false;
-		} else if ($scope.agent.phone == undefined || $scope.agent.phone == "") {
+		}else if ($scope.agent.phone == undefined || $scope.agent.phone == "") {
 			alert("请输入手机号码！");
 			return false;
 		} else if (!reg.test($scope.agent.phone)) {
@@ -146,6 +146,27 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					$scope.reGetRandCodeImg();
 				}
 			});
+		}
+	}
+	
+	//注册优化
+	$scope.topassa = function(){
+		if($scope.agent.passworda.length < 6 || $scope.agent.passworda.length > 20){
+			$scope.passclassa = "input_false";
+			return false;
+		}else{
+			$scope.passclassa = "input_true";
+			return true;
+		}
+	}
+	
+	$scope.topassb = function(){
+		if($scope.agent.passwordb.length < 6 || $scope.agent.passwordb.length > 20 || $scope.agent.passworda != $scope.agent.passwordb){
+			$scope.passclassb = "input_false";
+			return false;
+		}else{
+			$scope.passclassb = "input_true";
+			return true;
 		}
 	}
 

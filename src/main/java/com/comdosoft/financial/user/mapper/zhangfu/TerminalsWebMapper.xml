@@ -99,12 +99,12 @@
 		VALUES(#{username},#{password},#{cityId},#{types},now(),#{status},#{name},#{integral},now())
 	</insert>
 	
-	<select id="getAddressee" parameterType="int" resultType="map">
+	<select id="getAddressee" parameterType="map" resultType="map">
 		SELECT a.id,a.receiver,a.moblephone,a.address,a.zip_code as zipCode,a.is_default as isDefault,a.city_id as cityId,c.`id` as cityId,c.`name` as sonName,s.`name` as parentName
 		FROM customer_addresses a LEFT JOIN cities c ON c.id = a.city_id
 		LEFT JOIN cities s ON s.id = c.parent_id
 		WHERE
-		a.customer_id=#{customerId}
+		a.customer_id=#{customerId} and a.`status` =#{status}
 	</select>
 	
 	<insert id="addCostometAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">

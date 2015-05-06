@@ -816,6 +816,10 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	    	  alert("获取列表失败");
 	      });
 	  }
+	  //姓名和银行名称对应
+	  $scope.toworte = function(){
+		  $("#bankNameValue").val($("#valueName").val());
+	  }
 	  
 	//获得省级
 		$scope.getShengcit= function(){

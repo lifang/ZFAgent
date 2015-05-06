@@ -50,7 +50,7 @@
                                 	<div class="text"><input name="" type="text" ng-model="merchantName"/></div>
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan" >姓名：</span>
-                                	<div class="text"><input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}"/></div></li>
+                                	<div class="text"><input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}" ng-keyup="toworte()"/></div></li>
                                 <li ng-if="$index == 0"><span class="labelSpan">生日：</span>
                                     <div class="text">
                                 	<select id="selYear" ng-model="nian">
@@ -97,7 +97,7 @@
                                      </div>
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">结算银行帐户名：</span>
-                                	<div class="text"><input name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
+                                	<div class="text"><input disabled="disabled" name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">支付通道：</span>
                                 	<div class="text">

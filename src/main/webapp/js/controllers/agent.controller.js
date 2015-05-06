@@ -262,7 +262,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 						$('#send_code_one').html("发送验证码");
 						clearInterval(v1);
 					} else {
-						$('#send_code_one').html("重新发送验证码（" + $scope.intDiff + "秒）");
+						$('#send_code_one').html("重新发送验证码(" + $scope.intDiff + "秒)");
 						$scope.intDiff--;
 					}
 				}, 1000);
@@ -276,19 +276,36 @@ var modifypasswordController = function($scope, $http, LoginService) {
 
 	// 修改邮箱
 	$scope.up_email = function() {
+
 		// email_send_btn
 		if ($scope.intMailDiff == 0) {
-			$scope.intMailDiff = 120;
+			$scope.intMailDiff = 10;
 			v3 = window.setInterval(function() {
 				$('#email_send_btn').html();
+				if ($scope.intMailDiff > 0) {
+					$("#email_send_btn").attr("disabled", true);
+					$("#email_send_btn").css("cursor", "default");
+					$("#email_send_btn").css("background", "#ABABA5");
+					$("#email_send_btn").css("color", "#000");
+				} else {
+					// 移除样式
+					$("#email_send_btn").removeAttr("disabled");
+					$("#email_send_btn").css("cursor", "pointer");
+					$("#email_send_btn").css("background", "#0071cf");
+					$("#email_send_btn").css("color", "#FFF");
+				}
 				if ($scope.intMailDiff == 0) {
 					$('#email_send_btn').html("修改邮箱");
 					clearInterval(v3);
 				} else {
-					$('#email_send_btn').html("等待（" + $scope.intMailDiff + "秒）");
+					$('#email_send_btn').html("等待(" + $scope.intMailDiff + "秒)");
 					$scope.intMailDiff--;
 				}
+
 			}, 1000);
+
+			// alert($scope.intMailDiff);
+
 			var email = $scope.one.email;
 			// id=15
 			$scope.req = {
@@ -389,7 +406,7 @@ function popup(t, b) {
 }
 $(function() {
 	popup("#show_phone_input_my_o", "#show_phone_input_my_btn");// 我的信息
-																// 根据原来手机号发送验证码
+	// 根据原来手机号发送验证码
 })
 
 modifypasswordController.$inject = [ '$scope', '$http', 'LoginService' ];

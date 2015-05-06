@@ -194,6 +194,18 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 		$scope.isProfit=1;
 	};
 	
+	$scope.radioCheck=function(obj){
+		if(obj==2){
+			//个人
+			$("#companyNameLi").hide();
+			$("#companyIdLi").hide();
+		}else{
+			//公司
+			$("#companyNameLi").show();
+			$("#companyIdLi").show();
+		}
+	};
+	
 	$scope.list=function(){
 		$http.post("api/lowerAgent/getProvince", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
@@ -241,11 +253,13 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 		if(!$scope.isNull($scope.agentCardId,"负责人身份证号")){
 			return;
 		}
-		if(!$scope.isNull($scope.companyName,"公司全称")){
-			return;
-		}
-		if(!$scope.isNull($scope.companyId,"公司营业执照登记号")){
-			return;
+		if($scope.agentType==1){
+			if(!$scope.isNull($scope.companyName,"公司全称")){
+				return;
+			}
+			if(!$scope.isNull($scope.companyId,"公司营业执照登记号")){
+				return;
+			}
 		}
 		if(!$scope.isNull($scope.phoneNum,"手机号")){
 			return;
@@ -581,7 +595,7 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
             		tempVal=parseInt(tempVal)*10;
             		tempVal=tempVal+"";
             		var reg = /^\d+$/;
-            		if(!tempVal.match(reg)||tempVal<0 || tempVal>100){
+            		if(!tempVal.match(reg)||tempVal<0 || tempVal>1000){
             			alert("输入的分润数值不正确，请输入0~100之间的数字");
             			return false;
             		}
@@ -594,11 +608,9 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 	            		}
             		}
             	}
-            	
             	$scope.req.profitPercent=editVal;
             	$scope.req.payChannelId=$scope.curChannel;
             	$scope.req.sign=1;
-            	
             	$http.post("api/lowerAgent/saveOrEdit", $scope.req).success(function (data) {  //绑定
     	            if (data.code==1) {
     	            	alert("修改成功");
@@ -610,9 +622,8 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
             	});
             }
         });
-		
-		$scope.isShow=1;
-		return false;
+//		$scope.isShow=1;
+//		return false;
 	};
 	
 	$scope.saveOne=function(){
@@ -628,7 +639,7 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
             		tempVal=parseFloat(tempVal)*10;
             		tempVal=tempVal+"";
             		var reg = /^\d+$/;
-            		if(!tempVal.match(reg)||tempVal<0 || tempVal>100){
+            		if(!tempVal.match(reg)||tempVal<0 || tempVal>1000){
             			alert("输入的分润数值不正确，请输入0~100之间的数字");
             			return false;
             		}

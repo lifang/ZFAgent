@@ -91,16 +91,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			}
 
 		}
-		if ($scope.agent.phone == undefined || $scope.agent.phone == "") {
-			alert("请输入手机号码！");
-			return false;
-		} else if (!reg.test($scope.agent.phone)) {
-			alert("请输入合法手机号！");
-			return false;
-		} else if ($scope.agent.code == undefined || $scope.agent.code == "") {
-			alert("请输入验证码！");
-			return false;
-		} else if ($scope.agent.email == undefined || $scope.agent.email == "") {
+		if ($scope.agent.email == undefined || $scope.agent.email == "") {
 			alert("请输入邮箱号码！");
 			return false;
 		} else if (!myreg.test($scope.agent.email)) {
@@ -113,7 +104,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			alert("请选择城市！");
 			return false;
 		} else if ($scope.agent.userId == undefined || $scope.agent.userId == "") {
-			alert("请输入用户ID！");
+			alert("请输入用户名！");
 			return false;
 		} else if ($scope.agent.passworda == undefined || $scope.agent.passworda == "") {
 			alert("请输入密码！");
@@ -126,6 +117,15 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			return false;
 		} else if ($scope.agent.passworda != $scope.agent.passwordb) {
 			alert("密码不一致！");
+			return false;
+		} else if ($scope.agent.phone == undefined || $scope.agent.phone == "") {
+			alert("请输入手机号码！");
+			return false;
+		} else if (!reg.test($scope.agent.phone)) {
+			alert("请输入合法手机号！");
+			return false;
+		} else if ($scope.agent.code == undefined || $scope.agent.code == "") {
+			alert("请输入验证码！");
 			return false;
 		} else if ($scope.agent.imgCode == undefined || $scope.agent.imgCode == "") {
 			alert("请输入图片验证码！");

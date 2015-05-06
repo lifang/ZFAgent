@@ -53,7 +53,7 @@
 
 	<select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
 		SELECT pgr.id,a.company_name ,DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') created_at,
-		pgr.quantity,pgr.terminal_list ,c.name as creator
+		pgr.quantity,pgr.terminal_list ,ifnull(c.name,c.username) as creator
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
 		LEFT JOIN customers c on c.id=pgr.process_user_id

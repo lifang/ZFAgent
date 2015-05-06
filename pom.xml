@@ -113,7 +113,26 @@
 		<artifactId>httpmime</artifactId>
 		<version>4.3.6</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.unionpay.acp</groupId>
+			<artifactId>upacp_sdk</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/libs/upacp_sdk-1.0.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcprov-jdk16</artifactId>
+			<version>140</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

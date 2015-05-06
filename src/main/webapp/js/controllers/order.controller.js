@@ -409,7 +409,6 @@ var payController = function($scope, $http,$location,LoginService) {
 	$scope.pay= function(){
 		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.order=data.result;
             	if(data.result.paytype>0){
             		alert("当前订单已支付成功，请不要重复支付");
             		$scope.pay=false;
@@ -441,7 +440,7 @@ var payController = function($scope, $http,$location,LoginService) {
 		}else if(2==$scope.payway){
 			window.open("unionpay.jsp?WIDtotal_fee="+
 					$scope.order.actual_price/100+"&WIDsubject="+$scope.order.title
-					+"&WIDout_trade_no="+$scope.order.order_number);  
+					+"&WIDout_trade_no="+$scope.order.order_number.replace("_","X"));  
 		}else{
 			//alert("银行");
 			alert("暂不支持，请联系系统管理员。");
@@ -529,7 +528,6 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	$scope.depositpay= function(){
 		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.order=data.result;
             	if(data.result.paytype>0){
             		alert("当前订单已支付成功，请不要重复支付");
             		$scope.pay=false;
@@ -562,7 +560,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		}else if(2==$scope.payway){
 			window.open("unionpay.jsp?WIDtotal_fee="+
 					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"+"&WIDbody="+body
-					+"&WIDout_trade_no="+$scope.order.order_number);  
+					+"&WIDout_trade_no="+$scope.order.order_number.replace("_","X"));  
 		}else{
 			//alert("银行");
 			alert("暂不支持，请联系系统管理员。");
@@ -591,17 +589,17 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 //	        		console.log(">>>>>>金额正确>>>");
 	        		$('#payTab').show();
 	        		$('.mask').show();
+	        		$scope.order.title="订单付款";
+	    			var body = "订单付款  "+ $scope.order.body;
 	        		if(1==$scope.payway){
 		    			//alert("支付宝");
-		    			$scope.order.title="订单付款";
-		    			var body = "订单付款  "+ $scope.order.body;
 		    			window.open("depositalipayapi.jsp?WIDtotal_fee="+
 		    					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
 		    					+"&WIDout_trade_no="+$scope.order.order_number);  
 		    		}else if(2==$scope.payway){
 		    			window.open("unionpay.jsp?WIDtotal_fee="+
 		    					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
-		    					+"&WIDout_trade_no="+$scope.order.order_number);  
+		    					+"&WIDout_trade_no="+$scope.order.order_number.replace("_","X"));  
 		    		}else{
 		    			//alert("银行");
 		    			alert("暂不支持，请联系系统管理员。");

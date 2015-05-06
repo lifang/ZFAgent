@@ -22,7 +22,13 @@
                         </div> 
                     </div>
                     <div class="attributes_box">
-                    	<div class="ab_h">
+                    	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 1">
+                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
+                    	</div>
+                    	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 2">
+                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
+                    	</div>
+                    	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 3">
                     	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
                     	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
                     	</div>

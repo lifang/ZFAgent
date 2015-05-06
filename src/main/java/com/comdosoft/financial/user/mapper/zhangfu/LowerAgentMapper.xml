@@ -20,7 +20,7 @@ where a.agent_id=#{sonAgentsId} and b.name is not null group by a.trade_type_id,
           as statusStr,
         case d.is_have_profit when 0 then '关闭' else if(d.default_profit is null,'非默认比例','默认比例') end as isProfitStr,  
           d.* from(select a.id,a.company_name,a.status,a.is_have_profit,a.default_profit,
-		(select sum(b.quantity) from prepare_goods_records b where b.agent_id=a.id) as allQty,
+		(select count(b.id) from terminals b where b.agent_id=a.id) as allQty, 
 		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id is not null and c.status=1) as openNum,
 		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id is not null) as soldNum,
 		date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.types,a.name

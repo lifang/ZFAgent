@@ -1154,23 +1154,27 @@ var payController = function($scope, $http, $location, LoginService) {
 	};
 	$scope.pay = function() {
 		$('#payTab').show();
+		$scope.order.title = "";
+		var count = 0;
+		angular.forEach($scope.order.good, function(one) {
+			if (count < 2) {
+				$scope.order.title += one.title + " " + one.pcname + "(" + one.quantity + "件)";
+			}
+			count++;
+		});
+		if (count > 2) {
+			$scope.order.title += "..";
+		}
 		if (1 == $scope.payway) {
 			// alert("支付宝");
-			$scope.order.title = "";
-			var count = 0;
-			angular.forEach($scope.order.good, function(one) {
-				if (count < 2) {
-					$scope.order.title += one.title + " " + one.pcname + "(" + one.quantity + "件)";
-				}
-				count++;
-			});
-			if (count > 2) {
-				$scope.order.title += "..";
-			}
 			window.open("alipayapi.jsp?WIDtotal_fee=" + $scope.order.total_price / 100 + "&WIDsubject=" + $scope.order.title + "&WIDout_trade_no=" + $scope.order.order_number);
-		} else {
-			// alert("银行");
-			window.open("http://www.taobao.com");
+		}else if(2==$scope.payway){
+			window.open("unionpay.jsp?WIDtotal_fee="+
+					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+					+"&WIDout_trade_no="+$scope.order.order_number);  
+		}else{
+			//alert("银行");
+			alert("暂不支持，请联系系统管理员。");
 		}
 	}
 	$scope.finish = function() {

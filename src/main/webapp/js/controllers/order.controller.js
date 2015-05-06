@@ -408,25 +408,29 @@ var payController = function($scope, $http,$location,LoginService) {
 	};
 	$scope.pay= function(){
 		$('#payTab').show();
-		if(1==$scope.payway){
+		$scope.order.title="";
+    	var count=0;
+    	angular.forEach($scope.order.good, function (one) {
+    		if(count<2){
+    			$scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
+    		}
+    		count++;
+    	});
+    	if(count>2){
+    		$scope.order.title+="..";
+    	}
+    	if(1==$scope.payway){
 			//alert("支付宝");
-			$scope.order.title="";
-        	var count=0;
-        	 angular.forEach($scope.order.good, function (one) {
-                 if(count<2){
-                	 $scope.order.title+=one.title+" "+one.pcname+"("+one.quantity+"件)";
-                 }
-                 count++;
-             });
-        	 if(count>2){
-        		 $scope.order.title+="..";
-        	 }
 			window.open("alipayapi.jsp?WIDtotal_fee="+
 					$scope.order.actual_price/100+"&WIDsubject="+$scope.order.title
 					+"&WIDout_trade_no="+$scope.order.order_number);  
+		}else if(2==$scope.payway){
+			window.open("unionpay.jsp?WIDtotal_fee="+
+					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
-			window.open("http://www.taobao.com");  
+			alert("暂不支持，请联系系统管理员。");
 		}
 	}
 	$scope.finish= function(){
@@ -497,9 +501,13 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 //			window.open("alipayapi.jsp?WIDtotal_fee="+
 //					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
 //					+"&WIDout_trade_no="+$scope.order.order_number);  
+//		}else if(2==$scope.payway){
+//			window.open("unionpay.jsp?WIDtotal_fee="+
+//					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+//					+"&WIDout_trade_no="+$scope.order.order_number);  
 //		}else{
 //			//alert("银行");
-//			window.open("http://www.taobao.com");  
+//			alert("暂不支持，请联系系统管理员。");
 //		}
 //	}
 	
@@ -523,9 +531,13 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
 					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"+"&WIDbody="+body
 					+"&WIDout_trade_no="+$scope.order.order_number);  
+		}else if(2==$scope.payway){
+			window.open("unionpay.jsp?WIDtotal_fee="+
+					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
-			window.open("http://www.taobao.com");  
+			alert("暂不支持，请联系系统管理员。");
 		}
 	}
 	
@@ -558,9 +570,13 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		    			window.open("depositalipayapi.jsp?WIDtotal_fee="+
 		    					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
 		    					+"&WIDout_trade_no="+$scope.order.order_number);  
+		    		}else if(2==$scope.payway){
+		    			window.open("unionpay.jsp?WIDtotal_fee="+
+		    					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+		    					+"&WIDout_trade_no="+$scope.order.order_number);  
 		    		}else{
 		    			//alert("银行");
-		    			window.open("http://www.taobao.com");  
+		    			alert("暂不支持，请联系系统管理员。");
 		    		}
 	        	}
 	        }

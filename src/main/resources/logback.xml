@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="30 seconds">
 
     <property name="APP_NAME" value="ZFAgent" />
-    <property name="LOG_FILE_DIR" value="/home/vince/logs/${APP_NAME}/" />
+    <property name="LOG_FILE_DIR" value="/opt/logs/${APP_NAME}/" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

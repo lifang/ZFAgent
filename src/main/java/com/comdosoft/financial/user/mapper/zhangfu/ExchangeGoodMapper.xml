@@ -24,10 +24,10 @@
 			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
 			egr.customer_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 			<if test="startTime!=null">
-			   <![CDATA[ and egr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(egr.created_at,'%Y-%m-%d') >= str_to_date(#{startTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="endTime!=null">
-			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(egr.created_at,'%Y-%m-%d') <= str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="sonAgentId!=0">
 			   <![CDATA[ and (egr.from_agent_id=#{sonAgentId} or egr.to_agent_id=#{sonAgentId} )  ]]>
@@ -43,10 +43,10 @@
 			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
 			customer_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 			<if test="startTime!=null">
-			   <![CDATA[ and egr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(egr.created_at,'%Y-%m-%d') >=  str_to_date(#{startTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="endTime!=null">
-			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(egr.created_at,'%Y-%m-%d') <=  str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="sonAgentId!=0">
 			   <![CDATA[ and (egr.from_agent_id=#{sonAgentId} or egr.to_agent_id=#{sonAgentId} )  ]]>

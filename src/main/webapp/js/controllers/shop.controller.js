@@ -1023,8 +1023,8 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			return;
 		}
 		if ($scope.ad.zipCode == undefined || $scope.ad.zipCode.trim() == "") {
-			alert("请输入邮编!");
-			return;
+			//alert("请输入邮编!");
+			//return;
 		} else {
 			var reg = /[1-9]\d{5}(?!\d)/;
 			if (!reg.test($scope.ad.zipCode)) {

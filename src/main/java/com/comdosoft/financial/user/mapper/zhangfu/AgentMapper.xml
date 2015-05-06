@@ -28,7 +28,8 @@
 	]]>
 	</select>
 
-	<select id="getOneCustomer"		resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
+	<select id="getOneCustomer"
+		resultType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 	<![CDATA[
 		SELECT
 			IFNULL(phone,'') as phone,
@@ -122,22 +123,22 @@
 		 WHERE customer_id = #{customerId}
 	]]>
 	</update>
-	
+
 	<!-- 1有效 2删除 -->
-	<update id="countAddress"  >
+	<update id="countAddress">
 		SELECT
-			count(id) count
+		count(id) count
 		FROM
-			customer_addresses
+		customer_addresses
 		WHERE
-			STATUS = 1
+		STATUS = 1
 		AND customer_id = #{customerId}
 	</update>
-	
+
 	<update id="update_Address">
-	UPDATE customer_addresses
+		UPDATE customer_addresses
 		<trim prefix="SET" suffixOverrides=",">
-		updated_at = NOW(),
+			updated_at = NOW(),
 			<if test="cityId != null">city_id = #{cityId},</if>
 			<if test="zipCode != null and zipCode !=''">zip_code = #{zipCode},</if>
 			<if test="address != null and address !=''">address = #{address},</if>
@@ -148,24 +149,29 @@
 		</trim>
 		WHERE id = #{id}
 	</update>
-	
-		<select id="findAddressById"  resultType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
+
+	<select id="findAddressById"
+		resultType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
 		SELECT
-			id,
-			IFNULL(city_id,'') as city_id,
-			IFNULL(receiver,'') as receiver,
-			IFNULL(moblephone,'') as moblephone,
-			IFNULL(zip_code,'') as zip_code,
-			IFNULL(is_default,'') as is_default,
-			IFNULL(address,'') as address,
-			customer_id as customerId
+		id,
+		IFNULL(city_id,'') as city_id,
+		IFNULL(receiver,'')
+		as receiver,
+		IFNULL(moblephone,'') as moblephone,
+		IFNULL(zip_code,'') as
+		zip_code,
+		IFNULL(is_default,'') as is_default,
+		IFNULL(address,'') as
+		address,
+		customer_id as customerId
 		FROM
-			customer_addresses
+		customer_addresses
 		WHERE
-			id = #{param1} 
+		id =
+		#{param1}
 	</select>
-	
-		<update id="setDefaultAddress">
+
+	<update id="setDefaultAddress">
 	<![CDATA[
 		UPDATE customer_addresses SET is_default = 1 ,updated_at = NOW()
 		 WHERE id = #{id}  and customer_id = #{customerId}
@@ -179,26 +185,31 @@
 	</update>
 
 	<update id="deleteAddress">
- 
-	UPDATE customer_addresses SET status = 2
-		 WHERE id = #{id}
+
+		UPDATE customer_addresses SET status = 2
+		WHERE id = #{id}
 		<!-- DELETE FROM customer_addresses WHERE id = #{id} -->
 	</update>
 
-<!-- 批量删除 地址 -->
+	<!-- 批量删除 地址 -->
 	<update id="batchDeleteAddress">
- 
-	UPDATE customer_addresses SET status = 2
-		 WHERE id in
-		<foreach item="ids" collection="ids" open="(" separator="," close=")">
+
+		UPDATE customer_addresses SET status = 2
+		WHERE id in
+		<foreach item="ids" collection="ids" open="(" separator=","
+			close=")">
 			#{ids}
 		</foreach>
 	</update>
-	
+
 
 	<select id="queryAgent" resultType="map">
-	<![CDATA[
-		SELECT * FROM agents  WHERE id = #{id}
+		<!-- SELECT * FROM agents WHERE id = #{id} -->
+	<![CDATA[ 
+		select s.name,s.company_name,s.business_license,s.phone,s.email, c2.name as province,c.name as cities from cities c 
+		left join customers cst on c.id = cst.city_id left join agents s on s.customer_id = cst.id left join cities c2 
+		on c2.id=c.parent_id where s.id =  #{id}
+ 
 	]]>
 	</select>
 
@@ -218,7 +229,8 @@
 	</select>
 
 	<!-- 查询代理商下的商户列表 -->
-	<select id="getCommercialTenantList" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.CommercialReq">
+	<select id="getCommercialTenantList" resultType="map"
+		parameterType="com.comdosoft.financial.user.domain.query.CommercialReq">
 	<![CDATA[
 		SELECT c.id, c.name, c.username, c.phone, c.email, car.customer_id, c.status, c.types, car.status AS cstatus,
 		car.types AS ctypes FROM customers c 
@@ -227,27 +239,27 @@
 		ORDER BY c.created_at DESC LIMIT #{offset}, #{rows}
 	]]>
 	</select>
-	
+
 	<!-- 删除单个商户(更新customers表,将status置为停用状态) -->
 	<update id="deleteCommercial" flushCache="true">
 	<![CDATA[
 		UPDATE customers SET status = 3, updated_at = NOW() WHERE id = #{customer_id}
 	]]>
 	</update>
-	
+
 	<!-- 删除单个商户(更新customer_agent_relations表,将status置为删除状态) -->
 	<update id="updateCommercialStatus" flushCache="true">
 	<![CDATA[
 		UPDATE customer_agent_relations SET status = 2, updated_at = NOW() WHERE customer_id = #{customer_id}
 	]]>
 	</update>
-	
+
 	<update id="updatePhoneNumber">
 	<![CDATA[
 		UPDATE agents SET phone =#{phone} WHERE id = #{id}
 	]]>
 	</update>
-	
+
 	<update id="updateEmailAddr">
 	<![CDATA[
 		UPDATE agents SET email =#{email} WHERE id = #{id}

@@ -21,7 +21,7 @@ var addressController = function ($scope, $http, LoginService) {
 	
 	// 显示编辑区域
 	$scope.useNewAddr = function(){
-		var customer_id = LoginService.agentid;
+		var customer_id = LoginService.agentUserId;
 		// var customer_id = 1;
 		$http.post("api/address/countValidAddress/" + customer_id).success(function(data){
 			if(data.code == 1){
@@ -51,7 +51,7 @@ var addressController = function ($scope, $http, LoginService) {
 	
 	// 显示代理商收获地址信息
 	$scope.addressList = function(){
-		var customer_id = LoginService.agentid;
+		var customer_id = LoginService.agentUserId;
 		// var customer_id = 1;
 		$http.post("api/address/query/" + customer_id).success(function(data){
 			if(data.code == 1){
@@ -192,7 +192,7 @@ var addressController = function ($scope, $http, LoginService) {
 		
 		if ($scope.address.id == undefined) {// 插入新地址信息
 			$scope.address.cityId = $scope.selected_city.id;
-			$scope.address.customerId = LoginService.agentid;
+			$scope.address.customerId = LoginService.agentUserId;
 			// $scope.address.customerId = 1;
 			// alert($scope.address.isDefault);
 			if($scope.address.isDefault == undefined){

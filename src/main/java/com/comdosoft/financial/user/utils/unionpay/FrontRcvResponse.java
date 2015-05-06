@@ -76,7 +76,7 @@ public class FrontRcvResponse {
 			
 		}
 		req.setAttribute("result", page.toString());
-		req.getRequestDispatcher("/rediret.jsp").forward(req, resp);
+		req.getRequestDispatcher("/redirect.jsp").forward(req, resp);
 
 		LogUtil.writeLog("FrontRcvResponse前台接收报文返回结束");
 	}

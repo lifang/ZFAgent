@@ -407,6 +407,20 @@ var payController = function($scope, $http,$location,LoginService) {
         });
 	};
 	$scope.pay= function(){
+		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.order=data.result;
+            	if(data.result.paytype>0){
+            		alert("当前订单已支付成功，请不要重复支付");
+            		$scope.pay=false;
+            		$scope.payway=data.result.paytype;
+            		$('#payTab').hide();
+            		$('.mask').hide();
+            		window.location.href = '#/proxyOrder';
+            		return;
+            	}
+            }
+        });
 		$('#payTab').show();
 		$scope.order.title="";
     	var count=0;
@@ -426,7 +440,7 @@ var payController = function($scope, $http,$location,LoginService) {
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else if(2==$scope.payway){
 			window.open("unionpay.jsp?WIDtotal_fee="+
-					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+					$scope.order.actual_price/100+"&WIDsubject="+$scope.order.title
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
@@ -513,6 +527,20 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	
 	//定金支付  跳转至支付宝
 	$scope.depositpay= function(){
+		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.order=data.result;
+            	if(data.result.paytype>0){
+            		alert("当前订单已支付成功，请不要重复支付");
+            		$scope.pay=false;
+            		$scope.payway=data.result.paytype;
+            		$('#payTab').hide();
+            		$('.mask').hide();
+            		window.location.href = '#/proxyOrder';
+            		return;
+            	}
+            }
+        });
 		$('#payTab').show();
 		$('.mask').show();
 		var body = "定金付款 "+ $scope.order.body;
@@ -533,7 +561,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else if(2==$scope.payway){
 			window.open("unionpay.jsp?WIDtotal_fee="+
-					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"+"&WIDbody="+body
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
@@ -572,7 +600,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		    					+"&WIDout_trade_no="+$scope.order.order_number);  
 		    		}else if(2==$scope.payway){
 		    			window.open("unionpay.jsp?WIDtotal_fee="+
-		    					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
+		    					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
 		    					+"&WIDout_trade_no="+$scope.order.order_number);  
 		    		}else{
 		    			//alert("银行");

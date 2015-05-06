@@ -1023,8 +1023,8 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			return;
 		}
 		if ($scope.ad.zipCode == undefined || $scope.ad.zipCode.trim() == "") {
-			alert("请输入邮编!");
-			return;
+			//alert("请输入邮编!");
+			//return;
 		} else {
 			var reg = /[1-9]\d{5}(?!\d)/;
 			if (!reg.test($scope.ad.zipCode)) {
@@ -1153,6 +1153,19 @@ var payController = function($scope, $http, $location, LoginService) {
 		});
 	};
 	$scope.pay = function() {
+		$http.post("api/shop/payOrder", $scope.req).success(function(data) { // 绑定
+			if (data.code == 1) {
+				$scope.order = data.result;
+				if (data.result.paytype > 0) {
+					alert("当前订单已支付成功，请不要重复支付");
+					$scope.pay = false;
+					$scope.payway = data.result.paytype;
+					$('#payTab').hide();
+					$('.mask').hide();
+					return;
+				}
+			}
+		});
 		$('#payTab').show();
 		$scope.order.title = "";
 		var count = 0;
@@ -1169,9 +1182,7 @@ var payController = function($scope, $http, $location, LoginService) {
 			// alert("支付宝");
 			window.open("alipayapi.jsp?WIDtotal_fee=" + $scope.order.total_price / 100 + "&WIDsubject=" + $scope.order.title + "&WIDout_trade_no=" + $scope.order.order_number);
 		}else if(2==$scope.payway){
-			window.open("unionpay.jsp?WIDtotal_fee="+
-					$scope.order.total_price/100+"&WIDsubject="+$scope.order.title
-					+"&WIDout_trade_no="+$scope.order.order_number);  
+			window.open("unionpay.jsp?WIDtotal_fee=" + $scope.order.total_price / 100 + "&WIDsubject=" + $scope.order.title + "&WIDout_trade_no=" + $scope.order.order_number);  
 		}else{
 			//alert("银行");
 			alert("暂不支持，请联系系统管理员。");

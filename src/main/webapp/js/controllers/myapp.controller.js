@@ -4,13 +4,13 @@
 var myappModule = angular.module("myappModule",[]);
 
 var myappController = function ($scope, $http,$location, LoginService) {
-//	$("#leftRoute").show();
-//	if(LoginService.agentUserId == 0){
-//		window.location.href = '#/login';
-//	}else{
-//		//显示用户登录部分
-//		$scope.$emit('changeshow',false);
-//	}
+	$("#leftRoute").show();
+	if(LoginService.agentUserId == 0){
+		window.location.href = '#/login';
+	}else{
+		//显示用户登录部分
+		$scope.$emit('changeshow',false);
+	}
 
 	$scope.my_message_list = function(){
 		$scope.req={customerId:LoginService.agentUserId,rows:8};

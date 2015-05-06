@@ -9,8 +9,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 	var licenseCodeReg = /^[1-9]\d*|0$/;// 验证营业执照为数字
 	// 初始化代理商对象
 	$scope.agent = {};
-	// 单选按钮初始化（1.公司 2.个人）
-	$scope.agent.types = 2;
+
 	// 初始化重新发送验证码
 	$scope.registreTime = true;
 	// 清除倒计时
@@ -65,9 +64,8 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			return false;
 		}
 
-		if ($("#radio1").attr("checked") != undefined && $("#radio2").attr("checked") == undefined) {
-			$scope.agent.types = 2;// 个人
-		} else if ($("#radio2").attr("checked") != undefined && $("#radio1").attr("checked") == undefined) {
+		// alert($scope.agent.types);
+		if ($scope.agent.types == 1) {
 			$scope.agent.types = 1;// 公司
 			if ($scope.agent.companyName == undefined || $scope.agent.companyName == "" || $scope.agent.companyName == null) {
 				alert("公司名称不能为空");
@@ -91,8 +89,8 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					}
 				}
 			}
-		}
 
+		}
 		if ($scope.agent.phone == undefined || $scope.agent.phone == "") {
 			alert("请输入手机号码！");
 			return false;
@@ -143,6 +141,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					$scope.addAgent();
 				} else if (data.code == -1) {
 					alert(data.message);
+					$scope.reGetRandCodeImg();
 				}
 			});
 		}
@@ -172,6 +171,9 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 		$scope.getShengcit();
 		// 初始化图片验证码
 		$scope.reGetRandCodeImg();
+		// 单选按钮初始化（1.公司 2.个人）
+		$scope.agent.types = 2;
+		// alert($scope.agent.types);
 	};
 
 	// 图片验证码

@@ -450,7 +450,7 @@ td a.a_btn:hover { text-decoration: underline;}
 /*------item_list----------*/
 .item_list {}
 .item_list ul { display: inline-block;}
-.item_list li { line-height: 24px; position: relative; padding-left: 85px; margin: 10px 0;}
+.item_list li { min-width: 264px; line-height: 24px; position: relative; padding-left: 85px; margin: 10px 0;}
 .item_list li span.labelSpan { 
 	display: inline-block;
 	text-align: left;

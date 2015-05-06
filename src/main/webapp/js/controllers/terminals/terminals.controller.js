@@ -725,6 +725,9 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  if(data.code == 1){
 				  //终端信息
 	              $scope.applyDetails = data.result.applyDetails;
+	              if($scope.applyDetails.supportRequirementType != null && $scope.applyDetails.supportRequirementType != 3){
+	            	  $scope.status=$scope.applyDetails.supportRequirementType;
+	              }
 	              //获得商户集合
 	              $scope.merchantList = data.result.merchants;
 	              //城市级联
@@ -741,7 +744,9 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	              $scope.CitieChen= data.result.CitieChen;
 	              if($scope.openingInfos != null && $scope.openingInfos!= undefined){
 	              	//数据替换
-	                    $scope.status = $scope.openingInfos.types;//对公对私
+	            	  if($scope.applyDetails.supportRequirementType != null && $scope.applyDetails.supportRequirementType == 3){
+	            		  $scope.status = $scope.openingInfos.types;//对公对私
+		              }
 	                    $scope.merchantName = $scope.openingInfos.merchant_name
 	                    $scope.merchantId  = $scope.openingInfos.merchant_id;
 	                    $scope.sex = $scope.openingInfos.sex;
@@ -810,6 +815,10 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	      }).error(function (data) {
 	    	  alert("获取列表失败");
 	      });
+	  }
+	  //姓名和银行名称对应
+	  $scope.toworte = function(){
+		  $("#bankNameValue").val($("#valueName").val());
 	  }
 	  
 	//获得省级
@@ -1058,20 +1067,22 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  }else if(!numReg.test($scope.bankObj.bankName)){
 				  alert("结算银行代码由数字组成！");
 				  return false;
-			  }else if($("#organizationNoValue").val() == null || $("#organizationNoValue").val() == ""){
-				  alert("请填写组织登记号！");
-				  return false;
-			  }else if(numCh.test($("#organizationNoValue").val())){
-				  alert("组织登记号字母和数字组成！");
-				  return false;
-			  }else if($("#registeredNoValue").val() == null || $("#registeredNoValue").val() == ""){
-				  alert("请填写税务登记号！");
-				  return false;
-			  }else if(numCh.test($("#registeredNoValue").val())){
-				  alert("税务登记号由字母和数字组成！");
-				  return false;
-			  }
-			  else{
+			  }else if($scope.status == 1){
+				  if($("#organizationNoValue").val() == null || $("#organizationNoValue").val() == ""){
+					  alert("请填写组织登记号！");
+					  return false;
+				  }else if(numCh.test($("#organizationNoValue").val())){
+					  alert("组织登记号字母和数字组成！");
+					  return false;
+				  }else if($("#registeredNoValue").val() == null || $("#registeredNoValue").val() == ""){
+					  alert("请填写税务登记号！");
+					  return false;
+				  }else if(numCh.test($("#registeredNoValue").val())){
+					  alert("税务登记号由字母和数字组成！");
+					  return false;
+				  }
+				  return true;
+			  }else{
 				  if($scope.materialLevel.length>0){
 					  for(var i=0;i<$scope.materialLevel.length;i++){
 						  if(i==0){

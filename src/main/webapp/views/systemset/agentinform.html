@@ -4,7 +4,7 @@
 			ng-click="close_show_two()">关闭</a>
 		<div class="tabBody">
 			<div class="modification">
-				<p>我们向您原登记的手机发送了短信验证码，请输入您收到的验证码与需要更换的新手机号码。如原登记手机己无法收取短信，可通过拨打客服热线400-009-876进行变更手机号码的操作</p>
+				<p>我们向您原登记的手机发送了短信验证码，请输入您收到的验证码与需要更换的新手机号码。如原登记手机己无法收取短信，可通过拨打客服热线400-009-0876进行变更手机号码的操作</p>
 				<ul>
 					<li><input name="phone_code_i_o" type="text"
 						ng-model="phone_code_i_o" placeholder="验证码" maxlength="6"
@@ -45,7 +45,7 @@
 		<a href="javascript:void(0);" class="close" ng-click="colose_email()">关闭</a>
 		<div class="tabBody">
 			<div class="modification">
-				<p>网站已向您的邮箱发送了邮件请查收，请根据邮件内容提示操作修改邮箱地址，如原邮箱地址己无法收取邮件，可通过拨打客服热线400-009-876进行变更邮箱地址的操作。</p>
+				<p>网站已向您的邮箱发送了邮件请查收，请根据邮件内容提示操作修改邮箱地址，如原邮箱地址己无法收取邮件，可通过拨打客服热线400-009-0876进行变更邮箱地址的操作。</p>
 			</div>
 		</div>
 		<div class="tabFoot">
@@ -55,7 +55,7 @@
 	<div class="breadcrumb">
 		<ul>
 			<li><a href="#/myinfobase">系统设定</a></li>
-			<li><a href="#/myinfobase">代理商资料</a></li>
+			<li><a href="#/agentinform">代理商资料</a></li>
 			<li><a href="javascript:void(0);">基本信息</a></li>
 		</ul>
 	</div>
@@ -73,9 +73,9 @@
 			<ul>
 				<li><label>负责人姓名：</label><input type="text" disabled="true"
 					ng-model="one.name" /></li>
-				<li><label>公司名称：</label><input type="text"
+				<li ng-if="one.types == 2"><label>公司名称：</label><input type="text"
 					ng-model="one.company_name" disabled="true" /></li>
-				<li><label>公司营业执照登记号：</label><input name="" type="text"
+				<li ng-if="one.types == 2"><label>公司营业执照登记号：</label><input name="" type="text"
 					ng-model="one.business_license" disabled="true" /></li>
 				<li><label>电话：</label><input type="text" ng-model="one.phone"
 					disabled="disabled" /><a href="javascript:void(0)"
@@ -83,12 +83,10 @@
 				<li><label>邮箱：</label><input type="text" ng-model="one.email"
 					disabled="disabled" /><a href="javascript:void(0)"
 					id="email_send_btn" ng-click="up_email()">修改邮箱</a></li>
-				<li><label>所在地：<input name="" type="text"
-						ng-model="one.address" disabled="true" /></label>
+				<li><label>所在地：<input name="" type="text"  disabled="true" /></label>
 					<div class="addr_area">
-						<select name="" disabled="true">
-							<option>{{one.provincename}}</option>
-						</select> <select name="" disabled="true">
+						<select name="" disabled="true"> 
+							<option>{{one.provincename}}</option> 
 							<option>{{one.cityname}}</option>
 						</select>
 					</div></li>

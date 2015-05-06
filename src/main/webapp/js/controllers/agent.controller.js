@@ -279,7 +279,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 
 		// email_send_btn
 		if ($scope.intMailDiff == 0) {
-			$scope.intMailDiff = 10;
+			$scope.intMailDiff = 120;
 			v3 = window.setInterval(function() {
 				$('#email_send_btn').html();
 				if ($scope.intMailDiff > 0) {
@@ -304,10 +304,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 
 			}, 1000);
 
-			// alert($scope.intMailDiff);
-
 			var email = $scope.one.email;
-			// id=15
 			$scope.req = {
 				id : LoginService.agentid,
 				content : email,
@@ -315,7 +312,6 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			};
 			$http.post("api/index/change_email_check", $scope.req).success(function(data) {
 				if (data != null && data != undefined) {
-					// alert("发送成功,请注意查收!");
 				}
 			});
 

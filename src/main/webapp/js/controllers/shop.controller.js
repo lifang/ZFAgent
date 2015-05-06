@@ -27,7 +27,9 @@ var shopController = function($scope, $http, LoginService) {
 		$('#xx').hide();
 		$scope.xxx = one.value;
 		$scope.req.tDate = [];
-		$scope.req.tDate.push(one.id);
+		if(one.id!=0){
+			$scope.req.tDate.push(one.id);
+		}
 		$scope.list();
 	}
 
@@ -50,6 +52,8 @@ var shopController = function($scope, $http, LoginService) {
 				$scope.pay_channel = data.result.pay_channel;
 				$scope.trade_type = data.result.trade_type;
 				$scope.tDate = data.result.tDate;
+				$scope.all={id:0,value:"全部"};
+            	$scope.tDate.unshift($scope.all);
 			}
 		});
 	}
@@ -473,7 +477,9 @@ var purchaseshopController = function($scope, $http, LoginService) {
 		$('#xx').hide();
 		$scope.xxx = one.value;
 		$scope.req.tDate = [];
-		$scope.req.tDate.push(one.id);
+		if(one.id!=0){
+			$scope.req.tDate.push(one.id);
+		}
 		$scope.list();
 	}
 
@@ -496,6 +502,8 @@ var purchaseshopController = function($scope, $http, LoginService) {
 				$scope.pay_channel = data.result.pay_channel;
 				$scope.trade_type = data.result.trade_type;
 				$scope.tDate = data.result.tDate;
+				$scope.all={id:0,value:"全部"};
+            	$scope.tDate.unshift($scope.all);
 			}
 		});
 	}

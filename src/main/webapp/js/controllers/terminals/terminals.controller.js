@@ -329,6 +329,13 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		 }
 		 return true;
 	 }
+	 //清空填写数据
+	 $scope.empty = function(){
+		 $scope.addressObject.receiver = "";
+		 $scope.addressObject.address = "";
+		 $scope.addressObject.zipCode = "";
+		 $scope.addressObject.moblephone ="";
+	 }
 	 //获得联系地址
 	 $scope.getAddress = function(){
 		  $http.post('api/webTerminal/getAddressee',{customerId:$scope.agentUserId}).success(function(data){
@@ -350,6 +357,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 				 $scope.addressObject.customerId = $scope.agentUserId;
 				 $http.post('api/webTerminal/addCostometAddress',$scope.addressObject).success(function(data){
 					 if(data.code == 1){
+						 $scope.empty();
 						 $scope.getAddress();
 					 }else if(data.code == -1){
 						 alert(data.message);
@@ -415,6 +423,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		 $http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
 			 if(data.code == 1){
 				 alert(data.result);
+				 window.location.href="#/terminals";
 			 }else if(data.code == 2){
 				 alert("终端号错误:"+data.result);
 			 }else if(data.code == -1){
@@ -599,19 +608,22 @@ var terminalCancellationController = function ($scope, $http,$location, LoginSer
  				customerId:$scope.customerId
  		 }
 		 if($scope.subtruefalse == true){
-			 alert("请选择你要上传注销资料！");
+			 alert("请先上传资料！");
 		 }else{
-			 $http.post("api/webTerminal/subRentalReturn", $scope.map).success(function (data) {  //绑定
-	          if (data != null && data != undefined) {
-	        	  if(data.code == 1){
-	        		  window.location.href ='#/terminalDetail?terminalId='+$scope.terminalId;
-	        	  }else{
-	        		alert("提交失败！");
-	        	  }
-	          }
-	      }).error(function (data) {
-	    	  alert("获取列表失败");
-	      });
+			 var mes=confirm("您确定要注销申请吗？");
+			 if(mes == true){
+				  $http.post("api/webTerminal/subRentalReturn", $scope.map).success(function (data) {  //绑定
+		          if (data != null && data != undefined) {
+		        	  if(data.code == 1){
+		        		  window.location.href ='#/terminalDetail?terminalId='+$scope.terminalId;
+		        	  }else{
+		        		alert("提交失败！");
+		        	  }
+		          }
+		      }).error(function (data) {
+		    	  alert("获取列表失败");
+		      });
+			 }
 		 }
 	}
   $scope.terminalDetail();
@@ -662,7 +674,7 @@ var terminalToUpdateController = function ($scope, $http,$location, LoginService
 				templeteInfoXml :JSON.stringify($scope.array),
 				};
 		if($scope.subtruefalse == true){
-			alert("请选择你要上传更新资料！");
+			alert("请先上传资料！");
 		}else{
 			 $http.post("api/webTerminal/getApplyToUpdate", $scope.message).success(function (data) {  //绑定
 		      if (data != null && data != undefined) {

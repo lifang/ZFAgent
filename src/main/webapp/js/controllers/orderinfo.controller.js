@@ -64,6 +64,37 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
 		$(".mask").css('display','none');
     }
     //支付 金额
+    $scope.infoorderpay = function() {
+//		   console.log(">>>>>>>>>>>"+pay_price);
+	    	$("#zf_yz").hide();
+	   		var pay_price = $("#pay_price").val();
+	   		if(isNaN(pay_price)){
+	   			alert("支付金额必须是数字");
+	   			return false;
+	   		}
+	    	var o_id = $("#o_id").val();
+	    	var sy_price = $("#shenyu_price_").val();
+	    	if(pay_price<0 || pay_price==''){
+	    		alert("请输入金额");
+//	    		$("#zf_yz").show();
+	    		return false;
+	    	}else if( sy_price  < pay_price ){
+//	    		console.log(">>>>>>muqian "+pay_price+">>>最多"+sy_price);
+	        		alert("最多只需支付"+sy_price);
+	        		return false;
+	    	}else if(parseInt(pay_price) > parseInt(sy_price)){
+	    		alert("最多只需支付"+sy_price);
+	    		return false;
+	    	}else if(pay_price < 0.01){
+        			alert("大哥，至少赏个一分钱吧!！");
+        			return false;
+	    	}else{
+	    		$scope.close();
+	    	 	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  
+	    	}
+//	    	window.open("alipayapi.jsp?WIDtotal_fee="+o.order_totalPrice/100+"&WIDsubject="+g_name+"&WIDout_trade_no="+o.order_number);  
+		};
+		
     $scope.orderpay = function(o) {
     	$("#zf_yz").hide();
    		var pay_price = $("#pay_price").val();
@@ -76,6 +107,9 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
     	}else if(parseInt(pay_price) > parseInt(sy_price)){
         		alert("最多只需支付"+sy_price);
         		return false;
+    	}else   if( pay_price < 0.01){
+        			alert("大哥，至少赏个一分钱吧！");
+        			return false;
     	}else{
     		$scope.close();
     	 	window.open("#/order_pay?id="+o_id+"&p="+pay_price) ;  
@@ -86,7 +120,7 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
 	//定金支付
 	 $scope.depositpay = function(o) {
 		 var dj = o.price_dingjin;
-	    window.open("#/deposit_pay?id="+o.order_id) ;  
+	    window.open("#/deposit_pay?id="+o.order_id+"&q=1") ;  
 	};
 	
 	$scope.close_wlxx = function() {

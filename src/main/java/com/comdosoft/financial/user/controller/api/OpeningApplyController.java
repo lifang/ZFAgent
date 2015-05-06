@@ -258,18 +258,25 @@ public class OpeningApplyController {
 	 * @return
 	 */
 	@RequestMapping(value = "chooseBank", method = RequestMethod.POST)
-	public String ChooseBank(String keyword,Integer page,Integer pageSize,String serialNum) {
+	public String ChooseBank(@RequestBody Map<String, Object> map) {
 		String url = timingPath + bankList;
-		Map<Object,Object> resultMap = terminalsService.getTerminalByNo(serialNum);
+		String keyword = (String)map.get("keyword");
+		Integer page = (Integer)map.get("page");
+		Integer pageSize = (Integer)map.get("pageSize");
+		Integer terminalId = Integer.valueOf((String)map.get("terminalId"));
+		Map<Object,Object> resultMap = terminalsService.getTerminalById(terminalId);
 		String response = null;
+		String error = "{\"code\":-1,\"message\":\"没有获取到银行信息\",\"result\":{\"content\":null,\"total\":0,\"pageSize\":0,\"currentPage\":0,\"totalPage\":0}}";
 		try {
-			response = CommonServiceUtil.getBankList(url, keyword, page, pageSize, (Integer)resultMap.get("pay_channel_id"), 
+			response = CommonServiceUtil.getBankList(url, keyword.trim(), page, pageSize, (Integer)resultMap.get("pay_channel_id"), 
 					(String)resultMap.get("serial_num"));
 		} catch (IOException e) {
 			logger.error("从第三方接口获得银行异常！",e);
-			return "{\"code\":-1,\"message\":\"银行列表获取失败\",\"result\":{\"content\":null,\"total\":0,\"pageSize\":0,\"currentPage\":0,\"totalPage\":0}}";
+			return error;
 		}
-		
+		if(response==null||"".equals(response.trim())){
+			return error;
+		}
 		return response;
 	}
 

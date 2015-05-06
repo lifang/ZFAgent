@@ -1,17 +1,17 @@
 <link href="style/apply.css" rel="stylesheet" type="text/css" />
 <div class="apply" ng-controller="registerAgentController">
-	<div class="apply_h">申请成为代理商</div>
+	<div class="apply_h">申请成为合作伙伴</div>
     <div class="apply_b">
     	<ul>
         	<li><label>类型</label>
-            	<span class="fl_sp"><input id="radio1" name="radio" checked="checked" type="radio" value="2" onclick="hideinfo();"/> 个人</span>
-                <span class="fl_sp"><input id="radio2" name="radio" type="radio" value="1"  onclick="showinfo();"/> 公司</span>
+            	<span class="fl_sp"><input id="radio1" name="radio" ng-model="agent.types" checked="checked" type="radio" value="2" />个人</span>
+                <span class="fl_sp"><input id="radio2" name="radio" ng-model="agent.types" type="radio" value="1" />公司</span>
             </li>
-            <li><input name="" type="text" ng-model="agent.name" placeholder="负责人姓名(10个中文字符或20个英文字符)" /></li>
-            <li><input id="card_no" name="" type="text" ng-model="agent.card" placeholder="负责人身份证号" onblur="checkCard();"/></li>
-            <li id="companyName"><input name="" type="text" ng-model="agent.companyName" placeholder="公司名" /></li>
-            <li id="licenseCode"><input name="" type="text" ng-model="agent.licenseCode" placeholder="公司营业执照登记号" /></li>
-            <li><input name="" type="text" ng-model="agent.email" placeholder="邮箱"/></li>
+            <li><input name="" type="text" ng-model="agent.name" placeholder="负责人姓名(必填):10个中文字符或20个英文字符" /></li>
+            <li><input id="card_no" name="" type="text" ng-model="agent.card" placeholder="负责人身份证号(必填)" onblur="checkCard();"/></li>
+            <li ng-if="agent.types == 1"><input name="" type="text" ng-model="agent.companyName" placeholder="公司名(必填)" /></li>
+            <li ng-if="agent.types == 1"><input name="" type="text" ng-model="agent.licenseCode" placeholder="公司营业执照登记号(必填)" /></li>
+            <li><input name="" type="text" ng-model="agent.email" placeholder="邮箱(必填)"/></li>
         	<li><label>所在地</label>
             	<select name="" ng-model="agselect" ng-options="g.name for g in cities">
             	  <option value="">请选择</option>
@@ -20,9 +20,9 @@
             	  <option value="">请选择</option>
             	</select>
             </li>
-            <li><input name="" type="text" ng-model="agent.userId" placeholder="登录ID"/></li>
-            <li><input name="" type="password" ng-model="agent.passworda" placeholder="密码:密码由6-20位，英文字符组成"/></li>
-            <li><input name="" type="password" ng-model="agent.passwordb" placeholder="确认密码:密码由6-20位，英文字符组成"/></li>
+            <li><input name="" type="text" ng-model="agent.userId" placeholder="登录ID(必填)"/></li>
+            <li><input name="" type="password" ng-model="agent.passworda" placeholder="密码(必填):密码由6-20位，英文字符组成"/></li>
+            <li><input name="" type="password" ng-model="agent.passwordb" placeholder="确认密码(必填):密码由6-20位，英文字符组成"/></li>
             <li><input name="" type="text" ng-model="agent.phone" placeholder="手机号码" class="l" /><button id="time_show_agent" ng-click="getAgentRegisterCode()" class="yzm_btn">获取验证码</button></li>
             <li><input name="" type="text" ng-model="agent.code" placeholder="验证码"/></li>
             <li><input name="" type="text" ng-model="agent.imgCode" placeholder="输入图片校验码" class="l" /><div class="jym"><img ng-click="reGetRandCodeImg()" class="loginRandCodeImg" src="images/yzm.jpg" /></div></li>
@@ -51,24 +51,8 @@ function focusBlur(e){
 
 $(function(){
 	focusBlur('.apply_b input');//登录
-	$("#companyName").hide();
-	$("#licenseCode").hide();
 }); 
 
-function showinfo(){
-	// alert($("#radio2").prop("checked"));
-	$("#radio1").prop("checked", false);
-	$("#radio2").attr("checked", "checked");
-	$("#companyName").show();
-	$("#licenseCode").show();
-}
-
-function hideinfo(){
-	$("#radio2").prop("checked", false);
-	$("#radio1").attr("checked", "checked");
-	$("#companyName").hide();
-	$("#licenseCode").hide();
-}
 var vcity = {
 		11 : "北京",
 		12 : "天津",
@@ -112,31 +96,31 @@ var vcity = {
 		// 是否为空
 		if (card === '') {
 			alert('请输入身份证号，身份证号不能为空');
-			setTimeout(function () { $("#card_no").focus(); }, 0);
+			//setTimeout(function () { $("#card_no").focus(); }, 0);
 			return false;
 		}
 		// 校验长度，类型
 		if (isCardNo(card) === false) {
 			alert('您输入的身份证号码不正确，请重新输入');
-			setTimeout(function () { $("#card_no").focus(); }, 0);
+			//setTimeout(function () { $("#card_no").focus(); }, 0);
 			return false;
 		}
 		// 检查省份
 		if (checkProvince(card) === false) {
 			alert('您输入的身份证号码不正确,请重新输入');
-			setTimeout(function () { $("#card_no").focus(); }, 0);
+			//setTimeout(function () { $("#card_no").focus(); }, 0);
 			return false;
 		}
 		// 校验生日
 		if (checkBirthday(card) === false) {
 			alert('您输入的身份证号码生日不正确,请重新输入');
-			setTimeout(function () { $("#card_no").focus(); }, 0);
+			//setTimeout(function () { $("#card_no").focus(); }, 0);
 			return false;
 		}
 		// 检验位的检测
 		if (checkParity(card) === false) {
 			alert('您的身份证校验位不正确,请重新输入');
-			setTimeout(function () { $("#card_no").focus(); }, 0);
+			//setTimeout(function () { $("#card_no").focus(); }, 0);
 			return false;
 		}
 		//alert('OK');

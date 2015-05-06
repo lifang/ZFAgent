@@ -180,9 +180,9 @@
 		<if test="title != null and title != ''">AND m.title  like '%${title}%'</if>
 	</select>
 	
-	<select id="getTerminalsNum" parameterType="string" resultType="object">
+	<select id="getTerminalsNum" parameterType="map" resultType="object">
 		SELECT id FROM terminals
-		WHERE serial_num =#{terminalsNum}
+		WHERE serial_num =#{terminalsNum} and agent_id = #{agentId}
 	</select>
 
 	<select id="numIsBinding" parameterType="string" resultType="int">
@@ -240,6 +240,9 @@
 		<if test="channelsId != null">
 			AND p.id = #{channelsId}
 		</if>
+		<if test="serialNum != null and serialNum !=''">
+			AND t.serial_num LIKE '%${serialNum}%'
+		</if>
 		<choose>
 			<when test="minPrice != null and maxPrice != null">
 				AND g.retail_price BETWEEN #{minPrice}*100 and #{maxPrice}*100
@@ -269,7 +272,8 @@
 		SELECT distinct  g.id,g.title FROM terminals t
 		LEFT JOIN goods g ON
 		t.good_id = g.id
-		WHERE t.customer_id = #{customerId} AND g.id is not NULL
+		LEFT JOIN agents a on a.customer_id = #{customerId}
+		WHERE t.agent_id =a.id  AND g.id is not NULL
 	</select>
 
 	<!-- 查询单个商户的终端信息 -->
@@ -301,8 +305,8 @@
 		WHERE username=#{username} AND status=#{status}
 	</select>
 
-	<select id="getTerminalByNo" parameterType="java.lang.String" resultType="map">
-		select serial_num,pay_channel_id from terminals where serial_num = #{serialNum}
+	<select id="getTerminalById" parameterType="java.lang.Integer" resultType="map">
+		select serial_num,pay_channel_id from terminals where id = #{terminalId}
 	</select>
 
 	<select id="findUnameAndStatusCode" parameterType="map" resultType="map">

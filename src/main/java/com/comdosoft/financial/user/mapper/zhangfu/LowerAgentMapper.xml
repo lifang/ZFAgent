@@ -20,10 +20,10 @@ where a.agent_id=#{sonAgentsId} and b.name is not null group by a.trade_type_id,
           as statusStr,
         case d.is_have_profit when 0 then '关闭' else if(d.default_profit is null,'非默认比例','默认比例') end as isProfitStr,  
           d.* from(select a.id,a.company_name,a.status,a.is_have_profit,a.default_profit,
-		(select sum(b.quantity) from prepare_goods_records b where b.agent_id=a.id) as allQty,
+		(select count(b.id) from terminals b where b.agent_id=a.id) as allQty, 
 		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id is not null and c.status=1) as openNum,
 		(select count(c.id) from terminals c where c.agent_id=a.id and c.customer_id is not null) as soldNum,
-		date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.types
+		date_format(a.created_at,'%Y-%c-%d %h:%i:%s') as created_at,a.types,a.name
 		from agents a where a.parent_id=#{agentsId} 
 		<if test="lowerAgentName != null and lowerAgentName != ''">AND a.company_name like '%${lowerAgentName}%'</if>
 		order by a.updated_at desc) d
@@ -95,14 +95,14 @@ left join pay_channels c on a.pay_channel_id=c.id where a.pay_channel_id=#{id} o
 			is_have_profit,created_at,updated_at,code,customer_id,status,parent_id,
 			default_profit,card_id_photo_path,license_no_pic_path,tax_no_pic_path,tax_registered_no,agent_code) 
 		values(#{agentType},#{agentName},#{agentCardId},#{companyName},#{companyId},#{phoneNum},
-		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{code},#{customerId},1,#{agentsId},
+		#{emailStr},#{addressStr},#{isProfit},now(),now(),#{code},#{customerId},5,#{agentsId},
 		(select a.default_profit from agents a where a.id=#{agentsId}),#{cardPhotoPath},
 		#{licensePhotoPath},#{taxPhotoPath},#{taxNumStr},#{code})
    </insert>
    
     <insert id="addNewCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">
    		insert into customers(username,password,created_at,updated_at,city_id,status,phone,email,name,types)
-   		 values(#{loginId},#{pwd},now(),now(),#{cityId},1,#{phoneNum},#{emailStr},#{agentName},#{types})
+   		 values(#{loginId},#{pwd},now(),now(),#{cityId},2,#{phoneNum},#{emailStr},#{agentName},#{types})
    </insert>
    
    <insert id="savePrecent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.query.LowerAgentReq">

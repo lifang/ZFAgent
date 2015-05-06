@@ -442,7 +442,7 @@ var shopinfoController = function($scope, $http, $location, LoginService) {
 	};
 
 	// 跳转到XX页
-	$scope.picnb = 2;
+	$scope.picnb = 0;
 	$scope.tt = function(nb) {
 		$scope.picnb = nb;
 	};
@@ -896,7 +896,7 @@ var purchaseshopinfoController = function($scope, $http, $location, LoginService
 	};
 
 	// 跳转到XX页
-	$scope.picnb = 2;
+	$scope.picnb = 0;
 	$scope.tt = function(nb) {
 		$scope.picnb = nb;
 	};
@@ -974,7 +974,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$http.post("api/order/agent", $scope.order).success(function(data) {
 			if (data.code == 1) {
 				if ($scope.order.orderType == 5) {
-					window.location.href = '#/deposit_pay?id=' + data.result;
+					window.location.href = '#/deposit_pay?id=' + data.result+"&q=1";
 				} else {
 					window.location.href = '#/pay?id=' + data.result;
 				}
@@ -1023,8 +1023,8 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			return;
 		}
 		if ($scope.ad.zipCode == undefined || $scope.ad.zipCode.trim() == "") {
-			alert("请输入邮编!");
-			return;
+			//alert("请输入邮编!");
+			//return;
 		} else {
 			var reg = /[1-9]\d{5}(?!\d)/;
 			if (!reg.test($scope.ad.zipCode)) {
@@ -1105,7 +1105,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			return;
 		}
 		if ($scope.user.username == undefined || $scope.user.username.trim() == "") {
-			alert("请手机或邮箱");
+			alert("请输入手机或邮箱");
 			return;
 		} else {
 			var reg = /^(13[0-9]|14(5|7)|15(0|1|2|3|5|6|7|8|9)|18[0-9])\d{8}$/;
@@ -1153,24 +1153,39 @@ var payController = function($scope, $http, $location, LoginService) {
 		});
 	};
 	$scope.pay = function() {
+		$http.post("api/shop/payOrder", $scope.req).success(function(data) { // 绑定
+			if (data.code == 1) {
+				$scope.order = data.result;
+				if (data.result.paytype > 0) {
+					alert("当前订单已支付成功，请不要重复支付");
+					$scope.pay = false;
+					$scope.payway = data.result.paytype;
+					$('#payTab').hide();
+					$('.mask').hide();
+					return;
+				}
+			}
+		});
 		$('#payTab').show();
+		$scope.order.title = "";
+		var count = 0;
+		angular.forEach($scope.order.good, function(one) {
+			if (count < 2) {
+				$scope.order.title += one.title + " " + one.pcname + "(" + one.quantity + "件)";
+			}
+			count++;
+		});
+		if (count > 2) {
+			$scope.order.title += "..";
+		}
 		if (1 == $scope.payway) {
 			// alert("支付宝");
-			$scope.order.title = "";
-			var count = 0;
-			angular.forEach($scope.order.good, function(one) {
-				if (count < 2) {
-					$scope.order.title += one.title + " " + one.pcname + "(" + one.quantity + "件)";
-				}
-				count++;
-			});
-			if (count > 2) {
-				$scope.order.title += "..";
-			}
 			window.open("alipayapi.jsp?WIDtotal_fee=" + $scope.order.total_price / 100 + "&WIDsubject=" + $scope.order.title + "&WIDout_trade_no=" + $scope.order.order_number);
-		} else {
-			// alert("银行");
-			window.open("http://www.taobao.com");
+		}else if(2==$scope.payway){
+			window.open("unionpay.jsp?WIDtotal_fee=" + $scope.order.total_price / 100 + "&WIDsubject=" + $scope.order.title + "&WIDout_trade_no=" + $scope.order.order_number);  
+		}else{
+			//alert("银行");
+			alert("暂不支持，请联系系统管理员。");
 		}
 	}
 	$scope.finish = function() {

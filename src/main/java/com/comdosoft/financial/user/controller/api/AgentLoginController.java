@@ -61,6 +61,9 @@ public class AgentLoginController {
 	
 	@Value("${goToUserLogin}")
 	private String goToUserLogin;
+	
+	@Value("${filePath}")
+	private String filePath;
 
 	@Resource
 	private MailService mailService;
@@ -203,7 +206,7 @@ public class AgentLoginController {
     public Response tempOpenImg(@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
         	String joinpath="";
-        	joinpath = HttpFile.upload(updatefile, agent+"/Registe/");
+        	joinpath = filePath+HttpFile.upload(updatefile, agent+"Registe/");
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
         		return Response.getError(joinpath);
         		return Response.getSuccess(joinpath);
@@ -279,13 +282,14 @@ public class AgentLoginController {
 					agent.setStatus(Agent.STATUS_1);
 					agent.setParentId(Agent.PARENT_ID);
 					agent.setIsHaveProfit(Agent.IS_HAVE_PROFIT_N);
-					agent.setCardIdPhotoPath((String) map.get("cardIdPhotoPath"));
+					
+					agent.setCardIdPhotoPath(((String) map.get("cardIdPhotoPath")).replaceFirst(filePath, ""));
 					if (agent.getTypes() == 1) {// 公司选项多出几个
 						agent.setCompanyName((String) map.get("companyName"));
 						agent.setBusinessLicense((String) map.get("businessLicense"));
 						agent.setTaxRegisteredNo((String) map.get("taxRegisteredNo"));
-						agent.setLicenseNoPicPath((String) map.get("licenseNoPicPath"));
-						agent.setTaxNoPicPath((String) map.get("taxNoPicPath"));
+						agent.setLicenseNoPicPath(((String) map.get("licenseNoPicPath")).replaceFirst(filePath, ""));
+						agent.setTaxNoPicPath(((String) map.get("taxNoPicPath")).replaceFirst(filePath, ""));
 					}
 					agentLoginService.addAgent(agent);
 					return Response.getSuccess("注册成功！");

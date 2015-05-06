@@ -166,7 +166,7 @@ public class TerminalsController {
 					(Integer)map.get("rows"));
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
-			applyMap.put("terminalList", terminalsService.getMerchants(
+			applyMap.put("merchaneList", terminalsService.getMerchants(
 					(Integer)map.get("terminalId"),
 					(String)map.get("title"),
 					offSetPage,
@@ -189,7 +189,7 @@ public class TerminalsController {
 	@RequestMapping(value="bindingTerminals",method=RequestMethod.POST)
 	public Response BindingTerminals(@RequestBody Map<Object, Object> map){
 		try {
-			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"))==null){
+			if(terminalsService.getTerminalsNum((String)map.get("terminalsNum"),(Integer)map.get("agentId"))==null){
 				return Response.getError("终端号不存在！");
 			}else{
 				if(terminalsService.numIsBinding((String)map.get("terminalsNum"))==0){
@@ -402,7 +402,7 @@ public class TerminalsController {
 	 */
 	@RequestMapping(value="screeningPosName",method=RequestMethod.POST)
 	public Response screeningPosName(@RequestBody Map<String, Object> map){
-		try{//代理商对应用户id
+		try{//代理商id
 			return Response.getSuccess(terminalsService.screeningPosName((Integer)map.get("customerId")));
 		}catch(Exception e){
 			logger.error("POS机选择失败！", e);

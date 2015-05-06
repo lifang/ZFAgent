@@ -190,9 +190,9 @@ public class TerminalsService {
 	 * @param customerId
 	 * @return
 	 */
-	public int getMerchantSize(Integer customerId,String title) {
+	public int getMerchantSize(Integer terminalId,String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("customerId", customerId);
+		map.put("terminalId", terminalId);
 		map.put("title", title);
 		return terminalsMapper.getMerchantSize(map);
 	}
@@ -201,8 +201,11 @@ public class TerminalsService {
 	 * @param terminalsNum
 	 * @return
 	 */
-	public Object getTerminalsNum(String terminalsNum){
-		return terminalsMapper.getTerminalsNum(terminalsNum);
+	public Object getTerminalsNum(String terminalsNum,Integer agentId){
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("terminalsNum", terminalsNum);
+		map.put("agentId", agentId);
+		return terminalsMapper.getTerminalsNum(map);
 	}
 	
 	/**
@@ -374,7 +377,7 @@ public class TerminalsService {
 		return  terminalsMapper.checkTerminalCodeOpen(str);
 	}
 	
-	public Map<Object,Object> getTerminalByNo(String serialNum){
-		return  terminalsMapper.getTerminalByNo(serialNum);
+	public Map<Object,Object> getTerminalById(Integer id){
+		return  terminalsMapper.getTerminalById(id);
 	}
 }

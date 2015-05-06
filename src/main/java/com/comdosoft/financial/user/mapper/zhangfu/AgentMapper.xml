@@ -204,12 +204,11 @@
 
 
 	<select id="queryAgent" resultType="map">
-		<!-- SELECT * FROM agents WHERE id = #{id} -->
-	<![CDATA[ 
-		select s.name,s.company_name,s.business_license,s.phone,s.email, c2.name as province,c.name as cities from cities c 
-		left join customers cst on c.id = cst.city_id left join agents s on s.customer_id = cst.id left join cities c2 
-		on c2.id=c.parent_id where s.id =  #{id}
- 
+	<![CDATA[
+		SELECT a.id, a.types, a.business_license, a.card_id, a.`name`, c.id AS customerid, c.username, a.company_name, a.email, a.phone, cy.id AS cityid,
+		cy.`name` AS cityname, cyy.`name` AS provincename
+		FROM agents a LEFT JOIN customers c ON a.customer_id = c.id LEFT JOIN
+		cities cy ON c.city_id = cy.id LEFT JOIN cities cyy ON cyy.id = cy.parent_id WHERE a.id = #{id}
 	]]>
 	</select>
 

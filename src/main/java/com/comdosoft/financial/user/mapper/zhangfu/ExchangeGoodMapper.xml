@@ -24,10 +24,10 @@
 			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
 			egr.customer_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 			<if test="startTime!=null">
-			   <![CDATA[ and egr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(egr.created_at,'%Y-%m-%d') >= str_to_date(#{startTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="endTime!=null">
-			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(egr.created_at,'%Y-%m-%d') <= str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="sonAgentId!=0">
 			   <![CDATA[ and (egr.from_agent_id=#{sonAgentId} or egr.to_agent_id=#{sonAgentId} )  ]]>
@@ -43,10 +43,10 @@
 			(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
 			customer_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 			<if test="startTime!=null">
-			   <![CDATA[ and egr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(egr.created_at,'%Y-%m-%d') >=  str_to_date(#{startTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="endTime!=null">
-			   <![CDATA[ and egr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(egr.created_at,'%Y-%m-%d') <=  str_to_date(#{endTime},'%Y-%m-%d') ]]>
 			</if>
 			<if test="sonAgentId!=0">
 			   <![CDATA[ and (egr.from_agent_id=#{sonAgentId} or egr.to_agent_id=#{sonAgentId} )  ]]>
@@ -55,7 +55,7 @@
      
       <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.ExchangeGoodReq" resultType="map">
             SELECT egr.id,a.company_name fromname,a2.company_name toname,egr.quantity,egr.terminals_list,
-            DATE_FORMAT(egr.created_at,'%Y-%m-%d %H:%i:%s') as created_at,egr.quantity ,c.name as creator
+            DATE_FORMAT(egr.created_at,'%Y-%m-%d %H:%i:%s') as created_at,egr.quantity ,ifnull(c.name,c.username) as creator
 			from exchange_goods_records egr
             LEFT JOIN agents a on a.id=egr.from_agent_id
             LEFT JOIN agents a2 on a2.id=egr.to_agent_id

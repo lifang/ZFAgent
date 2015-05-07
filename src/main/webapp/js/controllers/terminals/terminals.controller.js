@@ -700,8 +700,6 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
 	//英文数字校验
 	var numCh = /[^a-zA-Z0-9]/g;
-	//数字校验
-	var numReg = /^\d+$/;
 	
 	$scope.customerId = Math.ceil(LoginService.agentUserId);
 	$scope.terminalId = Math.ceil($location.search()['terminalId']);
@@ -859,7 +857,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		          if (data != null && data != undefined) {
 		        	  if(data.code == 1){
 		        		  $scope.result=data.result;
-		        		  $scope.bankObj.bankName = $scope.openingInfos.account_bank_code;
+		        		  $scope.bankObj.bankName = $scope.openingInfos.bank_name;
 		        	  }
 		          }
 		      }).error(function (data) {
@@ -891,11 +889,11 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		        		  }
 		        		  
 		        	  }else{
-		        		  alert("获取银行失败！");
+		        		  //alert("获取银行失败！");
 		        	  }
 		          }
 		      }).error(function (data){
-		    	  alert("银行加载失败！");
+		    	  //alert("银行加载失败！");
 		      });
 			  //$("#div_"+obj).show();
 		  }
@@ -907,7 +905,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  $("#"+obj).parent("div").siblings("div").children("input[type='text']").val(backName)
 		  }
 		  $scope.selectBank = function(code,name){
-			  $scope.bankObj.bankName = code;
+			  $scope.bankObj.bankName = name;
 			  $scope.bankObj.code = code;
 			  $("#suggestDiv").hide();
 		  }
@@ -966,10 +964,11 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 				                     billingId:$scope.billingId,
 				                     bankNum:$("#bankNumValue").val(),
 				                     bankName:$("#bankNameValue").val(),
-				                     bankCode:$scope.bankObj.bankName.toString(),
+				                     bankCode:$scope.bankObj.code.toString(),
 				                     organizationNo:$("#organizationNoValue").val(),
 				                     registeredNo:$("#registeredNoValue").val(),
-				                     needPreliminaryVerify:Math.ceil($scope.applyDetails.needPreliminaryVerify)
+				                     needPreliminaryVerify:Math.ceil($scope.applyDetails.needPreliminaryVerify),
+				                     bank_name:$scope.bankObj.bankName.toString()
 				                 }
 				             ];
 				  
@@ -1059,13 +1058,10 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  }/*else if(isNaN(Number($("#bankNumValue").val()))){
 				  alert("银行账号只能输数字！");
 			  }*/else if($("#bankNameValue").val() == null || $("#bankNameValue").val() == ""){
-				  alert("请填写结算银行名称！");
+				  alert("请填写结算银行帐户名！");
 				  return false;
 			  }else if($scope.bankObj.bankName == null || $scope.bankObj.bankName == ""){
-				  alert("请填写结算银行代码！");
-				  return false;
-			  }else if(!numReg.test($scope.bankObj.bankName)){
-				  alert("结算银行代码由数字组成！");
+				  alert("请填写结算银行名称！");
 				  return false;
 			  }else if($scope.status == 1){
 				  if($("#organizationNoValue").val() == null || $("#organizationNoValue").val() == ""){

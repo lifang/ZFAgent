@@ -14,18 +14,20 @@
 	</update>
 
 	<select id="getPrepareGoodList" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
-		SELECT pgr.id,a.company_name,pgr.quantity,
+		SELECT pgr.id,a.company_name,pgr.quantity,g.title,pc.name as pcname,
 		DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') as created_at
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
+		left join goods g on g.id=pgr.good_id
+		left join pay_channels pc on pc.id=pgr.pay_channel_id
 		where (process_user_id in
 		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
 		process_user_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 		<if test="startTime!=null">
-			   <![CDATA[ and pgr.created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(pgr.created_at,'%Y-%m-%d') >= str_to_date(#{startTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="endTime!=null">
-			   <![CDATA[ and pgr.created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(pgr.created_at,'%Y-%m-%d') <= str_to_date(#{endTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="sonAgentId!=0">
 			   <![CDATA[ and pgr.agent_id=#{sonAgentId} ]]>
@@ -34,15 +36,15 @@
 		LIMIT #{offset}, #{rows}
 	</select>
 	<select id="getPrepareGoodTotal" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="int">
-		SELECT count(*) from prepare_goods_records
+		SELECT count(*) from prepare_goods_records 
 		where (process_user_id in
 		(SELECT customer_id from customer_agent_relations where types=2 and agent_id=#{agentId}) OR
 		process_user_id=(SELECT customer_id from agents WHERE id=#{agentId}))
 		<if test="startTime!=null">
-			   <![CDATA[ and created_at > str_to_date(#{startTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(created_at,'%Y-%m-%d') >= str_to_date(#{startTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="endTime!=null">
-			   <![CDATA[ and created_at < str_to_date(#{endTime},'%Y-%m-%d') ]]>
+			   <![CDATA[ and DATE_FORMAT(created_at,'%Y-%m-%d') <= str_to_date(#{endTime},'%Y-%m-%d') ]]>
 		</if>
 		<if test="sonAgentId!=0">
 			   <![CDATA[ and agent_id=#{sonAgentId} ]]>
@@ -51,7 +53,7 @@
 
 	<select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
 		SELECT pgr.id,a.company_name ,DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') created_at,
-		pgr.quantity,pgr.terminal_list ,c.name as creator
+		pgr.quantity,pgr.terminal_list ,ifnull(c.name,c.username) as creator
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
 		LEFT JOIN customers c on c.id=pgr.process_user_id

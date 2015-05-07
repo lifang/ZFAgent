@@ -62,7 +62,7 @@
 	<div class="content clear">
 		<div class="myInfoNav">
 			<ul>
-				<li><a href="#/agentinform" class="" ng-click="list()">基本信息</a></li>
+				<li><a href="#/agentinform" class="hover" >基本信息</a></li>
 				<li><a href="#/address">地址管理</a></li>
 			</ul>
 		</div>
@@ -73,22 +73,21 @@
 			<ul>
 				<li><label>负责人姓名：</label><input type="text" disabled="true"
 					ng-model="one.name" /></li>
-				<li ng-if="one.types == 2"><label>公司名称：</label><input type="text"
-					ng-model="one.company_name" disabled="true" /></li>
-				<li ng-if="one.types == 2"><label>公司营业执照登记号：</label><input name="" type="text"
-					ng-model="one.business_license" disabled="true" /></li>
+				<li ng-if="one.types == 1"><label>公司名称：</label><input
+					type="text" ng-model="one.company_name" disabled="true" /></li>
+				<li ng-if="one.types == 1"><label>公司营业执照登记号：</label><input
+					name="" type="text" ng-model="one.business_license" disabled="true" /></li>
 				<li><label>电话：</label><input type="text" ng-model="one.phone"
 					disabled="disabled" /><a href="javascript:void(0)"
 					id="show_phone_input_my_btn" ng-click="send_code_one(1)">修改手机号</a></li>
-				<li><label>邮箱：</label><input type="text" ng-model="one.email"
-					disabled="disabled" /><a href="javascript:void(0)"
-					id="email_send_btn" ng-click="up_email()">修改邮箱</a></li>
-				<li><label>所在地：<input name="" type="text"
-						ng-model="one.address" disabled="true" /></label>
+				<li><label>邮箱：</label><input type="text" ng-model="one.email" disabled="disabled" />
+				<button id="email_send_btn" ng-click="up_email()">修改邮箱</button></li>
+				<li><label>所在地：<input name="" type="text" ng-model="one.address" disabled="true" /></label>
 					<div class="addr_area">
-						<select name="" disabled="true">
+						<select name="" disabled="true"> 
 							<option>{{one.provincename}}</option>
-						</select> <select name="" disabled="true">
+						</select> 
+						<select name="" disabled="true"> 
 							<option>{{one.cityname}}</option>
 						</select>
 					</div></li>
@@ -108,4 +107,15 @@
 </div>
 
 <div class="mask"></div>
-
+<style>
+#email_send_btn {
+	width: 80px;
+	height: 26px;
+	line-height: 26px;
+	text-align: center;
+	display: inline-block;
+	background: #0071cf;
+	color: #FFF;
+	margin-left: 10px;
+}
+</style>

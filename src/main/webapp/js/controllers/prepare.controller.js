@@ -40,6 +40,8 @@ var preparelistController = function ($scope, $http, LoginService) {
 		$http.post("api/preparegood/getsonagent", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.son=data.result;
+            	$scope.all={id:0,company_name:"全部"};
+            	$scope.son.unshift($scope.all);
             }
         });
 	};

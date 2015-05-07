@@ -145,6 +145,16 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 	
 	
 	$scope.showProfitTab=function(){
+		var doc_height = $(document).height();
+		var win_height = $(window).height();
+		var win_width = $(window).width();
+		
+		var layer_height = $(".defaultRatio_tab").height();
+		var layer_width = $(".defaultRatio_tab").width();
+		$(".mask").css({display:'block',height:doc_height});
+		$(".defaultRatio_tab").css('top',(win_height-layer_height)/2);
+		$(".defaultRatio_tab").css('left',(win_width-layer_width)/2);
+		$(".defaultRatio_tab").css('display','block');
 		popup(".defaultRatio_tab",".defaultRatio_a");
 	}
 	$scope.init();
@@ -168,6 +178,13 @@ var lowerInfoController = function ($scope, $http,$location, LoginService) {
 	    	            	$scope.provinceName=data.result.province;
 	    	            }
 	    	        });
+	            	if($scope.info.types==2){
+	            		//为个人
+	            		$("#companyNameLi").hide();
+	            		$("#companyIdLi").hide();
+	            	}else{
+	            		//为公司
+	            	}
 	            }
 	        });
 		};
@@ -378,6 +395,12 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 		$http.post("api/lowerAgent/info", $scope.req).success(function (data) {  //绑定
 	            if (data.code==1) {
 	            	$scope.agentType=data.result.types;
+	            	if($scope.agentType==2){
+	            		//为个人
+	            		$("#companyNameLi").hide();
+	            		$("#companyIdLi").hide();
+	            	}
+	            	
 	            	$scope.agentName=data.result.name;
 	            	$scope.agentCardId=data.result.card_id;
 	        		$scope.companyName=data.result.company_name;
@@ -404,7 +427,22 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	        		
 	            }
 	    });
+		
+		
 	};
+	
+	$scope.radioCheck=function(obj){
+		if(obj==2){
+			//个人
+			$("#companyNameLi").hide();
+			$("#companyIdLi").hide();
+		}else{
+			//公司
+			$("#companyNameLi").show();
+			$("#companyIdLi").show();
+		}
+	};
+	
 	$scope.list=function(){
 		$http.post("api/lowerAgent/getProvince", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {

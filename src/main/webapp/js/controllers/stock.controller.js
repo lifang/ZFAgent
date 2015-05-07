@@ -81,7 +81,7 @@ var stockinfoController = function ($scope, $http,$location, LoginService) {
 		$scope.req.paychannelId=$location.search()['pcid'];
 		$scope.req.agentId=LoginService.agentid;
 		$scope.info();
-		$scope.list();
+		$scope.getlist();
 	};
 	$scope.info=function(){
 		$http.post("api/stock/webinfo", $scope.req).success(function (data) {  //绑定
@@ -90,7 +90,7 @@ var stockinfoController = function ($scope, $http,$location, LoginService) {
             }
         });
 	};
-	$scope.list=function(){
+	$scope.getlist=function(){
 		$http.post("api/stock/info", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.list=data.result.list;

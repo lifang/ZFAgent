@@ -243,6 +243,7 @@ public class TerminalsWebController {
 	public Response addCostometAddress(@RequestBody CustomerAddress customerAddress) {
 		try {
 			customerAddress.setIsDefault(CustomerAddress.ISDEFAULT_2);
+			customerAddress.setStatus((byte) CustomerAddress.STATUS_1);
 			terminalsWebService.addCostometAddress(customerAddress);
 			return Response.getSuccess("添加成功！");
 		} catch (Exception e) {

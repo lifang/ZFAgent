@@ -7,6 +7,8 @@ var routeModule = angular.module("routeModule", [ 'loginServiceModule',
 // 路由器的具体分发
 function routeConfig($routeProvider) {
 	$routeProvider.when('/', {
+		templateUrl : 'views/index/login.html'                //'views/index/myapp.html'
+	}).when('/myapp', {
 		templateUrl : 'views/index/myapp.html'
 	}).when('/prepare', {
 		templateUrl : 'views/agent/preparelist.html'
@@ -145,7 +147,7 @@ function routeConfig($routeProvider) {
 	}).when('/app', {
 		templateUrl : 'views/index/app.html'
 	}).otherwise({
-		redirectTo : "/"
+		redirectTo : '/'
 	});
 };
 routeModule.$inject = [ 'LoginService' ];

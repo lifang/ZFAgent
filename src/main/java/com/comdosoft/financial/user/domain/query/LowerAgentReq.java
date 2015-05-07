@@ -307,7 +307,11 @@ public class LowerAgentReq {
 	}
 
 	public String getCompanyName() {
-		return companyName;
+		if(companyName.trim().equals("")){
+			return null;
+		}else{
+			return companyName;
+		}
 	}
 
 	public void setCompanyName(String companyName) {
@@ -315,7 +319,11 @@ public class LowerAgentReq {
 	}
 
 	public String getCompanyId() {
-		return companyId;
+		if(companyId.trim().equals("")){
+			return null;
+		}else{
+			return companyId;
+		}
 	}
 
 	public void setCompanyId(String companyId) {

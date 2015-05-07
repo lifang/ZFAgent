@@ -14,7 +14,7 @@
 	</update>
 
 	<select id="getPrepareGoodList" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
-		SELECT pgr.id,a.company_name,pgr.quantity,g.title,pc.name as pcname,
+		SELECT pgr.id,ifnull(a.company_name,a.name) company_name,pgr.quantity,g.title,pc.name as pcname,
 		DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') as created_at
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
@@ -52,7 +52,7 @@
 	</select>
 
 	<select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.PrepareGoodReq" resultType="map">
-		SELECT pgr.id,a.company_name ,DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') created_at,
+		SELECT pgr.id,ifnull(a.company_name,a.name) company_name ,DATE_FORMAT(pgr.created_at,'%Y-%m-%d %H:%i:%s') created_at,
 		pgr.quantity,pgr.terminal_list ,ifnull(c.name,c.username) as creator
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
@@ -61,10 +61,10 @@
 	</select>
 
 	<select id="getSonAgent" resultType="map">
-		SELECT id,company_name from agents 
+		SELECT id,ifnull(company_name,name) company_name from agents 
 		where parent_id=#{agentId} and status=5
 		<if test="keys!=''">
-		    <![CDATA[ AND company_name like '%${keys}%' ]]>
+		    <![CDATA[ AND ( company_name like '%${keys}%' or name like '%${keys}%' )  ]]>
 		</if>
 		
 	</select>

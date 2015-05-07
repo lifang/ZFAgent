@@ -108,8 +108,8 @@
 	</select>
 	
 	<insert id="addCostometAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
-		INSERT INTO customer_addresses(city_id,receiver,address,moblephone,zip_code,is_default,customer_id,created_at,updated_at)
-		VALUES(#{cityId},#{receiver},#{address},#{moblephone},#{zipCode},#{isDefault},#{customerId},now(),now())
+		INSERT INTO customer_addresses(city_id,receiver,address,moblephone,zip_code,is_default,customer_id,created_at,updated_at,status)
+		VALUES(#{cityId},#{receiver},#{address},#{moblephone},#{zipCode},#{isDefault},#{customerId},now(),now(),#{status})
 	</insert>
 	
 	<insert id="addCsAgentMark" useGeneratedKeys="true" keyProperty="id" parameterType="map">

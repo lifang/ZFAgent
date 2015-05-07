@@ -157,6 +157,8 @@
 				$(".mask").css('display', 'none');
 			}
 		});
+		// 解决placeholder在IE9以下浏览器中兼容性
+		$('input, textarea').placeholder();
 	});
 
 //input默认值

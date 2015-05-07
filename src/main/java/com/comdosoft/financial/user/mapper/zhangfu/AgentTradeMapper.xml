@@ -28,7 +28,7 @@
 	
 	<select id="getAgentName" resultType="String">
 	<![CDATA[
-		SELECT company_name  from agents  where id=#{agentId}
+		SELECT ifnull(company_name,name) company_name  from agents  where id=#{agentId}
 	]]>
 	</select>
 	
@@ -73,7 +73,7 @@
 	<!-- 查询交易流水用 -->
 	<select id="getAgents" resultType="map" >
 	<![CDATA[
-		SELECT id as agentId,company_name as agentName
+		SELECT id as agentId,ifnull(company_name,name) as agentName
 		  FROM agents
 		 WHERE  code like '${code}%'
 	]]>

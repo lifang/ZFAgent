@@ -13,6 +13,16 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 		LoginService.agentLogin($scope,$http);
 	};
 	
+	//删除错误提示消息
+	$scope.deleteerror = function(){
+		$scope.agentNameClass = false;
+		$scope.agentNameMessage = null;
+	}
+	$scope.deleteerrord = function(){
+		$scope.agentNameClass = false;
+		$scope.agentPassClass = false;
+		$scope.agentNameMessage = null;
+	}
 	//跳转代理商注册页面
 	$scope.goToRegister = function(){
 		//移除样式

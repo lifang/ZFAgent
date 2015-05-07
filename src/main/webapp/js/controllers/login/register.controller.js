@@ -31,11 +31,13 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					$scope.code = data.result;
 					setCookie("agent_send_phone_code", $scope.code);
 					$scope.intDiff = 120;
+					$("#time_show_agent").attr("style","background-color:#AAAAAA");
 					window.agentSendCode = window.setInterval(function() {
 						if ($scope.intDiff == 0) {
 							$('#time_show_agent').html("获取验证码！");
 							$scope.registreTime = true;
 							window.clearInterval(window.agentSendCode);
+							$("#time_show_agent").attr("style","background-color:#AAAAAA");
 						} else {
 							$('#time_show_agent').html("重新发送（" + $scope.intDiff + "秒）");
 							$scope.intDiff--;

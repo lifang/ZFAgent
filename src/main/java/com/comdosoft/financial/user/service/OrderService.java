@@ -372,7 +372,12 @@ public class OrderService {
         String d = sdf.format(o.getCreatedAt());
         map.put("order_createTime", d);// 订单日期
         map.put("order_status", o.getStatus() == null ? "" : o.getStatus() + "");
-        map.put("need_invoice", o.getNeedInvoice()== null ? "" : o.getNeedInvoice() + "");
+        Boolean ninvoic =  o.getNeedInvoice();
+        Integer nn = 0;
+        if(ninvoic){
+        	nn = 1;
+        }
+        map.put("need_invoice", nn);
 
         List<OrderGood> olist = o.getOrderGoodsList();
         map.put("order_goods_size", olist.size());//
@@ -468,6 +473,12 @@ public class OrderService {
             invoce_name = "公司";
         }
         map.put("order_invoce_type", invoce_name);// 发票类型
+        Boolean ninvoic =  o.getNeedInvoice()==null?false:o.getNeedInvoice();
+        Integer nn = 0;
+        if(ninvoic){
+        	nn = 1;
+        }
+        map.put("need_invoice", nn);
         map.put("order_invoce_info", o.getInvoiceInfo() == null ? "" : o.getInvoiceInfo());// 发票抬头
         map.put("order_type", o.getTypes() == null ? "" : o.getTypes());// 订单类型
         List<CsOutStorage> csOutList = orderMapper.getOutStorageByOrderId(o.getId());

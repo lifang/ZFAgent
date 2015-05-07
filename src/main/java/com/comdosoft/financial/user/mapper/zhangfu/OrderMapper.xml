@@ -398,7 +398,7 @@
 	<select id="getProxyById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,o.customer_id,
-		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,
+		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,o.need_invoice,
 		g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,og.actual_price as og_actual_price,
 		pc.name as channel_name,og.price as og_price ,	og.quantity as og_quantity ,o.invoice_info,op.pay_type,o.belongs_user_id,f.`name` as factory_name,
 		o.actual_price ,o.total_price,om.customer_id as om_customer_id,om.order_id as om_order_id,

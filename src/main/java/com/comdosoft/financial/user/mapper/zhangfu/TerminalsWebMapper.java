@@ -97,7 +97,7 @@ public interface TerminalsWebMapper {
      * @param customerId
      * @return
      */
-    List<Map<String, Object>> getAddressee(int customerId);
+    List<Map<String, Object>> getAddressee(Map<Object, Object> map);
     
     /**
      * <!-添加联系地址 -->

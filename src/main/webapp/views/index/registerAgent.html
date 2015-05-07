@@ -1,58 +1,4 @@
 <link href="style/apply.css" rel="stylesheet" type="text/css" />
-<div class="apply" ng-controller="registerAgentController">
-	<div class="apply_h">申请成为合作伙伴</div>
-	<div class="apply_b">
-		<ul>
-			<li><label>类型</label> <span class="fl_sp"><input
-					id="radio1" name="radio" ng-model="agent.types" checked="checked"
-					type="radio" value="2" />个人</span> <span class="fl_sp"><input
-					id="radio2" name="radio" ng-model="agent.types" type="radio"
-					value="1" />公司</span></li>
-			<li><input name="" type="text" ng-model="agent.name"
-				placeholder="负责人姓名(必填):10个中文字符或20个英文字符" /></li>
-			<li><input id="card_no" name="" type="text"
-				ng-model="agent.card" placeholder="负责人身份证号(必填)"
-				onblur="checkCard();" /></li>
-			<li ng-if="agent.types == 1"><input name="" type="text"
-				ng-model="agent.companyName" placeholder="公司名(必填)" /></li>
-			<li ng-if="agent.types == 1"><input name="" type="text"
-				ng-model="agent.licenseCode" placeholder="公司营业执照登记号(必填)" /></li>
-			<li><input name="" type="text" ng-model="agent.email"
-				placeholder="邮箱(必填)" /></li>
-			<li><label>所在地</label> <select name="" ng-model="agselect"
-				ng-options="g.name for g in cities">
-					<option value="">请选择</option>
-			</select> <select name="" ng-model="agcitis"
-				ng-options="x.name for x in agselect.childrens">
-					<option value="">请选择</option>
-			</select></li>
-			<li><input name="" type="text" ng-model="agent.userId"
-				placeholder="登录ID(必填)" /></li>
-			<li><input name="" type="password" ng-model="agent.passworda"
-				placeholder="密码(必填):密码由6-20位，英文字符组成" /></li>
-			<li><input name="" type="password" ng-model="agent.passwordb"
-				placeholder="确认密码(必填):密码由6-20位，英文字符组成" /></li>
-			<li><input name="" type="text" ng-model="agent.phone"
-				placeholder="手机号码" class="l" />
-				<button id="time_show_agent" ng-click="getAgentRegisterCode()"
-					class="yzm_btn">获取验证码</button></li>
-			<li><input name="" type="text" ng-model="agent.code"
-				placeholder="验证码" /></li>
-			<li><input name="" type="text" ng-model="agent.imgCode"
-				placeholder="输入图片校验码" class="l" />
-				<div class="jym">
-					<img ng-click="reGetRandCodeImg()" class="loginRandCodeImg"
-						src="images/yzm.jpg" />
-				</div></li>
-			<li><span class="fl_sp"><input ng-model="ridel_xy"
-					ng-click="ridel_xy = !ridel_xy" name="" type="radio" value="" /> <a
-					href="javascript:void(0)" class="ebankAgreement_a">同意《华尔街金融平台用户使用协议》</a></span></li>
-		</ul>
-		<div class="btn" ng-click="addAgentRegister()">
-			<button>确定</button>
-		</div>
-	</div>
-</div>
 
 <div class="mask"></div>
 <div class="ebankAgreementTab">
@@ -133,28 +79,65 @@
 		<p>我们对于任何第三方通过本网站链接提供的任何资料及其中包含的内容不承担任何责任。</p>
 	</div>
 </div>
-
-
-
-
-
+<div class="apply" ng-controller="registerAgentController">
+	<div class="apply_h">申请成为合作伙伴</div>
+	<div class="apply_b">
+		<ul>
+			<li><label>类型</label> <span class="fl_sp"><input
+					id="radio1" name="radio" ng-model="agent.types" checked="checked"
+					type="radio" value="2" />个人</span> <span class="fl_sp"><input
+					id="radio2" name="radio" ng-model="agent.types" type="radio"
+					value="1" />公司</span></li>
+			<li><label>负责人姓名</label><input name="" type="text"
+				ng-model="agent.name" placeholder="负责人姓名(必填):10个中文字符或20个英文字符" /></li>
+			<li><label>身份证号</label><input id="card_no" name="" type="text"
+				ng-model="agent.card" placeholder="负责人身份证号(必填)"
+				/></li>
+			<li ng-if="agent.types == 1"><label>公司名</label><input name=""
+				type="text" ng-model="agent.companyName" placeholder="公司名(必填)" /></li>
+			<li ng-if="agent.types == 1"><label>营业执照号</label><input
+				name="" type="text" ng-model="agent.licenseCode"
+				placeholder="公司营业执照登记号(必填)" /></li>
+			<li><label>邮箱</label><input name="" type="text"
+				ng-model="agent.email" placeholder="邮箱(必填)" /></li>
+			<li><label>所在地</label> <select name="" ng-model="agselect"
+				ng-options="g.name for g in cities">
+					<option value="">请选择</option>
+			</select> <select name="" ng-model="agcitis"
+				ng-options="x.name for x in agselect.childrens">
+					<option value="">请选择</option>
+			</select></li>
+			<li><label>用户名</label><input name="" type="text"
+				ng-model="agent.userId" placeholder="用户名(必填)" /></li>
+			<li><label>密码</label><input name="" type="password"
+				ng-model="agent.passworda" placeholder="密码(必填)" ng-class="passclassa" ng-keyup="topassa()"/>
+				<div class="apply_prompt">6-20字符、字母、数字及“-”、“_”组合</div></li>
+			<li><label>确认密码</label><input name="" type="password"
+				ng-model="agent.passwordb" placeholder="确认密码(必填)" ng-class="passclassb" ng-keyup="topassb()"/></li>
+			<li><label>手机号码</label><input name="" type="text"
+				ng-model="agent.phone" placeholder="手机号码" class="l" />
+			<button id="time_show_agent" ng-click="getAgentRegisterCode()"
+					class="yzm_btn">获取验证码</button></li>
+			<li><label>验证码</label><input name="" type="text"
+				ng-model="agent.code" placeholder="验证码" /></li>
+			<li><label>图片验证码</label><input name="" type="text"
+				ng-model="agent.imgCode" placeholder="输入图片校验码" class="l" />
+			<div class="jym">
+					<img ng-click="reGetRandCodeImg()" class="loginRandCodeImg"
+						src="images/yzm.jpg" />
+				</div></li>
+			<li class="res_b_pl"><span class="fl_sp"><input
+					ng-model="ridel_xy" ng-click="ridel_xy = !ridel_xy" name=""
+					type="radio" value="" /> <a href="javascript:void(0)"
+					class="ebankAgreement_a">同意《华尔街金融平台代理商使用协议》</a></span></li>
+		</ul>
+		<div class="btn" ng-click="addAgentRegister()">
+			<button>确定</button>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
-	//input默认值
-	function focusBlur(e) {
-		$(e).focus(function() {
-			var thisVal = $(this).val();
-			if (thisVal == this.defaultValue) {
-				$(this).val('');
-			}
-		})
-		$(e).blur(function() {
-			var thisVal = $(this).val();
-			if (thisVal == '') {
-				$(this).val(this.defaultValue);
-			}
-		})
-	}
-
+ 
 	$(function() {
 		focusBlur('.apply_b input');//登录
 		
@@ -176,7 +159,23 @@
 		});
 	});
 
-	var vcity = {
+//input默认值
+function focusBlur(e){
+	$(e).focus(function(){
+		var thisVal = $(this).val();
+		if(thisVal == this.defaultValue){
+			$(this).val('');
+		}	
+	})	
+	$(e).blur(function(){
+		var thisVal = $(this).val();
+		if(thisVal == ''){
+			$(this).val(this.defaultValue);
+		}	
+	})	
+} 
+
+var vcity = {
 		11 : "北京",
 		12 : "天津",
 		13 : "河北",
@@ -213,146 +212,6 @@
 		82 : "澳门",
 		91 : "国外"
 	};
+ 
 
-	checkCard = function() {
-		var card = $("#card_no").val();
-		// 是否为空
-		if (card === '') {
-			alert('请输入身份证号，身份证号不能为空');
-			//setTimeout(function () { $("#card_no").focus(); }, 0);
-			return false;
-		}
-		// 校验长度，类型
-		if (isCardNo(card) === false) {
-			alert('您输入的身份证号码不正确，请重新输入');
-			//setTimeout(function () { $("#card_no").focus(); }, 0);
-			return false;
-		}
-		// 检查省份
-		if (checkProvince(card) === false) {
-			alert('您输入的身份证号码不正确,请重新输入');
-			//setTimeout(function () { $("#card_no").focus(); }, 0);
-			return false;
-		}
-		// 校验生日
-		if (checkBirthday(card) === false) {
-			alert('您输入的身份证号码生日不正确,请重新输入');
-			//setTimeout(function () { $("#card_no").focus(); }, 0);
-			return false;
-		}
-		// 检验位的检测
-		if (checkParity(card) === false) {
-			alert('您的身份证校验位不正确,请重新输入');
-			//setTimeout(function () { $("#card_no").focus(); }, 0);
-			return false;
-		}
-		//alert('OK');
-		return true;
-	};
-
-	// 检查号码是否符合规范，包括长度，类型
-	isCardNo = function(card) {
-		// 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
-		var reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
-		if (reg.test(card) === false) {
-			// alert("身份证号码不合乎规范");
-			return false;
-		}
-
-		return true;
-	};
-
-	// 取身份证前两位,校验省份
-	checkProvince = function(card) {
-		var province = card.substr(0, 2);
-		if (vcity[province] == undefined) {
-			return false;
-		}
-		return true;
-	};
-
-	// 检查生日是否正确
-	checkBirthday = function(card) {
-		var len = card.length;
-		// 身份证15位时，次序为省（3位）市（3位）年（2位）月（2位）日（2位）校验位（3位），皆为数字
-		if (len == '15') {
-			var re_fifteen = /^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/;
-			var arr_data = card.match(re_fifteen);
-			var year = arr_data[2];
-			var month = arr_data[3];
-			var day = arr_data[4];
-			var birthday = new Date('19' + year + '/' + month + '/' + day);
-			return verifyBirthday('19' + year, month, day, birthday);
-		}
-		// 身份证18位时，次序为省（3位）市（3位）年（4位）月（2位）日（2位）校验位（4位），校验位末尾可能为X
-		if (len == '18') {
-			var re_eighteen = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
-			var arr_data = card.match(re_eighteen);
-			var year = arr_data[2];
-			var month = arr_data[3];
-			var day = arr_data[4];
-			var birthday = new Date(year + '/' + month + '/' + day);
-			return verifyBirthday(year, month, day, birthday);
-		}
-		return false;
-	};
-
-	// 校验日期
-	verifyBirthday = function(year, month, day, birthday) {
-		var now = new Date();
-		var now_year = now.getFullYear();
-		// 年月日是否合理
-		if (birthday.getFullYear() == year
-				&& (birthday.getMonth() + 1) == month
-				&& birthday.getDate() == day) {
-			// 判断年份的范围（3岁到100岁之间)
-			var time = now_year - year;
-			if (time >= 3 && time <= 100) {
-				return true;
-			}
-			return false;
-		}
-		return false;
-	};
-
-	// 校验位的检测
-	checkParity = function(card) {
-		// 15位转18位
-		card = changeFivteenToEighteen(card);
-		var len = card.length;
-		if (len == '18') {
-			var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5,
-					8, 4, 2);
-			var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4',
-					'3', '2');
-			var cardTemp = 0, i, valnum;
-			for (i = 0; i < 17; i++) {
-				cardTemp += card.substr(i, 1) * arrInt[i];
-			}
-			valnum = arrCh[cardTemp % 11];
-			if (valnum == card.substr(17, 1)) {
-				return true;
-			}
-			return false;
-		}
-		return false;
-	};
-
-	// 15位转18位身份证号
-	changeFivteenToEighteen = function(card) {
-		if (card.length == '15') {
-			var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5,
-					8, 4, 2);
-			var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4',
-					'3', '2');
-			var cardTemp = 0, i;
-			card = card.substr(0, 6) + '19' + card.substr(6, card.length - 6);
-			for (i = 0; i < 17; i++) {
-				cardTemp += card.substr(i, 1) * arrInt[i];
-			}
-			card += arrCh[cardTemp % 11];
-			return card;
-		}
-		return card;
-	};
 </script>

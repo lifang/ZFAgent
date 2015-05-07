@@ -1,6 +1,6 @@
 <link href="style/apply.css" rel="stylesheet" type="text/css" />
 <div class="apply" ng-controller="registerAgentController">
-	<div class="apply_h">申请成为合作伙伴</div> 
+	<div class="apply_h">申请成为合作伙伴</div>
 	<div class="apply_b">
 		<ul>
 			<li><label>类型</label> <span class="fl_sp"><input
@@ -34,13 +34,13 @@
 				placeholder="确认密码(必填):密码由6-20位，英文字符组成" /></li>
 			<li><input name="" type="text" ng-model="agent.phone"
 				placeholder="手机号码" class="l" />
-			<button id="time_show_agent" ng-click="getAgentRegisterCode()"
+				<button id="time_show_agent" ng-click="getAgentRegisterCode()"
 					class="yzm_btn">获取验证码</button></li>
 			<li><input name="" type="text" ng-model="agent.code"
 				placeholder="验证码" /></li>
 			<li><input name="" type="text" ng-model="agent.imgCode"
 				placeholder="输入图片校验码" class="l" />
-			<div class="jym">
+				<div class="jym">
 					<img ng-click="reGetRandCodeImg()" class="loginRandCodeImg"
 						src="images/yzm.jpg" />
 				</div></li>
@@ -51,7 +51,7 @@
 		<div class="btn" ng-click="addAgentRegister()">
 			<button>确定</button>
 		</div>
-	</div> 
+	</div>
 </div>
 
 <div class="mask"></div>
@@ -158,16 +158,17 @@
 	$(function() {
 		focusBlur('.apply_b input');//登录
 		
+		var doc_height = $(document).height(); 
 		$(".ebankAgreement_a").bind('click', function() {
 			$(".mask").css({
 				display : 'block',
-				height : '100%'
+				height : doc_height
 			});
 			$(".ebankAgreementTab").css('display', 'block');
 			return false;
 		});
 		$(document).bind('click', function(e) {
-			var $clicked = $(e.target); 
+			var $clicked = $(e.target);
 			if (!$clicked.parents().hasClass("ebankAgreementTab")) {
 				$(".ebankAgreementTab").css('display', 'none');
 				$(".mask").css('display', 'none');

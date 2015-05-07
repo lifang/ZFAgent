@@ -146,6 +146,8 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					$scope.reGetRandCodeImg();
 				}
 			});
+		}else{
+			alert("请勾选《华尔街金融平台代理商使用协议》");
 		}
 	}
 	

@@ -169,6 +169,20 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			return true;
 		}
 	}
+	
+	//清空数据
+	$scope.clkickmessa = function(){
+		$scope.reGetRandCodeImg();
+		window.clearInterval(window.agentSendCode);
+		$("#time_show_agent").html("获取验证码");
+		$scope.registreTime = true;
+	}
+	$scope.clkickmessb = function(){
+		$scope.reGetRandCodeImg();
+		window.clearInterval(window.agentSendCode);
+		$("#time_show_agent").html("获取验证码");
+		$scope.registreTime = true;
+	}
 
 	// 注册代理商
 	$scope.addAgent = function() {

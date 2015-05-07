@@ -14,11 +14,11 @@
                 <div class="login_area" ng-controller="agentLoginController" ng-show="!loginAngShow" >
 					<ul>
 						<li>
-						<input id="cookieName" name="" ng-mousedown="agentNameClass = false" ng-class="{true: 'error'}[agentNameClass == true]" type="text" placeholder="ID" ng-model="agent.agentName"/>
-						<p class="red" >{{agentNameMessage}}</p>
+						<input id="cookieName" name="" ng-mousedown="deleteerror()" ng-class="{true: 'error'}[agentNameClass == true]" type="text" placeholder="ID" ng-model="agent.agentName"/>
+						<p class="red">{{agentNameMessage}}</p>
 						</li>
 						<li>
-						<input id="cookiePass" name="" ng-mousedown="agentPassClass = false" ng-class="{true: 'error'}[agentPassClass == true]" type="password" placeholder="密码:由6-20位，英文字符组成" ng-model="agent.agentPass"/>
+						<input id="cookiePass" name="" ng-mousedown="deleteerrord()" ng-class="{true: 'error'}[agentPassClass == true]" type="password" placeholder="密码:由6-20位，英文字符组成" ng-model="agent.agentPass"/>
 						<p class="red" >{{agentPassMessage}}</p>
 						</li>
 						<li><input name="" ng-mousedown="agentImgClass = false" type="text" placeholder="输入图片校验码" ng-class="{true: 'l error',false: 'l'}[agentImgClass == true]" ng-model="agent.agentCode"/>

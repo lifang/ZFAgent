@@ -423,7 +423,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		 $http.post('api/webTerminal/submitAgent',$scope.serviceObject).success(function(data){
 			 if(data.code == 1){
 				 alert(data.result);
-				 window.location.href="#/terminals";
+				 window.location.href="#/cs_agent";
 			 }else if(data.code == 2){
 				 alert("终端号错误:"+data.result);
 			 }else if(data.code == -1){

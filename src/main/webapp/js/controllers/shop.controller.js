@@ -942,6 +942,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$scope.city_list();
 		$scope.min = 1;
 		$scope.order.customerId = LoginService.agentUserId;
+		$scope.adid=0;
 		$scope.adlist();
 	};
 	$scope.getGood = function() {
@@ -977,10 +978,10 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			alert("请选择收货地址");
 			return;
 		}
-		if ($scope.order.is_need_invoice) {
-			$scope.order.is_need_invoice = 1;
+		if ($scope.order.isNeedInvoice) {
+			$scope.order.isNeedInvoice = 1;
 		} else {
-			$scope.order.is_need_invoice = 0;
+			$scope.order.isNeedInvoice = 0;
 		}
 		$scope.order.agentId = LoginService.agentid;
 		$scope.order.creatid = LoginService.loginid;
@@ -1007,11 +1008,15 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		}).success(function(data) {
 			if (data.code == 1) {
 				$scope.addressList = data.result;
-				angular.forEach($scope.addressList, function(one) {
-					if (one.isDefault == 1) {
-						$scope.order.addressId = one.id;
-					}
-				});
+				if($scope.adid!=0){
+					$scope.order.addressId = $scope.adid;
+				}else{
+					angular.forEach($scope.addressList, function(one) {
+						if (one.isDefault == 1) {
+							$scope.order.addressId = one.id;
+						}
+					});
+				}
 			} else {
 				// 提示错误信息
 				alert(data.message);
@@ -1061,6 +1066,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$scope.ad.cityId = $scope.city.id;
 		$http.post("api/agents/insertAddress", $scope.ad).success(function(data) {
 			if (data.code == 1) {
+				$scope.adid=data.result;
 				$scope.adlist();
 				$scope.addadd = false;
 			} else {

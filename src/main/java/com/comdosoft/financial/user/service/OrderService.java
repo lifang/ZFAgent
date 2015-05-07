@@ -133,6 +133,7 @@ public class OrderService {
             int id = SysUtils.Object2int(map.get("id"));
             int total_price = SysUtils.Object2int(map.get("total_price"));
             orderreq.setId(id);
+            orderreq.setType(1);
             orderreq.setPrice(total_price);
             orderMapper.payFinish(orderreq);
             orderMapper.upOrder(orderreq);

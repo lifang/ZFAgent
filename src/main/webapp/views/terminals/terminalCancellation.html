@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script src="js/jquery.form.min.js"></script>
 <div class="right" ng-controller="terminalCancellationController">
             	<div class="breadcrumb">
@@ -64,4 +65,72 @@
             		}
             	});
             }
+=======
+<script src="js/jquery.form.min.js"></script>
+<div class="right" ng-controller="terminalCancellationController">
+            	<div class="breadcrumb">
+                    <ul>
+                        <li><a>管理终端</a></li>
+                        <li><a>注销申请</a></li>
+                    </ul>
+                </div>
+                <div class="content clear">
+                    <div class="user_title">
+                    	<h1>注销申请</h1>
+                    </div>
+                    <div class="attributes_box">
+                    	<h2>终端信息</h2>
+                        <div class="attributes_list clear">
+                            <ul>
+                                <li>POS机名称：{{applyDetails.title}}</li>
+                                <li>品牌型号：{{applyDetails.brandName + applyDetails.model_number}}</li>
+                                <li>支付通道：{{applyDetails.channelName}}</li>
+                                <li>终端号：{{applyDetails.serial_num}}</li>
+                                <li>商户名称：{{applyDetails.title}}</li>
+                                <li>商户电话：{{applyDetails.phone}}</li>
+                            </ul>
+                        </div> 
+                    </div>
+                    <div class="attributes_box" ng-if="reModel != null && reModel !=''">
+                    	<h2>注销申请资料</h2>
+                        <div class="applyFor_list clear" ng-repeat="re in reModel">
+                           <div class="af_con">
+                            	<div class="af_con_n">{{$index+1+'.'+re.title}}<a href="{{re.templet_file_path}}" target="_blank" class="a_btn">下载模版</a></div>
+                                <div class="af_con_b">
+                                 <form method="post" action="api/webTerminal/upload/tempCancellationFile" enctype="multipart/form-data">  
+                                <i></i>
+                                	<a href="javascript:void(0);" class="informImg_a">
+                                        <span>上传</span>
+                                        <input type="text" id="up_{{$index}}"/>
+                                        <input name="updatefile" multiple type="file" onchange="setSpanName(this)">
+                                    </a>
+                                    </form>
+                                </div>
+                           </div>
+                           <input type="hidden" id="upId_{{$index}}" value="{{re.id}}"/>
+                        </div>
+                         <input type="hidden" id="terid" value="{{applyDetails.id}}"/>
+                    </div>
+                    <div ng-if="reModel != null && reModel !=''" class="btnBottom"><button class="blueBtn" ng-click="subRentalReturn()">提交申请</button></div>
+            	</div>
+            </div>
+            <script type="text/javascript">
+          //改变上传按钮
+            function setSpanName(obj){
+            	//改变下载模板初始状态
+            	
+            	$(obj).parent("a").parent("form").attr("action","api/webTerminal/upload/tempCancellationFile/"+$("#terid").val());
+            	$(obj).parent("a").parent("form").ajaxSubmit({
+            		success : function(data) {
+            			if(data.code == -1){
+            				alert(data.message);
+            			}else if(data.code == 1){
+            				$(obj).parent("a").children("span").html("重新上传");
+                        	$(obj).siblings("span").parent("a").siblings("i").attr("class","on");
+                        	$(obj).siblings("input").val(data.result);
+            			}
+            		}
+            	});
+            }
+>>>>>>> branch 'master' of https://github.com/lifang/ZFAgent
             </script>

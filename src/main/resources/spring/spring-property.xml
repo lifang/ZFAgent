@@ -9,9 +9,13 @@
 			<list>
 				<!-- <value>classpath:config/local.properties</value> --> 
 				<value>classpath:config/config.properties</value> 
+<<<<<<< HEAD
 			 	<value>classpath:config/demo.properties</value> 
+=======
+			 	<!-- <value>classpath:config/pcuser.properties</value> --> 
+>>>>>>> branch 'master' of https://github.com/lifang/ZFAgent
 			 	<!-- <value>classpath:config/production.properties</value> --> 
-				<!-- <value>classpath:config/demo.properties</value> --> 
+				<value>classpath:config/demo.properties</value> 
 			</list>
 		</property>
 	</bean>

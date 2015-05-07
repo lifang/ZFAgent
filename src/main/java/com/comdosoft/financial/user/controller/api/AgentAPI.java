@@ -167,8 +167,8 @@ public class AgentAPI {
         		sysResponse = Response.getError( "最多可以创建10个收货地址");
         		return sysResponse;
         	}
-			agentService.insertAddress(param);
-			sysResponse = Response.getSuccess();
+			int j = agentService.insertAddress(param);
+			sysResponse = Response.buildSuccess(j, "保存成功");
 		} catch (Exception e) {
 			logger.error("新增代理商地址失败", e);
 			sysResponse = Response.getError("新增代理商地址失败:系统异常");

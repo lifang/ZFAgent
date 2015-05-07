@@ -85,9 +85,9 @@
 		<ul>
 			<li><label>类型</label> <span class="fl_sp"><input
 					id="radio1" name="radio" ng-model="agent.types" checked="checked"
-					type="radio" value="2" />个人</span> <span class="fl_sp"><input
+					type="radio" value="2" ng-click="clkickmessa()"/>个人</span> <span class="fl_sp"><input
 					id="radio2" name="radio" ng-model="agent.types" type="radio"
-					value="1" />公司</span></li>
+					value="1" ng-click="clkickmessb()"/>公司</span></li>
 			<li><label>负责人姓名</label><input name="" type="text"
 				ng-model="agent.name" placeholder="负责人姓名(必填):10个中文字符或20个英文字符" /></li>
 			<li><label>身份证号</label><input id="card_no" name="" type="text"

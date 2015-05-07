@@ -14,10 +14,10 @@
 		<form name="addAccountForm" ng-submit="accountAdd()" >
 			<div class="myInfoBox clear">
 				<ul>
-					<li><label>姓名：</label><input id="name" type="text" ng-model="customer.name" required="required"/></li>
-					<li><label>登录ID：</label><input id="username" type="text" ng-model="customer.username" required="required" placeholder="40个字符或20个汉字"/></li>
-					<li><label>密码：</label><input id="password" type="password" ng-model="customer.password" required="required" placeholder="密码在6个字符到20个字符之间"/></li>
-					<li><label>确认密码：</label><input id="confirmpwd" type="password" ng-model="customer.comfirmpwd" required="required"/></li>
+					<li><label>姓名：</label><input id="name" type="text" style="color: #000;" ng-model="customer.name" required="required" placeholder="10个中文字符或20个英文字符"/></li>
+					<li><label>登录ID：</label><input id="username" type="text" style="color: #000;" ng-model="customer.username" required="required" placeholder="40个字符或20个汉字"/></li>
+					<li><label>密码：</label><input id="password" type="password" style="color: #000;" ng-model="customer.password" required="required" placeholder="密码在6个字符到20个字符之间"/></li>
+					<li><label>确认密码：</label><input id="confirmpwd" type="password" style="color: #000;" ng-model="customer.comfirmpwd" required="required" placeholder="密码在6个字符到20个字符之间"/></li>
 					<li><label>权限：</label>
 						<div class="authority_con">
 							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="1" />批购</span>
@@ -45,5 +45,8 @@
 		$("#username").html("");
 		$("#password").html("");
 		$("#confirmpwd").html("");
+		// 解决placeholder在IE9以下浏览器中兼容性
+		$('input, textarea').placeholder();
 	});
 </script>
+

@@ -37,6 +37,8 @@ var loginService = function ($http, $rootScope, $cookieStore) {
    		 	$http.post("api/agent/sizeUpImgCode", {imgnum:$scope.agent.agentCode}).success(function(data){
       			 if(data.code == -1){
       				$scope.agentImgClass = true;
+      				alert("验证码错误！");
+      				$scope.reGetRandCodeImg();
       			 }else{
       				 $http.post("api/agent/agentLoginWeb", {username:$scope.agent.agentName,password:$scope.agent.agentPass}).success(function (data) {  //绑定
       			           if(data.code == -1){//用户或者密码错误！

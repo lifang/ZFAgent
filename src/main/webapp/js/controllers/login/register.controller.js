@@ -146,6 +146,8 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 					$scope.reGetRandCodeImg();
 				}
 			});
+		}else{
+			alert("请勾选《华尔街金融平台代理商使用协议》");
 		}
 	}
 	
@@ -168,6 +170,20 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 			$scope.passclassb = "input_true";
 			return true;
 		}
+	}
+	
+	//清空数据
+	$scope.clkickmessa = function(){
+		$scope.reGetRandCodeImg();
+		window.clearInterval(window.agentSendCode);
+		$("#time_show_agent").html("获取验证码");
+		$scope.registreTime = true;
+	}
+	$scope.clkickmessb = function(){
+		$scope.reGetRandCodeImg();
+		window.clearInterval(window.agentSendCode);
+		$("#time_show_agent").html("获取验证码");
+		$scope.registreTime = true;
 	}
 
 	// 注册代理商

@@ -29,7 +29,7 @@ public interface AgentMapper {
 
     Map<Object, Object> getOneAddress(Customer param);
 
-    void insertAddress(Map<Object, Object> param);
+    void insertAddress(CustomerAddress ca);
 
     void updateAddress(Map<Object, Object> param);
 

@@ -72,6 +72,7 @@ public class FrontRcvResponse {
 			
 			OrderReq orderreq=new OrderReq();
 			orderreq.setOrdernumber(valideData.get("orderId"));
+			orderreq.setType(2);
 			orderService.payFinish(orderreq);
 			
 		}

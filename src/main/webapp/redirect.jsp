@@ -16,15 +16,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//location="<%=basePath%>/#/order"; //#设定跳转的链接地址
 		var isIE = navigator.appName == "Microsoft Internet Explorer";
         //alert(isIE);
-        window.opener.location="<%=basePath%>/#/order"; 
-        if(isIE){
-            window.opener = "";
-            window.open("","_self");
-            window.close();
-        }else{
-            /*FF 还要在 about:config 允许脚本脚本关闭窗口*/
-            window.close();
-        }    
+        //window.opener.location="<%=basePath%>/#/order"; 
+        //window.opener.finish();
+        var browserName=navigator.appName;
+        if (browserName=="Netscape") {
+         	 window.open('','_parent','');
+         	 //window.opener.location.href=window.opener.location.href;
+         	 window.close();
+        } else if (browserName=="Microsoft Internet Explorer") {
+         	window.opener = "whocares"; window.close(); 
+        }
 	}
 	document.getElementById('show').innerHTML=""+t+"秒后关闭"; // 显示倒计时
 	t--; // 计数器递减

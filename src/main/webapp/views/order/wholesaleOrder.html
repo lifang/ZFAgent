@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script type="text/javascript" src="js/controllers/order.controller.js"></script>
 <script type="text/javascript" src="js/page.js"></script>
 <div class="right" ng-controller="wholesaleOrderController">
@@ -24,7 +25,8 @@
 						 <select name="q" ng-model="screen" ng-change="submitScreen()">
 							<option value="">请选择</option>
 							<option value="1">未付款</option>
-							<option value="2">已付定金</option>
+							<option value="10">已付定金</option>
+							<option value="2">已付款</option>
 							<option value="3">已完成</option>
 							<option value="4">已评价</option>
 							<option value="5">已取消</option>
@@ -169,4 +171,178 @@
     <input type="hidden" name="o_index" id="o_index" value=""> 
     <div class="tabFoot"><button class="blueBtn"  ng-click="orderpay()" >确定</button></div>
     </div>
+=======
+<script type="text/javascript" src="js/controllers/order.controller.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<div class="right" ng-controller="wholesaleOrderController">
+	<div class="breadcrumb">
+		<ul>
+			<li><a href="#">批购</a></li>
+		</ul>
+	</div>
+	<div class="content clear">
+		<div class="user_title">
+			<h1>批购订单列表</h1>
+			<div class="userTopBtnBox">
+				<a href="#/purchaseShop" class="ghostBtn">去批购</a>
+			</div>
+		</div>
+		<div class="seenBox clear">
+			<ul>
+				<li><div class="user_search">
+						<input name="search" type="text" ng-model="search" placeholder="订单编号查询" title="根据订单编号查询"/>
+						<button ng-click="submitSearch()"></button>
+					</div></li>
+				<li><div class="user_select">
+						<label>状态筛选</label>
+						 <select name="q" ng-model="screen" ng-change="submitScreen()">
+							<option value="">请选择</option>
+							<option value="1">未付款</option>
+							<option value="10">已付定金</option>
+							<option value="2">已付款</option>
+							<option value="3">已完成</option>
+							<option value="4">已评价</option>
+							<option value="5">已取消</option>
+							<option value="6">交易关闭</option>
+						</select>
+					</div></li>
+			</ul>
+		</div>
+		<div class="uesr_table">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+				<colgroup>
+					<col />
+					<col width="130" />
+					<col width="130" />
+					<col width="70" />
+					<col width="100" />
+					<col width="150" />
+					<col />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>商品</th>
+						<th>批购价</th>
+						<th>数量</th>
+						<th>金额</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="o in list.list">
+					<tr class="order_hd">
+						<td colspan="6"><span>订单号 {{o.order_number}}</span><span>{{o.order_createTime}}</span> <span  >类型：代理商批购 </span></td>
+					</tr>
+					<input type="hidden" id ="shenyu_price_{{$index}}"  value="{{o.shengyu_price/100 }}">
+					<tr  ng-if="o.order_goods_size>1" ng-repeat="g in  o.order_goodsList ">
+						<td>
+							<div class="td_proBox clear">
+								<a href="#/shopinfo?goodId={{g.good_id}}"  class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
+								<div class="td_proBox_info">
+									<h1>
+										<a href="#/shopinfo?goodId={{g.good_id}}">{{g.good_name}}</a>
+									</h1>
+									<h3>热销{{g.good_volume_number}}件</h3>
+									<ul>
+										<li><span>品牌型号：</span>
+											<div class="c_text">{{g.good_brand}}</div></li>
+										<li><span>支付通道：</span>
+											<div class="c_text">{{g.good_channel}}</div></li>
+									</ul>
+								</div>
+							</div>
+						</td>
+						<td><strong>{{g.good_batch_price/100 |currency : "￥"}} </strong><p class="original">零售价：{{g.good_price/100 |currency : "￥"}} </p></td>
+						<td ng-if="$index==0" rowspan="{{o.order_goods_size}}" class="left_border">{{o.total_quantity}}	<p>已发货数量：	</p>{{o.shipped_quantity}}</td>
+
+						<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" ><strong>{{o.actual_price/100 |currency : "￥"}} </strong></td>
+
+						<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" >
+							<strong ng-if="o.order_status==1 && o.pay_status!=2" class="strong_status">未付款</strong>
+							<strong ng-if="o.order_status==1 && o.pay_status==2" class="strong_status">已付定金</strong>
+							<strong ng-if="o.order_status==2" class="strong_status">已付款</strong> 
+							<strong ng-if="o.order_status==3" class="strong_status">已完成</strong> 
+							<strong ng-if="o.order_status==4" class="strong_status">已评价</strong> 
+							<strong ng-if="o.order_status==5" class="strong_status">已取消</strong> 
+							<strong ng-if="o.order_status==6" class="strong_status">交易关闭</strong>
+						</td>
+						<td  ng-if="$index==0" rowspan="{{o.order_goods_size}}" ><a href="javascript:void(0);" ng-click="depositpay(o)" ng-if="o.order_status==1 && o.pay_status!=2"  class="a_btn">支付定金</a> 
+						<a href="javascript:void(0);" ng-if=" o.order_status==1 && o.pay_status==2" class="a_btn pay_a" ng-click="showPay(o.order_id,$index)">支付</a>
+						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"   ng-if="o.order_status==1" class="a_btn">取消</a>
+						<a href="#/wholesaleOrderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
+					</tr>
+					 
+					<tr  ng-if="o.order_goods_size==1" ng-repeat="g in  o.order_goodsList ">
+						<td>
+							<div class="td_proBox clear">
+								<a href="#/shopinfo?goodId={{g.good_id}}"  class="cn_img" ><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
+								<div class="td_proBox_info">
+									<h1>
+										<a href="#/shopinfo?goodId={{g.good_id}}">{{g.good_name}}</a>
+									</h1>
+									<h3>热销{{g.good_volume_number}}件</h3>
+									<ul>
+										<li><span>品牌型号：</span>
+											<div class="c_text">{{g.good_brand}}</div></li>
+										<li><span>支付通道：</span>
+											<div class="c_text">{{g.good_channel}}</div></li>
+									</ul>
+								</div>
+							</div>
+						</td>
+						<td><strong>{{g.good_batch_price/100 |currency : "￥"}} </strong><p class="original">零售价：{{g.good_price/100 |currency : "￥"}} </p></td>
+						<td>{{o.total_quantity}}	<p>已发货数量：{{o.shipped_quantity}}	</p></td>
+
+						<td ><strong>{{o.actual_price/100 |currency : "￥"}} </strong></td>
+
+						<td >
+							<strong ng-if="o.order_status==1 && o.pay_status!=2" class="strong_status">未付款</strong>
+							<strong ng-if="o.order_status==1 && o.pay_status==2" class="strong_status">已付定金</strong>
+							<strong ng-if="o.order_status==2" class="strong_status">已付款</strong> 
+							<strong ng-if="o.order_status==3" class="strong_status">已完成</strong> 
+							<strong ng-if="o.order_status==4" class="strong_status">已评价</strong> 
+							<strong ng-if="o.order_status==5" class="strong_status">已取消</strong> 
+							<strong ng-if="o.order_status==6" class="strong_status">交易关闭</strong>
+						</td>
+						<td  >
+						<a href="javascript:void(0);" ng-click="depositpay(o)" ng-if="o.order_status==1 && o.pay_status!=2" class="a_btn">支付定金</a> 
+						<a href="javascript:void(0);" ng-if="o.order_status==1 && o.pay_status==2 " class="a_btn pay_a"  ng-click="showPay(o.order_id,$index)">支付</a>
+						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"   ng-if="o.order_status==1" class="a_btn">取消</a>
+						<a href="#/wholesaleOrderinfo?orderId={{o.order_id}}" class="a_btn">查看详情</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+			<div class="pageTurn">
+			<div class="p_num" ng-show="totalPage >1">
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="indexPage=1;submitPage()">首页</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="prev()">上一页</a>
+				<a ng-class="{true:'current'}[indexPage==currentPage]" ng-repeat="currentPage in pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="next()">下一页</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="indexPage=totalPage;submitPage()">末页</a>
+			<div class="p_skip">
+				<span>共&nbsp;{{totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="gotoPage">&nbsp;页</span>
+				<button ng-click="getPage()">确定</button>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class="mask"></div>
+	   <div class="tab pay_tab">
+    	<a href="javascript:void(0);" class="close" ng-click="close()">关闭</a>
+    	<div class="tabHead">支付</div>
+        <div class="tabBody">
+    	<div class="item_list">
+        	<ul>
+            	<li><span class="labelSpan">支付金额：</span>
+                	<div class="text"><input name="" type="text" placeholder="元"   id="pay_price" /><span id="zf_yz" style="display: none">金额不正确</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <input type="hidden" name="o_id" id="o_id" value=""> 
+    <input type="hidden" name="o_index" id="o_index" value=""> 
+    <div class="tabFoot"><button class="blueBtn"  ng-click="orderpay()" >确定</button></div>
+    </div>
+>>>>>>> branch 'master' of https://github.com/lifang/ZFAgent
 </div>

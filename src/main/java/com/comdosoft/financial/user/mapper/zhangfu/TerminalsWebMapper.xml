@@ -56,12 +56,16 @@
 	</select>
 	
 	<select id="searchUser" resultType="map">
-		SELECT u.id ,u.`username` FROM  agents s
+		SELECT (CASE isnull(u.`name`)|| LENGTH(trim(u.`name`))&lt;1 WHEN 1 THEN u.`username` ELSE concat(u.`username`, "(",u.`name`, ")") END) username,u.id
+		FROM  agents s
 		LEFT JOIN customer_agent_relations c ON c.agent_id = s.id
 		LEFT JOIN customers u ON u.id = c.customer_id
 		WHERE s.customer_id = #{customerId}
 		<if test="name != null and name != ''">
-		and u.name like '%${name}%' 
+		and (u.name like '%${name}%' 
+		or u.username like '%${name}%' 
+		or u.phone LIKE '%${name}%' 
+		or u.email like '%${name}%')
 		</if>
 	</select>
 	

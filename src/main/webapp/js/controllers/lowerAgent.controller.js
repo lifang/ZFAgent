@@ -84,7 +84,8 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 		$scope.req.status=status;
 		$http.post("api/lowerAgent/changeStatus", $scope.req).success(function (data) {  //绑定
 			if (data.code==1) {
-            	location.reload();
+				$scope.init();
+				//location.reload();
             }else{
             	alert("修改状态出错，错误信息为："+data.message);
             }

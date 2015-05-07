@@ -129,6 +129,7 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
 					}
 				}
 				SDKConfig.getConfig().loadProperties(properties);
+				UnionpayHelper.merId="303310048990851";
         	}else{
         		SDKConfig.getConfig().loadPropertiesFromPath(path);
         	}

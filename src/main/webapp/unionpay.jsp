@@ -75,7 +75,7 @@
 		// 业务类型
 		data.put("bizType", "000201");
 		// 渠道类型，07-PC，08-手机
-		data.put("channelType", "08");
+		data.put("channelType", "07");
 		// 前台通知地址 ，控件接入方式无作用
 		data.put("frontUrl", notify_url);
 		// 后台通知地址
@@ -83,7 +83,7 @@
 		// 接入类型，商户接入填0 0- 商户 ， 1： 收单， 2：平台商户
 		data.put("accessType", "0");
 		// 商户号码，请改成自己的商户号
-		data.put("merId", "777290058112781");
+		data.put("merId", UnionpayHelper.merId);
 		// 商户订单号，8-40位数字字母
 //		data.put("orderId", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 		// 订单发送时间，取系统时间

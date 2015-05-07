@@ -20,13 +20,13 @@
 						<div class="form-group">
 						   <div class="radio" style="float:left">
 						       <label>
-						           <input type="radio" name="agentType" value="2" ng-model="agentType">
+						           <input type="radio" name="agentType" value="2" ng-model="agentType" ng-click="radioCheck(2)">
 						          	 个人
 						       </label>
 						   </div>
 						   <div class="radio" style="float:left">
 						       <label>
-						           <input type="radio" name="agentType" value="1" ng-model="agentType">
+						           <input type="radio" name="agentType" value="1" ng-model="agentType" ng-click="radioCheck(1)">
 						           	公司
 						       </label>
 						   </div>
@@ -42,12 +42,12 @@
 							<input type="text" id="agentCardId" ng-model="agentCardId"/>
 						</div>
 					</li>
-					<li class="block"><span class="labelSpan">公司全称：</span>
+					<li class="block" id="companyNameLi"><span class="labelSpan">公司全称：</span>
 						<div class="text">
 							<input type="text" id="companyName" ng-model="companyName"/>
 						</div>
 					</li>
-					<li class="block"><span class="labelSpan">公司营业执照登记号：</span>
+					<li class="block" id="companyIdLi"><span class="labelSpan">公司营业执照登记号：</span>
 						<div class="text">
 							<input type="text" id="companyId" ng-model="companyId"/>
 						</div>

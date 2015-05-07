@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" ng-app="indexModule" ng-controller="indexController">
+<html xmlns="http://www.w3.org/1999/xhtml" id="ng-app" ng-app="indexModule" ng-controller="indexController">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
-	<meta name="renderer" content="webkit"></meta>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+		<meta name="renderer" content="webkit"></meta>
 		<title>代理商--我的掌富</title>
 		<link href="style/style.css" rel="stylesheet" type="text/css" />
 		<link href="style/shop.css" rel="stylesheet" type="text/css" />
@@ -23,6 +23,7 @@
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/services/loginService.js"></script>
 		
+		<script type="text/javascript" src="js/placeholder.min.js"></script>
 		<script type="text/javascript" src="js/util.js"></script>
 		<!-- Controllers -->
 		<script type="text/javascript" src="js/controllers/route.controller.js"></script>
@@ -49,17 +50,17 @@
 		<!--柱形图表-->
 		<script src="js/Chart.min.js"></script>
 		<!--[if lte IE 8]>
-	<script type="text/javascript" src="js/excanvas.js"></script>
-<![endif]-->
+			<script type="text/javascript" src="js/excanvas.js"></script>
+		<![endif]-->
 </head>
 <body>
 	<div class="topInfo clear">
 		<div class="box">
 			<div class="top_user" ng-show="agentId>0">
-				<a href="#">{{loginAgentName}}</a><a href="javascript:void(0);" ng-click="loginout()">退出</a><a href="#/app">掌富APP</a>
+				<a href="#/myapp">{{loginAgentName}}</a><a href="javascript:void(0);" ng-click="loginout()">退出</a><a href="#/app">掌富APP</a>
 			</div>
 			<div class="top_user" ng-show="agentId==0">
-				<a href="#">代理商</a><a href="#">登陆</a><a href="#/app">掌富APP</a>
+				<a>合作伙伴</a><a href="#">登录</a><a href="#/app">掌富APP</a>
 			</div>
 		</div>
 		<div class="clear"></div>
@@ -130,7 +131,7 @@
 				<li>/</li>
 				<li><a href="#">企业招聘</a></li>
 			</ul>
-			<div class="copyright">版权所有 &copy; 2011-2014 上海掌富网络技术有限公司（备案号 1236548）</div>
+			<div class="copyright"> 版权所有 &copy; 2011-2015 上海掌富网络技术有限公司（沪ICP备 12002389号－4）</div>
 		</div>
 	</div>
 	<!-- <div class="mask"></div> -->

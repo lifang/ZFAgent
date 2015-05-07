@@ -119,6 +119,20 @@
 						<p>留言最多{{100-order.comment.length}}个字</p>
 					</div>
 				</div>
+				<div class="oi_right">
+					<div class="oi_title">
+						<div class="invoice_checkbox">
+							<input type="checkbox" ng-model="order.is_need_invoice" /> 需要发票
+						</div>
+						<div class="invoice" ng-show="order.is_need_invoice">
+							<span>类型：</span> <a href="javascript:void(0);" class="hover" ng-click="ctype(1)">个人</a> <a href="javascript:void(0);" ng-click="ctype(0)">公司</a>
+						</div>
+					</div>
+					<div class="oi_area">
+						<textarea cols="" rows="" placeholder="发票抬头" ng-model="order.invoiceInfo" class="invoice_area" disabled="disabled"> 
+                    	</textarea>
+					</div>
+				</div>
 			</div>
 			<div class="settleAccount">
 				<p>

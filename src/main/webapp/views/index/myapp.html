@@ -9,7 +9,7 @@
                 	<div class="user_deal">
                     	<div class="cu_title">7日交易动态<span>单位：元</span></div>
                         <div class="deal_text" ng-show="trade.num>1">交易金额：<strong>{{trade.sum/100  |currency : "￥"}}</strong>&nbsp;&nbsp;交易笔数：<strong>{{trade.num}}</strong> 次</div>
-                        <div class="deal_text" ng-show="trade.num ==null">暂无交易动态</div>
+                   <div class="deal_text" ng-show="trade.num ==null" style=" text-align:center">暂无交易流水</div>
                         <div class="barChart">
                         	<canvas id="myChart" height="230" width="420"></canvas>
                         </div>

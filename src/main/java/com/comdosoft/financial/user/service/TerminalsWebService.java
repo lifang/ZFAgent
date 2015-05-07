@@ -179,7 +179,10 @@ public class TerminalsWebService {
 	 * @return
 	 */
 	public  List<Map<String, Object>> getAddressee(int customerId){
-		return terminalsWebMapper.getAddressee(customerId);
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("customerId", customerId);
+		map.put("status", CustomerAddress.STATUS_1);
+		return terminalsWebMapper.getAddressee(map);
 	}
 	
 	/**

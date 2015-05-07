@@ -133,7 +133,6 @@ public class OrderService {
             int id = SysUtils.Object2int(map.get("id"));
             int total_price = SysUtils.Object2int(map.get("total_price"));
             orderreq.setId(id);
-            orderreq.setType(1);
             orderreq.setPrice(total_price);
             orderMapper.payFinish(orderreq);
             orderMapper.upOrder(orderreq);
@@ -658,7 +657,7 @@ public class OrderService {
         map.put("price_dingjin", o.getFrontMoney() == null ? "" : o.getFrontMoney() + "");// 定金总额
         map.put("zhifu_dingjin", zhifu_dingjin + "");// 已付定金
         // map.put("shengyu_price", shengyu_price);//剩余金额
-        map.put("order_number", o.getOrderNumber()+"_"+size);// 订单编号
+        map.put("order_number", o.getOrderNumber()+size);// 订单编号
         map.put("shengyu_price", shengyu_price);// 剩余金额
         List<OrderGood>  ordergoods =   orderMapper.findGoodsByWOrderId(id);
         StringBuffer sb = new StringBuffer();

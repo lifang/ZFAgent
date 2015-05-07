@@ -317,10 +317,10 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 		 }else if($scope.addressObject.address == undefined || $scope.addressObject.address == ""){
 			 alert("请填写详细地址！");
 			 return false;
-		 }else if($scope.addressObject.zipCode == undefined || $scope.addressObject.zipCode == ""){
+		 }/*else if($scope.addressObject.zipCode == undefined || $scope.addressObject.zipCode == ""){
 			 alert("请填写邮编！");
 			 return false;
-		 }else if($scope.addressObject.moblephone == undefined || $scope.addressObject.moblephone == ""){
+		 }*/else if($scope.addressObject.moblephone == undefined || $scope.addressObject.moblephone == ""){
 			 alert("请填写手机号！");
 			 return false;
 		 }else if(!reg.test($scope.addressObject.moblephone)){

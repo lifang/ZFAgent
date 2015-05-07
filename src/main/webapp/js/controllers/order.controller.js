@@ -440,7 +440,7 @@ var payController = function($scope, $http,$location,LoginService) {
 		}else if(2==$scope.payway){
 			window.open("unionpay.jsp?WIDtotal_fee="+
 					$scope.order.actual_price/100+"&WIDsubject="+$scope.order.title
-					+"&WIDout_trade_no="+$scope.order.order_number.replace("_","X"));  
+					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
 			alert("暂不支持，请联系系统管理员。");
@@ -457,7 +457,7 @@ var payController = function($scope, $http,$location,LoginService) {
             		$('.mask').hide();
             		window.location.href = '#/proxyOrder';
             	}else{
-            		alert("尚未支付,如有疑问请联系888-88888");
+            		alert("尚未支付,如有疑问请联系400-009-0876");
             	}
             	
             }
@@ -560,7 +560,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		}else if(2==$scope.payway){
 			window.open("unionpay.jsp?WIDtotal_fee="+
 					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"+"&WIDbody="+body
-					+"&WIDout_trade_no="+$scope.order.order_number.replace("_","X"));  
+					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else{
 			//alert("银行");
 			alert("暂不支持，请联系系统管理员。");
@@ -599,7 +599,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 		    		}else if(2==$scope.payway){
 		    			window.open("unionpay.jsp?WIDtotal_fee="+
 		    					$scope.p+"&WIDsubject="+$scope.order.title+"&WIDbody="+body
-		    					+"&WIDout_trade_no="+$scope.order.order_number.replace("_","X"));  
+		    					+"&WIDout_trade_no="+$scope.order.order_number);  
 		    		}else{
 		    			//alert("银行");
 		    			alert("暂不支持，请联系系统管理员。");
@@ -619,7 +619,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             		$('.mask').hide();
             		window.location.href = '#/wholesaleOrder';
             	}else{
-            		alert("尚未支付,如有疑问请联系888-88888");
+            		alert("尚未支付,如有疑问请联系400-009-0876");
             	}
             }
         });
@@ -635,7 +635,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             		$('.mask').hide();
             		window.location.href = '#/wholesaleOrder';
             	}else{
-            		alert("尚未支付,如有疑问请联系888-88888");
+            		alert("尚未支付,如有疑问请联系400-009-0876");
             	}
             }
         });

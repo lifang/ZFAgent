@@ -70,6 +70,7 @@ public class BackRcvResponse{
 			LogUtil.writeLog("验证签名结果[成功].");
 			OrderReq orderreq=new OrderReq();
 			orderreq.setOrdernumber(valideData.get("orderId"));
+			orderreq.setType(2);
 			orderService.payFinish(orderreq);
 		}
 

@@ -99,17 +99,17 @@
 		VALUES(#{username},#{password},#{cityId},#{types},now(),#{status},#{name},#{integral},now())
 	</insert>
 	
-	<select id="getAddressee" parameterType="int" resultType="map">
+	<select id="getAddressee" parameterType="map" resultType="map">
 		SELECT a.id,a.receiver,a.moblephone,a.address,a.zip_code as zipCode,a.is_default as isDefault,a.city_id as cityId,c.`id` as cityId,c.`name` as sonName,s.`name` as parentName
 		FROM customer_addresses a LEFT JOIN cities c ON c.id = a.city_id
 		LEFT JOIN cities s ON s.id = c.parent_id
 		WHERE
-		a.customer_id=#{customerId}
+		a.customer_id=#{customerId} and a.`status` =#{status}
 	</select>
 	
 	<insert id="addCostometAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress">
-		INSERT INTO customer_addresses(city_id,receiver,address,moblephone,zip_code,is_default,customer_id,created_at,updated_at)
-		VALUES(#{cityId},#{receiver},#{address},#{moblephone},#{zipCode},#{isDefault},#{customerId},now(),now())
+		INSERT INTO customer_addresses(city_id,receiver,address,moblephone,zip_code,is_default,customer_id,created_at,updated_at,status)
+		VALUES(#{cityId},#{receiver},#{address},#{moblephone},#{zipCode},#{isDefault},#{customerId},now(),now(),#{status})
 	</insert>
 	
 	<insert id="addCsAgentMark" useGeneratedKeys="true" keyProperty="id" parameterType="map">
@@ -119,7 +119,7 @@
 	
 	<select id="getApplyDetails" parameterType="int" resultType="map">
 		SELECT t.id,t.serial_num,t.`status`,g.title,g.model_number,b.name as
-		brandName,a.name as factorName,m.title as merTitle,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %h:%i:%s') as createdAt,c.`name` as channelName,c.id as channelId,l.`id` as appId,l.`status` as applieStatus,e.types,
+		brandName,a.name as factorName,m.title as merTitle,m.phone,e.order_number,date_format(e.created_at,'%Y-%c-%d %H:%i:%s') as createdAt,c.`name` as channelName,c.id as channelId,l.`id` as appId,l.`status` as applieStatus,e.types,
 		u.`name` as userName ,u.phone as userPhone,u.email as userEmail,q.`company_name` as companyName
 		FROM terminals t 
 		LEFT JOIN order_goods o on o.order_id = t.order_id and o.good_id = t.good_id

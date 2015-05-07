@@ -440,7 +440,7 @@ public class LowerAgentController {
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath)){
         		return Response.getError(joinpath);
         	}else{
-        		return Response.getSuccess(joinpath);
+        		return Response.getSuccess(filePath+joinpath);
         	}
 	    } catch (Exception e) {
 	    	return Response.getError("请求失败！");

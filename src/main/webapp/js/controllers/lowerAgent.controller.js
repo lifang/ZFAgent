@@ -84,7 +84,8 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 		$scope.req.status=status;
 		$http.post("api/lowerAgent/changeStatus", $scope.req).success(function (data) {  //绑定
 			if (data.code==1) {
-            	location.reload();
+				$scope.init();
+				//location.reload();
             }else{
             	alert("修改状态出错，错误信息为："+data.message);
             }
@@ -120,8 +121,19 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 	}
 	
 	$scope.showPwdTab=function(val){
+		var doc_height = $(document).height();
+		var win_height = $(window).height();
+		var win_width = $(window).width();
+		
+		var layer_height = $(".resetPassword_tab").height();
+		var layer_width = $(".resetPassword_tab").width();
+		$(".mask").css({display:'block',height:doc_height});
+		$(".resetPassword_tab").css('top',(win_height-layer_height)/2);
+		$(".resetPassword_tab").css('left',(win_width-layer_width)/2);
+		$(".resetPassword_tab").css('display','block');
 		$scope.req.sonAgentsId=val;
 		popup(".resetPassword_tab",".resetPassword_a");
+		
 	}
 	
 	$scope.changeDefaultProfit=function(){

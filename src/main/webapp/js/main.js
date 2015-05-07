@@ -77,7 +77,7 @@ $(function(){
 
 //弹出层
 function popup(t,b){
-	var doc_height = $(document).height();
+	var doc_height = window.screen.availHeight;//$(document).height();
 	var doc_width = $(document).width();
 	var win_height = $(window).height();
 	var win_width = $(window).width();

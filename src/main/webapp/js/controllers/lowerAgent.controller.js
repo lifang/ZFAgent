@@ -47,7 +47,12 @@ var lowerAgentlistController = function ($scope, $http, LoginService){
 		$scope.req.agentsId=LoginService.agentid;
 		$scope.pwdTabSign=1;
 		$scope.list();
-		$scope.tabProfit="百分比";
+		$http.post("api/lowerAgent/getDefaultProfit", $scope.req).success(function (data) {  //绑定
+			if (data.code==1) {
+            	$scope.tabProfit=data.result;
+            }else{
+            }
+        });
 	};
 	$scope.sonlist=function(){
 		$http.post("api/lowerAgent/getsonagent", $scope.req).success(function (data) {  //绑定
@@ -360,15 +365,7 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 function clearDefault(){
 	$("#addDetail").val("");
 }
-function clearDefault1(){
-	$("#tabProfit").val("");
-//	var temp=$("#tabProfit").val();
-//	if(temp == ""){
-//		$("#tabProfit").val("百分比");
-//	}else{
-//		$("#tabProfit").val("");
-//	}
-}
+
 
 //校验邮箱
 function checkEmail(str){

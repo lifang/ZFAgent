@@ -384,6 +384,9 @@ var shopinfoController = function($scope, $http, $location, LoginService) {
 			$scope.quantity = 1;
 		}
 	};
+	$scope.gtoto = function(url) {
+    	window.open(url);
+	}
 	$scope.getGoodInfo = function() {
 		$http.post("api/good/goodinfo", $scope.req).success(function(data) { // 绑定
 			if (data.code == 1) {
@@ -829,6 +832,9 @@ var purchaseshopinfoController = function($scope, $http, $location, LoginService
 		$scope.getGoodInfo();
 
 	};
+	$scope.gtoto = function(url) {
+    	window.open(url);
+	}
 	$scope.checkQ = function() {
 		if ($scope.quantity > $scope.minquantity) {
 			$scope.quantity = parseInt($scope.quantity);

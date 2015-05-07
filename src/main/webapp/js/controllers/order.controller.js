@@ -457,7 +457,7 @@ var payController = function($scope, $http,$location,LoginService) {
             		$('.mask').hide();
             		window.location.href = '#/proxyOrder';
             	}else{
-            		alert("尚未支付,如有疑问请联系888-88888");
+            		alert("尚未支付,如有疑问请联系400-009-0876");
             	}
             	
             }
@@ -619,7 +619,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             		$('.mask').hide();
             		window.location.href = '#/wholesaleOrder';
             	}else{
-            		alert("尚未支付,如有疑问请联系888-88888");
+            		alert("尚未支付,如有疑问请联系400-009-0876");
             	}
             }
         });
@@ -635,7 +635,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
             		$('.mask').hide();
             		window.location.href = '#/wholesaleOrder';
             	}else{
-            		alert("尚未支付,如有疑问请联系888-88888");
+            		alert("尚未支付,如有疑问请联系400-009-0876");
             	}
             }
         });

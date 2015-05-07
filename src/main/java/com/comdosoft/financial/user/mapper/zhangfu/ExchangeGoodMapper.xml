@@ -15,7 +15,7 @@
      
      
      <select id="getExchangeGoodList" parameterType="com.comdosoft.financial.user.domain.query.ExchangeGoodReq" resultType="map">
-            SELECT egr.id,a.company_name fromname,a2.company_name toname,
+            SELECT egr.id,ifnull(a.company_name,a.name)  fromname,ifnull(a2.company_name,a2.name) toname,
             DATE_FORMAT(egr.created_at,'%Y-%m-%d %H:%i:%s') as created_at,egr.quantity  
 			from exchange_goods_records egr
             LEFT JOIN agents a on a.id=egr.from_agent_id
@@ -54,7 +54,7 @@
      </select>
      
       <select id="getInfo" parameterType="com.comdosoft.financial.user.domain.query.ExchangeGoodReq" resultType="map">
-            SELECT egr.id,a.company_name fromname,a2.company_name toname,egr.quantity,egr.terminals_list,
+            SELECT egr.id,ifnull(a.company_name,a.name) fromname,ifnull(a2.company_name,a2.name) toname,egr.quantity,egr.terminals_list,
             DATE_FORMAT(egr.created_at,'%Y-%m-%d %H:%i:%s') as created_at,egr.quantity ,ifnull(c.name,c.username) as creator
 			from exchange_goods_records egr
             LEFT JOIN agents a on a.id=egr.from_agent_id

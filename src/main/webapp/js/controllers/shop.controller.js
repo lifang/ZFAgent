@@ -384,6 +384,9 @@ var shopinfoController = function($scope, $http, $location, LoginService) {
 			$scope.quantity = 1;
 		}
 	};
+	$scope.gtoto = function(url) {
+    	window.open(url);
+	}
 	$scope.getGoodInfo = function() {
 		$http.post("api/good/goodinfo", $scope.req).success(function(data) { // 绑定
 			if (data.code == 1) {
@@ -829,6 +832,9 @@ var purchaseshopinfoController = function($scope, $http, $location, LoginService
 		$scope.getGoodInfo();
 
 	};
+	$scope.gtoto = function(url) {
+    	window.open(url);
+	}
 	$scope.checkQ = function() {
 		if ($scope.quantity > $scope.minquantity) {
 			$scope.quantity = parseInt($scope.quantity);
@@ -1205,7 +1211,7 @@ var payController = function($scope, $http, $location, LoginService) {
 					$('#payTab').hide();
 					$('.mask').hide();
 				} else {
-					alert("尚未支付,如有疑问请联系888-88888");
+					alert("尚未支付,如有疑问请联系400-009-0876");
 				}
 
 			}

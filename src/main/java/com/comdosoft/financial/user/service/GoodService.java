@@ -126,6 +126,14 @@ public class GoodService {
                    if (null != goodPics2 && goodPics2.size() > 0) {
                        map.put("url_path", filePath+goodPics2.get(0));
                    }
+                   int openprice=0;
+                   int googid=SysUtils.Object2int(map.get("id"));
+                   posreq.setGoodId(googid);
+                   List<Map<String, Object>> pclist = goodMapper.getPayChannelListByGoodId(posreq);
+                   if (null != pclist && pclist.size() > 0) {
+                       openprice=SysUtils.Object2int(pclist.get(0).get("opening_cost")); 
+                   }
+                   map.put("retail_price", SysUtils.Object2int(map.get("retail_price"))+openprice);
                }
             }
             goodInfoMap.put("relativeShopList",relativeShopList);

@@ -55,7 +55,7 @@ public class GoodService {
             int openprice=0;
             if (null != payChannelList && payChannelList.size() > 0) {
                 map.put("pay_channe", payChannelList.get(0).get("name"));
-                openprice=SysUtils.Object2int(payChannelList.get(0).get("opening_cost")); 
+              //  openprice=SysUtils.Object2int(payChannelList.get(0).get("opening_cost")); 
             }
             if(1==posreq.getType()){
                 map.put("purchase_price", setPurchasePrice(

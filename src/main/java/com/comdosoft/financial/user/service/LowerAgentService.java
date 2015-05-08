@@ -338,11 +338,15 @@ public class LowerAgentService {
             	}
             	req.setCode(tempCode.toString());
             	//向agents表中插入记录
-            	
-                req.setCardPhotoPath(req.getCardPhotoPath().substring(filePath.length()));
-                req.setLicensePhotoPath(req.getLicensePhotoPath().substring(filePath.length()));
-                req.setTaxPhotoPath(req.getTaxPhotoPath().substring(filePath.length()));
-            	
+            	if(req.getCardPhotoPath()!=null && req.getCardPhotoPath().length()>filePath.length()){
+            		req.setCardPhotoPath(req.getCardPhotoPath().substring(filePath.length()));
+            	}
+            	if(req.getLicensePhotoPath()!=null && req.getLicensePhotoPath().length()>filePath.length()){
+            		req.setLicensePhotoPath(req.getLicensePhotoPath().substring(filePath.length()));
+            	}
+            	if(req.getTaxPhotoPath()!=null && req.getTaxPhotoPath().length()>filePath.length()){
+            		req.setTaxPhotoPath(req.getTaxPhotoPath().substring(filePath.length()));
+            	}
             	int affect_series=lowerAgentMapper.addNewAgent(req);
             	if(affect_series >=1){
             		map.put("resultCode", 1);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.comdosoft.financial.user.mapper.zhangfu.CustomeraddressMapper">
+	namespace="com.comdosoft.financial.user.mapper.zhangfu.CustomerAddressMapper">
 
 
 	<insert id="insertadderss" useGeneratedKeys="true" keyProperty="id"
@@ -116,4 +116,11 @@
 		 WHERE id = #{id}  and customer_id = #{customerId}
 	]]>
 	</update>
+	
+	<!-- 根据省名(直辖市)获取其地级市 -->
+	<select id="getcityname" resultType="map">
+	<![CDATA[
+		SELECT * FROM cities WHERE parent_id IN (SELECT id FROM cities WHERE name = #{provincename})
+	]]>
+	</select>
 </mapper>

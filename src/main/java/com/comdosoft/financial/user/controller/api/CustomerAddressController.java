@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
-import com.comdosoft.financial.user.service.CustomeraddressService;
+import com.comdosoft.financial.user.service.CustomerAddressService;
 
 @RestController
 @RequestMapping("api/address")
-public class CustomerAddressContorller {
+public class CustomerAddressController {
 	@Autowired
-	private CustomeraddressService customer_addresser_server;
+	private CustomerAddressService customerAddressService;
 
 	/**
 	 * 查询代理商收获地址
@@ -29,7 +29,7 @@ public class CustomerAddressContorller {
 	@RequestMapping(value = "query/{customer_id}", method = RequestMethod.POST)
 	public Response query(@PathVariable int customer_id) {
 		Response response = new Response();
-		List<Map<String, Object>> result = customer_addresser_server.queryAddress(customer_id);
+		List<Map<String, Object>> result = customerAddressService.queryAddress(customer_id);
 		if (result != null) {
 			response.setResult(result);
 			response.setCode(Response.SUCCESS_CODE);
@@ -47,7 +47,7 @@ public class CustomerAddressContorller {
 	@RequestMapping(value = "countValidAddress/{customer_id}", method = RequestMethod.POST)
 	public Response countValidAddress(@PathVariable int customer_id) {
 		Response response = new Response();
-		int total = customer_addresser_server.countValidAddress(customer_id);
+		int total = customerAddressService.countValidAddress(customer_id);
 		if (total >= 10) {
 			response.setCode(Response.ERROR_CODE);
 			response.setResult(total);
@@ -68,7 +68,7 @@ public class CustomerAddressContorller {
 	public Response add(@RequestBody Map<Object, Object> param) {
 		Response sysResponse = null;
 		try {
-			customer_addresser_server.insertAddress(param);
+			customerAddressService.insertAddress(param);
 			sysResponse = Response.getSuccess();
 		} catch (Exception e) {
 			sysResponse = Response.getError("新增地址失败:系统异常");
@@ -89,7 +89,7 @@ public class CustomerAddressContorller {
 		try {
 			List<Integer> ids = (ArrayList<Integer>) param.get("ids");
 			for (int id : ids) {
-				customer_addresser_server.deleteAddress(id);
+				customerAddressService.deleteAddress(id);
 			}
 			sysResponse = Response.getSuccess();
 		} catch (Exception e) {
@@ -108,7 +108,7 @@ public class CustomerAddressContorller {
 	public Response update(@RequestBody Map<Object, Object> param) {
 		Response sysResponse = null;
 		try {
-			customer_addresser_server.updateAddress(param);
+			customerAddressService.updateAddress(param);
 			sysResponse = Response.getSuccess();
 		} catch (Exception e) {
 			sysResponse = Response.getError("修改地址失败:系统异常");
@@ -126,11 +126,24 @@ public class CustomerAddressContorller {
 	public Response setisDefault(@RequestBody Map<Object, Object> param) {
 		Response sysResponse = null;
 		try {
-			customer_addresser_server.setDefaultAddress(param);
+			customerAddressService.setDefaultAddress(param);
 			sysResponse = Response.getSuccess();
 		} catch (Exception e) {
 			sysResponse = Response.getError("设置为默认地址失败:系统异常");
 		}
 		return sysResponse;
+	}
+
+	@RequestMapping(value = "getcityname", method = RequestMethod.POST)
+	public Response getcityname(@RequestBody Map<String, Object> param) {
+		Response response = null;
+		if (param != null && !param.isEmpty()) {
+			response = new Response();
+			param.put("cities", customerAddressService.getcityname(param));
+			response.setCode(Response.SUCCESS_CODE);
+			response.setResult(param);
+			return response;
+		}
+		return response;
 	}
 }

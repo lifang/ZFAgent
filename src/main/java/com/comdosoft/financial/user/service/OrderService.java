@@ -86,6 +86,9 @@ public class OrderService {
         }
         // 3 代理商代购 4 代理商代租赁 5 代理商批购
         if (3 == orderreq.getOrderType()) {
+            if(orderreq.getCustomerId()==orderreq.getBelongId()){
+                orderreq.setCustomerId(null);
+            }
             int retail_price = SysUtils.Object2int(goodMap.get("retail_price"));
             payprice = retail_price + opening_cost;
             price = SysUtils.Object2int(goodMap.get("price")) + opening_cost;

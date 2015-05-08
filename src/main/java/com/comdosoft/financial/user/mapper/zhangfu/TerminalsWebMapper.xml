@@ -58,7 +58,7 @@
 	<select id="searchUser" resultType="map">
 		SELECT (CASE isnull(u.`name`)|| LENGTH(trim(u.`name`))&lt;1 WHEN 1 THEN u.`username` ELSE concat(u.`username`, "(",u.`name`, ")") END) username,u.id
 		FROM  agents s
-		LEFT JOIN customer_agent_relations c ON c.agent_id = s.id
+		LEFT JOIN customer_agent_relations c ON c.agent_id = s.id AND c.`status` = #{status} and c.types = #{types}
 		LEFT JOIN customers u ON u.id = c.customer_id
 		WHERE s.customer_id = #{customerId}
 		<if test="name != null and name != ''">

@@ -1025,6 +1025,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 	};
 	$scope.alist = function(id) {
 		$scope.order.customerId = id;
+		$scope.order.addressId = 0;
 		$scope.adlist();
 	};
 

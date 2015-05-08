@@ -9,7 +9,7 @@
 			<list>
 				<!-- <value>classpath:config/local.properties</value> --> 
 				<value>classpath:config/config.properties</value> 
-			 	<!-- <value>classpath:config/pcuser.properties</value> --> 
+			 <!-- 	 <value>classpath:config/pcuser.properties</value>  -->
 			 	<!-- <value>classpath:config/production.properties</value> --> 
 				<value>classpath:config/demo.properties</value> 
 			</list>

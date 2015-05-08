@@ -338,6 +338,11 @@ public class LowerAgentService {
             	}
             	req.setCode(tempCode.toString());
             	//向agents表中插入记录
+            	
+                req.setCardPhotoPath(req.getCardPhotoPath().substring(filePath.length()));
+                req.setLicensePhotoPath(req.getLicensePhotoPath().substring(filePath.length()));
+                req.setTaxPhotoPath(req.getTaxPhotoPath().substring(filePath.length()));
+            	
             	int affect_series=lowerAgentMapper.addNewAgent(req);
             	if(affect_series >=1){
             		map.put("resultCode", 1);

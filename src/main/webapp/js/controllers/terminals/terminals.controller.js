@@ -711,12 +711,15 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	$scope.status=1;//对公对私（1.公 2.私）
 	$scope.materialLevel = [];//等级集合
 	$scope.sex = 1;//默认性别为男
+	//交易规则
+	$scope.clickbox = true;
 	
 	//初始化下拉框
 	$scope.channelName = "请选择";
 	$scope.channelTsName = "请选择";
 	$scope.addressShi = "请选择";
 	$scope.addressShen = "请选择";
+	$scope.billings = [];
 	
 	$scope.terminalDetail = function () {
 		   $http.post("api/applyWeb/getApplyDetails", {customerId:$scope.customerId,terminalId:$scope.terminalId}).success(function (data) {//绑定  
@@ -732,6 +735,13 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 	              $scope.getShengcit();
 	              //支付通道
 	              $scope.channels = data.result.channels;
+	              for(var i=0;i<$scope.channels.length;i++){
+	            	  if($scope.channels[i].name != null){
+	            		  $scope.channelName = $scope.channels[i].name;
+	            	  }
+	            	  $scope.billings = $scope.channels[i].billings;
+	            	  $scope.channel = $scope.channels[i].id;
+	              }
 	              //材料等级
 	              $scope.materialLevel = data.result.materialLevel;
 	              //终端动态数据回显
@@ -836,9 +846,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 		
 		//清除通道赋值
 		$scope.desju = function(){
-			$scope.channelName = "请选择";
 			$scope.channelTsName = "请选择"; 
-			$scope.channel = null;
 			$scope.billingId = null;
 			
 		}
@@ -939,9 +947,6 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 			  if($scope.req.shiList != undefined){
 				  $scope.cityId = Math.ceil($scope.req.shiList.id);
 			  }
-			  if($scope.chan.chanList != undefined){
-				  $scope.channel = Math.ceil($scope.chan.chanList.id);
-			  }
 			  if($scope.tln.chanTs != undefined){
 				  $scope.billingId = Math.ceil($scope.tln.chanTs.id);
 			  }
@@ -1001,18 +1006,22 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 				  for(var i=0;i<$scope.listOne.length;i++){
 					  $scope.list.arrsy[$scope.leng+i] = $scope.listOne[i];
 				  }
-				  $http.post("api/applyWeb/addOpeningApply",$scope.list).success(function (data) {  //绑定
-			          if (data != null && data != undefined) {
-			        	  if(data.code == 1){
-			        		  //跳转
-			        		  window.location.href = '#/terminals';
-			        	  }else{
-			        		  alert(data.message);
-			        	  }
-			          }
-			      }).error(function (data) {
-			    	  alert("申请失败！");
-			      });
+				  if($scope.clickbox == true){
+					  $http.post("api/applyWeb/addOpeningApply",$scope.list).success(function (data) {  //绑定
+				          if (data != null && data != undefined) {
+				        	  if(data.code == 1){
+				        		  //跳转
+				        		  window.location.href = '#/terminals';
+				        	  }else{
+				        		  alert(data.message);
+				        	  }
+				          }
+				      }).error(function (data) {
+				    	  alert("申请失败！");
+				      });
+				  }else{
+					  alert("请仔细阅读交易规则！");
+				  }
 			  }
 			  }
 		  //对等级一模块进行校验

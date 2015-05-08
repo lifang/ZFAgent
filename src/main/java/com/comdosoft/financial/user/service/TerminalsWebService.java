@@ -31,6 +31,7 @@ import com.comdosoft.financial.user.domain.zhangfu.CsAgent;
 import com.comdosoft.financial.user.domain.zhangfu.CsCancel;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
+import com.comdosoft.financial.user.domain.zhangfu.CustomerAgentRelation;
 import com.comdosoft.financial.user.domain.zhangfu.OpeningApplie;
 import com.comdosoft.financial.user.mapper.zhangfu.OpeningApplyMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsWebMapper;
@@ -94,6 +95,8 @@ public class TerminalsWebService {
 	 * @return
 	 */
 	public List<Map<Object, Object>> searchUser(Map<Object, Object> map) {
+		map.put("status", CustomerAgentRelation.STATUS_1);
+		map.put("types", CustomerAgentRelation.TYPES_USER_TO_AGENT);
 		return terminalsWebMapper.searchUser(map);
 	}
 	

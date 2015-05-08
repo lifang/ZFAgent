@@ -136,11 +136,15 @@ public class OrderService {
             int id = SysUtils.Object2int(map.get("id"));
             int total_price = SysUtils.Object2int(map.get("total_price"));
             orderreq.setId(id);
-            orderreq.setType(1);
+            if(0 == orderreq.getType()){
+            	orderreq.setType(1);
+            }
             orderreq.setPrice(total_price);
             orderMapper.payFinish(orderreq);
             orderMapper.upOrder(orderreq);
         } catch (Exception e) {
+        	e.printStackTrace();
+        	logger.debug("完成支付处理失败",e);
         }
     }
 

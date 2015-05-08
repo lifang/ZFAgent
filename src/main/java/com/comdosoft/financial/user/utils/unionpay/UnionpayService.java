@@ -595,7 +595,7 @@ public class UnionpayService {
 		return html;
 
 	}
-	public Map<String, String> query(String orderId,String txnTime) {
+	public static Map<String, String> query(String orderId,String txnTime) {
 		/**
 		 * 组装请求报文
 		 */

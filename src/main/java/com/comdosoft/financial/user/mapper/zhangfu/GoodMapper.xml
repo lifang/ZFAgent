@@ -232,7 +232,7 @@
 	</select>
 	
 	<select id="getRelativeShopListByGoodId"  resultType="map">
-		SELECT g.id,g.Title,g.retail_price,g.volume_number from good_relations gr
+		SELECT g.id,g.Title,g.retail_price,g.purchase_price,g.floor_price,g.volume_number from good_relations gr
 		LEFT JOIN goods g on g.id=gr.relative_good_id
 		where g.status=5 and g.is_published=1 and
 		gr.good_id=#{goodId} 

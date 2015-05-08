@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
-import com.comdosoft.financial.user.mapper.zhangfu.CustomeraddressMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.CustomerAddressMapper;
 
 @Service
-public class CustomeraddressService {
+public class CustomerAddressService {
 
 	@Resource
-	private CustomeraddressMapper customer_addressesMapper;
+	private CustomerAddressMapper customerAddressMapper;
 
 	/**
 	 * 添加地址
@@ -28,9 +28,9 @@ public class CustomeraddressService {
 		int isDefault = Integer.parseInt(param.get("isDefault").toString());
 		if (isDefault == CustomerAddress.ISDEFAULT_1) {
 			param.put("is_default", CustomerAddress.ISDEFAULT_2);
-			customer_addressesMapper.updateDefaultAddress(param);
+			customerAddressMapper.updateDefaultAddress(param);
 		}
-		customer_addressesMapper.insertAddress(param);
+		customerAddressMapper.insertAddress(param);
 
 	}
 
@@ -40,7 +40,7 @@ public class CustomeraddressService {
 	 * @param CustomerAddress
 	 */
 	public int deleteAddress(int param) {
-		return customer_addressesMapper.deleteAddress(param);
+		return customerAddressMapper.deleteAddress(param);
 	}
 
 	/**
@@ -53,9 +53,9 @@ public class CustomeraddressService {
 		int isDefault = Integer.parseInt(param.get("isDefault").toString());
 		if (isDefault == CustomerAddress.ISDEFAULT_1) {
 			param.put("is_default", CustomerAddress.ISDEFAULT_2);
-			customer_addressesMapper.updateDefaultAddress(param);
+			customerAddressMapper.updateDefaultAddress(param);
 		}
-		customer_addressesMapper.updateAddress(param);
+		customerAddressMapper.updateAddress(param);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class CustomeraddressService {
 	 * @return
 	 */
 	public List<Map<String, Object>> queryAddress(int id) {
-		return customer_addressesMapper.queryAddress(id);
+		return customerAddressMapper.queryAddress(id);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class CustomeraddressService {
 	 * @return
 	 */
 	public int countValidAddress(int id) {
-		return customer_addressesMapper.countValidAddress(id);
+		return customerAddressMapper.countValidAddress(id);
 	}
 
 	/**
@@ -86,9 +86,13 @@ public class CustomeraddressService {
 	@Transactional(value = "transactionManager-zhangfu")
 	public void setDefaultAddress(Map<Object, Object> param) {
 		param.put("is_default", CustomerAddress.ISDEFAULT_2); // 其它设置为非默认
-		customer_addressesMapper.updateDefaultAddress(param);
-		customer_addressesMapper.setNotDefaultAddress(param);
-		customer_addressesMapper.setDefaultAddress(param);
+		customerAddressMapper.updateDefaultAddress(param);
+		customerAddressMapper.setNotDefaultAddress(param);
+		customerAddressMapper.setDefaultAddress(param);
+	}
+
+	public List<Map<String, Object>> getcityname(Map<String, Object> param) {
+		return customerAddressMapper.getcityname(param);
 	}
 
 }

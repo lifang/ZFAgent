@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.comdosoft.financial.user.utils.RootUrl;
 import com.unionpay.acp.sdk.HttpClient;
 import com.unionpay.acp.sdk.SDKConstants;
 import com.unionpay.acp.sdk.SDKUtil;
@@ -49,7 +50,7 @@ public class UnionpayHelper {
 	 * http://localhost:8080/ACPTest/acp_front_url.do
 	 */
 	//后台服务对应的写法参照 FrontRcvResponse.java
-	public static String frontUrl = "http://192.168.10.120:8080/DemoProject/acp_front_url.do";
+	public static String frontUrl = RootUrl.urlpath+"unionpay/acp_front_url.do";
 
 	public UnionpayHelper() {
 		super();
@@ -59,7 +60,7 @@ public class UnionpayHelper {
 	 * http://localhost:8080/ACPTest/acp_back_url.do
 	 */
 //后台服务对应的写法参照 BackRcvResponse.java
-	public static String backUrl = "http://localhost:8080/ACPTest/acp_back_url.do";// 受理方和发卡方自选填写的域[O]--后台通知地址
+	public static String backUrl = RootUrl.urlpath+"unionpay/acp_back_url.do";// 受理方和发卡方自选填写的域[O]--后台通知地址
 
 	/**
 	 * 构造HTTP POST交易表单的方法示例

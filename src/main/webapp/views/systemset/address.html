@@ -24,7 +24,7 @@
 						<select ng-model="selected" ng-options="s.name for s in city_list" ng-change="ch_city()" >
 			              <option value="">{{selected.name}}</option>
 			            </select>
-					    <select ng-model="selected_city" ng-options="x.name for x in selected.childrens" >
+					    <select ng-model="selected_city" ng-options="x.name for x in selected.childrens" ng-click="getcityname(selected.name)">
 			               <option value="">{{selected_city.name}}</option>
 			            </select>
 					</li>

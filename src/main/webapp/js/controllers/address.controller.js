@@ -6,8 +6,6 @@ var addressModule = angular.module("addressModule", []);
 var addressController = function ($scope, $http, LoginService) {
 	
 	$scope.init = function() {
-		// var agent_id = LoginService.userid;
-		// alert(LoginService.agentid);
 		$(".myInfoBox").hide();// 隐藏编辑区域
 		$("#addCheck").html("");
 		$scope.addressList();
@@ -22,7 +20,6 @@ var addressController = function ($scope, $http, LoginService) {
 	// 显示编辑区域
 	$scope.useNewAddr = function(){
 		var customer_id = LoginService.agentUserId;
-		// var customer_id = 1;
 		$http.post("api/address/countValidAddress/" + customer_id).success(function(data){
 			if(data.code == 1){
 				$scope.address = {};
@@ -52,7 +49,6 @@ var addressController = function ($scope, $http, LoginService) {
 	// 显示代理商收获地址信息
 	$scope.addressList = function(){
 		var customer_id = LoginService.agentUserId;
-		// var customer_id = 1;
 		$http.post("api/address/query/" + customer_id).success(function(data){
 			if(data.code == 1){
 				$scope.list = data.result;
@@ -187,14 +183,11 @@ var addressController = function ($scope, $http, LoginService) {
 				}
 			}
 			
-		//	$scope.address.telphone = $scope.address.telphone1 + "-" + $scope.address.telphone2;
 		}
 		
 		if ($scope.address.id == undefined) {// 插入新地址信息
 			$scope.address.cityId = $scope.selected_city.id;
 			$scope.address.customerId = LoginService.agentUserId;
-			// $scope.address.customerId = 1;
-			// alert($scope.address.isDefault);
 			if($scope.address.isDefault == undefined){
 				$scope.address.isDefault = 2;
 			}
@@ -220,11 +213,9 @@ var addressController = function ($scope, $http, LoginService) {
 	}
 	
 	$scope.changeDefault = function(){
-		// alert($scope.address.isDefault);
 		if($scope.address.isDefault == 1){
 			$("#setDefault").prop("checked", false);// 移除radio的选中属性
 			$scope.address.isDefault = 2;
-			// alert($scope.address.isDefault);
 		} else {
 			$("#setDefault").prop("checked", "checked");
 		}
@@ -242,6 +233,20 @@ var addressController = function ($scope, $http, LoginService) {
 		});
 	};
 	
+	$scope.getcityname = function(provincename){
+		// alert(provincename);
+		$http.post("api/address/getcityname",{
+			provincename : provincename
+		}).success(function(data) {
+			if (data.code == 1) {
+				$scope.selected.childrens = data.result.cities;
+			} else {
+				alert(data.message);
+			}
+		}).error(function(data) {
+
+		});
+	};
 	$scope.init();
 };
 

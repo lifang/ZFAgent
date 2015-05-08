@@ -131,7 +131,12 @@ public class GoodService {
                    if (null != pclist && pclist.size() > 0) {
                        openprice=SysUtils.Object2int(pclist.get(0).get("opening_cost")); 
                    }
-                   map.put("retail_price", SysUtils.Object2int(map.get("retail_price"))+openprice);
+                   if(1==posreq.getType()){
+                       map.put("retail_price",setPurchasePrice(posreq.getAgentId(),googid,SysUtils.Object2int(map.get("purchase_price")),SysUtils.Object2int(map.get("floor_price")))+openprice);
+                   }else{
+                       map.put("retail_price", SysUtils.Object2int(map.get("retail_price"))+openprice);
+                   }
+                   
                }
             }
             goodInfoMap.put("relativeShopList",relativeShopList);

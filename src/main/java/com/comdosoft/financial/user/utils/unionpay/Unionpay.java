@@ -49,7 +49,7 @@ public class Unionpay {
 		if("00".equals(txnType)){
 			query(request,response);
 		}else if("01".equals(txnType)){
-			pay(request,response);
+			consume(request,response);
 		}else if("31".equals(txnType)){
 			consumeUndo(request,response);
 		}else if("04".equals(txnType)){
@@ -99,9 +99,9 @@ public class Unionpay {
 		// 渠道类型，07-PC，08-手机
 		data.put("channelType", "08");
 		// 前台通知地址 ，控件接入方式无作用
-		data.put("frontUrl", UnionpayHelper.frontUrl);
+		data.put("frontUrl", UnionpayHelper.frontUrl+"?channelType=08");
 		// 后台通知地址
-		data.put("backUrl", UnionpayHelper.backUrl);
+		data.put("backUrl", UnionpayHelper.backUrl+"?channelType=08");
 		// 接入类型，商户接入填0 0- 商户 ， 1： 收单， 2：平台商户
 		data.put("accessType", "0");
 		// 商户号码，请改成自己的商户号
@@ -287,7 +287,7 @@ public class Unionpay {
 		// 业务类型
 		data.put("bizType", "000201");
 		// 渠道类型，07-PC，08-手机
-		data.put("channelType", "08");
+		data.put("channelType", "07");
 		// 前台通知地址 ，控件接入方式无作用
 		data.put("frontUrl", UnionpayHelper.frontUrl);
 		// 后台通知地址
@@ -347,7 +347,7 @@ public class Unionpay {
 		// 业务类型
 		data.put("bizType", "000201");
 		// 渠道类型，07-PC，08-手机
-		data.put("channelType", "08");
+		data.put("channelType", "07");
 		// 前台通知地址 ，控件接入方式无作用
 		data.put("frontUrl", UnionpayHelper.frontUrl);
 		// 后台通知地址
@@ -407,7 +407,7 @@ public class Unionpay {
 		// 业务类型
 		data.put("bizType", "000201");
 		// 渠道类型，07-PC，08-手机
-		data.put("channelType", "08");
+		data.put("channelType", "07");
 		// 前台通知地址 ，控件接入方式无作用
 		data.put("frontUrl", UnionpayHelper.frontUrl);
 		// 后台通知地址
@@ -471,7 +471,7 @@ public class Unionpay {
 		// 业务类型
 		data.put("bizType", "000201");
 		// 渠道类型，07-PC，08-手机
-		data.put("channelType", "08");
+		data.put("channelType", "07");
 		// 前台通知地址 ，控件接入方式无作用
 		data.put("frontUrl", UnionpayHelper.frontUrl);
 		// 后台通知地址
@@ -533,7 +533,7 @@ public class Unionpay {
 		// 业务类型
 		data.put("bizType", "000201");
 		// 渠道类型，07-PC，08-手机
-		data.put("channelType", "08");
+		data.put("channelType", "07");
 		// 前台通知地址 ，控件接入方式无作用
 		data.put("frontUrl", UnionpayHelper.frontUrl);
 		// 后台通知地址
@@ -636,7 +636,7 @@ public class Unionpay {
 		out.flush();
 		out.close();
 	}
-	private void pay(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	private void consume(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String orderId = req.getParameter("orderId");
 		String txnAmt = req.getParameter("txnAmt");
 		
@@ -658,7 +658,7 @@ public class Unionpay {
 		// 业务类型
 		data.put("bizType", "000201");
 		// 渠道类型，07-PC，08-手机
-		data.put("channelType", "08");
+		data.put("channelType", "07");
 		// 前台通知地址 ，控件接入方式无作用
 		data.put("frontUrl", UnionpayHelper.frontUrl);
 		// 后台通知地址
@@ -720,7 +720,7 @@ public class Unionpay {
 		// 业务类型
 		data.put("bizType", "000000");
 		// 渠道类型，07-PC，08-手机
-		data.put("channelType", "08");
+		data.put("channelType", "07");
 		// 接入类型，商户接入填0 0- 商户 ， 1： 收单， 2：平台商户
 		data.put("accessType", "0");
 		// 商户号码，请改成自己的商户号

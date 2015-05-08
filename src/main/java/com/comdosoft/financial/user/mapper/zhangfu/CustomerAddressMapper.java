@@ -10,7 +10,7 @@ import java.util.Map;
  * 
  */
 
-public interface CustomeraddressMapper {
+public interface CustomerAddressMapper {
 
 	/**
 	 * 查询代理商收获地址
@@ -70,5 +70,7 @@ public interface CustomeraddressMapper {
 	 * @return
 	 */
 	int countValidAddress(int id);
+
+	List<Map<String, Object>> getcityname(Map<String, Object> param);
 
 }

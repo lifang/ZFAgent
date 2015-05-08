@@ -111,6 +111,11 @@ public interface OpeningApplyWebMapper {
 	 * @return
 	 */
 	void addMerchan(Merchant merchant);
+	/**
+	 * 修改商户
+	 * @return
+	 */
+	void updateMerchan(Merchant merchant);
 	
 	 /**
      * 获得该终端信息

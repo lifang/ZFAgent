@@ -322,13 +322,13 @@
 				<ul>
 					<li ng-repeat="one in good.relativeShopList">
 						<div class="hotPro_img">
-							<a href="#shopinfo?goodId={{one.id}}"><img src="{{one.url_path}}" /></a>
+							<a href="#purchaseShopinfo?goodId={{one.id}}"><img src="{{one.url_path}}" /></a>
 						</div>
 						<h2>
-							<a href="#shopinfo?goodId={{one.id}}">{{one.Title}}</a>
+							<a href="#purchaseShopinfo?goodId={{one.id}}">{{one.Title}}</a>
 						</h2>
 						<h2>
-							<a href="#shopinfo?goodId={{one.id}}" class="hp_price">{{one.retail_price/100|currency : "￥"}}</a>
+							<a href="#purchaseShopinfo?goodId={{one.id}}" class="hp_price">{{one.retail_price/100|currency : "￥"}}</a>
 						</h2>
 					</li>
 

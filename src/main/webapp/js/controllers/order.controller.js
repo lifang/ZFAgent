@@ -629,7 +629,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 //	        		console.log(">>>>>>金额正确>>>");
 	        		$('#payTab').show();
 	        		$('.mask').show();
-	        		$scope.order.title="订单付款";
+	        		$scope.order.title= $scope.order.body;
 	    			var body = "订单付款  "+ $scope.order.body;
 	        		if(1==$scope.payway){
 		    			//alert("支付宝");

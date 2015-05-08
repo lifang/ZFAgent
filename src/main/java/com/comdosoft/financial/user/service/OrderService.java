@@ -661,7 +661,7 @@ public class OrderService {
         map.put("price_dingjin", o.getFrontMoney() == null ? "" : o.getFrontMoney() + "");// 定金总额
         map.put("zhifu_dingjin", zhifu_dingjin + "");// 已付定金
         // map.put("shengyu_price", shengyu_price);//剩余金额
-        map.put("order_number", o.getOrderNumber()+size);// 订单编号
+        map.put("order_number", o.getOrderNumber()+"X"+size);// 订单编号
         map.put("shengyu_price", shengyu_price);// 剩余金额
         List<OrderGood>  ordergoods =   orderMapper.findGoodsByWOrderId(id);
         StringBuffer sb = new StringBuffer();
@@ -693,9 +693,9 @@ public class OrderService {
 	 
 		Order o = new Order();
 		List<Order> list = null;
-		Boolean isWhole = no.contains("_");
+		Boolean isWhole = no.contains("X");
 		   if(isWhole){
-			   String[] s = no.split("_");
+			   String[] s = no.split("X");
 			   number = s[0];
 			   size = s[1];
 			   logger.info("》》》》》批购支付》》》支付批次 默认从1开始》》"+size);

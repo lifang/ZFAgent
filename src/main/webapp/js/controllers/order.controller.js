@@ -595,11 +595,11 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 //    	 }
 		if(1==$scope.payway){
 			window.open("depositalipayapi.jsp?WIDtotal_fee="+
-					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"+"&WIDbody="+body
+					$scope.order.price_dingjin/100+"&WIDsubject="+ $scope.order.body+"&WIDbody="+body
 					+"&WIDout_trade_no="+$scope.order.order_number);  
 		}else if(2==$scope.payway){
 			window.open("unionpay.jsp?WIDtotal_fee="+
-					$scope.order.price_dingjin/100+"&WIDsubject="+"定金支付"+"&WIDbody="+body
+					$scope.order.price_dingjin/100+"&WIDsubject="+ $scope.order.body+"&WIDbody="+body
 					+"&WIDout_trade_no="+$scope.order.order_number.replace("_","X"));  
 		}else{
 			//alert("银行");

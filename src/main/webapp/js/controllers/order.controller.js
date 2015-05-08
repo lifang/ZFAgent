@@ -566,7 +566,7 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	
 	//定金支付  跳转至支付宝
 	$scope.depositpay= function(){
-		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
+		$http.post("api/order/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	if(data.result.paytype>0){
             		alert("当前订单已支付成功，请不要重复支付");

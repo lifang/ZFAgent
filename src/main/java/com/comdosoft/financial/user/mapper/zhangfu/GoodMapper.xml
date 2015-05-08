@@ -19,8 +19,10 @@
 
 
 	<select id="getGoodsList" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
-		SELECT DISTINCT g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.purchase_number,g.lease_deposit,
-		g.retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title
+	    SELECT * from(
+		SELECT  g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.purchase_number,g.lease_deposit,
+		g.retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title,
+		min(g.retail_price+pc.opening_cost) price1,min(g.purchase_price+pc.opening_cost) price2
 		from goods g
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
@@ -36,12 +38,6 @@
 		</if>
 		<if test="keys!=null">
 			and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
-		</if>
-		<if test="minPricei!=0">
-    	    <![CDATA[ and g.retail_price >= #{minPricei}]]>
-		</if>
-		<if test="maxPricei!=0">
-    	     <![CDATA[ and g.retail_price <= #{maxPricei}]]>
 		</if>
 		<if test="brandsIds!=null">
 			and g.good_brands_id in ${brandsIds}
@@ -64,6 +60,7 @@
 		<if test="tDates!=null">
 			and pc.id in (SELECT pcbc.pay_channel_id from pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
 		</if>
+		group by g.id
 		<if test="orderType==0">
 			order by g.published_at desc
 		</if>
@@ -74,19 +71,32 @@
 			order by g.purchase_number desc
 		</if>
 		<if test="orderType==2 and  type!=1">
-			order by g.retail_price desc
+			order by price1 desc
 		</if>
 		<if test="orderType==3 and  type!=1">
-			order by g.retail_price
+			order by price1
 		</if>
 		<if test="orderType==2 and  type==1">
-			order by g.purchase_price desc
+			order by price2 desc
 		</if>
 		<if test="orderType==3 and  type==1">
-			order by g.purchase_price
+			order by price2
 		</if>
 		<if test="orderType==4">
 			order by g.total_score desc
+		</if>
+		)tt where 1=1
+		<if test="minPricei!=0 and  type!=1">
+    	    <![CDATA[ and tt.price1 >= #{minPricei}]]>
+		</if>
+		<if test="maxPricei!=0 and  type!=1">
+    	     <![CDATA[ and tt.price1 <= #{maxPricei}]]>
+		</if>
+		<if test="minPricei!=0 and  type==1">
+    	    <![CDATA[ and tt.price2 >= #{minPricei}]]>
+		</if>
+		<if test="maxPricei!=0 and  type==1">
+    	     <![CDATA[ and tt.price2 <= #{maxPricei}]]>
 		</if>
 		LIMIT #{offset}, #{rows}
 	</select>

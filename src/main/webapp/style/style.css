@@ -1125,15 +1125,6 @@ i.closeDeal_icon {
 }
 .deliver_tab input { width:467px; padding: 5px; border: 1px #CCCCCC solid; height: 24px; margin: 10px 0;display: block;}
 
-.payWarning { 
-	position: relative; 
-	padding-left: 36px; 
-	line-height: 36px; 
-	font-size: 14px;
-	font-weight:bold; 
-	color: #FFF; 
-}
-.payWarning i { position: absolute; top: 0px; left: 0px;}
 
 /*-----用户 确认订单-------*/
 .searchUser { margin-bottom: 50px;}
@@ -1466,6 +1457,7 @@ span.checkboxRadio_span input {
 .myInfoBox li select { height: 24px; border: 1px #CCCCCC solid; width: 158px; padding: 0 5px;}
 .myInfoBox li textarea { height: 50px; border: 1px #CCCCCC solid; float: left; width: 300px; padding: 0 10px;}
 .myInfoBox li div.addr_area { float: left;}
+.myInfoBox li p.placeholder { padding-left: 80px;}
 p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;}
 
 
@@ -1624,3 +1616,61 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 .pb_num li.on {
 	background-color:#0071cf;
 }
+
+/*---协议弹层---*/
+
+.ebankAgreementTab { 
+	position: fixed; 
+	padding: 20px; 
+	top: 50%; 
+	left: 50%; 
+	margin-top: -286px;
+	margin-left: -440px;
+	background: #FFF;
+	box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+	display: block;
+	z-index: 1000;
+}
+.ebankAgreementTab a.close { 
+	width: 22px; 
+	height: 22px; 
+	background: url(../images/close.png) no-repeat;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	text-indent: -999px;
+	overflow: hidden;
+}
+.ebankAgreementTab h1 { font-size: 18px; font-weight:bolder; line-height: 36px; text-align: center; margin-bottom: 10px;}
+.ebankat_con { width: 840px; height: 400px; }
+.ebankat_con p { line-height: 24px; text-indent: 24px; font-size: 12px; margin-bottom: 10px;}
+
+.ebankat_con textarea {
+	width: 840px;
+	height: 100%;
+	line-height: 24px; 
+	margin-bottom: 10px;
+	border: none;
+	outline: none;
+	resize: none;
+	background: none;
+	overflow-y: auto;
+	font-family: "\5b8b\4f53";
+}
+
+.ebankat_checkbox { margin: 10px 0; overflow: hidden; color:#fc5f25; font-weight: bold; font-size: 14px;}
+.ebankat_checkbox input { float: left; margin-top:4px; margin-right: 5px;}
+
+.ebankat_btn { text-align: center; margin: 10px 0;}
+.ebankat_btn a, .ebankat_btn button { 
+	padding: 10px; 
+	background: #ff5f2b; 
+	display: inline-block; 
+	color: #FFF; 
+	width: 200px;
+	font-size: 14px;
+	margin: 0 20px;
+}
+.ebankat_btn a:hover, .ebankat_btn button:hover { background: #ff802b;}
+.ebankat_btn button.cancel { background: #999; }
+.ebankat_btn button.cancel:hover { background: #a6a6a6;}

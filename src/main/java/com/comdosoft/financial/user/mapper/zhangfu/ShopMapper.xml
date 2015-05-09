@@ -16,7 +16,7 @@
     
     <select id="getLeaseOne"  resultType="map">
        select  pc.name,pc.opening_cost,g.id as goodId,g.second_title,g.lease_price,g.lease_time,g.return_time,
- 			   g.lease_deposit as price,g.title,g.Model_number,b.name as good_brands,g.lease_description
+ 			   g.lease_deposit as price,g.title,g.Model_number,b.name as good_brands,g.lease_agreement as lease_description
        from goods g 
        LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id 
        LEFT JOIN pay_channels pc on pc.id=gpc.pay_channel_id

@@ -155,4 +155,5 @@ var cs_cencelController = function ($scope, $http, LoginService) {
     $scope.orderlist();
 };
 
+cs_cencelController.$inject = ['$scope','$http','LoginService'];
 cs_cencelModule.controller("cs_cencelController", cs_cencelController);

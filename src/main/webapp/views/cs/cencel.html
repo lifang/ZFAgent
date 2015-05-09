@@ -1,5 +1,6 @@
 <div class="right" ng-controller="cs_cencelController">
-	<div class="content clear">
+	<div class="content clear" >
+	 <div class="content_inner">
 		<div class="user_title">
 			<h1>注销申请记录列表</h1>
 		</div>
@@ -21,15 +22,16 @@
 
 			</ul>
 		</div>
-		<div class="user_table">
+		
+		<div class="uesr_table"> 
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
 				<colgroup>
 					<col />
-					<col />
-					<col />
 					<col width="200" />
-					<col />
-					<col />
+					<col width="200" />
+					<col width="200" />
+					<col  width="100" />
+					<col width="200" />
 				</colgroup>
 				<thead>
 					<tr>
@@ -61,6 +63,7 @@
 				</tbody>
 			</table>
 		</div>
+		
 	   <div class="pageTurn">
 						<div class="p_num"  >
 							<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="prev()" ng-if="indexPage != 1">&lt;&lt;</a>
@@ -75,5 +78,5 @@
 						</div>
 					</div>
 	</div>
-
+</div>
 </div>

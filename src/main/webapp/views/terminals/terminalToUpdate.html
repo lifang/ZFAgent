@@ -1,14 +1,7 @@
 <script src="js/jquery.form.min.js"></script>
 <div class="right" ng-controller="terminalToUpdateController">
-            	<div class="breadcrumb">
-                    <ul>
-                        <li><a>管理终端</a></li>
-                        <li><a href="#terminals">终端列表</a></li>
-                        <li><a href="#/terminalDetail?terminalId={{applyDetails.id}}">终端详情</a></li>
-                        <li><a>更新资料</a></li>
-                    </ul>
-                </div>
-                <div class="content clear">
+           <div class="content clear">
+                  <div class="content_inner">
                     <div class="user_title">
                     	<h1>申请更新资料</h1>
                     </div>
@@ -29,7 +22,7 @@
                     	<h2>更新申请资料</h2>
                         <div class="applyFor_list clear">
                            <div class="af_con" ng-repeat="re in reModel">
-                            	<div class="af_con_n">{{$index+1+'.'+re.title}}<a href="{{re.templet_file_path}}" target="_blank" class="a_btn">下载模版</a></div>
+                            	<div class="af_con_n">{{$index+1+'.'+re.title}} <a href="{{re.templet_file_path}}" target="_blank" class="a_btn">下载模版</a></div>
                                 <div class="af_con_b">
                                 <form  method="post" action="api/webTerminal/upload/tempUpdateFile" enctype="multipart/form-data">
                                 <i></i>
@@ -47,12 +40,12 @@
                     </div>
                     <div ng-if="reModel != null && reModel !=''" class="btnBottom"><button class="blueBtn" ng-click="subToUpdate()">提交申请</button></div>
             	</div>
-            </div>
-            <script type="text/javascript">
+                </div> 	
+</div>
+<script type="text/javascript">
           //改变上传按钮
             function setSpanName(obj){
             	//改变下载模板初始状态
-            	
             	$(obj).parent("a").parent("form").attr("action","api/webTerminal/upload/tempUpdateFile/"+$("#terid").val());
             	$(obj).parent("a").parent("form").ajaxSubmit({
             		success : function(data) {
@@ -66,4 +59,4 @@
             		}
             	});
             }
-            </script>
+</script>

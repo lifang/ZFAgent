@@ -196,6 +196,15 @@ public class OpeningApplyWebService {
 	}
 	
 	/**
+	 * 申请开通修改商户
+	 * 
+	 * @return
+	 */
+	public void updateMerchan(Merchant merchant) {
+		openingApplyWebMapper.updateMerchan(merchant);
+	}
+	
+	/**
      * 获得该终端信息
      * 
      * @param terminalId

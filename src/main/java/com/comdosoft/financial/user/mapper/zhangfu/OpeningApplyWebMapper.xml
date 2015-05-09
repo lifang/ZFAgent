@@ -28,6 +28,12 @@
 		 VALUES(#{legalPersonName},#{legalPersonCardId},#{title},#{taxRegisteredNo},#{organizationCodeNo},now(),now(),#{accountBankNum},#{customerId},#{cityId},#{phone})
  	</insert>
  	
+ 	<update id="updateMerchan" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
+ 		 UPDATE merchants set legal_person_name=#{legalPersonName},legal_person_card_id=#{legalPersonCardId},title=#{title},tax_registered_no=#{taxRegisteredNo},
+		 organization_code_no=#{organizationCodeNo},updated_at=now(),account_bank_num=#{accountBankNum},customer_id=#{customerId},city_id=#{cityId},phone=#{phone}
+		 WHERE id=#{id}
+ 	</update>
+ 	
  	<insert id="addApply" useGeneratedKeys="true" keyProperty="id" parameterType="map">
 		INSERT INTO `terminal_opening_infos` (`key`, `value`,`types`,`opening_applies_id`,`target_id`,`opening_requirement_id`,`created_at`,`updated_at`) 
 		VALUES (#{key},#{value},#{types},#{openingAppliesId},#{targetId},#{openingRequirementId},now(),now());

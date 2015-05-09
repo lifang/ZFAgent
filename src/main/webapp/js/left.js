@@ -14,7 +14,7 @@ $(function(){
    });
 	
 	/*------用户后台导航菜单--------*/
-	$("li.second > a").click(function(){
+	$("li.second > a:nth-child(1)").click(function(){
 		$(this).parent().find("ol").toggle();
 		if(!$(this).parent().find("ol").is(":visible")){
 			$(this).find("i").removeClass("on").addClass("off");

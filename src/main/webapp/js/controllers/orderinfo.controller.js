@@ -160,14 +160,19 @@ var proxyOrderinfoController = function ($scope,$location, $http, LoginService) 
 	};
 	//取消
 	$scope.cancelApply = function(id){
-		$scope.req={id:id};
-		$http.post("api/order/cancelProxy", $scope.req).success(function (data) {  //绑定
-			if (data != null && data != undefined) {
-				$scope.getOrderInfo();
-			}
-		}).error(function (data) {
-			$("#serverErrorModal").modal({show: true});
-		});
+		if(window.confirm('你确定要取消吗？')){
+			$scope.req={id:id};
+			$http.post("api/order/cancelProxy", $scope.req).success(function (data) {  //绑定
+				if (data != null && data != undefined) {
+					$scope.getOrderInfo();
+				}
+			}).error(function (data) {
+				$("#serverErrorModal").modal({show: true});
+			});
+            return true;
+         }else{
+            return false;
+        }
 	};
 	
     $scope.topay = function(o) {

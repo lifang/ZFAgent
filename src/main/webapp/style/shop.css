@@ -262,8 +262,15 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 }
 .evaluate li.p_li_o {background: url(../images/icons.png) no-repeat -6px -78px;}
 
-.lease_t { padding: 2px 5px; background: #ff5f2b; border-radius: 2px; color: #FFF; display: inline-block;}
-.lease_t.no { background: #999; color: #ccc;}
+.lease_t, .lease_t_no { 
+	width: 20px; 
+	height: 20px; 
+	display: inline-block;
+	text-indent: -999px;
+	overflow: hidden;
+}
+.lease_t { background: url(../images/lease_icon.png) no-repeat 0 0;}
+.lease_t_no { background: url(../images/lease_icon.png) no-repeat 0 -20px;}
 
 
 

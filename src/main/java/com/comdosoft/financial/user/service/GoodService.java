@@ -167,10 +167,10 @@ public class GoodService {
         List<Map<String, Object>> list5 = goodMapper.getTrade_type_ids(posreq);
         List<Map<String, Object>> list6 = goodMapper.getSale_slip_ids();
         List<Map<String, Object>> list7 = goodMapper.getTDatesByCityId(posreq);
-        List<Map<String, Object>> list8 = goodMapper.getWebCategorys();
+      //  List<Map<String, Object>> list8 = goodMapper.getWebCategorys();
         map.put("brands", list1);
         map.put("category", list2);
-        map.put("webcategory", list8);
+      //  map.put("webcategory", list8);
         map.put("pay_channel", list3);
         map.put("pay_card", list4);
         map.put("trade_type", list5);
@@ -200,5 +200,19 @@ public class GoodService {
             purchasePrice=purchasePrice*(1000-SysUtils.Object2int(map2.get("remark")))/1000;
         }
         return purchasePrice>leasePrice?purchasePrice:leasePrice;
+    }
+
+    public String categorys(int category) {
+        List<Integer> son = goodMapper.getSonCategoryIds(category);
+        StringBuilder sb = new StringBuilder();
+        sb.append("("+category+ ",");
+        if (son != null && son.size() > 0) {
+            for (Integer ii : son) {
+                sb.append(ii + ",");
+            }
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append(")");
+        return sb.toString();
     }
 }

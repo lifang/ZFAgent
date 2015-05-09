@@ -26,7 +26,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="one in accountList">
+					<tr ng-repeat="one in accountList" on-finish-table-filters>
 						<td>{{one.username}}</td>
 						<td>{{one.name}}</td>
 						<td><a href="#/accountOne?id={{one.customer_id}}" class="a_btn" target="_blank">查看详情</a>

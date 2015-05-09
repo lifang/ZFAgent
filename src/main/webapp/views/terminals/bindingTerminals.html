@@ -5,7 +5,7 @@
                     <div class="user_title">
                     	<h1>为用户绑定终端</h1>
                     </div>
-                    <div class="searchUser">
+                <div class="searchUser">
             	<div class="su_title">
                 	<ul>
                     	<li ng-class="{true:'hover'}[butshow == true]" ng-click="butshow = true;userId = -1">搜索现有用户</li>
@@ -21,7 +21,7 @@
                         	 <a href="javascript:void(0)" ng-repeat="user in agentToUsers" ng-click="checkUserId(user.id)" ng-class="{true:'hover'}[userId == user.id]" ng-if="user.username !=null">{{user.username}}</a>
                         </div>
                     </div>
-                    <div ng-show="butshow">
+                    <div ng-show="!butshow">
                       <div class="suc_selectInput">
                       	<ul>
                             <li><label>所在地：</label>

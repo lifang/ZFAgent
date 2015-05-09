@@ -128,6 +128,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/order/deposit_pay.html'
 	}).when('/lowstocks', {
 		templateUrl : 'views/shop/lowstocks.html'
+	}).when('/noshop', {
+		templateUrl : 'views/shop/noshop.html'
 	}).when('/manageuser', {
 		templateUrl : 'views/customer/manageuser.html'
 	}).when('/changeemail', {

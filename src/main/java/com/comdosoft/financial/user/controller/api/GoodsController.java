@@ -62,10 +62,17 @@ public class GoodsController {
     @RequestMapping(value = "goodinfo", method = RequestMethod.POST)
     public Response getGoodInfo(@RequestBody PosReq posreq){
         Response response = new Response();
+        response.setCode(Response.ERROR_CODE);
         if(posreq.getGoodId()>0){
-            Map<String, Object> goodInfoMap=goodService.getGoodInfo(posreq);
-            response.setCode(Response.SUCCESS_CODE);
-            response.setResult(goodInfoMap);
+            Map<String, Object> goodInfoMap;
+            try {
+                goodInfoMap = goodService.getGoodInfo(posreq);
+                response.setCode(Response.SUCCESS_CODE);
+                response.setResult(goodInfoMap);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return response;
+            }
         }
         return response;
     }

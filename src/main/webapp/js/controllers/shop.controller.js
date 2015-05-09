@@ -956,7 +956,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$scope.getGood();
 		if ($scope.order.orderType != 5) {
 			$scope.cc = {};
-			$scope.clist();
+			//$scope.clist();
 		}else{
 			$scope.order.agentId=LoginService.agentid;
 		}
@@ -1109,6 +1109,10 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		});
 	};
 	$scope.clist = function() {
+		if($.trim($scope.cc.keys)==''){
+			alert("请输入用户名");
+			return;
+		}
 		$scope.cc.agentId = LoginService.agentid;
 		$http.post("api/user/getWbeUser", $scope.cc).success(function(data) {
 			if (data.code == 1) {

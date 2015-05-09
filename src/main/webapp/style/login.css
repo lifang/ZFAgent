@@ -6,8 +6,11 @@ a { text-decoration: none;}
 
 .red { color: #F00;}
 
-.logo_login { height: 50px; width: 1200px; margin: 20px auto;}
-.login { width: 1200px; height: 420px; background: #FFF; margin: 50px auto;}
+.login_head { height: 50px; width: 1200px; margin: 20px auto; overflow: hidden;}
+.login_logo { float: left;}
+.login_dh { float: right; margin-top: 5px;}
+
+.login { width: 1200px; height: 420px; background: #FFF; margin: 50px auto; overflow: hidden;}
 .login_left { width: 780px; float: left; height: 420px; font-size: 0; margin-right: 20px;}
 .login_right { width: 398px; float: left; height: 418px; border: 1px #ccc solid;}
 
@@ -16,41 +19,68 @@ a { text-decoration: none;}
 .lr_h li {
 	float: left; 
 	width: 199px; 
-	height: 44px;
-	line-height: 44px; 
+	height: 43px;
+	line-height: 43px;
 	display: block; 
-	text-align: center;
 	color: #666666;
-	font-size: 16px;
-	cursor: pointer;
+	font-size: 18px;
+	text-align: center;
 	border-top: 2px #efefef solid;
+	font-family: "microsoft yahei";
 }
 .lr_h li.hover { 
 	font-weight:bold; 
 	background: #FFF; 
-	color: #fc5f25; 
+	color: #0071cf; 
 	box-shadow: 0px 0 2px rgba(0,0,0,0.3);
-	border-top: 2px #fc5f25 solid;
+	border-top: 2px #0071cf solid;
+	border-bottom: 1px #f5f5f5 solid;
 }
 
-.login_area { padding: 40px 20px;}
-.login_area li { margin-bottom: 20px; overflow: hidden;}
-.login_area li input { height: 42px; border: 1px #CCCCCC solid; width: 335px; padding: 0 10px; color: #999; float: left;}
-.login_area li input.error { border: 1px #F00 solid;}
-.login_area li input.l { width: 175px;}
-.login_area li .yzm { width: 150px; height: 42px; float: left; margin-left: 10px;}
+.login_area { padding: 10px 20px;}
+.login_area li { margin-bottom: 5px; overflow: hidden;}
 
-.forget { margin-bottom: 30px; overflow: hidden;}
+.login_area li label { display: block; height: 24px; line-height: 24px; font-size: 14px;}
+.login_area li input.input_false { border: 1px #F00 solid;}
+
+.yzm_li { margin-top: 20px;}
+
+.login_area_wrong {
+	float: left; 
+	height: 24px; 
+	line-height: 24px; 
+	color: #F00;
+	background: url(../images/input_false.png) no-repeat left center;
+	padding-left: 15px;
+}
+
+.login_area li input { 
+	height: 36px; 
+	line-height:36px; 
+	border: 1px #CCCCCC solid; 
+	width: 335px; 
+	padding: 0 10px; 
+	color: #999; 
+	float: left;
+}
+.login_area li input.l { width: 175px;}
+.login_area li .yzm { width: 150px; height: 36px; float: left; margin-left: 10px; margin-bottom: 20px;}
+.login_area li .yzm img { width: 150px; height: 36px;}
+
+.login_area li .yzm a { display: block; text-align: center; color: #666; text-decoration: none; cursor: text}
+
+
+.forget { margin-bottom: 20px; margin-top: 10px; overflow: hidden;}
 .forget span { float: left; color: #999;}
 .forget span input[type=checkbox] { float: left; margin-top: 2px; margin-right: 5px;}
-.forget a { float: right; color: #999;}
+.forget a { float: right; color: #00F;}
 .forget a:hover { text-decoration: underline;}
 
 .btn { margin: 10px auto;}
 .btn button { 
 	height: 42px; 
 	line-height: 42px; 
-	background: #fc5f25; 
+	background: #0071cf; 
 	border: none; 
 	width: 360px; 
 	color: #FFF; 
@@ -58,7 +88,7 @@ a { text-decoration: none;}
 	cursor: pointer;
 	display: inline-block;
 }
-.btn button:hover { background: #f2571d;}
+.btn button:hover { background: #0178db;}
 
 .btn button.btn_q { width: 180px; margin-right: 18px;}
 .btn button.btn_w { width: 160px; background: #ff9b00;}

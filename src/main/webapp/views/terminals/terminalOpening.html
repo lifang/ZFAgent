@@ -33,9 +33,9 @@
                     	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
                     	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
                     	</div>
-                        <div class="ab_b">
+                        <div class="ab_b" ng-if="merchantList != null && merchantList != ''">
                         	<dl>
-                            	<dt>已有商户：</dt>
+                            	<dt>可选择的常用商户：</dt>
                                 <dd>
                                 <a href="javascript:void(0)" ng-repeat="merchan in merchantList" ng-class="{true:'hover'}[$index == merbut]" ng-click="angu(merchan.title,merchan.id,$index)" >{{merchan.title}}</a>
                                 </dd>
@@ -102,10 +102,10 @@
                                 </li>
                                 <li ng-if="$index == 0"><span class="labelSpan">支付通道：</span>
                                 	<div class="text">
-                                	<select  ng-model="chan.chanList" ng-options="s.name for s in channels" ng-click="desju()">
+                                	<select disabled>
 		             		 				<option value="">{{channelName}}</option>
 		          						</select>
-						 				<select ng-model="tln.chanTs" ng-options="x.name for x in chan.chanList.billings" ng-click="desju()">
+						 				<select ng-model="tln.chanTs" ng-options="x.name for x in billings" ng-click="desju()">
 			               					<option value="">{{channelTsName}}</option>
 			          					</select>
                                 	</div>
@@ -170,7 +170,7 @@
 							</div> 
                         </div>
                     </div>
-                    
+                    <div class="rule_checkbox"><input ng-model="clickbox" ng-click="clickbox = !clickbox" name="" type="checkbox" value="" /> <a>已知晓交易规则</a></div>
                     <div class="btnBottom"><button class="orangeBtn" ng-click="addApply()">保存</button></div>
             	</div>
             </div>

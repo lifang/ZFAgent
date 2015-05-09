@@ -679,7 +679,7 @@ tr.order_hd td { text-align: left; }
 /*-------创建-------*/
 .attributes_box { margin-bottom: 20px;}
 .attributes_box h2 { font-size: 12px; border-bottom: 1px #CCCCCC solid; line-height: 28px;}
-.attributes_box h2 em { color: #999; margin-left: 10px;}
+.attributes_box h2 em { color: #ff5f2b; margin-left: 10px; font-size: 12px; font-weight:500; font-style: normal;}
 .attributes_box h2 a.a_btn { float: right;}
 
 .attributes_box .item_list li { float: left; padding-left: 120px; margin-right: 82px; overflow: hidden;}
@@ -1304,3 +1304,9 @@ span.checkboxRadio_span input {
 
 /*---详细说明内容限制高度---*/
 .leaseExplain_con { height: 300px; overflow-y: auto;}
+
+
+/*----rule_checkbox-已知晓交易规则----*/
+.rule_checkbox { border-top: 1px #CCCCCC solid; padding: 10px 0; margin: 10px 0; overflow: hidden;}
+.rule_checkbox input { float: left; margin-top: 2px;}
+.rule_checkbox a { float: left; margin-left: 10px; color: #00F; text-decoration: underline;}

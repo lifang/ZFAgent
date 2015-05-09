@@ -378,6 +378,11 @@ function clearDefault(){
 	$("#addDetail").val("");
 }
 
+function shwoDefault(){
+	if($("#addDetail").val()==""){
+		$("#addDetail").val("详细地址");
+	}
+}
 
 //校验邮箱
 function checkEmail(str){

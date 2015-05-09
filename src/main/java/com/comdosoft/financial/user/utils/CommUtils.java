@@ -8,7 +8,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 
 public class CommUtils {
+	
+	@Value("${pictureHZList}")
+	private static String pictureHZList;
     /**
      * 发送验证码  
      * @param str
@@ -78,6 +83,11 @@ public class CommUtils {
     	catch(Exception e){
     		e.printStackTrace();
     	}
+    }
+    
+    //校验上传图片格式是否满足
+    public static Boolean typeIsCommit(String houzuiStr){
+    	return pictureHZList.contains(houzuiStr);
     }
 
 }

@@ -265,24 +265,24 @@ public class OpeningApplyWebController {
 				}
 				//判断该商户是否存在
 				Map<Object, Object> countMap =  openingApplyWebService.getMerchantsIsNo((String) map.get("merchantName"),(String) map.get("phone"));
+				//添加商户
+				Merchant merchant = new Merchant();
+				merchant.setLegalPersonName((String) map
+						.get("name"));
+				merchant.setLegalPersonCardId((String) map
+						.get("cardId"));
+				merchant.setTitle((String) map
+						.get("merchantName"));
+				merchant.setTaxRegisteredNo((String) map
+						.get("registeredNo"));
+				merchant.setOrganizationCodeNo((String) map
+						.get("organizationNo"));
+				merchant.setAccountBankNum((String) map
+						.get("bankNum"));
+				merchant.setPhone((String) map
+						.get("phone"));
+				merchant.setCityId((Integer)map.get("cityId"));
 				if(countMap == null){
-					//添加商户
-					Merchant merchant = new Merchant();
-					merchant.setLegalPersonName((String) map
-							.get("name"));
-					merchant.setLegalPersonCardId((String) map
-							.get("cardId"));
-					merchant.setTitle((String) map
-							.get("merchantName"));
-					merchant.setTaxRegisteredNo((String) map
-							.get("registeredNo"));
-					merchant.setOrganizationCodeNo((String) map
-							.get("organizationNo"));
-					merchant.setAccountBankNum((String) map
-							.get("bankNum"));
-					merchant.setPhone((String) map
-							.get("phone"));
-					merchant.setCityId((Integer)map.get("cityId"));
 					//得到该终端绑定用户
 					merchant.setCustomerId(openingApplyWebService.isopenMessage(terminalId));//终端绑定用户id
 					openingApplyWebService.addMerchan(merchant);
@@ -292,6 +292,8 @@ public class OpeningApplyWebController {
 						return Response.getError("申请失败！");
 					}
 				}else if(countMap !=null){
+					merchant.setId((Integer)countMap.get("id"));
+					openingApplyWebService.updateMerchan(merchant);
 					openingApplie.setMerchantId((Integer)countMap.get("id"));
 				}
 				//为终端表关联对应的商户id和通道周期ID 

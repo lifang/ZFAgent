@@ -23,6 +23,7 @@ import com.comdosoft.financial.user.domain.query.LowerAgentReq;
 import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.LowerAgentService;
 import com.comdosoft.financial.user.service.SystemSetService;
+import com.comdosoft.financial.user.utils.CommUtils;
 import com.comdosoft.financial.user.utils.HttpFile;
 /**
  * 下级代销商业务处理
@@ -436,6 +437,13 @@ public class LowerAgentController {
 	public Response uploadImg(@PathVariable("agentsId") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
 		try {
     		String joinpath="";
+    		int temp=updatefile.getName().lastIndexOf(".");
+    		String houzuiStr=updatefile.getName().substring(temp);
+    		
+    		if(!CommUtils.typeIsCommit(houzuiStr)){
+    			return Response.getError("您所上传的文件格式不正确");
+    		}
+    		
         	joinpath = HttpFile.upload(updatefile, agent+id+"/opengImg/");
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath)){
         		return Response.getError(joinpath);

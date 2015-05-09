@@ -70,7 +70,7 @@
 							<select ng-model="cityModel" ng-options="o.id as o.name for o in cityList" style="width: 120px;">
 							</select>
 							
-							<input type="text" style="color: darkgrey;" id="addDetail" ng-model="addDetail"/>
+							<input type="text" style="color: darkgrey;" id="addDetail" ng-model="addDetail" onfocus="clearDefault()" onblur="shwoDefault()"/>
 						</div>
 					</li>
 					<li class="block"><span class="labelSpan">登陆ID：</span>

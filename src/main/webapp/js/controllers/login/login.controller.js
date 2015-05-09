@@ -8,6 +8,7 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 	$scope.agent = {};
 	//勾选记住密码
 	$scope.agentRememberPass = false;
+	//
 	//代理商登陆
 	$scope.agentLogin = function() {
 		LoginService.agentLogin($scope,$http);

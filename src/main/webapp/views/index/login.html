@@ -1,39 +1,42 @@
 <link href="style/login.css" rel="stylesheet" type="text/css" />
-    <div class="login" >
+     <div class="login">
     	<div class="login_left">
         	<img src="images/ad.jpg" />
         </div>
         <div class="login_right">
         	<div class="lr_h" ng-controller="agentLoginController">
             	<ul>
-                	<li ng-click="goToUserLogin()">普通用户</li>
-                    <li class="hover">代理商</li>
+                	<li class="hover">合作伙伴</li>
+                    <li>普通用户</li>
                 </ul>
             </div>
             <div class="lr_b">
-                <div class="login_area" ng-controller="agentLoginController" ng-show="!loginAngShow" >
-					<ul>
-						<li>
-						<input id="cookieName" name="" ng-mousedown="deleteerror()" ng-class="{true: 'error'}[agentNameClass == true]" type="text" placeholder="ID" ng-model="agent.agentName"/>
-						<p class="red">{{agentNameMessage}}</p>
-						</li>
-						<li>
-						<input id="cookiePass" name="" ng-mousedown="deleteerrord()" ng-class="{true: 'error'}[agentPassClass == true]" type="password" placeholder="请输入密码" ng-model="agent.agentPass"/>
-						<p class="red" >{{agentPassMessage}}</p>
-						</li>
-						<li><input name="" ng-mousedown="agentImgClass = false" type="text" placeholder="输入图片校验码" ng-class="{true: 'l error',false: 'l'}[agentImgClass == true]" ng-model="agent.agentCode"/>
-							<div class="yzm"> 
-								<img class="loginRandCodeImg" src="images/yzm.jpg" ng-click="reGetRandCodeImg()" />
-							</div></li>
-					</ul>
-					<div class="forget">
-						<span><input name="" type="checkbox" value="" ng-model="agentRememberPass" />记住密码</span> <a href="#/findpass">忘记密码？</a>
-					</div>
-					<div class="btn">
-						<button style="width: 180px; margin-right: 12px;" ng-click="agentLogin()">登录</button>
-						<button style="width: 160px; background: #ff9b00; float: right;" ng-click="goToRegister()">申请成为合作伙伴</button>
-					</div>
-				</div>
+            	<div class="login_area" ng-controller="agentLoginController" ng-show="!loginAngShow">
+                	<ul>
+                    	<li>
+                        	<label>用户名</label>
+                        	<input name="" type="text"  id="cookieName" ng-mousedown="deleteerror()" ng-class="{true: 'input_false'}[agentNameClass == true]" ng-model="agent.agentName"/>
+                        	<!-- <div class="login_area_wrong">请输入正确的手机号码</div> -->
+                        </li>
+                        <li>
+                        	<label>密码</label>
+                        	<input id="cookiePass" ng-mousedown="deleteerrord()" name="" ng-class="{true: 'input_false'}[agentPassClass == true]" type="password" ng-model="agent.agentPass"/>
+                           <!--  <div class="login_area_wrong">密码不正确，请重新填写</div> -->
+                        </li>    
+                        <li class="yzm_li">
+                        	<input ng-mousedown="agentImgClass = false" name="" type="text" value="输入图片校验码" ng-class="{true: 'l input_false',false: 'l'}[agentImgClass == true]" ng-model="agent.agentCode"/>
+                            <div class="yzm">
+                            	<img class="loginRandCodeImg" ng-click="reGetRandCodeImg()" src="images/yzm.jpg" />
+                                <a href="javascript:void(0);">看不清?点击图片换一张</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="forget">
+                    	<span><a href="#">马上注册</a></span>
+                        <a href="#">忘记密码？</a>
+                    </div>
+                    <div class="btn"><button class="btn_q" ng-click="agentLogin()">登录</button><button class="btn_w">申请成为代理商</button></div>
+                </div>
             </div>
         </div>
     </div>

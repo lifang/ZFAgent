@@ -35,7 +35,7 @@
 							<th>需支付的分润</th>
 						</tr>
 					</thead>
-					<tr ng-repeat="one in tradeList">
+					<tr ng-repeat="one in tradeList"  on-finish-table-filters>
 						<td>{{one.agent}}</td>
 						<td>{{one.total}}</td>
 						<td><strong>{{one.amountTotal/100|currency : "￥"}}</strong></td>
@@ -58,7 +58,7 @@
 							<th>总金额</th>
 						</tr>
 					</thead>
-					<tr ng-repeat="one in tradeList">
+					<tr ng-repeat="one in tradeList"  on-finish-table-filters>
 						<td>{{one.agent}}</td>
 						<td>{{one.total}}</td>
 						<td><strong>{{one.amountTotal/100|currency : "￥"}}</strong></td>

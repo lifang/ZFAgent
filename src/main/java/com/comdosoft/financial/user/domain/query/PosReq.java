@@ -35,7 +35,7 @@ public class PosReq {
      */
     private int[] brandsId;// POS品牌
     private String brandsIds;
-    private int[] category;// POS机类型
+    private int category;// POS机类型
     private String categorys;
     private int[] payChannelId;// 支付通道
     private String payChannelIds;
@@ -86,11 +86,13 @@ public class PosReq {
     public void setBrandsIds(String brandsIds) {
         this.brandsIds = brandsIds;
     }
-    public int[] getCategory() {
+   
+
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(int[] category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 

@@ -64,5 +64,7 @@ public interface GoodMapper {
 
     List<Map<String, Object>> getRelativeShopListByGoodId(PosReq posreq);
 
+    List<Integer> getSonCategoryIds(int category);
+
 
 }

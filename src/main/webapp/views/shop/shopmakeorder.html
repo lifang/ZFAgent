@@ -102,22 +102,20 @@ $(function(){
 
 						<tr class="addAddr_box" ng-show="addadd">
 							<td>&nbsp;</td>
-							<td><input ng-model="ad.receiver" type="text" class="placeholder"  value="收件人姓名" ng-init="ad.receiver='收件人姓名'" /></td>
+							<td><input ng-model="ad.receiver" type="text" class="placeholder"  value="收件人姓名"  /></td>
 							<td><select style="width: 90px;" ng-model="selected" ng-options="s.name for s in city_list">
 									<option value="">请选择省</option>
 							</select> <select style="width: 90px;" ng-model="city" ng-options=" x.name for x in selected.childrens">
 									<option value="">请选择市</option>
 							</select></td>
-							<td><input ng-model="ad.address" type="text" class="w" class="placeholder"  value="详细地址" ng-init="ad.address='详细地址'"/></td>
-							<td><input ng-model="ad.zipCode" type="text" class="placeholder"  value="邮编" ng-init="ad.zipCode='邮编'"/></td>
-							<td><input ng-model="ad.moblephone" type="text" class="placeholder"  value="手机号码" ng-init="ad.moblephone='手机号码'"/></td>
+							<td><input ng-model="ad.address" type="text" class="w" class="placeholder"  value="详细地址" /></td>
+							<td><input ng-model="ad.zipCode" type="text" class="placeholder"  value="邮编" /></td>
+							<td><input ng-model="ad.moblephone" type="text" class="placeholder"  value="手机号码" /></td>
 							<td><a  class="a_btn" ng-click="addad()">确定</a></td>
 							<td>&nbsp;</td>
 						</tr>
 					</table>
-					<div class="addAddr_btn" ng-click="addadd=true;">
-						<button>使用新地址</button>
-					</div>
+					<div class="addAddr_btn" ng-click="adinit()"><button>使用新地址</button></div>
 				</div>
 
 

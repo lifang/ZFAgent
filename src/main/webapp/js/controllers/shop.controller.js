@@ -1049,39 +1049,45 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$scope.order.addressId = 0;
 		$scope.adlist();
 	};
-
+	$scope.adinit = function() {
+		$scope.ad={receiver:"收件人姓名",address:"详细地址",zipCode:"邮编",moblephone:"手机号码"};
+		$scope.addadd=true;
+	}
 	$scope.addad = function() {
-		if ($scope.ad.receiver == undefined ||$.trim( $scope.ad.receiver) == "") {
+		if($scope.ad.receiver=="收件人姓名"){
 			alert("请输入收件人!");
 			return;
 		}
-		if ($scope.city == undefined) {
+		if($scope.city==undefined){
 			alert("请选择城市!");
 			return;
 		}
-		if ($scope.ad.address == undefined || $.trim($scope.ad.address) == "") {
+		if($scope.ad.address=="详细地址"){
 			alert("请输入地址!");
 			return;
 		}
-		if ($scope.ad.zipCode == undefined || $.trim($scope.ad.zipCode) == "") {
+		if($scope.ad.zipCode=="邮编"){
 			//alert("请输入邮编!");
 			//return;
-		} else {
-			var reg = /[1-9]\d{5}(?!\d)/;
-			if (!reg.test($scope.ad.zipCode)) {
+		}else{
+			var reg=/[1-9]\d{5}(?!\d)/;
+			if(!reg.test($scope.ad.zipCode)){
 				alert("邮编不正确!");
 				return;
 			}
 		}
-		if ($scope.ad.moblephone == undefined ||$.trim($scope.ad.moblephone) == "") {
+		if($scope.ad.moblephone=="手机号码"){
 			alert("请输入手机号码!");
 			return;
-		} else {
-			var reg = /^(13[0-9]|14(5|7)|15(0|1|2|3|5|6|7|8|9)|18[0-9])\d{8}$/;
-			if (!reg.test($scope.ad.moblephone)) {
+		}else{
+			var reg=/^(13[0-9]|14(5|7)|15(0|1|2|3|5|6|7|8|9)|18[0-9])\d{8}$/;
+			if(!reg.test($scope.ad.moblephone)){
 				alert("手机不正确!");
 				return;
 			}
+		}
+		if($scope.ad.zipCode=="邮编"){
+			$scope.ad.zipCode="";
 		}
 		$scope.ad.customerId = $scope.order.customerId;
 		$scope.ad.isDefault = 2;

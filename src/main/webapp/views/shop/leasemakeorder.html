@@ -1,4 +1,26 @@
+<script type="text/javascript">
+	//input默认值
+	function focusBlur(e) {
+		$(e).focus(function() {
+			var thisVal = $(this).val();
+			if (thisVal == this.defaultValue) {
+				$(this).val('');
+			}
+		})
+		$(e).blur(function() {
+			var thisVal = $(this).val();
+			if (thisVal == '') {
+				$(this).val(this.defaultValue);
+			}
+		})
+	}
+
+	$(function() {
+		focusBlur('.placeholder');//登录
+	})
+</script>
 <div ng-controller="shopmakeorderController">
+
 	<div class="main">
 		<div class="box">
 			<div class="breadcrumb">
@@ -21,34 +43,34 @@
 					<div class="su_con">
 						<div>
 							<div class="su_search">
-								<input ng-model="cc.keys" type="text" placeholder="输入用户名搜索" />
+								<input ng-model="cc.keys" type="text"  />
 								<button ng-click="clist()">搜索</button>
 							</div>
-							
+
 						</div>
 						<div>
 							<div class="suc_selectInput">
 								<select style="width: 90px;" ng-model="selected" ng-options="s.name for s in city_list">
-									<option value="">请选择</option>
+									<option value="">请选择省</option>
 								</select> <select style="width: 90px;" ng-model="user.cityid" ng-options="x.id as x.name for x in selected.childrens">
-									<option value="">请选择</option>
+									<option value="">请选择市</option>
 								</select>
 							</div>
 							<div class="suc_selectInput">
-								<input ng-model="user.username" type="text" placeholder="手机号 / 邮箱" /> 
-								<input ng-model="user.name" type="text" placeholder="用户姓名（可选）" /> 
+								<input ng-model="user.username" type="text"  />
+							    <input ng-model="user.name" type="text"  /> 
 								<input ng-model="user.pass1" type="password" placeholder="密码" /> 
-								<input ng-model="user.pass2" type="password" placeholder="确认密码" />
+								<input ng-model="user.pass2" type="password"/>
 								<button ng-click="addUser()">创建</button>
 							</div>
 						</div>
 					</div>
-				    <div class="su_s_box">
-						<a ng-repeat="one in cuslist" on-finish-render-filters href="javascript:void(0);"  ng-click="alist(one.customersId)">{{one.name}}</a>
+					<div class="su_s_box" ng-show="cuslist.length>0">
+						<a ng-repeat="one in cuslist" on-finish-render-filters  ng-click="alist(one.customersId)">{{one.name}}</a>
 					</div>
 				</div>
-				
-				
+
+
 				<div class="myAddress">
 					<h3>确认收货地址</h3>
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
@@ -80,21 +102,21 @@
 							<td>{{one.address}}</td>
 							<td>{{one.zipCode}}</td>
 							<td>{{one.moblephone}}</td>
-							<td><span ng-show="one.isDefault==1" class="defaultAddr">默认地址</span> <a ng-show="one.isDefault==2" href="javascript:void(0);" ng-click="setDefaultAddress(one)" class="set_defaultAddr">设为默认地址</a></td>
+							<td><span ng-show="one.isDefault==1" class="defaultAddr">默认地址</span> <a ng-show="one.isDefault==2"  ng-click="setDefaultAddress(one)" class="set_defaultAddr">设为默认地址</a></td>
 						</tr>
 
 						<tr class="addAddr_box" ng-show="addadd">
 							<td>&nbsp;</td>
-							<td><input ng-model="ad.receiver" type="text" placeholder="收件人姓名" /></td>
+							<td><input ng-model="ad.receiver" type="text"  class="placeholder"  value="收件人姓名" ng-init="ad.receiver='收件人姓名'" /></td>
 							<td><select style="width: 90px;" ng-model="selected" ng-options="s.name for s in city_list">
-									<option value="">请选择</option>
+									<option value="">请选择省</option>
 							</select> <select style="width: 90px;" ng-model="city" ng-options=" x.name for x in selected.childrens">
-									<option value="">请选择</option>
+									<option value="">请选择市</option>
 							</select></td>
-							<td><input ng-model="ad.address" type="text" class="w" placeholder="详细地址" /></td>
-							<td><input ng-model="ad.zipCode" type="text" placeholder="邮编" /></td>
-							<td><input ng-model="ad.moblephone" type="text" placeholder="手机号码" /></td>
-							<td><a href="javascript:void(0);" class="a_btn" ng-click="addad()">确定</a></td>
+							<td><input ng-model="ad.address" type="text" class="w" class="placeholder"  value="详细地址" ng-init="ad.address='详细地址'" /></td>
+							<td><input ng-model="ad.zipCode" type="text" class="placeholder"  value="邮编" ng-init="ad.zipCode='邮编'" /></td>
+							<td><input ng-model="ad.moblephone" type="text" class="placeholder"  value="手机号码" ng-init="ad.moblephone='手机号码'" /></td>
+							<td><a  class="a_btn" ng-click="addad()">确定</a></td>
 							<td>&nbsp;</td>
 						</tr>
 					</table>
@@ -170,7 +192,7 @@
 							</td>
 							<td><a href="javascript:void(0);"><strong>{{(shop.opening_cost+shop.price)/100|currency : "￥"}}</strong></a></td>
 							<td><div class="choose_amount">
-									<a href="javascript:void(0);" ng-click="upadteCart(-1)">-</a><input type="text" ng-model="order.quantity" ng-blur="checkQ()"/><a href="javascript:void(0);" ng-click="upadteCart(1)">+</a>
+									<a href="javascript:void(0);" ng-click="upadteCart(-1)">-</a><input type="text" ng-model="order.quantity" ng-blur="checkQ()" /><a href="javascript:void(0);" ng-click="upadteCart(1)">+</a>
 								</div></td>
 							<td><a href="javascript:void(0);"><strong>{{(shop.opening_cost+shop.price)/100*order.quantity|currency : "￥"}}</strong></a></td>
 						</tr>
@@ -215,7 +237,7 @@
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/jQuery.autoIMG.js"></script>
 <script>
-$(function(){
-	$('.cn_img').autoIMG();
-})
+	$(function() {
+		$('.cn_img').autoIMG();
+	})
 </script>

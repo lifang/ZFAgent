@@ -6,35 +6,35 @@
 		</ul>
 	</div>
 	<div class="content clear">
-		<div class="user_title">
-			<h1>交易流水详情</h1>
-		</div>
-		<div class="user_deal_text">
-			<ul class="udt_strong">
-				<li>交易金额：{{info.amount/100|currency : "￥"}}</li>
-				<li>交易手续费：{{info.poundage/100|currency : "￥"}}</li>
-				<li>交易状态： <span ng-if="info.tradedStatus == 1">待付款</span>
-						  <span ng-if="info.tradedStatus == 2">交易完成</span>
-						  <span ng-if="info.tradedStatus == 3">交易失败</span>
-				</li>
-				<li>交易时间：{{info.tradedTimeStr}}</li>
-			</ul>
-			<ul>
-				<li>商户名称：{{info.merchant_name}}</li>
-				<li>商户编号：{{info.merchant_number}}</li>
-				<li>所属代理商：{{info.agentName}}</li>
-				<li>终端号：{{info.terminalNumber}}</li>
-				<li ng-show="info.payFromAccount!=undefined">付款银行卡：{{info.payFromAccount}}</li>
-				<li ng-show="info.payIntoAccount!=undefined">转入银行卡：{{info.payIntoAccount}}</li>
-				<li ng-show="info.phone!=undefined">手机号：{{info.phone}}</li>
-				<li ng-show="info.account_name!=undefined">账户号码：{{info.account_name}}</li>
-				<li ng-show="info.account_number!=undefined">账户名：{{info.account_number}}</li>
-				<li>支付通道：{{info.paychannel}}</li>
-				<li ng-show="req.isHaveProfit==2">产出分润：{{info.get/100|currency : "￥"}}</li>
-				<li ng-show="req.isHaveProfit==2">需支付分润：{{info.pay/100|currency : "￥"}}</li>
-				<li>交易批次号：{{info.batchNumber}}</li>
-				<li>交易流水号：{{info.tradeNumber}}</li>
-			</ul>
+		<div class="content_inner">
+			<div class="user_title">
+				<h1>交易流水详情</h1>
+			</div>
+			<div class="user_deal_text">
+				<ul class="udt_strong">
+					<li>交易金额：{{info.amount/100|currency : "￥"}}</li>
+					<li>交易手续费：{{info.poundage/100|currency : "￥"}}</li>
+					<li>交易状态： <span ng-if="info.tradedStatus == 1">待付款</span> <span ng-if="info.tradedStatus == 2">交易完成</span> <span ng-if="info.tradedStatus == 3">交易失败</span>
+					</li>
+					<li>交易时间：{{info.tradedTimeStr}}</li>
+				</ul>
+				<ul>
+					<li>商户名称：{{info.merchant_name}}</li>
+					<li>商户编号：{{info.merchant_number}}</li>
+					<li>所属代理商：{{info.agentName}}</li>
+					<li>终端号：{{info.terminalNumber}}</li>
+					<li ng-show="info.payFromAccount!=undefined">付款银行卡：{{info.payFromAccount}}</li>
+					<li ng-show="info.payIntoAccount!=undefined">转入银行卡：{{info.payIntoAccount}}</li>
+					<li ng-show="info.phone!=undefined">手机号：{{info.phone}}</li>
+					<li ng-show="info.account_name!=undefined">账户号码：{{info.account_name}}</li>
+					<li ng-show="info.account_number!=undefined">账户名：{{info.account_number}}</li>
+					<li>支付通道：{{info.paychannel}}</li>
+					<li ng-show="req.isHaveProfit==2">产出分润：{{info.get/100|currency : "￥"}}</li>
+					<li ng-show="req.isHaveProfit==2">需支付分润：{{info.pay/100|currency : "￥"}}</li>
+					<li>交易批次号：{{info.batchNumber}}</li>
+					<li>交易流水号：{{info.tradeNumber}}</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>

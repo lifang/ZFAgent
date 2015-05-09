@@ -37,36 +37,34 @@
 					<div class="su_con">
 						<div>
 							<div class="su_search">
-								<span>用户名</span>
-								<input ng-model="cc.keys" type="text"  />
+								<span>用户名</span> <input ng-model="cc.keys" type="text" />
 								<button ng-click="clist()">搜索</button>
 							</div>
 
 						</div>
-						
+
 						<div>
-	                   	  <div class="suc_selectInput">
-	                        	<select ng-model="selected" ng-options="s.name for s in city_list">
-	                        	  <option>省</option>
-	                       	  </select>
-	                          <select ng-model="user.cityid" ng-options="x.id as x.name for x in selected.childrens">
-	                        	  <option>市/地区</option>
-	                       	  </select>
-	                      </div>
-	                      <div class="suc_selectInput">
-	                      	<ul>
-	                        	<li><label>手机号/邮箱：</label><input ng-model="user.username" type="text" /></li>
-	                            <li><label>用户姓名（可选）：</label><input ng-model="user.name" type="text" /></li>
-	                            <li><label>密码：</label><input ng-model="user.pass1" type="password" /></li>
-	                            <li><label>确认密码：</label><input ng-model="user.pass2" type="password" /></li>
-	                            <li><button ng-click="addUser()">创建</button></li>
-	                        </ul>
-	                      </div>
-                    </div>
-						
+							<div class="suc_selectInput">
+								<select ng-model="selected" ng-options="s.name for s in city_list">
+									<option>省</option>
+								</select> <select ng-model="user.cityid" ng-options="x.id as x.name for x in selected.childrens">
+									<option>市/地区</option>
+								</select>
+							</div>
+							<div class="suc_selectInput">
+								<ul>
+									<li><label>手机号/邮箱：</label><input ng-model="user.username" type="text" /></li>
+									<li><label>用户姓名（可选）：</label><input ng-model="user.name" type="text" /></li>
+									<li><label>密码：</label><input ng-model="user.pass1" type="password" /></li>
+									<li><label>确认密码：</label><input ng-model="user.pass2" type="password" /></li>
+									<li><button ng-click="addUser()">创建</button></li>
+								</ul>
+							</div>
+						</div>
+
 					</div>
 					<div class="su_s_box" ng-show="cuslist.length>0">
-						<a ng-repeat="one in cuslist" on-finish-render-filters  ng-click="alist(one.customersId)">{{one.name}}</a>
+						<a ng-repeat="one in cuslist" on-finish-render-filters ng-click="alist(one.customersId)">{{one.name}}</a>
 					</div>
 				</div>
 
@@ -102,25 +100,27 @@
 							<td>{{one.address}}</td>
 							<td>{{one.zipCode}}</td>
 							<td>{{one.moblephone}}</td>
-							<td><span ng-show="one.isDefault==1" class="defaultAddr">默认地址</span> <a ng-show="one.isDefault==2"  ng-click="setDefaultAddress(one)" class="set_defaultAddr">设为默认地址</a></td>
+							<td><span ng-show="one.isDefault==1" class="defaultAddr">默认地址</span> <a ng-show="one.isDefault==2" ng-click="setDefaultAddress(one)" class="set_defaultAddr">设为默认地址</a></td>
 						</tr>
 
 						<tr class="addAddr_box" ng-show="addadd">
 							<td>&nbsp;</td>
-							<td><input ng-model="ad.receiver" type="text" class="placeholder"  value="收件人姓名"  /></td>
+							<td><input ng-model="ad.receiver" type="text" class="placeholder" value="收件人姓名" /></td>
 							<td><select style="width: 90px;" ng-model="selected" ng-options="s.name for s in city_list">
 									<option value="">请选择省</option>
 							</select> <select style="width: 90px;" ng-model="city" ng-options=" x.name for x in selected.childrens">
 									<option value="">请选择市</option>
 							</select></td>
-							<td><input ng-model="ad.address" type="text" class="w" class="placeholder"  value="详细地址" /></td>
-							<td><input ng-model="ad.zipCode" type="text" class="placeholder"  value="邮编" /></td>
-							<td><input ng-model="ad.moblephone" type="text" class="placeholder"  value="手机号码" /></td>
-							<td><a  class="a_btn" ng-click="addad()">确定</a></td>
+							<td><input ng-model="ad.address" type="text" class="w" class="placeholder" value="详细地址" /></td>
+							<td><input ng-model="ad.zipCode" type="text" class="placeholder" value="邮编" /></td>
+							<td><input ng-model="ad.moblephone" type="text" class="placeholder" value="手机号码" /></td>
+							<td><a class="a_btn" ng-click="addad()">确定</a></td>
 							<td>&nbsp;</td>
 						</tr>
 					</table>
-					<div class="addAddr_btn" ng-click="adinit()"><button>使用新地址</button></div>
+					<div class="addAddr_btn" ng-click="adinit()">
+						<button>使用新地址</button>
+					</div>
 				</div>
 
 
@@ -214,7 +214,7 @@
 				</div>
 				<div class="settleAccount">
 					<div class="sa_agreement">
-						<input ng-model="greet" type="checkbox" /><a href="javascript:void(0);" class="a_btn leaseExplain_a">我同意租赁协议</a>
+						<input ng-model="greet" type="checkbox" /><a  class="a_btn leaseExplain_a">我同意租赁协议</a>
 					</div>
 					<p>
 						实付：<strong>{{(shop.opening_cost+shop.price)/100*order.quantity|currency : "￥"}}</strong>
@@ -224,11 +224,21 @@
 			</div>
 		</div>
 	</div>
-	<div class="tab leaseExplain_tab">
-		<a href="javascript:void(0);" class="close">关闭</a>
-		<div class="tabHead">租赁说明</div>
-		<div class="tabBody">
-			<div class="leaseExplain_con">{{shop.lease_description}}</div>
+
+	<div class="ebankAgreementTab">
+		<a class="close">关闭</a>
+		<h1>华尔街金融平台合作伙伴租赁协议</h1>
+		<div class="ebankat_con">
+			<textarea readonly="readonly" name="" cols="" rows="">
+        	{{shop.lease_description}}
+        </textarea>
+		</div>
+		<div class="ebankat_checkbox">
+			<input ng-model="greet2" type="checkbox" /> 我接受此开通协议
+		</div>
+		<div class="ebankat_btn">
+			<button ng-click="ok()">确定</button>
+			<button ng-click="no()" class="cancel">取消</button>
 		</div>
 	</div>
 </div>
@@ -238,4 +248,17 @@
 	$(function() {
 		$('.cn_img').autoIMG();
 	})
+	$(function(){	
+	$(".sa_agreement a").bind('click',function(){
+		    $(".mask").css({display:'block',height: $(document).height()});
+			$(".ebankAgreementTab").css('display','block');
+			return false;
+		}
+	)
+	$(".ebankAgreementTab a.close, .ebankat_btn a").click(function(){
+		$(".mask").css('display','none');
+		$(".ebankAgreementTab").css('display','none');
+	});
+	
+})
 </script>

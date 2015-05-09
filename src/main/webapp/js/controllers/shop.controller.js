@@ -996,6 +996,15 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			$scope.order.quantity += type;
 		}
 	};
+	$scope.ok = function() {
+		$scope.greet=$scope.greet2;
+		$('.mask').hide();
+		$('.ebankAgreementTab').hide();
+	}
+	$scope.no = function() {
+		$('.mask').hide();
+		$('.ebankAgreementTab').hide();
+	}
 	$scope.submit = function() {
 		if ($scope.order.addressId == 0) {
 			alert("请选择收货地址");

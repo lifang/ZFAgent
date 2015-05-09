@@ -1,18 +1,15 @@
 <div class="right" ng-controller="accountListController">
-	<div class="breadcrumb">
-		<ul>
-			<li><a href="#">系统设定</a></li>
-			<li><a href="javascript:void(0);">员工帐号</a></li>
-		</ul>
-	</div>
 	<div class="content clear">
-
+ 	<div class="content_inner">
 		<div class="user_title">
 			<h1>员工帐号列表</h1>
-			<div class="userTopBtnBox">
-				<a href="#/accountAdd" class="ghostBtn">创建帐号</a>
-			</div>
 		</div>
+		<div class="seenBox clear">
+            <div class="userTopBtnBox">
+                <a href="#/accountAdd" class="ghostBtn">创建帐号</a>
+            </div>
+        </div>
+		
 		<div class="user_table">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				class="b_table">
@@ -32,9 +29,9 @@
 					<tr ng-repeat="one in accountList">
 						<td>{{one.username}}</td>
 						<td>{{one.name}}</td>
-						<td><a href="#/accountOne?id={{one.customer_id}}"
-							class="a_btn">查看详情</a><a href="#/accountResetPassword?id={{one.customer_id}}" class="a_btn">密码重置</a><a
-							href="javascript:void(0)" class="a_btn" ng-click="accountDelete(one)">删除</a></td>
+						<td><a href="#/accountOne?id={{one.customer_id}}" class="a_btn" target="_blank">查看详情</a>
+							<a href="#/accountResetPassword?id={{one.customer_id}}" class="a_btn" target="_blank">密码重置</a>
+							<a href="javascript:void(0)" class="a_btn" ng-click="accountDelete(one)">删除</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -54,6 +51,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 

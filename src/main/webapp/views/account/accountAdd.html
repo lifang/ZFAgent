@@ -1,23 +1,25 @@
 <!-- <script type="text/javascript" src="js/controllers/account/accountAdd.js"></script> -->
 <div class="right" ng-controller="empAddController">
-	<div class="breadcrumb">
-		<ul>
-			<li><a href="#">系统设定</a></li>
-			<li><a href="#/accountList">员工帐号</a></li>
-			<li><a href="javascript:void(0);">创建</a></li>
-		</ul>
-	</div>
 	<div class="content clear">
+		<div class="content_inner">
 		<div class="user_title">
 			<h1>创建员工账号</h1>
 		</div>
 		<form name="addAccountForm" ng-submit="accountAdd()" >
 			<div class="myInfoBox clear">
 				<ul>
-					<li><label>姓名：</label><input id="name" type="text" style="color: #000;" ng-model="customer.name" required="required" placeholder="10个中文字符或20个英文字符"/></li>
-					<li><label>登录ID：</label><input id="username" type="text" style="color: #000;" ng-model="customer.username" required="required" placeholder="40个字符或20个汉字"/></li>
-					<li><label>密码：</label><input id="password" type="password" style="color: #000;" ng-model="customer.password" required="required" placeholder="密码在6个字符到20个字符之间"/></li>
-					<li><label>确认密码：</label><input id="confirmpwd" type="password" style="color: #000;" ng-model="customer.comfirmpwd" required="required" placeholder="密码在6个字符到20个字符之间"/></li>
+					<li><label>姓名：</label><input id="name" type="text" ng-model="customer.name"/>
+						<p class="placeholder">10个中文字符或20个英文字符</p>
+					</li>
+					<li><label>登录ID：</label><input id="username" type="text" ng-model="customer.username"/>
+						<p class="placeholder">40个字符或20个汉字</p>
+					</li>
+					<li><label>密码：</label><input id="password" type="password" ng-model="customer.password"/>
+						<p class="placeholder">密码在6个字符到20个字符之间</p>
+					</li>
+					<li><label>确认密码：</label><input id="confirmpwd" type="password" ng-model="customer.comfirmpwd"/>
+						<p class="placeholder">密码在6个字符到20个字符之间</p>
+					</li>
 					<li><label>权限：</label>
 						<div class="authority_con">
 							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="1" />批购</span>
@@ -34,9 +36,10 @@
 				</ul>
 			</div>
 			<div class="myInfoBox_btn">
-				<input class="blueBtn" type="submit" value="创建">
+				<button class="blueBtn" type="submit">创建</button>
 			</div>
 		</form>
+	</div>
 	</div>
 </div>
 <script type="text/javascript">

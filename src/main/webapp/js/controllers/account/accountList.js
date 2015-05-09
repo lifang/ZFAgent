@@ -74,4 +74,5 @@ var accountListController = function($scope, $location, $http, LoginService) {
 
 	$scope.init();
 };
+accountListController.$inject = [ '$scope', '$location', '$http', 'LoginService' ];
 accountListModule.controller("accountListController", accountListController);

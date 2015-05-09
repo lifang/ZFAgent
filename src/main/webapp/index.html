@@ -19,6 +19,7 @@
 		<!-- 系统分页 -->
 		<script type="text/javascript" src="js/page.js"></script>
 		<script src="js/main.js"></script>
+		<script type="text/javascript" src="js/left.js"></script>		 
 		<!-- 日历控件 -->
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/services/loginService.js"></script>
@@ -58,10 +59,14 @@
 		<script type="text/javascript" src="js/controllers/orderinfo.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/order.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/orderinfo.controller.js"></script>
+		
 		<!--柱形图表-->
 		<script src="js/Chart.min.js"></script>
 		<!--[if lte IE 8]>
 			<script type="text/javascript" src="js/excanvas.js"></script>
+		<![endif]-->
+		<!--[if lte IE 8]>
+			<script type="text/javascript" src="js/left.js"></script>		 
 		<![endif]-->
 </head>
 <body>
@@ -83,65 +88,55 @@
 	</div>
 	
 	<div class="main" ng-if="right">
-	<script type="text/javascript">
-	$(function(){
- 
-	});
-	</script>
+
 		<div class="box">
 			<div class="left">
-				<ul id="left_common">
-					<li><a href="#/myapp">我的掌富</a></li>
-					<li ng-show="menu9"><a href="#/stock">我的库存</a></li>
-					<!-- <li ng-show="menu1" class="second">
-						<a href="javascript:void(0);">批购<i class="off"></i></a>
-						<ol>
-							<li><a href="#/wholesaleOrder">批购列表</a></li>
-							<li><a href="#/purchaseShop" >去批购</a></li>
-						</ol>
-					</li> -->
-					<li ng-show="menu2" class="second" >
-						<a href="javascript:void(0);">采购<i class="off"></i></a>
-						<ol>
-							<li><a href="#/proxyOrder">采购列表</a></li>
-							<li><a href="#/shop"  target="_blank">去采购</a></li>
-						</ol>
-					</li>
-					<li ng-show="menu3" class="second">
+			<ul class="side_menu">
+                	<li class="hover"><a href="#/myapp">我的掌富</a></li>
+                		<li ng-show="menu9"><a href="#/stock">我的库存</a></li>
+                 		 <!--   <li><a href="javascript:void(0);">批购 </a></li> -->
+                 		 	<li ng-show="menu2" >
+							<a href="javascript:void(0);">采购 <i class="off"></i></a>
+							<ol class="sub_menu">
+								<li><a href="#/proxyOrder">采购列表</a></li>
+								<li><a href="#/shop"  target="_blank">去采购</a></li>
+							</ol>
+						</li>
+                		<li ng-show="menu3" >
 					<a href="javascript:void(0);">管理终端<i class="off"></i></a>
-						<ol>
+						<ol class="sub_menu">
 							<li><a href="#/terminals">终端列表</a></li>
 							<li><a href="#/terminalSerivce">批量申请售后</a></li>
 							<li><a href="#/binding">批量为用户绑定终端</a></li>
 						</ol>
 					</li>
-					<li ng-show="menu4"><a href="#/trade">交易流水</a></li>
+                   <li ng-show="menu4"><a href="#/trade">交易流水</a></li>
 					<!-- <li ng-show="menu4"><a href="#/posprofit">POS销售分润</a></li> -->
-					<li ng-show="menu5" class="second">
+					<li ng-show="menu5" >
 					<a href="javascript:void(0);">管理下级代理商<i class="off"></i></a>
-						<ol>
+						<ol class="sub_menu">
 							<li><a href="#/lowerAgent">下级代理商</a></li>
 							<li><a href="#/prepare">管理配货</a></li>
 							<li><a href="#/exchange">管理调货</a></li>
 						</ol></li>
-					<li ng-show="menu3" class="second"><a href="javascript:void(0);">售后记录<i class="off"></i></a>
-						<ol>
+					<li ng-show="menu3" ><a href="javascript:void(0);">售后记录<i class="off"></i></a>
+						<ol class="sub_menu">
 						    <li><a href="#/cs_cencel">注销记录</a></li>
 							<li><a href="#/cs_update">更新资料记录</a></li>
 							<li><a href="#/cs_agent">代理商售后记录</a></li>
 						</ol></li>
 					<li ng-show="menu6"><a href="#/manageuser">管理用户</a></li>
-					<li  class="second"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
-<ol>
+					<li  class="sub_menu"><a href="javascript:void(0);">系统设定<i class="off"></i></a>
+                            <ol class="sub_menu">
 							<li><a ng-show="menu8" href="#/agentinform">代理商资料</a></li>
 							<li><a ng-show="menu7" href="#/accountList">员工帐号</a></li>
 							<li><a href="#/modifypassword">修改密码</a></li>
 						</ol></li>
 					<li ><a href="#/myMessage">查看消息</a></li>
-				</ul>
+                </ul>
 			</div>
 			<div ng-view></div>
-			<script src="js/left.js"></script>
+					<script type="text/javascript" src="js/left.js"></script>		 
 		</div>
 	</div>
 

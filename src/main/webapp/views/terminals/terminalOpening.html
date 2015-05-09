@@ -1,14 +1,8 @@
 <script type="text/javascript" src="js/dateSelector.js"></script>
 <script src="js/jquery.form.min.js"></script>
 <div class="right" ng-controller="terminalOpenController">
-            	<div class="breadcrumb">
-                    <ul>
-                        <li><a>管理终端</a></li>
-                        <li><a href="#terminals">终端列表</a></li>
-                        <li><a>开通申请</a></li>
-                    </ul>
-                </div>
-                <div class="content clear">
+      <div class="content clear">
+                  <div class="content_inner">
                     <div class="user_title">
                     	<h1>开通申请</h1>
                     </div>
@@ -24,21 +18,19 @@
                     </div>
                     <div class="attributes_box">
                     	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 1">
-                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
+                    	<a ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
                     	</div>
                     	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 2">
-                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
+                    	<a ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
                     	</div>
                     	<div class="ab_h" ng-if="applyDetails.supportRequirementType == 3">
-                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
-                    	<a href="javascript:void(0)" ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
+                    	<a ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 1]" ng-click="changgSiStatus('1')">对公</a>
+                    	<a ng-class="{true:'toPublic hover',false:'toPrivate'}[status == 2]" ng-click="changgSiStatus('2')">对私</a>
                     	</div>
-                        <div class="ab_b" ng-if="merchantList != null && merchantList != ''">
+                        <div class="ab_b" ng-if="merchantList != '' && merchantList != null">
                         	<dl>
-                            	<dt>可选择的常用商户：</dt>
-                                <dd>
-                                <a href="javascript:void(0)" ng-repeat="merchan in merchantList" ng-class="{true:'hover'}[$index == merbut]" ng-click="angu(merchan.title,merchan.id,$index)" >{{merchan.title}}</a>
-                                </dd>
+                            	<dt>用户名下的常用商户：</dt>
+                                <dd><a ng-repeat="merchan in merchantList" ng-class="{true:'hover'}[$index == merbut]" ng-click="angu(merchan.title,merchan.id,$index)">{{merchan.title}}</a></dd>
                             </dl>
                         </div>
                     </div>
@@ -167,14 +159,15 @@
                             </ul>
                             <div class="img_info">
 								<img  />
-							</div> 
+							</div>
                         </div>
                     </div>
                     <div class="rule_checkbox"><input ng-model="clickbox" ng-click="clickbox = !clickbox" name="" type="checkbox" value="" /> <a>已知晓交易规则</a></div>
-                    <div class="btnBottom"><button class="orangeBtn" ng-click="addApply()">保存</button></div>
+                    <div class="btnBottom"><button class="blueBtn" ng-click="addApply()">保存</button></div>
             	</div>
-            </div>
-            <script type="text/javascript">
+                </div>      	
+</div>
+<script type="text/javascript">
             function showImage(obj) { 
             	$(obj).parent("a").parent("form").attr("action","api/webTerminal/upload/tempOpenImg/"+$("#terid").val());
             	$(obj).parent("a").parent("form").ajaxSubmit({
@@ -188,4 +181,4 @@
             		}
             	});
             }
-            </script>
+</script>

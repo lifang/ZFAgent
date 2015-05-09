@@ -1466,6 +1466,7 @@ span.checkboxRadio_span input {
 .myInfoBox li select { height: 24px; border: 1px #CCCCCC solid; width: 158px; padding: 0 5px;}
 .myInfoBox li textarea { height: 50px; border: 1px #CCCCCC solid; float: left; width: 300px; padding: 0 10px;}
 .myInfoBox li div.addr_area { float: left;}
+p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;}
 
 
 .myInfoBox li div.addr_area input { margin-top: 10px;}

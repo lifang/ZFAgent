@@ -1,12 +1,7 @@
 <link href="style/style.css" rel="stylesheet" type="text/css" />
 <div class="right" ng-controller="agentBinTerminalController">
-            	<div class="breadcrumb">
-                    <ul>
-                        <li><a>管理终端</a></li>
-                        <li><a>为用户绑定终端</a></li>
-                    </ul>
-                </div>
-                <div class="content clear">
+      <div class="content clear">
+                  <div class="content_inner">
                     <div class="user_title">
                     	<h1>为用户绑定终端</h1>
                     </div>
@@ -15,7 +10,6 @@
                 	<ul>
                     	<li ng-class="{true:'hover'}[butshow == true]" ng-click="butshow = true;userId = -1">搜索现有用户</li>
                         <li ng-class="{true:'hover'}[butshow == false]" ng-click="butshow = false;userId = -1">创建新用户</li>
-                        
                     </ul>
                 </div>
                 <div class="su_con">
@@ -24,28 +18,33 @@
                         	<input name="" type="text" ng-model="agentToUserName"/><button ng-click="searchUser()">搜索</button>
                         </div>
                         <div class="su_s_box">
-                            <a href="javascript:void(0)" ng-repeat="user in agentToUsers" ng-click="checkUserId(user.id)" ng-class="{true:'hover'}[userId == user.id]" ng-if="user.username !=null">{{user.username}}</a>
+                        	 <a href="javascript:void(0)" ng-repeat="user in agentToUsers" ng-click="checkUserId(user.id)" ng-class="{true:'hover'}[userId == user.id]" ng-if="user.username !=null">{{user.username}}</a>
                         </div>
                     </div>
-                    <div ng-show="!butshow">
-                   	  <div class="suc_selectInput">
-                        	<select name="" ng-model="citys" ng-options="binc.name for binc in cityList">
+                    <div ng-show="butshow">
+                      <div class="suc_selectInput">
+                      	<ul>
+                            <li><label>所在地：</label>
+                            <select name="" ng-model="citys" ng-options="binc.name for binc in cityList">
                         	  <option value="">省</option>
                        	  </select>
                           <select name="" ng-model="binobject.address" ng-options="adss.name for adss in citys.childrens">
                         	  <option value="">市/地区</option>
                        	  </select>
+                       	  </li>
+                         </ul>
+                         <ul>
+                        	<li><label>手机号/邮箱：</label><input name="" type="text" value="" ng-model="binobject.username"/></li>
+                            <li><label>用户姓名(可选)：</label><input name="" type="text" value="" ng-model="binobject.name"/></li>
+                         </ul>
+                         <ul>
+                            <li><label>密码：</label><input name="" type=password value="" ng-model="binobject.pass1"/></li>
+                            <li><label>确认密码：</label><input name="" type="password" value="" ng-model="binobject.pass2"/></li>
+                         </ul>
+                         <div><button ng-click="establish()">创建</button></div>
                       </div>
-                      <div class="suc_selectInput">
-                        	<input name="" type="text" ng-model="binobject.username" placeholder="手机号 / 邮箱"/>
-                            <input name="" type="text" ng-model="binobject.name" placeholder="用户姓名（可选）"/>
-                            <input name="" type="password" ng-model="binobject.pass1" placeholder="密码"/>
-                            <input name="" type="password" ng-model="binobject.pass2" placeholder="确认密码"/>
-                            <button ng-click="establish()">创建</button>
-                      </div>
-                      <div class="su_s_box"  ng-show="addShow">
+                      <div class="su_s_box" ng-show="addShow">
                         	<a href="javascript:void(0)"  ng-repeat="obj in objectarray" ng-click="checkUserId(obj.adid)" ng-class="{true:'hover'}[userId == obj.adid]">{{obj.adname}}</a>
-                        	<!-- <a href="javascript:void(0)" ng-class="{true:'hover'}[numbe>0]" ng-click="numbe=1">{{aduser}}</a> -->
                         </div>
                     </div>
                 </div>
@@ -59,4 +58,5 @@
                         </div>
                     <div class="btnBottom"><button class="blueBtn" ng-click="BindingTerminals()">绑定</button></div>
             	</div>
-            </div>
+                </div>      	
+</div>

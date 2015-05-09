@@ -20,12 +20,7 @@ $(function(){
 </script>
 <div class="main" ng-controller="shopmakeorderController">
 	<div class="box">
-		<div class="breadcrumb">
-			<ul>
-				<li><a href="#">代购</a></li>
-				<li><a href="#">确认您的订单信息</a></li>
-			</ul>
-		</div>
+
 
 		<div class="inner">
 
@@ -39,27 +34,31 @@ $(function(){
 					<div class="su_con">
 						<div>
 							<div class="su_search">
+								<span>用户名</span>
 								<input ng-model="cc.keys" type="text"/>
 								<button ng-click="clist()">搜索</button>
 							</div>
 							
 						</div>
 						<div>
-							<div class="suc_selectInput">
-								<select style="width: 90px;" ng-model="selected" ng-options="s.name for s in city_list">
-									<option value="">请选择省</option>
-								</select> <select style="width: 90px;" ng-model="user.cityid" ng-options="x.id as x.name for x in selected.childrens">
-									<option value="">请选择市</option>
-								</select>
-							</div>
-							<div class="suc_selectInput">
-								<input ng-model="user.username" type="text" /> 
-								<input ng-model="user.name" type="text" /> 
-								<input ng-model="user.pass1" type="password" /> 
-								<input ng-model="user.pass2" type="password" />
-								<button ng-click="addUser()">创建</button>
-							</div>
-						</div>
+	                   	  <div class="suc_selectInput">
+	                        	<select ng-model="selected" ng-options="s.name for s in city_list">
+	                        	  <option>省</option>
+	                       	  </select>
+	                          <select ng-model="user.cityid" ng-options="x.id as x.name for x in selected.childrens">
+	                        	  <option>市/地区</option>
+	                       	  </select>
+	                      </div>
+	                      <div class="suc_selectInput">
+	                      	<ul>
+	                        	<li><label>手机号/邮箱：</label><input ng-model="user.username" type="text" /></li>
+	                            <li><label>用户姓名（可选）：</label><input ng-model="user.name" type="text" /></li>
+	                            <li><label>密码：</label><input ng-model="user.pass1" type="password" /></li>
+	                            <li><label>确认密码：</label><input ng-model="user.pass2" type="password" /></li>
+	                            <li><button ng-click="addUser()">创建</button></li>
+	                        </ul>
+	                      </div>
+                    </div>
 					</div>
 				    <div class="su_s_box" ng-show="cuslist.length>0">
 						<a ng-repeat="one in cuslist" on-finish-render-filters   ng-click="alist(one.customersId)">{{one.name}}</a>

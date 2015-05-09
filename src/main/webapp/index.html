@@ -70,22 +70,18 @@
 		<![endif]-->
 </head>
 <body>
-	<div class="topInfo clear">
-		<div class="box">
-			<div class="top_user" ng-show="agentId>0">
-				<a>{{loginAgentName}}</a><a href="#/myapp">我的掌富</a><a href="javascript:void(0);" ng-click="loginout()">退出</a><a href="#/app">掌富APP</a>
-			</div>
-			<div class="top_user" ng-show="agentId==0"><a href="#">登录</a><a href="#/app">掌富APP</a>
-			</div>
-		</div>
-		<div class="clear"></div>
-	</div>
-	<div class="head clear" id="headDiv_index">
-		<div class="box" id="boxDiv_index">
+	<div class="head clear" >
+		<div class="box head_bg">
+	        <div class="topInfo clear">
+	            <div class="top_kf"><ul><li><strong>400800 5678</strong></li><li><a  class="kf_a"><i></i>在线客服</a></li></ul></div>
+	            <div class="top_user" ng-if="agentId>0"><span>{{loginAgentName}}</span><a href="#/myapp">我的掌富</a><a ng-click="loginout()">退出</a><a href="#/app">掌富APP</a></div>
+	            <div class="top_user" ng-if="agentId==0"><a href="#">登录</a><a href="#/app">掌富APP</a></div>
+	        </div>
 			<div class="logo">华尔街金融</div>
-			<div class="systemName" id="agentDiv_index">合作伙伴</div>
-		</div>
+	    </div>
 	</div>
+	
+
 	
 	<div class="main" ng-if="right">
 

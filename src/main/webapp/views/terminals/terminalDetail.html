@@ -1,24 +1,19 @@
 <div class="right" ng-controller="terminalDetailController">
-            	<div class="breadcrumb">
-                    <ul>
-                        <li><a>管理终端</a></li>
-                        <li><a href="#terminals">终端列表</a></li>
-                        <li><a>终端详情</a></li>
-                    </ul>
-                </div>
-                <div class="content clear">
-					 <div class="user_title"><h1>终端详情</h1>
-                     <div class="userTopBtnBox" ng-if="applyDetails.status == 3">
-                        <a href="javascript:void(0)" ng-click="judgeUpdate()" class="ghostBtn">更新资料</a>
-                        <a href="javascript:void(0)" class="ghostBtn" ng-click="findPassword('.posPassword_tab')">找回POS密码</a>
-                     </div>
-                     <div class="userTopBtnBox" ng-if="applyDetails.status != 3">
-                     	<a href="javascript:void(0)" ng-click="judgeRentalReturn()" class="ghostBtn">注销</a>
-                        <a href="javascript:void(0)" ng-click="sync()" class="ghostBtn">同步</a>
-                        <a href="javascript:void(0)" ng-click="judgeUpdate()" class="ghostBtn">更新资料</a>
-                        <a href="javascript:void(0)" class="ghostBtn" ng-click="findPassword('.posPassword_tab')">找回POS密码</a>
-                     </div>
-                     </div>
+        <div class="content clear">
+                  <div class="content_inner">
+					 <div class="user_title"><h1>终端详情</h1></div>
+                     <div class="seenBox clear">
+                         <div class="userTopBtnBox" ng-if="applyDetails.status == 3">
+                        	<a href="javascript:void(0)" ng-click="judgeUpdate()" class="ghostBtn">更新资料</a>
+                        	<a href="javascript:void(0)" class="ghostBtn" ng-click="findPassword('.posPassword_tab')">找回POS密码</a>
+                     	 </div>
+                     	 <div class="userTopBtnBox" ng-if="applyDetails.status != 3">
+                     		<a href="javascript:void(0)" ng-click="judgeRentalReturn()" class="ghostBtn">注销</a>
+                        	<a href="javascript:void(0)" ng-click="sync()" class="ghostBtn">同步</a>
+                        	<a href="javascript:void(0)" ng-click="judgeUpdate()" class="ghostBtn">更新资料</a>
+                        	<a href="javascript:void(0)" class="ghostBtn" ng-click="findPassword('.posPassword_tab')">找回POS密码</a>
+                     	 </div>
+                    </div>
                      <div class="attributes_box">
                         <h2>终端信息</h2>
                     	<div class="attributes_list_s clear">
@@ -65,7 +60,7 @@
                                 <th>状态</th>
                               </tr>
                               </thead>
-                               <tr ng-repeat="rates in rateList">
+                              <tr ng-repeat="rates in rateList">
                                 <td>{{rates.trade_value}}</td>
                                 <td>
                                  <span ng-if="rates.trade_value == '消费'">{{(rates.service_rate+rates.base_rate/10 |number:1)}}‰</span>
@@ -78,7 +73,7 @@
                               </tr>
                             </table>
                         </div>
-                        <div class="attributes_box" ng-if="applyDetails.types == 2 || applyDetails.types == 4">
+                     <div class="attributes_box" ng-if="applyDetails.types == 2 || applyDetails.types == 4">
                     	<h2>租赁信息</h2>
                         <div class="attributes_list_s clear">
                             <ul>
@@ -106,7 +101,7 @@
                                 <li>商家电话：{{openingInfos.phone}}</li>
                                 <li>身份证：{{openingInfos.card_id}}</li>
                             </ul>
-                            <ul>
+                             <ul>
                                 <li>姓名：{{openingInfos.name}}</li>
                                 <li ng-if="openingInfos.sex == 1">性别：男</li>
                                 <li ng-if="openingInfos.sex == 0">性别：女</li>
@@ -121,7 +116,7 @@
                             </ul>
                         </div>
                         <div class="item_list clear">
-                        	<ul>
+                            <ul>
                                 <li ng-repeat="opening in openingDetails " ng-if="opening.types != 2">
                                 <span class="labelSpan">{{opening.key}}：</span>
                                 <div class="text">{{opening.value}}</div>
@@ -138,6 +133,7 @@
 							</div>
                         </div> 
                     </div>
+
                      <div class="user_record" ng-if="trackRecord == NULL">
                     	<h2>追踪记录</h2>
                         <div class="ur_item" ng-repeat="track in trackRecord">
@@ -146,7 +142,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>    	
+</div>
 <div ng-controller="terminalDetailController">
 	<div class="mask"></div>
 	<div id="pass" class="tab posPassword_tab">
@@ -165,12 +162,15 @@
 			<button class="orangeBtn" ng-click="closeDocument('pass')">确定</button>
 		</div>
 	</div>
-
-	<div class="tab leaseExplain_tab">
-		<a href="javascript:void(0);" class="close" ng-click="close('.leaseExplain_tab')">关闭</a>
-		<div class="tabHead">租赁说明</div>
-		<div class="tabBody">
-			<div class="leaseExplain_con">{{tenancy.lease_description}}</div>
-		</div>
+<div class="tab leaseExplain_tab">
+	<a href="javascript:void(0);" class="close" ng-click="close('.leaseExplain_tab')">关闭</a>
+	<div class="tabHead">租赁说明</div>
+	<div class="tabBody">
+    	<div class="leaseExplain_con">
+        	<textarea readonly="readonly" name="" cols="" rows="">
+        	{{tenancy.lease_description}}
+        </textarea>
+        </div>
 	</div>
+</div>
 </div>

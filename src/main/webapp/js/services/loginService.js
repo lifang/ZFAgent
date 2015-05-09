@@ -33,6 +33,8 @@ var loginService = function ($http, $rootScope, $cookieStore) {
    		 		$scope.agentNameClass = true;
    		 	}else if($scope.agent.agentPass == undefined || $scope.agent.agentPass == ""){
    		 		$scope.agentPassClass = true;
+   		 	}else if(){
+   		 		
    		 	}else{
    		 	$http.post("api/agent/sizeUpImgCode", {imgnum:$scope.agent.agentCode}).success(function(data){
       			 if(data.code == -1){

@@ -6,72 +6,74 @@
 		</ul>
 	</div>
 	<div class="content clear">
-		<div class="user_title">
-			<h1>库存详情</h1>
-		</div>
-		<div class="attributes_box">
-			<h2>基础信息</h2>
-			<div class="attributes_list clear">
+		<div class="content_inner">
+			<div class="user_title">
+				<h1>库存详情</h1>
+			</div>
+			<div class="attributes_box">
+				<h2>基础信息</h2>
+				<div class="attributes_list clear">
+					<ul>
+						<li><em>POS机名称：</em><span>{{info.goodname}}</span></li>
+						<li><em>品牌型号：</em><span>{{info.good_brand}} {{info.Model_number}}</span></li>
+						<li><em>支付通道：</em><span>{{info.paychannel}}</span></li>
+						<li><em>进货量：</em><span>{{info.hoitoryCount}}</span></li>
+						<li><em>开通量：</em><span>{{info.openCount}}</span></li>
+						<li><em>当前库存：</em><span>{{info.agentCount}}</span></li>
+					</ul>
+				</div>
+			</div>
+			<div class="seenBox clear">
 				<ul>
-					<li><em>POS机名称：</em><span>{{info.goodname}}</span></li>
-					<li><em>品牌型号：</em><span>{{info.good_brand}} {{info.Model_number}}</span></li>
-					<li><em>支付通道：</em><span>{{info.paychannel}}</span></li>
-					<li><em>进货量：</em><span>{{info.hoitoryCount}}</span></li>
-					<li><em>开通量：</em><span>{{info.openCount}}</span></li>
-					<li><em>当前库存：</em><span>{{info.agentCount}}</span></li>
+					<li><div class="user_search">
+							<input ng-model="req.agentname" type="text" placeholder="代理商名称查询" />
+							<button ng-click="getlist()"></button>
+						</div></li>
 				</ul>
 			</div>
-		</div>
-		<div class="seenBox clear">
-			<ul>
-				<li><div class="user_search">
-						<input  ng-model="req.agentname" type="text" placeholder="代理商名称查询"/>
-						<button ng-click="getlist()"></button>
-					</div></li>
-			</ul>
-		</div>
-		<div class="uesr_table">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
-				<colgroup>
-					<col />
-					<col width="80" />
-					<col />
-					<col width="80" />
-					<col />
-				</colgroup>
-				<thead>
-					<tr>
-						<th>下级代理商</th>
-						<th>配货总量</th>
-						<th>上次配货日期</th>
-						<th>已开通量</th>
-						<th>最近开通日期</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="one in list">
-						<td>{{one.company_name}}</td>
-						<td>{{one.hoitoryCount}}</td>
-						<td>{{one.lastPrepareTime}}</td>
-						<td>{{one.openCount}}</td>
-						<td>{{one.lastOpenTime}}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		
-		<div class="pageTurn">
-			<div class="p_num" ng-show="req.totalPage>1">
-				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
-					ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
-					href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
+			<div class="uesr_table">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+					<colgroup>
+						<col />
+						<col width="80" />
+						<col />
+						<col width="80" />
+						<col />
+					</colgroup>
+					<thead>
+						<tr>
+							<th>下级代理商</th>
+							<th>配货总量</th>
+							<th>上次配货日期</th>
+							<th>已开通量</th>
+							<th>最近开通日期</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="one in list" on-finish-table-filters>
+							<td>{{one.company_name}}</td>
+							<td>{{one.hoitoryCount}}</td>
+							<td>{{one.lastPrepareTime}}</td>
+							<td>{{one.openCount}}</td>
+							<td>{{one.lastOpenTime}}</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<div class="p_skip">
-				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
-				</span>
-				<button ng-click="getPage()">确定</button>
+
+			<div class="pageTurn">
+				<div class="p_num" ng-show="req.totalPage>1">
+					<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
+						ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
+						href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
+				</div>
+				<div class="p_skip">
+					<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
+					</span>
+					<button ng-click="getPage()">确定</button>
+				</div>
 			</div>
+
 		</div>
-		
 	</div>
 </div>

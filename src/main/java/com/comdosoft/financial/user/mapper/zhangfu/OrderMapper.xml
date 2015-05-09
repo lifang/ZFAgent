@@ -23,6 +23,12 @@
          <result property="name" column="name" /> 
 	</resultMap>
 	
+		<resultMap id="orderLogisticMap" type="com.comdosoft.financial.user.domain.zhangfu.OrderLogistic">
+		 <id property="orderId" column="order_id" />  
+            <result property="logisticsName" column="logistics_name" /> 
+            <result property="logisticsNumber" column="logistics_number" /> 
+	</resultMap>
+	
 	<resultMap id="payChannelMap" type="com.comdosoft.financial.user.domain.zhangfu.PayChannel">
 		 <id property="id" column="pay_channel_id" />  
             <result property="name" column="channel_name" /> 
@@ -128,6 +134,7 @@
 		<result property="invoiceInfo" column="invoice_info" />
 		<result property="totalQuantity" column="total_quantity" />
 		<result property="payStatus" column="pay_status"  />
+        <association property="orderLogistic" javaType="com.comdosoft.financial.user.domain.zhangfu.OrderLogistic" resultMap="orderLogisticMap" />  
 		<association property="customerAddress" javaType="com.comdosoft.financial.user.domain.zhangfu.CustomerAddress" resultMap="addressMap" />  
 		<association property="orderPayment" javaType="com.comdosoft.financial.user.domain.zhangfu.OrderPayment" resultMap="orderPaymentMap" />  
 	    <collection property="orderGoodsList" ofType="com.comdosoft.financial.user.domain.zhangfu.OrderGood" resultMap="orderGoodsMap" />  
@@ -370,7 +377,7 @@
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.price,g.purchase_price,
 		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,o.need_invoice,
-		 g.title,gb.name , gb.id as good_brands_id,o.comment,
+		 g.title,gb.name , gb.id as good_brands_id,o.comment,oo.logistics_name,oo.logistics_number,
 		pc.name as channel_name,og.price as og_price ,	og.quantity as og_quantity ,o.invoice_info,f.`name` as factory_name,
 		o.actual_price ,o.total_price, om.customer_id as om_customer_id,om.order_id as om_order_id,
 		ca.receiver ,ca.address,ca.moblephone,om.content as om_content,om.created_at as om_create_at,c.`name` as om_name ,
@@ -389,6 +396,7 @@
 		LEFT JOIN customers c on om.customer_id = c.id
 		LEFT JOIN cs_out_storages os ON o.id = os.order_id   and os.`status`='1'
 		LEFT JOIN order_payments op on o.id = op.order_id
+			left join order_logistics oo on o.id = oo.order_id
 		WHERE
 		o.id = #{param1}
 		and o.types = 5
@@ -398,7 +406,7 @@
 	<select id="getProxyById" resultMap="orderMap">
 		SELECT
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,o.customer_id,
-		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,
+		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,oo.logistics_name,oo.logistics_number,
 		g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,og.actual_price as og_actual_price,
 		pc.name as channel_name,og.price as og_price ,	og.quantity as og_quantity ,o.invoice_info,op.pay_type,o.belongs_user_id,f.`name` as factory_name,
 		o.actual_price ,o.total_price,om.customer_id as om_customer_id,om.order_id as om_order_id,
@@ -415,6 +423,7 @@
 		LEFT JOIN customers c on om.customer_id = c.id
 	    LEFT JOIN cs_out_storages os ON o.id = os.order_id and os.`status`='1'
 		LEFT JOIN order_payments op on o.id = op.order_id
+			left join order_logistics oo on o.id = oo.order_id
 		WHERE
 		o.id = #{param1}
 		and  ( o.types = 3 or o.types = 4)

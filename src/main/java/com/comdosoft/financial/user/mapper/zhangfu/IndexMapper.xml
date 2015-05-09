@@ -94,15 +94,15 @@
 		SELECT
 		CASE `status`
 		WHEN 2 THEN
-		'1条记录待发回'
+		'1条售后单记录待发回'
 		WHEN 3 THEN
-		'1条记录维修中'
+		'1条售后单记录维修中'
 		WHEN 4 THEN
-		'1条记录处理完成'
+		'1条售后单记录处理完成'
 		WHEN 5 THEN
-		'1条记录已取消'
+		'1条售后单记录已取消'
 		ELSE '其他'
-		END AS `status`,
+		END AS `status`,id,
 		updated_at
 		FROM
 		cs_agents

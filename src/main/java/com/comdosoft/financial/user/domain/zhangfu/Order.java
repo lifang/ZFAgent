@@ -43,8 +43,24 @@ public class Order {
 	private List<CsOutStorage> csOutStorageList = new ArrayList<CsOutStorage>();
 	private List<OrderMark> orderMarkList = new ArrayList<OrderMark>();
 	private OrderPayment orderPayment;
+	private OrderLogistic orderLogistic;
 	
-    /**  
+	
+    /**
+	 * @return the orderLogistic
+	 */
+	public OrderLogistic getOrderLogistic() {
+		return orderLogistic;
+	}
+
+	/**
+	 * @param orderLogistic the orderLogistic to set
+	 */
+	public void setOrderLogistic(OrderLogistic orderLogistic) {
+		this.orderLogistic = orderLogistic;
+	}
+
+	/**  
      * 获取 belongsUserId  
      * @return belongsUserId
      */

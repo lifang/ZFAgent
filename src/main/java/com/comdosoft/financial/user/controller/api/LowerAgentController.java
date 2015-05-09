@@ -440,7 +440,7 @@ public class LowerAgentController {
     		int temp=updatefile.getOriginalFilename().lastIndexOf(".");
     		String houzuiStr=updatefile.getName().substring(temp+1);
     		
-    		if(!CommUtils.typeIsCommit(houzuiStr)){
+    		if(!commentService.typeIsCommit(houzuiStr)){
     			return Response.getError("您所上传的文件格式不正确");
     		}
     		

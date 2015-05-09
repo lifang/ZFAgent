@@ -27,8 +27,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="one in commercialList">
-						<!-- <td><input name="" type="checkbox" value="" /></td> -->
+					<tr ng-repeat="one in commercialList"  on-finish-table-filters>
 						<td>{{one.username}}</td>
 						<td>{{one.name}}</td>
 						<td>{{one.phone}}</td>

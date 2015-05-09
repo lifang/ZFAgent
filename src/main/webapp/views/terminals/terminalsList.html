@@ -1,17 +1,12 @@
 <div class="right" ng-controller="agentTerminalController">
-            	<div class="breadcrumb">
-                    <ul>
-                        <li><a>管理终端</a></li>
-                        <li><a>终端列表</a></li>
-                    </ul>
-                </div>
-                <div class="content clear">
+         <div class="content clear">
+                  <div class="content_inner">
                     <div class="user_title">
                     	<h1>终端列表</h1>
                     </div>
                     <div class="seenBox clear">
                     	<ul>
-                        	<li><div class="user_search"><input placeholder="请输入终端号查询" name="" ng-model="serialNum" type="text" /><button ng-click="screeningSerialNum()"></button></div></li>
+                        	<li><div class="user_search"><input placeholder="请输入终端号查询" ng-model="serialNum" name="" type="text" /><button ng-click="screeningSerialNum()"></button></div></li>
                             <li><div class="user_select">
                             	<label>状态筛选</label>
                             	<select name="" ng-model="screeningStatus" ng-change="screening()">
@@ -24,6 +19,9 @@
                             	</select>
                             </div></li>
                         </ul>
+                        <!-- <div class="userTopBtnBox">
+                        	<a href="#" class="ghostBtn">申请售后</a><a href="#" class="ghostBtn">为用户绑定终端</a>
+                     	</div> -->
                     </div>
                     <div class="uesr_table">
                     	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
@@ -48,7 +46,7 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr ng-repeat="it in list">
+                          <tr ng-repeat="it in list"  on-finish-table-filters>
                             <td>{{it.serial_num}}</td>
                             <td>{{it.goodsName}}</td>
                             <td>{{it.channelName}}</td>
@@ -62,7 +60,7 @@
                             <strong class="strong_status" ng-if="it.status == 5">已停用</strong>
                             </td>
                             <td ng-if="it.type != 0"><!-- 非自助绑定 -->
-                            <a href="#/terminalDetail?terminalId={{it.id}}" class="a_btn">查看详情</a>
+                            <a href="#/terminalDetail?terminalId={{it.id}}" target="_blank" class="a_btn">查看详情</a>
                             <a ng-if="it.appid != null && it.appid != ''" ng-click="isopenstatus($index,it.id)"  class="a_btn">重新申请</a>
                             <!-- <a ng-if="it.appid == null" href="#/terminalOpening?terminalId={{it.id}}" class="a_btn">申请开通</a> -->
                             <a ng-if="it.appid == null || it.appid == ''" ng-click="isopen(it.id)" class="a_btn">申请开通</a>
@@ -83,9 +81,10 @@
                         </div>
                         <div class="p_skip">
                              <span>共{{totalPage}}页</span>
-                             <span>到第&nbsp;&nbsp;<input name="" type="text" ng-model="tiaoPage" />&nbsp;&nbsp;页</span>
+                             <span>到第&nbsp;<input name="" type="text" ng-model="tiaoPage" />&nbsp;页</span>
                              <button ng-click="getPage()">确定</button>
                         </div>
                     </div>
             	</div>
-            </div>
+                </div>   	
+</div>

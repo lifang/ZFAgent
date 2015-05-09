@@ -33,19 +33,19 @@ var loginService = function ($http, $rootScope, $cookieStore) {
    		 		$scope.agentNameClass = true;
    		 	}else if($scope.agent.agentPass == undefined || $scope.agent.agentPass == ""){
    		 		$scope.agentPassClass = true;
-   		 	}else if($scope.agent.agentCode == undefined || agent.agentCode == ""){
+   		 	}else if($scope.agent.agentCode == undefined || $scope.agent.agentCode == ""){
    		 		$scope.agentImgClass = true;
+   		 		$scope.reGetRandCodeImg();
    		 	}else{
    		 	$http.post("api/agent/sizeUpImgCode", {imgnum:$scope.agent.agentCode}).success(function(data){
       			 if(data.code == -1){
       				$scope.agentImgClass = true;
-      				alert("验证码错误！");
       				$scope.reGetRandCodeImg();
+      				alert("验证码错误！");
       			 }else{
       				 $http.post("api/agent/agentLoginWeb", {username:$scope.agent.agentName,password:$scope.agent.agentPass}).success(function (data) {  //绑定
       			           if(data.code == -1){//用户或者密码错误！
-      			        	$scope.agentNameMessage = data.message; 
-      			        	$scope.agentNameClass = true;
+      			        	   alert(data.message);
       			           }else{
       			        	   $scope.nameMessag = "";
       			        	   $scope.code = "";

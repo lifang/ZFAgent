@@ -991,12 +991,11 @@ a.pay_add_a:hover { box-shadow: 0px 0px 3px rgba(0,0,0,0.2);}
 /*----订单详情--*/
 .detail_panel { overflow: hidden; border: 1px #CCCCCC solid; margin-bottom: 20px;}
 .detailPanel_status { 
-	width: 491px; 
-	border-right: 1px #CCCCCC solid; 
+	width: 491px;
 	text-align: center; 
 	position: relative;
-	min-height: 240px;
 	float: left;
+	height: 261px;
 }
 .detailPanel_status .payWarning { color: #333; display: inline-block; margin-top: 100px;}
 
@@ -1041,13 +1040,19 @@ i.closeDeal_icon {
 .dp_status_btn { position: absolute; right: 5px; bottom: 5px;}
 .dp_status_btn a { display: block; margin: 5px 0;}
 
-.detailPanel_info { width: 452px; padding: 10px; float: left;}
+.detailPanel_info { width: 452px; min-height: 240px; padding: 10px; float: left; border-left: 1px #CCCCCC solid; }
+.detail_express { color: #0071cf;}
 .detailDl dl { overflow: hidden; line-height: 24px;}
-.detailDl dt { float: left;}
+.detailDl dt { float: left; color: #999;}
 .detailDl dd { float: left; margin-right: 20px;}
 .detailDl dd.line_through { text-decoration: line-through;}
-.detailDl dl.leaveWord { height: 48px; border-bottom: 1px #ccc dashed;}
-.detailDl dl.leaveWord dd { overflow: hidden; float: none;}
+.detailDl dl.leaveWord { border-bottom: 1px #ccc dashed;}
+.detailDl dl.leaveWord dd { 
+	overflow: hidden; 
+	float: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 
 .user_record { margin: 20px 0;}
 .user_record h2 { font-size: 12px; line-height: 24px; margin-bottom: 5px; border-bottom: 1px #CCCCCC solid;}
@@ -1591,4 +1596,30 @@ span.checkboxRadio_span input {
 	position: absolute;
 	top: 30px;
 	right: 0px;
+}
+
+/*------代理商首页banner------*/
+.partner_banner {
+	width:990px;
+	height:230px;
+	overflow:hidden;
+	position:relative;
+}
+.pb_slider { position:absolute;}
+.pb_slider img { width:990px; height:230px; display:block;}
+.pb_num { position:absolute; left:50%; bottom: 5px; margin-left: -18px; overflow: hidden;}
+.pb_num li {
+	float:left;
+	width:16px;
+	height:16px;
+	border-radius: 45px;
+	text-indent: -999px;
+	overflow: hidden;
+	cursor:pointer;
+	overflow:hidden;
+	margin: 0 3px;
+	background-color:#999;
+}
+.pb_num li.on {
+	background-color:#0071cf;
 }

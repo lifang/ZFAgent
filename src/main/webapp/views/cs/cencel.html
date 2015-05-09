@@ -42,7 +42,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="o in list.list">
+					<tr ng-repeat="o in list.list" on-finish-table-filters>
 						<td>{{o.apply_num}}</td>
 						<td>{{o.create_time}}</td>
 						<td>{{o.terminal_num}}<br />{{o.brand_name}} {{o.brand_number}} {{o.zhifu_pingtai}}
@@ -54,7 +54,7 @@
 						 <strong ng-if="o.status==4" class="strong_status">处理完成</strong> 
 						 <strong ng-if="o.status==5" class="strong_status">已取消</strong>
 						</td>
-						<td><a href="#/cs_cencelinfo?infoId={{o.id}}" class="a_btn">查看详情</a>
+						<td><a href="#/cs_cencelinfo?infoId={{o.id}}" class="a_btn" target="_blank">查看详情</a>
 						 <a href="javascript:void(0)" ng-click="cancelApply(o)"    ng-if="o.status==1" class="a_btn">取消</a>
 						 <a href="javascript:void(0)" ng-click="resubmitCancel(o)"   ng-if="o.status==5" class="a_btn">重新提交</a></td>
 					</tr>

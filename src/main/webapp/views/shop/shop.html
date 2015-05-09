@@ -80,10 +80,10 @@
 					<li class="default_sort hover"><a href="javasrcipt:void(0);" ng-click="order(0)">综合排序</a></li>
 					<li class="on_1"><span>按价格</span>
 						<div class="droplist">
-							<a href="javascript:void(0);" class="dashed" ng-click="order(2)">按价格从高到低</a> <a href="javascript:void(0);" ng-click="order(3)">按价格从低到高</a>
+							<a  class="dashed" ng-click="order(2)">按价格从高到低</a> <a  ng-click="order(3)">按价格从低到高</a>
 						</div></li>
-					<li class="default_sort" title="按销量从高到低"><a href="javascript:void(0);" ng-click="order(1)">按销量</a></li>
-					<li class="default_sort" title="按评价从多到少"><a href="javascript:void(0);" ng-click="order(4)">按评价</a></li>
+					<li class="default_sort" title="按销量从高到低"><a  ng-click="order(1)">按销量</a></li>
+					<li class="default_sort" title="按评价从多到少"><a  ng-click="order(4)">按评价</a></li>
 				</ul>
 			</div>
 			<div class="accountTime">
@@ -111,7 +111,7 @@
 				<div class="page_info">
 					<span>{{req.indexPage}}</span>/{{req.totalPage}}
 				</div>
-				<a href="javascript:void(0);" class="page_prev" ng-click="prev()"><i></i></a> <a href="javascript:void(0);" class="page_next" ng-click="next()"><i></i></a>
+				<a  class="page_prev" ng-click="prev()"><i></i></a> <a  class="page_next" ng-click="next()"><i></i></a>
 			</div>
 		</div>
 
@@ -136,7 +136,7 @@
 
 
 
-				<tr ng-repeat="one in goodList">
+				<tr ng-repeat="one in goodList" on-finish-table-filters>
 					<td>
 						<div class="td_proBox clear">
 							<a ng-click="gotoo('#/shopinfo?goodId=',one.id)" class="cn_img"><img src="{{one.url_path}}" /></a>
@@ -148,13 +148,13 @@
 							</div>
 						</div>
 					</td>
-					<td><a href="javascript:void(0);"><strong>{{one.retail_price/100 |currency : "￥"}}</strong></a></td>
+					<td><a ><strong>{{one.retail_price/100 |currency : "￥"}}</strong></a></td>
 					<td><span class="{{one.has_lease?'lease_t':'lease_t_no'}}">支持租赁</span></td>
-					<td><a href="javascript:void(0);">月销量<em>{{one.volume_number }}</em>件
+					<td><a>月销量<em>{{one.volume_number }}</em>件
 					</a></td>
 					<td>
 						<div class="evaluate">
-							<a href="javascript:void(0);">
+							<a >
 								<ul>
 									<li class="{{one.total_score>9?'p_li_o':(one.total_score>4?'p_li_b':'')}}"></li>
 									<li class="{{one.total_score>19?'p_li_o':(one.total_score>14?'p_li_b':'')}}"></li>

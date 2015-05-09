@@ -12,7 +12,7 @@
                     	<div class="cu_title">公告板</div>
                     	<div class="user_news_con" >
                         	<ul>
-                            	<li ng-repeat="m in web_list"><a href="#/web?id={{m.id}}">[公告] {{m.title}}</a></li>
+                            	<li ng-repeat="m in web_list"><a href="#/web?id={{m.id}}" target="_blank">[公告] {{m.title}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -21,7 +21,7 @@
                         <div class="user_news_con">
                         	<ul>
                             	<li ng-repeat="m in cp_list">
-						 				<a href="#/cs_agentinfo?infoId={{m.id}}"><strong >{{m.status}}</strong></a>
+						 				<a href="#/cs_agentinfo?infoId={{m.id}}" target="_blank"><strong >{{m.status}}</strong></a>
                             	</li>
                             </ul>
                         </div>
@@ -30,7 +30,7 @@
                     	<div class="cu_title">消息栏</div>
                         <div class="user_news_con" >
                         	<ul>
-                            	<li  ng-repeat="m in my_list"><a href="#/msg?id={{m.id}}">[消息] {{m.title}}</a></li>
+                            	<li  ng-repeat="m in my_list"><a href="#/msg?id={{m.id}}" target="_blank">[消息] {{m.title}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -39,23 +39,11 @@
                     <div class="content_hotPro">
                     	<h1>热卖商品</h1>
                         <ul>
-                        	<li>
-                            	<img src="images/c.jpg" />
-                                <h2>秦山POS旗舰版</h2>
-                                <strong>￥99999.99</strong>
-                                <a href="#">查看详情</a>
-                            </li>
-                            <li class="marginLeft10">
-                            	<img src="images/c.jpg" />
-                                <h2>秦山POS旗舰版</h2>
-                                <strong>￥99999.99</strong>
-                                <a href="#">查看详情</a>
-                            </li>
-                            <li class="marginLeft10">
-                            	<img src="images/c.jpg" />
-                                <h2>秦山POS旗舰版</h2>
-                                <strong>￥99999.99</strong>
-                                <a href="#">查看详情</a>
+                        	<li ng-repeat="p in pos_list ">
+                            <img src="{{p.good_logo}}" />
+                                <h2>{{p.title}}</h2>
+                                <strong>{{p.retail_price/100 |currency : "￥"}}</strong>
+                                 <a  	href="#/shopinfo?goodId={{p.id}}"  target="_blank">查看详情</a>
                             </li>
                         </ul>
                     </div>

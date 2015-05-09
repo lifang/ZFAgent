@@ -17,25 +17,19 @@
 		limit 0,12
 	</select>
 	<!-- 热卖pos -->
-	<select id="getPosList" resultType="map">
-		SELECT
+	<select id="getPosList" resultType="map" >
+	SELECT
 		g.id,
-		g.model_number AS
-		brand_number,
-		g.volume_number,
-		g.title,
-		gb. NAME
-		AS brand_name,
+		g.title,g.second_title,g.retail_price,
 		gp.url_path
-		FROM
+	FROM
 		goods g
-		LEFT JOIN good_brands gb ON g.good_brands_id =
-		gb.id
-		LEFT JOIN (select * from goods_pictures LIMIT 1) as gp ON g.id =
-		gp.good_id
-		ORDER BY
-		g.volume_number DESC
-		limit 0,6
+	LEFT JOIN (select * from goods_pictures  ) as gp ON g.id = gp.good_id
+	where g.`status`=5  and g.is_published = 1  and g.is_recommend=1
+	group by g.id
+	ORDER BY
+		g.id DESC 
+	limit 0,6
 	</select>
 	
 	<select id="getAllCitiesList" resultType="map">

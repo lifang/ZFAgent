@@ -16,6 +16,7 @@ function focusBlur(e){
 }
 $(function(){
 	focusBlur('.placeholder');//登录
+	focusBlur('.invoice_area');
 })
 </script>
 <div class="main" ng-controller="shopmakeorderController">
@@ -179,11 +180,11 @@ $(function(){
 							<input type="checkbox" ng-model="order.isNeedInvoice" /> 需要发票
 						</div>
 						<div class="invoice" ng-show="order.isNeedInvoice">
-							<span>类型：</span> <a href="javascript:void(0);" class="hover" ng-click="ctype(1)">个人</a> <a href="javascript:void(0);" ng-click="ctype(0)">公司</a>
+							<span>类型：</span> <a  class="hover" ng-click="ctype(1)">个人</a> <a  ng-click="ctype(0)">公司</a>
 						</div>
 					</div>
 					<div class="oi_area">
-						<textarea cols="" rows="" class="placeholder"  value="发票抬头" ng-init="order.invoiceInfo='发票抬头'" ng-model="order.invoiceInfo" class="invoice_area" disabled="disabled"> 
+						<textarea   value="发票抬头" ng-init="order.invoiceInfo='发票抬头'" ng-model="order.invoiceInfo" class="invoice_area" disabled="disabled"> 
                     	</textarea>
 					</div>
 				</div>

@@ -1,12 +1,6 @@
 <div class="right" ng-controller="addressController">
-	<div class="breadcrumb">
-		<ul>
-			<li><a href="#">系统设定</a></li>
-			<li><a href="#/agentinform">代理商资料</a></li>
-			<li><a href="javascript:void(0);">地址管理</a></li>
-		</ul>
-	</div>
 	<div class="content clear">
+	       	 <div class="content_inner">
 		<div class="myInfoNav">
 			<ul>
 				<li><a href="#/agentinform">基本信息</a></li>
@@ -68,7 +62,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="one in list">
+					<tr ng-repeat="one in list" on-finish-table-filters>
 						<td>{{one.receiver}}</td>
 						<td>{{one.city}}</td>
 						<td>{{one.address}}</td>
@@ -92,6 +86,7 @@
 			</div>
 		</div>
 
+	</div>
 	</div>
 </div>
 <script type="text/javascript">

@@ -15,7 +15,8 @@ var shopController = function($scope, $http, LoginService) {
 	// $scope.req.maxPrice=0;
 
 	$scope.req.brandsId = [];
-	$scope.req.category = [];
+	//$scope.req.category = [];
+	$scope.req.category=0;
 	$scope.req.payChannelId = [];
 	$scope.req.payCardId = [];
 	$scope.req.tradeTypeId = [];
@@ -32,6 +33,9 @@ var shopController = function($scope, $http, LoginService) {
 		}
 		$scope.list();
 	}
+	$scope.gotoo = function(url,id) {
+    	window.open(url+id);
+	}
 
 	$scope.index = function() {
 		window.location.href = '#/';
@@ -46,7 +50,7 @@ var shopController = function($scope, $http, LoginService) {
 		$http.post("api/good/search", $scope.req).success(function(data) { // 绑定
 			if (data.code == 1) {
 				$scope.brands = data.result.brands;
-				$scope.category = data.result.webcategory;
+				$scope.category = data.result.category;
 				$scope.sale_slip = data.result.sale_slip;
 				$scope.pay_card = data.result.pay_card;
 				$scope.pay_channel = data.result.pay_channel;
@@ -150,45 +154,62 @@ var shopController = function($scope, $http, LoginService) {
 		$scope.search();
 	}
 
-	// POS机类型
-	$scope.check2 = function(p) {
-		if (p.clazz == "hover") {
-			p.clazz = "";
-			$scope.chli2val = "";
-			$scope.req.category = [];
-			angular.forEach($scope.category, function(one) {
-				if (one.clazz == "hover") {
-					$scope.chli2val = $scope.chli2val + one.value + ",";
-					$scope.req.category.push(one.id);
-				}
-			});
-			if ($scope.chli2val == "") {
-				$scope.chli2show = false;
-			} else {
-				var s = $scope.chli2val;
-				s = s.substring(0, s.length - 1);
-				$scope.chli2val = s;
-			}
-		} else {
-			if ($scope.chli2show) {
-				$scope.chli2val = $scope.chli2val + "," + p.value;
-			} else {
-				$scope.chli2val = p.value;
-			}
-			$scope.chli2show = true;
-			$scope.req.category.push(p.id);
-			p.clazz = "hover";
-		}
-		$scope.search();
-	}
-	$scope.chli2del = function() {
-		$scope.chli2show = false;
-		$scope.req.category = [];
-		angular.forEach($scope.category, function(one) {
-			one.clazz = "";
-		});
-		$scope.search();
-	}
+	//POS机类型
+    $scope.check2=function (p) {
+    	if(p.clazz=="hover"){
+    		$scope.check2show=false;
+    		$scope.chli2show=false;
+        	p.clazz="";
+        	$scope.req.category=0;
+    	}else{
+    		angular.forEach($scope.category, function (one) {
+       		 	one.clazz="";
+            });
+    		$scope.check2son=p.son;
+    		angular.forEach($scope.check2son, function (one) {
+       		 	one.clazz="";
+            });
+    		if(undefined!=$scope.check2son&&$scope.check2son.length>0){
+    			$scope.check2show=true;
+    		}else{
+    			$scope.check2show=false;
+    		}
+    		$scope.chli2val=p.value;
+    		$scope.chli2show=true;
+    		$scope.req.category=p.id;
+        	p.clazz="hover";
+    	}
+    	$scope.search();
+    }
+    $scope.check2sona=function (p) {
+    	if(p.clazz=="hover"){
+    		$scope.check2show=false;
+    		$scope.chli2show=false;
+    		p.clazz="";
+    		$scope.req.category=0;
+    	}else{
+    		angular.forEach($scope.category, function (one) {
+       		 	one.clazz="";
+            });
+    		angular.forEach($scope.check2son, function (one) {
+       		 	one.clazz="";
+            });
+    		$scope.chli2val=p.value;
+    		$scope.chli2show=true;
+    		$scope.req.category=p.id;
+    		p.clazz="hover";
+    	}
+    	$scope.search();
+    }
+    $scope.chli2del=function () {
+    	$scope.chli2show=false;
+    	$scope.req.category=0;
+    	$scope.check2show=false;
+    	angular.forEach($scope.category, function (one) {
+   		 	one.clazz="";
+        });
+    	$scope.search();
+    }
 	// 支付通道
 	$scope.check3 = function(p) {
 		if (p.clazz == "hover") {

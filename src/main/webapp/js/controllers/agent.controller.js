@@ -276,67 +276,73 @@ var modifypasswordController = function($scope, $http, LoginService) {
 
 	// 修改邮箱
 	$scope.up_email = function() {
+		if(window.confirm("您确认修改吗？")){
 
-		// email_send_btn
-		if ($scope.intMailDiff == 0) {
-			$scope.intMailDiff = 120;
-			v3 = window.setInterval(function() {
-				$('#email_send_btn').html();
-				if ($scope.intMailDiff > 0) {
-					$("#email_send_btn").attr("disabled", true);
-					$("#email_send_btn").css("cursor", "default");
-					$("#email_send_btn").css("background", "#ABABA5");
-					$("#email_send_btn").css("color", "#000");
-				} else {
-					// 移除样式
-					$("#email_send_btn").removeAttr("disabled");
-					$("#email_send_btn").css("cursor", "pointer");
-					$("#email_send_btn").css("background", "#0071cf");
-					$("#email_send_btn").css("color", "#FFF");
-				}
-				if ($scope.intMailDiff == 0) {
-					$('#email_send_btn').html("修改邮箱");
-					clearInterval(v3);
-				} else {
-					$('#email_send_btn').html("等待(" + $scope.intMailDiff + "秒)");
-					$scope.intMailDiff--;
-				}
+			// email_send_btn
+			if ($scope.intMailDiff == 0) {
+				$scope.intMailDiff = 120;
+				v3 = window.setInterval(function() {
+					$('#email_send_btn').html();
+					if ($scope.intMailDiff > 0) {
+						$("#email_send_btn").attr("disabled", true);
+						$("#email_send_btn").css("cursor", "default");
+						$("#email_send_btn").css("background", "#ABABA5");
+						$("#email_send_btn").css("color", "#000");
+					} else {
+						// 移除样式
+						$("#email_send_btn").removeAttr("disabled");
+						$("#email_send_btn").css("cursor", "pointer");
+						$("#email_send_btn").css("background", "#0071cf");
+						$("#email_send_btn").css("color", "#FFF");
+					}
+					if ($scope.intMailDiff == 0) {
+						$('#email_send_btn').html("修改邮箱");
+						clearInterval(v3);
+					} else {
+						$('#email_send_btn').html("等待(" + $scope.intMailDiff + "秒)");
+						$scope.intMailDiff--;
+					}
 
-			}, 1000);
+				}, 1000);
 
-			var email = $scope.one.email;
-			$scope.req = {
-				id : LoginService.agentid,
-				content : email,
-				q : $scope.one.company_name
-			};
-			$http.post("api/index/change_email_check", $scope.req).success(function(data) {
-				if (data != null && data != undefined) {
-				}
-			});
+				var email = $scope.one.email;
+				$scope.req = {
+					id : LoginService.agentid,
+					content : email,
+					q : $scope.one.company_name
+				};
+				$http.post("api/index/change_email_check", $scope.req).success(function(data) {
+					if (data != null && data != undefined) {
+					}
+				});
 
-			// 显示提示
-			var doc_height = $(document).height();
-			var doc_width = $(document).width();
-			var win_height = $(window).height();
-			var win_width = $(window).width();
+				// 显示提示
+				var doc_height = $(document).height();
+				var doc_width = $(document).width();
+				var win_height = $(window).height();
+				var win_width = $(window).width();
 
-			var layer_height = $("#email_send_tab").height();
-			var layer_width = $("#email_send_tab").width();
+				var layer_height = $("#email_send_tab").height();
+				var layer_width = $("#email_send_tab").width();
 
-			var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+				var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 
-			$(".mask").css({
-				display : 'block',
-				height : doc_height
-			});
-			$("#email_send_tab").css('top', (win_height - layer_height) / 2);
-			$("#email_send_tab").css('left', (win_width - layer_width) / 2);
-			$("#email_send_tab").css('display', 'block');
-		} else {
-			alert("再次点击获取发送验证码时间未到");
+				$(".mask").css({
+					display : 'block',
+					height : doc_height
+				});
+				$("#email_send_tab").css('top', (win_height - layer_height) / 2);
+				$("#email_send_tab").css('left', (win_width - layer_width) / 2);
+				$("#email_send_tab").css('display', 'block');
+			} else {
+				alert("再次点击获取发送验证码时间未到");
+				return false;
+			}
+			return true;
+		}else{
 			return false;
 		}
+
 	};
 
 	$scope.colose_email = function() {

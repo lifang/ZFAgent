@@ -15,20 +15,23 @@
 				</ul>
 			</div>
 			<div class="category_item">
+				<h4>POS机类型：</h4>
+				<a ng-show="category.length>7" class="more">更多<i></i></a>
+				<div class="category_item_con">
+					<ul>
+						<li ng-repeat="one in category"><a ng-click="check2(one)" class="{{one.clazz}}">{{one.value}}</a></li>
+					</ul>
+					<div class="sub_category_item" ng-show="check2show">
+						<a ng-click="check2sona(one)" ng-repeat="one in check2son" class="{{one.clazz}}">{{one.value}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="category_item">
 				<h4>POS机品牌：</h4>
 				<a class="more" ng-show="brands.length>7">更多<i></i></a>
 				<div class="category_item_con">
 					<ul>
 						<li ng-repeat="one in brands"><a href="javascript:void(0)" ng-click="check1(one)" class="{{one.clazz}}">{{one.value}}</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="category_item">
-				<h4>POS机类型：</h4>
-				<a class="more" ng-show="category.length>7">更多<i></i></a>
-				<div class="category_item_con">
-					<ul>
-						<li ng-repeat="one in category"><a href="javascript:void(0)" ng-click="check2(one)" class="{{one.clazz}}">{{one.value}}</a></li>
 					</ul>
 				</div>
 			</div>
@@ -136,10 +139,10 @@
 				<tr ng-repeat="one in goodList">
 					<td>
 						<div class="td_proBox clear">
-							<a href="#/shopinfo?goodId={{one.id}}" class="cn_img"><img src="{{one.url_path}}" /></a>
+							<a ng-click="gotoo('#/shopinfo?goodId=',one.id)" class="cn_img"><img src="{{one.url_path}}" /></a>
 							<div class="td_proBox_info">
 								<h1>
-									<a href="#/shopinfo?goodId={{one.id}}">{{one.Title}}</a>
+									<a ng-click="gotoo('#/shopinfo?goodId=',one.id)">{{one.Title}}</a>
 								</h1>
 								<h3>{{one.second_title}}</h3>
 							</div>
@@ -186,7 +189,7 @@
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/jQuery.autoIMG.js"></script>
 <script>
-$(function(){
-	$('.cn_img').autoIMG();
-})
+	$(function() {
+		$('.cn_img').autoIMG();
+	})
 </script>

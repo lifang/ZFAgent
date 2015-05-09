@@ -10,26 +10,7 @@ var cs_cencelController = function ($scope, $http, LoginService) {
 	}else{
 		//显示用户登录部分
 		$scope.$emit('changeshow',false);
-		//左侧样式调整
-		$("#left_common li").unbind("click").bind("click", function(){
-			$(this).children('a').addClass("hover");
-			$(this).siblings().children('a').removeClass("hover");
-			if (!$(this).hasClass("second") ){ //判断是否有子节点
-				if ( !$(this).parents().hasClass("second") ){
-					$(".second").children('ol').children('li').children('a').removeClass("hover");
-				}
-			}
-	   });
-		
-		/*------用户后台导航菜单--------*/
-		$("li.second > a").click(function(){
-			$(this).parent().find("ol").toggle();
-			if(!$(this).parent().find("ol").is(":visible")){
-				$(this).find("i").removeClass("on").addClass("off");
-			}else{
-				$(this).find("i").removeClass("off").addClass("on");
-			}
-		});
+	
 	}
 	//搜索
 	$scope.submitSearch = function(){
@@ -109,27 +90,38 @@ var cs_cencelController = function ($scope, $http, LoginService) {
     };
     //取消
     $scope.cancelApply = function(o){
-    	$scope.req={id:o.id};
-		$http.post("api/cs/cancels/cancelApply", $scope.req).success(function (data) {  //绑定
-            if (data != null && data != undefined) {
-            	$scope.orderlist();
+    	if(window.confirm('你确定要取消吗？')){
+    		$scope.req={id:o.id};
+    		$http.post("api/cs/cancels/cancelApply", $scope.req).success(function (data) {  //绑定
+    			if (data != null && data != undefined) {
+    				$scope.orderlist();
 //                $scope.list = data.message;
-            }
-        }).error(function (data) {
-            $("#serverErrorModal").modal({show: true});
-        });
+    			}
+    		}).error(function (data) {
+    			$("#serverErrorModal").modal({show: true});
+    		});
+            return true;
+         }else{
+            return false;
+        }
 	};
 	//重新提交
 	$scope.resubmitCancel = function(o){
-		$scope.req={id:o.id};
-		$http.post("api/cs/cancels/resubmitCancel", $scope.req).success(function (data) {  //绑定
-			if (data != null && data != undefined) {
-				$scope.orderlist();
+		if(window.confirm('你确定要取消吗？')){
+			$scope.req={id:o.id};
+			$http.post("api/cs/cancels/resubmitCancel", $scope.req).success(function (data) {  //绑定
+				if (data != null && data != undefined) {
+					$scope.orderlist();
 //                $scope.list = data.message;
-			}
-		}).error(function (data) {
-			$("#serverErrorModal").modal({show: true});
-		});
+				}
+			}).error(function (data) {
+				$("#serverErrorModal").modal({show: true});
+			});
+    		
+            return true;
+         }else{
+            return false;
+        }
 	};
 	
 	// 上一页

@@ -149,6 +149,9 @@
 .category_item_con a:hover { color: #ff5f2b; text-decoration: underline;}
 .category_item_con a.hover { border: 1px #ff5f2b solid; color: #ff5f2b;}
 
+.sub_category_item { background: #f5f5f5; padding: 5px 10px; margin-top: 5px;}
+.sub_category_item a { padding: 2px 5px; display: inline-block; margin: 5px;}
+
 /*-----排序方式sortbar-----*/
 .sortbar { border: 1px #CCCCCC solid; margin: 10px 0; background:#f5f5f5;}
 .sortbar_ul { display: block; float: left; height: 36px; border-right: 1px #CCCCCC solid;}

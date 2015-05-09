@@ -195,6 +195,8 @@ var addressController = function ($scope, $http, LoginService) {
 				if (data.code == 1) {
 					alert("保存成功");
 					$scope.init();
+				} else if (data.code == 2) {
+					alert(data.message);
 				} else {
 					alert("请填写正确的数据");
 				}

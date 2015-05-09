@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.service.AgentService;
 import com.comdosoft.financial.user.service.CustomerAddressService;
 
 @RestController
@@ -19,7 +22,8 @@ import com.comdosoft.financial.user.service.CustomerAddressService;
 public class CustomerAddressController {
 	@Autowired
 	private CustomerAddressService customerAddressService;
-
+	@Resource
+	private AgentService agentService;
 	/**
 	 * 查询代理商收获地址
 	 * 
@@ -66,8 +70,15 @@ public class CustomerAddressController {
 	 */
 	@RequestMapping(value = "insert", method = RequestMethod.POST)
 	public Response add(@RequestBody Map<Object, Object> param) {
-		Response sysResponse = null;
+		Response sysResponse = new Response();
 		try {
+			int i = agentService.countAddress(param);
+        	if(i>9){
+        		sysResponse.setCode(2);
+        		sysResponse.setMessage("最多可以创建10个收货地址");
+        		sysResponse.setResult("");
+        		return sysResponse;
+        	}
 			customerAddressService.insertAddress(param);
 			sysResponse = Response.getSuccess();
 		} catch (Exception e) {

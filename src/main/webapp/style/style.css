@@ -346,7 +346,13 @@ i.no1 {
 	border-radius: 8px;
 	padding: 10px;
 }
-.content_hotPro h2 { margin-bottom: 15px; font-size: 14px; line-height:28px;}
+.content_hotPro h2 { 
+	margin-bottom: 15px; 
+	font-size: 14px;
+	height: 42px;
+	overflow: hidden;
+	width: 142px;
+}
 .content_hotPro li img { width:130px; height:130px; float: left; margin-right: 20px;}
 .content_hotPro li strong { font-size: 16px;}
 .content_hotPro li a { 

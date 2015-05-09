@@ -1,5 +1,49 @@
 <div class="right" ng-controller="myappController">
                 <div class="content clear">
+                <div class="partner_banner">
+                    	<ul class="pb_slider">
+                            <li><img src="images/banner01.jpg"/></li>
+                            <li><img src="images/banner02.jpg"/></li>
+                        </ul>
+                        <ul class="pb_num">
+                            <li class="on">1</li>
+                            <li>2</li>
+                        </ul>
+                    </div>
+                    
+<script language="javascript" >
+$(function(){
+var len = $(".pb_num > li").length;
+var index = 0;
+var MyTime = setInterval(function(){
+   showImg(index)
+   index++;
+   if(index==len){index=0;}
+} , 3000);
+
+$(".pb_num li").mouseover(function(){
+   index =   $(".pb_num li").index(this);
+   showImg(index);
+});
+ 
+$('.partner_banner').hover(function(){
+     if(MyTime){
+     clearInterval(MyTime);
+     }
+},function(){
+     MyTime = setInterval(function(){
+       showImg(index)
+     index++;
+     if(index==len){index=0;}
+     } , 4000);
+});
+
+})
+function showImg(i){
+   $(".pb_slider").stop(true,false).animate({top : -230*i},800);
+   $(".pb_num li").eq(i).addClass("on").siblings().removeClass("on");
+}
+</script>
                 	<div class="user_deal">
                     	<div class="cu_title">7日交易动态<span>单位：元</span></div>
                         <div class="deal_text" ng-show="trade.num>1">交易金额：<strong>{{trade.sum/100  |currency : "￥"}}</strong>&nbsp;&nbsp;交易笔数：<strong>{{trade.num}}</strong> 次</div>
@@ -41,7 +85,7 @@
                         <ul>
                         	<li ng-repeat="p in pos_list ">
                             <img src="{{p.good_logo}}" />
-                                <h2>{{p.title}}</h2>
+                                <h2 title="{{p.title}}">{{p.title}}</h2>
                                 <strong>{{p.retail_price/100 |currency : "￥"}}</strong>
                                  <a  	href="#/shopinfo?goodId={{p.id}}"  target="_blank">查看详情</a>
                             </li>

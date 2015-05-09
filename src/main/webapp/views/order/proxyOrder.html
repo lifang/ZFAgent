@@ -1,5 +1,6 @@
 <div class="right"  ng-controller="proxyOrderController">
                 <div class="content clear">
+                	 <div class="content_inner">
                     <div class="user_title">
                     	<h1>采购订单列表</h1>
                         <div class="userTopBtnBox">
@@ -132,18 +133,19 @@
                         </table>
                     </div>
                     
-                       <div class="pageTurn">
-						<div class="p_num"  >
-							<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="prev()" ng-if="indexPage != 1">&lt;&lt;</a>
-							<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="indexPage=1;submitPage()" ng-if=" ">1</a>
-							<a ng-class="{true:'current'}[indexPage==currentPage]" ng-repeat="currentPage in pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a>
-							<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="next()">&gt;&gt;</a>
-						<div class="p_skip">
-							<span>共&nbsp;{{totalPage}}&nbsp;页</span>
-							<span>到第&nbsp;&nbsp;<input type="text" ng-model="gotoPage" >&nbsp;&nbsp;页</span>
-							<button ng-click="getPage()">确定</button>
-						</div>
-						</div>
-					</div>
+                   	<div class="pageTurn">
+			<div class="p_num" ng-show="totalPage >1">
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="indexPage=1;submitPage()">首页</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="prev()">上一页</a>
+				<a ng-class="{true:'current'}[indexPage==currentPage]" ng-repeat="currentPage in pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="next()">下一页</a>
+				<a ng-class="{true:'disabled'} " href="javascript:void(0)" ng-click="indexPage=totalPage;submitPage()">末页</a>
+			<div class="p_skip">
+				<span>共&nbsp;{{totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="gotoPage">&nbsp;页</span>
+				<button ng-click="getPage()">确定</button>
+			</div>
+			</div>
+		</div>
+            	</div>
             	</div>
 </div>

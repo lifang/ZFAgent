@@ -253,6 +253,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
             	 if(data.code == 1){
                 	 $scope.list = data.result;
                      calcSystemPage($scope, data.result.total);// 计算分页
+              
 	          	}else {
 	          		window.location.href = '#/';
 	          	}

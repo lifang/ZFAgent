@@ -1,6 +1,7 @@
 <script type="text/javascript" src="js/controllers/myMessage/message.js"></script>
 <div class="right" ng-controller="messageController">
     <div class="content clear">
+           	 <div class="content_inner">
         <div class="user_title">
         	<h1>消息列表</h1>
         </div>
@@ -13,7 +14,7 @@
                 <a href="javascript:void(0);" ng-click="read()" ng-show="req.q=='2'">查看所有</a>
                 <a href="javascript:void(0);" ng-click="delall()">清空所有</a>
             </div>
-            <div class="mail_list" ng-repeat="one in list">
+            <div class="mail_list" ng-repeat="one in list" on-finish-table-filters>
 				<span><input ng-model="one.checked" type="checkbox" ng-click="checkOne(one)" /></span>
 				<div class="mail_text">
 					<a href="#/messageinfo?id={{one.id}}" class="{{one.status?'':'unread'}}" target="_blank">{{one.title}}</a>
@@ -40,5 +41,6 @@
 				</div>
 			</div>                     
         </div>        
+	</div>
 	</div>
 </div>

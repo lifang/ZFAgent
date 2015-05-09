@@ -8,10 +8,18 @@
 		<form name="addAccountForm" ng-submit="accountAdd()" >
 			<div class="myInfoBox clear">
 				<ul>
-					<li><label>姓名：</label><input id="name" type="text" ng-model="customer.name" placeholder="10个中文字符或20个英文字符"/></li>
-					<li><label>登录ID：</label><input id="username" type="text" ng-model="customer.username"  placeholder="40个字符或20个汉字"/></li>
-					<li><label>密码：</label><input id="password" type="password" ng-model="customer.password"  placeholder="密码在6个字符到20个字符之间"/></li>
-					<li><label>确认密码：</label><input id="confirmpwd" type="password" ng-model="customer.comfirmpwd"  placeholder="密码在6个字符到20个字符之间"/></li>
+					<li><label>姓名：</label><input id="name" type="text" ng-model="customer.name"/>
+						<p class="placeholder">10个中文字符或20个英文字符</p>
+					</li>
+					<li><label>登录ID：</label><input id="username" type="text" ng-model="customer.username"/>
+						<p class="placeholder">40个字符或20个汉字</p>
+					</li>
+					<li><label>密码：</label><input id="password" type="password" ng-model="customer.password"/>
+						<p class="placeholder">密码在6个字符到20个字符之间</p>
+					</li>
+					<li><label>确认密码：</label><input id="confirmpwd" type="password" ng-model="customer.comfirmpwd"/>
+						<p class="placeholder">密码在6个字符到20个字符之间</p>
+					</li>
 					<li><label>权限：</label>
 						<div class="authority_con">
 							<span class="checkboxRadio_span"><input name="checkboxs" type="checkbox" value="1" />批购</span>

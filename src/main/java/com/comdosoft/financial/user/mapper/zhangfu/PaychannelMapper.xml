@@ -51,7 +51,7 @@
      </select>
     
     <select id="getPcinfo" resultType="Map">
-		SELECT pc.id,pc.name,pc.opening_cost,pc.support_cancel_flag,factory_id,
+		SELECT pc.id,pc.name,pc.opening_cost,pc.support_cancel_flag,factory_id,pc.opening_datum,
                pc.opening_requirement,pc.opening_datum,pc.opening_protocol,pc.support_type
  		from pay_channels pc 
  		where pc.id=#{pcid}

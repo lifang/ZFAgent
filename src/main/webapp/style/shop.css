@@ -437,6 +437,19 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 .pro_attributes table td p {text-align: left; line-height: 24px;}
 .pro_attributes .text { line-height: 24px;}
 
+.pro_attributes .text textarea { 
+	width: 878px;
+	height: 600px;
+	line-height: 24px; 
+	margin-bottom: 10px;
+	border: none;
+	outline: none;
+	resize: none;
+	background: none;
+	overflow-y: auto;
+	font-family: "\5b8b\4f53";
+}
+
 /*-----评价------*/
 .pro_evaluate { overflow: hidden;}
 .evaluate_title { 

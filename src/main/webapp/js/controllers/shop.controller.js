@@ -1051,7 +1051,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 	};
 
 	$scope.addad = function() {
-		if ($scope.ad.receiver == undefined || $scope.ad.receiver.trim() == "") {
+		if ($scope.ad.receiver == undefined ||$.trim( $scope.ad.receiver) == "") {
 			alert("请输入收件人!");
 			return;
 		}
@@ -1059,11 +1059,11 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			alert("请选择城市!");
 			return;
 		}
-		if ($scope.ad.address == undefined || $scope.ad.address.trim() == "") {
+		if ($scope.ad.address == undefined || $.trim($scope.ad.address) == "") {
 			alert("请输入地址!");
 			return;
 		}
-		if ($scope.ad.zipCode == undefined || $scope.ad.zipCode.trim() == "") {
+		if ($scope.ad.zipCode == undefined || $.trim($scope.ad.zipCode) == "") {
 			//alert("请输入邮编!");
 			//return;
 		} else {
@@ -1073,7 +1073,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 				return;
 			}
 		}
-		if ($scope.ad.moblephone == undefined || $scope.ad.moblephone.trim() == "") {
+		if ($scope.ad.moblephone == undefined ||$.trim($scope.ad.moblephone) == "") {
 			alert("请输入手机号码!");
 			return;
 		} else {
@@ -1130,7 +1130,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			alert("请选择城市");
 			return;
 		}
-		if ($scope.user.username == undefined || $scope.user.username.trim() == "") {
+		if ($scope.user.username == undefined || $.trim($scope.user.username) == "") {
 			alert("请输入手机或邮箱");
 			return;
 		} else {

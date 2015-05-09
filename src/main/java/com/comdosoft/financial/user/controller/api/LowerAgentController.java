@@ -437,10 +437,10 @@ public class LowerAgentController {
 	public Response uploadImg(@PathVariable("agentsId") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
 		try {
     		String joinpath="";
-    		int temp=updatefile.getName().lastIndexOf(".");
-    		String houzuiStr=updatefile.getName().substring(temp);
+    		int temp=updatefile.getOriginalFilename().lastIndexOf(".");
+    		String houzuiStr=updatefile.getName().substring(temp+1);
     		
-    		if(!CommUtils.typeIsCommit(houzuiStr)){
+    		if(!commentService.typeIsCommit(houzuiStr)){
     			return Response.getError("您所上传的文件格式不正确");
     		}
     		

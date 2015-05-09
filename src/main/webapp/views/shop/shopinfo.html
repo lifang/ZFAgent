@@ -221,20 +221,15 @@
 
 					<div>
 						<div class="pro_attributes">
-							<div class="text">{{paychannel.opening_requirement}}</div>
+							<div class="text">
+							<textarea readonly="readonly" name="" cols="" rows="">{{paychannel.opening_requirement}}</textarea>
+							</div>
 						</div>
 					</div>
 					<div>
 						<div class="pro_attributes">
-							<h2 ng-show="paychannel.requireMaterial_pra.length>0">对个人开通</h2>
 							<div class="text">
-								<span ng-repeat="one in paychannel.requireMaterial_pra">{{one.name}}({{one.introduction}})；<br /></span>
-							</div>
-						</div>
-						<div class="pro_attributes">
-							<h2 ng-show="paychannel.requireMaterial_pub.length>0">对公开通</h2>
-							<div class="text">
-								<span ng-repeat="one in paychannel.requireMaterial_pub">{{one.name}}({{one.introduction}})；<br /></span>
+							<textarea readonly="readonly" name="" cols="" rows="">{{paychannel.opening_datum}}</textarea>
 							</div>
 						</div>
 					</div>

@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,9 @@ public class CommentService {
 
     @Autowired
     private CommentMapper commentMapper;
+    
+    @Value("${pictureHZList}")
+	private String pictureHZList;
     
     
 
@@ -76,6 +80,11 @@ public class CommentService {
     	// 保存上传的实体文件
         String fileNamePath = SysUtils.getUploadFileName(request, img, uploadFilePath);
         return fileNamePath;
+    }
+    
+    //校验上传图片格式是否满足
+    public Boolean typeIsCommit(String houzuiStr){
+    	return pictureHZList.contains(houzuiStr);
     }
 
 

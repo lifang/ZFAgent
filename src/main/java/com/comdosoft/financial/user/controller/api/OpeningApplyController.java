@@ -476,6 +476,12 @@ public class OpeningApplyController {
     @RequestMapping(value = "upload/tempOpenImg/{id}", method = RequestMethod.POST)
     public Response tempOpenImg(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
+        	
+        	int temp=updatefile.getOriginalFilename().lastIndexOf(".");
+  			String houzuiStr=updatefile.getOriginalFilename().substring(temp+1);
+          if(!commentService.typeIsCommit(houzuiStr)){
+  			return Response.getError("您所上传的文件格式不正确");
+  			}
         	String joinpath="";
         	joinpath = HttpFile.upload(updatefile, userTerminal+id+"/opengImg/");
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))

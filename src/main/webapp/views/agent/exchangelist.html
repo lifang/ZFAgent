@@ -6,11 +6,10 @@
 		</ul>
 	</div>
 	<div class="content clear">
+	<div class="content_inner">
 		<div class="user_title">
 			<h1>调货列表</h1>
-			<div class="userTopBtnBox">
-				<a href="#/addexchange" class="ghostBtn">调货</a>
-			</div>
+			
 		</div>
 		<div class="seenBox clear">
 			<ul>
@@ -24,6 +23,9 @@
 				</li>
 				<li><button ng-click="search()" class="ghostBtn">搜索</button></li>
 			</ul>
+			<div class="userTopBtnBox">
+				<a href="#/addexchange" class="ghostBtn">调货</a>
+			</div>
 		</div>
 		<div class="uesr_table">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
@@ -42,7 +44,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="one in exchangeList">
+					<tr ng-repeat="one in exchangeList"  on-finish-table-filters>
 						<td>{{one.fromname}} &gt; {{one.toname}}</td>
 						<td>{{one.created_at}}</td>
 						<td>{{one.quantity}}</td>
@@ -64,6 +66,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 <script type="text/javascript">
 	$(function() {

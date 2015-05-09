@@ -1,58 +1,60 @@
 <div ng-controller="exchangeaddController">
-<div class="right" >
-	<div class="breadcrumb">
-		<ul>
-			<li><a href="#/lowerAgent">管理下级代理商</a></li>
-			<li><a href="#/exchange">管理调货</a></li>
-			<li><a href="javascript:void(0);">调货</a></li>
-		</ul>
-	</div>
-	<div class="content clear">
-		<div class="user_title">
-			<h1>调货</h1>
+	<div class="right">
+		<div class="breadcrumb">
+			<ul>
+				<li><a href="#/lowerAgent">管理下级代理商</a></li>
+				<li><a href="#/exchange">管理调货</a></li>
+				<li><a href="javascript:void(0);">调货</a></li>
+			</ul>
 		</div>
-		<div class="attributes_box">
-			<div class="item_list clear">
-				<ul>
+		<div class="content clear">
+			<div class="content_inner">
+				<div class="user_title">
+					<h1>调货</h1>
+				</div>
+				<div class="attributes_box">
+					<div class="item_list clear">
+						<ul>
 
-					<li class="block"><span class="labelSpan">填写终端号：</span>
-						<div class="text">
-							<textarea ng-model="req.serialNum"></textarea>
-						</div></li>
-					<li class="block"><span class="labelSpan" >指定下级代理商：</span>
-						<div class="text">
-							<p>从</p>
-							<div class="allocationCargo">
-								<div class="su_search">
-									<input ng-model="keys1" type="text" />
-									<button ng-click="sonlist(1)">搜索</button>
-								</div>
-								<div class="ac_area" id="test1">
-									<a href="javascript:void(0);"  ng-repeat="one in son1" on-finish-render2-filters ng-click="checkson1(one.id)">{{one.company_name}}</a>
-								</div>
-							</div>
-							<p>到</p>
-							<div class="allocationCargo">
-								<div class="su_search">
-									<input ng-model="keys2" type="text" />
-									<button ng-click="sonlist(2)">搜索</button>
-								</div>
-								<div class="ac_area" id="test2">
-									<a href="javascript:void(0);"  ng-repeat="one in son2" on-finish-render3-filters  ng-click="checkson2(one.id)">{{one.company_name}}</a>
-								</div>
-							</div>
-						</div></li>
+							<li class="block"><span class="labelSpan">填写终端号：</span>
+								<div class="text">
+									<textarea ng-model="req.serialNum"></textarea>
+								</div></li>
+							<li class="block"><span class="labelSpan">指定下级代理商：</span>
+								<div class="text">
+									<p>从</p>
+									<div class="allocationCargo">
+										<div class="su_search">
+											<input ng-model="keys1" type="text" />
+											<button ng-click="sonlist(1)">搜索</button>
+										</div>
+										<div class="ac_area" id="test1">
+											<a href="javascript:void(0);" ng-repeat="one in son1" on-finish-render2-filters ng-click="checkson1(one.id)">{{one.company_name}}</a>
+										</div>
+									</div>
+									<p>到</p>
+									<div class="allocationCargo">
+										<div class="su_search">
+											<input ng-model="keys2" type="text" />
+											<button ng-click="sonlist(2)">搜索</button>
+										</div>
+										<div class="ac_area" id="test2">
+											<a href="javascript:void(0);" ng-repeat="one in son2" on-finish-render3-filters ng-click="checkson2(one.id)">{{one.company_name}}</a>
+										</div>
+									</div>
+								</div></li>
 
-				</ul>
+						</ul>
+					</div>
+
+				</div>
+				<div class="btnBottom">
+					<button class="blueBtn" ng-click="check()">确认调货</button>
+				</div>
 			</div>
-
-		</div>
-		<div class="btnBottom">
-			<button class="blueBtn" ng-click="check()">确认调货</button>
 		</div>
 	</div>
-</div>
-<div class="tab rename_tab">
+	<div class="tab rename_tab">
 		<a href="javascript:void(0);" ng-click="close()" class="close">关闭</a>
 		<div class="tabHead">错误终端</div>
 		<div class="tabBody">

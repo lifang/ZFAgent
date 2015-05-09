@@ -205,5 +205,18 @@ indexModule.directive('onFinishRender3Filters', function ($timeout) {
     };
 });
 
-
+indexModule.directive('onFinishTableFilters', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function() {
+                	$(".b_table tr:odd").css("background-color","#f1f1f1");	
+                	$(".data_list tr:odd").attr("bgcolor","#f1f1f1");
+                	$(".uesr_table table tbody:odd").css("background-color","#f6f6f6");	
+                });
+            }
+        }
+    };
+});
 indexModule.controller("indexController", indexController);

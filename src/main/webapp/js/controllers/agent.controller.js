@@ -65,10 +65,13 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	$scope.query = function() {
 		var id = LoginService.agentid;
 		$scope.intDiff = 0;
+		$scope.intTwoDiff = 0;
 		$scope.intMailDiff = 0;
 		$http.post("api/agents/query/" + id).success(function(data) {
 			if (data.result != null) {
 				$scope.one = data.result;
+				var s_phone = data.result.sphone;
+				$scope.one.s_phone =s_phone;
 				// alert($scope.one.business_license);
 			}
 		});
@@ -119,22 +122,30 @@ var modifypasswordController = function($scope, $http, LoginService) {
 	// 根据手机号发送验证码
 	$scope.sendPhoneCode = function() {
 		var sMobile = $scope.i_phone_new;
-		if ($scope.intDiff == 0) {
-			$scope.getPhoneCode(sMobile);
-			$scope.intDiff = 120;
-			clearInterval(v2);
-			v2 = window.setInterval(function() {
-				$('#show_phone_input_my_o_btn').html();
-				if ($scope.intDiff == 0) {
-					$('#show_phone_input_my_o_btn').html("发送验证码");
-					clearInterval(v2);
-				} else {
-					$('#show_phone_input_my_o_btn').html("重新发送验证码（" + $scope.intDiff + "秒）");
-					$scope.intDiff--;
-				}
-			}, 1000);
+		if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))) {
+			alert("不是完整的11位手机号或者正确的手机号前七位");
+			$("#i_phone_new").focus();
+			return false;
 		} else {
-			alert("再次点击获取发送验证码时间未到");
+		 
+			if ($scope.intTwoDiff == 0) {
+				$scope.getPhoneCode(sMobile);
+				$scope.intTwoDiff = 120;
+				clearInterval(v2);
+				v2 = window.setInterval(function() {
+					$('#show_phone_input_my_o_btn').html();
+					if ($scope.intTwoDiff == 0) {
+						$('#show_phone_input_my_o_btn').html("发送验证码");
+						clearInterval(v2);
+					} else {
+						$('#show_phone_input_my_o_btn').html("重新发送（" + $scope.intTwoDiff + "秒）");
+						$scope.intTwoDiff--;
+					}
+					console.log(">>>>>>>"+$scope.intTwoDiff);
+				}, 1000);
+			} else{
+				alert("再次点击获取发送验证码时间未到");
+			}
 		}
 	};
 
@@ -155,12 +166,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 		var p_code = $scope.phone_code;
 		var i_code = $scope.phone_code_i_o;// 输入的验证码
 		if (p_code == i_code) {
-			var sMobile = $scope.i_phone_new;
-			if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))) {
-				alert("不是完整的11位手机号或者正确的手机号前七位");
-				$("#i_phone_new").focus();
-				return false;
-			} else {
+			
 				$("#show_phone_input_my_o").css('display', 'none');
 				$(".mask").css('display', 'none');
 
@@ -197,7 +203,7 @@ var modifypasswordController = function($scope, $http, LoginService) {
 						$scope.intDiff--;
 					}
 				}, 1000);
-			}
+		 
 		} else {
 			alert("验证码错误");
 		}
@@ -205,27 +211,29 @@ var modifypasswordController = function($scope, $http, LoginService) {
 
 	// 确认验证码，更新手机号
 	$scope.change_phone_btn = function() {
-		var p_code = $scope.phone_code;
-		var i_code = $scope.i_phone_code;// 输入的验证码
-		if (p_code == i_code) {
-			var sMobile = $scope.i_phone_new;
-			// id暂定15
-			$scope.req = {
-				phone : sMobile,
-				id : LoginService.agentid
-			};
-			$http.post("api/agents/updatePhoneNumber", $scope.req).success(function(data) {
-				if (data != null && data != undefined) {
-					// 重新刷新
-					$("#show_phone_input_my_t").css('display', 'none');
-					$(".mask").css('display', 'none');
-					$scope.query();
-					alert("修改成功");
-				}
-			});
-		} else {
-			alert("验证码错误");
-		}
+		
+			var p_code = $scope.phone_code;
+			var i_code = $scope.i_phone_code;// 输入的验证码
+			if (p_code == i_code) {
+				var sMobile = $scope.i_phone_new;
+				// id暂定15
+				$scope.req = {
+					phone : sMobile,
+					id : LoginService.agentid
+				};
+				$http.post("api/agents/updatePhoneNumber", $scope.req).success(function(data) {
+					if (data != null && data != undefined) {
+						// 重新刷新
+						$("#show_phone_input_my_t").css('display', 'none');
+						$(".mask").css('display', 'none');
+						$scope.query();
+						alert("修改成功");
+					}
+				});
+			} else {
+				alert("验证码错误");
+			}
+		
 	};
 
 	// 第一次发送验证码 //

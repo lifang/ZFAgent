@@ -6,39 +6,32 @@
 			<div class="modification">
 				<p>我们向您原登记的手机发送了短信验证码，请输入您收到的验证码与需要更换的新手机号码。如原登记手机己无法收取短信，可通过拨打客服热线400-009-0876进行变更手机号码的操作</p>
 				<ul>
-					<li><input name="phone_code_i_o" type="text"
-						ng-model="phone_code_i_o" placeholder="验证码" maxlength="6"
-						title="请输入验证码" /><a href="javascript:void(0)"
-						ng-click="send_code_one(2)" id="send_code_one"></a></li>
-					<li><input name="i_phone_new" id="i_phone_new"
-						ng-model="i_phone_new" placeholder="新手机号" type="text"
-						maxlength="11" value="新手机号码" title="请输入新手机号" /></li>
+					<li>原手机号码</li>
+		        	<li><input type="text" ng-model="one.s_phone"  disabled="disabled" /> <a href="javascript:void(0)" ng-click="send_code_one(2)" id="send_code_one"></a></li>
+					<li>验证码</li>
+					<li><input name="phone_code_i_o" type="text" 	ng-model="phone_code_i_o" placeholder="验证码" maxlength="6"	title="请输入验证码" /> </li>
 				</ul>
 			</div>
 		</div>
 		<div class="tabFoot">
-			<button class="blueBtn" id="show_phone_input_btn"
-				ng-click="yz_phone_code()">下一步</button>
+			<button class="blueBtn" id="show_phone_input_btn" 	ng-click="yz_phone_code()">下一步</button>
 		</div>
 	</div>
 
 	<div class="tab" id="show_phone_input_my_t">
-		<a href="javascript:void(0);" class="close"
-			ng-click="close_show_two()">关闭</a>
+		<a href="javascript:void(0);" class="close"	ng-click="close_show_two()">关闭</a>
 		<div class="tabBody">
 			<div class="modification">
-				<p>我们已向您的新手机号码发送了短信验证码，请输入收到的验证码，完成最后一步操作。</p>
 				<ul>
-					<li><input name="i_phone_code" type="text"
-						ng-model="i_phone_code" placeholder="验证码" maxlength="6" /><a
-						href="javascript:void(0)" id="show_phone_input_my_o_btn"
-						ng-click="sendPhoneCode()"> </a></li>
+				    <li>新手机号码</li>
+				    <li><input name="i_phone_new" id="i_phone_new" ng-model="i_phone_new" placeholder="新手机号" type="text" maxlength="11"  value="新手机号码"  title="请输入新手机号" /><a href="javascript:void(0)" id="show_phone_input_my_o_btn"	 ng-click="sendPhoneCode()"> </a></li>
+			        <li>验证码</li>
+					<li><input name="i_phone_code" type="text" ng-model="i_phone_code" placeholder="验证码" maxlength="6" /></li>
 				</ul>
 			</div>
 		</div>
 		<div class="tabFoot">
-			<button class="blueBtn" id="show_phone_two"
-				ng-click="change_phone_btn()">确定</button>
+			<button class="blueBtn" id="show_phone_two" ng-click="change_phone_btn()">确定</button>
 		</div>
 	</div>
 	<div class="tab" id="email_send_tab">
@@ -73,13 +66,9 @@
 			<ul>
 				<li><label>负责人姓名：</label><input type="text" disabled="true"
 					ng-model="one.name" /></li>
-				<li ng-if="one.types == 1"><label>公司名称：</label><input
-					type="text" ng-model="one.company_name" disabled="true" /></li>
-				<li ng-if="one.types == 1"><label>公司营业执照登记号：</label><input
-					name="" type="text" ng-model="one.business_license" disabled="true" /></li>
-				<li><label>电话：</label><input type="text" ng-model="one.phone"
-					disabled="disabled" /><a href="javascript:void(0)"
-					id="show_phone_input_my_btn" ng-click="send_code_one(1)">修改手机号</a></li>
+				<li ng-if="one.types == 1"><label>公司名称：</label><input		type="text" ng-model="one.company_name" disabled="true" /></li>
+				<li ng-if="one.types == 1"><label>公司营业执照登记号：</label><input	name="" type="text" ng-model="one.business_license" disabled="true" /></li>
+				<li><label>电话：</label><input type="text" ng-model="one.s_phone"	disabled="disabled" /><a href="javascript:void(0)"	id="show_phone_input_my_btn" ng-click="send_code_one(1)">修改手机号</a></li>
 				<li><label>邮箱：</label><input type="text" ng-model="one.email" disabled="disabled" />
 				<button id="email_send_btn" ng-click="up_email()">修改邮箱</button></li>
 				<li><label>所在地：<input name="" type="text" ng-model="one.address" disabled="true" /></label>

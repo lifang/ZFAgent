@@ -221,7 +221,16 @@ public class AgentService {
 	}
 
 	public Map<Object, Object> queryAgent(int id) {
-		return agentMapper.queryAgent(id);
+		Map<Object, Object>  mm = agentMapper.queryAgent(id);
+		  String sphone = mm.get("phone")+"";
+          if(sphone != ""){
+        	  int a=sphone.length()/3;
+              String s2=sphone.substring(0,a);
+              String s3=sphone.substring(sphone.length()-a,sphone.length());
+              sphone =s2+"****"+s3;
+          }
+          mm.put("sphone", sphone);
+		return mm;
 	}
 
 	public void updatePhoneNumber(Customer param) {

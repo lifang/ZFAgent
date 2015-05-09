@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.comdosoft.financial.user.domain.query.StockReq;
@@ -21,6 +22,9 @@ public class StockService {
 
     @Autowired
     private GoodMapper goodMapper;
+    
+    @Value("${filePath}")
+    private String filePath;
 
     public Map<String, Object> getList(StockReq req) {
         String code = stockMapper.getAgentCode(req.getAgentId());
@@ -38,7 +42,7 @@ public class StockService {
             for (Map<String, Object> map2 : list) {
                 List<String> goodPics = goodMapper.getgoodPics(SysUtils.Object2int(map2.get("good_id")));
                 if (null != goodPics && goodPics.size() > 0) {
-                    map2.put("picurl", goodPics.get(0));
+                    map2.put("picurl",filePath+ goodPics.get(0));
                 }
                 req.setGoodId(SysUtils.Object2int(map2.get("good_id")));
                 req.setPaychannelId(SysUtils.Object2int(map2.get("paychannel_id")));

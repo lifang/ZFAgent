@@ -39,23 +39,11 @@
                     <div class="content_hotPro">
                     	<h1>热卖商品</h1>
                         <ul>
-                        	<li>
-                            	<img src="images/c.jpg" />
-                                <h2>秦山POS旗舰版</h2>
-                                <strong>￥99999.99</strong>
-                                <a href="#">查看详情</a>
-                            </li>
-                            <li class="marginLeft10">
-                            	<img src="images/c.jpg" />
-                                <h2>秦山POS旗舰版</h2>
-                                <strong>￥99999.99</strong>
-                                <a href="#">查看详情</a>
-                            </li>
-                            <li class="marginLeft10">
-                            	<img src="images/c.jpg" />
-                                <h2>秦山POS旗舰版</h2>
-                                <strong>￥99999.99</strong>
-                                <a href="#">查看详情</a>
+                        	<li ng-repeat="p in pos_list ">
+                            <img src="{{p.good_logo}}" />
+                                <h2>{{p.title}}</h2>
+                                <strong>{{p.retail_price/100 |currency : "￥"}}</strong>
+                                 <a  	href="#/shopinfo?goodId={{p.id}}"  target="_blank">查看详情</a>
                             </li>
                         </ul>
                     </div>

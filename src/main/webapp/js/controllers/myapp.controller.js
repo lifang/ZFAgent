@@ -44,6 +44,18 @@ var myappController = function ($scope, $http,$location, LoginService) {
 		});
 	};
 	
+	// 热卖POS
+	$scope.web_pos_list = function() {
+		$scope.req = {
+			rows : 3
+		};
+		$http.post("api/index/pos_list", $scope.req).success(function(data) {
+			if (data != null && data != undefined) {
+				$scope.pos_list = data.result;
+			}
+		});
+	};
+	
 	$scope.trade_list = function(){
 		$scope.req={customerId:LoginService.agentUserId};
 		$http.post("api/trade/record/getSevenDynamic", $scope.req).success(function (data) {   
@@ -121,6 +133,7 @@ var myappController = function ($scope, $http,$location, LoginService) {
 	$scope.web_message_list();
 	$scope.trade_list();
 	$scope.web_yw_list();
+	$scope.web_pos_list(); 
 };
 
 

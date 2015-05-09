@@ -1,41 +1,35 @@
 <div class="right" ng-controller="lowerAgentlistController">
-	<div class="breadcrumb">
-		<ul>
-			<li><a href="#">管理下级代理商</a></li>
-			<li><a href="#/lowerAgent">下级代理商</a></li>
-		</ul>
-	</div>
 	<div class="content clear">
+	 <div class="content_inner">
 		<div class="user_title">
 			<h1>下级代理商列表</h1>
-			<div class="userTopBtnBox">
-				<a ng-click="showProfitTab()" class="ghostBtn defaultRatio_a">设置默认分润比例</a>
-				<a href="#/lowerAgentAdd" class="ghostBtn">创建下级代理商</a>
-			</div>
 		</div>
 		<div class="seenBox clear">
-			<ul>
-				<li><div class="user_search">
-						<input placeholder="请输入下级代理商名称" name="" ng-model="lowerAgentName" type="text" />
-						<button ng-click="searchByName()"></button>
-					</div></li>
-			</ul>
-		</div>
+	       	<ul>
+	           	<li>
+	           	<div class="user_search">
+	           	<input placeholder="请输入下级代理商名称" name="" ng-model="lowerAgentName" type="text" />
+	           	<button ng-click="searchByName()"></button></div></li>
+	        </ul>
+	        <div class="userTopBtnBox">
+	           		<a ng-click="showProfitTab()" class="ghostBtn defaultRatio_a">设置默认分润比例</a><a href="#/lowerAgentAdd" class="ghostBtn">创建下级代理商</a>
+	        </div>
+	    </div>
 		<div class="uesr_table">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
 				<colgroup>
 					<col />
 					<col width="100" />
 					<col width="100" />
-					<col width="100" />
-					<col width="100" />
-					<col width="300" />
+					<col width="120" />
+					<col width="120" />
+					<col width="200" />
 				</colgroup>
 				<thead>
 					<tr>
 						<th>下级代理商名称</th>
 						<th>进货量</th>
-						<th>开通数量</th>
+						<th>开通量</th>
 						<th>状态</th>
 						<th>分润</th>
 						<th>操作</th>
@@ -48,12 +42,12 @@
 						<td id="openNum">{{one.openNum}}</td>
 						<td id="status">{{one.statusStr}}</td>
 						<td id="isProfit">{{one.isProfitStr}}</td>
-						<td><a href="#/lowerAgentInfo?id={{one.id}}" class="a_btn">查看详情</a>&nbsp;
-						<a href="#/lowerAgentEdit?id={{one.id}}" class="a_btn">编辑</a>
+						<td><a href="#/lowerAgentInfo?id={{one.id}}" class="a_btn" target="_blank" >查看详情</a>&nbsp;
+						<a href="#/lowerAgentEdit?id={{one.id}}" class="a_btn" target="_blank">编辑</a>
 						<a href="#/lowerAgent" ng-show="one.status==5" ng-click="changeStatus(one.id,5)" class="a_btn">停用</a>
 						<a href="#/lowerAgent" ng-show="one.status==6" ng-click="changeStatus(one.id,6)" class="a_btn">启用</a><br/>
-						<a ng-click="showPwdTab(one.id)" class="a_btn resetPassword_a">密码重置</a>
-						<a href="#/lowerAgentSet?id={{one.id}}" ng-show="one.is_have_profit!=0" class="a_btn">设置分润比例</a>
+						<a ng-click="showPwdTab(one.id)" class="a_btn resetPassword_a" >密码重置</a>
+						<a href="#/lowerAgentSet?id={{one.id}}" ng-show="one.is_have_profit!=0" class="a_btn" target="_blank">设置分润比例</a>
 						</td>
 					</tr>
 				</tbody>
@@ -62,19 +56,23 @@
 		<!-- 分页 -->
 		<div class="pageTurn">
 			<div class="p_num" ng-show="req.totalPage>1">
-				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
-					ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
-					href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
+				<a href="#" class="disabled">&lt;&lt;</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> 
+				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> 
+				<a class="current" ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)" >{{currentPage}}</a>
+				 <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="next()">下一页</a> 
+				 <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
 			</div>
 			<div class="p_skip">
-				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
+				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>
+				<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
 				</span>
 				<button ng-click="getPage()">确定</button>
 			</div>
 		</div>
-		
+		</div>
 	</div>
-	
+</div>	
 	<div class="tab resetPassword_tab">
 		<a href="javascript:void(0)" class="close">关闭</a>
 		<div class="tabBody">
@@ -107,5 +105,5 @@
 	    </div>
 	    <div class="tabFoot"><button class="blueBtn" ng-click="changeDefaultProfit()">确定</button></div>
 	</div>
-</div>
+
 

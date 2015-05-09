@@ -248,9 +248,8 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
             }
         });
 	};
-	
 	$scope.selChange=function(){
-		$http.post("api/lowerAgent/getCity", $scope.proModel.id).success(function (data) {  //绑定
+		$http.post("api/lowerAgent/getCity", $scope.proModel).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.cityList=data.result.list;
             }

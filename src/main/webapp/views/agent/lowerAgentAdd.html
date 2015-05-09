@@ -1,36 +1,19 @@
 <div class="right" ng-controller="lowerAgentAddController">
-	<div class="breadcrumb">
-		<ul>
-			<li><a href="#">管理下级代理商</a></li>
-			<li><a href="#/lowerAgent">下级代理商</a></li>
-			<li><a>创建</a></li>
-		</ul>
-	</div>
 	<div class="content clear">
+		<div class="content_inner">
 		<div class="user_title">
 			<h1>创建下级代理商</h1>
-			<div class="userTopBtnBox">
-				<a href="#/lowerAgent" class="ghostBtn">返回</a>
-			</div>
 		</div>
 		<div class="attributes_box">
 			<div class="item_list clear">
 				<ul>
 					<li class="block"><span class="labelSpan">类型：</span>
-						<div class="form-group">
-						   <div class="radio" style="float:left">
-						       <label>
-						           <input type="radio" name="agentType" value="2" ng-model="agentType" ng-click="radioCheck(2)">
-						          	 个人
-						       </label>
-						   </div>
-						   <div class="radio" style="float:left">
-						       <label>
-						           <input type="radio" name="agentType" value="1" ng-model="agentType" ng-click="radioCheck(1)">
-						           	公司
-						       </label>
-						   </div>
-						</div>
+						<div class="text">
+                            <span class="checkboxRadio_span">
+                            	<input type="radio" name="agentType" value="2" ng-model="agentType" ng-click="radioCheck(2)"/> 个人</span>
+                            <span class="checkboxRadio_span">
+                            	<input type="radio" name="agentType" value="1" ng-model="agentType" ng-click="radioCheck(1)"/> 公司</span>
+                         </div>
 					</li>
 					<li class="block"><span class="labelSpan">负责人姓名：</span>
 						<div class="text">
@@ -62,16 +45,15 @@
 							<input type="text" id="emailStr" ng-model="emailStr"/>
 						</div>
 					</li>
-					<li class="block"><span class="labelSpan">所在地：</span>
+					<li class="block select2"><span class="labelSpan">所在地：</span>
 						<div class="text">
-							<select ng-model="proModel" ng-options="o.name for o in provinceList"
+							<select ng-model="proModel" ng-options="o.id as o.name for o in provinceList"
 							 ng-change="selChange(proModel)" style="width: 120px;">
 								<option value="">-- 请选择 --</option>
 							</select>
-							<select ng-model="cityModel" ng-options="o.name for o in cityList" style="width: 120px;">
+							<select ng-model="cityModel" ng-options="o.id as o.name for o in cityList" style="width: 120px;">
 								<option value="">-- 请选择 --</option>
 							</select>
-							
 							<input type="text" style="color: darkgrey;" id="addDetail" ng-model="addDetail" onfocus="clearDefault()" onblur="shwoDefault()" />
 						</div>
 					</li>
@@ -113,5 +95,6 @@
 		<div class="btnBottom">
 			<button class="blueBtn" ng-click="createNew()">创建</button>
 		</div>
+	</div>
 	</div>
 </div>

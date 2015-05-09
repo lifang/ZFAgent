@@ -5,96 +5,99 @@
 			<li><a href="javascript:void(0)">{{req.typeName}}</a></li>
 		</ul>
 	</div>
-	
+
 	<div class="content clear">
-		<div class="dealNav">
-			<a href="javascript:void(0);" class="dn_prev">上一页</a>
-			<div class="dealNavBox">
-				<ul class="li_show">
-					<li ng-repeat="one in tradeType"><a href="javascript:void(0);" ng-click="changeType(one)" class="{{one.id==req.tradeTypeId?'hover':''}}">{{one.value}}</a></li>
-				</ul>
+		<div class="content_inner">
+			<div class="dealNav">
+				<a  class="dn_prev">上一页</a>
+				<div class="dealNavBox">
+					<ul class="li_show">
+						<li ng-repeat="one in tradeType"><a href="javascript:void(0);" ng-click="changeType(one)" class="{{one.id==req.tradeTypeId?'hover':''}}">{{one.value}}</a></li>
+					</ul>
+				</div>
+				<a  class="dn_next">下一页</a>
 			</div>
-			<a href="javascript:void(0);" class="dn_next">下一页</a>
-		</div>
 
-		<div class="user_title">
-			<h1>{{req.typeName}}交易流水</h1>
-			<div class="userTopBtnBox">
-				<a href="#/tradestatistics" class="ghostBtn">统计</a>
+			
+			
+			
+			<div class="user_title">
+				<h1>{{req.typeName}}交易流水</h1>
 			</div>
-		</div>
 
-		<div class="seenBox clear">
-			<ul>
-				<li><div class="user_select">
-						<label>选择代理商</label> 
-						<select ng-model="req.sonagentId" ng-options="x.agentId as x.agentName for x in son"></select>
-					</div></li>
+			<div class="seenBox clear">
+				<ul>
+					<li><div class="user_select">
+							<label>选择代理商</label> <select ng-model="req.sonagentId" ng-options="x.agentId as x.agentName for x in son"></select>
+						</div></li>
 					<li><div class="user_inputText">
-						<label>输入终端号</label> <input ng-model="req.terminalNumber" type="text"/>
-					</div></li>
-				<li><div class="user_date">
-						<label>选择日期</label> <input  ng-model="req.startTime" type="text" readonly/> - <input ng-model="req.endTime" type="text" readonly/>
-					</div></li>
-				<li><button ng-click="search()" class="ghostBtn" >搜索</button></li>
-			</ul>
-		</div>
-
-
-		<div class="user_table">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
-				<colgroup>
-					<col />
-					<col />
-					<col />
-					<col />
-					<col />
-					<col />
-					<col />
-				</colgroup>
-				<thead>
-					<tr>
-						<th>交易号</th>
-						<th>交易时间</th>
-						<th>终端号</th>
-						<th>所属代理商</th>
-						<th>交易金额</th>
-						<th ng-if="req.isHaveProfit==2">产出分润</th>
-						<th ng-if="req.isHaveProfit==2">需支付分润</th>
-						<th>状态</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="one in tradeList">
-						<td><a href="#/tradeinfo?id={{one.id}}">{{one.trade_number}}</a></td>
-						<td>{{one.tradedTimeStr}}</td>
-						<td>{{one.terminalNumber}}</td>
-						<td>{{one.agent}}</td>
-						<td><strong>{{one.amount/100|currency : "￥"}}</strong></td>
-						<td ng-if="req.isHaveProfit==2"><strong>{{one.get/100|currency : "￥"}}</strong></td>
-						<td ng-if="req.isHaveProfit==2"><strong>{{one.pay/100|currency : "￥"}}</strong></td>
-						<td ><strong class="strong_status">交易完成</strong></td>
-					</tr>
-					
-					
-				</tbody>
-			</table>
-		</div>
-
-		<div class="pageTurn">
-			<div class="p_num" ng-show="req.totalPage>1">
-				<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
-					ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
-					href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
+							<label>输入终端号</label> <input ng-model="req.terminalNumber" type="text" />
+						</div></li>
+					<li><div class="user_date">
+							<label>选择日期</label> <input ng-model="req.startTime" type="text" readonly /> - <input ng-model="req.endTime" type="text" readonly />
+						</div></li>
+					<li><button ng-click="search()" class="ghostBtn">搜索</button></li>
+				</ul>
+				<div class="userTopBtnBox">
+					<a href="#/tradestatistics" class="ghostBtn">统计</a>
+				</div>
 			</div>
-			<div class="p_skip">
-				<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
-				</span>
-				<button ng-click="getPage()">确定</button>
+
+
+			<div class="user_table"  >
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table" >
+					<colgroup>
+						<col />
+						<col />
+						<col />
+						<col />
+						<col />
+						<col />
+						<col />
+					</colgroup>
+					<thead>
+						<tr>
+							<th>交易号</th>
+							<th>交易时间</th>
+							<th>终端号</th>
+							<th>所属代理商</th>
+							<th>交易金额</th>
+							<th ng-if="req.isHaveProfit==2">产出分润</th>
+							<th ng-if="req.isHaveProfit==2">需支付分润</th>
+							<th>状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="one in tradeList" on-finish-table-filters>
+							<td><a href="#/tradeinfo?id={{one.id}}">{{one.trade_number}}</a></td>
+							<td>{{one.tradedTimeStr}}</td>
+							<td>{{one.terminalNumber}}</td>
+							<td>{{one.agent}}</td>
+							<td><strong>{{one.amount/100|currency : "￥"}}</strong></td>
+							<td ng-if="req.isHaveProfit==2"><strong>{{one.get/100|currency : "￥"}}</strong></td>
+							<td ng-if="req.isHaveProfit==2"><strong>{{one.pay/100|currency : "￥"}}</strong></td>
+							<td><strong class="strong_status">交易完成</strong></td>
+						</tr>
+
+
+					</tbody>
+				</table>
+			</div>
+
+			<div class="pageTurn">
+				<div class="p_num" ng-show="req.totalPage>1">
+					<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
+						ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
+						href="javascript:void(0)" ng-click="next()">下一页</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]" href="javascript:void(0)" ng-click="req.indexPage=req.totalPage;list()">末页</a>
+				</div>
+				<div class="p_skip">
+					<span>共&nbsp;{{req.totalPage}}&nbsp;页</span>&nbsp;<span>到第&nbsp;<input type="text" ng-model="req.gotoPage">&nbsp;页
+					</span>
+					<button ng-click="getPage()">确定</button>
+				</div>
 			</div>
 		</div>
 	</div>
-
 </div>
 <script type="text/javascript">
 	$(function() {

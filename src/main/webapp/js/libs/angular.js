@@ -631,7 +631,7 @@ var trim = (function() {
     };
   }
   return function(value) {
-    return isString(value) ? value.trim() : value;
+    return isString(value) ? value : value;
   };
 })();
 

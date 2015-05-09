@@ -125,7 +125,7 @@ var exchangeaddController = function($scope, $http, LoginService) {
 			alert("请选择下级代理商!");
 			return;
 		}
-		if ($scope.req.serialNum.trim().length > 11) {
+		if ($.trim($scope.req.serialNum).length > 11) {
 			$http.post("api/exchangegood/checkTerminals", $scope.req).success(function(data) { // 绑定
 				if (data.code == 1) {
 					if (data.result.errorCount == 0) {

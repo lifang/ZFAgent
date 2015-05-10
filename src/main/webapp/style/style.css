@@ -263,7 +263,7 @@ i.no1 {
 	
 	overflow: hidden;
 }
-.main .left ul { display: block; border: 1px #dfdfdf solid; background: #f1f1f1; border-radius: 8px; height: 780px;}
+.main .left ul { display: block; border: 1px #dfdfdf solid; background: #f1f1f1; border-radius: 8px; min-height: 780px;}
 .main .right { padding-left: 10px; float: left; width: 1010px; min-height: 500px;}
 
 
@@ -410,7 +410,16 @@ td a.a_btn:hover { text-decoration: underline;}
 
 /*---表格内的产品信息---*/
 .td_proBox { width: 600px; margin: 10px 0; text-align: left; overflow: hidden;}
-.td_proBox a.cn_img { width: 130px; height: 130px; border: 1px #fff solid; font-size: 0; display: block; float: left; margin-right: 15px;}
+.td_proBox a.cn_img { 
+	width: 130px; 
+	height: 130px; 
+	border: 1px #fff solid; 
+	font-size: 0; 
+	display: block; 
+	float: left; 
+	margin-right: 15px;
+}
+.td_proBox a.cn_img img { width: 130px;}
 .td_proBox a:hover.cn_img { border: 1px #0071cf solid;}
 .td_proBox_info { float: left; width: 440px;}
 .td_proBox_info a { color: #333;}
@@ -1279,7 +1288,7 @@ i.closeDeal_icon {
 .message_con .border_t { border-top: 1px #CCCCCC solid;}
 
 .mail_list { line-height: 32px; height: 32px; border-bottom: 1px #CCCCCC solid;}
-.mail_list span { width: 50px; display: inline-block; float: left; margin-top: 9px;}
+.mail_list span { width: 25px; display: inline-block; float: left; margin-top: 9px;}
 .mail_list .mail_text {
 	width: 800px; 
 	display: inline-block;
@@ -1680,8 +1689,3 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 .ebankat_btn a:hover, .ebankat_btn button:hover { background: #ff802b;}
 .ebankat_btn button.cancel { background: #999; }
 .ebankat_btn button.cancel:hover { background: #a6a6a6;}
-
-/*--------------*/
-#suggestDiv {display:none;background:#fff;z-index:999}
-#suggestDiv ul li a{display:inline-block;width:245px;padding-left:5px;margin-left:-120px;}
-#suggestDiv ul li a:hover{color: #fff;background:#CCCCCC}

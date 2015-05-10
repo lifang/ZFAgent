@@ -1,10 +1,13 @@
 <div class="right" ng-controller="cs_updateinfoController">
 	<div class="content clear" >
+			<div class="content_inner">
 		<div class="user_title">
 			<h1>更新资料申请记录</h1>
+				<div class="seenBox clear">
 			<div class="userTopBtnBox">  
 				 <a href="javascript:void(0)" ng-click="cancelApply(info)"    ng-if="info.status==1" class="ghostBtn">取消申请</a>
 				 <a href="javascript:void(0)" ng-click="resubmitCancel(info)"   ng-if="info.status==5" class="ghostBtn">重新提交</a>
+			</div>
 			</div>
 		</div>
 		<div class="attributes_box">
@@ -46,7 +49,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="user_record" >
+	<!-- 	<div class="user_record" >
 			<h2>追踪记录</h2>
 			<div class="ur_item" ng-repeat="oc in info.comments.list">
 				<div class="ur_item_text">{{oc.marks_content}}</div>
@@ -54,6 +57,7 @@
 					{{oc.marks_person}} <em>{{oc.marks_time}}</em>
 				</div>
 			</div>
-		</div>
+		</div> -->
+	</div>
 	</div>
 </div>

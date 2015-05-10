@@ -1061,11 +1061,16 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$scope.adlist();
 	};
 	$scope.adinit = function() {
-		$scope.ad={receiver:"收件人姓名",address:"详细地址",zipCode:"邮编",moblephone:"手机号码"};
+		//$scope.ad={receiver:"收件人姓名",address:"详细地址",zipCode:"邮编",moblephone:"手机号码"};
+		$scope.ad={};
 		$scope.addadd=true;
 	}
 	$scope.addad = function() {
-		if($scope.ad.receiver=="收件人姓名"){
+		$scope.ad.receiver=$('#tt1').val();
+		$scope.ad.address=$('#tt2').val();
+		$scope.ad.zipCode=$('#tt3').val();
+		$scope.ad.moblephone=$('#tt4').val();
+		if($scope.ad.receiver=="收件人姓名"||$.trim($scope.ad.receiver)==""){
 			alert("请输入收件人!");
 			return;
 		}
@@ -1073,7 +1078,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 			alert("请选择城市!");
 			return;
 		}
-		if($scope.ad.address=="详细地址"){
+		if($scope.ad.address=="详细地址"||$.trim($scope.ad.address)==""){
 			alert("请输入地址!");
 			return;
 		}
@@ -1087,7 +1092,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 				return;
 			}
 		}
-		if($scope.ad.moblephone=="手机号码"){
+		if($scope.ad.moblephone=="手机号码"||$.trim($scope.ad.moblephone)==""){
 			alert("请输入手机号码!");
 			return;
 		}else{

@@ -142,14 +142,23 @@ public class OpeningApplyController {
 			if(re.getCode() == 1){
 				Map<Object, Object> map = new HashMap<Object, Object>();
 				// 获得终端详情
-				map.put("applyDetails",
-						openingApplyService.getApplyDetails((Integer)maps.get("terminalsId")));
+				Map<String, Object> objmap = new HashMap<String, Object>();
+				objmap = openingApplyService.getApplyDetails((Integer)maps.get("terminalsId"));
+				map.put("applyDetails",objmap);
 				// 数据回显(针对重新开通申请)
 				map.put("applyFor", openingApplyService.ReApplyFor((Integer)maps.get("terminalsId")));
 				// 材料名称
-				map.put("materialName",
-						openingApplyService.getMaterialName((Integer)maps.get("terminalsId"),
-								(Integer)maps.get("status")));
+				if(objmap.get("supportRequirementType")!=null){
+					if(Integer.parseInt(objmap.get("supportRequirementType").toString())<3){
+						map.put("materialName",
+								openingApplyService.getMaterialName((Integer)maps.get("terminalsId"),
+										Integer.parseInt(objmap.get("supportRequirementType").toString())));
+					}else {
+						map.put("materialName",
+								openingApplyService.getMaterialName((Integer)maps.get("terminalsId"),
+										(Integer)maps.get("status")));
+					}
+				}
 				// 获得已有申请开通基本信息
 							map.put("openingInfos",
 									openingApplyService.getOppinfo((Integer)maps.get("terminalsId")));

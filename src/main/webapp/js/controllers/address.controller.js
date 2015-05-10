@@ -236,6 +236,12 @@ var addressController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.getcityname = function(provincename){
+
+		if(provincename == undefined){
+			alert("请先选择省");
+			return false;
+		}
+			
 		// alert(provincename);
 		$http.post("api/address/getcityname",{
 			provincename : provincename

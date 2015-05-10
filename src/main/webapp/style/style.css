@@ -714,11 +714,11 @@ td a.a_btn:hover { text-decoration: underline;}
 	margin: 1px 0 0 2px;
 }
 .user_select { overflow: hidden;}
-.user_select label { display: inline-block;}
+.user_select label { display: inline-block; float: left; height:26px; line-height:26px; margin-right:5px;}
 .user_select select {display: inline-block; width: 196px; height: 26px; border: 1px #CCCCCC solid;}
 
 .user_date { overflow: hidden;}
-.user_date label { display: inline-block; margin-right: 5px;}
+.user_date label { display: inline-block; float: left; height:26px; line-height:26px; margin-right:5px;}
 .user_date input { 	
 	display: inline-block; 
 	width: 120px; 
@@ -731,7 +731,7 @@ td a.a_btn:hover { text-decoration: underline;}
 }
 
 .user_inputText { overflow: hidden;}
-.user_inputText label { display: inline-block; margin-right: 5px;}
+.user_inputText label { display: inline-block; float: left; height:26px; line-height:26px; margin-right:5px;}
 .user_inputText input { 	
 	display: inline-block; 
 	width: 120px;

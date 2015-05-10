@@ -242,16 +242,9 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 	};
 	
 	$scope.list=function(){
-		$http.post("api/lowerAgent/getProvince", $scope.req).success(function (data) {  //绑定
+		$http.post("api/index/getCity").success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.provinceList=data.result.list;
-            }
-        });
-	};
-	$scope.selChange=function(){
-		$http.post("api/lowerAgent/getCity", $scope.proModel).success(function (data) {  //绑定
-            if (data.code==1) {
-            	$scope.cityList=data.result.list;
+            	$scope.provinceList=data.result;
             }
         });
 	};
@@ -408,6 +401,8 @@ function checkPhone(phone){
 
 //修改编辑下级代理商
 var lowerAgentEditController=function($scope, $http,$location, LoginService){
+	$scope.ctiName = "-- 请选择 --";
+	$scope.ctijiName = "-- 请选择 --";
 	$scope.init=function(){
 		$scope.req={};
 		$scope.req.sonAgentsId=$location.search()['id'];
@@ -435,7 +430,21 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	        		$scope.isProfit=data.result.is_have_profit;
 	        		
 	        		$scope.req.cityId=data.result.cityId;
-	        		$http.post("api/lowerAgent/getProCity",$scope.req).success(function (data) {  //绑定
+	        		$http.post("api/index/getCity").success(function (data) {  //绑定
+	        			if (data.code==1) {
+	                    	for(var i=0;i<data.result.length;i++){
+	                    		for(var y=0;y<data.result[i].childrens.length;y++){
+	                    			if($scope.req.cityId==data.result[i].childrens[y].id){
+	                    				$scope.ctijiName = data.result[i].childrens[y].name;
+	                    				$scope.ctiName = data.result[i].name;
+	                    				$scope.cityModel = 1;
+	                    			}
+	                    		}
+	                    	}
+	                    }				        			                    
+	        		});
+	        		
+	        		/*$http.post("api/lowerAgent/getProCity",$scope.req).success(function (data) {  //绑定
 	    	            if (data.code==1) {
 	    	            	$scope.proModel=data.result.provinceId;
 	    	            	
@@ -446,7 +455,7 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	    	                });
 	    	            	$scope.cityModel=data.result.cityId;
 	    	            }
-	    	        });
+	    	        });*/
 	        		
 	            }
 	    });
@@ -467,19 +476,16 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	};
 	
 	$scope.list=function(){
-		$http.post("api/lowerAgent/getProvince", $scope.req).success(function (data) {  //绑定
+		$http.post("api/index/getCity").success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.provinceList=data.result.list;
+            	$scope.provinceList=data.result;
             }
         });
 	};
 	
 	$scope.selChange=function(){
-		$http.post("api/lowerAgent/getCity", $scope.proModel).success(function (data) {  //绑定
-            if (data.code==1) {
-            	$scope.cityList=data.result.list;
-            }
-        });
+		$scope.ctijiName = "-- 请选择 --";
+		$scope.cityModel = undefined;
 	};
 	$scope.isNull=function(val,valDetail){
 		if(val=="" || val==" " || val==undefined){
@@ -491,6 +497,14 @@ var lowerAgentEditController=function($scope, $http,$location, LoginService){
 	};
 	
 	$scope.save=function(){
+		//验证城市
+		if($scope.cityModel != 1){
+			if($scope.cityModel==undefined || $scope.proModel==undefined){
+				alert("请选择你所在的省市！");
+				return;
+			}
+		}
+		
 		//验证为空
 		if(!$scope.isNull($scope.agentName,"负责人姓名")){
 			return;

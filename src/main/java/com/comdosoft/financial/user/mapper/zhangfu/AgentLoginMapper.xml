@@ -169,4 +169,14 @@
 		customers(city_id,types,phone,created_at,status,name,integral,updated_at)
 		VALUES(#{cityId},#{types},#{phone},now(),#{status},#{name},#{integral},now())
 	</insert>
+	
+	<insert id="getJoin" useGeneratedKeys="true">
+		insert into agents_join(agent_type,address,statu,touch_name,touch_phone,create_date) values(
+		#{agentType},#{address},1,#{name},#{phone},now())
+	</insert>
+	
+	<select id="getCityNameById" resultType="String">
+		select name from cities where id=#{id}
+	</select>
+	
 </mapper>

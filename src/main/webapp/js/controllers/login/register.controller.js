@@ -555,18 +555,17 @@ var registerController = function($scope, $location, $http, LoginService) {
 	
 	// 获取手机验证码
 	$scope.getAgentRegisterCode = function() {
-		
-		if($scope.clickCount==5){
-			$(".mask").show();
-			$(".re_alert_tab").show();
-			return false;
-		}else{
-			$scope.clickCount=$scope.clickCount+1;
-		}
 		var phone=$("#phone").val();
 		if (!reg.test(phone)) {
 			alert("请输入合法手机号！");
 		} else if ($scope.registreTime == true) {
+			if($scope.clickCount==5){
+				$(".mask").show();
+				$(".re_alert_tab").show();
+				return false;
+			}else{
+				$scope.clickCount=$scope.clickCount+1;
+			}
 			window.clearInterval(window.agentSendCode);
 			$scope.registreTime = false;
 			$http.post("api/agent/sendPhoneVerificationCodeReg", {
@@ -575,14 +574,14 @@ var registerController = function($scope, $location, $http, LoginService) {
 				if (data.code == 1) {
 					$scope.code = data.result;
 					setCookie("agent_send_phone_code", $scope.code);
-					$scope.intDiff = 120;
+					$scope.intDiff = 2;
 					$("#time_show_agent").attr("style","background-color:#AAAAAA");
 					window.agentSendCode = window.setInterval(function() {
 						if ($scope.intDiff == 0) {
 							$('#time_show_agent').html("获取验证码！");
 							$scope.registreTime = true;
+							$("#time_show_agent").attr("style","background-color:#0071cf");
 							window.clearInterval(window.agentSendCode);
-							$("#time_show_agent").attr("style","background-color:#AAAAAA");
 						} else {
 							$('#time_show_agent').html("重新发送（" + $scope.intDiff + "秒）");
 							$scope.intDiff--;

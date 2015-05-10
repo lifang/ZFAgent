@@ -62,6 +62,8 @@ function routeConfig($routeProvider) {
 		templateUrl : 'views/index/login.html'
 	}).when('/register', {
 		templateUrl : 'views/index/register.html'
+	}).when('/registerSucc', {
+		templateUrl : 'views/index/registerSucc.html'
 	}).when('/findpass', {
 		templateUrl : 'views/index/findpass.html'
 	}).when('/findpassEmail', {

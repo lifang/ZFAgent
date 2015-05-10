@@ -5,6 +5,8 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.comdosoft.financial.user.domain.zhangfu.Agent;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 
@@ -141,4 +143,9 @@ public interface AgentLoginMapper {
 	void insertAgent(Agent agent);
 
 	void insertUser(Customer customer);
+	
+	int getJoin(@Param("name") String name,@Param("phone") String phone,@Param("agentType") String agentType,
+			@Param("address") String address);
+	
+	String getCityNameById(@Param("id") int id);
 }

@@ -425,9 +425,9 @@ var registerController = function($scope, $location, $http, LoginService) {
 		
 	};
 	$scope.list=function(){
-		$http.post("api/lowerAgent/getProvince", $scope.req).success(function (data) {  //绑定
+		$http.post("api/index/getCity").success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.provinceList=data.result.list;
+            	$scope.provinceList=data.result;
             }
         });
 	};
@@ -492,7 +492,6 @@ var registerController = function($scope, $location, $http, LoginService) {
 	};
 	
 	$scope.submit=function(){
-		
 		var name=$("#name").val();
 		var phone=$("#phone").val();
 		var checkNumStr=$("#checkNum").val();
@@ -541,7 +540,7 @@ var registerController = function($scope, $location, $http, LoginService) {
 		$scope.agent.name=name;
 		$scope.agent.phone=phone;
 		$scope.agent.agentType=$scope.agentTypes;
-		$scope.agent.address=$scope.proModel+"_"+$scope.cityModel;
+		$scope.agent.address=$scope.proModel.id+"_"+$scope.cityModel.id;
 		
 		$http.post("api/agent/getJoin", $scope.agent).success(function(data) {
 			if (data.code == 1) {

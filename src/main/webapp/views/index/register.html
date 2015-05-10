@@ -29,11 +29,11 @@
                     </div>
                 </li>
                 <li><label>您所在城市：</label>
-                    <select ng-model="proModel" ng-options="o.id as o.name for o in provinceList"
-							 ng-change="selChange(proModel)" style="width: 120px;">
+                    <select ng-model="proModel" ng-options="o.name for o in provinceList"
+							  style="width: 120px;">
 								<option value="">-- 请选择 --</option>
 							</select>
-                    <select ng-model="cityModel" ng-options="o.id as o.name for o in cityList" style="width: 120px;">
+                    <select ng-model="cityModel" ng-options="x.name for x in proModel.childrens" style="width: 120px;">
 								<option value="">-- 请选择 --</option>
 							</select>
                 </li>

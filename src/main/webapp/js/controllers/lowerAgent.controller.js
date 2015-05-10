@@ -367,7 +367,9 @@ var lowerAgentAddController = function ($scope, $http, LoginService) {
 	
 };
 function clearDefault(){
-	$("#addDetail").val("");
+	if($("#addDetail").val()=="" || $("#addDetail").val()=="详细地址"){
+		$("#addDetail").val("");
+	}
 }
 
 function shwoDefault(){

@@ -1,197 +1,196 @@
 <div ng-controller="proxyOrderinfoController">
-<div class="right" >
-<div class="tab seeNumber_tab hide" id="od_ter_div">
-	<a href="javascript:void(0);" class="close" ng-click="close_wlxx()">关闭</a>
-	<div class="tabHead">查看终端号</div>
-	<div class="tabBody">
-		<div class="item_list">
-        	<ul>
-            	<li><span class="labelSpan">终端号：</span><div class="text" id="order_g_t_v"></div></li>
-            </ul>
-        </div>
-	</div>
-	<div class="tabFoot"><button class="orangeBtn" ng-click="close_wlxx()">确定</button></div>
-</div>
-
-	<div class="content clear" >
-	<div class="content_inner">
-		<div class="user_title">
-			<h1>订单详情</h1>
-		</div>
-		<div class="detail_panel">
-			<div class="detailPanel_status" >
-				<div class="order_icon"  ng-if="o.order_status==1">
-					<i class="no"></i>未付款
-				</div>
-				<div class="order_icon" ng-if="o.order_status==2">
-					<i ></i>已付款
-				</div>
-				<div class="order_icon" ng-if="o.order_status==3">
-					<i ></i>已发货
-				</div>
-				<div class="order_icon" ng-if="o.order_status==4">
-					<i ></i>已评价
-				</div>
-				<div class="order_icon" ng-if="o.order_status==5">
-					<i ></i>已取消
-				</div>
-				<div class="order_icon" ng-if="o.order_status==6">
-					<i ></i>交易关闭
-				</div>
-				
-				<div class="dp_status_btn"  ng-if="o.order_status==1">
-					<a href="javascript:void(0);" ng-click="topay(o)" class="blueBtn">付款</a>
+	<div class="right">
+		<div class="tab seeNumber_tab hide" id="od_ter_div">
+			<a href="javascript:void(0);" class="close" ng-click="close_wlxx()">关闭</a>
+			<div class="tabHead">查看终端号</div>
+			<div class="tabBody">
+				<div class="item_list">
+					<ul>
+						<li><span class="labelSpan">终端号：</span>
+						<div class="text" id="order_g_t_v"></div></li>
+					</ul>
 				</div>
 			</div>
-			
-			<div class="detailPanel_info detailDl">
-				<dl class="detail_express">
-                  	<dt>物流公司：</dt><dd>{{o.logistics_name}}</dd>
-                  </dl>
-				<dl class="detail_express">
-                  	<dt>物流单号：</dt><dd>{{o.logistics_number}}</dd>
-                  </dl>
-				<dl>
-					<dt>收货地址：</dt>
-					<dd>{{o.order_address}} {{o.order_receiver}}</dd>
-				</dl>
-				<dl ng-if="o.need_invoice ==1">
-					<dt>发票类型：</dt>
-					<dd>{{o.order_invoce_type}}</dd>
-					<dt>发票抬头：</dt>
-					<dd>{{o.order_invoce_info}}</dd>
-				</dl>
-				<dl class="leaveWord">
-					<dt>留言：</dt>
-					<dd>{{o.order_comment}}</dd>
-				</dl>
-				<dl>
-					<dt>订单类型：</dt>
-						<dd ng-if="o.order_type==3">代理商代购</dd> 
-						<dd ng-if="o.order_type==4">代理商代租赁</dd> 
-					<dt>订单编号：</dt>
-					<dd>{{o.order_number}}</dd>
-				</dl>
-				<dl>
-					<dt>购买日期：</dt>
-					<dd>{{o.order_createTime}}</dd>
-				</dl>
-				<dl>
-					<dt>代购用户：</dt>
-					<dd>{{o.guishu_user}}</dd>
-				</dl>
-				<dl>
-					<dt>支付类型：</dt>
-				    <dd  ng-if="orderInfo.order_payment_type==1">支付宝</dd>
-					<dd  ng-if="orderInfo.order_payment_type==2">银联</dd>
-					<dd  ng-if="orderInfo.order_payment_type==3">现金</dd>
-				</dl>
-				<dl>
-					<dt>供货商：</dt>
-					<dd>{{o.good_merchant}}</dd>
-				</dl>
-				<dl>
-					<dt>订单原金额：</dt>
-					<dd class="line_through">{{o.order_oldPrice/100 |currency : "￥"}}</dd>
-					<dt>订单金额：</dt>
-					<dd>
-						<strong>{{o.order_totalPrice/100 |currency : "￥"}}</strong>
-					</dd>
-				</dl>
+			<div class="tabFoot">
+				<button class="orangeBtn" ng-click="close_wlxx()">确定</button>
 			</div>
 		</div>
-		<div class="uesr_table">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
-				<colgroup>
-					<col width="300" />
-                            <col />
-                            <col />
-                            <col />
-                            <col />
-                            <col width="100" />
-				</colgroup>
-				<thead>
-					<tr>
-					 <th>商品</th>
-                            <th>单价</th>
-                            <th>数量</th>
-                            <th>金额</th>
-                            <th>已发货数量</th>
-                            <th>操作</th>
-					</tr>
-				</thead>
-				<tbody ng-if="o.order_goods_size>1">
 
-					<tr ng-repeat="g in  o.order_goodsList ">
-						<td>
-							<div class="td_proBox clear">
-								<a href="#/shopinfo?goodId={{g.good_id}}" class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
-								<div class="td_proBox_info">
-									<h1>
-										<a href="#/shopinfo?goodId={{g.good_id}}">{{g.good_name}}</a>
-									</h1>
-									<h3>热销{{g.good_volume_number}}件</h3>
-									<ul>
-										<li><span>品牌型号：</span>
-											<div class="c_text">{{g.good_brand}}</div></li>
-										<li><span>支付通道：</span>
-											<div class="c_text">{{g.good_channel}}</div></li>
-									</ul>
-								</div>
-							</div>
-						</td>
-						<td><strong>{{g.good_price/100 |currency : "￥"}} </strong></td>
-						<td>{{g.good_num}}</td>
-						<td ng-if="$index==0" rowspan="{{o.order_goods_size}}" class="left_border"><strong>{{o.order_totalPrice/100 |currency : "￥"}} </strong></td>
-						<td>{{o.shipped_quantity}}</td>
-						<td ng-if="$index==0" rowspan="{{o.order_goods_size}}"><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="o.order_status==1">付款</a> 
-						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"  ng-if="o.order_status==1" class="a_btn">取消</a>
-					<!-- 	 <a class="a_btn starGrade_a" ng-if="o.order_status==3" href="#/ordermark?orderId={{o.order_id}}">评价</a> -->
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==2" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==3" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==4" class="a_btn">查看终端号</a>
-						 </td>
-						 
-					</tr>
-				</tbody>
-				<tbody ng-if="o.order_goods_size==1">
+		<div class="content clear">
+			<div class="content_inner">
+				<div class="user_title">
+					<h1>订单详情</h1>
+				</div>
+				<div class="detail_panel">
 
-					<tr ng-repeat="g in  o.order_goodsList ">
-						<td>
-							<div class="td_proBox clear">
-								<a href="#/shopinfo?goodId={{g.good_id}}" class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
-								<div class="td_proBox_info">
-									<h1>
-										<a href="#/shopinfo?goodId={{g.good_id}}">{{g.good_name}}</a>
-									</h1>
-									<h3>热销{{g.good_volume_number}}件</h3>
-									<ul>
-										<li><span>品牌型号：</span>
-											<div class="c_text">{{g.good_brand}}</div></li>
-										<li><span>支付通道：</span>
-											<div class="c_text">{{g.good_channel}}</div></li>
-									</ul>
-								</div>
-							</div>
-						</td>
-						<td><strong>{{g.good_price/100 | currency : "￥"}} </strong></td>
-						<td>{{g.good_num}}</td>
-						<td  ><strong>{{o.order_totalPrice/100 | currency : "￥"}} </strong></td>
-						<td>{{o.shipped_quantity}}</td>
-						<td  ><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="o.order_status==1">付款</a> 
-						<a href="javascript:void(0)" ng-click="cancelApply(o.order_id)"  ng-if="o.order_status==1" class="a_btn">取消</a>
-				<!-- 		 <a class="a_btn starGrade_a" ng-if="o.order_status==3"  href="#/ordermark?orderId={{o.order_id}}">评价</a> -->
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==2" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==3" class="a_btn">查看终端号</a>
-						 <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==4" class="a_btn">查看终端号</a>
-						 </td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+					<div class="detailPanel_status">
+						<div ng-if="o.order_status==1" class="order_icon">
+							<i class="noPay_icon"></i>未付款
+						</div>
+						<div ng-if="o.order_status==2" class="order_icon">
+							<i class="alreadyPay_icon"></i>已付款
+						</div>
+						<div ng-if="o.order_status==3" class="order_icon">
+							<i class="alreadySend_icon"></i>已发货
+						</div>
+						<div ng-if="o.order_status==4" class="order_icon">
+							<i class="completeDeal_icon"></i>交易完成
+						</div>
+						<div ng-if="o.order_status==5" class="order_icon">
+							<i class="cancelDeal_icon"></i>已取消
+						</div>
+						<div ng-if="o.order_status==6" class="order_icon">
+							<i class="closeDeal_icon"></i>交易关闭
+						</div>
+
+						<div class="dp_status_btn" ng-if="o.order_status==1">
+							<a href="javascript:void(0);" ng-click="topay(o)" class="blueBtn">付款</a>
+						</div>
+					</div>
 
 
-		<!-- <div class="user_record">
+					<div class="detailPanel_info detailDl">
+						<dl class="detail_express">
+							<dt>物流公司：</dt>
+							<dd>{{o.logistics_name}}</dd>
+						</dl>
+						<dl class="detail_express">
+							<dt>物流单号：</dt>
+							<dd>{{o.logistics_number}}</dd>
+						</dl>
+						<dl>
+							<dt>收货地址：</dt>
+							<dd>{{o.order_address}} {{o.order_receiver}}</dd>
+						</dl>
+						<dl ng-if="o.need_invoice ==1">
+							<dt>发票类型：</dt>
+							<dd>{{o.order_invoce_type}}</dd>
+							<dt>发票抬头：</dt>
+							<dd>{{o.order_invoce_info}}</dd>
+						</dl>
+						<dl class="leaveWord">
+							<dt>留言：</dt>
+							<dd>{{o.order_comment}}</dd>
+						</dl>
+						<dl>
+							<dt>订单类型：</dt>
+							<dd ng-if="o.order_type==3">代理商代购</dd>
+							<dd ng-if="o.order_type==4">代理商代租赁</dd>
+							<dt>订单编号：</dt>
+							<dd>{{o.order_number}}</dd>
+						</dl>
+						<dl>
+							<dt>购买日期：</dt>
+							<dd>{{o.order_createTime}}</dd>
+						</dl>
+						<dl>
+							<dt>代购用户：</dt>
+							<dd>{{o.guishu_user}}</dd>
+						</dl>
+						<dl>
+							<dt>支付类型：</dt>
+							<dd ng-if="orderInfo.order_payment_type==1">支付宝</dd>
+							<dd ng-if="orderInfo.order_payment_type==2">银联</dd>
+							<dd ng-if="orderInfo.order_payment_type==3">现金</dd>
+						</dl>
+						<dl>
+							<dt>供货商：</dt>
+							<dd>{{o.good_merchant}}</dd>
+						</dl>
+						<dl>
+							<dt>订单原金额：</dt>
+							<dd class="line_through">{{o.order_oldPrice/100 |currency : "￥"}}</dd>
+							<dt>订单金额：</dt>
+							<dd>
+								<strong>{{o.order_totalPrice/100 |currency : "￥"}}</strong>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="uesr_table">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+						<colgroup>
+							<col width="300" />
+							<col />
+							<col />
+							<col />
+							<col />
+							<col width="100" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>商品</th>
+								<th>单价</th>
+								<th>数量</th>
+								<th>金额</th>
+								<th>已发货数量</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody ng-if="o.order_goods_size>1">
+
+							<tr ng-repeat="g in  o.order_goodsList ">
+								<td>
+									<div class="td_proBox clear">
+										<a href="#/shopinfo?goodId={{g.good_id}}" class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
+										<div class="td_proBox_info">
+											<h1>
+												<a href="#/shopinfo?goodId={{g.good_id}}">{{g.good_name}}</a>
+											</h1>
+											<h3>热销{{g.good_volume_number}}件</h3>
+											<ul>
+												<li><span>品牌型号：</span>
+													<div class="c_text">{{g.good_brand}}</div></li>
+												<li><span>支付通道：</span>
+													<div class="c_text">{{g.good_channel}}</div></li>
+											</ul>
+										</div>
+									</div>
+								</td>
+								<td><strong>{{g.good_price/100 |currency : "￥"}} </strong></td>
+								<td>{{g.good_num}}</td>
+								<td ng-if="$index==0" rowspan="{{o.order_goods_size}}" class="left_border"><strong>{{o.order_totalPrice/100 |currency : "￥"}} </strong></td>
+								<td>{{o.shipped_quantity}}</td>
+								<td ng-if="$index==0" rowspan="{{o.order_goods_size}}"><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="o.order_status==1">付款</a> <a href="javascript:void(0)" ng-click="cancelApply(o.order_id)" ng-if="o.order_status==1"
+									class="a_btn">取消</a> <!-- 	 <a class="a_btn starGrade_a" ng-if="o.order_status==3" href="#/ordermark?orderId={{o.order_id}}">评价</a> --> <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==2" class="a_btn">查看终端号</a> <a
+									href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==3" class="a_btn">查看终端号</a> <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==4" class="a_btn">查看终端号</a></td>
+
+							</tr>
+						</tbody>
+						<tbody ng-if="o.order_goods_size==1">
+
+							<tr ng-repeat="g in  o.order_goodsList ">
+								<td>
+									<div class="td_proBox clear">
+										<a href="#/shopinfo?goodId={{g.good_id}}" class="cn_img"><img width="130px" height="130px" src="{{g.good_logo}}" /></a>
+										<div class="td_proBox_info">
+											<h1>
+												<a href="#/shopinfo?goodId={{g.good_id}}">{{g.good_name}}</a>
+											</h1>
+											<h3>热销{{g.good_volume_number}}件</h3>
+											<ul>
+												<li><span>品牌型号：</span>
+													<div class="c_text">{{g.good_brand}}</div></li>
+												<li><span>支付通道：</span>
+													<div class="c_text">{{g.good_channel}}</div></li>
+											</ul>
+										</div>
+									</div>
+								</td>
+								<td><strong>{{g.good_price/100 | currency : "￥"}} </strong></td>
+								<td>{{g.good_num}}</td>
+								<td><strong>{{o.order_totalPrice/100 | currency : "￥"}} </strong></td>
+								<td>{{o.shipped_quantity}}</td>
+								<td><a href="javascript:void(0);" ng-click="topay(o)" class="a_btn" ng-if="o.order_status==1">付款</a> <a href="javascript:void(0)" ng-click="cancelApply(o.order_id)" ng-if="o.order_status==1" class="a_btn">取消</a> <!-- 		 <a class="a_btn starGrade_a" ng-if="o.order_status==3"  href="#/ordermark?orderId={{o.order_id}}">评价</a> -->
+									<a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==2" class="a_btn">查看终端号</a> <a href="javascript:void(0)" ng-click="t_comment(o)" ng-if="o.order_status==3" class="a_btn">查看终端号</a> <a href="javascript:void(0)"
+									ng-click="t_comment(o)" ng-if="o.order_status==4" class="a_btn">查看终端号</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+
+				<!-- <div class="user_record">
 			<h2>追踪记录</h2>
 			<div class="ur_item" ng-repeat="c in  o.comments.content ">
 				<div class="ur_item_text" >{{c.marks_content}}</div>
@@ -202,9 +201,9 @@
 		
 		</div> -->
 
+			</div>
+		</div>
 	</div>
-</div>
-</div>
 
 	<div class="mask"></div>
 </div>

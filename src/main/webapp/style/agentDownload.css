@@ -17,11 +17,8 @@ input { border: none;}
 .box { width: 1200px; margin: 0 auto;}
 
 /*顶部信息*/
-.head { 
-	padding: 20px 0; 
-	background: rgba(255,255,255,0.8);
-}
-.topInfo { height: 40px; background: #0071cf;}
+.head { height:108px; background: url(../images/h_bg.jpg) repeat;}
+.head_bg { height:108px; background: url(../images/head_bg.jpg) no-repeat;}
 
 .top_kf { color: #FFF; line-height: 40px; float: left; font-size: 14px;}
 .top_kf li { float: left; margin-right: 20px;}
@@ -36,20 +33,20 @@ input { border: none;}
 	left: 0px;
 	margin-top: -10px;
 }
-.top_kf strong { color: #FFF; font-family: "microsoft yahei";}
+.top_kf strong { color: #FFF;}
 
+.topInfo { height: 40px;}
 .top_user { float: right; line-height: 40px; font-size: 14px;}
-.top_user a { display: inline-block; margin: 0 15px; color: #FFF;}
+.top_user a, .top_user span { display: inline-block; margin: 0 15px; color: #FFF;}
 .top_user a:hover { text-decoration: underline;}
 
-
 .logo { 
-	width: 316px; 
-	height: 50px; 
+	width: 350px; 
+	height: 60px; 
 	background: url(../images/logo.png) no-repeat; 
 	text-indent: -999px; 
 	overflow: hidden;
-	float: left;
+	margin-top: 6px;
 }
 .systemName { 
 	height: 50px; 
@@ -58,36 +55,41 @@ input { border: none;}
 	font-size: 24px;
 	font-family: "microsoft yahei"; 
 	color: #0071cf;
+	margin-top: 6px;
 	margin-left: 10px;
 }
 
 
-.loginInfo { float: right; height: 40px; line-height: 40px;}
-.loginInfo a { color: #FFF; margin: 0 10px;}
-
-
 .ad { font-size: 0px; width: 100%;}
-.banner { position: relative; overflow: auto; }
-.banner li { list-style: none; height: 530px;}
-.banner ul li { float: left; background-size: contain; background-position: center 0px; background-repeat: no-repeat;}
-
-.dots { position:absolute; bottom: 60px; z-index:11000; left: 50%; margin-left: -14px;}
-.dots li { 
-	float:left; 
-	width:15px; 
-	height:15px;
-	border-radius: 50%; 
-	cursor:pointer;
-	background: #dddddd;
-	margin: 5px;
+.agentBanner{
+	width:1200px;
+	height:440px;
+	overflow:hidden;
+	position:relative;
+	margin: 0px auto;
 }
-.dots li.active { background: #8d8d8d;}
+.agentShow {position:absolute;}
+.agentShow li { width:1200px; height:440px; display:block;}
+.agentNum { position:absolute; left: 50%; bottom:5px; margin-left: -39px;}
+.agentNum li {
+	float:left;
+	color:#FF7300;
+	text-align:center;
+	width:16px;
+	height:16px;
+	cursor:pointer;
+	overflow:hidden;
+	background-color:#808080;
+	border-radius: 45px;
+	margin: 0 5px;
+}
+.agentNum li.on{ background-color:#1c64a8;}
 
 .main { position: relative; }
 .dl_area { 
 	position: absolute; 
 	left: 50%; 
-	top: 300px; 
+	top: 210px; 
 	margin-left: -175px; 
 	width: 350px; 
 	overflow: hidden;
@@ -99,22 +101,9 @@ input { border: none;}
 	font-family:"microsoft yahei"; 
 	width: 220px; 
 	border-radius: 45px; 
-	color: #FFF; 
-	position: relative;
-	padding-left: 40px;
+	color: #FFF;
+	text-align: center;
 }
-
-.dl_area li i { 
-	width: 26px; 
-	height: 26px; 
-	display: inline-block; 
-	float: left;
-	position: absolute;
-	top: 2px;
-	left: 10px;
-}
-.dl_area li i.ios_icon { background: url(../images/ios.png) no-repeat;}
-.dl_area li i.android_icon { background: url(../images/android.png) no-repeat;}
 
 .dl_area li a { 
 	height: 32px; 
@@ -122,43 +111,38 @@ input { border: none;}
 	text-align: center; 
 	color: #FFF; 
 	display: inline-block;
-	width: 100px;
+	width: 70px;
 	font-size: 16px;
+	padding-left: 30px;
+	border-radius: 45px;
+	margin: 0 5px;
+	
 }
-.dl_area li a:hover { text-decoration: underline;}
-
-.dl_area li.ios { background: #985364;}
-.dl_area li.ios:hover {
+.dl_area li.ios a { background: url(../images/ios.png) no-repeat 10px center #985364;}
+.dl_area li.ios a:hover {
 	background-color: #a95f72;
 	transition: all 0.2s;
 	-moz-transition: all 0.2s; /* Firefox 4 */
 	-webkit-transition: all 0.2s; /* Safari 和 Chrome */
 	-o-transition: all 0.2s; /* Opera */
 }
-.dl_area li.android { background: #1779a9; }
-.dl_area li.android:hover {
+.dl_area li.android a {  background: url(../images/android.png) no-repeat 10px center #1779a9; font-size: 12px;}
+.dl_area li.android a:hover {
 	background-color: #1e87ba;
 	transition: all 0.2s;
 	-moz-transition: all 0.2s; /* Firefox 4 */
 	-webkit-transition: all 0.2s; /* Safari 和 Chrome */
 	-o-transition: all 0.2s; /* Opera */
-}
-.dl_area li p { color: #666; font-size: 12px;}
-.ewm { float: right; margin-top: 10px;}
+}.dl_area li p { color: #666; font-size: 12px;}
+.agentEwm { float: right; margin-top: 10px;}
+.agentEwm img { width: 80px;}
 
 
-.foot2 {
-	width: 100%; 
-	height: 58px; 
-	line-height: 58px; 
-	background: #444444; 
-	color: #FFF; 
-	font-family:"microsoft yahei"; 
-	text-align: center;
-	position: absolute;
-	z-index: 100;
-}
-.companyName { display: inline-block;}
-.f_links { display: inline-block; margin-left: 50px;}
-.f_links a { color: #FFF; margin: 0 10px;}
+/*-------foot-------*/
+.foot { border-top: 1px #ccc solid; padding: 10px 0; overflow: hidden; background: #FFF;}
+.foot .foot_nav { float: left;}
+.foot .foot_nav li { float: left;}
+.foot .foot_nav li a { color: #016cb7; margin: 0 10px;}
+.foot .foot_nav li a:hover { color: #0292f7;}
+.copyright { float: right; color: #666;}
 

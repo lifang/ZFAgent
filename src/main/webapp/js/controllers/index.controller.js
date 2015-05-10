@@ -79,7 +79,6 @@ var indexController = function($scope, $location, $http, LoginService,
 	}
 	
 	$scope.$on('$locationChangeStart', function(scope, next, current) {
-		$("#yyy").show();
 		var strs = new Array(); // 定义一数组
 		strs = next.split("/#/"); // 字符分割
 

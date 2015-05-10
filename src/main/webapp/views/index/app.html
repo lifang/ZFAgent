@@ -1,58 +1,71 @@
 <link href="style/agentDownload.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/unslider.js"></script>
-<div class="main" style="background:none;">
-    <div class="ad">
-        <div class="banner">
-            <ul class="show">
-                <li style="background-image:url(images/ag01.png);"></li>
-                <li style="background-image:url(images/ag02.png);"></li>
-                <li style="background-image:url(images/ag03.png);"></li>
-            </ul>
-        </div>
-    <script>
-    $(function() {
-        $('.banner').unslider({
-            speed: 500,     
-            delay: 2000,
-            complete: function() {},
-            keys: true,
-           // dots: true,
-            fluid: false   	
-            });
-    });
-    </script>
-    </div>
-    <div class="dl_area">
-    	<ul>
-        	<li class="ios"><i class="ios_icon"></i><a href="#">iPhone</a> | <a href="#">iPad</a></li>
-            <li class="android"><i class="android_icon"></i><a href="#">Android</a> | <a href="#">Pad</a></li>
-            <li><p>最新版本：v2.0.1  更新日期：2015.02.25</p></li>
-        </ul>
-        <div class="ewm"><img src="images/ewm.jpg" /></div>
-    </div>
-</div>
+<div class="main">
+	<div class="ad">
+		<div class="agentBanner">
+			<ul class="agentShow">
+				<li style="background-image: url(images/ag01.png);"></li>
+				<li style="background-image: url(images/ag02.png);"></li>
+				<li style="background-image: url(images/ag03.png);"></li>
+			</ul>
+			<ul class="agentNum">
+				<li class="on">1</li>
+				<li>2</li>
+				<li>3</li>
+			</ul>
+		</div>
+		<script language="javascript">
+			$(function() {
+				var len = $(".agentNum > li").length;
+				var index = 0;
+				var MyTime = setInterval(function() {
+					showImg(index)
+					index++;
+					if (index == len) {
+						index = 0;
+					}
+				}, 4000);
 
-<div class="foot2">
-	<div class="box">
-        <div class="companyName">上海掌富网络技术有限公司版权所有</div>
-        <div class="f_links">
-        	|
-            <a href="#">公司简介</a>
-            |
-            <a href="#">联系方法</a>
-            |
-            <a href="#">客户服务</a>
-            |
-            <a href="#">意见反馈</a>
-            |
-        </div>
-    </div>
-</div>
+				$(".agentNum li").mouseover(function() {
+					index = $(".agentNum li").index(this);
+					showImg(index);
+				});
 
+				$('.agentBanner').hover(function() {
+					if (MyTime) {
+						clearInterval(MyTime);
+					}
+				}, function() {
+					MyTime = setInterval(function() {
+						showImg(index)
+						index++;
+						if (index == len) {
+							index = 0;
+						}
+					}, 4000);
+				});
+
+			})
+			function showImg(i) {
+				$(".agentShow").stop(true, false).animate({
+					top : -440 * i
+				}, 800);
+				$(".agentNum li").eq(i).addClass("on").siblings().removeClass("on");
+			}
+		</script>
+	</div>
+	<div class="dl_area">
+		<ul>
+			<li class="ios"><a href="#">iPhone</a><a href="#">iPad</a></li>
+			<li class="android"><i class="android_icon"></i><a href="#">安卓手机</a><a href="#">安卓平板</a></li>
+			<li><p>最新版本：v2.0.1 更新日期：2015.02.25</p></li>
+		</ul>
+		<div class="agentEwm">
+			<img src="images/ewm.jpg" />
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
-$(function(){
-	$(".main").height($(window).height()-40-90-58);
-	$("#yyy").hide();
-})
-	
+	$(function() {
+		$(".main").height($(window).height() - 39 - 108);
+	})
 </script>

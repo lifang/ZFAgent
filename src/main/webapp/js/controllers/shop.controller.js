@@ -187,10 +187,11 @@ var shopController = function($scope, $http, LoginService) {
     		$scope.chli2show=false;
     		p.clazz="";
     		$scope.req.category=0;
-    	}else{
     		angular.forEach($scope.category, function (one) {
        		 	one.clazz="";
             });
+    	}else{
+    		
     		angular.forEach($scope.check2son, function (one) {
        		 	one.clazz="";
             });

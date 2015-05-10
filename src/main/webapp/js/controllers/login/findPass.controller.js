@@ -57,7 +57,7 @@ var findpassController=function($scope, $location, $http, LoginService,$timeout)
 					window.clearInterval(window.b);
 					$scope.code = data.result;
 					$scope.codeNumber = "";
-					$scope.intDiff = 120;
+					$scope.intDiff = 119;
 					window.b = window.setInterval(function(){
 				    	if($scope.intDiff == 0){
 				    		$('#day_show').html("点击获得验证码！");
@@ -119,7 +119,7 @@ var findpassController=function($scope, $location, $http, LoginService,$timeout)
 										$scope.code = data.result;
 										$scope.codeNumber = "";
 										//倒计时
-										$scope.intDiff = 120;
+										$scope.intDiff = 119;
 										$scope.twostep();
 										window.a = window.setInterval(function(){
 									    	if($scope.intDiff == 0){

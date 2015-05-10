@@ -438,7 +438,7 @@ public class LowerAgentController {
 		try {
     		String joinpath="";
     		int temp=updatefile.getOriginalFilename().lastIndexOf(".");
-    		String houzuiStr=updatefile.getName().substring(temp+1);
+    		String houzuiStr=updatefile.getOriginalFilename().substring(temp+1);
     		
     		if(!commentService.typeIsCommit(houzuiStr)){
     			return Response.getError("您所上传的文件格式不正确");
@@ -453,6 +453,7 @@ public class LowerAgentController {
 	    } catch (Exception e) {
 	    	return Response.getError("请求失败！");
 	    }
+		
+		
     }
-	
 }

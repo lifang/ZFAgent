@@ -61,7 +61,7 @@ function routeConfig($routeProvider) {
 	}).when('/login', {
 		templateUrl : 'views/index/login.html'
 	}).when('/register', {
-		templateUrl : 'views/index/registerAgent.html'
+		templateUrl : 'views/index/register.html'
 	}).when('/findpass', {
 		templateUrl : 'views/index/findpass.html'
 	}).when('/findpassEmail', {

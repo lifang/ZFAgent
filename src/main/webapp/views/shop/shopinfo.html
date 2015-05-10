@@ -87,7 +87,7 @@
 					</ul>
 				</div>
 				<div class="pro_detail_con">
-					<div>
+					<div style="display: block;">
 						<div class="pro_attributes">
 							<h2>POS机信息</h2>
 							<ul>
@@ -194,7 +194,7 @@
 					</div>
 
 
-					<div>
+					<div style="display: none;">
 						<div class="pro_attributes" ng-show="paychannel.tDates.length>0">
 							<h2>资金服务费</h2>
 							<table width="100%" border="0" cellspacing="1" cellpadding="0">
@@ -219,21 +219,21 @@
 						</div>
 					</div>
 
-					<div>
+					<div style="display: none;">
 						<div class="pro_attributes">
 							<div class="text">
 							<textarea readonly="readonly" name="" cols="" rows="">{{paychannel.opening_requirement}}</textarea>
 							</div>
 						</div>
 					</div>
-					<div>
+					<div style="display: none;">
 						<div class="pro_attributes">
 							<div class="text">
 							<textarea readonly="readonly" name="" cols="" rows="">{{paychannel.opening_datum}}</textarea>
 							</div>
 						</div>
 					</div>
-					<div>
+					<div style="display: none;">
 						<div class="pro_evaluate">
 							<div class="evaluate_title">
 								<i></i>综合评分{{good.goodinfo.total_score/10}}
@@ -274,7 +274,7 @@
 
 						</div>
 					</div>
-					<div>
+					<div style="display: none;">
 						<div class="pro_attributes">
 							<h2>租赁最小期限</h2>
 							<div class="text">{{good.goodinfo.lease_time}}月</div>

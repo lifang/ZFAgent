@@ -1188,7 +1188,10 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$scope.user.cityid = Math.ceil($scope.user.cityid);
 		$http.post("api/user/addCustomer", $scope.user).success(function(data) {
 			if (data.code == 1) {
-				$scope.clist();
+				$scope.cuslist=[];
+				$scope.selected="";
+				$scope.user={};
+				$scope.cuslist.push(data.result);
 			} else if (data.code == -1) {
 				alert(data.message);
 			}

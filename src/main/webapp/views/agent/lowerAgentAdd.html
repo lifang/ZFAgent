@@ -47,11 +47,11 @@
 					</li>
 					<li class="block select2"><span class="labelSpan">所在地：</span>
 						<div class="text">
-							<select ng-model="proModel" ng-options="o.id as o.name for o in provinceList"
-							 ng-change="selChange(proModel)" style="width: 120px;">
+							<select ng-model="proModel" ng-options="o.name for o in provinceList"
+							  style="width: 120px;">
 								<option value="">-- 请选择 --</option>
 							</select>
-							<select ng-model="cityModel" ng-options="o.id as o.name for o in cityList" style="width: 120px;">
+							<select ng-model="cityModel" ng-options="o.name for o in proModel.childrens" style="width: 120px;">
 								<option value="">-- 请选择 --</option>
 							</select>
 							<input type="text" style="color: darkgrey;" id="addDetail" ng-model="addDetail" onfocus="clearDefault()" onblur="shwoDefault()" />

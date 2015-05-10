@@ -146,6 +146,13 @@ var indexController = function($scope, $location, $http, LoginService,
 			window.open(url+id);
 		}
 	}
+	$scope._togo = function(url,id,p_name,p_value){
+		if(id==0){
+			window.open(url);
+		}else{
+			window.open(url + id + p_name + p_value);
+		}
+	}
  
 	$scope.loginout = function(){
 		LoginService.logout();

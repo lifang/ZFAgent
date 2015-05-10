@@ -122,7 +122,7 @@
 		<result property="actualPrice" column="actual_price" />
 		<result property="frontMoney" column="front_money" />
 		<result property="frontPayStatus" column="front_pay_status" />
-		<result property="createdUserId" column="created_userId" />
+		<result property="createdUserId" column="created_user_id" />
 		<result property="createdUserType" column="created_user_type" />
 		<result property="processUserId" column="process_user_id" />
 		<result property="processUserName" column="process_user_name" />
@@ -254,7 +254,7 @@
 		o.id as id,o.customer_id,g.model_number AS brand_number,
 		og.id as order_good_id,
 		g.id as good_id,
-		 o.total_quantity,o.created_userId,
+		 o.total_quantity,o.created_user_id,
 		 g.retail_price,
 		o.order_number,
 			o.created_at,
@@ -408,7 +408,7 @@
 	<!-- 代购  详情 -->
 	<select id="getProxyById" resultMap="orderMap">
 		SELECT g.model_number AS brand_number,
-		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,o.customer_id,o.created_userId,
+		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,o.customer_id,o.created_user_id,
 		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,oo.logistics_name,oo.logistics_number,
 		g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,og.actual_price as og_actual_price,
 		pc.name as channel_name,og.price as og_price ,	og.quantity as og_quantity ,o.invoice_info,op.pay_type,o.belongs_user_id,f.`name` as factory_name,

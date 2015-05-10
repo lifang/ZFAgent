@@ -34,17 +34,16 @@
                             </dl>
                         </div>
                     </div>
-                    <div class="attributes_box" ng-repeat="ma in materialLevel">
-                    	<h2 ng-if="$index == 0">基本开通<em>消费限额5000元</em></h2>
-                    	<h2 ng-if="$index == 1">完全开通<em>消费无限额</em></h2>
-                        <div class="item_list clear">
-                            <ul>
-                            	<li ng-if="$index == 0"><span class="labelSpan" >商户名称：</span>
+                     <div class="attributes_box">
+                     	<h2>基本信息</h2>
+                     		<div class="item_list clear">
+                     			<ul>
+                     				<li><span class="labelSpan" >商户名称：</span>
                                 	<div class="text"><input id="merchant" name="" type="text" ng-model="merchantName"/></div>
                                 </li>
-                                <li ng-if="$index == 0"><span class="labelSpan" >姓名：</span>
+                                <li><span class="labelSpan" >姓名：</span>
                                 	<div class="text"><input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}" ng-keyup="toworte()"/></div></li>
-                                <li ng-if="$index == 0"><span class="labelSpan">生日：</span>
+                                <li><span class="labelSpan">生日：</span>
                                     <div class="text">
                                 	<select id="selYear" ng-model="nian">
                                 	</select> 
@@ -65,21 +64,21 @@
 							</script>
                                     </div>
                                 </li>
-                                <li ng-if="$index == 0"><span class="labelSpan">性别：</span>
+                                <li><span class="labelSpan">性别：</span>
                                 	<div class="text">
                                     	<span class="checkboxRadio_span"><input name="radio" ng-checked="sex == 1" type="radio" value="" ng-click="butSex(1)"/> 男</span>
                                         <span class="checkboxRadio_span"><input name="radio" ng-checked="sex == 0" type="radio" value="" ng-click="butSex(0)"/> 女</span>
                                     </div>
                                 </li>
-                                <li ng-if="$index == 0"><span class="labelSpan">身份证：</span>
+                                <li><span class="labelSpan">身份证：</span>
                                 	<div class="text"><input name="" type="text" id="cirdValue" value="{{merchant.legal_person_card_id}}"/></div></li>
-                                <li ng-if="$index == 0"><span class="labelSpan">电话：</span>
+                                <li><span class="labelSpan">电话：</span>
                                 	<div class="text"><input name="" type="text" id="phoneValue" value="{{openingInfos.phone}}"/></div>
                                 </li>
-                                <li ng-if="$index == 0"><span class="labelSpan">邮箱：</span>
+                                <li><span class="labelSpan">邮箱：</span>
                                 	<div class="text"><input name="" type="text" id="emailValue" value="{{openingInfos.email}}"/></div>
                                 </li>
-                                <li ng-if="$index == 0"><span class="labelSpan">地址：</span>
+                                <li><span class="labelSpan">地址：</span>
                                 	<div class="text">
                                 		<select  ng-model="selected" ng-options="s.name for s in cities" ng-click="desjub()">
 		             		 				<option value="">{{addressShen}}</option>
@@ -89,10 +88,7 @@
 			          					</select>
                                      </div>
                                 </li>
-                                <li ng-if="$index == 0"><span class="labelSpan">结算银行帐户名：</span>
-                                	<div class="text"><input disabled="disabled" name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
-                                </li>
-                                <li ng-if="$index == 0"><span class="labelSpan">支付通道：</span>
+                                <li><span class="labelSpan">支付通道：</span>
                                 	<div class="text">
                                 	<select disabled>
 		             		 				<option value="">{{channelName}}</option>
@@ -102,7 +98,17 @@
 			          					</select>
                                 	</div>
                                 </li>
-                                <li ng-if="$index == 0" id="bankcode"><span class="labelSpan">结算银行名称：</span>
+                     			</ul>
+                     		</div>
+                     </div>
+                     <div class="attributes_box">
+                     	<h2>结算信息</h2>
+                     		 <div class="item_list clear">
+                     		 	<ul>
+                     		 		<li><span class="labelSpan">结算银行帐户名：</span>
+                                	<div class="text"><input disabled="disabled" name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
+                                </li>
+                                <li id="bankcode"><span class="labelSpan">结算银行名称：</span>
                                 	<div class="text"><input name="" type="text" id="bankCodeValue" ng-model="bankObj.bankName" ng-keyup="bank(1)"/></div>
                                 	<div id="suggestDiv" class="suggest">
 				                        <ul>
@@ -111,8 +117,15 @@
                     				</div>
                                 </li>
                                 
-                                <li ng-if="$index == 0"><span class="labelSpan">结算银行账户：</span>
+                                <li><span class="labelSpan">结算银行账户：</span>
                                 	<div class="text"><input name="" type="text" id="bankNumValue" value="{{merchant.account_bank_num}}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div></li>
+                     		 	</ul>
+                     		 </div>
+                     </div>
+                    <div class="attributes_box" ng-repeat="ma in materialLevel">
+                    	<h2>{{ma.levelTitle}}<em>{{ma.levelDescription}}</em></h2>
+                        <div class="item_list clear">
+                            <ul>
                                 <li ng-if="$index == 0 && status == 1"><span class="labelSpan">税务机构号：</span>
                                 	<div class="text"><input name="" type="text" id="registeredNoValue" value="{{merchant.tax_registered_no}}"/></div></li>
                                 <li ng-if="$index == 0 && status == 1"><span class="labelSpan">组织机构号：</span>

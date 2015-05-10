@@ -1,0 +1,51 @@
+<link href="style/register.css" rel="stylesheet" type="text/css" />
+
+<div class="register" ng-controller="registerController">
+    <div class="res_h">
+    	<ul>
+        	<li><a href="#" class="hover">合作伙伴入驻申请</a></li>
+        </ul>
+    </div>
+    <div class="res_b">
+    	<div class="res_b_left">
+            <ul>
+            	<li><label><span class="red">*</span>填写您的姓名：</label>
+                    <input name="" type="text" class="input_false" id="name"/>
+                    <div class="res_prompt">请输入真实姓名</div>
+                </li> 
+                <li><label><span class="red">*</span>填写您的手机号码：</label>
+                    <input name="" type="text" class="input_false" id="phone"/>
+                    <button class="partner_yzm_btn" id="getCheckNumBt" ng-click="getCheckNum()">获取验证码</button>
+                    <div class="res_prompt_wrong">请输入正确的手机号码</div>
+                </li>
+                <li><label><span class="red">*</span>输入手机验证码：</label>
+                    <input name="" type="text" class="input_false" id="checkNum"/>
+                    <div class="res_prompt_wrong">验证码错误，请重新输入</div>
+                </li>
+                <li><label><span class="red">*</span>合作伙伴类型：</label>
+                	<div class="partnerType">
+                        <span><input name="agentType" type="radio" value="" checked/> 我是个人</span>
+                        <span><input name="agentType" type="radio" value="" /> 我是公司</span>
+                    </div>
+                </li>
+                <li><label>您所在城市：</label>
+                    <select ng-model="proModel" ng-options="o.id as o.name for o in provinceList"
+							 ng-change="selChange(proModel)" style="width: 120px;">
+								<option value="">-- 请选择 --</option>
+							</select>
+                    <select ng-model="cityModel" ng-options="o.id as o.name for o in cityList" style="width: 120px;">
+								<option value="">-- 请选择 --</option>
+							</select>
+                </li>
+                <li class="res_b_pl"><input name="" type="checkbox" value="" checked="checked" id="isReadCheck"/> <a href="javascript:void(0);" class="ebankAgreement_a">同意《华尔街金融平台用户使用协议》</a></li>
+            </ul>
+            <div class="btn partner_btn"><button id="registerBt" ng-click="submit()">注册</button></div>
+        </div>
+        <div class="res_b_right">
+        	<div class="res_b_text">
+            	<p>您己经拥有合作伙伴账号了？</p>
+                <a href="#" class="partner_btn">马上登录</a>
+            </div>
+        </div>
+    </div>
+</div>

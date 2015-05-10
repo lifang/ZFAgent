@@ -399,4 +399,100 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 	$scope.agentInit();
 }
 
+var registerController = function($scope, $location, $http, LoginService) {
+	$scope.init=function(){
+		$scope.list();
+	};
+	$scope.list=function(){
+		$http.post("api/lowerAgent/getProvince", $scope.req).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.provinceList=data.result.list;
+            }
+        });
+	};
+	
+	$scope.selChange=function(){
+		$http.post("api/lowerAgent/getCity", $scope.proModel).success(function (data) {  //绑定
+            if (data.code==1) {
+            	$scope.cityList=data.result.list;
+            }
+        });
+	};
+	
+	
+	
+	
+	
+	$scope.submit=function(){
+		
+		var name=$("#name").val();
+		var phone=$("#phone").val();
+		var checkNumStr=$("#checkNum").val();
+		
+		if(name=="" || name==undefined){
+			$("#name").attr("class","input_false");
+			return false;
+		}else{
+			$("#name").removeAttr("class");
+		}
+		if(phone=="" || phone==undefined){
+			$("#phone").attr("class","input_false");
+			return false;
+		}else{
+			$("#phone").removeAttr("class");
+		}
+		if(checkNumStr=="" || checkNumStr==undefined){
+			$("#checkNum").attr("class","input_false");
+			return false;
+		}else{
+			$("#checkNum").removeAttr("class");
+		}
+		//验证城市
+		if($scope.cityModel==undefined || $scope.proModel==undefined){
+			alert("请选择你所在的省市！");
+			return;
+		}
+		alert(1);
+		
+	};
+	
+	$scope.getCheckNum=function() {
+		if (!reg.test($scope.agent.phone)) {
+			alert("请输入合法手机号！");
+		} else if ($scope.registreTime == true) {
+			window.clearInterval(window.agentSendCode);
+			$scope.registreTime = false;
+			$http.post("api/agent/sendPhoneVerificationCodeReg", {
+				codeNumber : $scope.agent.phone
+			}).success(function(data) {
+				if (data.code == 1) {
+					$scope.code = data.result;
+					setCookie("agent_send_phone_code", $scope.code);
+					$scope.intDiff = 120;
+					$("#time_show_agent").attr("style","background-color:#AAAAAA");
+					window.agentSendCode = window.setInterval(function() {
+						if ($scope.intDiff == 0) {
+							$('#time_show_agent').html("获取验证码！");
+							$scope.registreTime = true;
+							window.clearInterval(window.agentSendCode);
+							$("#time_show_agent").attr("style","background-color:#AAAAAA");
+						} else {
+							$('#time_show_agent').html("重新发送（" + $scope.intDiff + "秒）");
+							$scope.intDiff--;
+						}
+					}, 1000);
+				} else {
+					$scope.registreTime = true
+					alert(data.message);
+				}
+			})
+		}
+	};
+	
+	$scope.init();
+}
+
+
 indexModule.controller("registerAgentController", registerAgentController);
+
+indexModule.controller("registerController", registerController);

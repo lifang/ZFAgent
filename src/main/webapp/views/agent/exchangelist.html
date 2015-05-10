@@ -43,7 +43,7 @@
 						<td>{{one.fromname}} &gt; {{one.toname}}</td>
 						<td>{{one.created_at}}</td>
 						<td>{{one.quantity}}</td>
-						<td><a target="_blank" href="#/exchangeinfo?id={{one.id}}" class="a_btn">查看详情</a></td>
+						<td><a   ng-click="leitgo('#/exchangeinfo?id=',one.id)"    class="a_btn">查看详情</a></td>
 					</tr>
 				</tbody>
 			</table>

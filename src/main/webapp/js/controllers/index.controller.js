@@ -139,7 +139,14 @@ var indexController = function($scope, $location, $http, LoginService,
 	$scope.index = function() {
 		window.location.href = '#/';
 	};
-	
+	$scope.leitgo = function(url,id){
+		if(id==0){
+			window.open(url);
+		}else{
+			window.open(url+id);
+		}
+	}
+ 
 	$scope.loginout = function(){
 		LoginService.logout();
 	}

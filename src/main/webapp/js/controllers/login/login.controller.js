@@ -14,6 +14,11 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 		LoginService.agentLogin($scope,$http);
 	};
 	
+	$scope.letitgo = function(url) {
+	  alert("llllll");
+		window.open(url+id);
+};
+	
 	//删除错误提示消息
 	$scope.deleteerror = function(){
 		$scope.agentNameClass = false;

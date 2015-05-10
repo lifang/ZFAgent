@@ -4,6 +4,7 @@
 var myappModule = angular.module("myappModule",[]);
 
 var myappController = function ($scope, $http,$location, LoginService) {
+ 
 	$("#leftRoute").show();
 	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';

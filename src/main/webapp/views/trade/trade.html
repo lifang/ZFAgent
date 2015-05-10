@@ -34,7 +34,7 @@
 					<li><button ng-click="search()" class="ghostBtn">搜索</button></li>
 				</ul>
 				<div class="userTopBtnBox">
-					<a target="_blank" href="#/tradestatistics" class="ghostBtn">统计</a>
+					<a  ng-click="leitgo('#/tradestatistics' , 0 )"  class="ghostBtn">统计</a>
 				</div>
 			</div>
 
@@ -64,7 +64,7 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="one in tradeList" on-finish-table-filters>
-							<td><a target="_blank" href="#/tradeinfo?id={{one.id}}">{{one.trade_number}}</a></td>
+							<td><a   ng-click="leitgo('#/tradeinfo?id=' , one.id )"      >{{one.trade_number}}</a></td>
 							<td>{{one.tradedTimeStr}}</td>
 							<td>{{one.terminalNumber}}</td>
 							<td>{{one.agent}}</td>

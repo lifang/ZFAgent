@@ -42,12 +42,12 @@
 						<td id="openNum">{{one.openNum}}</td>
 						<td id="status">{{one.statusStr}}</td>
 						<td id="isProfit">{{one.isProfitStr}}</td>
-						<td><a href="#/lowerAgentInfo?id={{one.id}}" class="a_btn" target="_blank" >查看详情</a>&nbsp;
-						<a href="#/lowerAgentEdit?id={{one.id}}" class="a_btn" target="_blank">编辑</a>
+						<td><a   ng-click="leitgo('#/lowerAgentInfo?id=',one.id)"    class="a_btn"  >查看详情</a>&nbsp;
+						<a   ng-click="leitgo('#/lowerAgentEdit?id=' , one.id )"  class="a_btn" >编辑</a>
 						<a href="#/lowerAgent" ng-show="one.status==5" ng-click="changeStatus(one.id,5)" class="a_btn">停用</a>
 						<a href="#/lowerAgent" ng-show="one.status==6" ng-click="changeStatus(one.id,6)" class="a_btn">启用</a><br/>
 						<a ng-click="showPwdTab(one.id)" class="a_btn resetPassword_a" >密码重置</a>
-						<a href="#/lowerAgentSet?id={{one.id}}" ng-show="one.is_have_profit!=0" class="a_btn" target="_blank">设置分润比例</a>
+						<a  ng-click="leitgo('#/lowerAgentSet?id=' , one.id )"      ng-show="one.is_have_profit!=0" class="a_btn"  >设置分润比例</a>
 						</td>
 					</tr>
 				</tbody>

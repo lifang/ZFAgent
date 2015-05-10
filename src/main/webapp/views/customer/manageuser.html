@@ -34,7 +34,7 @@
 						<td>{{one.phone}}</td>
 						<td>{{one.email}}</td>
 						<td>
-							<a href="#/commercialOne?id={{one.id}}" class="a_btn" target="_blank">查看详情</a>
+							<a ng-click="leitgo('#/commercialOne?id=' , one.id )"   class="a_btn"   >查看详情</a>
 							<a href="javascript:void(0)"class="a_btn" ng-click="commercialDelete(one)">删除</a>
 						</td>
 					</tr>

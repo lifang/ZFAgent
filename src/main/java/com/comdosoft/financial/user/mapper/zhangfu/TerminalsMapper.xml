@@ -17,6 +17,11 @@
 		VALUES(#{username},#{password},#{cityId},#{accountType},#{types},#{phone},#{email},now(),#{dentcode},#{status})
 	</insert>
 	
+	<select id="getOpeningProtocol" parameterType="map" resultType="String">
+	select ifnull(b.opening_protocol,'') as openingProtocol from terminals t LEFT JOIN pay_channels b on t.pay_channel_id=b.id
+	where t.id=#{terminalId}
+	</select>
+	
 	<insert id="addCustomerOrAgent" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Customer">
 		insert into customer_agent_relations(customer_id,agent_id,types,status,created_at,updated_at)
 		VALUES(#{customerId},#{agentId},#{types},#{status},now(),now())

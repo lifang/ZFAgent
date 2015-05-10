@@ -58,7 +58,7 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 		 $http.post("api/applyWeb/isopen", {id:tCusId}).success(function (data) {  //绑定
 	          if (data != null && data != undefined) {
 	        	  if(data.code == 1){
-	        		  window.location.href = '#/terminalOpening?terminalId='+tCusId;
+	        		  $scope.applyOpenInfo(tCusId);
 	        	  }else if(data.code == -1){
 	        		  alert(data.message);
 	        	  }
@@ -78,6 +78,26 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 				}
 			}
 		}
+	}
+	$scope.applyOpenInfo=function(temp){
+		$scope.temp = {
+				id : temp
+			};
+		$http.post("api/terminal/getOpeningProtocol", $scope.temp).success(
+				function(data) { // 绑定
+					if (data != null && data != undefined) {
+						if (data.code == 1) {
+							$("#openApplyText").val(data.result);
+						} else {
+							alert(data.message);
+						}
+					}
+				}).error(function(data) {
+			alert("获取列表失败");
+		});
+		$("#checkBoxEbanat").val(temp);
+		$(".ebankAgreementTab").show();
+		$(".mask").show();
 	}
 
 	//go to page

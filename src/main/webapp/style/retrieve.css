@@ -13,7 +13,7 @@ button { cursor: pointer; border: none;}
 
 .retrieve { width: 1200px; min-height: 500px; margin: 20px auto;}
 
-.ret_h { border-bottom: 1px #fc5f25 solid; height: 35px; text-align: center;}
+.ret_h { border-bottom: 1px #0071cf solid; height: 35px; text-align: center;}
 .ret_h li { display: inline-block;}
 .ret_h li a { 
 	height: 34px; 
@@ -25,11 +25,11 @@ button { cursor: pointer; border: none;}
 	border-bottom: none;
 	color: #666666;
 }
-.ret_h li a:hover { color: #fc5f25;}
+.ret_h li a:hover { color: #0071cf;}
 .ret_h li a.hover { 
 	color: #FFF; 
-	background: #fc5f25;
-	border: 1px #fc5f25 solid;
+	background: #0071cf;
+	border: 1px #0071cf solid;
 	border-bottom: none;
 }
 
@@ -53,7 +53,7 @@ button { cursor: pointer; border: none;}
 	text-align: center;
 	border: 1px #CCCCCC solid;
 	margin-left: 10px;
-	color: #fc5f25;
+	color: #0071cf;
 }
 
 .ret_b li input[type="radio"] { float: left; margin: 2px 10px 0 0;}
@@ -84,14 +84,14 @@ button { cursor: pointer; border: none;}
 .btn button { 
 	height: 42px; 
 	line-height: 42px; 
-	background: #fc5f25; 
+	background: #0071cf; 
 	border: none; 
 	width: 350px; 
 	color: #FFF; 
 	font-size: 14px;
 	cursor: pointer;
 }
-.btn button:hover { background: #fc6d38;}
+.btn button:hover { background: #057cde;}
 
 .win { margin: 20px auto; font-size: 14px;}
 

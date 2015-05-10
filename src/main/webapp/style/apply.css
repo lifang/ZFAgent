@@ -16,11 +16,11 @@ button { cursor: pointer; border: none;}
 .apply { width: 1200px; min-height: 400px; margin: 20px auto;}
 
 .apply_h { 
-	border-bottom: 1px #fc5f25 solid; 
+	border-bottom: 1px #0071cf solid; 
 	height: 35px; 
 	text-align: center;
 	font-size: 18px;
-	color: #fc5f25;
+	color: #0071cf;
 	font-family:"微软雅黑";
 }
 
@@ -52,7 +52,7 @@ button { cursor: pointer; border: none;}
 
 
 .apply_b li a { color: #666;}
-.apply_b li a:hover { color: #ff5f2b; text-decoration: underline;}
+.apply_b li a:hover { color: #0071cf; text-decoration: underline;}
 
 .apply_prompt { 
 	position: absolute; 
@@ -71,7 +71,7 @@ button { cursor: pointer; border: none;}
 	line-height: 36px; 
 	color: #FFF; 
 	text-align: center; 
-	background: #ff5f2b;
+	background: #0071cf;
 	margin-left: 10px;
 }
 .jym { 
@@ -89,14 +89,14 @@ button { cursor: pointer; border: none;}
 .btn button { 
 	height: 42px; 
 	line-height: 42px; 
-	background: #fc5f25; 
+	background: #0071cf; 
 	border: none; 
 	width: 435px; 
 	color: #FFF; 
 	font-size: 14px;
 	cursor: pointer;
 }
-.btn button:hover { background: #fc6d38;}
+.btn button:hover { background: #057cde;}
 
 
 /*-------foot-------*/
@@ -108,12 +108,7 @@ button { cursor: pointer; border: none;}
 .copyright { float: right; color: #666;}
 
 
-.topInfo { height: 40px; background: #0071cf;}
-.top_user { float: right; line-height: 40px; font-size: 14px;}
-.top_user a { display: inline-block; margin: 0 15px; color: #FFF;}
-.top_user a:hover { text-decoration: underline;}
 
-.head { padding: 20px 0; border-bottom: 2px #0071cf solid; background: rgba(255,255,255,0.8);}
 .logo_apply { 
 	width: 316px; 
 	height: 50px; 

@@ -138,7 +138,7 @@
  	</update>
  	
  	<select id="getApplyDetails" parameterType="int" resultType="map">
- 		SELECT t.serial_num,g.model_number,b.name as brandName,c.name as channelName,c.id as channelId,c.need_preliminary_verify as needPreliminaryVerify,c.`id` as appId
+ 		SELECT t.serial_num,g.model_number,b.name as brandName,c.name as channelName,c.id as channelId,c.need_preliminary_verify as needPreliminaryVerify,c.need_preliminary_verify as needPreliminaryVerify,c.`id` as appId
 		FROM terminals t LEFT JOIN goods g on t.good_id=g.id
 		LEFT JOIN good_brands b on g.good_brands_id=b.id 
 		LEFT JOIN pay_channels c on c.id=t.pay_channel_id

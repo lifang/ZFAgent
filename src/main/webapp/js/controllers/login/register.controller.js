@@ -574,7 +574,7 @@ var registerController = function($scope, $location, $http, LoginService) {
 				if (data.code == 1) {
 					$scope.code = data.result;
 					setCookie("agent_send_phone_code", $scope.code);
-					$scope.intDiff = 2;
+					$scope.intDiff = 119;
 					$("#time_show_agent").attr("style","background-color:#AAAAAA");
 					window.agentSendCode = window.setInterval(function() {
 						if ($scope.intDiff == 0) {

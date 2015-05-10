@@ -162,6 +162,7 @@ public class LowerAgentService {
         			childList.add(newMap1);
         		}
         		newMap.put("detail", childList);
+        		newMap.put("nums",childList.size());
         	}
         	newList.add(newMap);
         }

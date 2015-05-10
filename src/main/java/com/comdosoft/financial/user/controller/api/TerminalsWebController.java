@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +40,6 @@ import com.comdosoft.financial.user.service.CommentService;
 import com.comdosoft.financial.user.service.OpeningApplyService;
 import com.comdosoft.financial.user.service.TerminalsWebService;
 import com.comdosoft.financial.user.service.UserManagementService;
-import com.comdosoft.financial.user.utils.CommUtils;
 import com.comdosoft.financial.user.utils.CommonServiceUtil;
 import com.comdosoft.financial.user.utils.HttpFile;
 import com.comdosoft.financial.user.utils.SysUtils;
@@ -487,27 +488,36 @@ public class TerminalsWebController {
      * @param id
      */
     @RequestMapping(value = "upload/tempOpenImg/{id}", method = RequestMethod.POST)
-    public Response tempOpenImg(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
+    public ResponseEntity<String> tempOpenImg(@PathVariable("id") int id,@RequestParam(value="img") MultipartFile updatefile, HttpServletRequest request) {
         try {
+        		String json;
         	
-        	  HttpHeaders responseHeaders = new HttpHeaders();
-              responseHeaders.setContentType(MediaType.TEXT_HTML);
-              
+        		HttpHeaders responseHeaders = new HttpHeaders();
+        		responseHeaders.setContentType(MediaType.TEXT_HTML);
+        	
               int temp=updatefile.getOriginalFilename().lastIndexOf(".");
       			String houzuiStr=updatefile.getOriginalFilename().substring(temp+1);
               if(!commentService.typeIsCommit(houzuiStr)){
-      			return Response.getError("您所上传的文件格式不正确");
+      			//return Response.getError("您所上传的文件格式不正确");
+      			json="{\"message\":\"您所上传的文件格式不正确\",\"code\" = \"-1\"}";
+      			return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
       			}
-              
         		String joinpath="";
             	joinpath = HttpFile.upload(updatefile, userTerminal+id+"/opengImg/");
-            	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath))
-            		return Response.getError(joinpath);
-            	joinpath = filePath+joinpath;
-            		return Response.getSuccess(joinpath);
+            	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath)){
+            		json="{\"message\":\""+joinpath+"\",\"code\":\"-1\"}";
+                	return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+            	}else{
+            		joinpath = filePath+joinpath;
+            		json="{\"result\":\""+joinpath+"\",\"code\":\"1\"}";
+            		//return Response.getSuccess(joinpath);
+            		return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+            	}
+            		//return Response.getError(joinpath);
         } catch (Exception e) {
         	e.printStackTrace();
-        	return Response.getError("请求失败！");
+        	//return Response.getError("请求失败！");
+        	return new ResponseEntity<String>("{\"nessage\":\"请求失败！\",\"code\":\"-1\"}", null, HttpStatus.OK);
         }
     }
 	

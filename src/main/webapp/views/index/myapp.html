@@ -57,7 +57,7 @@ function showImg(i){
                     	<div class="cu_title">公告板</div>
                     	<div class="user_news_con" >
                         	<ul>
-                            	<li ng-repeat="m in web_list"><a href="#/web?id={{m.id}}" target="_blank">[公告] {{m.title}}</a></li>
+                            	<li ng-repeat="m in web_list"><a  ng-click="leitgo('#/web?id=',m.id)"   >[公告] {{m.title}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -89,7 +89,7 @@ function showImg(i){
                             <img src="{{p.good_logo}}" />
                                 <h2 title="{{p.title}}">{{p.title}}</h2>
                                 <strong>{{p.retail_price/100 |currency : "￥"}}</strong>
-                                 <a  	href="#/shopinfo?goodId={{p.id}}"  target="_blank">查看详情</a>
+                                 <a    ng-click="leitgo('#/shopinfo?goodId=',p.id)"     >查看详情</a>
                             </li>
                         </ul>
                     </div>

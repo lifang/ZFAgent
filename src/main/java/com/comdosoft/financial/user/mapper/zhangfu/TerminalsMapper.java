@@ -235,5 +235,7 @@ public interface TerminalsMapper {
     int checkTerminalCodeOpen(String str);
 
 	Map<Object, Object> getTerminalById(Integer terminalId);
+
+    String getOpeningProtocol(int terminalsId);
     
 }

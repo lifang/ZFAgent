@@ -79,7 +79,6 @@ var indexController = function($scope, $location, $http, LoginService,
 	}
 	
 	$scope.$on('$locationChangeStart', function(scope, next, current) {
-		$("#yyy").show();
 		var strs = new Array(); // 定义一数组
 		strs = next.split("/#/"); // 字符分割
 
@@ -140,6 +139,22 @@ var indexController = function($scope, $location, $http, LoginService,
 		window.location.href = '#/';
 	};
 	
+
+	$scope.leitgo = function(url,id){
+		if(id==0){
+			window.open(url);
+		}else{
+			window.open(url+id);
+		}
+	};
+	$scope._togo = function(url,id,p_name,p_value){
+		if(id==0){
+			window.open(url);
+		}else{
+			window.open(url + id + p_name + p_value);
+		}
+	};
+ 
 	$scope.loginout = function(){
 		LoginService.logout();
 	}

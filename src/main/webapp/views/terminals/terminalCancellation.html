@@ -22,7 +22,7 @@
                     	<h2>更新申请资料</h2>
                         <div class="applyFor_list clear" ng-repeat="re in reModel">
                            <div class="af_con">
-                            	<div class="af_con_n">{{$index+1+'.'+re.title}} <a href="{{re.templet_file_path}}" target="_blank" class="a_btn">下载模版</a></div>
+                            	<div class="af_con_n">{{$index+1+'.'+re.title}} <a ng-click="leitgo('re.templet_file_path' , 0 )"    class="a_btn">下载模版</a></div>
                                 <div class="af_con_b">
                                     <form method="post" action="api/webTerminal/upload/tempCancellationFile" enctype="multipart/form-data">  
                                 <i></i>

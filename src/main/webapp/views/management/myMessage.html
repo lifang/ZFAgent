@@ -17,7 +17,7 @@
             <div class="mail_list" ng-repeat="one in list" on-finish-table-filters>
 				<span><input ng-model="one.checked" type="checkbox" ng-click="checkOne(one)" /></span>
 				<div class="mail_text">
-					<a href="#/messageinfo?id={{one.id}}" class="{{one.status?'':'unread'}}" target="_blank">{{one.title}}</a>
+					<a   class="{{one.status?'':'unread'}}"  ng-click="leitgo('#/messageinfo?id=' , one.id )">{{one.title}}</a>
 				</div>
 				<em>{{one.create_at}}</em>
 			</div>

@@ -95,7 +95,7 @@
 							<a href="javascript:void(0);">采购 <i class="off"></i></a>
 							<ol class="sub_menu">
 								<li><a href="#/proxyOrder">采购订单</a></li>
-								<li><a href="#/shop"  target="_blank">去采购</a></li>
+								<li><a  onclick="goshopping();"  >去采购</a></li>
 							</ol>
 						</li>
                 		<li ng-show="menu3" >
@@ -130,6 +130,11 @@
 						</ol></li>
 					<li ><a href="#/myMessage">查看消息</a></li>
                 </ul>
+                <script type="text/javascript">
+                 function goshopping(){
+            			window.open("#/shop");
+            	};
+                </script>
 			</div>
 			<div ng-view></div>
 					<script type="text/javascript" src="js/left.js"></script>		 
@@ -177,7 +182,7 @@
 </div>
 	<div ng-view ng-if="shop"></div>
 	
-	<div class="foot" id="yyy">
+	<div class="foot" >
 		<div class="box">
 			<ul class="foot_nav">
 				<li><a href="#">关于我们</a></li>

@@ -3,7 +3,7 @@
 //系统设置模块
 var tradeModule = angular.module("tradeModule",[]);
 
-var tradelistController = function ($scope, $http, LoginService) {
+var tradelistController = function ($scope, $http, LoginService,$cookieStore) {
 	$scope.init=function(){
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
@@ -24,7 +24,8 @@ var tradelistController = function ($scope, $http, LoginService) {
             if (data.code==1) {
             	$scope.tradeList=data.result.list;
             	calcSystemPage($scope.req, data.result.total);// 计算分页
-            	LoginService.trade=$scope.req;
+            	//LoginService.trade=$scope.req;
+            	$cookieStore.put("tradereq",$scope.req);
             }
         });
 	};
@@ -109,19 +110,16 @@ var tradelistController = function ($scope, $http, LoginService) {
    	};
 };
 
-var statisticsController = function ($scope, $http, LoginService) {
+var statisticsController = function ($scope, $http, LoginService,$cookieStore) {
 	$scope.init=function(){
-		$scope.req=LoginService.trade;
-		if($scope.req==undefined){
-			window.location.href = '#/trade';
-		}else{
-			$scope.list();
-			if($scope.req.startTime==undefined){
-				$scope.req.startTime="";
-			}
-			if($scope.req.endTime==undefined){
-				$scope.req.endTime="";
-			}
+		$scope.req={};
+		$scope.req=$cookieStore.get("tradereq");
+		$scope.list();
+		if($scope.req.startTime==undefined){
+			$scope.req.startTime="";
+		}
+		if($scope.req.endTime==undefined){
+			$scope.req.endTime="";
 		}
 		
 	};
@@ -156,9 +154,9 @@ var tradeinfoController = function ($scope, $http,$location, LoginService) {
 
 
 
-tradelistController.$inject = ['$scope','$http','LoginService'];
+tradelistController.$inject = ['$scope','$http','LoginService','$cookieStore'];
 tradeModule.controller("tradelistController", tradelistController);
-statisticsController.$inject = ['$scope','$http','LoginService'];
+statisticsController.$inject = ['$scope','$http','LoginService','$cookieStore'];
 tradeModule.controller("statisticsController", statisticsController);
 tradeinfoController.$inject = ['$scope','$http','$location','LoginService'];
 tradeModule.controller("tradeinfoController", tradeinfoController);

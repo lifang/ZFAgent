@@ -89,6 +89,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
       		 });
    		 	}
         },
+        
 
         //用户登出功能
         logout: function () {
@@ -127,6 +128,10 @@ var loginService = function ($http, $rootScope, $cookieStore) {
         }
     };
 };
+
+
+
+
 
 //写cookies
 function setCookie(name,value)

@@ -369,6 +369,8 @@ public class OpeningApplyController {
 						.get("registeredNo"));
 				openingApplie.setOrganizationCodeNo((String) map
 						.get("organizationNo"));
+				openingApplie.setBankName((String) map
+						.get("bank_name"));
 				Map<String, Object> m = openingApplyService.getApplyDetails(terminalId);
 				if(!(Boolean)m.get("needPreliminaryVerify")){
 					openingApplie.setStatus(OpeningApplie.STATUS_5);
@@ -378,24 +380,24 @@ public class OpeningApplyController {
 				}
 				//判断该商户是否存在
 				Map<Object, Object> countMap =  openingApplyService.getMerchantsIsNo((String) map.get("merchantName"),(String) map.get("phone"));
+				Merchant merchant = new Merchant();
+				merchant.setLegalPersonName((String) map
+						.get("name"));
+				merchant.setLegalPersonCardId((String) map
+						.get("cardId"));
+				merchant.setTitle((String) map
+						.get("merchantName"));
+				merchant.setTaxRegisteredNo((String) map
+						.get("registeredNo"));
+				merchant.setOrganizationCodeNo((String) map
+						.get("organizationNo"));
+				merchant.setAccountBankNum((String) map
+						.get("bankNum"));
+				merchant.setPhone((String) map
+						.get("phone"));
+				merchant.setCityId((Integer)map.get("cityId"));
 				if(countMap == null){
 					//添加商户
-					Merchant merchant = new Merchant();
-					merchant.setLegalPersonName((String) map
-							.get("name"));
-					merchant.setLegalPersonCardId((String) map
-							.get("cardId"));
-					merchant.setTitle((String) map
-							.get("merchantName"));
-					merchant.setTaxRegisteredNo((String) map
-							.get("registeredNo"));
-					merchant.setOrganizationCodeNo((String) map
-							.get("organizationNo"));
-					merchant.setAccountBankNum((String) map
-							.get("bankNum"));
-					merchant.setPhone((String) map
-							.get("phone"));
-					merchant.setCityId((Integer)map.get("cityId"));
 					//得到该终端绑定用户
 					merchant.setCustomerId(openingApplyService.isopenMessage(terminalId));//终端绑定用户id
 					openingApplyService.addMerchan(merchant);
@@ -405,7 +407,10 @@ public class OpeningApplyController {
 						return Response.getError("申请失败！");
 					}
 				}else if(countMap !=null){
+					merchant.setId((Integer)countMap.get("id"));
+					openingApplyService.updateMerchan(merchant);
 					openingApplie.setMerchantId((Integer)countMap.get("id"));
+					//openingApplie.setMerchantId((Integer)countMap.get("id"));
 				}
 				//为终端表关联对应的商户id和通道周期ID 
 				openingApplyService.updateterminal(openingApplie.getMerchantId(),terminalId,(Integer) map

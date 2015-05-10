@@ -44,7 +44,8 @@
 								<td>{{one.openCount}}</td>
 								<td>{{one.agentCount}}</td>
 								<td><a ng-if="1==0" ng-show="menu1" href="#/purchaseShopinfo?goodId={{one.good_id}}" class="a_btn">批购</a> 
-								<a target="_blank" href="#/stockinfo?pcid={{one.paychannel_id}}&goodid={{one.good_id}}" class="a_btn">库存详情</a> 
+								<a  ng-click="_togo('#/stockinfo?pcid=', one.paychannel_id ,'&goodid=' , one.good_id)"      class="a_btn">库存详情</a> 
+								
 								<a ng-if="1==0" class="a_btn rename_a" ng-click="rename(one.good_id)">商品更名</a></td>
 							</tr>
 

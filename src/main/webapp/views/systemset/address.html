@@ -22,10 +22,10 @@
 			               <option value="">{{selected_city.name}}</option>
 			            </select>
 					</li>
-					<li><label><span class="red">*</span>详细地址：</label><textarea id="address" ng-model="address.address" cols="" rows="" required="required"></textarea></li>
+					<li><label><span class="red">*</span>详细地址：</label><textarea id="address" ng-model="address.address" cols="" rows=""  ></textarea></li>
 					<li><label>&nbsp;邮政编码：</label><input id="zipCode" ng-model="address.zipCode" type="text" onblur="numModify(this)" /></li>
-					<li><label><span class="red">*</span>收货人姓名：</label><input id="receiver" ng-model="address.receiver" type="text" required="required" /></li>
-					<li><label><span class="red">*</span>手机号码：</label><input id="moblephone" ng-model="address.moblephone" type="text" required="required" onblur="numModify(this)" /></li>
+					<li><label><span class="red">*</span>收货人姓名：</label><input id="receiver" ng-model="address.receiver" type="text"  /></li>
+					<li><label><span class="red">*</span>手机号码：</label><input id="moblephone" ng-model="address.moblephone" type="text"  onblur="numModify(this)" /></li>
 					<li><label>&nbsp;电话号码：</label><input style="width: 78px;" id="telphone1" ng-model="address.telphone1" type="text" onblur="numModify(this)" placeholder="区号" />
 						&nbsp;<label style="width:12px;text-align:center;">-</label><input style="width: 78px;" id="telphone2" ng-model="address.telphone2" type="text" onblur="numModify(this)" placeholder="电话号码" />
 						&nbsp;<label style="width:12px;text-align:center;">-</label><input style="width: 78px;" id="telphone3" ng-model="address.telphone3" type="text" onblur="numModify(this)" placeholder="分机" />
@@ -39,8 +39,7 @@
 		</div>
 		<!-- </form> -->
 		<div class="myAddress">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				class="b_table">
+			<table width="100%"  border="0"  cellspacing="0"  cellpadding="0"	class="b_table">
 				<colgroup>
 					<col width="90" />
 					<col width="240" />

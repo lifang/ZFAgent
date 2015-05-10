@@ -47,6 +47,7 @@
 	</div>
 	 
 	<div class="content clear">
+	 <div class="content_inner">
 		<div class="myInfoNav">
 			<ul>
 				<li><a href="#/agentinform" class="hover" >基本信息</a></li>
@@ -58,19 +59,18 @@
 		</div>
 		<div class="myInfoBox" id="base_box">
 			<ul>
-				<li><label>负责人姓名：</label><input type="text" disabled="true"
-					ng-model="one.name" /></li>
-				<li ng-if="one.types == 1"><label>公司名称：</label><input		type="text" ng-model="one.company_name" disabled="true" /></li>
-				<li ng-if="one.types == 1"><label>公司营业执照登记号：</label><input	name="" type="text" ng-model="one.business_license" disabled="true" /></li>
+				<li><label>负责人姓名：</label><input type="text" disabled="disabled" 	ng-model="one.name" /></li>
+				<li ng-if="one.types == 1"><label>公司名称：</label><input		type="text" ng-model="one.company_name" disabled="disabled" /></li>
+				<li ng-if="one.types == 1"><label>公司营业执照登记号：</label><input	name="" type="text" ng-model="one.business_license" disabled="disabled" /></li>
 				<li><label>电话：</label><input type="text" ng-model="one.s_phone"	disabled="disabled" /><a href="javascript:void(0)"	id="show_phone_input_my_btn" ng-click="send_code_one(1)">修改手机号</a></li>
 				<li><label>邮箱：</label><input type="text" ng-model="one.email" disabled="disabled" />
 				<button id="email_send_btn" ng-click="up_email()">修改邮箱</button></li>
-				<li><label>所在地：<input name="" type="text" ng-model="one.address" disabled="true" /></label>
+				<li><label>所在地：<input name="" type="text" ng-model="one.address" disabled="disabled" /></label>
 					<div class="addr_area">
-						<select name="" disabled="true"> 
+						<select name="" disabled="disabled"> 
 							<option>{{one.provincename}}</option>
 						</select> 
-						<select name="" disabled="true"> 
+						<select name="" disabled="disabled"> 
 							<option>{{one.cityname}}</option>
 						</select>
 					</div></li>
@@ -86,6 +86,7 @@
 				<button type="button" class="orangeBtn" ng-click="up_save()">修改邮箱</button>
 			</div>
 		</div>
+	</div>
 	</div>
 </div>
 

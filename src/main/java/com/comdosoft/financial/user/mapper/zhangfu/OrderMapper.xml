@@ -52,6 +52,7 @@
             <result property="price" column="price" /> 
             <result property="purchasePrice" column="purchase_price" /> 
             <result property="retailPrice" column="retail_price" /> 
+               <result property="modelNumber" column="brand_number" />
               <association property="factory" javaType="com.comdosoft.financial.user.domain.zhangfu.Factory" resultMap="factoryResultMap" />  
             <association property="goodsBrand" javaType="com.comdosoft.financial.user.domain.zhangfu.GoodBrand" resultMap="goodBrandResultMap" />  
             <collection property="picsList" ofType="com.comdosoft.financial.user.domain.zhangfu.GoodsPicture" resultMap="picsResultMap" />  
@@ -121,7 +122,7 @@
 		<result property="actualPrice" column="actual_price" />
 		<result property="frontMoney" column="front_money" />
 		<result property="frontPayStatus" column="front_pay_status" />
-		<result property="createdUserId" column="created_userId" />
+		<result property="createdUserId" column="created_user_id" />
 		<result property="createdUserType" column="created_user_type" />
 		<result property="processUserId" column="process_user_id" />
 		<result property="processUserName" column="process_user_name" />
@@ -181,7 +182,7 @@
 	<!-- 批购 -->
 	<select id="getWholesaleOrder" resultMap="orderMap" >
 		SELECT
-			o.id AS id,os.id as cs_out_id,
+			o.id AS id,os.id as cs_out_id,g.model_number AS brand_number,
 			og.id AS order_good_id,
 			g.id AS good_id,
 			o.order_number,
@@ -250,10 +251,10 @@
 	<!-- 代购 -->
 	<select id="getProxyOrder" resultMap="orderMap" >
 		SELECT
-		o.id as id,o.customer_id,
+		o.id as id,o.customer_id,g.model_number AS brand_number,
 		og.id as order_good_id,
 		g.id as good_id,
-		 o.total_quantity,
+		 o.total_quantity,o.created_user_id,
 		 g.retail_price,
 		o.order_number,
 			o.created_at,
@@ -293,6 +294,8 @@
 	<select id="findGoodsByPOrderId" resultMap="orderGoodsMap" >
 		SELECT
 		og.id as order_good_id,
+			g.model_number AS brand_number,
+		gb. NAME AS brand_name,
 		g.id as good_id, 
 		g.retail_price,og.actual_price as og_actual_price,
 		g.title,gb.name , gb.id as good_brands_id,
@@ -374,7 +377,7 @@
 	
 	  <!--  批购 详情 -->
 	<select id="getWholesaleById" resultMap="orderMap">
-		SELECT
+		SELECT g.model_number AS brand_number,
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.price,g.purchase_price,
 		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,o.need_invoice,
 		 g.title,gb.name , gb.id as good_brands_id,o.comment,oo.logistics_name,oo.logistics_number,
@@ -404,8 +407,8 @@
 	</select>
 	<!-- 代购  详情 -->
 	<select id="getProxyById" resultMap="orderMap">
-		SELECT
-		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,o.customer_id,
+		SELECT g.model_number AS brand_number,
+		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,o.customer_id,o.created_user_id,
 		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,oo.logistics_name,oo.logistics_number,
 		g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,og.actual_price as og_actual_price,
 		pc.name as channel_name,og.price as og_price ,	og.quantity as og_quantity ,o.invoice_info,op.pay_type,o.belongs_user_id,f.`name` as factory_name,

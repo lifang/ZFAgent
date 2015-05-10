@@ -313,7 +313,6 @@ $(function(){
 
 // pro_detail 商品详细信息
 $(function(){
-	$(".pro_detail_con > div").not(":first").hide();
 	$(".pro_detail_title li").unbind("click").bind("click", function(){
 		$(this).addClass("hover").siblings().removeClass("hover");
 		var index = $(".pro_detail_title li").index( $(this) );

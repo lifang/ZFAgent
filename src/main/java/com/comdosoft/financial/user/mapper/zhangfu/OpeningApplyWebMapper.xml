@@ -4,12 +4,12 @@
 
 	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.OpeningRequirement" id="op_Map">
 		<id property="id" column="id"/>
-		<result property="level_title" column="levelTitle"/>
-		<result property="level_description" column="levelDescription"/>
-		<result property="pay_channel_id" column="payChannelId"/>
-		<result property="has_video_verify" column="hasVideoVerify"/>
-		<result property="level" column="level"/>
-		<result property="video_verify_status" column="videoVerifyStatus"/>
+		<result column="level_title" property="levelTitle"/>
+		<result column="level_description" property="levelDescription"/>
+		<result column="pay_channel_id" property="payChannelId"/>
+		<result column="has_video_verify" property="hasVideoVerify"/>
+		<result column="level" property="level"/>
+		<result column="video_verify_status" property="videoVerifyStatus"/>
 	</resultMap>
  	
  	<insert id="addOpeningApply" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.OpeningApplie">

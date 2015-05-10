@@ -29,7 +29,7 @@
 	group by g.id
 	ORDER BY
 		g.id DESC 
-	limit 0,6
+	limit 0,3
 	</select>
 	
 	<select id="getAllCitiesList" resultType="map">
@@ -88,13 +88,11 @@
 		SELECT
 		CASE `status`
 		WHEN 2 THEN
-		'1条售后单记录待发回'
+		'1条售后单记录处理中'
 		WHEN 3 THEN
-		'1条售后单记录维修中'
+		'1条售后单记录已完成'
 		WHEN 4 THEN
-		'1条售后单记录处理完成'
-		WHEN 5 THEN
-		'1条售后单记录已取消'
+		'1条售后单记录处理已取消'
 		ELSE '其他'
 		END AS `status`,id,
 		updated_at

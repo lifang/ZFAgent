@@ -1,6 +1,7 @@
 <script type="text/javascript" src="js/controllers/myMessage/messageDetails.js"></script>
 <div class="right" ng-controller="messageDetailsController">
 	<div class="content clear">
+	 <div class="content_inner">
 		<div class="message_con">
 			<div class="mail_article">
 				<div class="mail_article_title">
@@ -10,9 +11,10 @@
 					</p>
 				</div>
 				<div class="mail_article_text">
-					{{content}}	 
+					     <textarea readonly="readonly" name="" cols="" rows="">	{{content}}	 </textarea>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </div>

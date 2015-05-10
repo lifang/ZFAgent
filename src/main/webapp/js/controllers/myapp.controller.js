@@ -129,10 +129,10 @@ var myappController = function ($scope, $http,$location, LoginService) {
 		});
 	};
  
-	$scope.my_message_list();
+//	$scope.my_message_list();
 	$scope.web_message_list();
 	$scope.trade_list();
-	$scope.web_yw_list();
+//	$scope.web_yw_list();
 	$scope.web_pos_list(); 
 };
 

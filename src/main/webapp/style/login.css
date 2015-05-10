@@ -10,9 +10,9 @@ a { text-decoration: none;}
 .login_logo { float: left;}
 .login_dh { float: right; margin-top: 5px;}
 
-.login { width: 1200px; height: 420px; background: #FFF; margin: 50px auto; overflow: hidden;}
+.login { width: 1200px; height: 420px; margin: 50px auto; overflow: hidden;}
 .login_left { width: 780px; float: left; height: 420px; font-size: 0; margin-right: 20px;}
-.login_right { width: 398px; float: left; height: 418px; border: 1px #ccc solid;}
+.login_right { width: 398px; float: left; height: 418px; border: 1px #ccc solid; background: #FFF;}
 
 .lr_h { height: 46px; overflow: hidden; background: #efefef;}
 

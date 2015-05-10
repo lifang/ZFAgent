@@ -29,7 +29,7 @@
 	group by g.id
 	ORDER BY
 		g.id DESC 
-	limit 0,6
+	limit 0,3
 	</select>
 	
 	<select id="getAllCitiesList" resultType="map">

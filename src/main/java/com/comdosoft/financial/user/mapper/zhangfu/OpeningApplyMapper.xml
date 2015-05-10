@@ -6,11 +6,11 @@
 		INSERT INTO `opening_applies` (`apply_customer_id`,`terminal_id`,`status`,`created_at`,
 		`updated_at`,`types`,`merchant_id`,`merchant_name`,`sex`,`birthday`,`card_id`,`phone`,
 		`email`,`city_id`,`name`,`pay_channel_id`,`account_bank_num`,`account_bank_name`,
-		`account_bank_code`,`tax_registered_no`,`organization_code_no`,`billing_cyde_id`,`activate_status`,`apply_status`) 
+		`account_bank_code`,`tax_registered_no`,`organization_code_no`,`billing_cyde_id`,`activate_status`,`apply_status`,`bank_name`) 
 		VALUES (#{applyCustomerId},#{terminalId},#{status},now(),now(),#{types},#{merchantId},
 		#{merchantName},#{sex},#{birthday},#{cardId},#{phone},#{email},#{cityId},#{name},
 		#{payChannelId},#{accountBankNum},#{accountBankName},#{accountBankCode},#{taxRegisteredNo},
-		#{organizationCodeNo},#{billingCydeId},'0000',0);
+		#{organizationCodeNo},#{billingCydeId},'0000',0,#{bankName});
  	</insert>
  	
  	<insert id="addMerchan" useGeneratedKeys="true" keyProperty="id" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
@@ -134,6 +134,7 @@
 		,`tax_registered_no` = #{taxRegisteredNo}
 		,`organization_code_no` = #{organizationCodeNo}
 		,`billing_cyde_id` =#{billingCydeId}
+		,`bank_name` =#{bankName}
 		where id = #{id}
  	</update>
  	
@@ -167,6 +168,12 @@
  		</if>
  		LIMIT #{offSetPage},#{pageSize}
  	</select>
+ 	
+ 	<update id="updateMerchan" parameterType="com.comdosoft.financial.user.domain.zhangfu.Merchant">
+ 		 UPDATE merchants set legal_person_name=#{legalPersonName},legal_person_card_id=#{legalPersonCardId},title=#{title},tax_registered_no=#{taxRegisteredNo},
+		 organization_code_no=#{organizationCodeNo},updated_at=now(),account_bank_num=#{accountBankNum},customer_id=#{customerId},city_id=#{cityId},phone=#{phone}
+		 WHERE id=#{id}
+ 	</update>
  	
  	<select id="getMerchantSize" resultType="int" parameterType="map">
  		SELECT count(*)

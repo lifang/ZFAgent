@@ -947,7 +947,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$scope.req = {};
 		$scope.ad = {};
 		$scope.order = {
-			invoice_type : 1,
+			invoiceType : 1,
 			addressId : 0
 		};
 		// $scope.order.customerId=LoginService.userid;
@@ -1013,6 +1013,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		}
 		if ($scope.order.isNeedInvoice) {
 			$scope.order.isNeedInvoice = 1;
+			$scope.order.invoiceInfo=$('#tt5').val();
 		} else {
 			$scope.order.isNeedInvoice = 0;
 		}
@@ -1033,7 +1034,7 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 
 	};
 	$scope.ctype = function(v) {
-		$scope.order.invoice_type = v;
+		$scope.order.invoiceType = v;
 	}
 	$scope.adlist = function() {
 		$http.post("api/agents/getAddressList", {

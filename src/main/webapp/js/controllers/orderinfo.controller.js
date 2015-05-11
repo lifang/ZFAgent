@@ -65,7 +65,6 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
     }
     //支付 金额
     $scope.infoorderpay = function() {
-//		   console.log(">>>>>>>>>>>"+pay_price);
 	    	$("#zf_yz").hide();
 	   		var pay_price = $("#pay_price").val();
 	   		if(isNaN(pay_price)){
@@ -79,7 +78,6 @@ var wholesaleOrderinfoController = function ($scope,$location, $http, LoginServi
 //	    		$("#zf_yz").show();
 	    		return false;
 	    	}else if( sy_price  < pay_price ){
-//	    		console.log(">>>>>>muqian "+pay_price+">>>最多"+sy_price);
 	        		alert("最多只需支付"+sy_price);
 	        		return false;
 	    	}else if(parseInt(pay_price) > parseInt(sy_price)){

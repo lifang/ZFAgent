@@ -414,6 +414,7 @@ var shopinfoController = function($scope, $http, $location, LoginService) {
 			if (data.code == 1) {
 				$scope.good = data.result;
 				$scope.paychannel = data.result.paychannelinfo;
+				$scope.picList=data.result.picList;
 			}else{
 				window.location.href = '#/noshop';
 			}

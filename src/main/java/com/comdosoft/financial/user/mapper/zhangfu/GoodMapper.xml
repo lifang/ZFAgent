@@ -5,7 +5,7 @@
 
 	<select id="getGoodById" resultType="map">
 		SELECT g.id,g.Title,g.second_title,gb.name as good_brand,g.Model_number,g.purchase_number,pc.name as category,
-		g.volume_number,g.retail_price,g.price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,
+		g.volume_number,g.purchase_price as retail_price,g.price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,
 		g.has_lease,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,g.lease_deposit,
 		g.shell_material,g.battery_info,dsow.sign_order_way,decw.encrypt_card_way,
 		g.factory_id,g.description,g.quantity,g.total_score
@@ -21,8 +21,8 @@
 	<select id="getGoodsList" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
 	    SELECT * from(
 		SELECT  g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.purchase_number,g.lease_deposit,
-		g.retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title,
-		min(g.retail_price+pc.opening_cost) price1,min(g.purchase_price+pc.opening_cost) price2
+		g.purchase_price as retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title,
+		min(g.purchase_price+pc.opening_cost) price1,min(g.purchase_price+pc.opening_cost) price2
 		from goods g
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
@@ -102,7 +102,10 @@
 	</select>
 
 	<select id="getGoodsTotal" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="int">
-		SELECT count(DISTINCT g.id)
+		SELECT count(*) from(
+		SELECT  g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.purchase_number,g.lease_deposit,
+		g.purchase_price as retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title,
+		min(g.purchase_price+pc.opening_cost) price1,min(g.purchase_price+pc.opening_cost) price2
 		from goods g
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
 		LEFT JOIN goods_pay_channels gpc on gpc.good_id=g.id
@@ -118,12 +121,6 @@
 		</if>
 		<if test="keys!=null">
 			and ( g.Title like '%${keys}%' or g.second_title like '%${keys}%' or g.key_worlds like '%${keys}%' )
-		</if>
-		<if test="minPricei!=0">
-    	    <![CDATA[ and g.retail_price >= #{minPricei}]]>
-		</if>
-		<if test="maxPricei!=0">
-    	     <![CDATA[ and g.retail_price <= #{maxPricei}]]>
 		</if>
 		<if test="brandsIds!=null">
 			and g.good_brands_id in ${brandsIds}
@@ -145,6 +142,20 @@
 		</if>
 		<if test="tDates!=null">
 			and pc.id in (SELECT pcbc.pay_channel_id from pay_channel_billing_cycles pcbc where pcbc.billing_cycles_id in ${tDates})
+		</if>
+		group by g.id
+		)tt where 1=1
+		<if test="minPricei!=0 and  type!=1">
+    	    <![CDATA[ and tt.price1 >= #{minPricei}]]>
+		</if>
+		<if test="maxPricei!=0 and  type!=1">
+    	     <![CDATA[ and tt.price1 <= #{maxPricei}]]>
+		</if>
+		<if test="minPricei!=0 and  type==1">
+    	    <![CDATA[ and tt.price2 >= #{minPricei}]]>
+		</if>
+		<if test="maxPricei!=0 and  type==1">
+    	     <![CDATA[ and tt.price2 <= #{maxPricei}]]>
 		</if>
 	</select>
 
@@ -235,7 +246,7 @@
 	</select>
 	
 	<select id="getRelativeShopListByGoodId"  resultType="map">
-		SELECT g.id,g.Title,g.retail_price,g.purchase_price,g.floor_price,g.volume_number from good_relations gr
+		SELECT g.id,g.Title,g.purchase_price as retail_price,g.purchase_price,g.floor_price,g.volume_number from good_relations gr
 		LEFT JOIN goods g on g.id=gr.relative_good_id
 		where g.status=5 and g.is_published=1 and
 		gr.good_id=#{goodId} 

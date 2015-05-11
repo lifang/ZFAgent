@@ -508,7 +508,8 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 .manufacturer { border-bottom: 1px #CCCCCC solid; margin-bottom:10px;}
 .manufacturer h2 { font-size: 14px; line-height: 28px; margin-bottom:10px; color: #666;}
 .mf_title { overflow: hidden; margin-bottom: 10px;}
-.mf_logo { float: left; margin-right: 10px;}
+.mf_logo { float: left; margin-right: 10px; width: 90px; height: 30px; overflow: hidden;}
+.mf_logo img { width: 90px; height: 30px;}
 .mf_name { line-height: 20px; font-size: 14px;}
 .mf_text { color: #666; line-height: 24px; padding: 5px 0; overflow:hidden; word-break:break-all;}
 .mf_text a {width: 200px; display: block;

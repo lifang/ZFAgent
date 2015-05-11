@@ -1141,6 +1141,9 @@ var shopmakeorderController = function($scope, $http, $location, LoginService) {
 		$http.post("api/user/getWbeUser", $scope.cc).success(function(data) {
 			if (data.code == 1) {
 				$scope.cuslist = data.result;
+				if($scope.cuslist.length==0){
+					alert("没有查询到您要找的用户");
+				}
 			}
 		});
 	};

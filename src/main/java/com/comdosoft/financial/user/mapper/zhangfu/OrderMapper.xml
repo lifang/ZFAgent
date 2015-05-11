@@ -504,7 +504,7 @@
   <select id="getGoodInfo" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.OrderReq">
         SELECT  g.id as goodid,pc.id as paychanelid ,g.lease_deposit,ifnull(g.belongs_to,0) belongs_to,
         g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.quantity as count,
-        g.price,g.retail_price,pc.opening_cost
+        g.price,g.purchase_price as retail_price,pc.opening_cost
 		from goods_pay_channels gpc
 		LEFT JOIN goods g on g.id=gpc.good_id
 		LEFT JOIN pay_channels pc on pc.id=gpc.pay_channel_id

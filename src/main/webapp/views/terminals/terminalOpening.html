@@ -180,15 +180,30 @@
             	</div>
                 </div>      	
 </div>
+ <div class="mask" style="display: none;"></div>
+    <div class="upImgLoading" style="display: none;">
+    	<span><img src="images/loading.gif" /></span>
+        <p>图片上传中...</p>
+    </div>
 <script type="text/javascript">
-            function showImage(obj) { 
+            function showImage(obj) {
+            	var doc_height = $(document).height();
+				 $(".mask").css({
+						display : 'block',
+						height : doc_height
+					});
+            	$(".mask").show();
+            	$(".upImgLoading").show();
             	$(obj).parent("a").parent("form").attr("action","api/webTerminal/upload/tempOpenImg/"+$("#terid").val());
             	$(obj).parent("a").parent("form").ajaxSubmit({
             		success : function(data) {
             			data = JSON.parse(data);
+            			$(".mask").hide();
+                    	$(".upImgLoading").hide();
             			if(data.code == -1){
             				alert(data.message);
             			}else if(data.code == 1){
+            				
             				$(obj).parent("a").children("span").html("重新上传");
             				$(obj).siblings("input").val(data.result);
             			}

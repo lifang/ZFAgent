@@ -193,7 +193,7 @@ public class OrderService {
 //            List<CsOutStorage> csOutList = o.getCsOutStorageList();
             Integer quantity = 0;
             for (CsOutStorage cs_out : csOutList) {
-                if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
+                if (null != cs_out.getStatus() && cs_out.getStatus() ==3) {
                     Integer q = cs_out.getQuantity();
                     quantity = quantity + q;
                 }
@@ -348,7 +348,7 @@ public class OrderService {
 //        List<CsOutStorage> csOutList = o.getCsOutStorageList();
         Integer quantity = 0;
         for (CsOutStorage cs_out : csOutList) {
-            if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
+            if (null != cs_out.getStatus() && cs_out.getStatus() == 3) {
                 Integer q = cs_out.getQuantity();
                 quantity = quantity + q;
             }
@@ -492,7 +492,7 @@ public class OrderService {
 //        List<CsOutStorage> csOutList = o.getCsOutStorageList();
         Integer quantity = 0;
         for (CsOutStorage cs_out : csOutList) {
-            if (null != cs_out.getStatus() && cs_out.getStatus() == 1) {
+            if (null != cs_out.getStatus() && cs_out.getStatus() == 3) {
                 Integer q = cs_out.getQuantity();
                 quantity = quantity + q;
             }

@@ -499,8 +499,13 @@ public class TerminalsWebController {
       			String houzuiStr=updatefile.getOriginalFilename().substring(temp+1);
               if(!commentService.typeIsCommit(houzuiStr)){
       			//return Response.getError("您所上传的文件格式不正确");
-      			json="{\"message\":\"您所上传的文件格式不正确\",\"code\" = \"-1\"}";
+      			json="{\"message\":\"您所上传的文件格式不正确\",\"code\":\"-1\"}";
       			return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+      			}else{
+      				if(!HttpFile.fileSize(updatefile)){
+      					json="{\"message\":\"您上传的图片大小过大，请上传小于2M的图片\",\"code\":\"-1\"}";
+      	      			return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+      				}
       			}
         		String joinpath="";
             	joinpath = HttpFile.upload(updatefile, userTerminal+id+"/opengImg/");

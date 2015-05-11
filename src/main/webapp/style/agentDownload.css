@@ -3,7 +3,7 @@
 body { 
 	font: 12px/1.5 "\5b8b\4f53", Arial,Verdana; 
 	color: #333; 
-	background:#ffffff url(../images/bg0.jpg) no-repeat;
+	background:#ffffff url(../images/bg0.jpg) no-repeat center top;
 	background-size: cover;
 }
 img { border: none;}
@@ -85,11 +85,11 @@ input { border: none;}
 }
 .agentNum li.on{ background-color:#1c64a8;}
 
-.main { position: relative; }
+.main { position: relative; background: none;}
 .dl_area { 
 	position: absolute; 
 	left: 50%; 
-	top: 210px; 
+	top: 250px; 
 	margin-left: -175px; 
 	width: 350px; 
 	overflow: hidden;

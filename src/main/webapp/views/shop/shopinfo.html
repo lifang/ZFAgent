@@ -189,7 +189,9 @@
 						</div>
 						<div class="pro_attributes">
 							<h2>详细说明</h2>
-							<div class="text">{{good.goodinfo.description}}</div>
+							<div class="text_img" ng-repeat="one in picList">
+									<img src="{{one.urlPath}}" />
+							</div>
 						</div>
 					</div>
 

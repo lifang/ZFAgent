@@ -186,8 +186,10 @@
 	</select>
 	
 	<select id="getTerminalsNum" parameterType="map" resultType="object">
-		SELECT id FROM terminals
-		WHERE serial_num =#{terminalsNum} and agent_id = #{agentId}
+		SELECT t.id FROM terminals t
+		WHERE t.serial_num =#{terminalsNum}
+		and (t.agent_id in(select a.id from agents a where a.`code` LIKE (select CONCAT(z.`code`,'%') from agents z  where z.id = #{agentId} )))
+	
 	</select>
 
 	<select id="numIsBinding" parameterType="string" resultType="int">

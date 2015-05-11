@@ -123,7 +123,6 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 	//显示支付
 	$scope.showPay = function(id,i){
 //		$scope.req={id:id};
-//		console.log(">>>>>>>>>>>pay_price  showpay");
     	$("#o_id").val(id);
     	$("#o_index").val(i);
     	$("#pay_price").val("");
@@ -154,7 +153,6 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
     $scope.orderpay = function(o) {
     	$("#zf_yz").hide();
    		var pay_price = $("#pay_price").val();
-//   		console.log(">>>>>>>>>>>"+pay_price);
    		if(isNaN(pay_price)){
    			alert("支付金额必须是数字");
    			return false;
@@ -167,7 +165,6 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 //    		$("#zf_yz").show();
     		return false;
     	}else if( sy_price  < pay_price ){
-//    		console.log(">>>>>>muqian "+pay_price+">>>最多"+sy_price);
         		alert("最多只需支付"+sy_price);
         		return false;
     	}else if(parseInt(pay_price) > parseInt(sy_price)){
@@ -579,7 +576,6 @@ var orderpayController = function($scope, $http,$location,LoginService) {
  
 	//订单支付
 	$scope.orderpay= function(){
-//		console.log(">>>>>去支付");
 		$scope.req={};
 		$scope.req.id=$location.search()['id'];
 		var price =$location.search()['p'];//
@@ -595,7 +591,6 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 	        			alert("大哥，至少赏个一分钱吧!！");
 	        			return false;
 	        		}
-//	        		console.log(">>>>>>金额正确>>>");
 	        		$('#payTab').show();
 	        		$('.mask').show();
 	        		$scope.order.title= $scope.order.body;

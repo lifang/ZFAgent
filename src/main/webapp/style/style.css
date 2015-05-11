@@ -1217,10 +1217,10 @@ i.closeDeal_icon {
 	border: 1px #CCCCCC solid;
 	z-index: 100;
 }
+.attributes_box .item_list li .suggest li { padding: 0px;}
 .suggest_l { left: 132px; width: 370px;}
 .suggest a { display: block; line-height: 24px; padding: 0 10px;}
 .suggest a:hover { background: #f1f1f1;}
-.attributes_box .item_list li .suggest li { padding: 0px;}
 
 /*----分派-----*/
 .assign_tab_p { height: 32px; line-height: 32px; margin-bottom: 10px; font-size: 14px;}
@@ -1559,7 +1559,7 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 .serviceContent dl { width: 180px; float: left; margin-right: 20px;}
 .serviceContent dl a { color: #999;}
 .serviceContent dt { font-size: 24px;}
-.serviceContent dl dd {font-size: 12px; padding-left: 60px; font-size: 16px; line-height: 24px;}
+.serviceContent dl dd {font-size: 12px; padding-left: 60px; font-size: 16px; line-height: 24px; display: none;}
 .serviceContent dl dd a {}
 .serviceContent dl dd a:hover { color: #333;}
 .serviceContent dt a { 
@@ -1569,8 +1569,10 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 	position: relative; 
 	padding-left: 60px;
 	color: #333;
+	cursor: text;
+	font-family: "microsoft yahei";
 }
-.serviceContent dt a.sc01 i { 
+.serviceContent dt a i { 
 	width: 55px; 
 	height: 55px; 
 	display: inline-block; 
@@ -1578,6 +1580,22 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 	position: absolute;
 	top: 0px;
 	left: 0px;
+}
+
+.serviceContent dt a.sc01 i { 
+	background: url(../images/serviceIcon.png) no-repeat 0 0;
+}
+.serviceContent dt a.sc02 i { 
+	background: url(../images/serviceIcon.png) no-repeat 0 -55px;
+}
+.serviceContent dt a.sc03 i { 
+	background: url(../images/serviceIcon.png) no-repeat 0 -110px;
+}
+.serviceContent dt a.sc04 i { 
+	background: url(../images/serviceIcon.png) no-repeat 0 -165px;
+}
+.serviceContent dt a.sc05 i { 
+	background: url(../images/serviceIcon.png) no-repeat 0 -220px;
 }
 /*
 .serviceContent dt a:hover { 
@@ -1692,3 +1710,22 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 .ebankat_btn a:hover, .ebankat_btn button:hover { background: #097fe2;}
 .ebankat_btn button.cancel { background: #999; }
 .ebankat_btn button.cancel:hover { background: #a6a6a6;}
+
+
+
+
+/*------upImgLoading-----*/
+.upImgLoading { 
+	padding: 20px 50px; 
+	text-align: center; 
+	position: fixed; 
+	z-index: 1000; 
+	background: #FFF;
+	border-radius: 8px;
+	top: 50%; 
+	left: 50%;
+	margin-top: -55px;
+	margin-left: -89px;
+}
+.upImgLoading span { width: 37px; height: 37px; display: inline-block; font-size: 0;}
+.upImgLoading p { line-height: 32px;}

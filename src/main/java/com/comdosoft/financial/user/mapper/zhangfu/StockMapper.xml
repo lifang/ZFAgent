@@ -96,12 +96,12 @@
       
       
       <select id="getSonAgent" resultType="map" >
-        SELECT pgr.agent_id,SUM(pgr.quantity) hoitoryCount,a.company_name
+        SELECT pgr.agent_id,SUM(pgr.quantity) hoitoryCount,ifnull(a.company_name,a.name) company_name
 		from prepare_goods_records pgr
 		LEFT JOIN agents a on a.id=pgr.agent_id
 		where good_id=#{goodId} and pay_channel_id=#{paychannelId} and a.parent_id=#{agentId}
 		<if test="agentname!=''">
-		   and a.company_name like '%${agentname}%'
+		   and ( a.company_name like '%${agentname}%' or a.name like '%${agentname}%' )
 		</if>
 		GROUP by agent_id 
 		LIMIT #{offset}, #{rows}

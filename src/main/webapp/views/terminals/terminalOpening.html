@@ -186,7 +186,12 @@
         <p>图片上传中...</p>
     </div>
 <script type="text/javascript">
-            function showImage(obj) { 
+            function showImage(obj) {
+            	var doc_height = $(document).height();
+				 $(".mask").css({
+						display : 'block',
+						height : doc_height
+					});
             	$(".mask").show();
             	$(".upImgLoading").show();
             	$(obj).parent("a").parent("form").attr("action","api/webTerminal/upload/tempOpenImg/"+$("#terid").val());

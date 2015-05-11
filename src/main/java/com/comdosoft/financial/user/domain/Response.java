@@ -65,6 +65,7 @@ public class Response {
     public static Response getError(String message) {
         Response response = new Response();
         response.code = ERROR_CODE;
+        response.result ="";
         response.message = message;
         return response;
     }

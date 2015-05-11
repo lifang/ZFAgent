@@ -111,8 +111,8 @@
                             <ul>
                                 <li>结算银行代码：{{openingInfos.account_bank_code}}</li>
                                 <li>结算银行账户：{{openingInfos.account_bank_num}}</li>
-                                <li>税务机构号：{{openingInfos.tax_registered_no}}</li>
-                                <li>组织机构号：{{openingInfos.organization_code_no}}</li>
+                                <li ng-if="openingInfos.types == 1">税务机构号：{{openingInfos.tax_registered_no}}</li>
+                                <li ng-if="openingInfos.types == 1">组织机构号：{{openingInfos.organization_code_no}}</li>
                             </ul>
                         </div>
                         <div class="item_list clear">

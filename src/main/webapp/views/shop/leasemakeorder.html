@@ -20,6 +20,7 @@
 		focusBlur('#tt2');
 		focusBlur('#tt3');
 		focusBlur('#tt4');
+		focusBlur('#tt5');
 	})
 </script>
 <div ng-controller="shopmakeorderController">
@@ -108,16 +109,16 @@
 
 						<tr class="addAddr_box" ng-show="addadd">
 							<td>&nbsp;</td>
-							<td><input  type="text" id="tt1"  value="收件人姓名"  /></td>
+							<td><input type="text" id="tt1" value="收件人姓名" /></td>
 							<td><select style="width: 90px;" ng-model="selected" ng-options="s.name for s in city_list">
 									<option value="">请选择省</option>
 							</select> <select style="width: 90px;" ng-model="city" ng-options=" x.name for x in selected.childrens">
 									<option value="">请选择市</option>
 							</select></td>
-							<td><input  type="text" class="w" id="tt2"  value="详细地址" /></td>
-							<td><input type="text" id="tt3"  value="邮编" /></td>
-							<td><input  type="text" id="tt4"  value="手机号码" /></td>
-							<td><a  class="a_btn" ng-click="addad()">确定</a></td>
+							<td><input type="text" class="w" id="tt2" value="详细地址" /></td>
+							<td><input type="text" id="tt3" value="邮编" /></td>
+							<td><input type="text" id="tt4" value="手机号码" /></td>
+							<td><a class="a_btn" ng-click="addad()">确定</a></td>
 							<td>&nbsp;</td>
 						</tr>
 					</table>
@@ -210,14 +211,27 @@
 							<p>留言最多{{100-order.comment.length}}个字</p>
 						</div>
 					</div>
-
+					<div class="oi_right">
+						<div class="oi_title">
+							<div class="invoice_checkbox">
+								<input type="checkbox" ng-model="order.isNeedInvoice" /> 需要发票
+							</div>
+							<div class="invoice" ng-show="order.isNeedInvoice">
+								<span>类型：</span> <a class="hover" ng-click="ctype(1)">个人</a> <a ng-click="ctype(0)">公司</a>
+							</div>
+						</div>
+						<div class="oi_area">
+							<textarea id="tt5" class="invoice_area" disabled="disabled"> 发票抬头
+                    	</textarea>
+						</div>
+					</div>
 
 
 
 				</div>
 				<div class="settleAccount">
 					<div class="sa_agreement">
-						<input ng-model="greet" type="checkbox" /><a  class="a_btn leaseExplain_a">我同意租赁协议</a>
+						<input ng-model="greet" type="checkbox" /><a class="a_btn leaseExplain_a">我同意租赁协议</a>
 					</div>
 					<p>
 						实付：<strong>{{(shop.opening_cost+shop.price)/100*order.quantity|currency : "￥"}}</strong>
@@ -228,7 +242,7 @@
 		</div>
 	</div>
 
-	<div class="ebankAgreementTab">
+	<div class="ebankAgreementTab" style="display: none;">
 		<a class="close">关闭</a>
 		<h1>华尔街金融平台合作伙伴租赁协议</h1>
 		<div class="ebankat_con">
@@ -251,17 +265,19 @@
 	$(function() {
 		$('.cn_img').autoIMG();
 	})
-	$(function(){	
-	$(".sa_agreement a").bind('click',function(){
-		    $(".mask").css({display:'block',height: $(document).height()});
-			$(".ebankAgreementTab").css('display','block');
+	$(function() {
+		$(".sa_agreement a").bind('click', function() {
+			$(".mask").css({
+				display : 'block',
+				height : $(document).height()
+			});
+			$(".ebankAgreementTab").css('display', 'block');
 			return false;
-		}
-	)
-	$(".ebankAgreementTab a.close, .ebankat_btn a").click(function(){
-		$(".mask").css('display','none');
-		$(".ebankAgreementTab").css('display','none');
-	});
-	
-})
+		})
+		$(".ebankAgreementTab a.close, .ebankat_btn a").click(function() {
+			$(".mask").css('display', 'none');
+			$(".ebankAgreementTab").css('display', 'none');
+		});
+
+	})
 </script>

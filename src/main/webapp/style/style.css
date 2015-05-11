@@ -1220,6 +1220,7 @@ i.closeDeal_icon {
 .suggest_l { left: 132px; width: 370px;}
 .suggest a { display: block; line-height: 24px; padding: 0 10px;}
 .suggest a:hover { background: #f1f1f1;}
+.attributes_box .item_list li .suggest li { padding: 0px;}
 
 /*----分派-----*/
 .assign_tab_p { height: 32px; line-height: 32px; margin-bottom: 10px; font-size: 14px;}

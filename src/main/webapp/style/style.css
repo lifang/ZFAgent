@@ -1645,6 +1645,7 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 	box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
 	display: block;
 	z-index: 1000;
+	border-radius: 8px;
 }
 .ebankAgreementTab a.close { 
 	width: 22px; 
@@ -1671,21 +1672,22 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 	background: none;
 	overflow-y: auto;
 	font-family: "\5b8b\4f53";
+	font-size: 12px;
 }
 
-.ebankat_checkbox { margin: 10px 0; overflow: hidden; color:#fc5f25; font-weight: bold; font-size: 14px;}
+.ebankat_checkbox { margin: 10px 0; overflow: hidden; color:#0071cf; font-weight: bold; font-size: 14px;}
 .ebankat_checkbox input { float: left; margin-top:4px; margin-right: 5px;}
 
 .ebankat_btn { text-align: center; margin: 10px 0;}
 .ebankat_btn a, .ebankat_btn button { 
 	padding: 10px; 
-	background: #ff5f2b; 
+	background: #0071cf; 
 	display: inline-block; 
 	color: #FFF; 
 	width: 200px;
 	font-size: 14px;
 	margin: 0 20px;
 }
-.ebankat_btn a:hover, .ebankat_btn button:hover { background: #ff802b;}
+.ebankat_btn a:hover, .ebankat_btn button:hover { background: #097fe2;}
 .ebankat_btn button.cancel { background: #999; }
 .ebankat_btn button.cancel:hover { background: #a6a6a6;}

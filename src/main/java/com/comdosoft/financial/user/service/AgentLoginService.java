@@ -227,4 +227,13 @@ public class AgentLoginService {
 		agentLoginMapper.insertUser(customer);
 	}
 	
+	public int getJoin(Map<String, Object> map){
+		String[] tempStr=map.get("address").toString().split("\\_");
+		String proName=agentLoginMapper.getCityNameById(Integer.parseInt(tempStr[0]));
+		String cityName=agentLoginMapper.getCityNameById(Integer.parseInt(tempStr[1]));
+		int temp=agentLoginMapper.getJoin(map.get("name").toString(), map.get("phone").toString(),
+				map.get("agentType").toString(), proName+cityName);
+		return temp;
+	}
+	
 }

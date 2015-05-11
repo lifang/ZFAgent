@@ -51,7 +51,7 @@
 		String total_fee =new String(request.getParameter("WIDtotal_fee").getBytes("ISO-8859-1"),"UTF-8");
 		//必填
 		//订单描述
-		String body ="掌富订单"; //new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
+		String body ="掌富合作伙伴订单："+subject; //new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
 		//商品展示地址
 		//String show_url ="http://www.商户网址.com/myorder.html"; //new String(request.getParameter("WIDshow_url").getBytes("ISO-8859-1"),"UTF-8");
 		//需以http://开头的完整路径，例如：http://www.商户网址.com/myorder.html

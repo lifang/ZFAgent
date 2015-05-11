@@ -380,4 +380,8 @@ public class TerminalsService {
 	public Map<Object,Object> getTerminalById(Integer id){
 		return  terminalsMapper.getTerminalById(id);
 	}
+
+    public String getOpeningProtocol(int terminalsId){
+        return terminalsMapper.getOpeningProtocol(terminalsId);
+    }
 }

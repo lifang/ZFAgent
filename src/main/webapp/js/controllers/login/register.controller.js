@@ -399,16 +399,42 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 	$scope.agentInit();
 }
 
+
+
+
 var registerController = function($scope, $location, $http, LoginService) {
+	// 手机格式
+	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+	// 初始化重新发送验证码
+	$scope.registreTime = true;
+	// 清除倒计时
+	window.clearInterval(window.agentSendCode);
+	//点击验证码次数
+    $scope.clickCount=0;
+ // 勾选协议
+	$scope.ridel_xy = false;
+	
+    $scope.maskDiv=false;
 	$scope.init=function(){
+		$(".res_prompt").hide();
+		$(".res_prompt_wrong").hide();
+		$(".res_prompt_wrong").hide();
 		$scope.list();
+		$scope.reGetRandCodeImg();
+		$scope.agentTypes="个人";
+		
 	};
 	$scope.list=function(){
-		$http.post("api/lowerAgent/getProvince", $scope.req).success(function (data) {  //绑定
+		$http.post("api/index/getCity").success(function (data) {  //绑定
             if (data.code==1) {
-            	$scope.provinceList=data.result.list;
+            	$scope.provinceList=data.result;
             }
         });
+	};
+	
+	 // 图片验证码
+	$scope.reGetRandCodeImg = function() {
+		$(".loginRandCodeImg").attr("src", "api/agent/getRandCodeImg?id=" + Math.random());
 	};
 	
 	$scope.selChange=function(){
@@ -419,63 +445,142 @@ var registerController = function($scope, $location, $http, LoginService) {
         });
 	};
 	
+	// 写cookies
+	function setCookie(name, value) {
+		var Days = 30;
+		var exp = new Date();
+		exp.setTime(exp.getTime() + 30 * 60 * 1000);
+		document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+	};
+	// 读取cookies
+	function getCookie(name) {
+		var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+		if (arr = document.cookie.match(reg))
+			return unescape(arr[2]);
+		else
+			return null;
+	};
+	// 删除cookies
+	function delCookie(name) {
+		var exp = new Date();
+		exp.setTime(exp.getTime() - 1);
+		var cval = getCookie(name);
+		if (cval != null)
+			document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+	};
 	
-	
-	
+	$scope.submit1=function(){
+		var imgCode=$("#imgCode").val();
+		if (imgCode == undefined || imgCode == "") {
+			alert("请输入图片验证码！");
+			return false;
+		}
+		
+		$http.post("api/agent/sizeUpImgCode", {
+			imgnum : imgCode
+		}).success(function(data) {
+			if (data.code == 1) {
+				$scope.clickCount = 0;
+				$(".re_alert_tab").hide();
+				$(".mask").hide();
+				$scope.getAgentRegisterCode();
+			} else if (data.code == -1) {
+				alert(data.message);
+				$scope.reGetRandCodeImg();
+			}
+		});
+	};
 	
 	$scope.submit=function(){
-		
 		var name=$("#name").val();
 		var phone=$("#phone").val();
 		var checkNumStr=$("#checkNum").val();
 		
 		if(name=="" || name==undefined){
 			$("#name").attr("class","input_false");
+			$(".res_prompt").show();
 			return false;
 		}else{
 			$("#name").removeAttr("class");
 		}
 		if(phone=="" || phone==undefined){
 			$("#phone").attr("class","input_false");
+			$(".res_prompt_wrong").show();
 			return false;
 		}else{
 			$("#phone").removeAttr("class");
 		}
 		if(checkNumStr=="" || checkNumStr==undefined){
 			$("#checkNum").attr("class","input_false");
+			$(".res_prompt_wrong").show();
 			return false;
 		}else{
 			$("#checkNum").removeAttr("class");
 		}
+		if (getCookie("agent_send_phone_code") != $scope.agent.code) {
+			alert("验证码错误！");
+			return false;
+		}
+		var agentType=$scope.agentTypes;
+		if(agentType==undefined){
+			alert("请选中一种类型");
+			return false;
+		}
+		
 		//验证城市
 		if($scope.cityModel==undefined || $scope.proModel==undefined){
 			alert("请选择你所在的省市！");
-			return;
+			return false;
 		}
-		alert(1);
+		 if ($scope.ridel_xy != true){
+			 alert("请阅读【华尔街金融平台代理商使用协议】");
+				return false;
+		 }
+		// 注册代理商
+		$scope.agent.name=name;
+		$scope.agent.phone=phone;
+		$scope.agent.agentType=$scope.agentTypes;
+		$scope.agent.address=$scope.proModel.id+"_"+$scope.cityModel.id;
 		
+		$http.post("api/agent/getJoin", $scope.agent).success(function(data) {
+			if (data.code == 1) {
+				alert("您的申请信息已经提交，静候我们的工作人员处理。");
+				window.location.href = '#/registerSucc';
+			} else if (data.code == -1) {
+				alert(data.message);
+			}
+		})
 	};
 	
-	$scope.getCheckNum=function() {
-		if (!reg.test($scope.agent.phone)) {
+	// 获取手机验证码
+	$scope.getAgentRegisterCode = function() {
+		var phone=$("#phone").val();
+		if (!reg.test(phone)) {
 			alert("请输入合法手机号！");
 		} else if ($scope.registreTime == true) {
+			if($scope.clickCount==5){
+				$(".mask").show();
+				$(".re_alert_tab").show();
+				return false;
+			}else{
+				$scope.clickCount=$scope.clickCount+1;
+			}
 			window.clearInterval(window.agentSendCode);
 			$scope.registreTime = false;
 			$http.post("api/agent/sendPhoneVerificationCodeReg", {
-				codeNumber : $scope.agent.phone
+				codeNumber : phone
 			}).success(function(data) {
 				if (data.code == 1) {
 					$scope.code = data.result;
 					setCookie("agent_send_phone_code", $scope.code);
-					$scope.intDiff = 120;
+					$scope.intDiff = 119;
 					$("#time_show_agent").attr("style","background-color:#AAAAAA");
 					window.agentSendCode = window.setInterval(function() {
 						if ($scope.intDiff == 0) {
 							$('#time_show_agent').html("获取验证码！");
 							$scope.registreTime = true;
+							$("#time_show_agent").attr("style","background-color:#0071cf");
 							window.clearInterval(window.agentSendCode);
-							$("#time_show_agent").attr("style","background-color:#AAAAAA");
 						} else {
 							$('#time_show_agent').html("重新发送（" + $scope.intDiff + "秒）");
 							$scope.intDiff--;
@@ -488,9 +593,8 @@ var registerController = function($scope, $location, $http, LoginService) {
 			})
 		}
 	};
-	
 	$scope.init();
-}
+};
 
 
 indexModule.controller("registerAgentController", registerAgentController);

@@ -1,88 +1,135 @@
 <div class="right" ng-controller="agentTerminalController">
-         <div class="content clear">
-                  <div class="content_inner">
-                    <div class="user_title">
-                    	<h1>终端列表</h1>
-                    </div>
-                    <div class="seenBox clear">
-                    	<ul>
-                        	<li><div class="user_search"><input placeholder="请输入终端号查询" ng-model="serialNum" name="" type="text" /><button ng-click="screeningSerialNum()"></button></div></li>
-                            <li><div class="user_select">
-                            	<label>状态筛选</label>
-                            	<select name="" ng-model="screeningStatus" ng-change="screening()">
-                            	  <option value="">请选择</option>
-                            	  <option value="2">部分开通</option>
-                            	  <option value="1">已开通</option>
-                            	  <option value="3">未开通</option>
-                            	  <option value="4">已注销</option>
-                            	  <option value="5">已停用</option>
-                            	</select>
-                            </div></li>
-                        </ul>
-                        <!-- <div class="userTopBtnBox">
+	<div class="content clear">
+		<div class="content_inner">
+			<div class="user_title">
+				<h1>终端列表</h1>
+			</div>
+			<div class="seenBox clear">
+				<ul>
+					<li><div class="user_search">
+							<input placeholder="请输入终端号查询" ng-model="serialNum" name="" type="text" />
+							<button ng-click="screeningSerialNum()"></button>
+						</div></li>
+					<li><div class="user_select">
+							<label>状态筛选</label> <select name="" ng-model="screeningStatus" ng-change="screening()">
+								<option value="">请选择</option>
+								<option value="2">部分开通</option>
+								<option value="1">已开通</option>
+								<option value="3">未开通</option>
+								<option value="4">已注销</option>
+								<option value="5">已停用</option>
+							</select>
+						</div></li>
+				</ul>
+				<!-- <div class="userTopBtnBox">
                         	<a href="#" class="ghostBtn">申请售后</a><a href="#" class="ghostBtn">为用户绑定终端</a>
                      	</div> -->
-                    </div>
-                    <div class="uesr_table">
-                    	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
-                         <colgroup>
-                         	<col width="150" />
-                            <col width="150" />
-                            <col width="150" />
-                            <col />
-                            <col />
-                            <col width="80" />
-                            <col width="150" />
-                         </colgroup>
-                         <thead>
-                          <tr>
-                            <th>终端号</th>
-                            <th>POS产品</th>
-                            <th>支付通道</th>
-                            <th>商户名称</th>
-                            <th>商户电话</th>
-                            <th>开通状态</th>
-                            <th>操作</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr ng-repeat="it in list"  on-finish-table-filters>
-                            <td>{{it.serial_num}}</td>
-                            <td>{{it.goodsName}}</td>
-                            <td>{{it.channelName}}</td>
-                            <td>{{it.title}}</td>
-                            <td>{{it.phone}}</td>
-                            <td>
-                            <strong class="strong_status" ng-if="it.status == 1">已开通</strong>
-                            <strong class="strong_status" ng-if="it.status == 2">部分开通</strong>
-                            <strong class="strong_status" ng-if="it.status == 3">未开通</strong>
-                            <strong class="strong_status" ng-if="it.status == 4">已注销</strong>
-                            <strong class="strong_status" ng-if="it.status == 5">已停用</strong>
-                            </td>
-                            <td ng-if="it.type != 0"><!-- 非自助绑定 -->
-                            <a ng-click="leitgo('#/terminalDetail?terminalId=' , it.id )"    class="a_btn">查看详情</a>
-                            <a ng-if="it.appid != null && it.appid != ''" ng-click="isopenstatus($index,it.id)"  class="a_btn">重新申请</a>
-                            <!-- <a ng-if="it.appid == null" href="#/terminalOpening?terminalId={{it.id}}" class="a_btn">申请开通</a> -->
-                            <a ng-if="it.appid == null || it.appid == ''" ng-click="isopen(it.id)" class="a_btn">申请开通</a>
-                            </td>
-                          </tr>
-                          </tbody>                          
-                        </table>
-                    </div>
-                    <div class="pageTurn" ng-show="totalPage>1"> 
-                        <div class="p_num">
-                        <a href="javascript:void(0)" ng-class="{true:'disabled'}[indexPage==1]" ng-click="indexPage=1;getInfo()">首页</a> 
-                        <a href="javascript:void(0)" ng-class="{true:'disabled'}[indexPage==1]" ng-click="prev()">上一页</a> 
-                        <a href="javascript:void(0)" ng-class="{true:'current'}[indexPage==page]" ng-repeat="page in pages" ng-click="loadPage(page)">{{page}}</a> 
-                        <a href="javascript:void(0)" ng-class="{true:'disabled'}[indexPage == totalPage]" ng-click="next()">下一页</a> 
-                        <a href="javascript:void(0)" ng-class="{true:'disabled'}[indexPage == totalPage]" ng-click="indexPage=totalPage;getInfo()">尾页</a> 
-                        </div>
-                        <div class="p_skip">
-                             <span>共{{totalPage}}页</span>
-                             <span>到第&nbsp;<input name="" type="text" ng-model="tiaoPage" />&nbsp;页</span>
-                             <button ng-click="getPage()">确定</button>
-                        </div>
-                    </div>
-            	</div>
-                </div>   	
+			</div>
+			<div class="uesr_table">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="b_table">
+					<colgroup>
+						<col width="150" />
+						<col width="150" />
+						<col width="150" />
+						<col />
+						<col />
+						<col width="80" />
+						<col width="150" />
+					</colgroup>
+					<thead>
+						<tr>
+							<th>终端号</th>
+							<th>POS产品</th>
+							<th>支付通道</th>
+							<th>商户名称</th>
+							<th>商户电话</th>
+							<th>开通状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="it in list" on-finish-table-filters>
+							<td>{{it.serial_num}}</td>
+							<td>{{it.goodsName}}</td>
+							<td>{{it.channelName}}</td>
+							<td>{{it.title}}</td>
+							<td>{{it.phone}}</td>
+							<td><strong class="strong_status" ng-if="it.status == 1">已开通</strong> <strong class="strong_status" ng-if="it.status == 2">部分开通</strong> <strong class="strong_status" ng-if="it.status == 3">未开通</strong> <strong class="strong_status"
+								ng-if="it.status == 4">已注销</strong> <strong class="strong_status" ng-if="it.status == 5">已停用</strong></td>
+							<td ng-if="it.type != 0">
+								<!-- 非自助绑定 --> <a ng-click="leitgo('#/terminalDetail?terminalId=' , it.id )" class="a_btn">查看详情</a> <a ng-if="it.appid != null && it.appid != ''" ng-click="isopenstatus($index,it.id)" class="a_btn">重新申请</a> <!-- <a ng-if="it.appid == null" href="#/terminalOpening?terminalId={{it.id}}" class="a_btn">申请开通</a> -->
+								<a ng-if="it.appid == null || it.appid == ''" ng-click="isopen(it.id)" class="a_btn">申请开通</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="pageTurn" ng-show="totalPage>1">
+				<div class="p_num">
+					<a href="javascript:void(0)" ng-class="{true:'disabled'}[indexPage==1]" ng-click="indexPage=1;getInfo()">首页</a> <a href="javascript:void(0)" ng-class="{true:'disabled'}[indexPage==1]" ng-click="prev()">上一页</a> <a href="javascript:void(0)"
+						ng-class="{true:'current'}[indexPage==page]" ng-repeat="page in pages" ng-click="loadPage(page)">{{page}}</a> <a href="javascript:void(0)" ng-class="{true:'disabled'}[indexPage == totalPage]" ng-click="next()">下一页</a> <a href="javascript:void(0)"
+						ng-class="{true:'disabled'}[indexPage == totalPage]" ng-click="indexPage=totalPage;getInfo()">尾页</a>
+				</div>
+				<div class="p_skip">
+					<span>共{{totalPage}}页</span> <span>到第&nbsp;<input name="" type="text" ng-model="tiaoPage" />&nbsp;页
+					</span>
+					<button ng-click="getPage()">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+<div class="mask" style="display: none;"></div>
+<div class="ebankAgreementTab" style="display: none;">
+	<a  class="close">关闭</a>
+	<h1>华尔街金融平台用户使用协议</h1>
+	<div class="ebankat_con">
+		<textarea readonly="readonly" name="" cols="" rows="" id="openApplyText">
+        </textarea>
+	</div>
+	<div class="ebankat_checkbox">
+		<input name="" type="checkbox" value="" id="checkBoxEbanat" />我接受此开通协议
+	</div>
+	<div class="ebankat_btn">
+		<button onClick="applyOpenSure()">确定</button>
+		<button class="cancel" onclick="closeEbankAgreementTab()">取消</button>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$(".ebankAgreement_a").bind('click', function() {
+			$(".mask").css({
+				display : 'block',
+				height : $(document).height()
+			});
+			$(".ebankAgreementTab").css('display', 'block');
+			return false;
+		})
+		$(".ebankAgreementTab a.close, .ebankat_btn a").click(function() {
+			$(".mask").css('display', 'none');
+			$(".ebankAgreementTab").css('display', 'none');
+		});
+		$(".ebankAgreementTab").hide();
+
+	})
+
+	function closeEbankAgreementTab() {
+		$(".ebankAgreementTab").hide();
+		$(".mask").hide();
+	}
+
+	function applyOpenSure() {
+		if ($("#checkBoxEbanat").is(':checked')) {
+			var numsId = $("#checkBoxEbanat").val();
+			var tempHref = "#/terminalOpening?terminalId=" + numsId;
+			window.open(tempHref);
+			$(".mask").hide();
+			$(".ebankAgreementTab").hide();
+			//$("#hideApplyOpenA").attr("href",tempHref);
+			//$("#hideApplyOpenA").click();
+
+		} else {
+			alert("请阅读【华尔街金融平台用户认证开通协议】,并选中【我接受此开通协议】");
+		}
+	}
+</script>

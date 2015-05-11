@@ -124,7 +124,18 @@ public class TerminalsController {
 			return Response.getError("请求失败！");
 		}
 	}
-	
+	/**
+     * 获取协议内容
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "getOpeningProtocol", method = RequestMethod.POST)
+    public Response getOpeningProtocol(@RequestBody Map<String, Object> map){
+        int terminalId=Integer.parseInt(map.get("id").toString());
+        String openingProtocol= terminalsService.getOpeningProtocol(terminalId);
+        return Response.getSuccess(openingProtocol);
+    }
+    
 	/**
 	 * 进入终端详情
 	 * 

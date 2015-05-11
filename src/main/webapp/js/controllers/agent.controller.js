@@ -29,8 +29,8 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			return false;
 		}
 
-		if (newPassword.length < 6) {
-			alert("新密码长度至少为6位！");
+		if (newPassword.length < 6 || newPassword.length > 20) {
+			alert("新密码长度至少为6到20位之间！");
 			return false;
 		}
 
@@ -39,8 +39,8 @@ var modifypasswordController = function($scope, $http, LoginService) {
 			return false;
 		}
 
-		if (newPasswordAgain.length < 6) {
-			alert("确认新密码长度至少为6位！");
+		if (newPasswordAgain.length < 6 || newPasswordAgain.length > 20) {
+			alert("确认新密码长度在6到20位之间！");
 			return false;
 		}
 

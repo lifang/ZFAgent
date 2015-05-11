@@ -2,16 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-		<property name="cache" value="true" />
-		<property name="prefix" value="" />
-		<property name="suffix" value=".ftl" />
-		<property name="contentType" value="text/html;charset=UTF-8"></property>
-		<property name="requestContextAttribute" value="request" />
-		<property name="exposeSpringMacroHelpers" value="true" />
-		<property name="exposeRequestAttributes" value="true" />
-		<property name="exposeSessionAttributes" value="true" />
-	</bean>
+	
 
 	
 	

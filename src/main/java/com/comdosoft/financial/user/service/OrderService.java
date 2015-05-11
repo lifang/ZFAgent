@@ -474,6 +474,10 @@ public class OrderService {
         map.put("order_address", o.getCustomerAddress() == null ? "" : o.getCustomerAddress().getAddress() == null ? "" : o.getCustomerAddress().getAddress());
         map.put("order_receiver_phone", o.getCustomerAddress() == null ? "" : o.getCustomerAddress().getMoblephone() == null ? "" : o.getCustomerAddress().getMoblephone());
         map.put("order_comment", o.getComment() == null ? "" : o.getComment());// 留言
+        String lg_name =  o.getOrderLogistic()==null?"":o.getOrderLogistic().getLogisticsName();  //快递公司
+        String lg_number =  o.getOrderLogistic()==null?"": o.getOrderLogistic().getLogisticsNumber();//快递单号
+        map.put("logistics_name", lg_name);
+        map.put("logistics_number", lg_number);
         Integer invoce_type = o.getInvoiceType();
         String invoce_name = "";
         if (null != invoce_type && invoce_type == 1) {// 个人

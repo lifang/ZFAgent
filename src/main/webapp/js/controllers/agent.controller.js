@@ -141,7 +141,6 @@ var modifypasswordController = function($scope, $http, LoginService) {
 						$('#show_phone_input_my_o_btn').html("重新发送（" + $scope.intTwoDiff + "秒）");
 						$scope.intTwoDiff--;
 					}
-					console.log(">>>>>>>"+$scope.intTwoDiff);
 				}, 1000);
 			} else{
 				alert("再次点击获取发送验证码时间未到");

@@ -442,8 +442,11 @@ public class LowerAgentController {
     		
     		if(!commentService.typeIsCommit(houzuiStr)){
     			return Response.getError("您所上传的文件格式不正确");
+    		}else{
+    			if(!HttpFile.fileSize(updatefile)){
+  	      			return Response.getError("您上传的图片大小过大，请上传小于2M的图片!");
+  				}
     		}
-    		
         	joinpath = HttpFile.upload(updatefile, agent+id+"/opengImg/");
         	if("上传失败".equals(joinpath) || "同步上传失败".equals(joinpath)){
         		return Response.getError(joinpath);

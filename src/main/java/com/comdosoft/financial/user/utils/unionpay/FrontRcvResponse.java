@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.comdosoft.financial.user.domain.query.PayReq;
+import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.service.OrderService;
 import com.unionpay.acp.sdk.LogUtil;
 import com.unionpay.acp.sdk.SDKConstants;
@@ -62,24 +62,28 @@ public class FrontRcvResponse {
 				valideData.put(key, value);
 			}
 		}
-		if (!SDKUtil.validate(valideData, encoding)) {
-			page.append("<tr><td width=\"30%\" align=\"right\">验证签名结果</td><td>失败</td></tr>");
-			LogUtil.writeLog("验证签名结果[失败].");
-		} else {
-			page.append("<tr><td width=\"30%\" align=\"right\">验证签名结果</td><td>成功</td></tr>");
-			LogUtil.writeLog("验证签名结果[成功].");
-			System.out.println(valideData.get("orderId")); //其他字段也可用类似方式获取
-			
-			PayReq payReq = new PayReq();
-	    	payReq.setOut_trade_no(valideData.get("orderId"));
-			payReq.setStatus(valideData.get("respCode"));//暂未使用到
-			payReq.setTrade_no(valideData.get("queryId"));
-			payReq.setPayPrice(valideData.get("txnAmt"));
-			orderService.payBack(payReq);
+		try{
+			if (!SDKUtil.validate(valideData, encoding)) {
+				page.append("<tr><td width=\"30%\" align=\"right\">验证签名结果</td><td>失败</td></tr>");
+				LogUtil.writeLog("验证签名结果[失败].");
+			} else {
+				page.append("<tr><td width=\"30%\" align=\"right\">验证签名结果</td><td>成功</td></tr>");
+				LogUtil.writeLog("验证签名结果[成功].");
+				System.out.println(valideData.get("orderId")); //其他字段也可用类似方式获取
+				
+				OrderReq orderreq=new OrderReq();
+				orderreq.setOrdernumber(valideData.get("orderId"));
+				orderreq.setType(2);
+				orderService.payFinish(orderreq);
+				req.setAttribute("notify", "success");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		req.setAttribute("result", page.toString());
 		req.getRequestDispatcher("/redirect.jsp").forward(req, resp);
 
 		LogUtil.writeLog("FrontRcvResponse前台接收报文返回结束");
+		
 	}
 }

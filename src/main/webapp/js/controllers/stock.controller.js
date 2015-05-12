@@ -21,7 +21,12 @@ var stockController = function ($scope, $http, LoginService) {
             }
         });
 	};
-	
+	$scope.enterchange =  function(e){
+		var keycode = window.event?e.keyCode:e.which;
+        if(keycode==13){
+        	$scope.search();
+        }
+	}
 	$scope.rename=function(id){
 		$scope.renam={};
 		$scope.renam.agentId=LoginService.agentid;
@@ -99,6 +104,12 @@ var stockinfoController = function ($scope, $http,$location, LoginService) {
             }
         });
 	};
+	$scope.enterchange =  function(e){
+		var keycode = window.event?e.keyCode:e.which;
+        if(keycode==13){
+        	$scope.getlist();
+        }
+	}
 	$scope.init();
 	
 	// 上一页

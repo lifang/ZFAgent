@@ -21,7 +21,7 @@
 			<div class="seenBox clear">
 				<ul>
 					<li><div class="user_search">
-							<input ng-model="req.agentname" type="text" placeholder="代理商名称查询" />
+							<input ng-model="req.agentname" type="text" placeholder="代理商名称查询" ng-keyup="enterchange($event)" />
 							<button ng-click="getlist()"></button>
 						</div></li>
 				</ul>

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.comdosoft.financial.user.domain.query.PayReq;
+import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.service.OrderService;
 import com.unionpay.acp.sdk.LogUtil;
 import com.unionpay.acp.sdk.SDKConstants;
@@ -68,16 +68,13 @@ public class BackRcvResponse{
 		} else {
 			System.out.println(valideData.get("orderId")); //其他字段也可用类似方式获取
 			LogUtil.writeLog("验证签名结果[成功].");
-
-			PayReq payReq = new PayReq();
-	    	payReq.setOut_trade_no(valideData.get("orderId"));
-			payReq.setStatus(valideData.get("respCode"));//暂未使用到
-			payReq.setTrade_no(valideData.get("queryId"));
-			payReq.setPayPrice(valideData.get("txnAmt"));
-			orderService.payBack(payReq);
+			OrderReq orderreq=new OrderReq();
+			orderreq.setOrdernumber(valideData.get("orderId"));
+			orderreq.setType(2);
+			orderService.payFinish(orderreq);
 		}
-
 		LogUtil.writeLog("BackRcvResponse接收后台通知结束");
+		resp.setStatus(HttpServletResponse.SC_OK);
 	}
 	
 }

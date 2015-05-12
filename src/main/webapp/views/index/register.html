@@ -41,7 +41,7 @@
 					ng-model="ridel_xy" ng-click="ridel_xy = !ridel_xy" name=""
 					type="checkbox" value="" />
                 <a href="javascript:void(0)"
-					class="ebankAgreement_a" onClick="showNote()">同意《华尔街金融平台代理商使用协议》</a></li>
+					class="ebankAgreement_a" onClick="showNote()">同意《华尔街金融平台用户使用协议》</a></li>
             </ul>
             <div class="btn partner_btn"><button id="registerBt" ng-click="submit()">注册</button></div>
         </div>
@@ -135,7 +135,7 @@
 </div>
 <script>
 $(function(){
-	$(".mask").hide();
+	$(".mask").css({display:'none',height: $(document).height()});
 	$(".re_alert_tab").hide();
 	focusBlur('.re_alert_yzm input');//弹层
 	$(".re_alert_tab a.close").click(function(){

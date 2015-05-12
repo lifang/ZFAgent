@@ -5,6 +5,7 @@ var prepareModule = angular.module("prepareModule",[]);
 
 var preparelistController = function ($scope, $http, LoginService) {
 	$scope.init=function(){
+		$(".user_date input").datepicker();
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
 		$scope.req.agentId=LoginService.agentid;

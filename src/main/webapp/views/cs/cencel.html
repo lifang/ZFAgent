@@ -7,8 +7,8 @@
 		<div class="seenBox clear">
 			<ul>
 				<li><div class="user_search">
-						<input name="search" type="text" ng-model="search" placeholder="终端号、注销申请编号查询" title="根据终端号、注销申请编号查询"/>
-						<button ng-click="submitSearch()"></button>
+						<input name="search" type="text" ng-model="search" placeholder="终端号、注销申请编号查询" title="根据终端号、注销申请编号查询" onkeypress="SubmitEvent(event)"/>
+						<button ng-click="submitSearch()" id="btn_submit"></button>
 					</div></li>
 				<li><div class="user_select">
 						<label>状态筛选</label> <select name="q" ng-model="screen" ng-change="submitScreen()">

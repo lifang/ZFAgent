@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.comdosoft.financial.user.domain.query.OrderReq;
-import com.comdosoft.financial.user.domain.query.PayReq;
 import com.comdosoft.financial.user.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.GoodsPicture;
@@ -58,8 +57,9 @@ public interface OrderMapper {
 // ------gch end ---------------------
 
 //根据订单id获取终端号
-    List<Terminal>  getTerminsla(Integer id);
-
+//    List<Terminal>  getTerminsla(Integer id);
+    List<Terminal> getTerminsla(Integer order_id,Integer goods_id);
+    
 //根据id查订单
     List<Map<String, Object>>  findOrderById(MyOrderReq myOrderReq);
 

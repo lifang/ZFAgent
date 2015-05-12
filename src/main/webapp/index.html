@@ -59,7 +59,14 @@
 		<script type="text/javascript" src="js/controllers/orderinfo.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/order.controller.js"></script>
 		<script type="text/javascript" src="js/controllers/orderinfo.controller.js"></script>
-		
+		<script type="text/javascript">
+		function SubmitEvent(e){
+			var e = e || window.event; 
+			if(e.keyCode == 13){ 
+			document.getElementById("btn_submit").click(); 
+			} 
+	   }
+		</script>
 		<!--柱形图表-->
 		<script src="js/Chart.min.js"></script>
 		<!--[if lte IE 8]>

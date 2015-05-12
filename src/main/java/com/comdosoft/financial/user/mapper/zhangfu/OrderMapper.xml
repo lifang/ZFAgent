@@ -6,6 +6,9 @@
 		 <id property="id" column="id" />  
          <result property="serialNum" column="serial_num" /> 
          <result property="orderId" column="order_id" /> 
+		<result property="goodId" column="good_id" /> 
+         <result property="reserver2" column="reserver2" /> 
+         
 	</resultMap>
 	
 		<resultMap id="factoryResultMap" type="com.comdosoft.financial.user.domain.zhangfu.Factory">
@@ -463,7 +466,10 @@
 	</select>
 	
      <select id="getTerminsla" resultMap="terResultMap" >
-		select  t.serial_num from terminals t where t.order_id=#{param1}
+		select  t.serial_num,t.reserver2,t.id from terminals t where t.order_id=#{param1}
+		<if test="param2 != null">
+			and  t.good_id = #{param2}
+		</if>
 	</select>
 	
      <select id="getOrderPayByOrderId" resultMap="orderPaymentMap" >

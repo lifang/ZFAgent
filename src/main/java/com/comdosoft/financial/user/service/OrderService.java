@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -418,12 +419,16 @@ public class OrderService {
                 newObjList.add(omap);
             }
         }
-        List<Terminal> terminals = orderMapper.getTerminsla(id);
+        List<Terminal> terminals = orderMapper.getTerminsla(id,null);
         StringBuffer sb = new StringBuffer();
         for (Terminal t : terminals) {
-            sb.append(t.getSerialNum() + ",");
+        	String r2 = t.getReserver2() ;
+        	if(StringUtils.isBlank(r2)){
+        		r2 = "("+r2+")";
+        	}
+            sb.append(" "+t.getSerialNum() + r2);
         }
-        map.put("terminals", sb.toString());
+        map.put("terminals", sb.toString().trim());
         map.put("order_goodsList", newObjList);
         MyOrderReq myOrderReq = new MyOrderReq();
         myOrderReq.setId(id);
@@ -540,12 +545,16 @@ public class OrderService {
             }
         }
         map.put("order_goodsList", newObjList);
-        List<Terminal> terminals = orderMapper.getTerminsla(id);
+        List<Terminal> terminals = orderMapper.getTerminsla(id,null);
         StringBuffer sb = new StringBuffer();
         for (Terminal t : terminals) {
-            sb.append(t.getSerialNum() + " ");
+        	String r2 = t.getReserver2() ;
+        	if(StringUtils.isBlank(r2)){
+        		r2 = "("+r2+")";
+        	}
+            sb.append(" " +t.getSerialNum() + r2);
         }
-        map.put("terminals", sb.toString());
+        map.put("terminals", sb.toString().trim());
         MyOrderReq myOrderReq = new MyOrderReq();
         myOrderReq.setId(id);
         List<Map<String, Object>> list = orderMapper.findTraceById(myOrderReq);

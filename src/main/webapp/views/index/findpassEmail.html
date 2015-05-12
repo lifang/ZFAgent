@@ -28,19 +28,31 @@
 		</div> -->
 		<div class="retrieve">
 			<div class="ret_h">
+				<h1>找回密码</h1>
 				<ul>
-					<li><a href="javascript:void(0)">第一步</a></li>
-					<li><a href="javascript:void(0)">第二步</a></li>
-					<li><a href="javascript:void(0)" class="hover">第三步</a></li>
+					<li><a>第一步</a></li>
+					<li><a>第二步</a></li>
+					<li><a class="hover">第三步</a></li>
 				</ul>
 			</div>
-			<div class="ret_b">
+			<div class="ret_b" ng-show="!gotosuccess">
 				<ul>
-					<li><input name="" type="password" placeholder="输入新密码:由6-20位，英文字符组成" ng-model="password1" /></li>
-					<li><input name="" type="password" placeholder="确认新密码:由6-20位，英文字符组成" ng-model="password2" /></li>
+					<li><label><span class="red">*</span>输入新密码：</label> <input
+						name="" type="password" ng-model="password1" ng-class="{true:'input_false'}[passinputone]" ng-mousedown="passinputone = false" ng-keyup="keyupdownpas1()"/>
+						<div ng-show="successpass" class="ret_prompt_right"></div>
+						<div class="ret_prompt">&nbsp;&nbsp;密码支持6~20位长度</div></li>
+					<li><label><span class="red">*</span>确认新密码：</label> <input
+						name="" type="password" ng-class="{true:'input_false'}[passinputtwo]" ng-model="password2" ng-mousedown="passinputtwo = false;passmessagecoolean = false" ng-keyup="keyupdownpas2()"/>
+						<div ng-show="passmessagecoolean" class="ret_prompt_wrong">密码输入不一致，请重新填写</div></li>
 				</ul>
-				<div class="btn">
-					<button ng-click="findPassEmailEnd()">去登录</button>
+				<div class="btn" ng-click="findPassEnd()">
+					<button>去登陆</button>
+				</div>
+			</div>
+			<div class="ret_b" ng-show="gotosuccess">
+				<div class="ret_b_textWin">
+					<p>华尔街金融平台欢迎您的回来</p>
+					<a href="#/login" class="ret_btn_a">马上登录</a>
 				</div>
 			</div>
 		</div>

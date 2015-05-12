@@ -410,7 +410,7 @@
 	</select>
 	<!-- 代购  详情 -->
 	<select id="getProxyById" resultMap="orderMap">
-		SELECT g.model_number AS brand_number,
+		SELECT g.model_number AS brand_number, o.need_invoice,
 		o.id as id,og.id as order_good_id,g.id as good_id,o.total_quantity,g.retail_price,o.customer_id,o.created_user_id,
 		o.order_number,	o.created_at,	o.status,o.pay_status,o.invoice_type,oo.logistics_name,oo.logistics_number,
 		g.title,gb.name , gb.id as good_brands_id,o.comment ,o.types,os.quantity as os_quantity,os.status as os_status,og.actual_price as og_actual_price,

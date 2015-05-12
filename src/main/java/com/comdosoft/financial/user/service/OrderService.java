@@ -385,8 +385,12 @@ public class OrderService {
         String d = sdf.format(o.getCreatedAt());
         map.put("order_createTime", d);// 订单日期
         map.put("order_status", o.getStatus() == null ? "" : o.getStatus() + "");
-        map.put("need_invoice", o.getNeedInvoice()== null ? "" : o.getNeedInvoice() + "");
-
+        Boolean b = o.getNeedInvoice();
+        if(b){
+        	  map.put("need_invoice", 1 );
+        }else{
+        	map.put("need_invoice", 0 );
+        }
         List<OrderGood> olist = o.getOrderGoodsList();
         map.put("order_goods_size", olist.size());//
         List<Object> newObjList = new ArrayList<Object>();
@@ -486,6 +490,12 @@ public class OrderService {
         map.put("logistics_name", lg_name);
         map.put("logistics_number", lg_number);
         Integer invoce_type = o.getInvoiceType();
+        Boolean b = o.getNeedInvoice();
+        if(b){
+        	  map.put("need_invoice", 1 );
+        }else{
+        	map.put("need_invoice", 0 );
+        }
         String invoce_name = "";
         if (null != invoce_type && invoce_type == 1) {// 个人
             invoce_name = "个人";

@@ -423,8 +423,10 @@ public class OrderService {
         StringBuffer sb = new StringBuffer();
         for (Terminal t : terminals) {
         	String r2 = t.getReserver2() ;
-        	if(StringUtils.isBlank(r2)){
+        	if(!StringUtils.isBlank(r2)){
         		r2 = "("+r2+")";
+        	}else{
+        		r2 = "";
         	}
             sb.append(" "+t.getSerialNum() + r2);
         }
@@ -549,8 +551,10 @@ public class OrderService {
         StringBuffer sb = new StringBuffer();
         for (Terminal t : terminals) {
         	String r2 = t.getReserver2() ;
-        	if(StringUtils.isBlank(r2)){
+        	if(!StringUtils.isBlank(r2)){
         		r2 = "("+r2+")";
+        	}else{
+        		r2 = "";
         	}
             sb.append(" " +t.getSerialNum() + r2);
         }

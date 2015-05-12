@@ -52,6 +52,13 @@ var agentTerminalController = function ($scope, $http, LoginService) {
 		//$scope.frontStatus = null;
 		$scope.getInfo();
 	}
+	//筛选终端回车事件
+	$scope.enterchange =  function(e){
+		var keycode = window.event?e.keyCode:e.which;
+        if(keycode==13){
+        	$scope.screeningSerialNum();
+        }
+	}
 	
 	//判断该中终端是否绑定才取决是否开通
 	$scope.isopen = function(tCusId){
@@ -510,6 +517,14 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 			 alert("用户列表请求失败！");
 		 })
 	 }
+	 
+	//筛选终端回车事件
+		$scope.enterchange =  function(e){
+			var keycode = window.event?e.keyCode:e.which;
+	        if(keycode==13){
+	        	 $scope.searchUser();
+	        }
+		}
 	 
 	 //点击获取用户id
 	 $scope.checkUserId = function(num){

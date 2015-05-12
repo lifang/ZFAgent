@@ -15,7 +15,7 @@
                 <div class="su_con">
                 	<div ng-show="butshow">
                     	<div class="su_search">
-                        	<input name="" type="text" ng-model="agentToUserName"/><button ng-click="searchUser()">搜索</button>
+                        	<input name="" type="text" ng-model="agentToUserName" ng-keyup="enterchange($event)"/><button ng-click="searchUser()">搜索</button>
                         </div>
                         <div class="su_s_box">
                         	 <a href="javascript:void(0)" ng-repeat="user in agentToUsers" ng-click="checkUserId(user.id)" ng-class="{true:'hover'}[userId == user.id]" ng-if="user.username !=null">{{user.username}}</a>

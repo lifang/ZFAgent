@@ -7,7 +7,7 @@
 			<div class="seenBox clear">
 				<ul>
 					<li><div class="user_search">
-							<input placeholder="请输入终端号查询" ng-model="serialNum" name="" type="text" />
+							<input placeholder="请输入终端号查询" ng-model="serialNum" name="" type="text" ng-keyup="enterchange($event)"/>
 							<button ng-click="screeningSerialNum()"></button>
 						</div></li>
 					<li><div class="user_select">

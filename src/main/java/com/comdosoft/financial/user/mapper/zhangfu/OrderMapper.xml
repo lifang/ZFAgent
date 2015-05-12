@@ -207,7 +207,7 @@
 		LEFT JOIN goods g ON og.good_id = g.id
 		LEFT JOIN good_brands gb ON g.good_brands_id = gb.id
 		LEFT JOIN pay_channels pc ON og.pay_channel_id = pc.id
-		LEFT JOIN cs_out_storages os ON o.id = os.order_id  and os.`status`='1'
+		LEFT JOIN cs_out_storages os ON o.id = os.order_id 
 		WHERE
 		o.belongs_user_id = #{customerId}
 		and o.types = 5
@@ -400,7 +400,7 @@
 		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
 		LEFT JOIN order_marks om on o.id = om.order_id 
 		LEFT JOIN customers c on om.customer_id = c.id
-		LEFT JOIN cs_out_storages os ON o.id = os.order_id   and os.`status`='1'
+		LEFT JOIN cs_out_storages os ON o.id = os.order_id  
 		LEFT JOIN order_payments op on o.id = op.order_id
 			left join order_logistics oo on o.id = oo.order_id
 		WHERE
@@ -427,7 +427,7 @@
 		LEFT JOIN customer_addresses ca on o.customer_address_id = ca.id 
 		LEFT JOIN order_marks om on o.id = om.order_id 
 		LEFT JOIN customers c on om.customer_id = c.id
-	    LEFT JOIN cs_out_storages os ON o.id = os.order_id and os.`status`='1'
+	    LEFT JOIN cs_out_storages os ON o.id = os.order_id 
 		LEFT JOIN order_payments op on o.id = op.order_id
 			left join order_logistics oo on o.id = oo.order_id
 		WHERE

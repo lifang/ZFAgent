@@ -378,6 +378,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 				 $http.post('api/webTerminal/addCostometAddress',$scope.addressObject).success(function(data){
 					 if(data.code == 1){
 						 $scope.empty();
+						 $scope.butshow = false;
 						 $scope.getAddress();
 					 }else if(data.code == -1){
 						 alert(data.message);

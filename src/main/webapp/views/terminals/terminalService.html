@@ -52,7 +52,7 @@
                                     <td>{{addre.moblephone}}</td>
                                     <td><span class="defaultAddr" ng-if="addre.isDefault == 1">默认地址</span></td>
                                   </tr>
-                                  <tr class="addAddr_box">
+                                  <tr class="addAddr_box" ng-show="butshow">
                                     <td>&nbsp;</td>
                                     <td><input name="" type="text" ng-model="addressObject.receiver" placeholder="收件人姓名" value="收件人姓名" /></td>
                                     <td>
@@ -70,12 +70,12 @@
                                     <td><input name="" type="text" ng-model="addressObject.address" placeholder="详细地址" value="详细地址" class="l" /></td>
                                     <td><input name="" type="text" ng-model="addressObject.zipCode" placeholder="邮编" value="邮编" /></td>
                                     <td><input name="" type="text" ng-model="addressObject.moblephone" placeholder="手机号码" value="手机号码" /></td>
-                                   <!--  <td><a href="Javascript:void(0)" class="a_btn" ng-click="addAddress()">确定</a></td> -->
+                                    <td><a href="Javascript:void(0)" class="a_btn" ng-click="addAddress()">确定</a></td>
                                     <td>&nbsp;</td>
                                   </tr>
                    	</table>
-                  <!--   <div class="addAddr_btn"><button ng-click="butshow = !butshow">使用新地址</button></div>   -->
-                    <div class="addAddr_btn"><button ng-click="addAddress()">使用新地址</button></div>  
+                    <div class="addAddr_btn"><button ng-click="butshow = !butshow">使用新地址</button></div>  
+                   <!--  <div class="addAddr_btn"><button ng-click="addAddress()">使用新地址</button></div>   -->
                    </div>
                     <div class="attributes_box">
                     	<h2>填写物流信息</h2>

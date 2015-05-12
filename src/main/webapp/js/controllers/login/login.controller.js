@@ -4,6 +4,7 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 	if(LoginService.loginid>0&&LoginService.agentid>0){
 		window.location.href = '#/myapp';
 	}
+
 	//定义代理商对象
 	$scope.agent = {};
 	//勾选记住密码
@@ -15,7 +16,6 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 	};
 	
 	$scope.letitgo = function(url) {
-	  alert("llllll");
 		window.open(url+id);
 };
 	
@@ -59,6 +59,14 @@ var agentLoginController = function($scope, $location, $http, LoginService){
 		})
 	}
 	
+      //登陆回车事件 
+	 document.onkeydown=function(event){
+         var e = event || window.event || arguments.callee.caller.arguments[0];
+          if(e && e.keyCode==13){ // enter 键
+              //要做的事情
+        	  $('#denglu').click();
+         }
+     }; 
 	$scope.reGetRandCodeImg();
 	$scope.cookeStark();
 }

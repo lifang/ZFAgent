@@ -34,15 +34,23 @@
                             </dl>
                         </div>
                     </div>
+                    <div class="attributes_box red">填写资料必须准确真实，任何一项填写错误都会导致资金结算不到帐！</div>
                      <div class="attributes_box">
                      	<h2>基本信息</h2>
                      		<div class="item_list clear">
                      			<ul>
                      				<li><span class="labelSpan" >商户名称：</span>
-                                	<div class="text"><input id="merchant" name="" type="text" ng-model="merchantName"/></div>
+                                	<div class="text">
+                                	<input id="merchant" name="" type="text" ng-model="merchantName"  ng-keyup="toworte()"/>
+                                	<p class="prompt_p" ng-if="status == 1">请填写公司全名</p>
+                                	<p class="prompt_p" ng-if="status == 2">请填写申请人姓名</p>
+                                	</div>
                                 </li>
                                 <li><span class="labelSpan" >姓名：</span>
-                                	<div class="text"><input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}" ng-keyup="toworte()"/></div></li>
+                                	<div class="text">
+                                	<input name="" type="text" id="valueName" value="{{merchant.legal_person_name}}"/>
+                                	<p class="prompt_p">必须与法人身份证照片相符</p>
+                                	</div></li>
                                 <li><span class="labelSpan">生日：</span>
                                     <div class="text">
                                 	<select id="selYear" ng-model="nian">
@@ -51,6 +59,7 @@
                                 	</select>
                                 	<select id="selDay" ng-model="day">
                                 	</select>
+                                	<p class="prompt_p">必须与法人身份证照片相符</p>
 							<script type="text/javascript">
 								var selYear = window.document
 										.getElementById("selYear");
@@ -68,15 +77,25 @@
                                 	<div class="text">
                                     	<span class="checkboxRadio_span"><input name="radio" ng-checked="sex == 1" type="radio" value="" ng-click="butSex(1)"/> 男</span>
                                         <span class="checkboxRadio_span"><input name="radio" ng-checked="sex == 0" type="radio" value="" ng-click="butSex(0)"/> 女</span>
+                                    	<p class="prompt_p">必须与法人身份证照片相符</p>
                                     </div>
                                 </li>
                                 <li><span class="labelSpan">身份证：</span>
-                                	<div class="text"><input name="" type="text" id="cirdValue" value="{{merchant.legal_person_card_id}}"/></div></li>
+                                	<div class="text">
+                                	<input name="" type="text" id="cirdValue" value="{{merchant.legal_person_card_id}}"/>
+                                	<p class="prompt_p">必须与法人身份证照片相符</p>
+                                	</div></li>
                                 <li><span class="labelSpan">电话：</span>
-                                	<div class="text"><input name="" type="text" id="phoneValue" value="{{openingInfos.phone}}"/></div>
+                                	<div class="text">
+                                	<input name="" type="text" id="phoneValue" value="{{openingInfos.phone}}"/>
+                                	<p class="prompt_p">请提供真实有效的号码</p>
+                                	</div>
                                 </li>
                                 <li><span class="labelSpan">邮箱：</span>
-                                	<div class="text"><input name="" type="text" id="emailValue" value="{{openingInfos.email}}"/></div>
+                                	<div class="text">
+                                	<input name="" type="text" id="emailValue" value="{{openingInfos.email}}"/>
+                                	<p class="prompt_p">请提供真实邮箱</p>
+                                	</div>
                                 </li>
                                 <li><span class="labelSpan">地址：</span>
                                 	<div class="text">
@@ -106,19 +125,28 @@
                      		 <div class="item_list clear">
                      		 	<ul>
                      		 		<li><span class="labelSpan">结算银行帐户名：</span>
-                                	<div class="text"><input disabled="disabled" name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/></div>
+                                	<div class="text">
+                                	<input disabled="disabled" name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/>
+                                	<p class="prompt_p">必须是结算银行卡持有人的名字，并且与提交的姓名一致</p>
+                                	</div>
                                 </li>
                                 <li id="bankcode"><span class="labelSpan">结算银行名称：</span>
-                                	<div class="text"><input name="" type="text" id="bankCodeValue" ng-model="bankObj.bankName" ng-keyup="bank(1)"/></div>
-                                	<div id="suggestDiv" class="suggest">
+                                	<div class="text">
+                                	<input name="" type="text" id="bankCodeValue" ng-model="bankObj.bankName" ng-keyup="bank(1)"/>
+                                	<p class="prompt_p">必须与银行开户许可证相符</p>
+                                	</div>
+                                	<div id="suggestDiv" class="suggest" style="display: none">
 				                        <ul>
 				                            <li><a href="javascript:void(0)" ng-repeat="res in bankObj.bankCode" ng-click='selectBank(res.no,res.name)'>{{res.name}}</a></li>
 				                        </ul>
                     				</div>
                                 </li>
                                 
-                                <li><span class="labelSpan">结算银行账户：</span>
-                                	<div class="text"><input name="" type="text" id="bankNumValue" value="{{merchant.account_bank_num}}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div></li>
+                                <li><span class="labelSpan">结算银行账号：</span>
+                                	<div class="text">
+                                	<input name="" type="text" id="bankNumValue" value="{{merchant.account_bank_num}}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                                	<p class="prompt_p">必须与提交的银行卡图片一致</p>
+                                	</div></li>
                      		 	</ul>
                      		 </div>
                      </div>
@@ -127,11 +155,15 @@
                         <div class="item_list clear">
                             <ul>
                                 <li ng-if="$index == 0 && status == 1"><span class="labelSpan">税务机构号：</span>
-                                	<div class="text"><input name="" type="text" id="registeredNoValue" value="{{merchant.tax_registered_no}}"/></div></li>
+                                	<div class="text">
+                                	<input name="" type="text" id="registeredNoValue" value="{{merchant.tax_registered_no}}"/>
+                                	<p class="prompt_p">必须与税务登记证相符</p>
+                                	</div></li>
                                 <li ng-if="$index == 0 && status == 1"><span class="labelSpan">组织机构号：</span>
-                                	<div class="text"><input name="" type="text" id="organizationNoValue" value="{{merchant.organization_code_no}}"/></div></li>
-                                	
-                                	
+                                	<div class="text">
+                                	<input name="" type="text" id="organizationNoValue" value="{{merchant.organization_code_no}}"/>
+                                	<p class="prompt_p">必须与组织机构代码证相符</p>
+                                	</div></li>
                                 <li class="overflow" ng-repeat="r in result" ng-if="r.info_type == 3 && r.opening_requirements_id == ma.id">
                                 <span class="labelSpan" id="key_{{ma.level+'_'+$index}}">{{r.name}}：</span>
                                 	<div class="text">

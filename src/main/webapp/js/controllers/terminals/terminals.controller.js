@@ -508,18 +508,25 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 $scope.userId = -1;
 	
 	 $scope.searchUser = function(){
-		 if($scope.agentToUserName =='null' ||$scope.agentToUserName =='' ||$scope.agentToUserName ==null){
+		 
+		 if($scope.agentToUserName =='null' ||$scope.agentToUserName =='' 
+			 ||$scope.agentToUserName ==null || temp=='null'){
 			 alert("请输入搜索用户的条件！");
 		 }else{
-			 $http.post('api/webTerminal/searchUser',{name:$scope.agentToUserName,customerId:$scope.customersId}).success(function(data){
-				 if(data.code == 1){
-					 $scope.agentToUsers = data.result;
-				 }else if(data.code == -1){
-					 alert(data.message);
-				 }
-			 }).error(function(){
-				 alert("用户列表请求失败！");
-			 });
+			 var temp=$scope.agentToUserName.replace(/(^\s*)/g, "").replace(/(\s*$)/g, "");
+			 if(temp!=''){
+				 $http.post('api/webTerminal/searchUser',{name:$scope.agentToUserName,customerId:$scope.customersId}).success(function(data){
+					 if(data.code == 1){
+						 $scope.agentToUsers = data.result;
+					 }else if(data.code == -1){
+						 alert(data.message);
+					 }
+				 }).error(function(){
+					 alert("用户列表请求失败！");
+				 });
+			 }else{
+				 alert("请输入搜索用户的条件！");
+			 }
 		 }
 	 }
 	 

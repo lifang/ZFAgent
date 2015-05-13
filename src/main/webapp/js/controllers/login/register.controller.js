@@ -149,7 +149,7 @@ var registerAgentController = function($scope, $location, $http, LoginService) {
 				}
 			});
 		}else{
-			alert("请勾选《华尔街金融平台代理商使用协议》");
+			alert("请勾选《华尔街金融平台用户使用协议》");
 		}
 	}
 	
@@ -533,7 +533,7 @@ var registerController = function($scope, $location, $http, LoginService) {
 			return false;
 		}
 		 if ($scope.ridel_xy != true){
-			 alert("请阅读【华尔街金融平台代理商使用协议】");
+			 alert("请阅读【华尔街金融平台用户使用协议】");
 				return false;
 		 }
 		// 注册代理商

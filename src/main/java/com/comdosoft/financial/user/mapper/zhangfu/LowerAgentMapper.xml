@@ -56,7 +56,7 @@ ifnull(c.cardpath," ") as cardpath,ifnull(c.licensepath," ") as licensepath,ifnu
 		(select a.types,a.name,a.card_id,a.company_name,a.business_license,a.phone,a.email,a.address,a.is_have_profit,
          b.username as loginId,b.city_id as cityId,if(a.tax_registered_no is null, " ",a.tax_registered_no) as tax_registered_no,
          ifnull(date_format(a.created_at,'%Y-%c-%d %h:%i:%s'),"") as created_at,
-         (select if(sum(f.quantity) is null,0,sum(f.quantity)) from prepare_goods_records f where f.agent_id=a.id) as allQty,
+         (select count(b.id) from terminals b where b.agent_id=a.id) as allQty,
 		(select count(g.id) from terminals g where g.agent_id=a.id and g.customer_id is not null and g.status=1) as openNum,
 		(select count(h.id) from terminals h where h.agent_id=a.id and h.customer_id is not null) as soldNum,
 		ifnull(a.card_id_photo_path," ") as cardPath,ifnull(a.license_no_pic_path," ") as licensePath,

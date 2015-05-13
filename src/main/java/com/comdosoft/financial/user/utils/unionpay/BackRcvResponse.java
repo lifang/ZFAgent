@@ -61,19 +61,39 @@ public class BackRcvResponse{
 				valideData.put(key, value);
 			}
 		}
-
-		// 验证签名
-		if (!SDKUtil.validate(valideData, encoding)) {
-			LogUtil.writeLog("验证签名结果[失败].");
-		} else {
-			System.out.println(valideData.get("orderId")); //其他字段也可用类似方式获取
-			LogUtil.writeLog("验证签名结果[成功].");
-			OrderReq orderreq=new OrderReq();
-			orderreq.setOrdernumber(valideData.get("orderId"));
-			orderreq.setType(2);
-			orderService.payFinish(orderreq);
+		
+		boolean isProcessed = false;
+		try{
+			// 验证签名
+			if (!SDKUtil.validate(valideData, encoding)) {
+				LogUtil.writeLog("验证签名结果[失败].");
+			} else {
+				System.out.println(valideData.get("orderId")); //其他字段也可用类似方式获取
+				LogUtil.writeLog("验证签名结果[成功].");
+				OrderReq orderreq=new OrderReq();
+				orderreq.setOrdernumber(valideData.get("orderId"));
+				orderreq.setType(2);
+				orderService.payFinish(orderreq);
+				isProcessed = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(!isProcessed){
+			try{
+        		Map<String,String> queryResult =UnionpayService.query(valideData.get("orderId"), valideData.get("txnTime"));
+        		if(null != queryResult && "00".equals(queryResult.get("respCode"))){
+        			OrderReq orderreq=new OrderReq();
+    				orderreq.setOrdernumber(valideData.get("orderId"));
+    				orderreq.setType(2);
+    				orderService.payFinish(orderreq);
+        		}
+    		}catch(Exception e){
+    			e.printStackTrace();
+    		}
 		}
 		LogUtil.writeLog("BackRcvResponse接收后台通知结束");
+		
 		resp.setStatus(HttpServletResponse.SC_OK);
 	}
 	

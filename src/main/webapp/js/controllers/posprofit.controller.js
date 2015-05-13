@@ -8,7 +8,7 @@ var posprofitController = function($scope, $http, LoginService) {
 	$scope.init = function() {
 		$scope.req = {};
 		$scope.req.agent_id = LoginService.agentid;
-
+		$(".user_date input").datepicker();
 		initSystemPage($scope.req);// 初始化分页参数
 		$scope.req.rows = 10;
 		$scope.list();

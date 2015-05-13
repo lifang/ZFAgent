@@ -77,10 +77,16 @@
 		<![endif]-->
 </head>
 <body>
-	<div class="head clear" >
+	<div class="head clear" ng-init="wqxxx=true" ng-show="wqxxx">
 		<div class="box head_bg">
 	        <div class="topInfo clear">
-	            <div class="top_kf"><ul><li><strong>400-009-0876</strong></li><li><a  class="kf_a"><i></i>在线客服</a></li></ul></div>
+	            <div class="top_kf">
+	            <ul>
+	            <li><strong>400-009-0876</strong></li>
+	            <li><a  class="kf_a" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3251170541&site=qq&menu=yes"><i>
+	            	</i>在线客服</a></li>
+	            	</ul>
+	            </div>
 	            <div class="top_user" ng-if="agentId>0"><span>{{loginAgentName}}</span><a href="#/myapp">我的掌富</a><a ng-click="loginout()">退出</a><a href="#/app">掌富APP</a></div>
 	            <div class="top_user" ng-if="agentId==0"><a href="#" >登录</a><a href="#/app">掌富APP</a></div>
 	        </div>

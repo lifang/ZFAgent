@@ -5,6 +5,7 @@ var tradeModule = angular.module("tradeModule",[]);
 
 var tradelistController = function ($scope, $http, LoginService,$cookieStore) {
 	$scope.init=function(){
+		$(".user_date input").datepicker();
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
 		$scope.req.agentId=LoginService.agentid;

@@ -126,7 +126,7 @@ public class AgentLoginController {
 			customer.setDentcode(str);
 			if (agentLoginService.findUname(customer.getUsername(), customer.getStatus().toString(), Customer.TYPE_AGENT.toString(), Customer.TYPE_AGENT_STAFF.toString()) > 0) {
 				agentLoginService.updateDentcode(customer);
-				Boolean is_sucess = SysUtils.sendPhoneCode("感谢您注册华尔街金融，您的验证码为：" + str, (String) map.get("codeNumber"));
+				Boolean is_sucess = SysUtils.sendPhoneCode("欢迎使用华尔街金融平台，您此次操作的验证码是："+str+"（切勿告知他人），请在页面中输入以完成验证，有问题请致电400-009-0876.", (String) map.get("codeNumber"));
 				if (!is_sucess) {
 					return Response.getError("获取验证码失败！");
 				} else {
@@ -521,7 +521,7 @@ public class AgentLoginController {
 					// 检查手机号和邮箱是否有存在的正常代理商
 					return Response.getError("该手机已使用！");
 				}
-				Boolean is_sucess = SysUtils.sendPhoneCode("感谢您注册华尔街金融，您的验证码为：" + str, customer.getPhone());
+				Boolean is_sucess = SysUtils.sendPhoneCode("欢迎使用华尔街金融平台，您此次操作的验证码是："+str+"（切勿告知他人），请在页面中输入以完成验证，有问题请致电400-009-0876.", customer.getPhone());
 				if (!is_sucess) {
 					return Response.getError("获取验证码失败！");
 				} else {

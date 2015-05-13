@@ -561,7 +561,7 @@ td a.a_btn:hover { text-decoration: underline;}
 	width: 100%; 
 	height: 100%; 
 	display: none; 
-	position: fixed; 
+	position: absolute; 
 	z-index: 10;
 	top: 0;
 	left: 0;
@@ -1729,3 +1729,8 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 }
 .upImgLoading span { width: 37px; height: 37px; display: inline-block; font-size: 0;}
 .upImgLoading p { line-height: 32px;}
+
+
+
+/*-----申请开通提示文字-----*/
+.prompt_p { color: #999; width: 264px; clear: both;}

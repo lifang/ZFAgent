@@ -84,32 +84,37 @@ var indexController = function($scope, $location, $http, LoginService,
 
 		if (strs.length == 2) {
 			strs = strs[1].split("?");
-			    if(checkLogin(strs[0])){
-			    	$scope.right = false;
-					$scope.shop = true;
-			    }else{
-			    	if(LoginService.loginid>0&&LoginService.agentid>0){
-			    		if (check(strs[0])) {
-							// alert("check(strs[0]) == " + check(strs[0]));
-							$scope.right = false;
-							$scope.shop = true;
-						} else {
-							$scope.right = true;
-							$scope.shop = false;
-						}
-					}else{
-						window.location.href="#/login";
+			if(strs[0]=="findpass"){
+				$scope.wqxxx=false;
+			}else{
+				$scope.wqxxx=true;
+			}
+		    if(checkLogin(strs[0])){
+		    	$scope.right = false;
+				$scope.shop = true;
+		    }else{
+		    	if(LoginService.loginid>0&&LoginService.agentid>0){
+		    		if (check(strs[0])) {
+						// alert("check(strs[0]) == " + check(strs[0]));
+						$scope.right = false;
+						$scope.shop = true;
+					} else {
+						$scope.right = true;
+						$scope.shop = false;
 					}
-			    }
-			} else {
-				if(LoginService.loginid>0&&LoginService.agentid>0){
-					$scope.right = true;
-					$scope.shop = false;
 				}else{
 					window.location.href="#/login";
 				}
-				
+		    }
+		} else {
+			if(LoginService.loginid>0&&LoginService.agentid>0){
+				$scope.right = true;
+				$scope.shop = false;
+			}else{
+				window.location.href="#/login";
 			}
+			
+		}
     });
 	
 	var check = function(str) {

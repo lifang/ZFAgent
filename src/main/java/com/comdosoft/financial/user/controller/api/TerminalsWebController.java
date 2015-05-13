@@ -336,7 +336,6 @@ public class TerminalsWebController {
 				if(terminalsWebService.numIsBinding((String)map.get("terminalsNum"))==0){
 					return Response.getError("该终端已绑定！");
 				}else{
-						map.put("keys", Terminal.SELFTYPES);
 						terminalsWebService.Binding(map);
 						return Response.getSuccess("绑定成功！");
 				}

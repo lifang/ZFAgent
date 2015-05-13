@@ -81,7 +81,7 @@
 	</select>
 	
 	<update id="Binding" parameterType="map">
-		UPDATE terminals SET customer_id = #{userId},type = #{keys}
+		UPDATE terminals SET customer_id = #{userId}
 		WHERE serial_num = #{terminalsNum}
 	</update>
 	

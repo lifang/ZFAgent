@@ -149,7 +149,7 @@ i.no1 {
 	left: 0px;
 	margin-top: -10px;
 }
-.top_kf strong { color: #FFF;}
+.top_kf strong { color: #FFF; font-weight: 500; font-size: 14px;}
 
 .topInfo { height: 40px;}
 .top_user { float: right; line-height: 40px; font-size: 14px;}
@@ -810,7 +810,7 @@ tr.order_hd td { text-align: left; border-top: 1px #0071cf solid;}
 .attributes_box .item_list li { float: left; padding-left: 120px; margin-right: 82px; overflow: hidden;}
 .attributes_box .item_list li.pll { padding-left: 140px;}
 .attributes_box .item_list li.block { float:none; display:block;}
-.attributes_box .item_list li.overflow { overflow: visible;}
+.attributes_box .item_list li.overflow { overflow: visible; line-height:none;}
 .attributes_box .item_list li.b { width: 746px; float: none;}
 .attributes_box .item_list li.height48 { height:48px;}
 .attributes_box .item_list li.b div.text { width: 746px;}

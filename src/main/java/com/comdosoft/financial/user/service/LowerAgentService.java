@@ -209,7 +209,6 @@ public class LowerAgentService {
 	
 	public Map<String, Object> getInfo(LowerAgentReq req) {
 		Map<String, Object> map=lowerAgentMapper.getInfo(req);
-		if(map==null)return null;
 		String temp=filePath+map.get("cardpath").toString();
 		map.put("cardpath", temp);
 		String temp1=filePath+map.get("licensepath").toString();

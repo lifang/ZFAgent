@@ -559,6 +559,7 @@ public class OrderService {
         map.put("order_goodsList", newObjList);
         List<Terminal> terminals = orderMapper.getTerminsla(id,null);
         StringBuffer sb = new StringBuffer();
+        StringBuffer sb2 = new StringBuffer();
         for (Terminal t : terminals) {
         	String r2 = t.getReserver2() ;
         	if(!StringUtils.isBlank(r2)){
@@ -566,9 +567,11 @@ public class OrderService {
         	}else{
         		r2 = "";
         	}
-            sb.append(" " +t.getSerialNum() + r2+"<br/>");
+            sb.append(" " +t.getSerialNum() + r2);
+            sb2.append(" " +t.getSerialNum() + r2+"<br/>");
         }
         map.put("terminals", sb.toString().trim());
+        map.put("terminals_web", sb2.toString().trim());
         MyOrderReq myOrderReq = new MyOrderReq();
         myOrderReq.setId(id);
         List<Map<String, Object>> list = orderMapper.findTraceById(myOrderReq);

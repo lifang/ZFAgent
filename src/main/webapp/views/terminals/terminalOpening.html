@@ -85,7 +85,7 @@
                                 	<input name="" type="text" id="cirdValue" value="{{merchant.legal_person_card_id}}"/>
                                 	<p class="prompt_p">必须与法人身份证照片相符</p>
                                 	</div></li>
-                                <li><span class="labelSpan">手机：</span>
+                                <li><span class="labelSpan">电话：</span>
                                 	<div class="text">
                                 	<input name="" type="text" id="phoneValue" value="{{openingInfos.phone}}"/>
                                 	<p class="prompt_p">请提供真实有效的号码</p>
@@ -127,7 +127,7 @@
                      		 		<li><span class="labelSpan">结算银行帐户名：</span>
                                 	<div class="text">
                                 	<input disabled="disabled" name="" type="text" id="bankNameValue" value="{{openingInfos.account_bank_name}}"/>
-                                	<p class="prompt_p">必须是结算银行卡持有人的名称，并且与提交的商户名一致</p>
+                                	<p class="prompt_p">必须是结算银行卡持有人的名字，并且与提交的姓名一致</p>
                                 	</div>
                                 </li>
                                 <li id="bankcode"><span class="labelSpan">结算银行名称：</span>
@@ -151,8 +151,7 @@
                      		 </div>
                      </div>
                     <div class="attributes_box" ng-repeat="ma in materialLevel">
-                    	<h2>{{ma.levelTitle}}<em>{{ma.levelDescription}}</em>
-                    	<em ng-if="$index == 0" style="color: #F00;">* 上传格式(jpg,png,jpeg)、大小(小于2M)</em></h2>
+                    	<h2>{{ma.levelTitle}}<em>{{ma.levelDescription}}</em></h2>
                         <div class="item_list clear">
                             <ul>
                                 <li ng-if="$index == 0 && status == 1"><span class="labelSpan">税务机构号：</span>
@@ -190,7 +189,7 @@
                                 <span class="labelSpan" id="key_{{ma.level+'_'+$index}}">{{r.name}}：</span>
                                 <div class="text" >
                                 <form method="post" action="api/webTerminal/upload/tempOpenImg" enctype="multipart/form-data">  
-                                	<img id="nousevalueid" name="mousevaluetrue" src="images/zp.jpg" class="cover" data-src="{{r.value}}" ng-mouseenter="onmousover($event.target)"/>
+                                	<img src="images/zp.jpg" class="cover" data-src="{{r.value}}" ng-mouseenter="onmousover()"/>
                                 	<!-- <img src="images/zp.jpg" class="cover" /> -->
                                 	<a href="javascript:void(0);" class="informImg_a" style="float: right;">
                                     <span ng-if="r.value == null" >上传</span>
@@ -236,6 +235,7 @@
             			if(data.code == -1){
             				alert(data.message);
             			}else if(data.code == 1){
+            				
             				$(obj).parent("a").children("span").html("重新上传");
             				$(obj).siblings("input").val(data.result);
             			}

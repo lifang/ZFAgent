@@ -506,30 +506,17 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 //搜索现有用户 （类型为用户）
 	 $scope.agentToUserName = null;
 	 $scope.userId = -1;
-	
 	 $scope.searchUser = function(){
-		 
-		 if($scope.agentToUserName =='null' ||$scope.agentToUserName =='' 
-			 ||$scope.agentToUserName ==null || temp=='null'){
-			 alert("请输入搜索用户的条件！");
-		 }else{
-			 var temp=$scope.agentToUserName.replace(/(^\s*)/g, "").replace(/(\s*$)/g, "");
-			 if(temp!=''){
-				 $http.post('api/webTerminal/searchUser',{name:$scope.agentToUserName,customerId:$scope.customersId}).success(function(data){
-					 if(data.code == 1){
-						 $scope.agentToUsers = data.result;
-					 }else if(data.code == -1){
-						 alert(data.message);
-					 }
-				 }).error(function(){
-					 alert("用户列表请求失败！");
-				 });
-			 }else{
-				 alert("请输入搜索用户的条件！");
+		 $http.post('api/webTerminal/searchUser',{name:$scope.agentToUserName,customerId:$scope.customersId}).success(function(data){
+			 if(data.code == 1){
+				 $scope.agentToUsers = data.result;
+			 }else if(data.code == -1){
+				 alert(data.message);
 			 }
-		 }
+		 }).error(function(){
+			 alert("用户列表请求失败！");
+		 })
 	 }
-	 
 	 
 	//筛选终端回车事件
 		$scope.enterchange =  function(e){

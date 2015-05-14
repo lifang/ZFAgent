@@ -155,7 +155,18 @@ public class GoodService {
         return goodInfoMap;
     }
     
-    
+    public List<Map<String, Object>> getGoodImgUrl(int goodId){
+    	List<Map<String, Object>> picList=goodMapper.getPicList(goodId);
+        if(picList!=null){
+            for(int i=0;i<picList.size();i++){
+            	if(picList.get(i).get("urlPath")!=null){
+	            	String urlPath=filePath+picList.get(i).get("urlPath").toString();
+	            	picList.get(i).put("urlPath", urlPath);
+        		}
+            }
+        }
+        return picList;
+    }    
 
     public Map<String, Object> getSearchCondition(PosReq posreq) {
         if(posreq.getCityId()!=0){

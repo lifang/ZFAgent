@@ -183,7 +183,7 @@ var proxyOrderinfoController = function ($scope,$location, $http, LoginService) 
 		$("#od_ter_div").css('display', 'none');
 	};
 	 $scope.t_comment = function (g) {
-	    	$("#order_g_t_v").html(g.terminals);
+	    	$("#order_g_t_v").html(g.terminals_web);
 		    $("#od_ter_div").css('display','block');
 	    };
 	$scope.getOrderInfo();

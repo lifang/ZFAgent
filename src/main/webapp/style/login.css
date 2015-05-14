@@ -11,23 +11,23 @@ a { text-decoration: none;}
 .login_dh { float: right; margin-top: 5px;}
 
 .login { width: 1200px; height: 420px; margin: 50px auto; overflow: hidden;}
-.login_left { width: 780px; float: left; height: 420px; font-size: 0; margin-right: 20px;}
+.login_left { width: 780px; float: left; height: 420px; font-size: 0; margin-right: 18px;}
 .login_right { width: 398px; float: left; height: 418px; border: 1px #ccc solid; background: #FFF;}
 
 .lr_h { height: 46px; overflow: hidden; background: #efefef;}
 
 .lr_h li {
-	float: left; 
-	width: 199px; 
+	float: left;  
 	height: 43px;
 	line-height: 43px;
 	display: block; 
+	padding-left: 20px;
 	color: #666666;
 	font-size: 18px;
-	text-align: center;
+	text-align: left;
 	border-top: 2px #efefef solid;
 	font-family: "microsoft yahei";
-	cursor: pointer;
+	width: 378px; 
 }
 .lr_h li.hover { 
 	font-weight:bold; 
@@ -93,7 +93,7 @@ a { text-decoration: none;}
 .btn button:hover { background: #0178db;}
 
 .btn button.btn_q { width: 180px; margin-right: 18px;}
-.btn button.btn_w { width: 160px; background: #00ccff;}
+.btn button.btn_w { width: 160px; background: #265095;}
 
 
 /*-------foot-------*/

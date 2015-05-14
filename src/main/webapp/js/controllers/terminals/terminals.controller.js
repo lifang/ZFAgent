@@ -487,7 +487,7 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 $scope.binobject = {};//数据封装
 	 
 	 $scope.bininit = function(){
-		 //$scope.cityList();
+		 $scope.cityList();
 	 }
 	 
 	 //获得省市

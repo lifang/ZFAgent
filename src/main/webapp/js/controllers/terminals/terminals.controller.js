@@ -507,15 +507,20 @@ var agentBinTerminalController = function ($scope, $http, LoginService) {
 	 $scope.agentToUserName = null;
 	 $scope.userId = -1;
 	 $scope.searchUser = function(){
-		 $http.post('api/webTerminal/searchUser',{name:$scope.agentToUserName,customerId:$scope.customersId}).success(function(data){
-			 if(data.code == 1){
-				 $scope.agentToUsers = data.result;
-			 }else if(data.code == -1){
-				 alert(data.message);
-			 }
-		 }).error(function(){
-			 alert("用户列表请求失败！");
-		 })
+		 var temp=$scope.agentToUserName;
+		 if(temp==null||temp=='null'||temp==undefined||temp==''||temp.replace(/(^\s*)|(\s*$)/g, "")==''){
+			 alert("请输入搜索用户的条件！");
+		 }else{
+			 $http.post('api/webTerminal/searchUser',{name:$scope.agentToUserName,customerId:$scope.customersId}).success(function(data){
+				 if(data.code == 1){
+					 $scope.agentToUsers = data.result;
+				 }else if(data.code == -1){
+					 alert(data.message);
+				 }
+			 }).error(function(){
+				 alert("用户列表请求失败！");
+			 })
+		 }
 	 }
 	 
 	//筛选终端回车事件

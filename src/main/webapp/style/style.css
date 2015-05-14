@@ -11,6 +11,14 @@ textarea { border-radius: 8px; height: 80px; outline: none;}
 
 select { border-radius: 45px; outline: none;}
 
+.break {
+	word-break:break-all; /*支持IE，chrome，FF不支持*/
+	word-wrap:break-word;/*支持IE，chrome，FF*/
+}
+
+
+
+
 .red { color: #F00;}
 
 .clear:after, .box:after, .item_list li:after { 
@@ -151,7 +159,7 @@ i.no1 {
 }
 .top_kf strong { color: #FFF; font-weight: 500; font-size: 14px;}
 
-.topInfo { height: 40px;}
+.topInfo { height: 40px; font-family: "microsoft yahei"; font-size: 16px;}
 .top_user { float: right; line-height: 40px; font-size: 14px;}
 .top_user a, .top_user span { display: inline-block; margin: 0 15px; color: #FFF;}
 .top_user a:hover { text-decoration: underline;}

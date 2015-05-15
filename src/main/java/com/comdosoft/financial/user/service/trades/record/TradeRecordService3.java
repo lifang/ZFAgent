@@ -58,7 +58,7 @@ public class TradeRecordService3 {
         int tid = SysUtils.Object2int(map.get("tid"));
         int cid = SysUtils.Object2int(map.get("cid"));
         int tpay = SysUtils.Object2int(map.get("profits_pay"));
-        if (tid == req.getAgentId()) {
+        if (cid == req.getAgentId()) {
             result.put("get", tpay);
             result.put("pay", 0);
         } else {
@@ -179,7 +179,7 @@ public class TradeRecordService3 {
                 int tpay = SysUtils.Object2int(map.get("profits_pay"));
                 int pcid = SysUtils.Object2int(map.get("pcid"));
                 req.setPcid(pcid);
-                if (tid == req.getAgentId()) {
+                if (cid == req.getAgentId()) {
                     totalget += tpay;
                     // result.put("get", tpay);
                     // result.put("pay", 0);

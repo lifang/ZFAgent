@@ -123,11 +123,11 @@
                         <div class="item_list clear">
                             <ul>
                                 <li ng-repeat="opening in openingDetails " ng-if="opening.types != 2">
-                                <span class="labelSpan">{{opening.key}}：</span>
+                                <span class="labelSpan">{{opening.key}}</span>
                                 <div class="text">{{opening.value}}</div>
                                 </li>
                                 <li ng-repeat="opening in openingDetails " ng-if="opening.types == 2">
-                                <span class="labelSpan" >{{opening.key}}：</span>
+                                <span class="labelSpan" >{{opening.key}}</span>
                                 <div class="text">
                                 <img src="images/zp.jpg" class="cover" path="{{opening.value}}" ng-mouseenter="onmousover()"/>
                                 </div>

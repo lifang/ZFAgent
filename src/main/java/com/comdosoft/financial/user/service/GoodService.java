@@ -156,7 +156,7 @@ public class GoodService {
     }
     
     public List<Map<String, Object>> getGoodImgUrl(int goodId){
-    	List<Map<String, Object>> picList=goodMapper.getPicList(goodId);
+    	List<Map<String, Object>> picList=goodMapper.getPhonePicList(goodId);
         if(picList!=null){
             for(int i=0;i<picList.size();i++){
             	if(picList.get(i).get("urlPath")!=null){

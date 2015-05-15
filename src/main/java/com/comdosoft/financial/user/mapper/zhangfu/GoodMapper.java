@@ -67,4 +67,6 @@ public interface GoodMapper {
     List<Integer> getSonCategoryIds(int category);
 
     List<Map<String, Object>> getPicList(int goodId);
+    
+    List<Map<String, Object>> getPhonePicList(int goodId);
 }

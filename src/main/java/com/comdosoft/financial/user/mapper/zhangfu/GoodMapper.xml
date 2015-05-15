@@ -255,7 +255,7 @@
 		</if>
 	</select>
 	<select id="getPicList" resultType="map">
-		select id,url_path as urlPath from good_moblie_pictures where good_id=#{goodId}
+		select id,url_path as urlPath from goods_pictures where good_id=#{goodId}
 	</select>
 
 </mapper>

@@ -1,71 +1,69 @@
 <link href="style/agentDownload.css" rel="stylesheet" type="text/css" />
-<div class="main">
-	<div class="ad">
-		<div class="agentBanner">
-			<ul class="agentShow">
-				<li style="background-image: url(images/ag01.png);"></li>
-				<li style="background-image: url(images/ag02.png);"></li>
-				<li style="background-image: url(images/ag03.png);"></li>
-			</ul>
-			<ul class="agentNum">
-				<li class="on">1</li>
-				<li>2</li>
-				<li>3</li>
-			</ul>
-		</div>
-		<script language="javascript">
-			$(function() {
-				var len = $(".agentNum > li").length;
-				var index = 0;
-				var MyTime = setInterval(function() {
-					showImg(index)
-					index++;
-					if (index == len) {
-						index = 0;
-					}
-				}, 4000);
+<div class="main_agentDownLoad">
+    <div class="ad_agentDownLoad">
+        <div class="agentBanner">
+            <ul class="agentShow">
+                <li style="background-image:url(images/ag01.png);"></li>
+                <li style="background-image:url(images/ag02.png);"></li>
+                <li style="background-image:url(images/ag03.png);"></li>
+            </ul>
+            <ul class="agentNum">
+                <li class="on">1</li>
+                <li>2</li>
+                <li>3</li>
+            </ul>
+        </div>
+    <script language="javascript" >
+$(function(){
+     var len = $(".agentNum > li").length;
+var index = 0;
+var MyTime = setInterval(function(){
+   showImg(index)
+   index++;
+   if(index==len){index=0;}
+} , 4000);
 
-				$(".agentNum li").mouseover(function() {
-					index = $(".agentNum li").index(this);
-					showImg(index);
-				});
+$(".agentNum li").mouseover(function(){
+   index =   $(".agentNum li").index(this);
+   showImg(index);
+});
+ 
+$('.agentBanner').hover(function(){
+     if(MyTime){
+     clearInterval(MyTime);
+     }
+},function(){
+     MyTime = setInterval(function(){
+       showImg(index)
+     index++;
+     if(index==len){index=0;}
+     } , 4000);
+});
 
-				$('.agentBanner').hover(function() {
-					if (MyTime) {
-						clearInterval(MyTime);
-					}
-				}, function() {
-					MyTime = setInterval(function() {
-						showImg(index)
-						index++;
-						if (index == len) {
-							index = 0;
-						}
-					}, 4000);
-				});
-
-			})
-			function showImg(i) {
-				$(".agentShow").stop(true, false).animate({
-					top : -440 * i
-				}, 800);
-				$(".agentNum li").eq(i).addClass("on").siblings().removeClass("on");
-			}
-		</script>
-	</div>
-	<div class="dl_area">
-		<ul>
-			<li class="ios"><a href="#">iPhone</a><a href="#">iPad</a></li>
-			<li class="android"><i class="android_icon"></i><a href="#">安卓手机</a><a href="#">安卓平板</a></li>
-			<li><p>最新版本：v2.0.1 更新日期：2015.02.25</p></li>
-		</ul>
-		<div class="agentEwm">
-			<img src="images/app_ewm.jpg" />
-		</div>
-	</div>
+})
+function showImg(i){
+   $(".agentShow").stop(true,false).animate({top : -440*i},800);
+   $(".agentNum li").eq(i).addClass("on").siblings().removeClass("on");
+}
+</script>
+    </div>
+    <div class="dl_area">
+    	<ul>
+        	<li class="ios">
+            	<a href="http://app.ebank007.com/iosphone/agent/">手机版 立即下载</a>
+                <span class="no">Pad版 敬请期待</span>
+            </li>
+            <li class="android">
+            	<a href="http://app.ebank007.com/androidphone/agent/">手机版 立即下载</a>
+                <span class="no">Pad版 敬请期待</span>
+            </li>
+            <li><p>最新版本：v2.0.1  更新日期：2015.05.18</p></li>
+        </ul>
+        <div class="updownEwm"><img src="images/app_ewm.jpg" /></div>
+    </div>
 </div>
 <script type="text/javascript">
-	$(function() {
-		$(".main").height($(window).height() - 39 - 108);
-	})
+$(function(){
+	$(".main_agentDownLoad").height($(window).height()-39-108);
+})
 </script>

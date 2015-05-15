@@ -1,67 +1,6 @@
-/*@charset "utf-8";
-* { padding: 0; margin: 0;}
-body { 
-	font: 12px/1.5 "\5b8b\4f53", Arial,Verdana; 
-	color: #333; 
-	background:#ffffff url(../images/bg0.jpg) no-repeat center top;
-	background-size: cover;
-}
-img { border: none;}
-li { list-style: none;}
-a { text-decoration: none; cursor: pointer; color: #333;}
-button { cursor: pointer; border: none;}
-input { border: none;}
-
-.clear:after, .box:after { clear: both; content:"."; display: block; height: 0; overflow: hidden; visibility:hidden;}
-.focus { box-shadow:0 0 5px rgba(0, 0, 0, 0.2)}
-.box { width: 1200px; margin: 0 auto;}
-
-/*顶部信息*/
-/*
-.head { height:108px; background: url(../images/h_bg.jpg) repeat;}
-.head_bg { height:108px; background: url(../images/head_bg.jpg) no-repeat;}
-
-.top_kf { color: #FFF; line-height: 40px; float: left; font-size: 14px;}
-.top_kf li { float: left; margin-right: 20px;}
-.top_kf li a.kf_a { color: #FFF; position: relative; padding-left: 25px; display: inline-block;}
-.top_kf li i { 
-	width: 20px; 
-	height: 20px; 
-	display: inline-block;
-	background: url(../images/icons.png) no-repeat -33px -217px;
-	position: absolute;
-	top: 50%;
-	left: 0px;
-	margin-top: -10px;
-}
-.top_kf strong { color: #FFF;}
-
-.topInfo { height: 40px;}
-.top_user { float: right; line-height: 40px; font-size: 14px;}
-.top_user a, .top_user span { display: inline-block; margin: 0 15px; color: #FFF;}
-.top_user a:hover { text-decoration: underline;}*/
-
-.logo { 
-	width: 350px; 
-	height: 60px; 
-	background: url(../images/logo.png) no-repeat; 
-	text-indent: -999px; 
-	overflow: hidden;
-	margin-top: 6px;
-}
-.systemName { 
-	height: 50px; 
-	line-height: 50px; 
-	float: left; 
-	font-size: 24px;
-	font-family: "microsoft yahei"; 
-	color: #0071cf;
-	margin-top: 6px;
-	margin-left: 10px;
-}
 
 
-.ad { font-size: 0px; width: 100%;}
+.ad_agentDownLoad { font-size: 0px; width: 100%;}
 .agentBanner{
 	width:1200px;
 	height:440px;
@@ -86,40 +25,55 @@ input { border: none;}
 }
 .agentNum li.on{ background-color:#1c64a8;}
 
-.main { position: relative; }
+.main_agentDownLoad {
+	position: relative;
+	background:#ffffff url(../images/bg0.jpg) no-repeat center top;
+	background-size: cover;
+}
 .dl_area { 
 	position: absolute; 
 	left: 50%; 
-	top: 250px; 
-	margin-left: -175px; 
-	width: 350px; 
+	top: 200px; 
+	margin-left: -280px; 
+	width: 560px; 
 	overflow: hidden;
-	padding-left: 90px;
+	padding-left: 140px;
 }
-.dl_area ul { float: left;}
+.dl_area ul { float: left; display: block;}
 .dl_area li { 
 	margin: 10px 0; 
 	font-family:"microsoft yahei"; 
-	width: 220px; 
 	border-radius: 45px; 
 	color: #FFF;
 	text-align: center;
+	height: 32px;
 }
 
-.dl_area li a { 
+.dl_area li a, .dl_area li span { 
 	height: 32px; 
 	line-height: 32px; 
-	text-align: center; 
 	color: #FFF; 
 	display: inline-block;
-	width: 70px;
+	width: 180px;
 	font-size: 16px;
-	padding-left: 30px;
 	border-radius: 45px;
 	margin: 0 5px;
+	float: left;
+	padding-left: 20px;
 	
 }
-.dl_area li.ios a { background: url(../images/ios.png) no-repeat 10px center #985364;}
+.dl_area li span { width: 150px;}
+.dl_area li.ios a { 
+	background: url(../images/ios.png) no-repeat 10px center #985364;
+	text-decoration: none;
+}
+.dl_area li.ios span.no { 
+	background: url(../images/ios_no.png) no-repeat 10px center;
+	border: 2px #999999 solid;
+	height: 28px;
+	color: #999;
+	line-height: 28px;
+}
 .dl_area li.ios a:hover {
 	background-color: #a95f72;
 	transition: all 0.2s;
@@ -127,23 +81,24 @@ input { border: none;}
 	-webkit-transition: all 0.2s; /* Safari 和 Chrome */
 	-o-transition: all 0.2s; /* Opera */
 }
-.dl_area li.android a {  background: url(../images/android.png) no-repeat 10px center #1779a9; font-size: 12px;}
+.dl_area li.android a {  background: url(../images/android.png) no-repeat 10px center #1779a9;}
+.dl_area li.android span.no { 
+	background: url(../images/android_no.png) no-repeat 10px center;
+	border: 2px #999999 solid;
+	height: 28px;
+	color: #999;
+	line-height: 28px;
+}
 .dl_area li.android a:hover {
 	background-color: #1e87ba;
 	transition: all 0.2s;
 	-moz-transition: all 0.2s; /* Firefox 4 */
 	-webkit-transition: all 0.2s; /* Safari 和 Chrome */
 	-o-transition: all 0.2s; /* Opera */
-}.dl_area li p { color: #666; font-size: 12px;}
-.agentEwm { float: right; margin-top: 10px;}
-.agentEwm img { width: 80px;}
+}
+.dl_area li p { color: #666; font-size: 12px;}
+.updownEwm { float: right; margin-top: 10px; margin-right: 36px;}
+.updownEwm img { width: 120px;}
 
 
-/*-------foot-------*/
-.foot { border-top: 1px #ccc solid; padding: 10px 0; overflow: hidden; background: #FFF;}
-.foot .foot_nav { float: left;}
-.foot .foot_nav li { float: left;}
-.foot .foot_nav li a { color: #016cb7; margin: 0 10px;}
-.foot .foot_nav li a:hover { color: #0292f7;}
-.copyright { float: right; color: #666;}
 

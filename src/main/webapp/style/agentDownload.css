@@ -1,4 +1,4 @@
-@charset "utf-8";
+/*@charset "utf-8";
 * { padding: 0; margin: 0;}
 body { 
 	font: 12px/1.5 "\5b8b\4f53", Arial,Verdana; 
@@ -17,6 +17,7 @@ input { border: none;}
 .box { width: 1200px; margin: 0 auto;}
 
 /*顶部信息*/
+/*
 .head { height:108px; background: url(../images/h_bg.jpg) repeat;}
 .head_bg { height:108px; background: url(../images/head_bg.jpg) no-repeat;}
 
@@ -38,7 +39,7 @@ input { border: none;}
 .topInfo { height: 40px;}
 .top_user { float: right; line-height: 40px; font-size: 14px;}
 .top_user a, .top_user span { display: inline-block; margin: 0 15px; color: #FFF;}
-.top_user a:hover { text-decoration: underline;}
+.top_user a:hover { text-decoration: underline;}*/
 
 .logo { 
 	width: 350px; 
@@ -85,7 +86,7 @@ input { border: none;}
 }
 .agentNum li.on{ background-color:#1c64a8;}
 
-.main { position: relative; background: none;}
+.main { position: relative; }
 .dl_area { 
 	position: absolute; 
 	left: 50%; 

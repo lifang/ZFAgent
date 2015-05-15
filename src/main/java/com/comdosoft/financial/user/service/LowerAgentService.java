@@ -74,9 +74,14 @@ public class LowerAgentService {
 		String defaultProfit=lowerAgentMapper.getDefaultProfit(req);
 		if(defaultProfit==null){
 			defaultProfit="0";
+			map.put("resultCode", 1);
+			map.put("resultInfo", defaultProfit);
+		}else{
+			int temp=Integer.parseInt(defaultProfit);
+			float temp1=temp/10;
+			map.put("resultCode", 1);
+			map.put("resultInfo", temp1);
 		}
-		map.put("resultCode", 1);
-		map.put("resultInfo", defaultProfit);
 		return map;
 	}
 	
@@ -90,7 +95,7 @@ public class LowerAgentService {
 	public Map<String,Object> changeProfit(LowerAgentReq req) throws Exception{
 		Map<String,Object> map =new HashMap<String, Object>();
 		float profit=req.getDefaultProfit()*10;
-		
+		req.setDefaultProfit(profit);
 		if(profit>1000 || profit<0){
 			map.put("resultCode", -1);
 			map.put("resultInfo", "默认分润比例必须介于0-100之间");

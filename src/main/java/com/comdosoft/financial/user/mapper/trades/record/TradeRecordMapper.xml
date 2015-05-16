@@ -74,6 +74,8 @@
 	<select id="getTradeRecords45" resultType="map">
 		SELECT DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
 		r.amount,r.id,
+		IFNULL(r.account_name,'无') account_name ,
+		IFNULL(r.account_number,'无') account_number,
 		r.terminal_number terminalNumber,
 		r.traded_status tradedStatus,
 		t.phone

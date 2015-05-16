@@ -112,4 +112,6 @@ public interface CustomerMapper {
 	 */
 	public void batchInsertRights(EmpReq req);
 
+	public int updateDevice(Integer id, String deviceCode);
+
 }

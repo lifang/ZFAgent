@@ -49,7 +49,7 @@
 
 	<select id="getTradeRecords3" resultType="map">
 		SELECT DATE_FORMAT(r.traded_at, '%Y-%m-%d %T') tradedTimeStr,
-		r.amount,r.id,
+		r.amount,r.id,r.poundage,
 		r.terminal_number terminalNumber,
 		r.traded_status tradedStatus,
 		t.phone

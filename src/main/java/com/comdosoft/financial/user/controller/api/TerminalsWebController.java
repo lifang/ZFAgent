@@ -314,7 +314,7 @@ public class TerminalsWebController {
 	@RequestMapping(value="searchUser",method=RequestMethod.POST)
 	public Response searchUser(@RequestBody Map<Object, Object> namemap){
 		try{
-			//namemap.put("type", Customer.TYPE_CUSTOMER);
+			namemap.put("type", Customer.TYPE_CUSTOMER);
 			return Response.getSuccess(terminalsWebService.searchUser(namemap));
 		}catch(Exception e){
 			e.printStackTrace();

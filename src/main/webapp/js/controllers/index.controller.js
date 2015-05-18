@@ -2,6 +2,31 @@
 
 // 主页面路由模块，用于控制主页面的菜单导航(注入了登陆服务LoginService)
 var indexModule = angular.module("indexModule", ['loginServiceModule','routeModule', 'ngCookies',  'ngCsv']);
+indexModule.factory('myInterceptor', [function() {
+    var requestInterceptor = {
+        request: function(config) {
+            $("#ajaxLoading").show();
+            return config;
+        },
+        response: function(response) {
+            $("#ajaxLoading").hide();
+            var responseData = response.data;
+            if(responseData != null && responseData != "" && responseData.resultCode=="401") {
+                $("#loginModal").modal({keyboard:false,backdrop:'static'});
+                return response;
+            }
+            if(responseData=="NOT_AUTHORIZED") {
+                $("#loginModal").modal({keyboard:false,backdrop:'static'});
+                return response;
+            }
+            return response;
+        }
+    };
+    return requestInterceptor;
+}]);
+indexModule.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('myInterceptor');
+}]);
 
 var indexController = function($scope, $location, $http, LoginService,
 		$cookieStore) {

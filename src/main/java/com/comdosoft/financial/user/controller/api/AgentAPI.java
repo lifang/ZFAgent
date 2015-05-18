@@ -334,4 +334,13 @@ public class AgentAPI {
         }
         return sysResponse;
     }
+    @RequestMapping(value = "sendDeviceCode", method = RequestMethod.POST)
+    public Response sendDeviceCode(@RequestBody Customer param){
+    	int code = agentService.upCustomerDevice(param.getId(), param.getDeviceCode());
+    	if(code==1){
+    		return Response.getSuccess();
+    	}else{
+    		return Response.getError("保存推送通道ID出错");
+    	}
+    }
 }

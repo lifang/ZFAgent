@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" id="ng-app" ng-app="indexModule" ng-controller="indexController">
+<html xmlns="http://www.w3.org/1999/xhtml" id="ng-app" ng-app="indexModule"  ng-scp ng-controller="indexController"   >
 <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
@@ -8,7 +8,7 @@
 		<link href="style/style.css" rel="stylesheet" type="text/css" />
 		<link href="style/shop.css" rel="stylesheet" type="text/css" />
 		<link href="style/jquery-ui.css" rel="stylesheet" type="text/css" />
-		
+		<link href="js/libs/angular-csp.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript"  src="js/jQuery-1.11.2.js"></script>
 		<script type="text/javascript" src="js/libs/angular.js"></script>
 		<script type="text/javascript" src="js/libs/angular-route.js"></script>
@@ -76,19 +76,21 @@
 			<script type="text/javascript" src="js/left.js"></script>		 
 		<![endif]-->
 </head>
-<body>
-	<div class="head clear" ng-init="wqxxx=true" ng-show="wqxxx">
+<body  class="ng-cloak">
+	<div class="head clear">
 		<div class="box head_bg">
 	        <div class="topInfo clear">
 	            <div class="top_kf">
 	            <ul>
 	            <li><strong>400-009-0876</strong></li>
 	            <li><a  class="kf_a" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3251170541&site=qq&menu=yes"><i>
-	            	</i>在线客服</a></li>
-	            	</ul>
+	            	</i>在线客服</a>
+	            </li>
+	            <li><a href="#/app">掌富APP</a></li>
+	            </ul>
 	            </div>
 	            <div class="top_user" ng-if="agentId>0"><span>{{loginAgentName}}</span><a href="#/myapp">我的掌富</a><a ng-click="loginout()">退出</a><a href="#/app">掌富APP</a></div>
-	            <div class="top_user" ng-if="agentId==0"><a href="#" >登录</a><a href="#/app">掌富APP</a></div>
+	            <div class="top_user" ng-if="agentId==0"><a href="#" >登录</a><a href="http://www.ebank007.com">商户版入口</a></div>
 	        </div>
 			<div class="logo">华尔街金融</div>
 	    </div>
@@ -152,48 +154,87 @@
 			<div ng-view></div>
 					<script type="text/javascript" src="js/left.js"></script>		 
 		</div>
-		<div class="box">
-    	<div class="serviceContent">
-        	<dl>
-            	<dt><a  class="sc01"><i></i>厂家直销</a></dt>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-            </dl>
-            <dl>
-            	<dt><a  class="sc02"><i></i>直连机构</a></dt>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-            </dl>
-            <dl>
-            	<dt><a  class="sc03"><i></i>在线入网</a></dt>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-            </dl>
-            <dl>
-            	<dt><a  class="sc04"><i></i>标准费率</a></dt>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-            </dl>
-            <dl>
-            	<dt><a  class="sc05"><i></i>保障售后</a></dt>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-                <dd><a >指引的超连接</a></dd>
-            </dl>
-            <div class="ewm"><img src="images/ewm.jpg" /></div>
-        </div>
-	</div>
 </div>
 	<div ng-view ng-if="shop"></div>
+	
+	
+	<div class="box">
+			<div class="serviceContent">
+				<dl>
+					<dt>
+						<a target="_blank" href="http://www.ebank007.com/help/serviceGuarantee.html" class="sc01"><i></i>厂家直销</a>
+					</dt>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<a target="_blank" href="http://www.ebank007.com/help/serviceGuarantee.html" class="sc02"><i></i>直连机构</a>
+					</dt>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<a target="_blank" href="http://www.ebank007.com/help/serviceGuarantee.html" class="sc03"><i></i>在线入网</a>
+					</dt>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<a target="_blank" href="http://www.ebank007.com/help/serviceGuarantee.html" class="sc04"><i></i>标准费率</a>
+					</dt>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<a target="_blank" href="http://www.ebank007.com/help/serviceGuarantee.html" class="sc05"><i></i>保障售后</a>
+					</dt>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+					<dd>
+						<a>指引的超连接</a>
+					</dd>
+				</dl>
+				<div class="ewm">
+					<img src="images/ewm.jpg" />
+				</div>
+			</div>
+		</div>
 	
 	<div class="foot" >
 		<div class="box">

@@ -18,6 +18,7 @@ import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.CustomerAddress;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.mapper.zhangfu.AgentMapper;
+import com.comdosoft.financial.user.mapper.zhangfu.CustomerMapper;
 import com.comdosoft.financial.user.mapper.zhangfu.TerminalsMapper;
 import com.comdosoft.financial.user.utils.CommUtils;
 import com.comdosoft.financial.user.utils.SysUtils;
@@ -39,6 +40,9 @@ public class AgentService {
 
 	@Resource
 	private TerminalsMapper terminalsMapper;
+	
+	@Resource
+	private CustomerMapper customerMapper;
 	
 	@Value("${filePath}")
 	private String filePath;
@@ -274,6 +278,10 @@ public class AgentService {
 
 	public int countAddress(Map<Object, Object> param) {
 			return agentMapper.countAddress(param);
+	}
+
+	public int upCustomerDevice(Integer id, String deviceCode) {
+		return customerMapper.updateDevice(id, deviceCode);
 	}
 
 

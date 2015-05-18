@@ -175,10 +175,9 @@ public class TerminalsService {
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getMerchants(Integer terminalId,String title,
+	public List<Map<String, Object>> getMerchants(String title,
 				Integer offSetPage, Integer pageSize) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("terminalId", terminalId);
 			map.put("offSetPage", offSetPage);
 			map.put("pageSize", pageSize);
 			map.put("title", title);
@@ -190,9 +189,8 @@ public class TerminalsService {
 	 * @param customerId
 	 * @return
 	 */
-	public int getMerchantSize(Integer terminalId,String title) {
+	public int getMerchantSize(String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("terminalId", terminalId);
 		map.put("title", title);
 		return terminalsMapper.getMerchantSize(map);
 	}

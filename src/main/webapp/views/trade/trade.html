@@ -1,4 +1,4 @@
-<div class="right" ng-controller="tradelistController">
+<div class="right" ng-controller="tradelistController" class="ng-cloak">
 
 
 	<div class="content clear">
@@ -80,6 +80,7 @@
 			</div>
 
 			<div class="pageTurn">
+				<!-- <div class="p_export"><button ng-click="export()">导出</button></div> -->
 				<div class="p_num" ng-show="req.totalPage>1">
 					<a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="req.indexPage=1;list()">首页</a> <a ng-class="{true:'disabled'}[req.indexPage==1]" href="javascript:void(0)" ng-click="prev()">上一页</a> <a
 						ng-class="{true:'current'}[req.indexPage==currentPage]" ng-repeat="currentPage in req.pages" href="javascript:void(0)" ng-click="loadPage(currentPage)">{{currentPage}}</a> <a ng-class="{true:'disabled'}[req.indexPage==req.totalPage]"
@@ -94,3 +95,20 @@
 		</div>
 	</div>
 </div>
+<style>
+	.p_export {
+		float:left;
+		display: inline-block;
+	}
+	.p_export button { 
+		height: 27px;
+		padding: 0 10px; 
+		border: 1px #ccc solid; 
+		line-height: 24px; 
+		background: #F7F7F7; 
+		margin: 0 5px;
+		outline: none;
+		font: 12px/1.5 "\5b8b\4f53", Arial,Verdana;
+	}
+	.p_export button:hover { background: #dddddd;}
+</style>

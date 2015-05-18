@@ -178,12 +178,10 @@ public class TerminalsController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
 			applyMap.put("merchaneList", terminalsService.getMerchants(
-					(Integer)map.get("terminalId"),
 					(String)map.get("title"),
 					offSetPage,
 					(Integer)map.get("rows")));
 			applyMap.put("total", terminalsService.getMerchantSize(
-					(Integer)map.get("terminalId"),
 					(String)map.get("title")));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {

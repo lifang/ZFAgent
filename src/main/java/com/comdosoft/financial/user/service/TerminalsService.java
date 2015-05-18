@@ -175,9 +175,10 @@ public class TerminalsService {
 	 * @param customerId
 	 * @return
 	 */
-	public List<Map<String, Object>> getMerchants(String title,
+	public List<Map<String, Object>> getMerchants(Integer terminalId,String title,
 				Integer offSetPage, Integer pageSize) {
 			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("terminalId", terminalId);
 			map.put("offSetPage", offSetPage);
 			map.put("pageSize", pageSize);
 			map.put("title", title);
@@ -189,11 +190,37 @@ public class TerminalsService {
 	 * @param customerId
 	 * @return
 	 */
-	public int getMerchantSize(String title) {
+	public int getMerchantSize(Integer terminalId,String title) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("terminalId", terminalId);
 		map.put("title", title);
 		return terminalsMapper.getMerchantSize(map);
 	}
+	
+	/**
+     * 获得代理商下面的用户
+     * @param customerId
+     * @return
+     */
+    public List<Map<String, Object>> getCustomer(String title,
+                Integer offSetPage, Integer pageSize) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("offSetPage", offSetPage);
+            map.put("pageSize", pageSize);
+            map.put("title", title);
+        return terminalsMapper.getCustomer(map);
+    }
+    
+    /**
+     * 获得代理商下面的用户总记录数
+     * @param customerId
+     * @return
+     */
+    public int getCustomerSize(String title) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("title", title);
+        return terminalsMapper.getCustomerSize(map);
+    }
 	/**
 	 * 查看该终端号是否存在
 	 * @param terminalsNum

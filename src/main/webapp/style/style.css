@@ -146,7 +146,8 @@ i.no1 {
 
 .top_kf { color: #FFF; line-height: 40px; float: left; font-size: 14px;}
 .top_kf li { float: left; margin-right: 20px;}
-.top_kf li a.kf_a { color: #FFF; position: relative; padding-left: 25px; display: inline-block;}
+.top_kf li a { color: #FFF;}
+.top_kf li a.kf_a { position: relative; padding-left: 25px; display: inline-block;}
 .top_kf li i { 
 	width: 20px; 
 	height: 20px; 
@@ -1186,7 +1187,7 @@ i.closeDeal_icon {
 .su_search button:hover { background: #f5f5f5;}
 
 .su_s_box { padding: 20px 0; border: 1px #CCCCCC solid; margin-top: 5px; border-radius: 8px;}
-.su_s_box a { border: 1px #CCCCCC dashed; padding: 5px 10px; margin: 0 5px; border-radius: 8px;}
+.su_s_box a { border: 1px #CCCCCC dashed; padding: 5px 10px; margin: 5px; border-radius: 8px; display: inline-block;}
 .su_s_box a:hover, .su_s_box a.hover { border: 1px #0071cf solid; padding: 5px 10px; color: #0071cf;}
 
 .suc_selectInput { overflow: hidden; margin-bottom: 10px;}
@@ -1594,16 +1595,16 @@ p.placeholder { clear: both; padding-left: 80px; line-height: 18px; color: #999;
 	background: url(../images/serviceIcon.png) no-repeat 0 0;
 }
 .serviceContent dt a.sc02 i { 
-	background: url(../images/serviceIcon.png) no-repeat 0 -55px;
+	background: url(../images/serviceIcon.png) no-repeat 0 -220px;
 }
 .serviceContent dt a.sc03 i { 
-	background: url(../images/serviceIcon.png) no-repeat 0 -110px;
+	background: url(../images/serviceIcon.png) no-repeat 0 -55px;	
 }
 .serviceContent dt a.sc04 i { 
 	background: url(../images/serviceIcon.png) no-repeat 0 -165px;
 }
 .serviceContent dt a.sc05 i { 
-	background: url(../images/serviceIcon.png) no-repeat 0 -220px;
+	background: url(../images/serviceIcon.png) no-repeat 0 -110px;
 }
 /*
 .serviceContent dt a:hover { 

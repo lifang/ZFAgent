@@ -392,7 +392,7 @@ public class TerminalsWebController {
 	public Response getWebApplyCancellation(@RequestBody Map<Object, Object> maps) {
 		try {
 			Map<Object, Object> map = new HashMap<Object, Object>();
-			// 获得终端详情
+			//获得终端详情
 			map.put("applyDetails",
 					terminalsWebService.getApplyDetails((Integer)maps.get("terminalsId")));
 			//获得模板路径

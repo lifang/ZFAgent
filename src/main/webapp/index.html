@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" id="ng-app" ng-app="indexModule" ng-controller="indexController">
+<html xmlns="http://www.w3.org/1999/xhtml" id="ng-app" ng-app="indexModule"  ng-scp ng-controller="indexController"   >
 <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
@@ -8,7 +8,7 @@
 		<link href="style/style.css" rel="stylesheet" type="text/css" />
 		<link href="style/shop.css" rel="stylesheet" type="text/css" />
 		<link href="style/jquery-ui.css" rel="stylesheet" type="text/css" />
-		
+		<link href="js/libs/angular-csp.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript"  src="js/jQuery-1.11.2.js"></script>
 		<script type="text/javascript" src="js/libs/angular.js"></script>
 		<script type="text/javascript" src="js/libs/angular-route.js"></script>
@@ -76,7 +76,7 @@
 			<script type="text/javascript" src="js/left.js"></script>		 
 		<![endif]-->
 </head>
-<body>
+<body  class="ng-cloak">
 	<div class="head clear">
 		<div class="box head_bg">
 	        <div class="topInfo clear">

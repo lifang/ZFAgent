@@ -8,7 +8,7 @@
 		g.volume_number,g.purchase_price as retail_price,g.price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,
 		g.has_lease,g.lease_time,g.return_time,g.lease_price,g.lease_description,g.lease_agreement,g.lease_deposit,
 		g.shell_material,g.battery_info,dsow.sign_order_way,decw.encrypt_card_way,
-		g.factory_id,g.description,g.quantity,g.total_score
+		g.factory_id,g.description,g.quantity,(g.total_score div g.total_comment) as total_score
 		from goods g
 		LEFT JOIN good_brands gb on g.good_brands_id=gb.id
 		left JOIN pos_categories pc on g.pos_category_id=pc.id
@@ -21,7 +21,7 @@
 	<select id="getGoodsList" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="map">
 	    SELECT * from(
 		SELECT  g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.purchase_number,g.lease_deposit,
-		g.purchase_price as retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title,
+		g.purchase_price as retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,(g.total_score div g.total_comment) as total_score,g.second_title,
 		min(g.purchase_price+pc.opening_cost) price1,min(g.purchase_price+pc.opening_cost) price2
 		from goods g
 		LEFT JOIN good_brands b on g.good_brands_id=b.id
@@ -104,7 +104,7 @@
 	<select id="getGoodsTotal" parameterType="com.comdosoft.financial.user.domain.query.PosReq" resultType="int">
 		SELECT count(*) from(
 		SELECT  g.id,g.Title,g.has_lease,b.name as good_brand,g.Model_number,g.volume_number,g.purchase_number,g.lease_deposit,
-		g.purchase_price as retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.total_score,g.second_title,
+		g.purchase_price as retail_price,g.purchase_price,g.floor_price,g.floor_purchase_quantity,g.second_title,
 		min(g.purchase_price+pc.opening_cost) price1,min(g.purchase_price+pc.opening_cost) price2
 		from goods g
 		LEFT JOIN good_brands b on g.good_brands_id=b.id

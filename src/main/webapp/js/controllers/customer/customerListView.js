@@ -35,11 +35,11 @@ var customerListViewController = function($scope, $location, $http, LoginService
 			}
 		});
 		
-		$http.post("api/index/getCustomerMarks/" + customerId).success(function(data) {
+		/*$http.post("api/index/getCustomerMarks/" + customerId).success(function(data) {
 			if (data != null && data != undefined) {
 				$scope.markList = data.result.list;
 			}
-		});
+		});*/
 
 		$scope.list();
 	};
@@ -55,7 +55,7 @@ var customerListViewController = function($scope, $location, $http, LoginService
 		$scope.req = {
 			content : marksContent,
 			customerId : customerId,
-			agentId : 22
+			agentId : LoginService.agentid
 		};
 		$http.post("api/index/saveViewCustomerViews", $scope.req).success(function(data) {
 			if (data != null && data != undefined) {

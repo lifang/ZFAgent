@@ -9,10 +9,9 @@
      </select>
      
      <select id="getCommentList" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.CommentReq">
-       SELECT gc.id,c.name,gc.score,gc.content,
+       SELECT gc.id,gc.customer_name as name,gc.score,gc.content,
         DATE_FORMAT(gc.created_at,'%Y-%m-%d %H:%i:%s') created_at
         from good_comments gc
-		LEFT JOIN customers c on c.id=gc.customer_id
 		where gc.good_id=#{goodId} and gc.status=2 ORDER BY gc.created_at desc 
 		LIMIT #{offset}, #{rows}
      </select>

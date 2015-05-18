@@ -262,6 +262,7 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 	margin: 0 2px;
 }
 .evaluate li.p_li_o {background: url(../images/icons.png) no-repeat -6px -78px;}
+.evaluate li.p_li_b {background: url(../images/icons.png) no-repeat -6px -91px;}
 
 .lease_t, .lease_t_no { 
 	width: 20px; 
@@ -473,7 +474,7 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 	color: #0071cf; 
 	font-size: 14px; 
 	position: relative;
-	padding: 10px 30px;
+	padding: 10px 0px;
 	margin-bottom: 10px;
 }
 .evaluate_title i { 

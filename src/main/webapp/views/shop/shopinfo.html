@@ -238,8 +238,18 @@
 					<div style="display: none;">
 						<div class="pro_evaluate">
 							<div class="evaluate_title">
-								<i></i>综合评分{{good.goodinfo.total_score/10}}
-							</div>
+									综合评分
+									<div class="evaluate">
+											<ul>
+												<li class="{{good.goodinfo.total_score>9?'p_li_o':(good.goodinfo.total_score>4?'p_li_b':'')}}"></li>
+												<li class="{{good.goodinfo.total_score>19?'p_li_o':(good.goodinfo.total_score>14?'p_li_b':'')}}"></li>
+												<li class="{{good.goodinfo.total_score>29?'p_li_o':(good.goodinfo.total_score>24?'p_li_b':'')}}"></li>
+												<li class="{{good.goodinfo.total_score>39?'p_li_o':(good.goodinfo.total_score>34?'p_li_b':'')}}"></li>
+												<li class="{{good.goodinfo.total_score>49?'p_li_o':(good.goodinfo.total_score>44?'p_li_b':'')}}"></li>
+											</ul>
+									</div>
+									{{good.goodinfo.total_score/10}}
+								</div>
 
 							<div class="evaluate_item" ng-repeat="one in comment">
 								<div class="evaluate_star">

@@ -77,7 +77,7 @@ public class LowerAgentService {
 			map.put("resultCode", 1);
 			map.put("resultInfo", defaultProfit);
 		}else{
-			int temp=Integer.parseInt(defaultProfit);
+			float temp=Float.parseFloat(defaultProfit);
 			float temp1=temp/10;
 			map.put("resultCode", 1);
 			map.put("resultInfo", temp1);

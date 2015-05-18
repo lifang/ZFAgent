@@ -236,4 +236,9 @@ public class AgentLoginService {
 		return temp;
 	}
 	
+	public int joinPhoneInUse(Map<String, Object> map){
+		int temp=agentLoginMapper.joinPhoneInUse(map.get("phone").toString());
+		return temp;
+	}
+	
 }

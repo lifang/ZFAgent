@@ -179,4 +179,7 @@
 		select name from cities where id=#{id}
 	</select>
 	
+	<select id="joinPhoneInUse" resultType="int">
+		select count(id) from agents_join where touch_phone=#{phone}
+	</select>
 </mapper>

@@ -146,6 +146,6 @@ public interface AgentLoginMapper {
 	
 	int getJoin(@Param("name") String name,@Param("phone") String phone,@Param("agentType") String agentType,
 			@Param("address") String address);
-	
+	int joinPhoneInUse(@Param("phone") String phone);
 	String getCityNameById(@Param("id") int id);
 }

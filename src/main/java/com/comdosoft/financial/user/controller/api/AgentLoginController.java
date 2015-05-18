@@ -722,15 +722,20 @@ public class AgentLoginController {
 	@RequestMapping(value = "getJoin", method = RequestMethod.POST)
 	public Response getJoin(@RequestBody Map<String, Object> map) {
 		Response res=new Response();
-		
-		int temp=agentLoginService.getJoin(map);
-		if(temp<1){
-			res.setCode(Response.ERROR_CODE);
-			res.setMessage("系统出错！");
-		}else{
-			res.setCode(Response.SUCCESS_CODE);
-			res.setMessage("申请成功！");
-		}
+//		int temp1=agentLoginService.joinPhoneInUse(map);
+//		if(temp1>0){
+//			res.setCode(Response.ERROR_CODE);
+//			res.setMessage("已存在该申请号码");
+//		}else{
+			int temp=agentLoginService.getJoin(map);
+			if(temp<1){
+				res.setCode(Response.ERROR_CODE);
+				res.setMessage("系统出错！");
+			}else{
+				res.setCode(Response.SUCCESS_CODE);
+				res.setMessage("申请成功！");
+			}
+//		}
 		return res;
 	}
 }

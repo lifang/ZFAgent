@@ -138,4 +138,11 @@
 			INSERT INTO customer_role_relations(role_id, customer_id, created_at) VALUES(#{role_id}, #{customer_id}, NOW())
 		]]>
 	</insert>
+	
+	<update id="updateDevice">
+	<![CDATA[
+		UPDATE customers SET device_code = #{1}
+		 WHERE id = #{0}
+	]]>
+	</update>
 </mapper>

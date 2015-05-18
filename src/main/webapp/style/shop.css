@@ -474,7 +474,7 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 	color: #0071cf; 
 	font-size: 14px; 
 	position: relative;
-	padding: 10px 30px;
+	padding: 10px 0px;
 	margin-bottom: 10px;
 }
 .evaluate_title i { 

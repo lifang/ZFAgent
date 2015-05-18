@@ -161,12 +161,23 @@
 	</select>
 
 	<select id="getMerchants" parameterType="map" resultType="map">
-		<!-- SELECT m.id,m.title 
+		SELECT m.id,m.title 
 		FROM merchants m
 		LEFT JOIN terminals t on m.customer_id = t.customer_id
 		WHERE t.id = #{terminalId}
 		<if test="title != null and title != ''">AND m.title  like '%${title}%'</if>
-		LIMIT #{offSetPage},#{pageSize} -->
+		LIMIT #{offSetPage},#{pageSize}
+	</select>
+
+	<select id="getMerchantSize" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM merchants m
+		LEFT JOIN terminals t on m.customer_id = t.customer_id
+		WHERE t.id = #{terminalId}
+		<if test="title != null and title != ''">AND m.title  like '%${title}%'</if>
+	</select>
+	
+	<select id="getCustomer" parameterType="map" resultType="map">
 		SELECT (CASE isnull(u.`name`)|| LENGTH(trim(u.`name`))&lt;1 WHEN 1 THEN u.`username` ELSE concat(u.`username`, "(",u.`name`, ")") END) username,u.id
 		FROM  customers u
 		WHERE 1 = 1
@@ -176,15 +187,11 @@
 		or u.phone LIKE '%${title}%' 
 		or u.email like '%${title}%')
 		</if>
+		LIMIT #{offSetPage},#{pageSize}
 		
 	</select>
 
-	<select id="getMerchantSize" parameterType="map" resultType="int">
-		<!-- SELECT count(*)
-		FROM merchants m
-		LEFT JOIN terminals t on m.customer_id = t.customer_id
-		WHERE t.id = #{terminalId}
-		<if test="title != null and title != ''">AND m.title  like '%${title}%'</if> -->
+	<select id="getCustomerSize" parameterType="map" resultType="int">
 		SELECT count(*)
 		FROM  customers u
 		WHERE 1 = 1

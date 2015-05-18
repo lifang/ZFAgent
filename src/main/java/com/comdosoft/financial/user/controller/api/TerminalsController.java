@@ -166,7 +166,7 @@ public class TerminalsController {
 	}
 
 	/**
-	 * 获得代理商下面的用户
+	 * 获得代理商下面的商户
 	 * @param customerId
 	 * @return
 	 */
@@ -178,10 +178,12 @@ public class TerminalsController {
 			int offSetPage = PageRequest.getOffset();
 			Map<Object, Object> applyMap = new HashMap<Object, Object>();
 			applyMap.put("merchaneList", terminalsService.getMerchants(
+			        (Integer)map.get("terminalId"),
 					(String)map.get("title"),
 					offSetPage,
 					(Integer)map.get("rows")));
 			applyMap.put("total", terminalsService.getMerchantSize(
+			        (Integer)map.get("terminalId"),
 					(String)map.get("title")));
 			return Response.getSuccess(applyMap);
 		} catch (Exception e) {
@@ -189,6 +191,32 @@ public class TerminalsController {
 			return Response.getError("请求失败！");
 		}
 	}
+	
+	/**
+     * 获得代理商下面的用户
+     * @param customerId
+     * @return
+     */
+    @RequestMapping(value="getCustomer",method=RequestMethod.POST)
+    public Response getCustomer(@RequestBody Map<String, Object> map){
+        try {
+            PageRequest PageRequest = new PageRequest((Integer)map.get("page"),
+                    (Integer)map.get("rows"));
+            int offSetPage = PageRequest.getOffset();
+            Map<Object, Object> applyMap = new HashMap<Object, Object>();
+            applyMap.put("merchaneList", terminalsService.getCustomer(
+                    (String)map.get("title"),
+                    offSetPage,
+                    (Integer)map.get("rows")));
+            applyMap.put("total", terminalsService.getCustomerSize(
+                    (String)map.get("title")));
+            return Response.getSuccess(applyMap);
+        } catch (Exception e) {
+            logger.error("获得代理商下面的用户失败！", e);
+            return Response.getError("请求失败！");
+        }
+    }
+    
 	
 	/**
 	 * 为用户绑定

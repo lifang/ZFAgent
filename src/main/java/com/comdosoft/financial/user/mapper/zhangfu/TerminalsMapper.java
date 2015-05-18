@@ -87,18 +87,32 @@ public interface TerminalsMapper {
     List<Map<String, String>> channels();
     
     /**
-     * 获得代理商下面的用户
+     * 获得代理商下面的商户
      * @param customerId
      * @return
      */
     List<Map<String, Object>> getMerchants(Map<String, Object> map);
     
     /**
-     * 获得代理商下面的用户总记录数
+     * 获得代理商下面的商户总记录数
      * @param customerId
      * @return
      */
     int getMerchantSize(Map<String, Object> map);
+    
+    /**
+     * 获得代理商下面的用户
+     * @param customerId
+     * @return
+     */
+    List<Map<String, Object>> getCustomer(Map<String, Object> map);
+    
+    /**
+     * 获得代理商下面的用户总记录数
+     * @param customerId
+     * @return
+     */
+    int getCustomerSize(Map<String, Object> map);
     
     /**
      * 查看该终端号是否存在

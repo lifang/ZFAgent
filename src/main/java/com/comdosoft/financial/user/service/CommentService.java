@@ -32,6 +32,11 @@ public class CommentService {
         Map<String, Object> map=new HashMap<String, Object>();
         int total=commentMapper.getCommentCount(req.getGoodId());
         List<Map<String, Object>> list=commentMapper.getCommentList(req);
+        for (Map<String, Object> map2 : list) {
+            if(map2.get("name")!=null){
+                map2.put("name",SysUtils.toProSub2(map2.get("name").toString()));
+            }
+        }
         map.put("total", total);
         map.put("list", list);
         return map;

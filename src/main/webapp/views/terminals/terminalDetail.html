@@ -111,10 +111,10 @@
                                 <li ng-if="openingInfos.sex == 1">性别：男</li>
                                 <li ng-if="openingInfos.sex == 0">性别：女</li>
                                 <li>生日：{{openingInfos.birthday}}</li>
-                                <li>结算银行名称：{{openingInfos.account_bank_name}}</li>
+                                <li>结算银行名称：{{openingInfos.bank_name}}</li>
                             </ul>
                             <ul>
-                                <li>结算银行代码：{{openingInfos.account_bank_code}}</li>
+                                <li>结算银行帐户名：{{openingInfos.account_bank_name}}</li>
                                 <li>结算银行账户：{{openingInfos.account_bank_num}}</li>
                                 <li ng-if="openingInfos.types == 1">税务机构号：{{openingInfos.tax_registered_no}}</li>
                                 <li ng-if="openingInfos.types == 1">组织机构号：{{openingInfos.organization_code_no}}</li>
@@ -123,11 +123,11 @@
                         <div class="item_list clear">
                             <ul>
                                 <li ng-repeat="opening in openingDetails " ng-if="opening.types != 2">
-                                <span class="labelSpan">{{opening.key}}</span>
+                                <span class="labelSpan">{{opening.key}}：</span>
                                 <div class="text">{{opening.value}}</div>
                                 </li>
                                 <li ng-repeat="opening in openingDetails " ng-if="opening.types == 2">
-                                <span class="labelSpan" >{{opening.key}}</span>
+                                <span class="labelSpan" >{{opening.key}}：</span>
                                 <div class="text">
                                 <img src="images/zp.jpg" class="cover" path="{{opening.value}}" ng-mouseenter="onmousover()"/>
                                 </div>

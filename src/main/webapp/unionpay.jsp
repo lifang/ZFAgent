@@ -1,3 +1,4 @@
+<%@page import="com.comdosoft.financial.user.utils.unionpay.StartupListener"%>
 <%@page import="com.comdosoft.financial.user.utils.unionpay.UnionpayHelper"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.HashMap"%>
@@ -16,16 +17,16 @@
 </head>
 <body>
 <%
-	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath(); 
+	//String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath(); 
 	////////////////////////////////////请求参数//////////////////////////////////////
 	
 	//必填，不能修改
 	//服务器异步通知页面路径
-	String notify_url = basePath+"/unionpay/acp_front_url.do";
+	String notify_url = StartupListener.getProperty("app_domain")+"/unionpay/acp_front_url.do";
 	//需http://格式的完整路径，不能加?id=123这类自定义参数
 	
 	//页面跳转同步通知页面路径
-	String return_url = basePath+"/unionpay/acp_back_url.do";
+	String return_url = StartupListener.getProperty("app_domain")+"/unionpay/acp_back_url.do";
 	//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 	
 	

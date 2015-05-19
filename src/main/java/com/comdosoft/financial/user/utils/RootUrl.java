@@ -1,24 +1,44 @@
 package com.comdosoft.financial.user.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
+public class RootUrl {
 
-public class  RootUrl {
+    public static String localpath;
 
-    //线上
-//    public static String urlpath="http://agent.ebank007.com/";
-//    
-//    //   public static String urlpath = "http://121.40.64.167:9090/";
-//    
-//    public static String filepath="http://file.ebank007.com/";
+    public static String urlpath;
+
+    public static String filepath;
+
     
-    public static String localpath = "/opt/data/";
+    public  String getLocalpath() {
+        return localpath;
+    }
+
+    @Autowired
+    public  void setLocalpath(@Value("${localpath}")String localpath) {
+        RootUrl.localpath = localpath;
+    }
+
+    public  String getUrlpath() {
+        return urlpath;
+    }
+
+    @Autowired
+    public  void setUrlpath(@Value("${urlpath}")String urlpath) {
+        RootUrl.urlpath = urlpath;
+    }
+
+    public  String getFilepath() {
+        return filepath;
+    }
+
+    @Autowired
+    public  void setFilepath(@Value("${filePath}")String filepath) {
+        RootUrl.filepath = filepath;
+    }
     
-    //测试
-  public static String urlpath="http://121.40.84.2:28080/ZFAgent/";
-    
-  public static String filepath="http://121.40.84.2:8888/";
-    
-//  public static String urlpath="http://114.251.149.242:28080/ZFAgent/";
-//  
-//  public static String filepath="http://121.40.84.2:8888/";
 }

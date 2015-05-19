@@ -3,6 +3,7 @@ package com.comdosoft.financial.user.mapper.zhangfu;
 import java.util.List;
 import java.util.Map;
 
+import com.comdosoft.financial.user.domain.zhangfu.AppVersion;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 
 public interface IndexMapper {
@@ -30,5 +31,7 @@ public interface IndexMapper {
 	void saveViewCustomerViews(MyOrderReq req);
 
     List<Map<Object, Object>> getList();
+
+	AppVersion getVersion(AppVersion app);
 
 }

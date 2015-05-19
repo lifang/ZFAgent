@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.comdosoft.financial.user.mapper.zhangfu.IndexMapper">
+
+	<resultMap type="com.comdosoft.financial.user.domain.zhangfu.AppVersion" id="appVersionMap">
+		<id property="id" column="id" />  
+         <result property="types" column="types" /> 
+         <result property="versions" column="versions" /> 
+         <result property="down_url" column="down_url" /> 
+	</resultMap>
+	
 	<!--首页 收单机构 -->
 	<select id="getFactoryList" resultType="map">
 		SELECT
@@ -132,4 +140,17 @@
 	]]>
 	</select>
 
+		<select id="getVersion"  resultMap="appVersionMap">
+		SELECT
+			id,
+			types,
+			versions,
+			down_url
+		FROM
+			app_versions
+		<if test="types !=null ">
+			WHERE
+			types = #{types}
+		</if>
+	</select>
 </mapper>

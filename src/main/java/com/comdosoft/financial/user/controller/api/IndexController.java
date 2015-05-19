@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.comdosoft.financial.user.domain.Response;
+import com.comdosoft.financial.user.domain.zhangfu.AppVersion;
 import com.comdosoft.financial.user.domain.zhangfu.MyOrderReq;
 import com.comdosoft.financial.user.service.IndexService;
 import com.comdosoft.financial.user.utils.SysUtils;
@@ -249,5 +250,14 @@ public class IndexController {
         }
     }
     
+    @RequestMapping(value = "getVersion", method = RequestMethod.POST)
+    public Response getVersion(@RequestBody AppVersion app){
+    	AppVersion appversion = indexService.getVersion(app);
+    	if(null != appversion){
+    		return Response.getSuccess(appversion);
+    	}else{
+    		return Response.getError("请求失败！");
+    	}
+    }
    
 }

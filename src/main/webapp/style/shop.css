@@ -325,7 +325,7 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 .proInfo_area { float: left; width: 558px;}
 .proInfo_area h1 { font-size: 16px; line-height: 32px;}
 .proInfo_area h3 { font-size: 12px; color: #999; line-height: 24px; font-weight:500;}
-.pac_summary { line-height: 24px; margin: 2px 0; height: 222px;}
+.pac_summary { line-height: 24px; margin: 2px 0; height: 290px;}
 .pac_summary li { padding: 10px 0; overflow: hidden;}
 .pac_summary li span { width: 70px; float: left; color: #666;}
 .pac_summary li .text { float: left;}

@@ -329,8 +329,9 @@ a.page_next:hover {background: url(../images/icons.png) no-repeat -35px -171px;}
 .pac_summary li { padding: 10px 0; overflow: hidden;}
 .pac_summary li span { width: 70px; float: left; color: #666;}
 .pac_summary li .text { float: left;}
-.pac_summary li .text strong { color:#0071cf; font-size: 18px;}
+.pac_summary li .text strong { color:#0071cf; font-size: 18px; font-family: "microsoft yahei";}
 .pac_summary li .text strong.original { text-decoration: line-through; color: #666;}
+.pac_summary li.sales_li .text span { color:#0071cf; font-size: 14px;}
 
 
 

@@ -51,6 +51,7 @@
 								<div class="text">
 									<strong>{{(good.goodinfo.lease_deposit+paychannel.opening_cost)/100|currency : "￥"}}</strong>
 								</div></li>
+							<li class="sales_li"><span>累计销售</span><div class="text"><span>{{good.goodinfo.volume_number}}件</span></div></li>
 							<li class="selected_li"><span>支付通道</span>
 								<div class="text">
 									<a href="javascript:void(0);" ng-repeat="one in good.payChannelList" class="{{one.id==paychannel.id?'hover':''}}" ng-click="getPayChannelInfo(one.id)">{{one.name}}</a>

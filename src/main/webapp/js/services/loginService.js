@@ -104,7 +104,7 @@ var loginService = function ($http, $rootScope, $cookieStore) {
             $cookieStore.remove("cityId");
             $cookieStore.remove("machtigingen");
             location.reload();
-            window.location.href = '#/';
+            //window.location.href = '#/';
         },
         
         //检验当前是否为已登录状态，或Cookie中仍存在登陆记录

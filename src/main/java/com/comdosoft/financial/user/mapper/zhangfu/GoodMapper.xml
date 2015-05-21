@@ -83,7 +83,7 @@
 			order by price2
 		</if>
 		<if test="orderType==4">
-			order by g.total_score desc
+			order by total_score desc
 		</if>
 		)tt where 1=1
 		<if test="minPricei!=0 and  type!=1">
@@ -171,7 +171,7 @@
 	</select>
 
 	<select id="getgoodPics" resultType="String">
-		SELECT url_path from goods_pictures where good_id=#{id} order by id desc
+		SELECT url_path from goods_pictures where good_id=#{id} order by id 
 	</select>
 
 

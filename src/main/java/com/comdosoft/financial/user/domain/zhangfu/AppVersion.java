@@ -13,7 +13,7 @@ public class AppVersion {
 	 *  8 Android 代理商pad
 	 */
 	private Integer types;
-	private String versions;
+	private Integer versions;
 	private String down_url;
 	/**
 	 * @return the id
@@ -32,13 +32,13 @@ public class AppVersion {
 	/**
 	 * @return the versions
 	 */
-	public String getVersions() {
+	public Integer getVersions() {
 		return versions;
 	}
 	/**
 	 * @param versions the versions to set
 	 */
-	public void setVersions(String versions) {
+	public void setVersions(Integer versions) {
 		this.versions = versions;
 	}
 	/**
@@ -62,7 +62,7 @@ public class AppVersion {
 				+ versions + ", down_url=" + down_url + "]";
 	}
 	 
-	public AppVersion(Integer id, Integer types, String versions, String down_url) {
+	public AppVersion(Integer id, Integer types, Integer versions, String down_url) {
 		super();
 		this.id = id;
 		this.types = types;

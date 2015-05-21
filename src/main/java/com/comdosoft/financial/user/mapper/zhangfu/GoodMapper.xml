@@ -171,7 +171,7 @@
 	</select>
 
 	<select id="getgoodPics" resultType="String">
-		SELECT url_path from goods_pictures where good_id=#{id} order by id desc
+		SELECT url_path from goods_pictures where good_id=#{id} order by id 
 	</select>
 
 

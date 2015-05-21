@@ -375,7 +375,7 @@
 		goods_pictures gp 
 		WHERE
 		 gp.good_id = #{param1}
-		order by gp.id desc
+		order by gp.id 
 	</select>
 	
 	  <!--  批购 详情 -->

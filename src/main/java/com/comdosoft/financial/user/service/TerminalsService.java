@@ -208,6 +208,7 @@ public class TerminalsService {
             map.put("offSetPage", offSetPage);
             map.put("pageSize", pageSize);
             map.put("title", title);
+            map.put("types", Customer.TYPE_CUSTOMER);
         return terminalsMapper.getCustomer(map);
     }
     
@@ -219,6 +220,7 @@ public class TerminalsService {
     public int getCustomerSize(String title) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("title", title);
+        map.put("types", Customer.TYPE_CUSTOMER);
         return terminalsMapper.getCustomerSize(map);
     }
 	/**

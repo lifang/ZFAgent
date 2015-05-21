@@ -180,7 +180,7 @@
 	<select id="getCustomer" parameterType="map" resultType="map">
 		SELECT (CASE isnull(u.`name`)|| LENGTH(trim(u.`name`))&lt;1 WHEN 1 THEN u.`username` ELSE concat(u.`username`, "(",u.`name`, ")") END) username,u.id
 		FROM  customers u
-		WHERE 1 = 1
+		WHERE u.types = #{types}
 		<if test="title != null and title != ''">
 		and (u.name like '%${title}%' 
 		or u.username like '%${title}%' 
@@ -194,7 +194,7 @@
 	<select id="getCustomerSize" parameterType="map" resultType="int">
 		SELECT count(*)
 		FROM  customers u
-		WHERE 1 = 1
+		WHERE u.types = #{types}
 		<if test="title != null and title != ''">
 		and (u.name like '%${title}%' 
 		or u.username like '%${title}%' 

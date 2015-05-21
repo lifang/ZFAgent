@@ -30,6 +30,7 @@ public class MyOrderReq {
 	private String track_number;
 	private List<CommentsJson> json;
 	private String agentId;
+	private CancelType cancel_flag; //取消类型
 	//支付回调信息
 	private PayReq req;
 	private String webPrice;//web页面上的金额
@@ -40,6 +41,14 @@ public class MyOrderReq {
 
 	public void setWebPrice(String webPrice) {
 		this.webPrice = webPrice;
+	}
+
+	public CancelType getCancel_flag() {
+		return cancel_flag;
+	}
+
+	public void setCancel_flag(CancelType cancel_flag) {
+		this.cancel_flag = cancel_flag;
 	}
 
 	/** 

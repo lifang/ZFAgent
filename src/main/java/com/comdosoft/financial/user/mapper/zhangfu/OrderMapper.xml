@@ -475,7 +475,7 @@ GROUP BY
 	</select>
 	<update id="cancelMyOrder" parameterType="com.comdosoft.financial.user.domain.zhangfu.Order">
         UPDATE orders
-			SET STATUS = #{orderStatus.code},	updated_at = NOW()
+			SET status = #{orderStatus.code},	cancel_flag =#{cancel_flag.code} ,updated_at = NOW()
 		WHERE
 			id = #{id}
     </update>

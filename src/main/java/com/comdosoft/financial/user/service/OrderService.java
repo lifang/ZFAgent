@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.comdosoft.financial.user.domain.query.OrderReq;
 import com.comdosoft.financial.user.domain.query.PayReq;
 import com.comdosoft.financial.user.domain.query.PosReq;
+import com.comdosoft.financial.user.domain.zhangfu.CancelType;
 import com.comdosoft.financial.user.domain.zhangfu.CsOutStorage;
 import com.comdosoft.financial.user.domain.zhangfu.Customer;
 import com.comdosoft.financial.user.domain.zhangfu.Good;
@@ -588,6 +589,7 @@ public class OrderService {
     @Transactional(value = "transactionManager-zhangfu")
     public int cancelMyOrder(MyOrderReq myOrderReq) {
         myOrderReq.setOrderStatus(OrderStatus.CANCEL);
+        myOrderReq.setCancel_flag(CancelType.AGETN);
         String p= myOrderReq.getP();//判断是否是代购   代购需要还库存
         int i = orderMapper.cancelMyOrder(myOrderReq);
         if(null !=p && p=="3"){

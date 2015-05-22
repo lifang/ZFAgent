@@ -3,8 +3,8 @@
 // 系统设置模块
 var shopModule = angular.module("shopModule", []);
 
-var shopController = function($scope, $http, LoginService) {
-
+var shopController = function($scope, $http, LoginService, $rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "POS机选购";
 	$scope.req = {};
 	$scope.req.keys = LoginService.keys;
 	$scope.req.cityId = LoginService.city;
@@ -385,7 +385,8 @@ var shopController = function($scope, $http, LoginService) {
 
 };
 
-var shopinfoController = function($scope, $http, $location, LoginService) {
+var shopinfoController = function($scope, $http, $location, LoginService,$rootScope) {
+
 	$scope.req = {};
 	$scope.creq = {};
 	$scope.quantity = 1;
@@ -413,6 +414,7 @@ var shopinfoController = function($scope, $http, $location, LoginService) {
 		$http.post("api/good/goodinfo", $scope.req).success(function(data) { // 绑定
 			if (data.code == 1) {
 				$scope.good = data.result;
+				$rootScope.global.headTitle =$rootScope.global.title + data.result.goodinfo.Title;
 				$scope.paychannel = data.result.paychannelinfo;
 				$scope.picList=data.result.picList;
 			}else{
@@ -941,9 +943,10 @@ var purchaseshopinfoController = function($scope, $http, $location, LoginService
 	};
 };
 
-var shopmakeorderController = function($scope, $http, $location, LoginService) {
+var shopmakeorderController = function($scope, $http, $location, LoginService,$rootScope) {
 
 	$scope.init = function() {
+		$rootScope.global.headTitle =$rootScope.global.title +"提交订单";
 		$scope.user = {};
 		$scope.req = {};
 		$scope.ad = {};
@@ -1284,15 +1287,15 @@ var payController = function($scope, $http, $location, LoginService) {
 	$scope.init();
 };
 
-shopController.$inject = [ '$scope', '$http', 'LoginService' ];
+shopController.$inject = [ '$scope', '$http', 'LoginService' ,'$rootScope' ];
 shopModule.controller("shopController", shopController);
 purchaseshopController.$inject = [ '$scope', '$http', 'LoginService' ];
 shopModule.controller("purchaseshopController", purchaseshopController);
-shopinfoController.$inject = [ '$scope', '$http', '$location', 'LoginService' ];
+shopinfoController.$inject = [ '$scope', '$http', '$location', 'LoginService' ,'$rootScope'];
 shopModule.controller("shopinfoController", shopinfoController);
 purchaseshopinfoController.$inject = [ '$scope', '$http', '$location', 'LoginService' ];
 shopModule.controller("purchaseshopinfoController", purchaseshopinfoController);
-shopmakeorderController.$inject = [ '$scope', '$http', '$location', 'LoginService' ];
+shopmakeorderController.$inject = [ '$scope', '$http', '$location', 'LoginService' ,'$rootScope'];
 shopModule.controller("shopmakeorderController", shopmakeorderController);
 payController.$inject = [ '$scope', '$http', '$location', 'LoginService' ];
 shopModule.controller("payController", payController);

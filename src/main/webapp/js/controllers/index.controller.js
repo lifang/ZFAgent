@@ -3,8 +3,8 @@
 // 主页面路由模块，用于控制主页面的菜单导航(注入了登陆服务LoginService)
 var indexModule = angular.module("indexModule", ['loginServiceModule','routeModule', 'ngCookies',  'ngCsv']);
 
-var indexController = function($scope, $location, $http, LoginService,
-		$cookieStore) {
+var indexController = function($scope, $location, $http, LoginService,$cookieStore,$rootScope) {
+	$rootScope.global.headTitle = $rootScope.global.title + "最全最优质POS选购平台";
 	$scope.loginAgentName = LoginService.loginAgentName;
 	$scope.identity=LoginService.identity;//0为一级，1为二级 ,2为普通用户   by yyb
 	$scope.agentId=LoginService.agentid;

@@ -223,14 +223,14 @@ var wholesaleOrderController = function ($scope, $http, LoginService) {
 //代购
 var proxyOrderModule = angular.module("proxyOrderModule",[]);
 
-var proxyOrderController = function ($scope, $http, LoginService) {
+var proxyOrderController = function ($scope, $http, LoginService,$rootScope) {
 	$("#leftRoute").show();
 	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';
 	}else{
 		//显示用户登录部分
 		$scope.$emit('changeshow',false);
-	 
+		$rootScope.global.headTitle =$rootScope.global.title + "采购订单";
 	}
 	initSystemPage($scope);// 初始化分页参数
 	// 搜索
@@ -389,7 +389,7 @@ var proxyOrderController = function ($scope, $http, LoginService) {
 
  
 var topayModule = angular.module("topayModule",[]);
-var payController = function($scope, $http,$location,LoginService) {
+var payController = function($scope, $http,$location,LoginService,$rootScope) {
 	$scope.pay=true;
 	$scope.req={};
 	$scope.order={};
@@ -405,6 +405,7 @@ var payController = function($scope, $http,$location,LoginService) {
 		$http.post("api/shop/payOrder", $scope.req).success(function (data) {  //绑定
             if (data.code==1) {
             	$scope.order=data.result;
+            	$rootScope.global.headTitle =$rootScope.global.title +" 支付 "+ data.result.order_number;
             	if(data.result.paytype>0){
             		$scope.pay=false;
             		$scope.payway=data.result.paytype;
@@ -649,10 +650,10 @@ var orderpayController = function($scope, $http,$location,LoginService) {
 
 
 wholesaleOrderModule.$inject = ['$scope', '$http', '$cookieStore'];
-proxyOrderModule.$inject = ['$scope', '$http', '$cookieStore'];
+proxyOrderModule.$inject = ['$scope', '$http', '$cookieStore','$rootScope'];
 wholesaleOrderModule.controller("wholesaleOrderController", wholesaleOrderController); //批购
 proxyOrderModule.controller("proxyOrderController", proxyOrderController); //代购
 orderpayController.$inject = ['$scope','$http','$location','LoginService'];
 orderpayModule.controller("orderpayController", orderpayController);
-payController.$inject = ['$scope','$http','$location','LoginService'];
+payController.$inject = ['$scope','$http','$location','LoginService','$rootScope'];
 topayModule.controller("payController", payController);

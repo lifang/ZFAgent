@@ -3,7 +3,8 @@
 // 系统设置模块
 var exchangeModule = angular.module("exchangeModule", []);
 
-var exchangelistController = function($scope, $http, LoginService) {
+var exchangelistController = function($scope, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "管理调货";
 	$scope.init = function() {
 		$(".user_date input").datepicker();
 		$scope.req = {};
@@ -174,7 +175,7 @@ var exchangeinfoController = function($scope, $http, $location, LoginService) {
 	$scope.init();
 };
 
-exchangelistController.$inject = [ '$scope', '$http', 'LoginService' ];
+exchangelistController.$inject = [ '$scope', '$http', 'LoginService','$rootScope' ];
 exchangeModule.controller("exchangelistController", exchangelistController);
 exchangeaddController.$inject = [ '$scope', '$http', 'LoginService' ];
 exchangeModule.controller("exchangeaddController", exchangeaddController);

@@ -10,7 +10,8 @@ var dataBaseCopyController = function ($scope, $http, LoginService){
 };
 
 //下级代理商列表
-var lowerAgentlistController = function ($scope, $http, LoginService){
+var lowerAgentlistController = function ($scope, $http, LoginService,$rootScope){
+	$rootScope.global.headTitle =$rootScope.global.title + "下级代理商";
 	//首页
 	// 上一页
    	$scope.prev = function() {
@@ -755,7 +756,7 @@ var lowerAgentSetController=function($scope,$http,$location,LoginService){
 };
 
 
-lowerAgentlistController.$inject = ['$scope','$http','LoginService'];
+lowerAgentlistController.$inject = ['$scope','$http','LoginService','$rootScope'];
 lowerAgentModule.controller("lowerAgentlistController", lowerAgentlistController);
 
 lowerInfoController.$inject = ['$scope','$http','$location','LoginService'];

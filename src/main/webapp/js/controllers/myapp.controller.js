@@ -3,12 +3,13 @@
 //我的掌富
 var myappModule = angular.module("myappModule",[]);
 
-var myappController = function ($scope, $http,$location, LoginService) {
+var myappController = function ($scope, $http,$location, LoginService,$rootScope) {
  
 	$("#leftRoute").show();
 	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';
 	}else{
+		$rootScope.global.headTitle =$rootScope.global.title + "我的掌富";
 		//显示用户登录部分
 		$scope.$emit('changeshow',false);
 		$(".side_menu > li >a:nth-child(1)").unbind("click").bind("click",function(){
@@ -187,7 +188,7 @@ var webInfoController = function ($scope, $http,$location, LoginService) {
 		});
 	} 
 };
-myappModule.$inject = ['$scope', '$http', '$cookieStore'];
+myappModule.$inject = ['$scope', '$http', '$cookieStore','$rootScope'];
 myappModule.controller("myappController", myappController);
 messageInfoModule.controller("messageInfoController", messageInfoController);
 webInfoModule.controller("webInfoController", webInfoController);

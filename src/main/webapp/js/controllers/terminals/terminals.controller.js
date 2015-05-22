@@ -3,7 +3,8 @@
 //系统设置模块
 var terminalModule = angular.module("agentTerminalModule",['loginServiceModule']);
 
-var agentTerminalController = function ($scope, $http, LoginService) {
+var agentTerminalController = function ($scope, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "终端列表";
 	  initSystemPage($scope);// 初始化分页参数
 	  $scope.customersId = Math.ceil(LoginService.agentid);
 	  $scope.total = 0;
@@ -313,7 +314,8 @@ function infoTab(i_tab,i_box){
 
 };
 
-var agentServiceTerminalController = function ($scope, $http, LoginService) {
+var agentServiceTerminalController = function ($scope, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "批量申请售后";
 	  $scope.customersId = Math.ceil(LoginService.loginid);
 	  $scope.agentUserId = Math.ceil(LoginService.agentUserId);
 	  $scope.agentId = Math.ceil(LoginService.agentid);
@@ -476,7 +478,8 @@ var agentServiceTerminalController = function ($scope, $http, LoginService) {
 	 $scope.serviceInit();
 };
 
-var agentBinTerminalController = function ($scope, $http, LoginService) {
+var agentBinTerminalController = function ($scope, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "为用户绑定终端";
 	 $scope.customersId = Math.ceil(LoginService.agentUserId);
 	 $scope.agentId = Math.ceil(LoginService.agentid);
 	//检验邮箱格式
@@ -1192,7 +1195,7 @@ var terminalOpenController = function ($scope, $http,$location, LoginService) {
 $(".suggest").hide();
 
 
-terminalModule.$inject = ['$scope', '$http', '$cookieStore'];
+terminalModule.$inject = ['$scope', '$http', '$cookieStore','$rootScope'];
 terminalModule.controller("agentTerminalController", agentTerminalController);
 terminalModule.controller("terminalDetailController", terminalDetailController);
 terminalModule.controller("agentServiceTerminalController", agentServiceTerminalController);

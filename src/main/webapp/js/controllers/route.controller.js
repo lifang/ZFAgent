@@ -155,4 +155,8 @@ function routeConfig($routeProvider) {
 	});
 };
 routeModule.$inject = [ 'LoginService' ];
-routeModule.config(routeConfig);
+routeModule.config(routeConfig).run([ '$rootScope', '$http', function($rootScope, $http) {
+	$rootScope.global = {};
+	$rootScope.global.title = "华尔街金融平台-";
+	$rootScope.global.headTitle = $rootScope.global.title + "最全最优质POS选购平台";
+} ]);

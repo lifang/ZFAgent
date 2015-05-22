@@ -3,7 +3,8 @@
 //系统设置模块
 var cs_cencelModule = angular.module("cs_cencelModule",[]);
 
-var cs_cencelController = function ($scope, $http, LoginService) {
+var cs_cencelController = function ($scope, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "注销记录";
 	$("#leftRoute").show();
 	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';
@@ -155,5 +156,5 @@ var cs_cencelController = function ($scope, $http, LoginService) {
     $scope.orderlist();
 };
 
-cs_cencelController.$inject = ['$scope','$http','LoginService'];
+cs_cencelController.$inject = ['$scope','$http','LoginService','$rootScope'];
 cs_cencelModule.controller("cs_cencelController", cs_cencelController);

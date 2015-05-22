@@ -3,7 +3,8 @@
 //系统设置模块
 var tradeModule = angular.module("tradeModule",[]);
 
-var tradelistController = function ($scope, $http, LoginService,$cookieStore) {
+var tradelistController = function ($scope, $http, LoginService,$cookieStore,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "交易流水";
 	$scope.init=function(){
 		$(".user_date input").datepicker();
 		$scope.req={};
@@ -155,7 +156,7 @@ var tradeinfoController = function ($scope, $http,$location, LoginService) {
 
 
 
-tradelistController.$inject = ['$scope','$http','LoginService','$cookieStore'];
+tradelistController.$inject = ['$scope','$http','LoginService','$cookieStore','$rootScope'];
 tradeModule.controller("tradelistController", tradelistController);
 statisticsController.$inject = ['$scope','$http','LoginService','$cookieStore'];
 tradeModule.controller("statisticsController", statisticsController);

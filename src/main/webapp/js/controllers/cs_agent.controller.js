@@ -3,8 +3,8 @@
 //系统设置模块
 var cs_agentModule = angular.module("cs_agentModule",[]);
 
-var cs_agentController = function ($scope, $http, LoginService) {
-
+var cs_agentController = function ($scope, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "代理商售后记录";
 	$("#leftRoute").show();
 	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';
@@ -157,5 +157,5 @@ var cs_agentController = function ($scope, $http, LoginService) {
     $scope.orderlist();
 };
 
-cs_agentController.$inject = ['$scope','$http','LoginService'];
+cs_agentController.$inject = ['$scope','$http','LoginService','$rootScope'];
 cs_agentModule.controller("cs_agentController", cs_agentController);

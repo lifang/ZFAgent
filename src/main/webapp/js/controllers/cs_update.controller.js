@@ -3,7 +3,8 @@
 //系统设置模块
 var cs_updateModule = angular.module("cs_updateModule",[]);
 
-var cs_updateController = function ($scope, $http, LoginService) {
+var cs_updateController = function ($scope, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "更新资料记录";
 	$("#leftRoute").show();
 	if(LoginService.agentUserId == 0){
 		window.location.href = '#/login';

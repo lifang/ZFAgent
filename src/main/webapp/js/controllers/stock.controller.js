@@ -3,9 +3,10 @@
 //系统设置模块
 var stockModule = angular.module("stockModule",[]);
 
-var stockController = function ($scope, $http, LoginService) {
+var stockController = function ($scope, $http, LoginService,$rootScope) {
 	
 	$scope.init=function(){
+		$rootScope.global.headTitle =$rootScope.global.title + "我的库存";
 		$scope.req={};
 		initSystemPage($scope.req);// 初始化分页参数
 		$scope.req.agentId=LoginService.agentid;
@@ -142,7 +143,7 @@ var stockinfoController = function ($scope, $http,$location, LoginService) {
 };
 
 
-stockController.$inject = ['$scope','$http','LoginService'];
+stockController.$inject = ['$scope','$http','LoginService','$rootScope'];
 stockModule.controller("stockController", stockController);
 
 stockinfoController.$inject = ['$scope','$http','$location','LoginService'];

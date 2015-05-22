@@ -3,7 +3,8 @@
 //系统设置模块
 var prepareModule = angular.module("prepareModule",[]);
 
-var preparelistController = function ($scope, $http, LoginService) {
+var preparelistController = function ($scope, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "管理配货";
 	$scope.init=function(){
 		$(".user_date input").datepicker();
 		$scope.req={};
@@ -175,7 +176,7 @@ var prepareinfoController = function ($scope, $http,$location, LoginService) {
 };
 
 
-preparelistController.$inject = ['$scope','$http','LoginService'];
+preparelistController.$inject = ['$scope','$http','LoginService','$rootScope'];
 prepareModule.controller("preparelistController", preparelistController);
 prepareaddController.$inject = ['$scope','$http','LoginService'];
 prepareModule.controller("prepareaddController", prepareaddController);

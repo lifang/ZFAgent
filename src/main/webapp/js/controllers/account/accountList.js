@@ -2,8 +2,8 @@
 
 // 用户列表
 var accountListModule = angular.module("accountListModule", []);
-var accountListController = function($scope, $location, $http, LoginService) {
-
+var accountListController = function($scope, $location, $http, LoginService,$rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "员工账号";
 	$scope.list = function() {
 		$scope.req.page = $scope.req.indexPage;
 		$http.post("api/account/getAccountList", $scope.req).success(function(data) {
@@ -74,5 +74,5 @@ var accountListController = function($scope, $location, $http, LoginService) {
 
 	$scope.init();
 };
-accountListController.$inject = [ '$scope', '$location', '$http', 'LoginService' ];
+accountListController.$inject = [ '$scope', '$location', '$http', 'LoginService','$rootScope' ];
 accountListModule.controller("accountListController", accountListController);

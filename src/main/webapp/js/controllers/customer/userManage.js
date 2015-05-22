@@ -1,8 +1,8 @@
 'user strict';
 
 var userManageModule = angular.module("userManageModule", []);
-var userManageListController = function($scope, $http, LoginService) {
-
+var userManageListController = function($scope, $http, LoginService, $rootScope) {
+	$rootScope.global.headTitle =$rootScope.global.title + "管理用户";
 	$scope.init = function() {
 		$scope.req = {};
 		$scope.req.agentId = LoginService.agentid;

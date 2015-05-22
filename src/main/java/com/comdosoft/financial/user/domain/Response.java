@@ -94,10 +94,11 @@ public class Response {
         return r;
     }
     
-    public static Response getErrorContext(Object result) {
+    public static Response getErrorContext(Object result,String message) {
         Response response = new Response();
         response.code = 2;
         response.result = result;//错误数据
+        response.message = message;
         return response;
     }
 

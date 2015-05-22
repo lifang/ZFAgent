@@ -455,7 +455,7 @@ var agentServiceTerminalController = function ($scope, $http, LoginService,$root
 				 alert(data.result);
 				 window.location.href="#/cs_agent";
 			 }else if(data.code == 2){
-				 alert("终端号错误:"+data.result);
+				 alert(data.message+":"+data.result);
 			 }else if(data.code == -1){
 				 alert(data.message);
 			 }

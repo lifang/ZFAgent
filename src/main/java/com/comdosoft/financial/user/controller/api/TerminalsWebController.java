@@ -2,6 +2,7 @@ package com.comdosoft.financial.user.controller.api;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -286,7 +287,25 @@ public class TerminalsWebController {
 				}
 			}
 			if(errorlist.size() == 0){
-				//提交数据操作
+			    //判断终端是否有在申请售后中
+			    //获得该用户所有售后申请列表
+			    List<Map<Object, Object>> list =  terminalsWebService.getCsAgentsList((Integer)map.get("customerId"), CsAgent.STSTUS_1,CsAgent.STSTUS_2);
+				if(list.size()> 0){
+				    for(int i=0;i<arr.length;i++){
+				        for(Map<Object, Object> ma:list){
+				            String[] arras = ma.get("terminals_list").toString().split(",");
+				            List l = Arrays.asList(arras);
+				            if(l.contains(arr[i])){
+				                errorlist.add(arr[i]);
+				            }
+				        }
+		            }
+				    if(errorlist.size()>0){
+				      //返回错误终端号数组
+		                return Response.getErrorContext(errorlist,"终端已经提交售后申请");
+				    }
+				}
+			    //提交数据操作
 				csAgent.setStatus(CsAgent.STSTUS_1);
 				csAgent.setApplyNum(String.valueOf(System.currentTimeMillis())+csAgent.getCustomerId());
 				csAgent.setTerminalsQuantity(arr.length);
@@ -297,7 +316,7 @@ public class TerminalsWebController {
 				return Response.getSuccess("提交申请成功！");
 			}else{
 				//返回错误终端号数组
-				return Response.getErrorContext(errorlist);
+				return Response.getErrorContext(errorlist,"终端号错误");
 			}
 		}catch(Exception e){
 			logger.error("提交申请售后失败！", e);

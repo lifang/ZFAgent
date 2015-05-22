@@ -316,4 +316,8 @@
 		WHERE id=#{id}
 	</select>
 	
+	<select id="getCsAgentsList" parameterType="map" resultType="map">
+		SELECT * from cs_agents WHERE customer_id=#{customerId} and status in (#{statusa},#{statusb})
+	</select>
+	
 </mapper>

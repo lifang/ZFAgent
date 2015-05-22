@@ -87,6 +87,12 @@ public interface TerminalsWebMapper {
     int checkTerminalCode(Map<Object, Object> map);
     
     /**
+     * 获得所有售后申请列表
+     * @param map
+     */
+    List<Map<Object, Object>> getCsAgentsList(Map<Object, Object> map);
+    
+    /**
      * 添加申请售后记录
      * @param csAgent
      */

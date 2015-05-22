@@ -169,6 +169,18 @@ public class TerminalsWebService {
 	}
 	
 	/**
+     * 获得用户所有相关售后申请列表
+     * @param map
+     */
+    public List<Map<Object, Object>> getCsAgentsList(int customerId,int statusa,int statusb){
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        map.put("customerId", customerId);
+        map.put("statusa", statusa);
+        map.put("statusb", statusb);
+        return  terminalsWebMapper.getCsAgentsList(map);
+    }
+	
+	/**
 	 * 添加申请售后记录
 	 * @param csAgent
 	 */

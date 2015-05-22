@@ -188,7 +188,7 @@
 		SELECT id from pos_categories where parent_id =#{id}
 	</select>
 	<select id="getPay_channel_ids" resultType="map" parameterType="com.comdosoft.financial.user.domain.query.PosReq">
-		SELECT id,name as value from pay_channels pc where
+		SELECT id,name as value from pay_channels pc where pc.status=5 and
 		(pc.support_type=1 and pc.id in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
 		or (pc.support_type=0 and pc.id not in (SELECT sa.pay_channel_id from support_areas sa where sa.city_id=#{cityId} or sa.city_id=#{shengId} or sa.city_id=0))
 	</select>

@@ -186,7 +186,7 @@
                                 
                                 <li  ng-repeat="r in result" ng-if="r.info_type == 2 && r.opening_requirements_id == ma.id">
                                 <input type="hidden" id="id_{{ma.level+'_'+$index}}" value="{{r.id}}"/>
-                                <span class="labelSpan" id="key_{{ma.level+'_'+$index}}">{{r.name}}：</span>
+                                <span class="labelSpan" id="key_{{ma.level+'_'+$index}}">{{r.name}}</span>
                                 <div class="text" >
                                 <form method="post" action="api/webTerminal/upload/tempOpenImg" enctype="multipart/form-data">  
                                 	<img src="images/zp.jpg" class="cover" data-src="{{r.value}}" ng-mouseenter="onmousover()"/>
